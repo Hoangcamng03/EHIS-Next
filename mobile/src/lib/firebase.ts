@@ -3,8 +3,10 @@ import { getApp, getApps, initializeApp } from 'firebase/app';
 import * as FirebaseAuth from 'firebase/auth';
 import { connectAuthEmulator, getAuth, initializeAuth, Persistence } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
-import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import { connectFunctionsEmulator, getFunctions, httpsCallable } from 'firebase/functions';
 import { Platform } from 'react-native';
+
+export const isLocalEmulator = process.env.EXPO_PUBLIC_USE_EMULATORS === 'true' && process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID === 'demo-ehis-next';
 
 function initializeClient() {
   const projectId = process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID;
@@ -30,6 +32,16 @@ function initializeClient() {
 }
 const scope = globalThis as typeof globalThis & { ehisMobileFirebase?: ReturnType<typeof initializeClient> };
 export function firebaseClient() { return scope.ehisMobileFirebase ??= initializeClient(); }
+let availabilityQueue: Promise<unknown> = Promise.resolve();
+export function updateAvailability(data: { available: boolean; location?: { latitude: number; longitude: number } }, timeout = 12000) {
+  const uid = firebaseClient().auth.currentUser?.uid;
+  const operation = availabilityQueue.catch(() => undefined).then(() => {
+    if (!uid || firebaseClient().auth.currentUser?.uid !== uid) throw new Error('Session changed');
+    return httpsCallable(firebaseClient().functions, 'setVolunteerAvailability', { timeout })(data);
+  });
+  availabilityQueue = operation;
+  return operation;
+}
 export function readableError(error: unknown) {
   const code = (error as { code?: string })?.code;
   if (code === 'functions/failed-precondition') return 'Ca đã được nhận, hết hạn hoặc bạn đang phụ trách ca khác.';

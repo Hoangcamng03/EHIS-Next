@@ -25,6 +25,7 @@ footer { display: flex; flex-wrap: wrap; gap: 20px; padding-top: 30px; border-to
 .report-panel p { line-height: 1.6; }
 .primary { background: #096951; color: white; width: 100%; padding: 18px; border: 0; border-radius: 12px; font-size: 17px; font-weight: 700; cursor: pointer; margin-top: 20px; }
 .primary:disabled { opacity: .5; cursor: wait; }
+.secondary { width: 100%; padding: 14px; margin-top: 14px; color: #123c37; background: #fff; border: 1px solid #b8cbc1; border-radius: 12px; cursor: pointer; font: inherit; }
 .primary:focus-visible, input:focus-visible { outline: 3px solid #dfa72c; outline-offset: 4px; }
 .confirm { display: flex; align-items: center; gap: 12px; line-height: 1.5; padding: 18px 0; }
 .confirm input, .choice input { width: 20px; height: 20px; flex-shrink: 0; accent-color: #096951; }

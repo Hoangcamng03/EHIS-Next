@@ -17,13 +17,14 @@ Backend là nơi cấp quyền và đổi trạng thái; route hoặc vai trò c
 | incidents | trạng thái và phân công | không public read |
 | incidents/{id}/private | location; reporter: phone, answers, revision | TNV được phân công qua API |
 | incidents/{id}/reportEvents | mã chống gửi lặp và revision, không lưu phone | backend |
+| reporters/{uid}/requestReceipts | request fingerprint và ca đã xác nhận/khôi phục | backend; client không đọc/ghi |
 | volunteers/{uid}/alerts | lời mời | đúng TNV |
 | reporters/{uid}/incidentStatuses | trạng thái tối thiểu | đúng phiên người báo |
 | auditLogs | hành động quan trọng | backend ghi |
 
 Rules cho owner-read users/patients/volunteers; người báo đọc projection trạng thái của chính phiên; TNV đã duyệt đọc alerts của chính mình. Mọi client-write bị chặn. cards/incidents/private/reportEvents đều không đọc trực tiếp. Admin SDK dùng trong callable phải kiểm tra quyền riêng.
 
-Prototype dispatch: đọc tối đa 100 TNV approved + isAvailable, vị trí không cũ quá 5 phút, không đang phụ trách ca khác; tính khoảng cách Haversine, chọn tối đa 5 người trong 5km. Lời mời nhận trong 10 phút. Chưa có tìm kiếm địa lý tối ưu, dispatch nhiều đợt, tự hết hạn/đóng ca, rate-limit/App Check, push nền hoặc audit đầy đủ. Không coi giới hạn này là thiết kế điều phối production.
+Prototype dispatch: đọc tối đa 100 TNV approved + isAvailable, vị trí không cũ quá 5 phút, không đang phụ trách ca khác; tính Haversine, chọn tối đa 5 người trong 5km. Lời mời nhận trong 10 phút. TNV tự bật/tắt sẵn sàng qua callable; vị trí được làm mới mỗi phút khi màn hình active. Có kết thúc ca bởi TNV phụ trách, hủy ca chưa nhận bởi người báo, dọn ca dispatching hết hạn khi tạo ca mới. Chưa có tìm kiếm địa lý tối ưu, dispatch nhiều đợt, scheduler hết hạn, rate-limit/App Check, push/GPS nền hoặc audit đầy đủ. Không coi giới hạn này là thiết kế điều phối production.
 
 ## Môi trường
 

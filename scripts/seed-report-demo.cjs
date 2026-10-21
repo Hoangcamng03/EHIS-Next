@@ -23,12 +23,13 @@ async function main() {
   const email = `volunteer-${randomBytes(4).toString('hex')}@example.test`;
   const password = `Local-${randomBytes(12).toString('hex')}!`;
   const volunteer = await auth.createUser({ email, password });
-  await db.doc(`volunteers/${volunteer.uid}`).set({ verificationStatus: 'approved', isAvailable: true,
+  await db.doc(`volunteers/${volunteer.uid}`).set({ verificationStatus: 'approved', isAvailable: false,
     location: { latitude, longitude }, lastSeenAt: Timestamp.now() });
   const folder = path.resolve(__dirname, '../.local'); mkdirSync(folder, { recursive: true });
-  const result = { environment: 'LOCAL EMULATORS ONLY', webPath: `/c/${cardId}`, email, password,
-    note: 'Location freshness is 5 minutes. Re-run seed for a new fixture before testing. Old fixtures are not deleted.' };
+  const result = { environment: 'LOCAL EMULATORS ONLY', webPath: `/c/${cardId}`, webUrl: `http://localhost:3100/c/${cardId}`,
+    mobileWebUrl: 'http://localhost:8082/volunteer', email, password,
+    note: 'Bật sẵn sàng bằng vị trí giả trong màn hình TNV; ở web chọn vị trí giả cùng tọa độ 10.875,106.8. Dữ liệu chỉ có trong phiên Emulator này.' };
   writeFileSync(path.join(folder, 'report-demo.json'), JSON.stringify(result, null, 2));
-  console.log('Created synthetic local card + approved volunteer. Details in ignored .local/report-demo.json; expires for selection after 5 minutes.');
+  console.log('Đã tạo thẻ và TNV giả. Mở .local/report-demo.json để lấy hai URL và tài khoản. Đăng nhập rồi bật sẵn sàng trước khi gửi yêu cầu.');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

@@ -12,6 +12,14 @@
 - Firebase Web SDK listener thật nhận revision 0 rồi 1 trên cùng alert, chứng minh hai lần cập nhật khi client kết nối. Chưa chứng minh background push.
 - Rules: owner đọc projection trạng thái; người khác/public không đọc được; chỉ đúng TNV approved đọc alert. Incidents/private không đọc trực tiếp.
 - Hai TNV nhận đồng thời chỉ một người thắng; retry người thắng thành công; chỉ người thắng được lấy phone/vị trí. Bổ sung sau accept chỉ cập nhật người phụ trách, thu hồi approved chặn cả API và alert.
+- Direct PATCH/DELETE bị từ chối trên card, incident, reporter status và alert; SDK query collection/orderBy/limit của app nhận được realtime đúng Rules.
+- setVolunteerAvailability chặn chưa Auth/chưa approved, tọa độ sai, field injection và bật sẵn sàng khi đang phụ trách ca. Kết thúc/hủy đúng chủ thể, retry idempotent, giải phóng thẻ/TNV, tạo ca tiếp theo, không có TNV, dọn ca hết hạn và chặn thẻ thu hồi.
+- Request đã khôi phục ca từ tab khác vẫn retry đúng ca đó sau khi đóng, không tự tạo ca mới khi ack bị mất.
+
+## Đã thử trực tiếp bằng giao diện trên PC
+
+- Source React Native chạy ở web: đăng nhập fixture, bật vị trí giả, nhận thông báo trước bảng hỏi, nhận bản 1 không phone, tiếp nhận ca với phone null, nhận bản 2 có số giả qua API, kết thúc ca.
+- Web chuyển trang sau ack khi TNV chưa nhận, kết thúc ca khóa bảng hỏi, dùng lại thẻ tạo ca mới và hủy trước nhận. Đây là dữ liệu tổng hợp + Emulator, chưa có GPS/Android thật.
 
 ## Phải bổ sung trước khi dùng dữ liệu thật
 

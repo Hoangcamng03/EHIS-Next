@@ -49,6 +49,8 @@ export function readableError(error: unknown): string {
     'functions/invalid-argument': 'Thông tin chưa hợp lệ. Kiểm tra câu trả lời và số điện thoại nếu có.',
     'functions/failed-precondition': 'Trạng thái hiện tại không cho phép thao tác này.',
     'functions/unavailable': 'Chưa kết nối được máy chủ. Bạn có thể thử gửi lại.',
+    'functions/deadline-exceeded': 'Chưa nhận được xác nhận từ máy chủ. Kiểm tra kết nối rồi thử lại; yêu cầu có mã chống gửi trùng.',
+    'auth/network-request-failed': 'Chưa tạo được phiên vì mất kết nối. Kiểm tra mạng và thử lại.',
     'permission-denied': 'Bạn không có quyền xem yêu cầu này.',
   };
   return (code && messages[code]) || 'Chưa hoàn tất thao tác. Kiểm tra kết nối rồi thử lại.';

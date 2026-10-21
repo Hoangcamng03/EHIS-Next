@@ -65,6 +65,20 @@ Cần TNV approved, có lời mời của chính UID, ca dispatching chưa quá 
 
 Input `{ incidentId }`. Mỗi lần gọi kiểm tra đúng acceptedBy UID, approved và trạng thái accepted/arrived trong transaction. Trả `{ incidentId, phone, answers, revision, location }`; phone/answers null nếu chưa bổ sung. Không trả hồ sơ y tế. Người báo, TNV chưa nhận, TNV khác hoặc bị thu hồi xét duyệt đều bị từ chối.
 
+### setVolunteerAvailability — callable
+
+Input `{ available: boolean, location?: {latitude, longitude} }`. UID lấy từ Auth; bắt buộc approved. Bật true yêu cầu vị trí số hữu hạn trong phạm vi hợp lệ, không được đang phụ trách ca; cập nhật lastSeenAt theo server. Tắt false không cần vị trí. Không nhận role/verified/UID từ client. Trả `{ available }`. Mobile làm mới mỗi phút chỉ khi màn hình active và đã chủ động bật sẵn sàng trong phiên này; không phải GPS nền. Location là do client tự khai, chưa có xác minh chống giả mạo.
+
+### finishIncident — callable
+
+Input `{ incidentId, outcome: "completed" | "cancelled" }`. completed: chỉ acceptedBy còn approved, ca accepted/arrived. cancelled: chỉ reporterUid khi ca dispatching chưa acceptedBy. Transaction đóng ca/projection/alerts, giải phóng activeIncidentId trên thẻ nếu còn đúng ca đó, giải phóng TNV và đặt offline khi completed. Retry cùng outcome bởi chủ thể hợp lệ là idempotent. Sau đóng, API thông tin riêng tư bị từ chối; dữ liệu lưu trữ chưa tự xóa.
+
+### Khôi phục và hết hạn
+
+Cùng reporter UID mở một tab mới với requestId khác có thể nhận lại mã ca đang active của chính mình. Người khác không nhận được mã đó. Khi create mới gặp ca dispatching đã quá 10 phút, transaction đóng ca cũ là expired và tạo ca mới; không tự hết hạn ca đã accepted. Đây là dọn dẹp theo yêu cầu, chưa phải scheduler. Retry requestId cũ của ca dispatching quá hạn trả status expired. Trạng thái người báo có thêm offerExpiresAt để UI chặn gửi muộn; backend cũng chặn bổ sung quá hạn. Web xóa cache vị trí/request sau ack, vẫn giữ payload chưa được ack để retry an toàn.
+
+Backend lưu `reporters/{uid}/requestReceipts/{hash(requestId)}` (client không đọc/ghi) với fingerprint + incidentId. Vì vậy retry một request đã khôi phục ca của tab khác vẫn trả chính ca đó kể cả sau khi ca đóng, không âm thầm tạo ca mới khi ack trước bị mất. Payload khác dùng lại cùng requestId bị từ chối.
+
 ### Firestore projection reads
 
 - Người báo: `reporters/{auth.uid}/incidentStatuses/{incidentId}`: status, createdAt, invitedCount, reportSubmitted, reportRevision.
@@ -73,6 +87,6 @@ Input `{ incidentId }`. Mỗi lần gọi kiểm tra đúng acceptedBy UID, appr
 
 ## Backlog cần chốt trước khi viết
 
-issueCard/revokeCard; setAvailability; dispatchWave tối ưu theo vùng và nhiều đợt; getIncidentPatientData; getRoute; markArrived; completeIncident; reviewVolunteer; push/outbox/retry; App Check/rate limiting; audit/retention và xử lý ca hết hạn.
+issueCard/revokeCard; dispatchWave tối ưu theo vùng và nhiều đợt; getIncidentPatientData; getRoute; markArrived; reviewVolunteer; push/outbox/retry; App Check/rate limiting; audit/retention và scheduler xử lý ca hết hạn.
 
 Quy ước: latitude/longitude là số; khoảng cách mét; thời lượng giây; thời hạn theo server. Client không gửi volunteerId để quyết định danh tính, không tự sửa acceptedBy, verified hoặc quyền admin.

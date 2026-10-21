@@ -1,0 +1,30 @@
+{
+  "score": 4,
+  "summary": "Prototype local review, not a production security certification. Rules deny every client create/update/delete, restrict status reads to the reporter UID and alert reads to approved owner volunteers. Emulator tests cover owner/cross-user/public reads, direct write/delete denial, collection listeners and verification revocation. Admin SDK callables separately validate identity, ownership, assignment, allowed fields, bounded inputs and transitions. No identity bypass was observed in tested paths. Broader release remains blocked by callable abuse controls, retention and dependency advisories.",
+  "findings": [
+    {
+      "check": "Storage Abuse / Admin SDK boundary",
+      "severity": "major",
+      "issue": "Anonymous createIncident is not protected by App Check or a server rate limit. Repeated account/card attempts can consume Auth, Functions and Firestore resources even though Rules deny direct writes.",
+      "recommendation": "Keep trials synthetic and local. Before public cloud release, add and test App Check enforcement, abuse throttling and monitoring without preventing legitimate retries."
+    },
+    {
+      "check": "Business Logic vs. Rules",
+      "severity": "moderate",
+      "issue": "Expired dispatches are closed opportunistically when a new create attempts the card. There is no periodic expiry worker or background notification delivery. UI timestamps and disabled expired actions are not a scheduler.",
+      "recommendation": "Add an idempotent expiry/dispatch worker and a push outbox before a field pilot; verify invitation and assignment races."
+    },
+    {
+      "check": "Private-data lifecycle",
+      "severity": "moderate",
+      "issue": "Private phone access ends when a ca closes, but the stored phone and earlier observations have no automatic deletion/retention policy. No real patient data should enter this prototype.",
+      "recommendation": "Define a minimal retention period, deletion workflow and audit policy before using real information."
+    },
+    {
+      "check": "Dependency review",
+      "severity": "moderate",
+      "issue": "2026-10-21 npm audit: web 9 high, mobile 23 high + 7 moderate, Functions 9 moderate. These include transitive tooling and SDK paths; counts are not proof of runtime exploitability or absence of it. Some automated fixes propose downgrading Expo/Next/Firebase and were not applied.",
+      "recommendation": "Track upstream patched versions, assess reachable code paths and update compatible dependencies before public release. Do not run audit fix --force to downgrade the framework."
+    }
+  ]
+}
