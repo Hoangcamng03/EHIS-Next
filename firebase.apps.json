@@ -1,0 +1,10 @@
+{
+  "projectId": "ehis-next-20261021-hc03",
+  "projectNumber": "567075088954",
+  "region": "asia-southeast1",
+  "webAppId": "1:567075088954:web:03cd618db0172c3e60a303",
+  "androidAppId": "1:567075088954:android:b3f08138f779870660a303",
+  "iosAppId": "1:567075088954:ios:b1e8994a758fd77f60a303",
+  "androidPackage": "com.hoangcamng.ehisnext",
+  "iosBundleId": "com.hoangcamng.ehisnext"
+}

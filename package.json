@@ -1,0 +1,14 @@
+{
+  "name": "ehis-next",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Independent EHIS capstone starter for a four-person team",
+  "scripts": {
+    "mobile": "npm --prefix mobile start",
+    "web": "npm --prefix web run dev",
+    "functions:build": "npm --prefix functions run build",
+    "test:integration": "npm run functions:build && npx -y firebase-tools@latest emulators:exec --project demo-ehis-next --only auth,firestore,functions \"node scripts/smoke-starter.cjs\"",
+    "emulators": "npm run functions:build && npx -y firebase-tools@latest emulators:start --project demo-ehis-next",
+    "check": "npm --prefix mobile run typecheck && npm --prefix mobile run lint && npm --prefix web run lint && npm --prefix web run typecheck && npm --prefix functions run build && npm --prefix functions test"
+  }
+}
