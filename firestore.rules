@@ -18,6 +18,15 @@ service cloud.firestore {
     match /volunteers/{uid} {
       allow read: if owner(uid);
       allow write: if false;
+      match /alerts/{incidentId} {
+        allow read: if owner(uid) &&
+          get(/databases/$(database)/documents/volunteers/$(uid)).data.verificationStatus == 'approved';
+        allow write: if false;
+      }
+    }
+    match /reporters/{uid}/incidentStatuses/{incidentId} {
+      allow read: if owner(uid);
+      allow write: if false;
     }
     match /{document=**} {
       allow read, write: if false;

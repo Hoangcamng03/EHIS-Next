@@ -13,13 +13,14 @@ Bản khởi đầu **viết mới** cho nhóm Capstone 4 người: một app mo
 
 ## Hiện có gì?
 
-- Mobile Expo SDK 58 + TypeScript + Expo Router: trang chính và khung Patient/Volunteer; nút thử health endpoint thật.
-- Web Next.js: trang chính, khung `/c/[cardId]` và `/admin`. Các trang ghi rõ chức năng chưa triển khai, không gửi báo sự cố thật.
-- Functions: `health`, `getMyAccess`, `savePatientProfile` có xác thực, allow-list dữ liệu và validation.
+- Mobile Expo SDK 58 + TypeScript + Expo Router: khung Patient; Volunteer đăng nhập email/password, nhận lời mời và bản bổ sung theo thời gian thực khi màn hình mở, tiếp nhận ca.
+- Web Next.js: `/c/[cardId]` gửi yêu cầu trước; sau backend xác nhận chuyển `/report/[incidentId]` để trả lời ba câu hỏi, số điện thoại tùy chọn. `/admin` còn là khung.
+- Functions: `health`, `getMyAccess`, `savePatientProfile`, `createIncident`, `submitBystanderReport`, `acceptIncident`, `getVolunteerIncidentDetails` có xác thực và validation.
 - Firestore Rules mặc định đóng; bệnh nhân chỉ đọc hồ sơ chính mình. Không client nào tự gán role/verified.
-- Profile validation tests, cấu hình Emulator, EAS build profiles và kiểm tra CI.
+- Người báo chỉ đọc trạng thái của phiên mình; TNV đã duyệt chỉ đọc lời mời của mình. Số điện thoại chỉ cấp qua API cho TNV đã được phân công.
+- Validation tests, kiểm thử luồng hai bước và Rules bằng Emulator, EAS build profiles và CI.
 
-**Chưa hoàn thành:** Auth UI, QR/NFC, tạo/nhận ca, bản đồ, push, duyệt TNV, audit đầy đủ, APK và kiểm thử thiết bị. Functions chưa triển khai cloud; việc tạo Firebase project không đồng nghĩa đã tạo Firestore database hoặc bật Auth providers.
+**Chưa hoàn thành:** Auth UI Patient, phát hành/thu hồi QR/NFC, cập nhật vị trí và bật sẵn sàng TNV, hoàn thành ca, bản đồ, push nền, duyệt TNV, chống lạm dụng, audit/retention đầy đủ, APK và kiểm thử thiết bị. Dispatch hiện là bản thử giới hạn, dùng dữ liệu vị trí backend; xem [chạy demo hai bước](docs/BYSTANDER_FLOW.md). Functions chưa triển khai cloud; tạo Firebase project không đồng nghĩa đã tạo Firestore database hoặc bật Auth providers.
 
 ## Cài thư viện (mỗi máy)
 
@@ -33,7 +34,7 @@ npm --prefix functions ci
 
 ## Chạy từng phần
 
-Website:
+Website: copy `web/.env.example` thành `web/.env.local`, rồi chạy:
 
 ```powershell
 npm run web
@@ -57,7 +58,7 @@ npm run mobile
 
 Lệnh trên nhắm development build. Nếu chỉ thử khung giao diện với Expo Go tương thích SDK, dùng `npm --prefix mobile run go`. Expo Go khác SDK không phải lỗi nghiệp vụ.
 
-Trên điện thoại thật, `127.0.0.1` là điện thoại, không phải laptop. Thay host của health URL bằng IP LAN laptop, kết nối cùng mạng và chỉ mở firewall cho mạng riêng khi cần. Local HTTP chỉ phục vụ phát triển; APK demo độc lập dùng HTTPS cloud.
+Trên điện thoại thật, `127.0.0.1` là điện thoại, không phải laptop. Thay `EXPO_PUBLIC_EMULATOR_HOST` và host của health URL bằng IP LAN laptop; Emulator cũng cần bind LAN phù hợp. Kết nối cùng mạng và chỉ mở firewall cho mạng riêng khi cần. Local HTTP chỉ phục vụ phát triển; APK demo độc lập dùng HTTPS cloud. GPS web trên điện thoại cần HTTPS; không coi một URL HTTP LAN là đủ để thử QR/GPS.
 
 Health URL local:
 `http://127.0.0.1:5101/demo-ehis-next/asia-southeast1/health`

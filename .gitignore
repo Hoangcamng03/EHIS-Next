@@ -2,7 +2,7 @@
 **/.expo/
 **/.next/
 **/dist/
-**/lib/
+functions/lib/
 **/.env
 **/.env.local
 **/.env.*.local

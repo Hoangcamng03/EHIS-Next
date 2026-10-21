@@ -7,6 +7,8 @@ import { parsePatientProfile } from './profile';
 initializeApp();
 setGlobalOptions({ region: 'asia-southeast1', maxInstances: 2 });
 
+export { createIncident, submitBystanderReport, acceptIncident, getVolunteerIncidentDetails } from './reports';
+
 // No identities, personal data, or secrets in a public health check.
 export const health = onRequest({ cors: true }, (_request, response) => {
   response.json({ service: 'ehis-next', status: 'ok', version: '0.1.0' });
