@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AppState, Button, Text, View } from 'react-native';
+import { AppState, Button, Text, TextInput, View } from 'react-native';
 import * as Location from 'expo-location';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { firebaseClient, isLocalEmulator, readableError, updateAvailability } from '../lib/firebase';
+import { LocationMap } from './LocationMap';
+import { MapPoint, parsePoint } from '../lib/map';
 
-type Volunteer = { verificationStatus: string; isAvailable: boolean; activeIncidentId?: string | null };
-async function currentLocation(askPermission: boolean) {
+type Volunteer = { verificationStatus: string; isAvailable: boolean; activeIncidentId?: string | null; location?: MapPoint };
+export async function currentLocation(askPermission: boolean) {
   const permission = askPermission ? await Location.requestForegroundPermissionsAsync() : await Location.getForegroundPermissionsAsync();
   if (permission.status !== 'granted') throw new Error('location-permission');
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -23,6 +25,9 @@ export function VolunteerAvailability({ uid, paused = false }: { uid: string; pa
   const [source, setSource] = useState<'gps' | 'demo' | null>(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [latitude, setLatitude] = useState('10.7769');
+  const [longitude, setLongitude] = useState('106.7009');
+  const demoPoint = useRef<MapPoint>({ latitude: 10.7769, longitude: 106.7009 });
   const epoch = useRef(0);
   useEffect(() => () => { epoch.current += 1; }, []);
   useEffect(() => { if (paused) epoch.current += 1; }, [paused]);
@@ -32,7 +37,7 @@ export function VolunteerAvailability({ uid, paused = false }: { uid: string; pa
   }, err => { setVerifiedFromServer(false); setError(readableError(err)); }), [uid]);
   const refresh = useCallback(async (method: 'gps' | 'demo', askPermission: boolean) => {
     const startedAt = epoch.current;
-    const location = method === 'demo' && isLocalEmulator ? { latitude: 10.875, longitude: 106.8 } : await currentLocation(askPermission);
+    const location = method === 'demo' && isLocalEmulator ? demoPoint.current : await currentLocation(askPermission);
     if (startedAt !== epoch.current || firebaseClient().auth.currentUser?.uid !== uid) return;
     await updateAvailability({ available: true, location });
   }, [uid]);
@@ -49,6 +54,11 @@ export function VolunteerAvailability({ uid, paused = false }: { uid: string; pa
     return () => { cancelled = true; clearInterval(interval); };
   }, [source, volunteer?.isAvailable, volunteer?.activeIncidentId, volunteer?.verificationStatus, refresh, paused]);
   async function enable(method: 'gps' | 'demo') {
+    if (method === 'demo') {
+      const point = parsePoint(latitude, longitude);
+      if (!point) { setError('Nhập vĩ độ từ -85 đến 85 và kinh độ từ -180 đến 180 bằng số.'); return; }
+      demoPoint.current = point;
+    }
     epoch.current += 1;
     setBusy(true); setError('');
     try { await refresh(method, true); setSource(method); }
@@ -67,7 +77,11 @@ export function VolunteerAvailability({ uid, paused = false }: { uid: string; pa
     <Text style={{ fontWeight: '700' }}>{!verifiedFromServer ? 'Đang kiểm tra quyền TNV với máy chủ…' : !approved ? 'Tài khoản chưa được duyệt' : volunteer?.activeIncidentId ? 'Đang phụ trách một ca' : volunteer?.isAvailable ? 'Đã bật sẵn sàng' : 'Chưa bật sẵn sàng'}</Text>
     <Text>Bật sẵn sàng để gửi vị trí. Khi màn hình này đang mở, vị trí được làm mới mỗi phút; vị trí cũ quá 5 phút sẽ không được chọn cho ca mới.</Text>
     <Button title={busy ? 'Đang cập nhật…' : 'Bật sẵn sàng bằng GPS'} onPress={() => enable('gps')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} />
-    {isLocalEmulator && <><Text>THỬ NGHIỆM LOCAL: vị trí giả 10.875, 106.8. Không dùng cho ca thật.</Text><Button title="Bật sẵn sàng bằng vị trí giả" onPress={() => enable('demo')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} /></>}
+    {isLocalEmulator && <><Text>THỬ NGHIỆM LOCAL: nhập vị trí giả của TNV. Mặc định ở trung tâm TP.HCM. Bấm bật sẵn sàng để áp dụng tọa độ; không dùng cho ca thật.</Text>
+      <TextInput accessibilityLabel="Vĩ độ TNV giả" value={latitude} onChangeText={setLatitude} editable={!busy && !volunteer?.activeIncidentId} style={{ backgroundColor: 'white', borderRadius: 8, padding: 12 }} />
+      <TextInput accessibilityLabel="Kinh độ TNV giả" value={longitude} onChangeText={setLongitude} editable={!busy && !volunteer?.activeIncidentId} style={{ backgroundColor: 'white', borderRadius: 8, padding: 12 }} />
+      <Button title="Bật sẵn sàng bằng vị trí giả" onPress={() => enable('demo')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} /></>}
+    {verifiedFromServer && volunteer?.location && <LocationMap point={volunteer.location} title="Vị trí TNV đã gửi lên máy chủ" />}
     <Button title="Tắt sẵn sàng" onPress={disable} disabled={paused || busy || !approved || !volunteer?.isAvailable} />
     {!!error && <Text accessibilityRole="alert" style={{ color: '#9f2424' }}>{error}</Text>}
   </View>;

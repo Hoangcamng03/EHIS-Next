@@ -1,6 +1,6 @@
 {
   "score": 4,
-  "summary": "Prototype local review, not a production security certification. Rules deny every client create/update/delete, restrict status reads to the reporter UID and alert reads to approved owner volunteers. Emulator tests cover owner/cross-user/public reads, direct write/delete denial, collection listeners and verification revocation. Admin SDK callables separately validate identity, ownership, assignment, allowed fields, bounded inputs and transitions. No identity bypass was observed in tested paths. Broader release remains blocked by callable abuse controls, retention and dependency advisories.",
+  "summary": "v0.3 prototype local review, not a production security certification. Rules deny every client create/update/delete; profiles, patient cards, volunteer applications and patient/reporter status projections are owner-only; alerts require an approved owner volunteer. Emulator tests cover public/cross-user access, role injection, concurrent card issue, revocation/reissue, admin-only approval, no self-dispatch, consent-dependent profile access after assignment, arrived/completion and access expiry. Admin SDK callables separately validate identity, ownership, assignment, allowed fields, bounded inputs and transitions. No identity bypass was observed in tested paths. Broader release remains blocked by callable abuse controls, retention and dependency advisories.",
   "findings": [
     {
       "check": "Storage Abuse / Admin SDK boundary",

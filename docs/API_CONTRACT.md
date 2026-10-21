@@ -1,4 +1,4 @@
-# API contract v0.2
+# API contract v0.3
 
 Chỉ các API ở mục Đã viết tồn tại. Không gọi API ở backlog như thể đã có.
 
@@ -8,7 +8,7 @@ Region: `asia-southeast1`.
 
 ### health — HTTP GET
 
-Không Auth. Trả `{ service: "ehis-next", status: "ok", version: "0.1.0" }`. Không trả credentials hoặc dữ liệu người dùng.
+Không Auth. Trả `{ service: "ehis-next", status: "ok", version: "0.3.0" }`. Không trả credentials hoặc dữ liệu người dùng.
 
 ### getMyAccess — callable
 
@@ -29,6 +29,8 @@ Cần tài khoản đã đăng ký; không chấp nhận anonymous. Đầu vào:
 Đây là dữ liệu tổng hợp. Hàm xác định UID từ token, chỉ ghi hồ sơ UID đó, chỉ chấp nhận 3 field kể trên. Trả `{ "saved": true }`. Lỗi: unauthenticated, invalid-argument; lỗi hệ thống vẫn là lỗi, không trả saved=true.
 
 Đây chưa phải schema hồ sơ y tế hoàn chỉnh. Khi bổ sung trường, cập nhật parser, contract và test cùng PR.
+
+`emergencyContactPhone` vẫn là chuỗi nhưng có thể rỗng khi chưa có liên hệ. Nếu nhập thì phải đúng định dạng 8–15 chữ số, dấu + tùy chọn. Không bắt buộc Patient phải có người liên hệ mới dùng được thẻ.
 
 ### createIncident — callable
 
@@ -63,7 +65,7 @@ Cần TNV approved, có lời mời của chính UID, ca dispatching chưa quá 
 
 ### getVolunteerIncidentDetails — callable
 
-Input `{ incidentId }`. Mỗi lần gọi kiểm tra đúng acceptedBy UID, approved và trạng thái accepted/arrived trong transaction. Trả `{ incidentId, phone, answers, revision, location }`; phone/answers null nếu chưa bổ sung. Không trả hồ sơ y tế. Người báo, TNV chưa nhận, TNV khác hoặc bị thu hồi xét duyệt đều bị từ chối.
+Input `{ incidentId }`. Mỗi lần gọi kiểm tra đúng acceptedBy UID, approved và trạng thái accepted/arrived trong transaction. Trả `{ incidentId, phone, answers, revision, location, patientProfile }`; phone/answers null nếu chưa bổ sung. `patientProfile` null nếu card.shareProfile không true; nếu có consent thì chỉ trả fullName, allergies, emergencyContactPhone của hồ sơ tự khai. Không trả hồ sơ cho người báo/TNV chưa nhận/TNV khác/bị thu hồi xét duyệt hoặc ca đã đóng. Không ghi các giá trị này vào URL bản đồ.
 
 ### setVolunteerAvailability — callable
 
@@ -87,6 +89,20 @@ Backend lưu `reporters/{uid}/requestReceipts/{hash(requestId)}` (client không 
 
 ## Backlog cần chốt trước khi viết
 
-issueCard/revokeCard; dispatchWave tối ưu theo vùng và nhiều đợt; getIncidentPatientData; getRoute; markArrived; reviewVolunteer; push/outbox/retry; App Check/rate limiting; audit/retention và scheduler xử lý ca hết hạn.
+dispatchWave tối ưu theo vùng và nhiều đợt; routing production do nhà cung cấp phù hợp; push/outbox/retry; App Check/rate limiting; audit/retention và scheduler xử lý ca hết hạn. Những API vòng đời dưới đây đã được triển khai trong v0.3.
 
 Quy ước: latitude/longitude là số; khoảng cách mét; thời lượng giây; thời hạn theo server. Client không gửi volunteerId để quyết định danh tính, không tự sửa acceptedBy, verified hoặc quyền admin.
+
+## Patient / quyền TNV / vòng đời v0.3
+
+Các API dưới đây yêu cầu tài khoản đã đăng ký, không nhận anonymous, lấy UID từ token. Input thừa field bị từ chối.
+
+- `issuePatientCard({shareProfile: boolean})`: bắt buộc đã lưu hồ sơ của UID. Transaction tạo cardId ngẫu nhiên 24 byte và pointer `patientCards/{uid}`. Trả `{cardId, active: true, shareProfile}`. Gọi lặp/đồng thời với cùng lựa chọn trả thẻ active hiện có. Muốn đổi consent thì thu hồi và phát hành thẻ mới; không đổi âm thầm thẻ đang có. QR chỉ do client ghép website đã cấu hình + `/c/cardId`.
+- `revokePatientCard({cardId})`: đúng Patient chủ thẻ; chặn khi ca dispatching/accepted/arrived còn active. Gỡ active và cập nhật pointer; retry idempotent. Có thể hủy ca chưa nhận trước rồi thu hồi. Thẻ cũ không tạo được ca mới; phát hành lại được mã mới.
+- `applyVolunteer({fullName, phone, experience})`: tên 1–100 ký tự, phone định dạng 8–15 chữ số với dấu + tùy chọn, kinh nghiệm tự khai 1–500 ký tự. Ghi `volunteerApplications/{uid}` pending. Đơn pending gửi lặp giữ nguyên; không tự tạo approved. Đơn rejected có thể nộp lại.
+- `listVolunteerApplications({})`: chỉ token.admin true, tối đa 50 pending; trả uid, fullName, phone, experience. Không cho client query toàn bộ applicants bằng Rules.
+- `reviewVolunteerApplication({uid, decision})`: chỉ token.admin true; decision approved/rejected, đơn phải pending và TNV không có ca active. Transaction đổi application và volunteers.verificationStatus, đặt isAvailable=false, audit hành động. Không có API tự cấp claim admin; bootstrap thử chỉ script Emulator.
+- `markIncidentArrived({incidentId})`: chỉ TNV approved phụ trách, ca accepted → arrived; lặp arrived idempotent. Cập nhật projection Patient/người báo/alert TNV. Đây là xác nhận chủ động, không phải bằng chứng GPS đã tới.
+- `cancelPatientIncident({incidentId})`: chỉ Patient chủ ca, chỉ dispatching chưa acceptedBy; lặp cancelled idempotent. Đóng ca, cập nhật projections và giải phóng thẻ. Người báo vẫn dùng finishIncident outcome cancelled theo quyền cũ.
+
+Thêm owner reads `patientCards/{uid}`, `volunteerApplications/{uid}`, `patients/{uid}/incidentStatuses` (createdAt desc, limit 30). Không thêm bất kỳ client write nào. Projection Patient chỉ chứa trạng thái, thời gian, invitedCount; không phone người báo, vị trí chính xác hoặc hồ sơ TNV. create/accept/arrived/completed/cancelled/expired cập nhật projection tương ứng. Các ca cũ trước v0.3 không được tự backfill.

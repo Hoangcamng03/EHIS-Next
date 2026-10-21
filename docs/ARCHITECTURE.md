@@ -2,7 +2,7 @@
 
 ## Luồng đích
 
-Patient đăng nhập → lưu hồ sơ → cấp cardId → QR/NFC → người báo mở web → phiên anonymous + xác nhận vị trí → createIncident → backend tạo ca/lời mời và xác nhận → web chuyển bảng hỏi → submitBystanderReport (phone tùy chọn, ba câu trả lời bắt buộc) → cùng ca cập nhật thêm cho TNV. Không chờ TNV nhận mới mở bảng hỏi. Nhánh TNV: lời mời → accept bằng transaction → cấp thông tin liên hệ/vị trí cho đúng TNV phụ trách → hồ sơ y tế + dẫn đường + arrived/completed còn backlog.
+Patient đăng ký/đăng nhập → lưu hồ sơ → cấp cardId → QR → người báo mở web → phiên anonymous + xác nhận vị trí → createIncident → backend tạo ca/lời mời và xác nhận → web chuyển bảng hỏi → submitBystanderReport (phone tùy chọn, ba câu trả lời bắt buộc) → cùng ca cập nhật thêm cho TNV. Không chờ TNV nhận mới mở bảng hỏi. TNV đăng ký ứng tuyển → admin xét duyệt → bật sẵn sàng → lời mời → accept bằng transaction → cấp thông tin liên hệ/vị trí cho đúng TNV phụ trách → hồ sơ tự khai nếu Patient đồng ý → tuyến đường trong app → arrived → completed. Patient và người báo nhận projection trạng thái riêng. NFC chưa triển khai trên thiết bị. Xem COMPLETE_FLOW.md để chạy đầy đủ.
 
 Backend là nơi cấp quyền và đổi trạng thái; route hoặc vai trò chọn trên UI không cấp quyền. Người báo không đọc hồ sơ y tế. Firestore realtime không đánh thức iOS khi app bị đình chỉ; không mô tả nó thay thế push nền.
 
@@ -14,6 +14,9 @@ Backend là nơi cấp quyền và đổi trạng thái; route hoặc vai trò c
 | patients | hồ sơ tự khai | chủ hồ sơ đọc, Function kiểm tra ghi |
 | volunteers | xét duyệt và trạng thái hoạt động | không tự bật approved |
 | cards | ánh xạ cardId và active | qua Function |
+| patientCards/{uid} | thẻ đang dùng và lựa chọn chia sẻ | chủ tài khoản đọc; backend ghi |
+| volunteerApplications/{uid} | hồ sơ ứng tuyển và kết quả duyệt | chủ tài khoản đọc; admin xét qua callable |
+| patients/{uid}/incidentStatuses | lịch sử trạng thái tối thiểu | chủ tài khoản đọc; backend ghi |
 | incidents | trạng thái và phân công | không public read |
 | incidents/{id}/private | location; reporter: phone, answers, revision | TNV được phân công qua API |
 | incidents/{id}/reportEvents | mã chống gửi lặp và revision, không lưu phone | backend |
@@ -32,4 +35,6 @@ Prototype dispatch: đọc tối đa 100 TNV approved + isAvailable, vị trí k
 - Cloud mới: `ehis-next-20261021-hc03`. Không dùng project gốc, Rebuild hoặc trial.
 - Trước cloud database: chốt edition/region, Auth providers, Rules và ngân sách. Không provision database hay bật Blaze chỉ từ việc có project ID.
 
-MapLibre phụ trách hiển thị, dịch vụ routing lấy đường/ETA. REST key chỉ ở backend. Bắt đầu bằng nút mở app dẫn đường rồi tích hợp bản đồ. GPS người báo cần được xác nhận; không mặc định là vị trí bệnh nhân.
+Leaflet hiển thị bản đồ, OSRM trả tuyến đường/ETA cho bản thử. GPS người báo cần được xác nhận; không mặc định là vị trí bệnh nhân. Không đưa khóa bí mật nhà cung cấp vào client.
+
+Hiện tại vị trí TNV dùng bản đồ OSM; sau accept, màn hình tuyến đường dùng Leaflet web / WebView Android-iOS, hai marker và polyline từ OSRM khi người dùng bấm xem. Quãng đường/thời gian OSRM được tách khỏi khoảng cách Haversine lúc dispatch. GPS chỉ lấy lại khi bấm; không tự theo dõi khi đang chạy. Google Maps URLs hỗ trợ xem tuyến từ điểm đã lưu hoặc dẫn đường từ vị trí do Google xác định. Không đưa phone, UID, cardId hoặc incidentId vào URL bản đồ/routing. Cần Internet dù backend chạy Emulator. Local demo cho nhập tọa độ riêng từng bên (vĩ độ -85..85, kinh độ -180..180); heartbeat dùng tọa độ đã áp dụng, không dùng nội dung đang gõ dở. Bán kính dispatch 5km và phân quyền vị trí bệnh nhân giữ nguyên. Xem NAVIGATION.md về nguồn dữ liệu, giới hạn và phát hành.

@@ -7,6 +7,10 @@ const valid = () => ({ fullName: '  Demo Patient  ', allergies: ['Demo allergy']
 test('normalizes a valid synthetic profile', () => {
   assert.equal(parsePatientProfile(valid()).fullName, 'Demo Patient');
 });
+
+test('a patient without an emergency contact can still save a profile', () => {
+  assert.equal(parsePatientProfile({ ...valid(), emergencyContactPhone: '' }).emergencyContactPhone, '');
+});
 test('rejects role or owner injection', () => {
   assert.throws(() => parsePatientProfile({ ...valid(), verified: true }), /Unexpected/);
   assert.throws(() => parsePatientProfile({ ...valid(), uid: 'another-user' }), /Unexpected/);

@@ -5,7 +5,7 @@ import { connectAuthEmulator, getAuth, signInAnonymously } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 
-function initializeClient() {
+function initializeClient(name = '[DEFAULT]') {
   if (typeof window === 'undefined') throw new Error('Chỉ khởi tạo Firebase trong trình duyệt.');
   const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
   const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
@@ -13,7 +13,7 @@ function initializeClient() {
   if (!projectId || !apiKey || !appId) throw new Error('Chưa cấu hình kết nối. Hãy kiểm tra file môi trường web.');
   const emulators = process.env.NEXT_PUBLIC_USE_EMULATORS === 'true';
   if (emulators && projectId !== 'demo-ehis-next') throw new Error('Emulator phải dùng project demo-ehis-next.');
-  const app = getApps().length ? getApp() : initializeApp({ projectId, apiKey, appId, authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN });
+  const app = getApps().some(app => app.name === name) ? getApp(name) : initializeApp({ projectId, apiKey, appId, authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }, name);
   const auth = getAuth(app);
   const db = getFirestore(app);
   const functions = getFunctions(app, 'asia-southeast1');
@@ -27,8 +27,10 @@ function initializeClient() {
 }
 
 // Retain connected instances across development hot reloads.
-const scope = globalThis as typeof globalThis & { ehisFirebase?: ReturnType<typeof initializeClient> };
+const scope = globalThis as typeof globalThis & { ehisFirebase?: ReturnType<typeof initializeClient>; ehisAdminFirebase?: ReturnType<typeof initializeClient> };
 export function firebaseClient() { return scope.ehisFirebase ??= initializeClient(); }
+// Separate Auth identity so admin sign-in never replaces an anonymous reporter session.
+export function adminClient() { return scope.ehisAdminFirebase ??= initializeClient('ehis-admin'); }
 let pendingSession: Promise<string> | undefined;
 export async function reporterSession(): Promise<string> {
   if (!pendingSession) pendingSession = (async () => {

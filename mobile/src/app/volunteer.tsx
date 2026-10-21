@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
-import { collection, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { User } from 'firebase/auth';
+import { collection, doc, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 import { firebaseClient, readableError, updateAvailability } from '../lib/firebase';
 import { VolunteerAvailability } from '../components/VolunteerAvailability';
+import { IncidentNavigation } from '../components/IncidentNavigation';
+import { AuthGate, AccountBar } from '../components/Session';
+import { VolunteerApplication } from '../components/VolunteerApplication';
+import { Link, usePathname } from 'expo-router';
+import { statusLabel } from '../lib/ui';
 
 type Answers = { responsiveness: string; breathing: string; bleeding: string };
 type Alert = { incidentId: string; status: string; reportRevision: number; distanceMeters: number; answers: Answers | null; offerExpiresAt?: { toMillis(): number } };
-type Details = { phone: string | null; answers: Answers | null; revision: number; location: { latitude: number; longitude: number } | null };
+type Details = { phone: string | null; answers: Answers | null; revision: number; location: { latitude: number; longitude: number } | null; patientProfile?: { fullName: string; allergies: string[]; emergencyContactPhone: string | null } | null };
 const labels: Record<string, string> = { responsive: 'Có phản hồi', unresponsive: 'Không thấy phản hồi', unknown: 'Không rõ', normal: 'Có vẻ bình thường', abnormal: 'Có vẻ bất thường / không thấy thở', none_seen: 'Không thấy', visible: 'Có thấy' };
 function Observation({ answers }: { answers: Answers | null }) {
   if (!answers) return <Text>Người báo chưa gửi câu trả lời bổ sung.</Text>;
@@ -38,76 +43,62 @@ function IncidentAlert({ alert, connected, now }: { alert: Alert; connected: boo
     catch (err) { setError(readableError(err)); }
     finally { setBusy(false); }
   }
+  async function arrive() {
+    setBusy(true); setError('');
+    try { await httpsCallable(firebaseClient().functions, 'markIncidentArrived', { timeout: 15000 })({ incidentId: alert.incidentId }); }
+    catch (err) { setError(readableError(err)); } finally { setBusy(false); }
+  }
   const assigned = ['accepted', 'arrived'].includes(alert.status);
   const offerExpired = alert.status === 'offered' && !!alert.offerExpiresAt && alert.offerExpiresAt.toMillis() <= now;
   const terminal = offerExpired || ['closed', 'completed', 'cancelled', 'expired'].includes(alert.status);
   return <View style={styles.card}>
     <Text style={styles.cardTitle}>{assigned ? 'Bạn đang phụ trách ca' : terminal ? 'Ca / lời mời đã kết thúc' : 'Yêu cầu hỗ trợ mới'}</Text>
-    <Text>Ca {alert.incidentId.slice(0, 10)} · Khoảng {alert.distanceMeters} m</Text>
+    <Text>Ca {alert.incidentId.slice(0, 10)} · Đường thẳng lúc gửi lời mời: {alert.distanceMeters} m</Text>
+    <Text>{statusLabel[alert.status] || alert.status}</Text>
     <Text style={styles.revision}>{alert.reportRevision > 0 ? `Thông tin bổ sung · bản ${alert.reportRevision}` : 'Thông báo ban đầu'}</Text>
     {!terminal && <Observation answers={alert.answers} />}
     {alert.status === 'offered' && !offerExpired && <Button title={busy ? 'Đang nhận…' : 'Tiếp nhận ca'} disabled={busy || !connected} onPress={accept} />}
     {assigned && <View style={styles.answers}>
       <Text>{details && details.revision === alert.reportRevision ? `SĐT người báo: ${details.phone || 'Không cung cấp'}` : 'Đang lấy thông tin được cấp quyền…'}</Text>
-      {details?.revision === alert.reportRevision && details.location && <Text>Vị trí: {details.location.latitude}, {details.location.longitude}</Text>}
+      {details?.patientProfile ? <View style={styles.answers}><Text style={styles.cardTitle}>Hồ sơ bệnh nhân tự khai</Text><Text>Họ tên: {details.patientProfile.fullName}</Text><Text>Dị ứng: {details.patientProfile.allergies.join(', ') || 'Chưa khai báo'}</Text><Text>Liên hệ khẩn cấp: {details.patientProfile.emergencyContactPhone || 'Chưa khai báo'}</Text><Text>Chỉ dùng cho ca đang phụ trách; thông tin chưa được xác minh y khoa.</Text></View> : details && <Text>Bệnh nhân không chia sẻ hồ sơ sức khỏe qua thẻ này.</Text>}
+      {details?.location && <IncidentNavigation destination={details.location} connected={connected} />}
+      {alert.status === 'accepted' && <Button title="Xác nhận đã đến nơi" disabled={busy || !connected} onPress={arrive} />}
       <Text>Chỉ kết thúc khi phiên hỗ trợ đã xong. Sau đó bạn có thể bật sẵn sàng để thử ca tiếp theo.</Text>
       <Button title={busy ? 'Đang kết thúc…' : 'Kết thúc phiên hỗ trợ'} disabled={busy || !connected} onPress={finish} />
     </View>}
     {!!error && !terminal && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
   </View>;
 }
-export default function VolunteerScreen() {
-  const [user, setUser] = useState<User | null>(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [alerts, setAlerts] = useState<Alert[]>([]);
-  const [connected, setConnected] = useState(false);
-  const [now, setNow] = useState(() => Date.now());
-  const [error, setError] = useState('');
-  const [busy, setBusy] = useState(false);
+export default function VolunteerScreen() { return <AuthGate>{user => <VolunteerDashboard key={user.uid} user={user} />}</AuthGate>; }
+function VolunteerDashboard({ user }: { user: User }) {
+  const focused = usePathname() === '/volunteer';
+  const [alerts, setAlerts] = useState<Alert[]>([]), [connected, setConnected] = useState(false);
+  const [approved, setApproved] = useState(false), [checked, setChecked] = useState(false), [application, setApplication] = useState<string>();
+  const [now, setNow] = useState(() => Date.now()), [error, setError] = useState('');
+  useEffect(() => onSnapshot(doc(firebaseClient().db, `volunteers/${user.uid}`), { includeMetadataChanges: true }, snapshot => {
+    setChecked(!snapshot.metadata.fromCache); setApproved(!snapshot.metadata.fromCache && snapshot.data()?.verificationStatus === 'approved');
+  }, err => { setChecked(false); setError(readableError(err)); }), [user.uid]);
+  useEffect(() => onSnapshot(doc(firebaseClient().db, `volunteerApplications/${user.uid}`), snapshot => setApplication(snapshot.data()?.status), err => setError(readableError(err))), [user.uid]);
+  useEffect(() => { const timer = setInterval(() => setNow(Date.now()), 10000); return () => clearInterval(timer); }, []);
   useEffect(() => {
-    let unsubscribe: (() => void) | undefined;
-    let cancelled = false;
-    Promise.resolve().then(() => {
-      if (!cancelled) unsubscribe = onAuthStateChanged(firebaseClient().auth, value => { setUser(value); setAlerts([]); setError(''); });
-    }).catch(err => { if (!cancelled) setError(err instanceof Error ? err.message : readableError(err)); });
-    return () => { cancelled = true; unsubscribe?.(); };
-  }, []);
-  useEffect(() => {
-    if (!user) return;
-    const timer = setInterval(() => setNow(Date.now()), 10000);
-    return () => clearInterval(timer);
-  }, [user]);
-  useEffect(() => {
-    if (!user) return;
+    if (!approved) return;
     return onSnapshot(query(collection(firebaseClient().db, `volunteers/${user.uid}/alerts`), orderBy('createdAt', 'desc'), limit(30)), { includeMetadataChanges: true },
-      snapshot => { setConnected(!snapshot.metadata.fromCache); setAlerts(snapshot.docs.map(item => item.data() as Alert)); setError(''); }, err => { setConnected(false); setAlerts([]); setError(readableError(err)); });
-  }, [user]);
-  async function login() {
-    setBusy(true); setError('');
-    try { await signInWithEmailAndPassword(firebaseClient().auth, email.trim(), password); setPassword(''); }
-    catch (err) { setError(readableError(err)); }
-    finally { setBusy(false); }
-  }
-  async function logout() {
-    setBusy(true);
-    try {
-      await updateAvailability({ available: false }, 4000).catch(() => undefined);
-      await signOut(firebaseClient().auth);
-    } catch (err) { setError(readableError(err)); }
-    finally { setBusy(false); }
-  }
+      snapshot => { setConnected(!snapshot.metadata.fromCache); setAlerts(snapshot.docs.map(item => item.data() as Alert)); setError(''); }, err => { setConnected(false); setError(readableError(err)); });
+  }, [user.uid, approved]);
+  useEffect(() => () => { updateAvailability({ available: false }, 4000).catch(() => undefined); }, [user.uid]);
+  useEffect(() => { if (!focused) updateAvailability({ available: false }, 4000).catch(() => undefined); }, [focused, user.uid]);
   return <ScrollView contentContainerStyle={styles.page} keyboardShouldPersistTaps="handled">
-    <Text style={styles.eyebrow}>EHIS NEXT · TÌNH NGUYỆN VIÊN</Text><Text style={styles.title}>Ca hỗ trợ</Text>
-    <Text style={styles.intro}>Yêu cầu ban đầu và câu trả lời bổ sung xuất hiện trong cùng một ca khi màn hình đang mở.</Text>
-    {!user ? <View style={styles.card}>
-      <Text style={styles.cardTitle}>Đăng nhập TNV đã được duyệt</Text>
-      <TextInput accessibilityLabel="Email" placeholder="Email" value={email} onChangeText={setEmail} autoCapitalize="none" autoComplete="email" keyboardType="email-address" style={styles.input} />
-      <TextInput accessibilityLabel="Mật khẩu" placeholder="Mật khẩu" value={password} onChangeText={setPassword} secureTextEntry autoCapitalize="none" style={styles.input} />
-      <Button title={busy ? 'Đang đăng nhập…' : 'Đăng nhập'} disabled={busy || !email || !password} onPress={login} />
-    </View> : <><Text>Đã đăng nhập: {user.email || user.uid}</Text>{!connected && <Text accessibilityRole="alert">Đang chờ đồng bộ máy chủ. Các ca lưu trên màn hình có thể đã cũ; chưa thể nhận hoặc kết thúc ca.</Text>}<Button title="Đăng xuất" disabled={busy} onPress={logout} /><VolunteerAvailability key={user.uid} uid={user.uid} paused={busy || !connected} />{connected && !alerts.length && !error && <Text>Chưa có lời mời. Hãy bật sẵn sàng trước khi người báo gửi yêu cầu.</Text>}{alerts.map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected} now={now} />)}</>}
+    <Text style={styles.eyebrow}>EHIS · TÌNH NGUYỆN VIÊN</Text><Text style={styles.title}>Hỗ trợ cộng đồng</Text>
+    <Link href="/" style={{ color: '#096951', paddingVertical: 8 }}>← Chuyển khu vực</Link><AccountBar />
+    {!checked ? <Text>Đang xác nhận quyền với máy chủ…</Text> : !approved ? <VolunteerApplication status={application} /> : <>
+      <Text style={styles.intro}>Bạn đã được duyệt. Bật sẵn sàng và giữ màn hình này mở trong lúc thử nghiệm. Đổi khu vực sẽ tắt sẵn sàng cho ca mới.</Text>
+      {!connected && <Text accessibilityRole="alert">Đang chờ đồng bộ máy chủ. Chưa thể nhận hoặc kết thúc ca.</Text>}
+      <VolunteerAvailability key={user.uid} uid={user.uid} paused={!connected || !focused} />
+      {connected && !alerts.length && <Text>Chưa có lời mời. Hãy bật sẵn sàng trước khi người báo gửi yêu cầu.</Text>}
+      {[...alerts].sort((a, b) => Number(['offered', 'accepted', 'arrived'].includes(b.status)) - Number(['offered', 'accepted', 'arrived'].includes(a.status))).map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected && approved} now={now} />)}
+    </>}
     {!!error && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
-    <Text style={styles.note}>Bản thử nghiệm chưa có thông báo đẩy khi ứng dụng đóng. Giữ màn hình này mở trong lúc thử nghiệm.</Text>
+    <Text style={styles.note}>Chưa có thông báo đẩy khi app đóng. Không coi việc bật sẵn sàng là cam kết có ca; không thay thế dịch vụ cấp cứu.</Text>
   </ScrollView>;
 }
 const styles = StyleSheet.create({

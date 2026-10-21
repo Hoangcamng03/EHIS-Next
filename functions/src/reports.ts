@@ -65,7 +65,7 @@ export const createIncident = onCall(async request => {
     const selected = candidates.docs.flatMap(doc => {
       const volunteer = doc.data();
       const location = volunteer.location;
-      if (volunteer.activeIncidentId || !location || typeof location.latitude !== 'number' || typeof location.longitude !== 'number' ||
+      if (doc.id === patient.id || volunteer.activeIncidentId || !location || typeof location.latitude !== 'number' || typeof location.longitude !== 'number' ||
           !Number.isFinite(location.latitude) || !Number.isFinite(location.longitude) || Math.abs(location.latitude) > 90 || Math.abs(location.longitude) > 180 ||
           typeof volunteer.lastSeenAt?.toMillis !== 'function' || now - volunteer.lastSeenAt.toMillis() > 300000 || volunteer.lastSeenAt.toMillis() > now + 60000) return [];
       const distance = distanceMeters(data.location, location);
@@ -77,11 +77,13 @@ export const createIncident = onCall(async request => {
     if (expired) {
       tx.update(db.doc(`incidents/${expired.id}`), { status: 'expired', closedAt: createdAt });
       tx.update(db.doc(`reporters/${expired.reporterUid}/incidentStatuses/${expired.id}`), { status: 'expired' });
+      tx.set(db.doc(`patients/${patient.id}/incidentStatuses/${expired.id}`), { status: 'expired' }, { merge: true });
       for (const recipient of expired.invitedVolunteerIds) tx.update(db.doc(`volunteers/${recipient}/alerts/${expired.id}`), { status: 'expired' });
     }
     tx.create(incidentRef, { reporterUid: uid, cardId: data.cardId, patientId: patient.id, status: 'dispatching',
       acceptedBy: null, invitedVolunteerIds, createdAt, offerExpiresAt, reportRevision: 0, requestFingerprint: fingerprint });
     tx.create(receiptRef, { incidentId: id, fingerprint });
+    tx.create(db.doc(`patients/${patient.id}/incidentStatuses/${id}`), { status: 'dispatching', createdAt, invitedCount: selected.length });
     tx.create(incidentRef.collection('private').doc('location'), data.location);
     tx.set(cardRef, { activeIncidentId: id }, { merge: true });
     tx.create(db.doc(`reporters/${uid}/incidentStatuses/${id}`), {
@@ -147,6 +149,7 @@ export const acceptIncident = onCall(async request => {
     tx.update(ref, { status: 'accepted', acceptedBy: uid, acceptedAt: FieldValue.serverTimestamp() });
     tx.update(volunteerRef, { activeIncidentId: id, isAvailable: false });
     tx.update(db.doc(`reporters/${incident.data()!.reporterUid}/incidentStatuses/${id}`), { status: 'accepted' });
+    tx.set(db.doc(`patients/${incident.data()!.patientId}/incidentStatuses/${id}`), { status: 'accepted' }, { merge: true });
     for (const recipient of incident.data()!.invitedVolunteerIds as string[]) tx.update(db.doc(`volunteers/${recipient}/alerts/${id}`), { status: recipient === uid ? 'accepted' : 'closed' });
     return { incidentId: id, status: 'accepted' };
   });
@@ -198,6 +201,7 @@ export const finishIncident = onCall(async request => {
     const card = await tx.get(cardRef);
     tx.update(ref, { status: data.outcome, closedAt: FieldValue.serverTimestamp(), closedBy: uid });
     tx.update(db.doc(`reporters/${value.reporterUid}/incidentStatuses/${data.incidentId}`), { status: data.outcome });
+    tx.set(db.doc(`patients/${value.patientId}/incidentStatuses/${data.incidentId}`), { status: data.outcome }, { merge: true });
     if (card.data()?.activeIncidentId === data.incidentId) tx.update(cardRef, { activeIncidentId: null });
     if (data.outcome === 'completed' && volunteer.data()?.activeIncidentId === data.incidentId) tx.update(volunteerRef, { activeIncidentId: null, isAvailable: false });
     for (const recipient of value.invitedVolunteerIds as string[]) tx.update(db.doc(`volunteers/${recipient}/alerts/${data.incidentId}`), { status: recipient === value.acceptedBy ? data.outcome : 'closed' });
@@ -217,7 +221,11 @@ export const getVolunteerIncidentDetails = onCall(async request => {
         volunteer.data()?.verificationStatus !== 'approved') throw new HttpsError('permission-denied', 'Chỉ TNV phụ trách ca được xem.');
     const report = await tx.get(db.doc(`incidents/${id}/private/reporter`));
     const location = await tx.get(db.doc(`incidents/${id}/private/location`));
+    const card = await tx.get(db.doc(`cards/${incident.data()!.cardId}`));
+    const patient = card.data()?.shareProfile === true ? await tx.get(db.doc(`patients/${incident.data()!.patientId}`)) : null;
+    const profile = patient?.data();
     return { incidentId: id, phone: report.data()?.phone ?? null, answers: report.data()?.answers ?? null,
-      revision: report.data()?.revision ?? 0, location: location.data() ?? null };
+      revision: report.data()?.revision ?? 0, location: location.data() ?? null,
+      patientProfile: profile ? { fullName: profile.fullName, allergies: profile.allergies ?? [], emergencyContactPhone: profile.emergencyContactPhone ?? null } : null };
   });
 });

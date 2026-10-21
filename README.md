@@ -11,16 +11,18 @@ Bản khởi đầu **viết mới** cho nhóm Capstone 4 người: một app mo
 - Project Emulator: `demo-ehis-next` — dữ liệu local không tự xuất hiện trên cloud.
 - `.env.example` dùng demo local; `.env.cloud.example` là mẫu riêng cho cloud. Không trộn project ID của hai môi trường.
 
-## Hiện có gì?
+## Bản thử v0.3 có gì?
 
-- Mobile Expo SDK 58 + TypeScript + Expo Router: khung Patient; Volunteer đăng nhập, bật/tắt sẵn sàng, làm mới vị trí khi màn hình active, nhận lời mời/bản bổ sung, tiếp nhận và kết thúc ca. Chạy được màn hình TNV trên trình duyệt để kiểm tra mạch nghiệp vụ.
-- Web Next.js: `/c/[cardId]` gửi yêu cầu trước; sau backend xác nhận chuyển `/report/[incidentId]` để trả lời ba câu hỏi, số điện thoại tùy chọn. `/admin` còn là khung.
-- Functions: `health`, `getMyAccess`, `savePatientProfile`, `createIncident`, `submitBystanderReport`, `acceptIncident`, `getVolunteerIncidentDetails` có xác thực và validation.
-- Firestore Rules mặc định đóng; bệnh nhân chỉ đọc hồ sơ chính mình. Không client nào tự gán role/verified.
-- Người báo chỉ đọc trạng thái của phiên mình; TNV đã duyệt chỉ đọc lời mời của mình. Số điện thoại chỉ cấp qua API cho TNV đã được phân công.
-- Validation tests, kiểm thử luồng hai bước và Rules bằng Emulator, EAS build profiles và CI.
+- Đăng ký/đăng nhập chung; chọn Patient hoặc TNV trong một app, không tự cấp quyền khi chọn vai trò.
+- Patient lưu hồ sơ tối thiểu, phát hành QR, chọn quyền chia sẻ, thu hồi/cấp lại, xem trạng thái và lịch sử; hủy ca nhầm trước khi được nhận.
+- TNV gửi đơn, quản trị duyệt trên web, bật sẵn sàng, nhận ban đầu/bổ sung, nhận ca, xem thông tin được phép, bản đồ/tuyến trong EHIS, xác nhận đến nơi và kết thúc.
+- Người qua đường mở QR bằng website; backend ack trước bảng hỏi, phone tùy chọn; không công khai hồ sơ sức khỏe.
+- Rules chặn mọi client write; các giao dịch và quyền riêng tư được kiểm tra ở backend. Các bộ kiểm thử starter, reports, lifecycle và navigation.
+- Emulator lưu/khôi phục snapshot. PC local tách phiên theo tab, nên thử Patient và TNV đồng thời được.
 
-**Chưa hoàn thành:** Auth UI Patient, phát hành/thu hồi QR/NFC, bản đồ, push/GPS nền, duyệt TNV, chống lạm dụng, audit/retention đầy đủ, APK và kiểm thử thiết bị. Dispatch hiện là bản thử giới hạn; xem [chạy thử PC rồi Android](docs/TRIAL_CHECKLIST.md) và [review bảo mật](docs/SECURITY_REVIEW.json). Functions chưa triển khai cloud; tạo Firebase project không đồng nghĩa đã tạo Firestore database hoặc bật Auth providers.
+**Bắt đầu tại [luồng hoàn chỉnh và cách chạy](docs/COMPLETE_FLOW.md).** Bộ tài khoản giả gồm quản trị tạo bằng `npm run trial:prepare`, lưu trong `.local/complete-demo.json`. Snapshot trước khi tắt cưỡng bức bằng `npm run trial:snapshot`.
+
+Đây là bản chạy thử có kiểm soát trên PC, chưa phải bản đã phát hành. Chưa có APK/IPA/signing hoặc cloud Functions/Hosting được deploy, push/GPS nền, dẫn đường liên tục, NFC trên thiết bị, App Check/throttle hoặc retention production. Không đưa dữ liệu thật vào bản này. [Trạng thái](docs/STATUS.md), [bản đồ](docs/NAVIGATION.md), [review bảo mật](docs/SECURITY_REVIEW.json).
 
 ## Cài thư viện (mỗi máy)
 

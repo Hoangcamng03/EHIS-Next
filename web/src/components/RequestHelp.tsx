@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { httpsCallable } from 'firebase/functions';
 import { firebaseClient, readableError, reporterSession } from '@/lib/firebase-client';
+import { DemoLocation, parseDemoLocation } from './DemoLocation';
 
 type PendingRequest = { requestId: string; location: { latitude: number; longitude: number } };
 export function RequestHelp({ cardId }: { cardId: string }) {
@@ -13,6 +14,8 @@ export function RequestHelp({ cardId }: { cardId: string }) {
   const [error, setError] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [syntheticLocation, setSyntheticLocation] = useState(false);
+  const [latitude, setLatitude] = useState('10.779');
+  const [longitude, setLongitude] = useState('106.699');
   const pendingRequest = useRef<PendingRequest | null>(null);
   const localDemo = process.env.NEXT_PUBLIC_USE_EMULATORS === 'true' && process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID === 'demo-ehis-next';
   async function send() {
@@ -30,7 +33,9 @@ export function RequestHelp({ cardId }: { cardId: string }) {
       if (pendingRequest.current) pending = pendingRequest.current;
       else {
         setMessage('Đang lấy vị trí bạn đã xác nhận…');
-        const location = localDemo && syntheticLocation ? { latitude: 10.875, longitude: 106.8 } : await new Promise<{ latitude: number; longitude: number }>((resolve, reject) => {
+        const demoPoint = parseDemoLocation(latitude, longitude);
+        if (localDemo && syntheticLocation && !demoPoint) throw new Error('demo-location');
+        const location = localDemo && syntheticLocation ? demoPoint! : await new Promise<{ latitude: number; longitude: number }>((resolve, reject) => {
           if (!navigator.geolocation) return reject(new Error('location'));
           navigator.geolocation.getCurrentPosition(position => resolve({ latitude: position.coords.latitude, longitude: position.coords.longitude }), () => reject(new Error('location')), { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
         });
@@ -51,7 +56,7 @@ export function RequestHelp({ cardId }: { cardId: string }) {
       try { sessionStorage.removeItem(key); } catch { /* Backend ownership/card lock also prevents duplicates after acknowledgement. */ }
       router.push(`/report/${result.data.incidentId}`);
     } catch (err) {
-      setError(err instanceof Error && err.message === 'location' ? 'Chưa lấy được vị trí. Cho phép quyền vị trí và thử lại tại nơi có bệnh nhân.' : readableError(err));
+      setError(err instanceof Error && err.message === 'demo-location' ? 'Tọa độ giả chưa hợp lệ. Vĩ độ từ -85 đến 85, kinh độ từ -180 đến 180.' : err instanceof Error && err.message === 'location' ? 'Chưa lấy được vị trí. Cho phép quyền vị trí và thử lại tại nơi có bệnh nhân.' : readableError(err));
       setMessage(''); setBusy(false);
     }
   }
@@ -62,7 +67,8 @@ export function RequestHelp({ cardId }: { cardId: string }) {
     <section className="report-panel"><h2>Bạn đang ở cạnh bệnh nhân?</h2>
       <p>Vị trí thiết bị sẽ được dùng làm điểm cần hỗ trợ. Trang này không hiển thị hồ sơ y tế của chủ thẻ.</p>
       <label className="confirm"><input type="checkbox" checked={confirmed} onChange={e => setConfirmed(e.target.checked)} disabled={busy} />Tôi đang ở cùng vị trí với bệnh nhân.</label>
-      {localDemo && <label className="confirm"><input type="checkbox" checked={syntheticLocation} onChange={e => setSyntheticLocation(e.target.checked)} disabled={busy} />THỬ NGHIỆM LOCAL: dùng vị trí giả 10.875, 106.8 thay cho GPS.</label>}
+      {localDemo && <label className="confirm"><input type="checkbox" checked={syntheticLocation} onChange={e => setSyntheticLocation(e.target.checked)} disabled={busy} />THỬ NGHIỆM LOCAL: dùng vị trí giả thay cho GPS.</label>}
+      {localDemo && syntheticLocation && <DemoLocation latitude={latitude} longitude={longitude} onLatitude={setLatitude} onLongitude={setLongitude} disabled={busy} />}
       <button className="primary" onClick={send} disabled={busy || !confirmed}>{busy ? 'Đang gửi…' : 'Gửi yêu cầu hỗ trợ →'}</button>
       <p className="hint">Chưa cần nhập số điện thoại hay trả lời câu hỏi ở bước này.</p>
       {message && <p role="status">{message}</p>}{error && <p className="error" role="alert">{error}</p>}

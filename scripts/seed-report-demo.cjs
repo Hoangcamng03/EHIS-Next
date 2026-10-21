@@ -28,7 +28,7 @@ async function main() {
   const folder = path.resolve(__dirname, '../.local'); mkdirSync(folder, { recursive: true });
   const result = { environment: 'LOCAL EMULATORS ONLY', webPath: `/c/${cardId}`, webUrl: `http://localhost:3100/c/${cardId}`,
     mobileWebUrl: 'http://localhost:8082/volunteer', email, password,
-    note: 'Bật sẵn sàng bằng vị trí giả trong màn hình TNV; ở web chọn vị trí giả cùng tọa độ 10.875,106.8. Dữ liệu chỉ có trong phiên Emulator này.' };
+    note: `Tọa độ TNV được seed: ${latitude},${longitude}. Nhập tọa độ TNV trong app rồi bật sẵn sàng; ở web chọn vị trí bệnh nhân trong 5km. Dữ liệu chỉ có trong phiên Emulator này.` };
   writeFileSync(path.join(folder, 'report-demo.json'), JSON.stringify(result, null, 2));
   console.log('Đã tạo thẻ và TNV giả. Mở .local/report-demo.json để lấy hai URL và tài khoản. Đăng nhập rồi bật sẵn sàng trước khi gửi yêu cầu.');
 }

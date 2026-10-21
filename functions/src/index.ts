@@ -8,10 +8,11 @@ initializeApp();
 setGlobalOptions({ region: 'asia-southeast1', maxInstances: 2 });
 
 export { createIncident, submitBystanderReport, acceptIncident, getVolunteerIncidentDetails, setVolunteerAvailability, finishIncident } from './reports';
+export { issuePatientCard, revokePatientCard, applyVolunteer, listVolunteerApplications, reviewVolunteerApplication, markIncidentArrived, cancelPatientIncident } from './lifecycle';
 
 // No identities, personal data, or secrets in a public health check.
 export const health = onRequest({ cors: true }, (_request, response) => {
-  response.json({ service: 'ehis-next', status: 'ok', version: '0.1.0' });
+  response.json({ service: 'ehis-next', status: 'ok', version: '0.3.0' });
 });
 
 export const getMyAccess = onCall(async request => {
