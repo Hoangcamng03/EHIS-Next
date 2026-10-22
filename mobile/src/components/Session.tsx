@@ -141,5 +141,5 @@ export function AccountBar() {
     try { await updateAvailability({ available: false }, 4000).catch(() => undefined); await signOut(firebaseClient().auth); }
     catch (err) { setError(readableError(err)); } finally { setBusy(false); }
   }
-  return <View style={{ gap: 8 }}><Text style={ui.body}>{user?.email}</Text><ReleaseStatus /><Button title={busy ? 'Đang đăng xuất…' : 'Đăng xuất'} onPress={logout} disabled={busy} color="#526f67" />{!!error && <Text style={ui.error}>{error}</Text>}<InstallGuide /></View>;
+  return <View style={{ gap: 8 }}><Text style={ui.body}>{user?.email}</Text><ReleaseStatus /><Button title={busy ? 'Đang đăng xuất…' : 'Đăng xuất'} onPress={logout} disabled={busy} color="#526f67" />{!!error && <Text style={ui.error}>{error}</Text>}<InstallGuide compact /></View>;
 }

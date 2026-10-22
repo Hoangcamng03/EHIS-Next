@@ -45,7 +45,7 @@ Terminal C — app Patient/Volunteer trên PC:
 npm run mobile:web
 ```
 
-**Đạt khi:** http://localhost:8082 có đăng nhập và chọn khu vực; đây là source trong `mobile/`, không phải website người báo.
+**Đạt khi:** http://localhost:8082 có đăng ký theo đối tượng và đăng nhập tự vào đúng khu vực; tài khoản cũ thiếu lựa chọn/hồ sơ thì hoàn tất một lần. Đây là source trong `mobile/`, không phải website người báo.
 
 ## 3. Tạo kịch bản dùng thử
 

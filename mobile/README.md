@@ -1,6 +1,6 @@
 # Mobile — app Patient và Volunteer
 
-**Phụ trách:** TV3 (Auth/Patient/build), TV2 (Volunteer/bản đồ). Đây là một app React Native + Expo Router, dùng chung đăng nhập và có hai khu vực. Chọn khu vực TNV không tự cấp quyền.
+**Phụ trách:** TV3 (Auth/Patient/build), TV2 (Volunteer/bản đồ). Đây là một app React Native + Expo Router có hai giao diện theo đối tượng đã đăng ký. Từ web 0.4.2, backend lưu lựa chọn và app tự mở đúng khu vực sau đăng nhập; không hỏi lại hoặc cho chuyển khu vực tự do. Chọn TNV không tự cấp quyền nhận ca.
 
 ## Tìm file theo việc cần làm
 
@@ -37,4 +37,4 @@ Trong **mobile/**: `npm run typecheck`, `npm run lint`. Build/cài cloud: [ANDRO
 
 Khi đổi payload, quyền hoặc trạng thái: phối hợp TV1 theo [API contract](../docs/API_CONTRACT.md). Khi đổi QR/URL: phối hợp TV4. Khi đổi cấu hình build: kiểm tra môi trường EAS riêng, không đưa secret backend vào biến `EXPO_PUBLIC_*`.
 
-Từ 0.4.1, dùng quy trình [MOBILE_RELEASES.md](../docs/MOBILE_RELEASES.md) để cập nhật đồng thời web/Android sau mỗi thay đổi app. Kênh preview nhận OTA tương thích fingerprint ở lần mở lại; đổi native cần APK mới. Không tự gọi reload khi người dùng đang xử lý ca. APK 0.4.0 không có thư viện cập nhật nên cần thay bộ cài một lần.
+Ưu tiên hiện tại: [nghiệm thu web 0.4.2 trước](../docs/WEB_TRIAL.md), chủ dự án duyệt rồi mới phát hành Android/iOS mới. APK 0.4.1 cũ chưa có các sửa đổi web 0.4.2. Khi được duyệt phát hành native, dùng [MOBILE_RELEASES.md](../docs/MOBILE_RELEASES.md); kênh preview nhận OTA tương thích fingerprint ở lần mở lại, đổi native cần APK mới. Không tự gọi reload khi người dùng đang xử lý ca.

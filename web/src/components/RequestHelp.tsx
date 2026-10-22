@@ -17,7 +17,7 @@ export function RequestHelp({ cardId }: { cardId: string }) {
   const [latitude, setLatitude] = useState('10.779');
   const [longitude, setLongitude] = useState('106.699');
   const pendingRequest = useRef<PendingRequest | null>(null);
-  const localDemo = (process.env.NEXT_PUBLIC_USE_EMULATORS === 'true' && process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID === 'demo-ehis-next') || process.env.NEXT_PUBLIC_TRIAL_MODE === 'true';
+  const localDemo = process.env.NEXT_PUBLIC_USE_EMULATORS === 'true' && process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID === 'demo-ehis-next';
   async function send() {
     setBusy(true); setError(''); setMessage('Đang chuẩn bị yêu cầu…');
     try {
