@@ -2,6 +2,23 @@
 
 Ghi thay đổi quan trọng và kết quả quan sát, không lưu mật khẩu, token hoặc hồ sơ sức khỏe. Các mục chưa kiểm chứng được ghi rõ; không coi build thành công là thử nghiệm thiết bị.
 
+## TÀI KHOẢN CHẠY THỬ — MỤC BÀN GIAO
+
+> [!IMPORTANT]
+> **Dùng tài khoản CLOUD dưới đây cho APK v0.4 và app web HTTPS.** Đã xác minh đăng nhập/quyền lại ngày 2026-10-22. **Mật khẩu chỉ lưu trong file nội bộ trên máy: `.local/LAB_NOTES_PRIVATE_ACCOUNTS.md`; không đưa lên repo public.**
+
+| Đối tượng | Email đăng nhập | Cách dùng |
+|---|---|---|
+| Bệnh nhân (Patient) | `ehis-trial-patient-55d75d60@example.test` | Đã có hồ sơ giả và QR |
+| Tình nguyện viên (Volunteer) | `ehis-trial-volunteer-6f4ed08b@example.test` | Đã được duyệt; bật sẵn sàng để thử |
+| Quản trị (Admin) | `ehis-trial-admin-bf2d0ccb@example.test` | Chỉ nhóm quản trị; đăng nhập web /admin |
+
+- App: https://ehis-next-20261021-hc03-app.web.app; quản trị: https://ehis-next-20261021-hc03.web.app/admin.
+- Patient và TNV đăng nhập ở app, sau đó chọn đúng khu vực. Dùng hai thiết bị/hồ sơ trình duyệt riêng để thử đồng thời; các tab cùng origin dùng chung phiên cloud.
+- Người quét QR **không cần tài khoản đăng nhập**; Firebase tạo phiên ẩn danh để theo dõi yêu cầu.
+- Tài khoản Emulator trong `.local/complete-demo.json` và `.local/report-demo.json` chỉ dùng cho local, không đăng nhập được vào APK cloud. Đã gom thông tin vào file nội bộ; chưa xác minh lại Emulator trong lần cập nhật này.
+- Tài khoản sinh ngẫu nhiên trong integration/probe không được coi là tài khoản bàn giao ổn định. Khi thêm tài khoản thử dùng chung, cập nhật danh sách này và file mật khẩu nội bộ; không ghi token hoặc khóa service account.
+
 ## 2026-10-22 — Chuẩn bị bản chạy trực tuyến
 
 - Kiểm tra: app và web hiện vẫn dùng `demo-ehis-next`, dữ liệu ở Emulator. Bản v0.3 có luồng Patient → QR → web → TNV → hoàn tất; chưa deploy cloud.
