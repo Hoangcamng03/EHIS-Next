@@ -18,4 +18,6 @@ APK EAS đã FINISHED: https://expo.dev/accounts/ehiss-team/projects/ehis-next/b
 
 Cron được gọi kiểm tra thủ công; chưa có bằng chứng một chu kỳ lịch tự động hằng ngày đã chạy. Quota và sự cố nhà cung cấp vẫn có thể chặn thử nghiệm; giữ phạm vi nhóm nhỏ và dữ liệu giả.
 
+Expo Doctor trong build APK đạt 19/20: cảnh báo có 5 patch mới trong cùng SDK 58 (expo 58.0.16→58.0.17, constants 58.0.12→58.0.13, linking 58.0.13→58.0.14, router 58.0.24→58.0.25, status-bar 58.0.3→58.0.4). Gradle và APK vẫn thành công. Chưa áp dụng các patch đó vào artifact này; cần cập nhật tương thích và kiểm tra lại trong vòng bảo trì tiếp theo. Không báo bản build này sạch mọi cảnh báo.
+
 GitHub Actions độc lập: https://github.com/Hoangcamng03/EHIS-Next/actions/runs/39729774930 — tất cả bước thành công tại commit 26f0b565543d96362e8010991dba6ce00cfc6a6e, bao gồm Android JS export và integration. UI đã xác nhận hoàn tất, gỡ thông tin riêng, đồng bộ trang người báo.

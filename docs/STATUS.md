@@ -10,5 +10,6 @@
 - Cron Vercel hằng ngày xử lý hết hạn và dọn dữ liệu riêng đủ 24h. Thực tế có thể 24–48h hoặc lâu hơn khi lỗi/quota/backlog; không phải SLA.
 - EAS project ehiss-team/ehis-next đã tạo và liên kết; preview dùng backend cloud, APK đã build FINISHED và tải về, kiểm tra manifest/DEX/embedded bundle và đúng backend/project cloud. Chưa xác nhận APK cài/chạy trên thiết bị; chưa IPA/TestFlight.
 - Chưa có push/GPS nền, dẫn đường liên tục/giọng nói, NFC, tìm TNV nhiều đợt hoặc vận hành cấp cứu thật. Giữ màn TNV mở trong thử nghiệm.
+- APK có cảnh báo Expo Doctor về 5 patch SDK 58 mới, đã ghi rõ trong VERIFICATION_V0_4.md; chưa áp dụng patch vào bộ cài này. Gradle build thành công.
 
 Hướng dẫn: [CLOUD_TRIAL.md](CLOUD_TRIAL.md). Quy trình thay đổi: [LAB_NOTES.md](LAB_NOTES.md). Bảo mật: [SECURITY_REVIEW.json](SECURITY_REVIEW.json).

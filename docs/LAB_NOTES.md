@@ -30,3 +30,4 @@ Ghi thay đổi quan trọng và kết quả quan sát, không lưu mật khẩu
 
 - APK EAS đã FINISHED: build cf99a628-de58-4e55-b93c-f48f13178af7. Đã tải bộ cài 100.235.444 byte; kiểm tra archive có AndroidManifest/DEX/bundle nhúng và đúng backend/project cloud. SHA-256 lưu trong ANDROID_TRIAL.md. Chưa cài/chạy trên điện thoại, không coi build thành công là nghiệm thu thiết bị. Dashboard dùng Git commit nền vì upload snapshot trước commit; đã ghi rõ nguồn trong hướng dẫn.
 - Mở lại Patient cloud thấy hồ sơ đã sửa và hai ca completed được giữ trên Firestore. Đã thử đăng nhập/tải danh sách quản trị rồi đăng xuất; phiên người báo vẫn tách riêng.
+- Rà nhật ký APK: Expo Doctor 19/20, còn cảnh báo 5 package có patch mới trong SDK 58; Gradle/đóng gói đã thành công. Đã ghi phiên bản cụ thể trong VERIFICATION_V0_4.md để nhóm theo dõi, chưa coi đã cập nhật hoặc đã thử thiết bị.
