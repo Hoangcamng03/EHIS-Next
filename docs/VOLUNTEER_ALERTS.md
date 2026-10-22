@@ -17,7 +17,7 @@
 - Hạn lời mời lấy từ backend, hiển thị đếm ngược gần đúng theo đồng hồ thiết bị. Không lấy bộ đếm 30 giây riêng để tự từ chối/đóng ca như một số mẫu UI cũ.
 - **Đã xem · đóng cảnh báo và dừng chuông** chỉ đóng popup, không nhận/từ chối/hủy ca; lời mời còn hạn vẫn ở danh sách. Lời mời hết hạn hoặc người khác nhận sẽ đóng popup. Không dùng nháy màn hình liên tục.
 - **Tắt âm chuông** giữ cảnh báo hình ảnh; rung có lựa chọn riêng. **Dừng chuông hiện tại** không tắt chuông của lần yêu cầu sau. Rời trang, mất đồng bộ, tắt sẵn sàng hoặc hết ca sẽ dừng tín hiệu đang chạy khi không còn ca hoạt động.
-- Phần vị trí của TNV được thu gọn sau nút **Xem vị trí tôi đã gửi**; bản đồ ca đang phụ trách được ưu tiên phía trên. Chi tiết ca có nút tải lại khi lỗi; khi chưa có bản dữ liệu đúng revision/đồng bộ, không hiện hồ sơ/vị trí riêng cũ như dữ liệu hiện tại.
+- Phần vị trí của TNV được thu gọn sau nút **Xem vị trí tôi đã gửi**; bản đồ ca đang phụ trách được ưu tiên phía trên. Chi tiết ca có nút tải lại khi lỗi; khi chưa có bản đúng revision, không hiện hồ sơ/phone cũ như bản hiện tại. Bảng hỏi bổ sung không đổi tọa độ ca, nên giữ bản đồ/tuyến đã xác nhận trong khi tải phần bổ sung để không mất tuyến; mất đồng bộ hoặc đóng ca thì gỡ phần riêng.
 - Tuyến đường trong EHIS dùng OSM/OSRM, không tính kẹt xe hoặc tự dẫn đường liên tục khi di chuyển. OSRM nhận hai tọa độ khi nhận ca và mở tuyến. Có nút tính lại và phương án mở Google Maps nếu dịch vụ lỗi. Xem [NAVIGATION.md](NAVIGATION.md).
 
 ## Giới hạn web và kế hoạch native

@@ -1,5 +1,7 @@
 # Bản đồ và chỉ đường
 
+Từ web 0.4.3, thao tác **Nhận ca và mở đường đi** được backend xác nhận rồi mới mở chi tiết và tính tuyến một lần; xem [cảnh báo Volunteer](VOLUNTEER_ALERTS.md). Khi khôi phục ca đang nhận từ phiên khác vẫn có nút xem đường để người dùng chủ động. Bảng hỏi bổ sung không đổi tọa độ ca và không làm mất tuyến đang xem. Bệnh án/phone chỉ hiển thị khi có bản dữ liệu được cấp quyền phù hợp; đóng ca hoặc mất đồng bộ thì gỡ phần riêng.
+
 TNV đã nhận ca mới được lấy điểm bệnh nhân qua API hiện có. Màn hình hiển thị A (TNV đã lưu khi bật sẵn sàng, có thể cũ) và B (điểm báo hỗ trợ). Bấm lấy GPS chỉ cập nhật điểm xuất phát cho tuyến trên thiết bị, không tự thay đổi trạng thái điều phối. Bấm xem đường gửi hai tọa độ đến OSRM demo server, nhận GeoJSON, quãng đường ô tô, thời gian không có giao thông trực tiếp và các chặng rẽ. Không vẽ đoạn nối thẳng thay cho tuyến khi dịch vụ lỗi.
 
 Web: Leaflet từ dependency npm, giữ referrer hợp lệ cho OSM tiles, dùng cache trình duyệt. Android/iOS: WebView HTML chỉ nhúng tọa độ số đã kiểm tra, Leaflet CDN cố định 1.9.4 + SRI; User-Agent định danh EHIS, chặn điều hướng bên trong khung, chỉ dùng HTTPS. WebView cần build mới cho development binary cũ. Không cần tạo thư mục android/ios hoặc khóa Google Maps để thử phương án này. Android JS export không xác nhận WebView trên điện thoại hoạt động.

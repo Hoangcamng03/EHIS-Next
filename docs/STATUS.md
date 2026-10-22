@@ -1,4 +1,6 @@
-# Trạng thái web v0.4.2 / APK gần nhất v0.4.1 — 2026-10-22
+# Trạng thái web v0.4.3 / APK gần nhất v0.4.1
+
+Web 0.4.3 đã thêm công tắc sẵn sàng và cảnh báo nổi bật, chuông 6 giây/yêu cầu, 2 giây/bổ sung, rung tùy hỗ trợ khi trang mở phía trước; nhận ca xác nhận rồi mới xem hồ sơ theo consent và tự mở tuyến OSRM. Luồng giả đầu đã chạy hết đến kết thúc/quyền riêng bị chặn; kết quả vòng cuối và ảnh ở [lab note](LAB_NOTES.md). [Cách dùng và giới hạn](VOLUNTEER_ALERTS.md). Backend vẫn 0.4.2, Rules/schema không đổi, chưa phát native mới.
 
 Ưu tiên mới: [nghiệm thu web có kiểm soát](WEB_TRIAL.md), chủ dự án duyệt rồi mới phát hành Android/iOS mới. Source 0.4.2 lưu đối tượng trên backend, tự mở giao diện khi đăng nhập và bổ sung manifest/icon/hướng dẫn web. Xem lab note để phân biệt source/build/deploy/browser/device; không xem APK 0.4.1 tự có thay đổi này. Các kết quả bên dưới về APK/OTA là mốc lịch sử 0.4.1.
 
