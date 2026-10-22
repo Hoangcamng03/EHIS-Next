@@ -11,5 +11,6 @@
 - EAS project ehiss-team/ehis-next đã tạo và liên kết; preview dùng backend cloud, APK đã build FINISHED và tải về, kiểm tra manifest/DEX/embedded bundle và đúng backend/project cloud. Chưa xác nhận APK cài/chạy trên thiết bị; chưa IPA/TestFlight.
 - Chưa có push/GPS nền, dẫn đường liên tục/giọng nói, NFC, tìm TNV nhiều đợt hoặc vận hành cấp cứu thật. Giữ màn TNV mở trong thử nghiệm.
 - APK có cảnh báo Expo Doctor về 5 patch SDK 58 mới, đã ghi rõ trong VERIFICATION_V0_4.md; chưa áp dụng patch vào bộ cài này. Gradle build thành công.
+- Thử cài trên điện thoại đã gặp Play Protect chặn, thông báo chưa nhận diện nhà phát triển. Chưa xử lý xong và chưa coi là cài thành công; không yêu cầu tắt Play Protect. Có thể tiếp tục thử UI cloud bằng trình duyệt trong lúc xác minh.
 
 Hướng dẫn: [CLOUD_TRIAL.md](CLOUD_TRIAL.md). Quy trình thay đổi: [LAB_NOTES.md](LAB_NOTES.md). Bảo mật: [SECURITY_REVIEW.json](SECURITY_REVIEW.json).

@@ -1,0 +1,43 @@
+# Scripts — phân biệt chạy local, kiểm tra và triển khai
+
+Các lệnh npm bên dưới chạy từ **root repo**. Script công cụ không phải code giao diện. Đọc phần môi trường trước khi chạy; tác vụ cloud cần tài khoản/quyền của nhóm, không bật billing tự động.
+
+## 1. Phát triển local — project demo
+
+| Lệnh | Script | Tác dụng |
+|---|---|---|
+| `npm run setup:local` | `setup-local.cjs`, `local-runtime.cjs` | Chuẩn bị cấu hình/công cụ local |
+| `npm run doctor:local` | `doctor-local.cjs` | Kiểm tra Java/cấu hình/port |
+| `npm run emulators` | `firebase-local.cjs`, `firebase-cli.cjs` | Build backend và chạy Emulator demo |
+| `npm run web` | Next.js CLI trong `web/` | Website local port 3100 |
+| `npm run mobile:web` | Expo CLI trong `mobile/` | App trên trình duyệt port 8082 |
+| `npm run mobile` | Expo CLI trong `mobile/` | Development build workflow |
+| `npm run trial:prepare` | `prepare-complete-demo.cjs` | Tạo tài khoản giả local cho luồng đầy đủ |
+| `npm run trial:seed` | `seed-report-demo.cjs` | Seed kịch bản báo cáo local theo tọa độ của lệnh |
+| `npm run trial:snapshot` | `firebase-local.cjs snapshot` | Export dữ liệu Emulator ra `.local/` |
+
+## 2. Kiểm tra mã và nghiệp vụ
+
+- `npm run check`: lint/typecheck app/web, build TypeScript backend, unit validation và `test-navigation.cjs`.
+- `npm run test:integration`: build backend, khởi động Emulator kiểm tra và chạy `run-integration.cjs`; tránh trùng port phiên phát triển đang chạy.
+- `run-integration.cjs`: gọi 5 suite `smoke-starter`, `smoke-reports`, `smoke-lifecycle`, `smoke-maintenance`, `smoke-portable` trên Emulator sẵn sàng. Các suite dùng dữ liệu giả, kiểm tra quyền/trạng thái/transaction/HTTP wrapper; không chạy chúng vào database cloud.
+- `npm --prefix web run build`: production build web local; khác `cloud:build` có static export và cấu hình cloud.
+- GitHub CI ở `../.github/workflows/check.yml`: cài dependency, chạy check, Android JS export, web build và integration; **không tự deploy**.
+
+## 3. Build và vận hành cloud — chỉ người phụ trách
+
+| Lệnh / script | Tác dụng | Điều cần biết |
+|---|---|---|
+| `npm run cloud:configure -- <backend-HTTPS>/api` | `cloud.cjs` tạo client config cloud bị Git bỏ qua | Kiểm tra đúng project mới; không ghi đè demo |
+| `npm run cloud:build` | Xuất web Next.js + Expo web | Chỉ build; chưa deploy APK/backend/web |
+| `npm run cloud:probe` | Health đúng project và từ chối API không Auth | Không thay cho kiểm thử toàn luồng |
+| `npm run cloud:deploy-web` | Probe rồi deploy hai site Hosting | Chỉ phát hành frontend artifacts đã build |
+| `npm run cloud:status` | `cloud-access.cjs status` | Đọc edition/vùng/billing; không bật billing |
+| `node scripts/vercel.cjs deploy` | Deploy backend từ `functions/` | Cần Vercel CLI đăng nhập và secret runtime đúng |
+| `cloud-access.cjs admin <UID>` | Cấp claim admin bằng quyền operator | Chỉ cấp tài khoản được chủ project xác nhận |
+| `cloud-access.cjs runtime-key ...`, `vercel.cjs secrets ...` | Tạo/quản lý credential runtime và lưu secret | Thao tác quyền nhạy cảm, cần phê duyệt cụ thể; không chạy như lệnh setup thường ngày |
+| `cloud-operator.cjs` | Helper dùng phiên Firebase CLI của operator | Không import vào client hoặc backend runtime |
+
+`cloud-database-probe.cjs`, `cloud-flow-probe.cjs`, `cloud-maintenance-probe.cjs` là công cụ nghiệm thu **có gọi cloud thật**. Flow probe tạo tài khoản/dữ liệu giả và có bước cấp admin bằng operator; không chạy lại tùy tiện hoặc xem là unit test. Tài khoản bàn giao hiện tại xem [lab note](../docs/LAB_NOTES.md).
+
+APK build bằng EAS từ `mobile/`, không qua `cloud:deploy-web`. [Android](../docs/ANDROID_TRIAL.md), [cloud](../docs/CLOUD_TRIAL.md), [local từng bước](../docs/LOCAL_DEVELOPMENT.md).

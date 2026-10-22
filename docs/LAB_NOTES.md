@@ -48,3 +48,12 @@ Ghi thay đổi quan trọng và kết quả quan sát, không lưu mật khẩu
 - APK EAS đã FINISHED: build cf99a628-de58-4e55-b93c-f48f13178af7. Đã tải bộ cài 100.235.444 byte; kiểm tra archive có AndroidManifest/DEX/bundle nhúng và đúng backend/project cloud. SHA-256 lưu trong ANDROID_TRIAL.md. Chưa cài/chạy trên điện thoại, không coi build thành công là nghiệm thu thiết bị. Dashboard dùng Git commit nền vì upload snapshot trước commit; đã ghi rõ nguồn trong hướng dẫn.
 - Mở lại Patient cloud thấy hồ sơ đã sửa và hai ca completed được giữ trên Firestore. Đã thử đăng nhập/tải danh sách quản trị rồi đăng xuất; phiên người báo vẫn tách riêng.
 - Rà nhật ký APK: Expo Doctor 19/20, còn cảnh báo 5 package có patch mới trong SDK 58; Gradle/đóng gói đã thành công. Đã ghi phiên bản cụ thể trong VERIFICATION_V0_4.md để nhóm theo dõi, chưa coi đã cập nhật hoặc đã thử thiết bị.
+
+## 2026-10-22 — Tổ chức repository để nhóm tiếp quản
+
+- Xác minh GitHub có `main` bản nền và `feat/bystander-two-step-report` chứa toàn bộ các vòng phát triển mới, không chỉ website người báo. PR #1 là nơi tích hợp; chưa merge hoặc đổi/xóa nhánh đang review.
+- Viết lại README gốc thành điểm bắt đầu: sản phẩm/giao diện, sơ đồ thư mục, luồng dữ liệu, link chạy thử và trình tự học/làm việc.
+- Thêm README trong mobile, web, functions và scripts: trách nhiệm, file cần sửa, cách chạy/build và phần cần phối hợp. Giữ đường dẫn module/cấu hình build hiện có.
+- Thêm REPO_MAP, LOCAL_DEVELOPMENT và mục lục docs phân loại thiết kế/vận hành/kiểm chứng/lịch sử. Cập nhật CONTRIBUTING về branch, review, file chung và phân biệt source–CI–deployment.
+- Ghi nhận ảnh người dùng: APK đã tải nhưng Play Protect chặn cài; chưa nghiệm thu Android thật. Việc tổ chức tài liệu không thay đổi APK/backend đang chạy.
+- Kiểm tra bộ tài liệu tiếp quản: 123 đường dẫn nội bộ và 16 lệnh root đều khớp file/script hiện có; không có lỗi đường dẫn hoặc mật khẩu thử trong các file chuẩn bị push. Vòng tổ chức này chỉ thay đổi 11 file Markdown.
