@@ -3,7 +3,7 @@
 import { getApp, getApps, initializeApp } from 'firebase/app';
 import { connectAuthEmulator, getAuth, signInAnonymously } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
-import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import { connectFunctionsEmulator, getFunctions, httpsCallable, httpsCallableFromURL, Functions, HttpsCallableOptions } from 'firebase/functions';
 
 function initializeClient(name = '[DEFAULT]') {
   if (typeof window === 'undefined') throw new Error('Chỉ khởi tạo Firebase trong trình duyệt.');
@@ -31,6 +31,13 @@ const scope = globalThis as typeof globalThis & { ehisFirebase?: ReturnType<type
 export function firebaseClient() { return scope.ehisFirebase ??= initializeClient(); }
 // Separate Auth identity so admin sign-in never replaces an anonymous reporter session.
 export function adminClient() { return scope.ehisAdminFirebase ??= initializeClient('ehis-admin'); }
+export function callable<Request = unknown, Response = unknown>(functions: Functions, name: string, options?: HttpsCallableOptions) {
+  const base = process.env.NEXT_PUBLIC_BACKEND_URL;
+  if (!base || process.env.NEXT_PUBLIC_USE_EMULATORS === 'true') return httpsCallable<Request, Response>(functions, name, options);
+  const url = new URL(base);
+  if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash) throw new Error('Invalid cloud backend URL');
+  return httpsCallableFromURL<Request, Response>(functions, `${base.replace(/\/+$/, '')}/${name}`, options);
+}
 let pendingSession: Promise<string> | undefined;
 export async function reporterSession(): Promise<string> {
   if (!pendingSession) pendingSession = (async () => {
@@ -44,6 +51,7 @@ export async function reporterSession(): Promise<string> {
 export function readableError(error: unknown): string {
   const code = (error as { code?: string })?.code;
   const messages: Record<string, string> = {
+    'functions/resource-exhausted': 'Bạn thao tác quá nhanh. Đợi khoảng một phút rồi thử lại.',
     'functions/not-found': 'Thẻ không tồn tại hoặc đã bị thu hồi.',
     'functions/already-exists': 'Thẻ này đang có yêu cầu hỗ trợ. Không tạo thêm ca trùng.',
     'functions/permission-denied': 'Phiên này không có quyền với yêu cầu. Hãy dùng trình duyệt đã gửi yêu cầu.',

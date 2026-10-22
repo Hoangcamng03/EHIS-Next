@@ -6,7 +6,7 @@ Patient đăng ký/đăng nhập → lưu hồ sơ → cấp cardId → QR → n
 
 Backend là nơi cấp quyền và đổi trạng thái; route hoặc vai trò chọn trên UI không cấp quyền. Người báo không đọc hồ sơ y tế. Firestore realtime không đánh thức iOS khi app bị đình chỉ; không mô tả nó thay thế push nền.
 
-## Collection và quyền (dữ liệu tổng hợp ở Emulator)
+## Collection và quyền (Emulator hoặc cloud riêng)
 
 | Collection | Nội dung | Quyền |
 |---|---|---|
@@ -27,13 +27,13 @@ Backend là nơi cấp quyền và đổi trạng thái; route hoặc vai trò c
 
 Rules cho owner-read users/patients/volunteers; người báo đọc projection trạng thái của chính phiên; TNV đã duyệt đọc alerts của chính mình. Mọi client-write bị chặn. cards/incidents/private/reportEvents đều không đọc trực tiếp. Admin SDK dùng trong callable phải kiểm tra quyền riêng.
 
-Prototype dispatch: đọc tối đa 100 TNV approved + isAvailable, vị trí không cũ quá 5 phút, không đang phụ trách ca khác; tính Haversine, chọn tối đa 5 người trong 5km. Lời mời nhận trong 10 phút. TNV tự bật/tắt sẵn sàng qua callable; vị trí được làm mới mỗi phút khi màn hình active. Có kết thúc ca bởi TNV phụ trách, hủy ca chưa nhận bởi người báo, dọn ca dispatching hết hạn khi tạo ca mới. Chưa có tìm kiếm địa lý tối ưu, dispatch nhiều đợt, scheduler hết hạn, rate-limit/App Check, push/GPS nền hoặc audit đầy đủ. Không coi giới hạn này là thiết kế điều phối production.
+Prototype dispatch: đọc tối đa 100 TNV approved + isAvailable, vị trí không cũ quá 5 phút, không đang phụ trách ca khác; tính Haversine, chọn tối đa 5 người trong 5km. Lời mời nhận trong 10 phút. TNV tự bật/tắt sẵn sàng qua callable; vị trí được làm mới mỗi phút khi màn hình active. Có kết thúc ca bởi TNV phụ trách, hủy ca chưa nhận bởi người báo, dọn ca dispatching hết hạn khi tạo ca mới. Đã có rate limit và worker hết hạn trên Vercel chạy hằng ngày; chưa có tìm kiếm địa lý tối ưu, dispatch nhiều đợt, App Check cưỡng chế, push/GPS nền hoặc audit đầy đủ. Không coi giới hạn này là thiết kế điều phối production.
 
 ## Môi trường
 
 - Local: `demo-ehis-next`, các port trong firebase.json. Dữ liệu giả.
 - Cloud mới: `ehis-next-20261021-hc03`. Không dùng project gốc, Rebuild hoặc trial.
-- Trước cloud database: chốt edition/region, Auth providers, Rules và ngân sách. Không provision database hay bật Blaze chỉ từ việc có project ID.
+- Cloud đã tạo: Standard/Singapore/free tier, Auth anonymous + email/password, Rules/indexes/Hosting đã deploy. Backend Express giữ HTTP callable wrapper trên Vercel Hobby; không deploy Firebase Functions/Blaze. Secrets chỉ ở runtime backend. Xem CLOUD_TRIAL.md.
 
 Leaflet hiển thị bản đồ, OSRM trả tuyến đường/ETA cho bản thử. GPS người báo cần được xác nhận; không mặc định là vị trí bệnh nhân. Không đưa khóa bí mật nhà cung cấp vào client.
 

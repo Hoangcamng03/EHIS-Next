@@ -1,6 +1,7 @@
+import { guardedCall as onCall } from './guards';
 import { createHash } from 'node:crypto';
 import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { HttpsError, onCall } from 'firebase-functions/v2/https';
+import { HttpsError } from 'firebase-functions/v2/https';
 import { distanceMeters, identifier, objectValue, parseBystanderReport, parseCreateIncident } from './reportValidation';
 
 const makeId = (value: string) => createHash('sha256').update(value).digest('hex').slice(0, 40);
@@ -15,7 +16,7 @@ function requiredUid(auth: { uid: string } | undefined): string {
 }
 function incidentInput(input: unknown) { return identifier(objectValue(input, ['incidentId']).incidentId); }
 
-export const createIncident = onCall(async request => {
+export const createIncident = onCall('createIncident', async request => {
   const uid = requiredUid(request.auth);
   const data = validate(parseCreateIncident, request.data);
   const db = getFirestore();
@@ -75,7 +76,7 @@ export const createIncident = onCall(async request => {
     const createdAt = Timestamp.fromMillis(now);
     const offerExpiresAt = Timestamp.fromMillis(now + 10 * 60 * 1000);
     if (expired) {
-      tx.update(db.doc(`incidents/${expired.id}`), { status: 'expired', closedAt: createdAt });
+      tx.update(db.doc(`incidents/${expired.id}`), { status: 'expired', closedAt: createdAt, purgeAfter: Timestamp.fromMillis(now + 86400000) });
       tx.update(db.doc(`reporters/${expired.reporterUid}/incidentStatuses/${expired.id}`), { status: 'expired' });
       tx.set(db.doc(`patients/${patient.id}/incidentStatuses/${expired.id}`), { status: 'expired' }, { merge: true });
       for (const recipient of expired.invitedVolunteerIds) tx.update(db.doc(`volunteers/${recipient}/alerts/${expired.id}`), { status: 'expired' });
@@ -97,7 +98,7 @@ export const createIncident = onCall(async request => {
   });
 });
 
-export const submitBystanderReport = onCall(async request => {
+export const submitBystanderReport = onCall('submitBystanderReport', async request => {
   const uid = requiredUid(request.auth);
   const data = validate(parseBystanderReport, request.data);
   const db = getFirestore();
@@ -129,7 +130,7 @@ export const submitBystanderReport = onCall(async request => {
   });
 });
 
-export const acceptIncident = onCall(async request => {
+export const acceptIncident = onCall('acceptIncident', async request => {
   const uid = requiredUid(request.auth);
   const id = validate(incidentInput, request.data);
   const db = getFirestore();
@@ -155,7 +156,7 @@ export const acceptIncident = onCall(async request => {
   });
 });
 
-export const setVolunteerAvailability = onCall(async request => {
+export const setVolunteerAvailability = onCall('setVolunteerAvailability', async request => {
   const uid = requiredUid(request.auth);
   const data = validate(input => {
     const value = objectValue(input, ['available', 'location']);
@@ -175,7 +176,7 @@ export const setVolunteerAvailability = onCall(async request => {
   });
 });
 
-export const finishIncident = onCall(async request => {
+export const finishIncident = onCall('finishIncident', async request => {
   const uid = requiredUid(request.auth);
   const data = validate(input => {
     const value = objectValue(input, ['incidentId', 'outcome']);
@@ -199,7 +200,7 @@ export const finishIncident = onCall(async request => {
     }
     const cardRef = db.doc(`cards/${value.cardId}`);
     const card = await tx.get(cardRef);
-    tx.update(ref, { status: data.outcome, closedAt: FieldValue.serverTimestamp(), closedBy: uid });
+    tx.update(ref, { status: data.outcome, closedAt: FieldValue.serverTimestamp(), purgeAfter: Timestamp.fromMillis(Date.now() + 86400000), closedBy: uid });
     tx.update(db.doc(`reporters/${value.reporterUid}/incidentStatuses/${data.incidentId}`), { status: data.outcome });
     tx.set(db.doc(`patients/${value.patientId}/incidentStatuses/${data.incidentId}`), { status: data.outcome }, { merge: true });
     if (card.data()?.activeIncidentId === data.incidentId) tx.update(cardRef, { activeIncidentId: null });
@@ -209,7 +210,7 @@ export const finishIncident = onCall(async request => {
   });
 });
 
-export const getVolunteerIncidentDetails = onCall(async request => {
+export const getVolunteerIncidentDetails = onCall('getVolunteerIncidentDetails', async request => {
   const uid = requiredUid(request.auth);
   const id = validate(incidentInput, request.data);
   const db = getFirestore();

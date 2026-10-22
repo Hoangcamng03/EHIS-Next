@@ -1,6 +1,6 @@
 {
   "name": "ehis-next",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "description": "Independent EHIS capstone starter for a four-person team",
   "scripts": {
@@ -9,6 +9,11 @@
     "trial:seed": "node scripts/seed-report-demo.cjs 10.875 106.8",
     "trial:prepare": "node scripts/prepare-complete-demo.cjs",
     "trial:snapshot": "node scripts/firebase-local.cjs snapshot",
+    "cloud:configure": "node scripts/cloud.cjs configure",
+    "cloud:build": "node scripts/cloud.cjs build",
+    "cloud:probe": "node scripts/cloud.cjs probe",
+    "cloud:deploy-web": "node scripts/cloud.cjs deploy-web",
+    "cloud:status": "node scripts/cloud-access.cjs status",
     "mobile:web": "npm --prefix mobile run web -- --port 8082",
     "mobile": "npm --prefix mobile start",
     "web": "npm --prefix web run dev -- --port 3100",

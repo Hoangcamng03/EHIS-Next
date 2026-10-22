@@ -1,5 +1,7 @@
+import { Text } from './AppText';
+import { Button } from './ActionButton';
 import { useEffect, useRef, useState } from 'react';
-import { Button, Text, View } from 'react-native';
+import { View } from 'react-native';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { firebaseClient, isLocalEmulator } from '../lib/firebase';
 import { currentLocation } from './VolunteerAvailability';

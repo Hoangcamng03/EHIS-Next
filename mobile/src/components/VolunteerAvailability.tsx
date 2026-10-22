@@ -1,8 +1,10 @@
+import { Text } from './AppText';
+import { Button } from './ActionButton';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AppState, Button, Text, TextInput, View } from 'react-native';
+import { AppState, TextInput, View } from 'react-native';
 import * as Location from 'expo-location';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { firebaseClient, isLocalEmulator, readableError, updateAvailability } from '../lib/firebase';
+import { firebaseClient, isTrialMode, readableError, updateAvailability } from '../lib/firebase';
 import { LocationMap } from './LocationMap';
 import { MapPoint, parsePoint } from '../lib/map';
 
@@ -37,7 +39,7 @@ export function VolunteerAvailability({ uid, paused = false }: { uid: string; pa
   }, err => { setVerifiedFromServer(false); setError(readableError(err)); }), [uid]);
   const refresh = useCallback(async (method: 'gps' | 'demo', askPermission: boolean) => {
     const startedAt = epoch.current;
-    const location = method === 'demo' && isLocalEmulator ? demoPoint.current : await currentLocation(askPermission);
+    const location = method === 'demo' && isTrialMode ? demoPoint.current : await currentLocation(askPermission);
     if (startedAt !== epoch.current || firebaseClient().auth.currentUser?.uid !== uid) return;
     await updateAvailability({ available: true, location });
   }, [uid]);
@@ -77,7 +79,7 @@ export function VolunteerAvailability({ uid, paused = false }: { uid: string; pa
     <Text style={{ fontWeight: '700' }}>{!verifiedFromServer ? 'Đang kiểm tra quyền TNV với máy chủ…' : !approved ? 'Tài khoản chưa được duyệt' : volunteer?.activeIncidentId ? 'Đang phụ trách một ca' : volunteer?.isAvailable ? 'Đã bật sẵn sàng' : 'Chưa bật sẵn sàng'}</Text>
     <Text>Bật sẵn sàng để gửi vị trí. Khi màn hình này đang mở, vị trí được làm mới mỗi phút; vị trí cũ quá 5 phút sẽ không được chọn cho ca mới.</Text>
     <Button title={busy ? 'Đang cập nhật…' : 'Bật sẵn sàng bằng GPS'} onPress={() => enable('gps')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} />
-    {isLocalEmulator && <><Text>THỬ NGHIỆM LOCAL: nhập vị trí giả của TNV. Mặc định ở trung tâm TP.HCM. Bấm bật sẵn sàng để áp dụng tọa độ; không dùng cho ca thật.</Text>
+    {isTrialMode && <><Text>BUỔI CHẠY THỬ: nhập vị trí giả của TNV. Mặc định ở trung tâm TP.HCM. Bấm bật sẵn sàng để áp dụng tọa độ; không dùng cho ca thật.</Text>
       <TextInput accessibilityLabel="Vĩ độ TNV giả" value={latitude} onChangeText={setLatitude} editable={!busy && !volunteer?.activeIncidentId} style={{ backgroundColor: 'white', borderRadius: 8, padding: 12 }} />
       <TextInput accessibilityLabel="Kinh độ TNV giả" value={longitude} onChangeText={setLongitude} editable={!busy && !volunteer?.activeIncidentId} style={{ backgroundColor: 'white', borderRadius: 8, padding: 12 }} />
       <Button title="Bật sẵn sàng bằng vị trí giả" onPress={() => enable('demo')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} /></>}

@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { browserSessionPersistence, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
-import { httpsCallable } from 'firebase/functions';
-import { adminClient } from '@/lib/firebase-client';
+
+import { callable as httpsCallable, adminClient } from '@/lib/firebase-client';
 
 type Application = { uid: string; fullName: string; phone: string; experience: string };
 export function AdminDashboard() {

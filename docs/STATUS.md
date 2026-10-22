@@ -1,14 +1,14 @@
-# Trạng thái bản thử v0.3
+# Trạng thái v0.4 — 2026-10-22
 
-- Một app có đăng ký/đăng nhập chung, hai khu vực Patient/TNV và nút chuyển khu vực. PC local dùng phiên riêng từng tab; mobile dùng AsyncStorage. Quản trị web có Auth riêng với người báo.
-- Patient: lưu hồ sơ tối thiểu (tên, dị ứng, phone khẩn cấp), phát hành QR qua backend, tùy chọn chia sẻ hồ sơ, thu hồi/cấp lại, lịch sử realtime và hủy ca nhầm chưa được nhận.
-- TNV: đăng ký, chờ duyệt, bật/tắt sẵn sàng, nhận ban đầu/bổ sung, nhận ca, xem thông tin theo consent, bản đồ/tuyến trong EHIS, arrived và completed. Rời khu vực TNV tắt sẵn sàng.
-- Quản trị: danh sách đơn pending giới hạn 50, duyệt/từ chối bằng API kiểm tra custom claim. Không có tự cấp admin.
-- Người báo: QR → gửi trước → ack → bảng hỏi, phone tùy chọn, cập nhật cùng ca. Thẻ thu hồi bị từ chối; không có TNV được báo trung thực.
-- Backend có 16 Functions. Mọi client-write vẫn bị chặn. Rules chỉ cho owner đọc hồ sơ, card pointer, application, history/status và approved owner đọc alerts.
-- Emulator khởi động Standard edition trong log, import snapshot nếu có và export-on-exit. Không provision database cloud hoặc bật billing.
-- Các kiểm thử starter + reports + lifecycle đã đạt trên Emulator; lint/typecheck/validation/navigation đã đạt trong vòng phát triển. Kết quả build và GUI được ghi ở bản bàn giao sau kiểm tra cuối. Ảnh local không phải bằng chứng điện thoại thật.
-- Repo/Firebase dự án mới vẫn tách khỏi dự án cũ. Android/iOS package `com.hoangcamng.ehisnext`; chưa EAS project/signing, APK/IPA hoặc triển khai cloud.
-- Chưa push/GPS nền, dẫn đường liên tục/giọng nói, NFC, scheduler/multi-wave, App Check/throttle, retention hoặc phát hành người thật. Advisory upstream còn tồn tại; xem SECURITY_REVIEW.json.
+- Đã tạo Firestore thật Standard tại Singapore trong project riêng ehis-next-20261021-hc03. Billing được xác nhận false; không dùng dữ liệu dự án cũ.
+- Auth email/password và anonymous đã bật; Rules và composite index đã deploy. Client không được ghi trực tiếp; backend xác thực token và quyền trên từng API.
+- Web: https://ehis-next-20261021-hc03.web.app; app Patient/TNV: https://ehis-next-20261021-hc03-app.web.app. Hai bản đã phát hành lên Hosting.
+- Backend Node/Express trên Vercel Hobby: https://ehis-next-api-hc03.vercel.app/api. Service account runtime chỉ có Datastore User; khóa chỉ nằm trong secret backend.
+- Luồng cloud tự động đã đạt: lưu hồ sơ → cấp QR → đăng ký/duyệt TNV → sẵn sàng → gửi trước → bổ sung không phone → nhận → đến nơi → kết thúc → từ chối đọc thông tin riêng sau đóng.
+- UI có nút tối thiểu 56px, chữ nội dung lớn hơn, hiện/ẩn và quên mật khẩu; xác nhận trước hủy/kết thúc. Chế độ chạy thử được ghi rõ và cho dùng tọa độ giả; không đưa hồ sơ thật vào bài thử.
+- Rate limit theo phút: 120/UID, tạo yêu cầu 30/UID, 600/IP băm. Chưa phải chống bot toàn diện; App Check chưa cưỡng chế.
+- Cron Vercel hằng ngày xử lý hết hạn và dọn dữ liệu riêng đủ 24h. Thực tế có thể 24–48h hoặc lâu hơn khi lỗi/quota/backlog; không phải SLA.
+- EAS project ehiss-team/ehis-next đã tạo và liên kết; preview dùng backend cloud, APK đang được build. Chưa xác nhận APK cài/chạy trên thiết bị; chưa IPA/TestFlight.
+- Chưa có push/GPS nền, dẫn đường liên tục/giọng nói, NFC, tìm TNV nhiều đợt hoặc vận hành cấp cứu thật. Giữ màn TNV mở trong thử nghiệm.
 
-Luồng, cách chạy và phần cản APK: [COMPLETE_FLOW.md](COMPLETE_FLOW.md). Bản đồ: [NAVIGATION.md](NAVIGATION.md). API: [API_CONTRACT.md](API_CONTRACT.md).
+Hướng dẫn: [CLOUD_TRIAL.md](CLOUD_TRIAL.md). Quy trình thay đổi: [LAB_NOTES.md](LAB_NOTES.md). Bảo mật: [SECURITY_REVIEW.json](SECURITY_REVIEW.json).

@@ -1,6 +1,7 @@
+import { guardedCall as onCall } from './guards';
 import { randomBytes } from 'node:crypto';
-import { FieldValue, getFirestore } from 'firebase-admin/firestore';
-import { HttpsError, onCall } from 'firebase-functions/v2/https';
+import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
+import { HttpsError } from 'firebase-functions/v2/https';
 import { identifier, objectValue } from './reportValidation';
 
 function registered(auth: { uid: string; token: { firebase?: { sign_in_provider?: string } } } | undefined) {
@@ -13,7 +14,7 @@ function shortText(value: unknown, maximum: number) {
   return value.trim();
 }
 
-export const issuePatientCard = onCall(async request => {
+export const issuePatientCard = onCall('issuePatientCard', async request => {
   const uid = registered(request.auth);
   const shareProfile = input(() => {
     const data = objectValue(request.data, ['shareProfile']);
@@ -41,7 +42,7 @@ export const issuePatientCard = onCall(async request => {
   });
 });
 
-export const revokePatientCard = onCall(async request => {
+export const revokePatientCard = onCall('revokePatientCard', async request => {
   const uid = registered(request.auth);
   const cardId = input(() => identifier(objectValue(request.data, ['cardId']).cardId));
   const db = getFirestore();
@@ -60,7 +61,7 @@ export const revokePatientCard = onCall(async request => {
   });
 });
 
-export const applyVolunteer = onCall(async request => {
+export const applyVolunteer = onCall('applyVolunteer', async request => {
   const uid = registered(request.auth);
   const data = input(() => {
     const value = objectValue(request.data, ['fullName', 'phone', 'experience']);
@@ -80,7 +81,7 @@ export const applyVolunteer = onCall(async request => {
   });
 });
 
-export const listVolunteerApplications = onCall(async request => {
+export const listVolunteerApplications = onCall('listVolunteerApplications', async request => {
   registered(request.auth);
   if (request.auth?.token.admin !== true) throw new HttpsError('permission-denied', 'Cần quyền quản trị.');
   input(() => objectValue(request.data, []));
@@ -88,7 +89,7 @@ export const listVolunteerApplications = onCall(async request => {
   return { applications: applications.docs.map(doc => ({ uid: doc.id, fullName: doc.data().fullName, phone: doc.data().phone, experience: doc.data().experience })) };
 });
 
-export const reviewVolunteerApplication = onCall(async request => {
+export const reviewVolunteerApplication = onCall('reviewVolunteerApplication', async request => {
   const adminUid = registered(request.auth);
   if (request.auth?.token.admin !== true) throw new HttpsError('permission-denied', 'Cần quyền quản trị.');
   const data = input(() => {
@@ -110,7 +111,7 @@ export const reviewVolunteerApplication = onCall(async request => {
   });
 });
 
-export const markIncidentArrived = onCall(async request => {
+export const markIncidentArrived = onCall('markIncidentArrived', async request => {
   const uid = registered(request.auth);
   const id = input(() => identifier(objectValue(request.data, ['incidentId']).incidentId));
   const db = getFirestore();
@@ -128,7 +129,7 @@ export const markIncidentArrived = onCall(async request => {
   });
 });
 
-export const cancelPatientIncident = onCall(async request => {
+export const cancelPatientIncident = onCall('cancelPatientIncident', async request => {
   const uid = registered(request.auth);
   const id = input(() => identifier(objectValue(request.data, ['incidentId']).incidentId));
   const db = getFirestore();
@@ -138,7 +139,7 @@ export const cancelPatientIncident = onCall(async request => {
     if (value.status === 'cancelled') return { status: 'cancelled' };
     if (value.status !== 'dispatching' || value.acceptedBy) throw new HttpsError('failed-precondition', 'Chỉ hủy trước khi TNV nhận ca.');
     const cardRef = db.doc(`cards/${value.cardId}`), card = await tx.get(cardRef);
-    tx.update(ref, { status: 'cancelled', closedBy: uid, closedAt: FieldValue.serverTimestamp() });
+    tx.update(ref, { status: 'cancelled', closedBy: uid, closedAt: FieldValue.serverTimestamp(), purgeAfter: Timestamp.fromMillis(Date.now() + 86400000) });
     tx.update(db.doc(`reporters/${value.reporterUid}/incidentStatuses/${id}`), { status: 'cancelled' });
     tx.set(db.doc(`patients/${uid}/incidentStatuses/${id}`), { status: 'cancelled' }, { merge: true });
     if (card.data()?.activeIncidentId === id) tx.update(cardRef, { activeIncidentId: null });

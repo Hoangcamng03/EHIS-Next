@@ -1,12 +1,15 @@
+import { Text } from '../components/AppText';
+import { Button } from '../components/ActionButton';
 import { useEffect, useState } from 'react';
-import { Button, Linking, Platform, ScrollView, Switch, Text, TextInput, View } from 'react-native';
+import { Linking, Platform, ScrollView, Switch, TextInput, View } from 'react-native';
 import { Link } from 'expo-router';
 import { collection, doc, getDoc, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { httpsCallable } from 'firebase/functions';
+
 import QRCode from 'react-native-qrcode-svg';
 import { AuthGate, AccountBar } from '../components/Session';
-import { firebaseClient, isLocalEmulator, readableError } from '../lib/firebase';
+import { callable as httpsCallable, firebaseClient, isLocalEmulator, isTrialMode, readableError } from '../lib/firebase';
 import { ui, statusLabel } from '../lib/ui';
+import { ConfirmAction } from '../components/ConfirmAction';
 
 type Card = { cardId: string; active: boolean; shareProfile: boolean };
 type History = { id: string; status: string; createdAt?: { toDate(): Date }; invitedCount?: number };
@@ -21,7 +24,7 @@ function PatientDashboard({ uid }: { uid: string }) {
   const base = configuredUrl || (isLocalEmulator && Platform.OS === 'web' ? 'http://localhost:3100' : '');
   let validBase = false;
   try { const url = new URL(base); validBase = !url.username && !url.password && !url.search && !url.hash && (url.protocol === 'https:' || (isLocalEmulator && url.protocol === 'http:')); } catch { /* Display setup message instead of a broken QR. */ }
-  const cardUrl = validBase && card?.active ? `${base.replace(/\/+$/, '')}/c/${card.cardId}` : '';
+  const cardUrl = validBase && card?.active ? `${base.replace(/\/+$/, '')}/card?id=${encodeURIComponent(card.cardId)}` : '';
   useEffect(() => {
     let cancelled = false;
     getDoc(doc(firebaseClient().db, `patients/${uid}`)).then(snapshot => {
@@ -64,6 +67,7 @@ function PatientDashboard({ uid }: { uid: string }) {
     <Link href="/" style={ui.link}>← Chuyển khu vực</Link><AccountBar />
     {!connected && <Text accessibilityRole="alert" style={ui.error}>Đang chờ máy chủ. Thẻ và trạng thái lưu trên thiết bị có thể đã cũ.</Text>}
     {isLocalEmulator && <View style={ui.notice}><Text>Bản thử nghiệm · chỉ nhập hồ sơ giả. QR localhost chỉ dùng trên máy tính này; quét bằng điện thoại cần URL HTTPS truy cập được.</Text></View>}
+    {isTrialMode && !isLocalEmulator && <View style={ui.notice}><Text>Thẻ dùng trong buổi chạy thử. Chỉ nhập hồ sơ giả; QR này mở website trực tuyến trên thiết bị khác.</Text></View>}
     <View style={ui.card}><Text style={ui.heading}>1. Hồ sơ sức khỏe</Text>
       <Text style={ui.body}>Thông tin tự khai để hỗ trợ liên hệ, không phải hồ sơ đã được nhân viên y tế xác minh.</Text>
       <Text>Họ và tên</Text><TextInput accessibilityLabel="Họ tên bệnh nhân" value={fullName} onChangeText={setFullName} maxLength={100} style={ui.input} editable={loaded && !busy} />
@@ -87,7 +91,7 @@ function PatientDashboard({ uid }: { uid: string }) {
     {!!error && <Text accessibilityRole="alert" style={ui.error}>{error}</Text>}{!!message && <Text accessibilityRole="alert" style={ui.success}>{message}</Text>}
     <View style={ui.card}><Text style={ui.heading}>3. Ca hỗ trợ và lịch sử</Text>
       {!history.length && <Text style={ui.body}>Chưa có ca từ thẻ của bạn. Khi người báo gửi yêu cầu, trạng thái sẽ xuất hiện ở đây.</Text>}
-      {history.map(item => <View key={item.id} style={{ gap: 6, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#dce8e0' }}><Text style={{ fontWeight: '700' }}>{statusLabel[item.status] || item.status}</Text><Text style={ui.body}>Ca {item.id.slice(0, 10)} · {item.createdAt?.toDate().toLocaleString('vi-VN') || ''}</Text>{item.status === 'dispatching' && <Text style={ui.body}>{item.invitedCount ? 'Đã gửi lời mời; chưa đồng nghĩa đã có người nhận.' : 'Chưa có TNV phù hợp. Không chờ EHIS nếu cần dịch vụ cấp cứu.'}</Text>}{item.status === 'dispatching' && <Button title="Hủy yêu cầu nhầm trước khi TNV nhận" disabled={busy || !connected} onPress={() => cancel(item.id)} color="#a12626" />}</View>)}
+      {history.map(item => <View key={item.id} style={{ gap: 6, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#dce8e0' }}><Text style={{ fontWeight: '700' }}>{statusLabel[item.status] || item.status}</Text><Text style={ui.body}>Ca {item.id.slice(0, 10)} · {item.createdAt?.toDate().toLocaleString('vi-VN') || ''}</Text>{item.status === 'dispatching' && <Text style={ui.body}>{item.invitedCount ? 'Đã gửi lời mời; chưa đồng nghĩa đã có người nhận.' : 'Chưa có TNV phù hợp. Không chờ EHIS nếu cần dịch vụ cấp cứu.'}</Text>}{item.status === 'dispatching' && <ConfirmAction title="Hủy yêu cầu nhầm trước khi TNV nhận" explanation="Bạn muốn hủy yêu cầu này? Chỉ hủy nếu đã gửi nhầm hoặc không còn cần hỗ trợ qua EHIS." disabled={busy || !connected} onConfirm={() => cancel(item.id)} />}</View>)}
     </View>
   </ScrollView>;
 }

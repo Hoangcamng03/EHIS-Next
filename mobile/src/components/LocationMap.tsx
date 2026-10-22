@@ -1,5 +1,7 @@
+import { Text } from './AppText';
+import { Button } from './ActionButton';
 import { useState } from 'react';
-import { Button, Linking, Text, View } from 'react-native';
+import { Linking, View } from 'react-native';
 import { mapLinks, MapPoint } from '../lib/map';
 
 export function LocationMap({ point, title }: { point: MapPoint; title: string }) {

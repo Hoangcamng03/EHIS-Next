@@ -1,3 +1,5 @@
+> Hướng dẫn PC local v0.3 được giữ để tham khảo. Bản cloud v0.4 mới nhất: [CLOUD_TRIAL.md](CLOUD_TRIAL.md), [STATUS.md](STATUS.md).
+
 # Chạy thử trên máy tính trước, Android sau
 
 **Bản v0.3: bắt đầu với [COMPLETE_FLOW.md](COMPLETE_FLOW.md)** để thử đăng ký Patient, QR thật, ứng tuyển/duyệt TNV và toàn vòng đời ca. Checklist dưới đây vẫn hữu ích cho các tình huống lỗi. `trial:prepare` tạo tài khoản giả cho luồng mới; `trial:seed` là fixture nhanh của luồng cũ. Snapshot dữ liệu bằng `npm run trial:snapshot` trước khi tắt Emulator.

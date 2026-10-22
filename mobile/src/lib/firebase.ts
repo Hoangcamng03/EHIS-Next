@@ -3,10 +3,11 @@ import { getApp, getApps, initializeApp } from 'firebase/app';
 import * as FirebaseAuth from 'firebase/auth';
 import { connectAuthEmulator, initializeAuth, Persistence } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
-import { connectFunctionsEmulator, getFunctions, httpsCallable } from 'firebase/functions';
+import { connectFunctionsEmulator, getFunctions, httpsCallable, httpsCallableFromURL, Functions, HttpsCallableOptions } from 'firebase/functions';
 import { Platform } from 'react-native';
 
 export const isLocalEmulator = process.env.EXPO_PUBLIC_USE_EMULATORS === 'true' && process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID === 'demo-ehis-next';
+export const isTrialMode = isLocalEmulator || process.env.EXPO_PUBLIC_TRIAL_MODE === 'true';
 
 function initializeClient() {
   const projectId = process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID;
@@ -34,18 +35,26 @@ function initializeClient() {
 }
 const scope = globalThis as typeof globalThis & { ehisMobileFirebase?: ReturnType<typeof initializeClient> };
 export function firebaseClient() { return scope.ehisMobileFirebase ??= initializeClient(); }
+export function callable<Request = unknown, Response = unknown>(functions: Functions, name: string, options?: HttpsCallableOptions) {
+  const base = process.env.EXPO_PUBLIC_BACKEND_URL;
+  if (!base || isLocalEmulator) return httpsCallable<Request, Response>(functions, name, options);
+  const url = new URL(base);
+  if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash) throw new Error('Invalid cloud backend URL');
+  return httpsCallableFromURL<Request, Response>(functions, `${base.replace(/\/+$/, '')}/${name}`, options);
+}
 let availabilityQueue: Promise<unknown> = Promise.resolve();
 export function updateAvailability(data: { available: boolean; location?: { latitude: number; longitude: number } }, timeout = 12000) {
   const uid = firebaseClient().auth.currentUser?.uid;
   const operation = availabilityQueue.catch(() => undefined).then(() => {
     if (!uid || firebaseClient().auth.currentUser?.uid !== uid) throw new Error('Session changed');
-    return httpsCallable(firebaseClient().functions, 'setVolunteerAvailability', { timeout })(data);
+    return callable(firebaseClient().functions, 'setVolunteerAvailability', { timeout })(data);
   });
   availabilityQueue = operation;
   return operation;
 }
 export function readableError(error: unknown) {
   const code = (error as { code?: string })?.code;
+  if (code === 'functions/resource-exhausted') return 'Bạn thao tác quá nhanh. Đợi khoảng một phút rồi thử lại.';
   if (code === 'functions/failed-precondition') return 'Trạng thái hiện tại chưa cho phép thao tác. Kiểm tra hồ sơ, thẻ hoặc ca đang hoạt động rồi thử lại.';
   if (code === 'functions/invalid-argument') return 'Thông tin chưa hợp lệ. Kiểm tra tên, số điện thoại và các trường đã nhập.';
   if (code === 'auth/email-already-in-use') return 'Email đã có tài khoản. Chọn đăng nhập.';

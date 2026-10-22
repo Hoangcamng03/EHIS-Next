@@ -10,6 +10,6 @@ async function main() {
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
   if (!ready) throw new Error('Functions chưa sẵn sàng sau 90 giây. Kiểm tra log discovery, Java và port trước khi chạy lại.');
-  for (const script of ['scripts/smoke-starter.cjs', 'scripts/smoke-reports.cjs', 'scripts/smoke-lifecycle.cjs']) execFileSync(process.execPath, [script], { stdio: 'inherit' });
+  for (const script of ['scripts/smoke-starter.cjs', 'scripts/smoke-reports.cjs', 'scripts/smoke-lifecycle.cjs', 'scripts/smoke-maintenance.cjs', 'scripts/smoke-portable.cjs']) execFileSync(process.execPath, [script], { stdio: 'inherit' });
 }
 main().catch(error => { console.error(error.message); process.exitCode = 1; });

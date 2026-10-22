@@ -1,15 +1,18 @@
+import { Text } from '../components/AppText';
+import { Button } from '../components/ActionButton';
 import { useEffect, useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { User } from 'firebase/auth';
 import { collection, doc, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { httpsCallable } from 'firebase/functions';
-import { firebaseClient, readableError, updateAvailability } from '../lib/firebase';
+
+import { callable as httpsCallable, firebaseClient, readableError, updateAvailability } from '../lib/firebase';
 import { VolunteerAvailability } from '../components/VolunteerAvailability';
 import { IncidentNavigation } from '../components/IncidentNavigation';
 import { AuthGate, AccountBar } from '../components/Session';
 import { VolunteerApplication } from '../components/VolunteerApplication';
 import { Link, usePathname } from 'expo-router';
 import { statusLabel } from '../lib/ui';
+import { ConfirmAction } from '../components/ConfirmAction';
 
 type Answers = { responsiveness: string; breathing: string; bleeding: string };
 type Alert = { incidentId: string; status: string; reportRevision: number; distanceMeters: number; answers: Answers | null; offerExpiresAt?: { toMillis(): number } };
@@ -64,7 +67,7 @@ function IncidentAlert({ alert, connected, now }: { alert: Alert; connected: boo
       {details?.location && <IncidentNavigation destination={details.location} connected={connected} />}
       {alert.status === 'accepted' && <Button title="Xác nhận đã đến nơi" disabled={busy || !connected} onPress={arrive} />}
       <Text>Chỉ kết thúc khi phiên hỗ trợ đã xong. Sau đó bạn có thể bật sẵn sàng để thử ca tiếp theo.</Text>
-      <Button title={busy ? 'Đang kết thúc…' : 'Kết thúc phiên hỗ trợ'} disabled={busy || !connected} onPress={finish} />
+      <ConfirmAction title="Kết thúc phiên hỗ trợ" explanation="Bạn xác nhận phiên hỗ trợ đã xong? Sau bước này, thông tin riêng và bản đồ của ca sẽ đóng." disabled={busy || !connected} onConfirm={finish} />
     </View>}
     {!!error && !terminal && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
   </View>;
@@ -104,7 +107,7 @@ function VolunteerDashboard({ user }: { user: User }) {
 const styles = StyleSheet.create({
   page: { padding: 24, gap: 18, backgroundColor: '#f4f8f6', flexGrow: 1 },
   eyebrow: { color: '#526f67', fontSize: 12, fontWeight: '700' }, title: { color: '#123c37', fontSize: 38, fontWeight: '700' },
-  intro: { lineHeight: 24, color: '#526f67' }, card: { backgroundColor: '#fff', padding: 20, borderRadius: 16, gap: 14, borderWidth: 1, borderColor: '#dce8e0' },
+  intro: { fontSize: 17, lineHeight: 26, color: '#36574e' }, card: { backgroundColor: '#fff', padding: 20, borderRadius: 16, gap: 14, borderWidth: 1, borderColor: '#dce8e0' },
   cardTitle: { fontSize: 19, fontWeight: '700', color: '#123c37' }, input: { borderWidth: 1, borderColor: '#b8cbc1', borderRadius: 10, padding: 14 },
-  revision: { color: '#096951', fontWeight: '700' }, answers: { gap: 8 }, error: { color: '#9f2424' }, note: { color: '#526f67', fontSize: 12, lineHeight: 20 },
+  revision: { color: '#096951', fontWeight: '700' }, answers: { gap: 8 }, error: { color: '#9f2424', fontSize: 17 }, note: { color: '#405e54', fontSize: 16, lineHeight: 25 },
 });

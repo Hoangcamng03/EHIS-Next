@@ -11,7 +11,7 @@ Bản khởi đầu **viết mới** cho nhóm Capstone 4 người: một app mo
 - Project Emulator: `demo-ehis-next` — dữ liệu local không tự xuất hiện trên cloud.
 - `.env.example` dùng demo local; `.env.cloud.example` là mẫu riêng cho cloud. Không trộn project ID của hai môi trường.
 
-## Bản thử v0.3 có gì?
+## Bản thử v0.4 có gì?
 
 - Đăng ký/đăng nhập chung; chọn Patient hoặc TNV trong một app, không tự cấp quyền khi chọn vai trò.
 - Patient lưu hồ sơ tối thiểu, phát hành QR, chọn quyền chia sẻ, thu hồi/cấp lại, xem trạng thái và lịch sử; hủy ca nhầm trước khi được nhận.
@@ -20,9 +20,11 @@ Bản khởi đầu **viết mới** cho nhóm Capstone 4 người: một app mo
 - Rules chặn mọi client write; các giao dịch và quyền riêng tư được kiểm tra ở backend. Các bộ kiểm thử starter, reports, lifecycle và navigation.
 - Emulator lưu/khôi phục snapshot. PC local tách phiên theo tab, nên thử Patient và TNV đồng thời được.
 
-**Bắt đầu tại [luồng hoàn chỉnh và cách chạy](docs/COMPLETE_FLOW.md).** Bộ tài khoản giả gồm quản trị tạo bằng `npm run trial:prepare`, lưu trong `.local/complete-demo.json`. Snapshot trước khi tắt cưỡng bức bằng `npm run trial:snapshot`.
+**Dùng bản cloud tại https://ehis-next-20261021-hc03-app.web.app; web người báo/quản trị tại https://ehis-next-20261021-hc03.web.app.** Firestore Standard Singapore và backend https://ehis-next-api-hc03.vercel.app/api đã được triển khai, kiểm tra bằng dữ liệu giả; Firebase billing vẫn tắt. Xem [hướng dẫn cloud](docs/CLOUD_TRIAL.md), [lab notes](docs/LAB_NOTES.md).
 
-Đây là bản chạy thử có kiểm soát trên PC, chưa phải bản đã phát hành. Chưa có APK/IPA/signing hoặc cloud Functions/Hosting được deploy, push/GPS nền, dẫn đường liên tục, NFC trên thiết bị, App Check/throttle hoặc retention production. Không đưa dữ liệu thật vào bản này. [Trạng thái](docs/STATUS.md), [bản đồ](docs/NAVIGATION.md), [review bảo mật](docs/SECURITY_REVIEW.json).
+Luồng PC local trước đây: [COMPLETE_FLOW.md](docs/COMPLETE_FLOW.md). Bộ tài khoản giả gồm quản trị tạo bằng `npm run trial:prepare`, lưu trong `.local/complete-demo.json`. Snapshot trước khi tắt cưỡng bức bằng `npm run trial:snapshot`.
+
+Đây là bản cloud chạy thử có kiểm soát bằng dữ liệu giả. Đã có giới hạn thao tác và tác vụ bảo trì hằng ngày; chưa bật App Check, chưa có push/GPS nền, dẫn đường liên tục, NFC hoặc kiểm chứng trên thiết bị thật. APK theo dõi tại dự án Expo ehiss-team/ehis-next; trạng thái cụ thể ở STATUS.md. Chưa có IPA. [Trạng thái](docs/STATUS.md), [bản đồ](docs/NAVIGATION.md), [review bảo mật](docs/SECURITY_REVIEW.json).
 
 ## Cài thư viện (mỗi máy)
 
@@ -89,9 +91,9 @@ npx eas-cli@latest init
 npx eas-cli@latest build --platform android --profile preview
 ```
 
-`preview` xuất APK có code đóng gói; `development` dùng để lập trình; `production` xuất AAB Android. Chưa có EAS project hoặc signing trong lần khởi tạo repo này. Nếu dùng biến môi trường, cấu hình cả môi trường EAS preview, không chỉ `.env.local` trên máy.
+`preview` xuất APK có code đóng gói; `development` dùng để lập trình; `production` xuất AAB Android. EAS project của nhóm: `ehiss-team/ehis-next`, ID `eb11cc2d-e7b9-46ed-8794-0eae2b3495ed`; đã liên kết và tạo keystore Android trên EAS. Nếu dùng biến môi trường, cấu hình cả môi trường EAS preview, không chỉ `.env.local` trên máy.
 
-Backend/web phải chạy cloud thì APK mới dùng toàn luồng khi laptop tắt. Firebase Functions cần Blaze để deploy; không bật thanh toán tự động. iOS cần cấu hình signing riêng; không cài APK trên iPhone.
+Backend/web hiện chạy cloud độc lập laptop: Firebase Spark (Auth/Firestore/Hosting) + Node.js trên Vercel Hobby. Không deploy Firebase Functions và không bật Blaze. Cấu hình preview đã đưa lên EAS; khi làm build mới cần kiểm tra đúng môi trường preview. iOS cần cấu hình signing riêng; không cài APK trên iPhone.
 
 ## Làm việc nhóm
 

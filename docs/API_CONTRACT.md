@@ -1,4 +1,4 @@
-# API contract v0.3
+# API contract v0.4
 
 Chỉ các API ở mục Đã viết tồn tại. Không gọi API ở backlog như thể đã có.
 
@@ -8,7 +8,7 @@ Region: `asia-southeast1`.
 
 ### health — HTTP GET
 
-Không Auth. Trả `{ service: "ehis-next", status: "ok", version: "0.3.0" }`. Không trả credentials hoặc dữ liệu người dùng.
+Không Auth. Trả `{ service: "ehis-next", status: "ok", version: "0.4.0", projectId }`. Không trả credentials hoặc dữ liệu người dùng.
 
 ### getMyAccess — callable
 
@@ -73,11 +73,11 @@ Input `{ available: boolean, location?: {latitude, longitude} }`. UID lấy từ
 
 ### finishIncident — callable
 
-Input `{ incidentId, outcome: "completed" | "cancelled" }`. completed: chỉ acceptedBy còn approved, ca accepted/arrived. cancelled: chỉ reporterUid khi ca dispatching chưa acceptedBy. Transaction đóng ca/projection/alerts, giải phóng activeIncidentId trên thẻ nếu còn đúng ca đó, giải phóng TNV và đặt offline khi completed. Retry cùng outcome bởi chủ thể hợp lệ là idempotent. Sau đóng, API thông tin riêng tư bị từ chối; dữ liệu lưu trữ chưa tự xóa.
+Input `{ incidentId, outcome: "completed" | "cancelled" }`. completed: chỉ acceptedBy còn approved, ca accepted/arrived. cancelled: chỉ reporterUid khi ca dispatching chưa acceptedBy. Transaction đóng ca/projection/alerts, giải phóng activeIncidentId trên thẻ nếu còn đúng ca đó, giải phóng TNV và đặt offline khi completed. Retry cùng outcome bởi chủ thể hợp lệ là idempotent. Sau đóng, API thông tin riêng tư bị từ chối; đặt purgeAfter sau 24 giờ; cron hằng ngày dọn private/location, private/reporter và answers trong alerts, có thể trễ vì quota/backlog.
 
 ### Khôi phục và hết hạn
 
-Cùng reporter UID mở một tab mới với requestId khác có thể nhận lại mã ca đang active của chính mình. Người khác không nhận được mã đó. Khi create mới gặp ca dispatching đã quá 10 phút, transaction đóng ca cũ là expired và tạo ca mới; không tự hết hạn ca đã accepted. Đây là dọn dẹp theo yêu cầu, chưa phải scheduler. Retry requestId cũ của ca dispatching quá hạn trả status expired. Trạng thái người báo có thêm offerExpiresAt để UI chặn gửi muộn; backend cũng chặn bổ sung quá hạn. Web xóa cache vị trí/request sau ack, vẫn giữ payload chưa được ack để retry an toàn.
+Cùng reporter UID mở một tab mới với requestId khác có thể nhận lại mã ca đang active của chính mình. Người khác không nhận được mã đó. Khi create mới gặp ca dispatching đã quá 10 phút, transaction đóng ca cũ là expired và tạo ca mới; không tự hết hạn ca đã accepted. Ngoài dọn theo yêu cầu, worker trên Vercel chạy hằng ngày; hạn nhận vẫn được kiểm tra ngay tại API. Retry requestId cũ của ca dispatching quá hạn trả status expired. Trạng thái người báo có thêm offerExpiresAt để UI chặn gửi muộn; backend cũng chặn bổ sung quá hạn. Web xóa cache vị trí/request sau ack, vẫn giữ payload chưa được ack để retry an toàn.
 
 Backend lưu `reporters/{uid}/requestReceipts/{hash(requestId)}` (client không đọc/ghi) với fingerprint + incidentId. Vì vậy retry một request đã khôi phục ca của tab khác vẫn trả chính ca đó kể cả sau khi ca đóng, không âm thầm tạo ca mới khi ack trước bị mất. Payload khác dùng lại cùng requestId bị từ chối.
 
@@ -89,7 +89,7 @@ Backend lưu `reporters/{uid}/requestReceipts/{hash(requestId)}` (client không 
 
 ## Backlog cần chốt trước khi viết
 
-dispatchWave tối ưu theo vùng và nhiều đợt; routing production do nhà cung cấp phù hợp; push/outbox/retry; App Check/rate limiting; audit/retention và scheduler xử lý ca hết hạn. Những API vòng đời dưới đây đã được triển khai trong v0.3.
+dispatchWave tối ưu theo vùng và nhiều đợt; routing production; push/outbox/retry; App Check cưỡng chế và giám sát vận hành. v0.4 đã có rate limiting cơ bản, retention riêng và worker hằng ngày; xem phần cuối tài liệu.
 
 Quy ước: latitude/longitude là số; khoảng cách mét; thời lượng giây; thời hạn theo server. Client không gửi volunteerId để quyết định danh tính, không tự sửa acceptedBy, verified hoặc quyền admin.
 
@@ -97,12 +97,20 @@ Quy ước: latitude/longitude là số; khoảng cách mét; thời lượng gi
 
 Các API dưới đây yêu cầu tài khoản đã đăng ký, không nhận anonymous, lấy UID từ token. Input thừa field bị từ chối.
 
-- `issuePatientCard({shareProfile: boolean})`: bắt buộc đã lưu hồ sơ của UID. Transaction tạo cardId ngẫu nhiên 24 byte và pointer `patientCards/{uid}`. Trả `{cardId, active: true, shareProfile}`. Gọi lặp/đồng thời với cùng lựa chọn trả thẻ active hiện có. Muốn đổi consent thì thu hồi và phát hành thẻ mới; không đổi âm thầm thẻ đang có. QR chỉ do client ghép website đã cấu hình + `/c/cardId`.
+- `issuePatientCard({shareProfile: boolean})`: bắt buộc đã lưu hồ sơ của UID. Transaction tạo cardId ngẫu nhiên 24 byte và pointer `patientCards/{uid}`. Trả `{cardId, active: true, shareProfile}`. Gọi lặp/đồng thời với cùng lựa chọn trả thẻ active hiện có. Muốn đổi consent thì thu hồi và phát hành thẻ mới; không đổi âm thầm thẻ đang có. QR chỉ do client ghép website đã cấu hình + `/card?id=cardId`.
 - `revokePatientCard({cardId})`: đúng Patient chủ thẻ; chặn khi ca dispatching/accepted/arrived còn active. Gỡ active và cập nhật pointer; retry idempotent. Có thể hủy ca chưa nhận trước rồi thu hồi. Thẻ cũ không tạo được ca mới; phát hành lại được mã mới.
 - `applyVolunteer({fullName, phone, experience})`: tên 1–100 ký tự, phone định dạng 8–15 chữ số với dấu + tùy chọn, kinh nghiệm tự khai 1–500 ký tự. Ghi `volunteerApplications/{uid}` pending. Đơn pending gửi lặp giữ nguyên; không tự tạo approved. Đơn rejected có thể nộp lại.
 - `listVolunteerApplications({})`: chỉ token.admin true, tối đa 50 pending; trả uid, fullName, phone, experience. Không cho client query toàn bộ applicants bằng Rules.
-- `reviewVolunteerApplication({uid, decision})`: chỉ token.admin true; decision approved/rejected, đơn phải pending và TNV không có ca active. Transaction đổi application và volunteers.verificationStatus, đặt isAvailable=false, audit hành động. Không có API tự cấp claim admin; bootstrap thử chỉ script Emulator.
+- `reviewVolunteerApplication({uid, decision})`: chỉ token.admin true; decision approved/rejected, đơn phải pending và TNV không có ca active. Transaction đổi application và volunteers.verificationStatus, đặt isAvailable=false, audit hành động. Không có API tự cấp claim admin; bootstrap local bằng script Emulator, cloud bằng scripts/cloud-access.cjs admin <UID> từ operator tin cậy.
 - `markIncidentArrived({incidentId})`: chỉ TNV approved phụ trách, ca accepted → arrived; lặp arrived idempotent. Cập nhật projection Patient/người báo/alert TNV. Đây là xác nhận chủ động, không phải bằng chứng GPS đã tới.
 - `cancelPatientIncident({incidentId})`: chỉ Patient chủ ca, chỉ dispatching chưa acceptedBy; lặp cancelled idempotent. Đóng ca, cập nhật projections và giải phóng thẻ. Người báo vẫn dùng finishIncident outcome cancelled theo quyền cũ.
 
 Thêm owner reads `patientCards/{uid}`, `volunteerApplications/{uid}`, `patients/{uid}/incidentStatuses` (createdAt desc, limit 30). Không thêm bất kỳ client write nào. Projection Patient chỉ chứa trạng thái, thời gian, invitedCount; không phone người báo, vị trí chính xác hoặc hồ sơ TNV. create/accept/arrived/completed/cancelled/expired cập nhật projection tương ứng. Các ca cũ trước v0.3 không được tự backfill.
+
+## Hosting API v0.4
+
+15 callable nghiệp vụ đi qua POST /api/<operation>, body {data: payload}, Bearer Firebase ID token. Token thiếu/sai trả 401. Production dùng httpsCallableFromURL; Emulator dùng httpsCallable như trước. GET /api/health trả version 0.4.0 và projectId. Chỉ allowlist được định tuyến, JSON tối đa 32KB; tên endpoint lạ trả 404.
+
+Mỗi callable có hạn theo phút: 120/UID, riêng createIncident 30/UID, 600/IP băm; vượt trả resource-exhausted. _requestLimits chỉ backend truy cập. App Check chỉ cưỡng chế nếu được cấu hình/bật, hiện chưa bật.
+
+GET /internal/maintenance yêu cầu Bearer CRON_SECRET, không dùng token client. Chạy hằng ngày: tối đa 50 dispatch hết hạn, 50 ca đủ hạn purgeAfter, 200 counter cũ. Không purge ca accepted/arrived. Index incidents(status, offerExpiresAt) đã deploy.

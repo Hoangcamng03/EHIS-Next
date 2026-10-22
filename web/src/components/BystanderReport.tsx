@@ -2,8 +2,8 @@
 
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { httpsCallable } from 'firebase/functions';
-import { firebaseClient, readableError, reporterSession } from '@/lib/firebase-client';
+
+import { callable as httpsCallable, firebaseClient, readableError, reporterSession } from '@/lib/firebase-client';
 
 const questions = [
   { key: 'responsiveness', title: '1. Bệnh nhân có phản hồi khi bạn gọi?', choices: [['responsive', 'Có phản hồi'], ['unresponsive', 'Không thấy phản hồi'], ['unknown', 'Không rõ']] },

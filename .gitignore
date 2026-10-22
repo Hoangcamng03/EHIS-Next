@@ -2,6 +2,8 @@
 **/.expo/
 **/.next/
 **/dist/
+**/out/
+**/.next-cloud/
 functions/lib/
 **/.env
 **/.env.local
@@ -12,6 +14,7 @@ functions/lib/
 **/*-debug.log*
 **/tsconfig.tsbuildinfo
 .firebase/
+**/.vercel/
 .local/
 **/*.jks
 **/*.keystore

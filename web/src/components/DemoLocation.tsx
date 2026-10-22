@@ -11,7 +11,7 @@ export function DemoLocation({ latitude, longitude, onLatitude, onLongitude, dis
   const point = parseDemoLocation(latitude, longitude);
   const bbox = point && [Math.max(-180, point.longitude - 0.008), Math.max(-85, point.latitude - 0.006), Math.min(180, point.longitude + 0.008), Math.min(85, point.latitude + 0.006)].join(',');
   return <fieldset disabled={disabled}>
-    <legend>Vị trí bệnh nhân giả · chỉ thử nghiệm local</legend>
+    <legend>Vị trí bệnh nhân giả · chỉ dùng cho buổi chạy thử</legend>
     <p className="hint">Mặc định ở trung tâm TP.HCM, gần vị trí TNV mẫu. Có thể nhập nơi khác. Cần có TNV sẵn sàng trong bán kính 5 km để nhận lời mời.</p>
     <label className="phone-label">Vĩ độ bệnh nhân giả<input type="number" step="any" min="-85" max="85" value={latitude} onChange={event => onLatitude(event.target.value)} /></label>
     <label className="phone-label">Kinh độ bệnh nhân giả<input type="number" step="any" min="-180" max="180" value={longitude} onChange={event => onLongitude(event.target.value)} /></label>

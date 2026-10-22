@@ -1,3 +1,5 @@
+> Hướng dẫn PC local v0.3 được giữ để tham khảo. Bản cloud v0.4 mới nhất: [CLOUD_TRIAL.md](CLOUD_TRIAL.md), [STATUS.md](STATUS.md).
+
 # EHIS · Bản thử v0.3 và luồng hoàn chỉnh
 
 Bản này hoàn thành một **MVP chạy thử có kiểm soát trên PC**: một app React Native chung Patient/TNV, website người báo và trang quản trị. Đây chưa phải ứng dụng đã phát hành hoặc hệ thống cấp cứu ngoài thực địa.

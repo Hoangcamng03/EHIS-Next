@@ -1,5 +1,7 @@
+import { Text } from './AppText';
+import { Button } from './ActionButton';
 import { useState } from 'react';
-import { Button, Linking, Text, View } from 'react-native';
+import { Linking, View } from 'react-native';
 
 export function DirectionsLink({ title, url, disabled }: { title: string; url: string; disabled: boolean }) {
   const [error, setError] = useState('');

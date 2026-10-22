@@ -1,7 +1,9 @@
+import { Text } from './AppText';
+import { Button } from './ActionButton';
 import { useState } from 'react';
-import { Button, Text, TextInput, View } from 'react-native';
-import { httpsCallable } from 'firebase/functions';
-import { firebaseClient, readableError } from '../lib/firebase';
+import { TextInput, View } from 'react-native';
+
+import { callable as httpsCallable, firebaseClient, readableError } from '../lib/firebase';
 import { ui, statusLabel } from '../lib/ui';
 
 export function VolunteerApplication({ status }: { status?: string }) {
