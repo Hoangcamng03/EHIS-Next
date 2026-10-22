@@ -17,13 +17,13 @@ Ngày 2026-10-22. Mục tiêu: lưu đối tượng tài khoản, mở đúng gi
 | Web assets đã phát | HTML tiếng Việt, manifest standalone, PNG 180/192/512 và MIME | Đạt; không thêm service worker lưu hồ sơ/ca offline |
 | CI | GitHub Actions run 39807656045, commit 1eb1f04d5c1627b3e5be08127167e3e68108d7df | Đạt; mốc trước sửa tiêu đề khi tải tài khoản chưa xong |
 
-Một lần timeout là bằng chứng cần theo dõi, không đủ để kết luận dịch vụ luôn chậm hoặc lỗi đã biến mất. UI không cho vào dashboard khi chưa xác nhận lựa chọn; có thử lại và không yêu cầu tạo lại tài khoản. Sau quan sát, sửa thêm tiêu đề để chỉ hiện Patient/Volunteer khi tài khoản được xác nhận đúng khu vực; kết quả phát lại cuối ghi trong lab note.
+Một lần timeout là bằng chứng cần theo dõi, không đủ để kết luận dịch vụ luôn chậm hoặc lỗi đã biến mất. UI không cho vào dashboard khi chưa xác nhận lựa chọn; có thử lại và không yêu cầu tạo lại tài khoản. Sau quan sát, sửa thêm tiêu đề để chỉ hiện Patient/Volunteer khi tài khoản được xác nhận đúng khu vực. Bản sửa header commit `2549dcefc49fef272414a3e0fa8f7bc4a5cb8645` đã build/phát lại; browser mở URL Patient bằng tài khoản Volunteer hiển thị EHIS khi tải rồi tự quay về Volunteer đúng. HTML trên Hosting đã được so khớp chính xác với artifact cuối.
 
 ## Bằng chứng và nguồn
 
 - Backend 0.4.2 đã READY từ commit `20b81ea`; hai Hosting đã phát. Source UI đầu `20b81ea`, tiếp theo `1eb1f04` gồm website hướng dẫn và thu gọn UI. Kết quả sửa tiêu đề/commit cuối xem [LAB_NOTES.md](LAB_NOTES.md).
 - Bằng chứng local, Git bỏ qua: `.local/account-proof-042.private.json`, `.local/cloud-flow-042.private.json`, `.local/ui-account-proof-042.private.json` và `.local/web-042-proof/`. Các file private có thông tin đăng nhập fixture, không commit/chia sẻ công khai. Tài khoản bàn giao ổn định vẫn ở repo riêng tư theo link trong lab note.
-- Ảnh 01–08 ghi chọn đối tượng, Patient signup/relogin/redirect, Volunteer signup/relogin/reload và hướng dẫn cài. Ảnh 09 ghi timeout, không dùng ảnh lỗi để tuyên bố redirect đạt. Các ảnh tiếp theo ghi phục hồi/bản cuối.
+- Ảnh 01–08 ghi chọn đối tượng, Patient signup/relogin/redirect, Volunteer signup/relogin/reload và hướng dẫn cài. Ảnh 09 ghi timeout, không dùng ảnh lỗi để tuyên bố redirect đạt. Ảnh 10 ghi phục hồi, ảnh 11 ghi Volunteer redirect đúng trên bản cuối.
 - Build lại từng gặp EPERM ở thư mục Next sinh tự động; chạy lại với quyền phù hợp đạt. Lần khởi động Emulator mới báo cổng đã dùng; đã dùng Emulator có sẵn, không dừng dịch vụ người dùng.
 
 ## Chưa xác nhận và điều kiện tiếp theo
