@@ -7,7 +7,7 @@ import { collection, doc, getDoc, limit, onSnapshot, orderBy, query } from 'fire
 import QRCode from 'react-native-qrcode-svg';
 import { AuthGate, AccountBar } from '../components/Session';
 import { callable as httpsCallable, firebaseClient, isLocalEmulator, isTrialMode, readableError } from '../lib/firebase';
-import { ui, statusLabel } from '../lib/ui';
+import { patientUi as ui, statusLabel } from '../lib/ui';
 import { ConfirmAction } from '../components/ConfirmAction';
 
 type Card = { cardId: string; active: boolean; shareProfile: boolean };
@@ -16,6 +16,7 @@ export default function PatientScreen() { return <AuthGate purpose="patient">{us
 function PatientDashboard({ uid }: { uid: string }) {
   const [fullName, setFullName] = useState(''), [allergies, setAllergies] = useState(''), [phone, setPhone] = useState('');
   const [loaded, setLoaded] = useState(false), [savedProfile, setSavedProfile] = useState(false);
+  const [profileFailed, setProfileFailed] = useState(false), [profileAttempt, setProfileAttempt] = useState(0);
   const [card, setCard] = useState<Card>(), [history, setHistory] = useState<History[]>([]);
   const [share, setShare] = useState(false), [confirmedRevoke, setConfirmedRevoke] = useState(false);
   const [connected, setConnected] = useState(false), [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState('');
@@ -31,9 +32,9 @@ function PatientDashboard({ uid }: { uid: string }) {
       const value = snapshot.data();
       setFullName(value?.fullName || ''); setAllergies((value?.allergies || []).join(', ')); setPhone(value?.emergencyContactPhone || '');
       setSavedProfile(snapshot.exists()); setLoaded(true);
-    }).catch(err => { if (!cancelled) { setError(readableError(err)); setLoaded(true); } });
+    }).catch(err => { if (!cancelled) { setError(readableError(err)); setProfileFailed(true); } });
     return () => { cancelled = true; };
-  }, [uid]);
+  }, [uid, profileAttempt]);
   useEffect(() => onSnapshot(doc(firebaseClient().db, `patientCards/${uid}`), { includeMetadataChanges: true }, snapshot => {
     setConnected(!snapshot.metadata.fromCache); setCard(snapshot.exists() ? snapshot.data() as Card : undefined);
   }, err => { setConnected(false); setError(readableError(err)); }), [uid]);
@@ -68,6 +69,7 @@ function PatientDashboard({ uid }: { uid: string }) {
     {isLocalEmulator && <View style={ui.notice}><Text>Bản thử nghiệm · chỉ nhập hồ sơ giả. QR localhost chỉ dùng trên máy tính này; quét bằng điện thoại cần URL HTTPS truy cập được.</Text></View>}
     {isTrialMode && !isLocalEmulator && <View style={ui.notice}><Text>Thẻ dùng trong buổi chạy thử. Chỉ nhập hồ sơ giả; QR này mở website trực tuyến trên thiết bị khác.</Text></View>}
     <View style={ui.card}><Text style={ui.heading}>1. Hồ sơ sức khỏe</Text>
+      {profileFailed && <><Text accessibilityRole="alert" style={ui.error}>Chưa tải được hồ sơ. Tải lại trước khi chỉnh sửa để tránh ghi đè dữ liệu đã lưu.</Text><Button title="Tải lại hồ sơ" onPress={() => { setError(''); setProfileFailed(false); setProfileAttempt(value => value + 1); }} /></>}
       <Text style={ui.body}>Thông tin tự khai để hỗ trợ liên hệ, không phải hồ sơ đã được nhân viên y tế xác minh.</Text>
       <Text>Họ và tên</Text><TextInput accessibilityLabel="Họ tên bệnh nhân" value={fullName} onChangeText={setFullName} maxLength={100} style={ui.input} editable={loaded && !busy} />
       <Text>Dị ứng đã biết · ngăn cách bằng dấu phẩy</Text><TextInput accessibilityLabel="Dị ứng" value={allergies} onChangeText={setAllergies} multiline maxLength={2000} placeholder="Để trống nếu chưa khai báo" style={ui.input} editable={loaded && !busy} />

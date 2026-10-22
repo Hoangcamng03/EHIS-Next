@@ -24,7 +24,16 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 - Tài khoản Emulator trong `.local/complete-demo.json` và `.local/report-demo.json` chỉ dùng cho local, không đăng nhập được vào APK cloud. Đã gom thông tin vào file nội bộ; chưa xác minh lại Emulator trong lần cập nhật này.
 - Tài khoản sinh ngẫu nhiên trong integration/probe không được coi là tài khoản bàn giao ổn định. Khi thêm tài khoản thử dùng chung, cập nhật danh sách này và file mật khẩu nội bộ; không ghi token hoặc khóa service account.
 
-## 2026-10-22 — Chuẩn bị bản chạy trực tuyến
+## 2026-10-23 — Web 0.4.4: kiểm tra hệ thống và màu theo đối tượng
+
+- Yêu cầu: test toàn luồng, sửa lỗi, phân biệt giao diện bằng màu và nhấn mạnh yêu cầu khẩn; chủ dự án thử web trước, chưa phát điện thoại.
+- Thay đổi: Patient xanh dương, TNV xanh lá, người báo cam, quản trị tím; yêu cầu cần hỗ trợ dùng đỏ kèm chữ, không nhấp nháy. Bảng màu có kiểm tra tương phản, không suy diễn mức độ bệnh hay cấp quyền bằng màu.
+- Sửa lỗi: khóa form khi chưa tải được hồ sơ + tải lại; lời mời thiếu/quá hạn không hiện thao tác nhận; kết quả cấp quyền âm thanh muộn không ghi đè thao tác tắt chuông.
+- Kiểm tra: typecheck/lint/build backend PASS, 20 unit PASS; 5 bộ Emulator PASS, gồm quyền riêng, nhận ca đồng thời, consent, lifecycle, maintenance và HTTP. Lần đầu lint phát hiện cập nhật state trực tiếp trong effect; đã chuyển reset sang thao tác tải lại và chạy lại đạt. Một patch không khớp dòng nguồn, đã đọc lại rồi áp dụng; không bỏ qua kiểm tra. Rà diff phát hiện thay nhầm version dependency trong lockfile, đã phục hồi trước build, không nâng dependency.
+- Đang tạo hai bản web cloud và kiểm tra trình duyệt. Chưa tính là deploy/thiết bị đạt. Hai nhánh lỗi tải hồ sơ/cấp quyền âm thanh chưa được tiêm lỗi UI riêng.
+- Chi tiết/màu/ma trận/nghiệm thu: [VERIFICATION_V0_4_4.md](VERIFICATION_V0_4_4.md). Không ghi secrets hoặc hồ sơ thật.
+
+## 2026-10-22 — Chuẩn bị bản chạy trực tuyến (lịch sử)
 
 - Kiểm tra: app và web hiện vẫn dùng `demo-ehis-next`, dữ liệu ở Emulator. Bản v0.3 có luồng Patient → QR → web → TNV → hoàn tất; chưa deploy cloud.
 - Nhóm chọn Cloud Firestore **Standard**, vùng **Singapore / asia-southeast1**, project riêng `ehis-next-20261021-hc03`.

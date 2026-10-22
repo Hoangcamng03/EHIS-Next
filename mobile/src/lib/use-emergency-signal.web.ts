@@ -26,12 +26,12 @@ export function useEmergencySignal() {
       if (!Constructor) throw new Error('audio-unavailable');
       context.current ??= new Constructor();
       if (context.current.state !== 'running') await Promise.race([context.current.resume(), new Promise<never>((_, reject) => { resumeTimer = setTimeout(() => reject(new Error('audio-resume-timeout')), 4000); })]);
-      if (!mounted.current) return false;
+      if (!mounted.current || muted.current) return false;
       const running = context.current.state === 'running';
       setReady(running); setMessage(running ? 'Chuông đã sẵn sàng. Kiểm tra âm lượng thiết bị và giữ trang này mở.' : 'Trình duyệt đang chặn âm thanh. Bấm Bật và thử chuông.');
       return running;
     } catch {
-      if (mounted.current) { setReady(false); setMessage('Chưa bật được âm thanh. Cảnh báo vẫn hiện trên màn hình; thử lại hoặc dùng trình duyệt khác.'); }
+      if (mounted.current && !muted.current) { setReady(false); setMessage('Chưa bật được âm thanh. Cảnh báo vẫn hiện trên màn hình; thử lại hoặc dùng trình duyệt khác.'); }
       return false;
     } finally { clearTimeout(resumeTimer); }
   }, []);
@@ -49,9 +49,9 @@ export function useEmergencySignal() {
   }, [stop]);
   const test = useCallback(async () => {
     muted.current = false; setSoundEnabled(true);
-    if (await prepare()) play('test');
+    if (await prepare() && !muted.current && mounted.current) play('test');
   }, [prepare, play]);
-  const mute = useCallback(() => { muted.current = true; setSoundEnabled(false); stop(); setMessage('Đã tắt chuông. Cảnh báo bằng hình ảnh vẫn hoạt động; rung theo lựa chọn bên dưới.'); }, [stop]);
+  const mute = useCallback(() => { muted.current = true; setSoundEnabled(false); setReady(false); stop(); setMessage('Đã tắt chuông. Cảnh báo bằng hình ảnh vẫn hoạt động; rung theo lựa chọn bên dưới.'); }, [stop]);
   useEffect(() => {
     mounted.current = true;
     const changed = () => { const visible = document.visibilityState === 'visible'; setForeground(visible); if (!visible) stop(); };

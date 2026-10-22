@@ -5,6 +5,11 @@ export function activeOffer(alert: SignalAlert, now: number) {
   return alert.status === 'offered' && Number.isFinite(alert.expiresAt) && alert.expiresAt! > now;
 }
 
+// Fail closed when an invitation deadline is missing, invalid or already past.
+export function invitationState(alert: SignalAlert, now: number) {
+  return alert.status === 'offered' && !activeOffer(alert, now) ? 'expired' : alert.status;
+}
+
 // Called only on a confirmed server snapshot while the dashboard is active.
 // Metadata/reconnect snapshots and repeated revisions must never restart the bell.
 export function collectSignalEvents(seen: Map<string, number>, alerts: SignalAlert[], now: number): SignalEvent[] {

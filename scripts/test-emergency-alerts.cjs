@@ -3,6 +3,13 @@ const policy=import('../mobile/src/lib/alert-policy.ts');
 const audio=import('../mobile/src/lib/emergency-audio.ts');
 const offer=(values={})=>({incidentId:'synthetic-case',status:'offered',reportRevision:0,expiresAt:20000,...values});
 
+test('expired or malformed invitation cannot appear actionable while awaiting maintenance',async()=>{
+ const {invitationState}=await policy;
+ for(const expiresAt of [10000,9999,undefined,NaN,Infinity]) assert.equal(invitationState(offer({expiresAt}),10000),'expired');
+ assert.equal(invitationState(offer(),10000),'offered');
+ assert.equal(invitationState(offer({status:'accepted',expiresAt:9999}),10000),'accepted');
+});
+
 test('new confirmed offer signals once; metadata/reconnect does not replay',async()=>{
  const {collectSignalEvents}=await policy,seen=new Map();
  assert.deepEqual(collectSignalEvents(seen,[offer()],10000),[{incidentId:'synthetic-case',kind:'request'}]);

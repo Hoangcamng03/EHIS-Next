@@ -35,7 +35,7 @@ export function AdminDashboard() {
     } catch { setError('Thao tác chưa hoàn tất. Kiểm tra tài khoản, quyền quản trị và kết nối rồi thử lại.'); }
     finally { setBusy(false); }
   }
-  return <main className="report-page"><div className="report-brand">EHIS · QUẢN TRỊ</div><h1>Duyệt TNV.</h1>
+  return <main className="report-page role-admin"><div className="report-brand">EHIS · QUẢN TRỊ</div><h1>Duyệt TNV.</h1>
     <p className="report-intro">Xem thông tin tự khai và kiểm tra điều kiện tham gia trước khi cấp quyền nhận ca. Duyệt trong app không thay thế xác minh năng lực thực tế.</p>
     {!ready && <p role="status">Đang kiểm tra quyền quản trị…</p>}
     {!user ? <form className="report-panel" onSubmit={event => { event.preventDefault(); act('login'); }}>

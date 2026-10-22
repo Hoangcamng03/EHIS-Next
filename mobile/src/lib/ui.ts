@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { palette } from './palette';
 export const ui = StyleSheet.create({
   page: { flexGrow: 1, backgroundColor: '#f4f8f6', padding: 20, gap: 18, width: '100%', maxWidth: 760, alignSelf: 'center' },
   eyebrow: { color: '#526f67', fontSize: 12, fontWeight: '700', letterSpacing: 1 },
@@ -11,4 +12,11 @@ export const ui = StyleSheet.create({
   error: { color: '#a12626', fontSize: 17, lineHeight: 26 }, success: { color: '#096951', fontSize: 17, lineHeight: 26 },
   link: { paddingVertical: 14, color: '#096951', fontSize: 17, fontWeight: '700' },
 });
+export const patientUi = { ...ui,
+  page: [ui.page, { backgroundColor: palette.patient.background }],
+  eyebrow: [ui.eyebrow, { color: palette.patient.primary }],
+  title: [ui.title, { color: palette.patient.ink }],
+  heading: [ui.heading, { color: palette.patient.ink }],
+  card: [ui.card, { borderColor: palette.patient.border }],
+};
 export const statusLabel: Record<string, string> = { dispatching: 'Đang tìm TNV', accepted: 'TNV đang di chuyển', arrived: 'TNV xác nhận đã đến', completed: 'Đã kết thúc hỗ trợ', cancelled: 'Yêu cầu đã hủy', expired: 'Lời mời hết hạn', closed: 'Lời mời đã đóng', offered: 'Đang chờ TNV nhận', pending: 'Đang chờ duyệt', approved: 'Đã được duyệt', rejected: 'Chưa được duyệt' };

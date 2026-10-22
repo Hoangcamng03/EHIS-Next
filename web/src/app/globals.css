@@ -49,3 +49,18 @@ legend { font-weight: 700; padding: 0; margin-bottom: 14px; line-height: 1.6; }
 input { min-width: 0; }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 @media(max-width: 500px) { .report-page { padding: 24px 16px 40px; } .report-panel { padding: 20px; } .report-brand { gap: 10px; } }
+
+/* Keep role colors aligned with mobile/src/lib/palette.ts (test-palette.cjs).
+   Red always means an urgent request, never a diagnosis from this software. */
+.role-reporter { --role-primary: #934500; --role-background: #fff7ed; --role-ink: #58320f; --role-border: #d6ad7c; }
+.role-admin { --role-primary: #6934a3; --role-background: #f7f1fc; --role-ink: #40235c; --role-border: #c6addf; }
+.role-reporter, .role-admin { background: var(--role-background); color: var(--role-ink); min-height: 100dvh; border-top: 8px solid var(--role-primary); }
+.role-reporter .report-brand, .role-admin .report-brand { color: var(--role-primary); border-color: var(--role-border); }
+.role-reporter .primary, .role-admin .primary { background: var(--role-primary); }
+.role-reporter .step, .role-admin .step, .role-reporter a, .role-admin a { color: var(--role-primary); }
+.role-reporter .report-panel, .role-admin .report-panel { border-color: var(--role-border); }
+.role-reporter .choice.selected { border-color: var(--role-primary); background: var(--role-background); }
+.role-reporter input, .role-admin input { accent-color: var(--role-primary); }
+.role-reporter .emergency-action { background: #b4232b; }
+.role-reporter .awaiting-help { background: #fff0f0; color: #7c1720; border: 2px solid #b4232b; }
+.role-reporter .primary:disabled, .role-admin .primary:disabled { background: #dce5e1; color: #465c55; }

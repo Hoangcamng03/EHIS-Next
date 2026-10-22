@@ -13,7 +13,8 @@ import { VolunteerApplication } from '../components/VolunteerApplication';
 import { usePathname } from 'expo-router';
 import { statusLabel } from '../lib/ui';
 import { ConfirmAction } from '../components/ConfirmAction';
-import { activeOffer, collectSignalEvents } from '../lib/alert-policy';
+import { activeOffer, collectSignalEvents, invitationState } from '../lib/alert-policy';
+import { palette } from '../lib/palette';
 import { useEmergencySignal } from '../lib/use-emergency-signal';
 
 type Answers = { responsiveness: string; breathing: string; bleeding: string };
@@ -55,16 +56,17 @@ function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false 
     catch (err) { setError(readableError(err)); } finally { setBusy(false); }
   }
   const assigned = ['accepted', 'arrived'].includes(alert.status);
-  const offerExpired = alert.status === 'offered' && !!alert.offerExpiresAt && alert.offerExpiresAt.toMillis() <= now;
+  const visibleStatus = invitationState({ ...alert, expiresAt: alert.offerExpiresAt?.toMillis() }, now);
+  const offerExpired = visibleStatus === 'expired';
   const terminal = offerExpired || ['closed', 'completed', 'cancelled', 'expired'].includes(alert.status);
   const privateData = connected && details?.revision === alert.reportRevision ? details : undefined;
-  return <View style={styles.card}>
+  return <View style={[styles.card, !terminal && !assigned && styles.urgent]}>
     <Text style={styles.cardTitle}>{assigned ? 'Bạn đang phụ trách ca' : terminal ? 'Ca / lời mời đã kết thúc' : 'Yêu cầu hỗ trợ mới'}</Text>
     <Text>Ca {alert.incidentId.slice(0, 10)} · Đường thẳng lúc gửi lời mời: {alert.distanceMeters} m</Text>
-    <Text>{statusLabel[alert.status] || alert.status}</Text>
+    <Text style={!terminal && !assigned ? styles.urgentTitle : styles.revision}>{statusLabel[visibleStatus] || visibleStatus}</Text>
     <Text style={styles.revision}>{alert.reportRevision > 0 ? `Thông tin bổ sung · bản ${alert.reportRevision}` : 'Thông báo ban đầu'}</Text>
     {!terminal && <Observation answers={alert.answers} />}
-    {alert.status === 'offered' && !offerExpired && <><Text style={styles.note}>Hồ sơ sức khỏe và vị trí chi tiết chỉ mở sau khi bạn nhận ca, theo quyền chia sẻ của bệnh nhân. Khi mở đường đi, tọa độ được gửi đến OSRM.</Text><Button title={busy ? 'Đang xác nhận nhận ca…' : 'Nhận ca và mở đường đi'} disabled={busy || !connected} onPress={accept} /></>}
+    {alert.status === 'offered' && !offerExpired && <><Text style={styles.note}>Hồ sơ sức khỏe và vị trí chi tiết chỉ mở sau khi bạn nhận ca, theo quyền chia sẻ của bệnh nhân. Khi mở đường đi, tọa độ được gửi đến OSRM.</Text><Button title={busy ? 'Đang xác nhận nhận ca…' : 'Nhận ca và mở đường đi'} disabled={busy || !connected} color={palette.emergency.primary} onPress={accept} /></>}
     {assigned && <View style={styles.answers}>
       <Text>{privateData ? `SĐT người báo: ${privateData.phone || 'Không cung cấp'}` : 'Đang chờ thông tin được cấp quyền từ máy chủ…'}</Text>
       {!privateData && !!error && <Button title="Tải lại chi tiết ca" disabled={!connected} onPress={() => { setError(''); setDetailAttempt(value => value + 1); }} />}
@@ -127,14 +129,14 @@ function VolunteerDashboard({ user }: { user: User }) {
     {!checked ? <Text>Đang xác nhận quyền với máy chủ…</Text> : !approved ? <VolunteerApplication status={application} /> : <>
       <Text style={styles.intro}>Bật sẵn sàng, kiểm tra chuông và giữ trang này mở. Yêu cầu mới sẽ hiện cảnh báo nổi bật; nhận ca để mở hồ sơ được chia sẻ và đường đi.</Text>
       {!connected && <Text accessibilityRole="alert">Đang chờ đồng bộ máy chủ. Chưa thể nhận hoặc kết thúc ca.</Text>}
-      {offers.length > 0 && <View style={styles.urgent}><Text accessibilityRole="alert" style={styles.urgentTitle}>CÓ {offers.length} YÊU CẦU CẦN HỖ TRỢ</Text><Text style={styles.urgentText}>Chưa có người nhận ca cho đến khi máy chủ xác nhận. Xem tình trạng và chỉ nhận nếu bạn có thể hỗ trợ.</Text><Button title="Mở cảnh báo yêu cầu" color="#a82c30" onPress={() => setWakeId(offers[0].incidentId)} /></View>}
+      {offers.length > 0 && <View style={styles.urgent}><Text accessibilityRole="alert" style={styles.urgentTitle}>⚠ CẦN HỖ TRỢ KHẨN · {offers.length} YÊU CẦU</Text><Text style={styles.urgentText}>Chưa có người nhận ca cho đến khi máy chủ xác nhận. Xem tình trạng và chỉ nhận nếu bạn có thể hỗ trợ.</Text><Button title="Mở cảnh báo yêu cầu" color={palette.emergency.primary} onPress={() => setWakeId(offers[0].incidentId)} /></View>}
       {assigned.map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected && approved} now={now} autoPreview={autoRouteId === alert.incidentId} />)}
       <VolunteerAvailability key={user.uid} uid={user.uid} paused={!connected || !focused} prepareAlerts={signal.prepare} />
-      <View style={styles.card}><Text style={styles.cardTitle}>Chuông và rung cảnh báo</Text><Text accessibilityLiveRegion="polite">{signal.sounding ? 'Đang phát chuông cảnh báo…' : signal.message}</Text><Button title="Bật và thử chuông · 1 giây" onPress={signal.test} color="#0b5962" /><View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}><Switch accessibilityLabel="Rung nhẹ khi có cảnh báo" value={signal.vibrationEnabled} onValueChange={signal.toggleVibration} disabled={!signal.vibrationSupported} /><Text style={{ flex: 1 }}>{signal.vibrationSupported ? 'Rung nhẹ nếu thiết bị cho phép.' : 'Trình duyệt này chưa hỗ trợ rung; cảnh báo hình ảnh vẫn hoạt động.'}</Text></View>{signal.soundEnabled && <Button title="Tắt âm chuông" onPress={signal.mute} color="#526f67" />}{signal.sounding && <Button title="Dừng chuông hiện tại" onPress={signal.stop} color="#a82c30" />}<Text style={styles.note}>Yêu cầu mới: chuông tối đa 6 giây. Thông tin bổ sung mới: 2 giây. Không phát lặp cho cùng một bản cập nhật. Web cần được mở ở phía trước; không bảo đảm chuông khi khóa màn hình hoặc đóng trình duyệt.</Text></View>
+      <View style={styles.card}><Text style={styles.cardTitle}>Chuông và rung cảnh báo</Text><Text accessibilityLiveRegion="polite">{signal.sounding ? 'Đang phát chuông cảnh báo…' : signal.message}</Text><Button title="Bật và thử chuông · 1 giây" onPress={signal.test} color="#0b5962" /><View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}><Switch accessibilityLabel="Rung nhẹ khi có cảnh báo" value={signal.vibrationEnabled} onValueChange={signal.toggleVibration} disabled={!signal.vibrationSupported} /><Text style={{ flex: 1 }}>{signal.vibrationSupported ? 'Rung nhẹ nếu thiết bị cho phép.' : 'Trình duyệt này chưa hỗ trợ rung; cảnh báo hình ảnh vẫn hoạt động.'}</Text></View>{signal.soundEnabled && <Button title="Tắt âm chuông" onPress={signal.mute} color="#526f67" />}{signal.sounding && <Button title="Dừng chuông hiện tại" onPress={signal.stop} color={palette.emergency.primary} />}<Text style={styles.note}>Yêu cầu mới: chuông tối đa 6 giây. Thông tin bổ sung mới: 2 giây. Không phát lặp cho cùng một bản cập nhật. Web cần được mở ở phía trước; không bảo đảm chuông khi khóa màn hình hoặc đóng trình duyệt.</Text></View>
       {connected && !alerts.length && <Text>Chưa có lời mời. Hãy bật sẵn sàng trước khi người báo gửi yêu cầu.</Text>}
       {[...alerts].filter(alert => !['accepted', 'arrived'].includes(alert.status) && alert.incidentId !== wakeOffer?.incidentId).sort((a, b) => Number(b.status === 'offered') - Number(a.status === 'offered')).map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected && approved} now={now} onAccepted={accepted} />)}
       <Modal visible={!!wakeOffer && foreground && focused && connected} transparent animationType="fade" onRequestClose={closeAlarm}>
-        <View style={styles.backdrop}><ScrollView contentContainerStyle={styles.modalContent} keyboardShouldPersistTaps="handled"><Text accessibilityRole="alert" style={styles.urgentTitle}>{wakeOffer?.reportRevision ? 'CÓ THÔNG TIN TÌNH TRẠNG MỚI' : 'YÊU CẦU HỖ TRỢ MỚI'}</Text>{wakeOffer && <><Text style={styles.urgentText}>Lời mời còn khoảng {Math.max(0, Math.ceil((wakeOffer.offerExpiresAt!.toMillis() - now) / 1000))} giây theo hạn máy chủ. {offers.length > 1 ? `Có ${offers.length} lời mời đang chờ.` : ''}</Text><IncidentAlert alert={wakeOffer} connected={connected && approved} now={now} onAccepted={accepted} /></>}<Button title="Đã xem · đóng cảnh báo và dừng chuông" onPress={closeAlarm} color="#526f67" /><Text style={styles.note}>Đóng cửa sổ chỉ xác nhận bạn đã xem; không tự nhận hoặc từ chối ca. Lời mời còn hạn vẫn nằm trong danh sách.</Text></ScrollView></View>
+        <View style={styles.backdrop}><ScrollView contentContainerStyle={styles.modalContent} keyboardShouldPersistTaps="handled"><Text accessibilityRole="alert" style={styles.urgentTitle}>{wakeOffer?.reportRevision ? 'CÓ THÔNG TIN TÌNH TRẠNG MỚI' : '⚠ CẦN HỖ TRỢ KHẨN'}</Text>{wakeOffer && <><Text style={styles.urgentText}>Lời mời còn khoảng {Math.max(0, Math.ceil((wakeOffer.offerExpiresAt!.toMillis() - now) / 1000))} giây theo hạn máy chủ. {offers.length > 1 ? `Có ${offers.length} lời mời đang chờ.` : ''}</Text><IncidentAlert alert={wakeOffer} connected={connected && approved} now={now} onAccepted={accepted} /></>}<Button title="Đã xem · đóng cảnh báo và dừng chuông" onPress={closeAlarm} color="#526f67" /><Text style={styles.note}>Đóng cửa sổ chỉ xác nhận bạn đã xem; không tự nhận hoặc từ chối ca. Lời mời còn hạn vẫn nằm trong danh sách.</Text></ScrollView></View>
       </Modal>
     </>}
     {!!error && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
@@ -142,11 +144,11 @@ function VolunteerDashboard({ user }: { user: User }) {
   </ScrollView>;
 }
 const styles = StyleSheet.create({
-  page: { padding: 20, gap: 18, backgroundColor: '#f4f8f6', flexGrow: 1, width: '100%', maxWidth: 800, alignSelf: 'center' },
-  urgent: { backgroundColor: '#fff0ef', borderColor: '#ad3136', borderWidth: 2, borderRadius: 16, padding: 18, gap: 12 },
-  urgentTitle: { color: '#9b2028', fontSize: 24, fontWeight: '800' }, urgentText: { color: '#57282b', fontSize: 17, lineHeight: 25 },
+  page: { padding: 20, gap: 18, backgroundColor: palette.volunteer.background, flexGrow: 1, width: '100%', maxWidth: 800, alignSelf: 'center' },
+  urgent: { backgroundColor: palette.emergency.background, borderColor: palette.emergency.border, borderWidth: 2, borderRadius: 16, padding: 18, gap: 12 },
+  urgentTitle: { color: palette.emergency.ink, fontSize: 24, fontWeight: '800' }, urgentText: { color: '#57282b', fontSize: 17, lineHeight: 25 },
   backdrop: { flex: 1, backgroundColor: 'rgba(19, 30, 33, 0.75)', padding: 18, justifyContent: 'center' },
-  modalContent: { backgroundColor: '#fff4f1', padding: 20, gap: 16, borderRadius: 18, borderWidth: 3, borderColor: '#ad3136', width: '100%', maxWidth: 760, alignSelf: 'center', marginVertical: 20 },
+  modalContent: { backgroundColor: palette.emergency.background, padding: 20, gap: 16, borderRadius: 18, borderWidth: 3, borderColor: palette.emergency.border, width: '100%', maxWidth: 760, alignSelf: 'center', marginVertical: 20 },
   eyebrow: { color: '#526f67', fontSize: 12, fontWeight: '700' }, title: { color: '#123c37', fontSize: 38, fontWeight: '700' },
   intro: { fontSize: 17, lineHeight: 26, color: '#36574e' }, card: { backgroundColor: '#fff', padding: 20, borderRadius: 16, gap: 14, borderWidth: 1, borderColor: '#dce8e0' },
   cardTitle: { fontSize: 19, fontWeight: '700', color: '#123c37' }, input: { borderWidth: 1, borderColor: '#b8cbc1', borderRadius: 10, padding: 14 },
