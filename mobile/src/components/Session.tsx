@@ -8,6 +8,7 @@ import { firebaseClient, isLocalEmulator, isTrialMode, readableError, updateAvai
 import { ui } from '../lib/ui';
 import { accountPurposes, AccountPurpose } from '../lib/account-purpose';
 import { PurposeChoices } from './PurposeChoices';
+import { ReleaseStatus } from './ReleaseStatus';
 
 type SessionState = { user: User | null; loading: boolean; error: string };
 const SessionContext = createContext<SessionState & { prepareRegistration(purpose: AccountPurpose): void; cancelRegistration(): void }>({ user: null, loading: true, error: '', prepareRegistration: () => {}, cancelRegistration: () => {} });
@@ -101,6 +102,7 @@ function AuthForm() {
     </View>}
     {mode === 'choose' && isTrialMode && <View style={ui.notice}><Text>Buổi chạy thử · chỉ dùng thông tin giả.</Text></View>}
     <Text style={ui.body}>Không cần cài app để báo hỗ trợ: người qua đường quét thẻ QR và dùng website.</Text>
+    <ReleaseStatus />
   </ScrollView>;
 }
 export function AccountBar() {
@@ -111,5 +113,5 @@ export function AccountBar() {
     try { await updateAvailability({ available: false }, 4000).catch(() => undefined); await signOut(firebaseClient().auth); }
     catch (err) { setError(readableError(err)); } finally { setBusy(false); }
   }
-  return <View style={{ gap: 8 }}><Text style={ui.body}>{user?.email}</Text><Button title={busy ? 'Đang đăng xuất…' : 'Đăng xuất'} onPress={logout} disabled={busy} color="#526f67" />{!!error && <Text style={ui.error}>{error}</Text>}</View>;
+  return <View style={{ gap: 8 }}><Text style={ui.body}>{user?.email}</Text><ReleaseStatus /><Button title={busy ? 'Đang đăng xuất…' : 'Đăng xuất'} onPress={logout} disabled={busy} color="#526f67" />{!!error && <Text style={ui.error}>{error}</Text>}</View>;
 }

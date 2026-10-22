@@ -70,6 +70,7 @@ Backend xác nhận đã nhận yêu cầu thì web mới chuyển bảng hỏi;
 | Website người báo | https://ehis-next-20261021-hc03.web.app |
 | Quản trị | https://ehis-next-20261021-hc03.web.app/admin |
 | APK Android | [Cài và thử Android](docs/ANDROID_TRIAL.md) |
+| Cập nhật web + điện thoại | [Bản phát hành và quy trình đồng bộ](docs/MOBILE_RELEASES.md) |
 | Tài khoản thử | [Mục nổi bật trong lab note](docs/LAB_NOTES.md#tài-khoản-chạy-thử--mục-bàn-giao) |
 | Email + mật khẩu thử (riêng tư) | [EHIS-Next-Team-Access](https://github.com/Hoangcamng03/EHIS-Next-Team-Access) — hiện chỉ chủ dự án có quyền |
 | Kết quả / giới hạn | [STATUS.md](docs/STATUS.md), [kiểm chứng v0.4](docs/VERIFICATION_V0_4.md) |

@@ -41,3 +41,9 @@ Các lệnh npm bên dưới chạy từ **root repo**. Script công cụ không
 `cloud-database-probe.cjs`, `cloud-flow-probe.cjs`, `cloud-maintenance-probe.cjs` là công cụ nghiệm thu **có gọi cloud thật**. Flow probe tạo tài khoản/dữ liệu giả và có bước cấp admin bằng operator; không chạy lại tùy tiện hoặc xem là unit test. Tài khoản bàn giao hiện tại xem [lab note](../docs/LAB_NOTES.md).
 
 APK build bằng EAS từ `mobile/`, không qua `cloud:deploy-web`. [Android](../docs/ANDROID_TRIAL.md), [cloud](../docs/CLOUD_TRIAL.md), [local từng bước](../docs/LOCAL_DEVELOPMENT.md).
+
+## 4. Phát hành app web và điện thoại đồng bộ
+
+Ưu tiên `npm run release:preview -- --message "mô tả"` cho thay đổi app tương thích runtime; thêm `--native` khi cần APK mới. `release-preview.cjs` kiểm tra source sạch/env/fingerprint, chạy check, phát OTA Android + Hosting từ cùng commit; `eas-cli.cjs` chọn CLI của operator hoặc CLI chính thức qua npm. Kết quả trong `.local/release-preview.latest.json`, không bao gồm credentials.
+
+Script chặn OTA đơn lẻ nếu native fingerprint không khớp APK preview FINISHED gần nhất. Chế độ native chỉ gửi build; phải chờ và xác nhận APK FINISHED, tải artifact, rồi thử thiết bị. Không tự reload ca đang hoạt động. [MOBILE_RELEASES.md](../docs/MOBILE_RELEASES.md) là đầu mối phiên bản và hướng dẫn.

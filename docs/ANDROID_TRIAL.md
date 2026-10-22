@@ -1,5 +1,7 @@
 # Cài và thử Android v0.4
 
+> Bản hiện có và cơ chế cập nhật mới xem [MOBILE_RELEASES.md](MOBILE_RELEASES.md). Các link v0.4.0 bên dưới là bộ cài ban đầu; không tự nhận những thay đổi web xuất bản sau đó.
+
 1. Trên điện thoại Android, mở trang build của nhóm: https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/cf99a628-de58-4e55-b93c-f48f13178af7. Build này đã Finished. Tải APK (khoảng 100 MB); đây là APK universal cho buổi thử.
 2. Mở file APK. Nếu Android hỏi quyền cài từ trình duyệt/tệp, chỉ cấp cho nguồn bạn đang dùng để cài bản EHIS do nhóm kiểm tra; có thể tắt lại sau khi cài. Không tắt Play Protect hoặc bỏ qua cảnh báo phần mềm độc hại; dừng và báo lại nguyên văn nếu gặp cảnh báo đó.
 3. Mở biểu tượng **EHIS Next**. Bản preview đóng gói sẵn mã, không cần Expo Go, quét mã Metro hoặc bật laptop. Vẫn cần Wi-Fi/4G/5G cho đăng nhập, Firestore, gửi/nhận ca và bản đồ. Bản thử chưa có quy trình gửi cấp cứu ngoại tuyến; mất mạng không được coi là gửi thành công.

@@ -21,6 +21,7 @@
 | Chữ, nút, xác nhận thao tác, style chung | `src/components/AppText.tsx`, `ActionButton.tsx`, `ConfirmAction.tsx`; `src/lib/ui.ts` |
 | App ID / quyền native / EAS project | [app.json](app.json) |
 | Loại build: development, preview APK, production AAB | [eas.json](eas.json) |
+| Phiên bản và thông báo OTA đã tải, không ép reload | [src/components/ReleaseStatus.tsx](src/components/ReleaseStatus.tsx), bản web có file `.web.tsx` riêng |
 
 Expo tự chọn file `.web.tsx` khi chạy trên web, file `.tsx` tương ứng dùng cho native. Không sửa file trong `node_modules/`, thư mục build hoặc tạo tay `android/`, `ios/`.
 
@@ -35,3 +36,5 @@ Từ **root repo**: `npm run mobile:web` để xem app trên PC, hoặc `npm run
 Trong **mobile/**: `npm run typecheck`, `npm run lint`. Build/cài cloud: [ANDROID_TRIAL.md](../docs/ANDROID_TRIAL.md). Bản web của app deploy lên site `ehis-next-20261021-hc03-app`; website người báo là site khác.
 
 Khi đổi payload, quyền hoặc trạng thái: phối hợp TV1 theo [API contract](../docs/API_CONTRACT.md). Khi đổi QR/URL: phối hợp TV4. Khi đổi cấu hình build: kiểm tra môi trường EAS riêng, không đưa secret backend vào biến `EXPO_PUBLIC_*`.
+
+Từ 0.4.1, dùng quy trình [MOBILE_RELEASES.md](../docs/MOBILE_RELEASES.md) để cập nhật đồng thời web/Android sau mỗi thay đổi app. Kênh preview nhận OTA tương thích fingerprint ở lần mở lại; đổi native cần APK mới. Không tự gọi reload khi người dùng đang xử lý ca. APK 0.4.0 không có thư viện cập nhật nên cần thay bộ cài một lần.

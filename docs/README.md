@@ -24,6 +24,7 @@
 | [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md) | Phát triển local với dữ liệu giả trong Emulator |
 | [CLOUD_TRIAL.md](CLOUD_TRIAL.md) | Firebase Spark + Vercel, Auth/Firestore/Hosting và secret backend |
 | [ANDROID_TRIAL.md](ANDROID_TRIAL.md) | APK, cách cài, nhiều thiết bị, Internet và các bước nghiệm thu |
+| [MOBILE_RELEASES.md](MOBILE_RELEASES.md) | Bản điện thoại mới nhất, OTA và quy trình phát hành web/Android cùng snapshot |
 | [TEST_SCENARIOS.md](TEST_SCENARIOS.md) | Kịch bản nghiệp vụ và trường hợp từ chối |
 | [STATUS.md](STATUS.md) | Đã có gì và còn thiếu gì |
 | [VERIFICATION_V0_4.md](VERIFICATION_V0_4.md) | Bằng chứng v0.4; phân biệt build, browser và thiết bị thật |

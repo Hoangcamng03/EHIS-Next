@@ -3,7 +3,7 @@
     "name": "EHIS Next",
     "slug": "ehis-next",
     "scheme": "ehis-next",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,8 +22,14 @@
       "predictiveBackGestureEnabled": false,
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
-      ]
+      ],
+      "runtimeVersion": {
+        "policy": "fingerprint"
+      },
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -36,7 +42,8 @@
         {
           "locationWhenInUsePermission": "EHIS dùng vị trí khi bạn bật sẵn sàng để tìm yêu cầu hỗ trợ gần bạn."
         }
-      ]
+      ],
+      "expo-status-bar"
     ],
     "extra": {
       "router": {
@@ -48,6 +55,12 @@
         "projectId": "eb11cc2d-e7b9-46ed-8794-0eae2b3495ed"
       }
     },
-    "owner": "ehiss-team"
+    "owner": "ehiss-team",
+    "updates": {
+      "url": "https://u.expo.dev/eb11cc2d-e7b9-46ed-8794-0eae2b3495ed",
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    }
   }
 }

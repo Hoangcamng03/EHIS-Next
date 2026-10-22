@@ -68,3 +68,9 @@ Ghi thay đổi quan trọng và kết quả quan sát, không lưu mật khẩu
 - Lựa chọn là mục đích điều hướng, không cấp role/approved. TNV mới vẫn phải nộp đơn và chờ xét duyệt. Một tài khoản vẫn có thể dùng hai khu vực sau này.
 - Kiểm chứng: đã signup Patient mới rồi tự vào `/patient`; signup TNV mới từ trang `/patient` rồi tự vào `/volunteer`, chỉ thấy nộp đơn. Cả hai tài khoản được Auth/API xác nhận chưa có quyền admin/approved; thông tin đăng nhập lưu thêm trong repo riêng tư.
 - Kiểm tra mã, build cloud web và Android/Hermes export đạt. App web đã được phát hành; chưa xuất APK mới cho onboarding, nên APK tải trước đó không tự có giao diện này. Ảnh thử ở `.local/signup-proof-20261022`.
+
+## 2026-10-22 — Đồng bộ bản điện thoại sau mỗi cập nhật app
+
+- Theo yêu cầu mới, mỗi thay đổi app cần bàn giao đồng thời web và Android, có trạng thái riêng từng đầu ra; không báo điện thoại đã cập nhật chỉ vì web deploy xong.
+- Chuẩn bị 0.4.1 (Android versionCode 2), cài expo-updates SDK 58, cập nhật các patch Expo tương thích bằng công cụ chính thức. EAS Update dùng preview và runtime fingerprint, áp dụng ở lần mở lại; không ép reload ca đang chạy.
+- Thêm lệnh release:preview kiểm tra cùng commit/env, chặn OTA nếu fingerprint khác APK đã hoàn thành và ghi kết quả từng bước. Đang chuẩn bị build APK mới và publish OTA; kết quả thực bổ sung sau khi kiểm chứng.
