@@ -8,6 +8,8 @@ Hiện bản v0.4 nằm trong `feat/bystander-two-step-report`, [PR #1](https://
 
 ## Một task đến một PR
 
+Khi sửa lỗi, theo [BUG_FIX_WORKFLOW.md](docs/BUG_FIX_WORKFLOW.md): tái hiện → nguyên nhân → sửa → kiểm tra → review → phát hành → nghiệm thu. Mẫu báo lỗi ở [.github/ISSUE_TEMPLATE/bug_report.md](.github/ISSUE_TEMPLATE/bug_report.md). Mọi phiên có thay đổi (kể cả tài liệu/cấu hình/thử chưa đạt) phải cập nhật [LAB_NOTES.md](docs/LAB_NOTES.md); gom các chỉnh sửa nhỏ theo cùng mục tiêu. Không ghi secret hoặc dữ liệu bệnh nhân thật.
+
 1. Chốt việc nhỏ trong Issue: mục tiêu, file/module, đầu vào/đầu ra, cách kiểm tra.
 2. Cập nhật `main` sau khi đã commit công việc đang làm; tạo branch `feat/...` hoặc `fix/...`.
 3. Chỉ sửa phạm vi liên quan. Báo người phối hợp khi sửa file chung hoặc API.

@@ -2,6 +2,8 @@
 
 ## 1. Thành viên mới: đọc theo thứ tự
 
+Chưa rõ các nền tảng phối hợp thế nào? Bắt đầu với [PLATFORM_ROLES.md](PLATFORM_ROLES.md). Khi phát hiện lỗi hoặc giao AI sửa, dùng [BUG_FIX_WORKFLOW.md](BUG_FIX_WORKFLOW.md). Mọi phiên có thay đổi đều cập nhật [LAB_NOTES.md](LAB_NOTES.md), bao gồm tài liệu/cấu hình và việc chưa hoàn tất.
+
 1. [REPO_MAP.md](REPO_MAP.md): có những phần nào, code nằm đâu, luồng kết nối và môi trường.
 2. [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md): cài và chạy trên máy; checkpoint cho mỗi bước.
 3. [TEAM.md](TEAM.md): chia việc 4 người và phần cần phối hợp.
@@ -39,4 +41,4 @@ Email/mật khẩu thử dùng chung nằm tại [repo riêng tư EHIS-Next-Team
 - [TRIAL_CHECKLIST.md](TRIAL_CHECKLIST.md): checklist local v0.3.
 - [VERIFICATION_V0_3.md](VERIFICATION_V0_3.md): bằng chứng ở thời điểm v0.3; không dùng để khẳng định v0.4 đã thử thiết bị.
 
-Các đường dẫn cũ được giữ để link đã chia sẻ trong nhóm tiếp tục dùng được. Khi thêm tài liệu: chọn nhóm mục đích ở đây, ghi môi trường/phiên bản rõ và cập nhật lab note nếu thay đổi quan trọng.
+Các đường dẫn cũ được giữ để link đã chia sẻ trong nhóm tiếp tục dùng được. Khi thêm tài liệu: chọn nhóm mục đích ở đây, ghi môi trường/phiên bản rõ và cập nhật lab note cho mọi thay đổi, gom theo mục tiêu công việc.

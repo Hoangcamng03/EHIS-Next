@@ -1,6 +1,9 @@
 # EHIS — Lab notes
 
-Ghi thay đổi quan trọng và kết quả quan sát, không lưu mật khẩu, token hoặc hồ sơ sức khỏe. Các mục chưa kiểm chứng được ghi rõ; không coi build thành công là thử nghiệm thiết bị.
+Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu hình, triển khai, tài khoản, tài liệu và việc thử chưa đạt. Gom chỉnh sửa nhỏ cùng mục tiêu vào một mục; không lưu mật khẩu, token hoặc hồ sơ sức khỏe. Các mục chưa kiểm chứng được ghi rõ; không coi build thành công là thử nghiệm thiết bị.
+
+> [!IMPORTANT]
+> **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](PLATFORM_ROLES.md).
 
 ## TÀI KHOẢN CHẠY THỬ — MỤC BÀN GIAO
 
@@ -79,3 +82,12 @@ Ghi thay đổi quan trọng và kết quả quan sát, không lưu mật khẩu
 - EAS manifest probe đạt: runtime tương thích nhận đúng update HTTP 200; runtime khác HTTP 204. Expo Doctor 20/20; GitHub CI run 39753486305 đạt. Web hiển thị 0.4.1 và giữ phiên; chưa có bằng chứng cài/nhận OTA trên điện thoại.
 - Quy trình có thêm chặn source chưa commit, fingerprint không phù hợp và versionCode native không tăng. Đã kiểm tra source guard từ chối trước publish, không làm đổi bản ghi phát hành.
 - Kiểm tra sâu APK SDK 58: Android khai báo runtime bằng `file:fingerprint`, giá trị nằm trong `assets/fingerprint`; đã đọc asset và xác nhận khớp chính xác runtime OTA. Updater bật, channel preview, kiểm tra khi mở và thời gian chờ khởi động 0; không có lời gọi ép reload trong code app.
+
+## 2026-10-22 — Chuẩn hóa giải thích hệ thống và vòng sửa lỗi
+
+- Yêu cầu: giải thích Expo/GitHub/Vercel/Firebase cho nhóm; từ nay mọi thay đổi phải ghi lab note; đánh giá vòng AI sửa lỗi có thể mở rộng sau khi ổn định cơ bản.
+- Thêm PLATFORM_ROLES.md: trách nhiệm từng dịch vụ, luồng sử dụng/phát hành và điểm bắt đầu tìm lỗi; làm rõ backend trong functions/ chạy trên Vercel, web chạy trên Firebase Hosting.
+- Thêm BUG_FIX_WORKFLOW.md: phân mức theo hậu quả, Issue → tái hiện → nguyên nhân → sửa → kiểm tra → peer review → phát hành → nghiệm thu; ba lần sửa thất bại phải tổng hợp bằng chứng và đổi cách phân tích. Không sửa vô hạn, không bỏ kiểm tra/bảo mật để báo đạt.
+- Đề xuất checkpoint ổn định và lộ trình quan sát lỗi → AI tạo PR nháp → phát hành có kiểm soát. Chưa tạo bot nền, tự động sửa, giám sát hoặc tự deploy; chưa xem checkpoint là chứng nhận an toàn y tế.
+- Thêm mẫu Bug report, mở rộng mẫu PR; liên kết từ README/mục lục/CONTRIBUTING và đưa quy định mọi thay đổi vào AGENTS.md. Mẫu Issue/PR có thể cần merge vào nhánh mặc định trước khi GitHub tự hiện; hiện có thể sao chép dùng thủ công. PR #1 vẫn chờ review, không tự merge.
+- Phạm vi vòng này chỉ tài liệu và mẫu quy trình; không đổi mã app/backend/Rules, không phát hành APK/OTA/web mới. Kiểm tra đạt: 83 đường dẫn nội bộ trong 9 tài liệu/mẫu, các lệnh check/test:integration/release:preview có trong package.json, git diff --check không lỗi. Không chạy lại build/test runtime vì không đổi runtime; Android thật vẫn chờ nghiệm thu.
