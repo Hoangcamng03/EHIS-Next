@@ -25,6 +25,8 @@ Chưa rõ các nền tảng phối hợp thế nào? Bắt đầu với [PLATFOR
 
 Kết quả thực của đợt mới: [VERIFICATION_V0_4_2.md](VERIFICATION_V0_4_2.md), phân biệt kiểm tra local/cloud/browser và thiết bị chưa thử.
 
+Đợt tiếp theo web 0.4.3: [VOLUNTEER_ALERTS.md](VOLUNTEER_ALERTS.md) — công tắc sẵn sàng, cảnh báo nổi bật, chuông/rung khi trang mở và bản đồ sau nhận ca. Kết quả build/deploy/test thực xem lab note.
+
 | Tài liệu | Phạm vi |
 |---|---|
 | [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md) | Phát triển local với dữ liệu giả trong Emulator |

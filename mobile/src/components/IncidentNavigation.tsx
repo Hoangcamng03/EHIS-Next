@@ -1,6 +1,6 @@
 import { Text } from './AppText';
 import { Button } from './ActionButton';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { firebaseClient, isLocalEmulator } from '../lib/firebase';
@@ -10,7 +10,7 @@ import type { MapPoint } from '../lib/map';
 import { RouteMap } from './RouteMap';
 import { DirectionsLink } from './DirectionsLink';
 
-export function IncidentNavigation({ destination, connected }: { destination: MapPoint; connected: boolean }) {
+export function IncidentNavigation({ destination, connected, autoPreview = false }: { destination: MapPoint; connected: boolean; autoPreview?: boolean }) {
   const [origin, setOrigin] = useState<MapPoint | null>(null);
   const [route, setRoute] = useState<RoadRoute | null>(null);
   const [routeKey, setRouteKey] = useState('');
@@ -20,6 +20,7 @@ export function IncidentNavigation({ destination, connected }: { destination: Ma
   const [originLabel, setOriginLabel] = useState('Vị trí TNV đã lưu khi bật sẵn sàng; có thể đã cũ.');
   const operation = useRef(0);
   const controller = useRef<AbortController | null>(null);
+  const autoStarted = useRef(false);
   const currentKey = `${origin?.latitude},${origin?.longitude}:${destination.latitude},${destination.longitude}`;
   const visibleRoute = routeKey === currentKey ? route : null;
   useEffect(() => {
@@ -32,7 +33,7 @@ export function IncidentNavigation({ destination, connected }: { destination: Ma
   }, []);
   useEffect(() => () => { operation.current += 1; controller.current?.abort(); }, []);
   useEffect(() => { controller.current?.abort(); }, [currentKey, connected]);
-  async function preview() {
+  const preview = useCallback(async () => {
     if (!origin || !connected) return;
     const id = ++operation.current;
     controller.current?.abort();
@@ -44,7 +45,13 @@ export function IncidentNavigation({ destination, connected }: { destination: Ma
       if (id === operation.current) { setRoute(result); setRouteKey(currentKey); }
     } catch { if (id === operation.current) setError('Chưa lấy được tuyến đường. Kiểm tra Internet và thử lại, hoặc mở Google Maps.'); }
     finally { clearTimeout(timer); if (id === operation.current) setBusy(false); }
-  }
+  }, [origin, destination, connected, currentKey]);
+  useEffect(() => {
+    if (autoPreview && origin && connected && !autoStarted.current) {
+      autoStarted.current = true;
+      void preview();
+    }
+  }, [autoPreview, origin, connected, preview]);
   async function refreshGps() {
     setGpsBusy(true); setError('');
     try { const point = await currentLocation(true); setOrigin(point); setOriginLabel('Vị trí GPS vừa lấy trên thiết bị này; bấm xem đường đi để tính lại.'); }
@@ -56,7 +63,7 @@ export function IncidentNavigation({ destination, connected }: { destination: Ma
     <Text>A · TNV: {origin ? `${origin.latitude}, ${origin.longitude}` : 'Chưa có vị trí'}</Text>
     <Text>B · Bệnh nhân: {destination.latitude}, {destination.longitude}</Text>
     <Text>{originLabel}{isLocalEmulator ? ' Đang thử nghiệm: tọa độ đã lưu có thể là vị trí giả.' : ''}</Text>
-    <Text>Bấm xem đường đi sẽ gửi hai tọa độ đến OSRM để tính tuyến ô tô; bản đồ dùng OpenStreetMap. Không gửi hồ sơ hoặc số điện thoại.</Text>
+    <Text>{autoPreview ? 'Đang mở tuyến sau khi bạn xác nhận nhận ca. ' : ''}Xem đường đi sẽ gửi hai tọa độ đến OSRM để tính tuyến ô tô; bản đồ dùng OpenStreetMap. Không gửi hồ sơ hoặc số điện thoại.</Text>
     <Button title={busy ? 'Đang tính tuyến đường…' : 'Xem đường đi trong EHIS'} disabled={busy || gpsBusy || !origin || !connected} onPress={preview} />
     <Button title={gpsBusy ? 'Đang lấy GPS…' : 'Lấy GPS hiện tại để tính lại'} disabled={gpsBusy || busy || !connected} onPress={refreshGps} />
     <RouteMap origin={origin} destination={destination} route={visibleRoute} />
