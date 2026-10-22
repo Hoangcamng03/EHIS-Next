@@ -7,13 +7,14 @@
 | Việc | File chính |
 |---|---|
 | Khung màn hình / điều hướng | [src/app/_layout.tsx](src/app/_layout.tsx) |
-| Màn chọn Patient / Volunteer | [src/app/index.tsx](src/app/index.tsx) |
+| Tự mở khu vực theo đối tượng đã lưu | [src/app/index.tsx](src/app/index.tsx) |
 | Hồ sơ, thẻ QR, consent, thu hồi, lịch sử Patient | [src/app/patient.tsx](src/app/patient.tsx) |
 | Lời mời, nhận/đến nơi/kết thúc ca | [src/app/volunteer.tsx](src/app/volunteer.tsx) |
 | Đăng nhập, đăng ký, quên mật khẩu | [src/components/Session.tsx](src/components/Session.tsx) |
 | Chọn mục đích trước đăng ký và mô tả hai đối tượng | [src/components/PurposeChoices.tsx](src/components/PurposeChoices.tsx), [src/lib/account-purpose.ts](src/lib/account-purpose.ts) |
 | Đơn ứng tuyển TNV | [src/components/VolunteerApplication.tsx](src/components/VolunteerApplication.tsx) |
 | GPS, tọa độ giả, heartbeat sẵn sàng | [src/components/VolunteerAvailability.tsx](src/components/VolunteerAvailability.tsx) |
+| Cảnh báo chuông/rung khi web mở phía trước | [src/lib/use-emergency-signal.web.ts](src/lib/use-emergency-signal.web.ts), [src/lib/alert-policy.ts](src/lib/alert-policy.ts), [hướng dẫn](../docs/VOLUNTEER_ALERTS.md) |
 | Tính và trình bày tuyến đường | [src/components/IncidentNavigation.tsx](src/components/IncidentNavigation.tsx), [src/lib/directions.ts](src/lib/directions.ts) |
 | Bản đồ Android/iOS | [src/components/RouteMap.tsx](src/components/RouteMap.tsx), [src/lib/route-html.ts](src/lib/route-html.ts) |
 | Bản đồ app chạy trên trình duyệt | [src/components/RouteMap.web.tsx](src/components/RouteMap.web.tsx) |

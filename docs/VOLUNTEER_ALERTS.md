@@ -48,3 +48,26 @@ Tài liệu nền tảng: [Web Audio và thao tác người dùng](https://devel
 Kiểm tra: bật/tắt chỉ đổi sau xác nhận; từ chối GPS không báo sẵn sàng giả; quét QR chưa gửi không tạo cảnh báo; gửi mới hiện popup; cùng revision không reo lại; bổ sung mới phát 2 giây; dừng/mute hoạt động; lời mời hết hạn/người khác nhận đóng popup; nhận thành công mở map/profile đúng consent; mạng lỗi không lộ dữ liệu cũ như hiện tại. Thử thêm trình duyệt không hỗ trợ audio/rung và chuyển nền trên thiết bị thật.
 
 Kết quả từng vòng được ghi riêng trong [LAB_NOTES.md](LAB_NOTES.md). Unit test kiểm tra lịch phát và dedupe, không chứng minh loa/rung vật lý. Chỉ dùng tình huống và hồ sơ giả trong đợt thử có kiểm soát.
+
+## Kết quả đã quan sát trên cloud
+
+Source bản cuối: `b161a09a7d3de5695d97800396d1a359949a4d61`. Hosting đã phát; HTML và entry JavaScript khớp artifact. Backend vẫn 0.4.2, không đổi Rules/schema/quyền. [CI run 39823458878](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/39823458878) đạt, gồm check/Android JS export/web build/năm suite integration.
+
+| Bài thử | Kết quả |
+|---|---|
+| Thử chuông, mute/bật lại | Browser hiển thị trạng thái phát từ bộ audio; mute và bật lại đúng. Chưa xác nhận âm nghe/rung bằng máy thật |
+| Sẵn sàng và công tắc OFF | ON được seed qua API bằng tọa độ giả; OFF thao tác trên UI, đọc server xác nhận false mà không ghi đè kết quả. Chưa nghiệm thu bật GPS trên điện thoại trong đợt này |
+| Tạo yêu cầu mới | Backend mời đúng 1 TNV; popup hiện và UI báo đang phát chuông; private API từ chối trước nhận |
+| Bổ sung trước nhận / gửi lại cùng ID | Revision 1 được cập nhật; replay vẫn revision 1. Dedupe/lịch 6s–2s có kiểm thử tự động |
+| Nhận ca | Popup đóng, chi tiết lên đầu, phone không bắt buộc, chỉ hồ sơ giả theo consent; OSRM tự tính 0,44 km/khoảng 2 phút |
+| Bổ sung sau nhận | Thông tin mới về đúng ca; tuyến 0,44 km vẫn hiện, không phải bấm tính lại |
+| Đến nơi và kết thúc | Trạng thái cập nhật; UI gỡ private/map; backend từ chối đọc sau đóng |
+| Trạng thái cuối | Hai ca thử đã đóng; tài khoản bàn giao Volunteer không sẵn sàng, chuông được bật lại để nhóm thử tiếp khi chủ động bật sẵn sàng |
+
+Ảnh dưới đây chỉ có tình huống, tọa độ và tài khoản giả; không có mật khẩu/token. Bộ ảnh theo bước đầy đủ ở `.local/volunteer-alarm-proof/`, Git bỏ qua.
+
+![Cảnh báo khi có lời mời mới](assets/volunteer-alerts-043/new-request.jpg)
+
+![Tuyến đường trong EHIS sau nhận ca](assets/volunteer-alerts-043/accepted-route.jpg)
+
+![Tuyến được giữ khi có thông tin bổ sung sau nhận](assets/volunteer-alerts-043/route-after-update.jpg)

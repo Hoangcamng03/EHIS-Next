@@ -18,7 +18,7 @@ Các lệnh npm bên dưới chạy từ **root repo**. Script công cụ không
 
 ## 2. Kiểm tra mã và nghiệp vụ
 
-- `npm run check`: lint/typecheck app/web, build TypeScript backend, unit validation và `test-navigation.cjs`.
+- `npm run check`: lint/typecheck app/web, build TypeScript backend, unit validation, `test-navigation.cjs` và `test-emergency-alerts.cjs` (dedupe/expiry/lịch chuông hữu hạn). Kiểm tra phần mềm không xác nhận loa/rung vật lý.
 - `npm run test:integration`: build backend, khởi động Emulator kiểm tra và chạy `run-integration.cjs`; tránh trùng port phiên phát triển đang chạy.
 - `run-integration.cjs`: gọi 5 suite `smoke-starter`, `smoke-reports`, `smoke-lifecycle`, `smoke-maintenance`, `smoke-portable` trên Emulator sẵn sàng. Các suite dùng dữ liệu giả, kiểm tra quyền/trạng thái/transaction/HTTP wrapper; không chạy chúng vào database cloud.
 - `npm --prefix web run build`: production build web local; khác `cloud:build` có static export và cấu hình cloud.
