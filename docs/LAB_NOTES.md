@@ -24,3 +24,9 @@ Ghi thay đổi quan trọng và kết quả quan sát, không lưu mật khẩu
 - Luồng cloud thật đã PASS toàn bộ từ hồ sơ, QR, duyệt TNV đến bổ sung không phone/nhận/đến nơi/kết thúc và mất quyền đọc riêng sau đóng. Tất cả dữ liệu là giả. Endpoint bảo trì có secret đã kiểm tra 401/200; index đã sẵn sàng.
 - Hai Hosting đã phát hành. Sửa đường dẫn artifact Next.js từ web/out sang web/.next-cloud; thêm bỏ qua artifact sinh tự động trong lint để chỉ kiểm tra mã nguồn. Build, lint/typecheck và 11 unit tests đã đạt sau sửa.
 - Expo CLI đã đăng nhập và tạo dự án nhóm ehiss-team/ehis-next. Đã tải cấu hình client preview, tạo signing Android và gửi build APK cf99a628-de58-4e55-b93c-f48f13178af7; chưa coi APK đã hoàn tất hoặc đã thử thiết bị khi chưa có kết quả.
+
+- Kiểm tra UI cloud đã đi hết ca 84c83c1253 bằng tài khoản giả: gửi trước/ack/bổ sung không phone/nhận/tuyến OSRM 0,78 km/đến nơi/xác nhận kết thúc. Sau đóng, UI gỡ hồ sơ riêng và bản đồ. Đã lưu ảnh từng bước ở .local/cloud-proof-20261022.
+- GitHub Actions run 39729774930 đạt toàn bộ, gồm Android JS export, web production build và năm integration suites trên Node 22; commit 26f0b565543d96362e8010991dba6ce00cfc6a6e. Billing kiểm tra lại vẫn false.
+
+- APK EAS đã FINISHED: build cf99a628-de58-4e55-b93c-f48f13178af7. Đã tải bộ cài 100.235.444 byte; kiểm tra archive có AndroidManifest/DEX/bundle nhúng và đúng backend/project cloud. SHA-256 lưu trong ANDROID_TRIAL.md. Chưa cài/chạy trên điện thoại, không coi build thành công là nghiệm thu thiết bị. Dashboard dùng Git commit nền vì upload snapshot trước commit; đã ghi rõ nguồn trong hướng dẫn.
+- Mở lại Patient cloud thấy hồ sơ đã sửa và hai ca completed được giữ trên Firestore. Đã thử đăng nhập/tải danh sách quản trị rồi đăng xuất; phiên người báo vẫn tách riêng.

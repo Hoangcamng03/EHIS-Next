@@ -102,3 +102,5 @@ Backend/web hiện chạy cloud độc lập laptop: Firebase Spark (Auth/Firest
 - Xem [phân công](docs/TEAM.md), [kiến trúc](docs/ARCHITECTURE.md), [API contract](docs/API_CONTRACT.md), [kịch bản kiểm tra](docs/TEST_SCENARIOS.md).
 - Không đưa credentials quản trị, token, keystore, file `.env` hoặc dữ liệu y tế thật lên repo.
 - Dependency từ các template chính thức vẫn có thể có advisory; xem `docs/STATUS.md` trước khi phát hành. Không chạy `npm audit fix --force` vì có thể đổi major SDK hoặc downgrade framework.
+
+Bộ cài Android v0.4 đã xuất thành công: [hướng dẫn và link APK](docs/ANDROID_TRIAL.md). Không cần Expo Go/laptop; thao tác dữ liệu cần Internet. Chưa nghiệm thu trên thiết bị thật.

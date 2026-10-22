@@ -14,6 +14,8 @@
 
 Ảnh từng bước nằm trong `.local/cloud-proof-20261022` trên máy người thực hiện, không đưa tài khoản, khóa hoặc dữ liệu sức khỏe thật vào repo. Profile/phone/observations/coordinates dùng cho các bài thử là giả. Kiểm tra trình duyệt không chứng minh WebView/GPS trên Android hoặc iOS.
 
-APK EAS đang build: https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/cf99a628-de58-4e55-b93c-f48f13178af7. Chỉ coi file đã xuất khi EAS báo FINISHED và có artifact. Chưa thử cài APK lên thiết bị, chưa IPA/TestFlight, chưa push/GPS nền/NFC hoặc dẫn đường liên tục.
+APK EAS đã FINISHED: https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/cf99a628-de58-4e55-b93c-f48f13178af7. Đã tải artifact 100.235.444 byte; ZIP có manifest, DEX và bundle nhúng chứa đúng backend/project cloud. Chưa thử cài APK lên thiết bị, chưa IPA/TestFlight, chưa push/GPS nền/NFC hoặc dẫn đường liên tục.
 
 Cron được gọi kiểm tra thủ công; chưa có bằng chứng một chu kỳ lịch tự động hằng ngày đã chạy. Quota và sự cố nhà cung cấp vẫn có thể chặn thử nghiệm; giữ phạm vi nhóm nhỏ và dữ liệu giả.
+
+GitHub Actions độc lập: https://github.com/Hoangcamng03/EHIS-Next/actions/runs/39729774930 — tất cả bước thành công tại commit 26f0b565543d96362e8010991dba6ce00cfc6a6e, bao gồm Android JS export và integration. UI đã xác nhận hoàn tất, gỡ thông tin riêng, đồng bộ trang người báo.

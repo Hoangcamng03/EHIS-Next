@@ -54,3 +54,5 @@ Người quản trị đăng ký bằng tài khoản của mình trên app. Ch�
 Chỉ đánh dấu sau kiểm tra thực: health đúng project; API không auth bị từ chối; Patient cloud lưu và mở lại hồ sơ; QR HTTPS mở trên thiết bị khác; quản trị duyệt TNV; gửi ban đầu rồi bổ sung không phone; nhận ca → tuyến đường → đến nơi → hoàn tất; hết quyền đọc riêng sau đóng ca; ca hết hạn không nhận được; không có TNV thông báo đúng. Chạy lint/typecheck, integration và build trước mỗi bản. Kết quả thực và phần còn chờ được ghi ở LAB_NOTES.md.
 
 APK là bước riêng: cần tài khoản Expo/EAS của nhóm, môi trường preview trỏ backend cloud và signing. App web chạy trên điện thoại chưa đồng nghĩa APK/IPA đã được kiểm thử.
+
+APK preview đã FINISHED và kiểm tra artifact. Xem [cài/thử Android](ANDROID_TRIAL.md) để tải và thao tác; chưa có bằng chứng chạy trên Android thật.
