@@ -74,3 +74,8 @@ Ghi thay đổi quan trọng và kết quả quan sát, không lưu mật khẩu
 - Theo yêu cầu mới, mỗi thay đổi app cần bàn giao đồng thời web và Android, có trạng thái riêng từng đầu ra; không báo điện thoại đã cập nhật chỉ vì web deploy xong.
 - Chuẩn bị 0.4.1 (Android versionCode 2), cài expo-updates SDK 58, cập nhật các patch Expo tương thích bằng công cụ chính thức. EAS Update dùng preview và runtime fingerprint, áp dụng ở lần mở lại; không ép reload ca đang chạy.
 - Thêm lệnh release:preview kiểm tra cùng commit/env, chặn OTA nếu fingerprint khác APK đã hoàn thành và ghi kết quả từng bước. Đang chuẩn bị build APK mới và publish OTA; kết quả thực bổ sung sau khi kiểm chứng.
+
+- Đã phát hành đồng bộ app web + OTA preview + APK 0.4.1, source commit `794bcbd4db670621b76fa9570f5b065c04e93d9a`. Build `6e645e3e-bbcc-474b-89bf-f67205bfdcd7` FINISHED; tải APK 102.066.128 byte, kiểm tra SHA-256/manifest/DEX/URL OTA/fingerprint. Link tải mới cố định trong ANDROID_TRIAL.md và MOBILE_RELEASES.md.
+- EAS manifest probe đạt: runtime tương thích nhận đúng update HTTP 200; runtime khác HTTP 204. Expo Doctor 20/20; GitHub CI run 39753486305 đạt. Web hiển thị 0.4.1 và giữ phiên; chưa có bằng chứng cài/nhận OTA trên điện thoại.
+- Quy trình có thêm chặn source chưa commit, fingerprint không phù hợp và versionCode native không tăng. Đã kiểm tra source guard từ chối trước publish, không làm đổi bản ghi phát hành.
+- Kiểm tra sâu APK SDK 58: Android khai báo runtime bằng `file:fingerprint`, giá trị nằm trong `assets/fingerprint`; đã đọc asset và xác nhận khớp chính xác runtime OTA. Updater bật, channel preview, kiểm tra khi mở và thời gian chờ khởi động 0; không có lời gọi ép reload trong code app.

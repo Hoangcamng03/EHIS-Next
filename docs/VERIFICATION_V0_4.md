@@ -28,3 +28,7 @@ Expo Doctor trong build APK đạt 19/20: cảnh báo có 5 patch mới trong c�
 - Đã phát hành app web lên Hosting. Chưa build APK mới cho onboarding; file APK v0.4 ở phần trên là artifact trước thay đổi này. Chưa có thử Android thật.
 
 GitHub Actions độc lập: https://github.com/Hoangcamng03/EHIS-Next/actions/runs/39729774930 — tất cả bước thành công tại commit 26f0b565543d96362e8010991dba6ce00cfc6a6e, bao gồm Android JS export và integration. UI đã xác nhận hoàn tất, gỡ thông tin riêng, đồng bộ trang người báo.
+
+## Phát hành đồng bộ app 0.4.1
+
+[APK FINISHED](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/6e645e3e-bbcc-474b-89bf-f67205bfdcd7), web và OTA cùng commit `794bcbd4db670621b76fa9570f5b065c04e93d9a`/runtime `60be4f048122470351bfde1bf494fa80b951eb07`. Artifact/hash và cách cài: [MOBILE_RELEASES.md](MOBILE_RELEASES.md). Expo Doctor 20/20 và GitHub CI run 39753486305 thành công. EAS manifest đúng runtime trả 200/đúng update; runtime sai trả 204. Chưa xác nhận thiết bị thật nhận OTA hoặc cài APK; cảnh báo Play Protect trước đây vẫn cần nghiệm thu. Các nhận định “chưa xuất APK mới” ở mục onboarding bên trên mô tả thời điểm trước vòng phát hành này.
