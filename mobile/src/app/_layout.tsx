@@ -1,8 +1,9 @@
 import { Stack } from 'expo-router';
 import { SessionProvider, useSession } from '../components/Session';
+import { Connectivity } from '../components/Connectivity';
 
 export default function RootLayout() {
-  return <SessionProvider><AppStack /></SessionProvider>;
+  return <SessionProvider><Connectivity /><AppStack /></SessionProvider>;
 }
 function AppStack() {
   const { user } = useSession();

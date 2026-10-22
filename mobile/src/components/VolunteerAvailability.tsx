@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState, TextInput, View } from 'react-native';
 import * as Location from 'expo-location';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { firebaseClient, isTrialMode, readableError, updateAvailability } from '../lib/firebase';
+import { firebaseClient, isLocalEmulator as isTrialMode, readableError, updateAvailability } from '../lib/firebase';
 import { LocationMap } from './LocationMap';
 import { MapPoint, parsePoint } from '../lib/map';
 

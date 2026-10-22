@@ -13,12 +13,14 @@ Dự án Capstone viết mới cho nhóm 4 người. Repository chứa **toàn b
 
 | Sản phẩm | Người dùng | Code | Kết quả build / nơi chạy |
 |---|---|---|---|
-| App EHIS | Patient và Volunteer, chọn khu vực sau đăng nhập | [mobile/](mobile/README.md) | APK Android; cùng source có bản web để thử; iOS chưa phát hành |
+| App EHIS | Patient và Volunteer, ghi nhớ đối tượng khi đăng ký và tự mở sau đăng nhập | [mobile/](mobile/README.md) | Ưu tiên nghiệm thu web 0.4.2; APK 0.4.1 cũ; iOS chưa phát hành |
 | Website EHIS | Người qua đường mở QR; quản trị vào `/admin` | [web/](web/README.md) | Website tĩnh HTTPS trên Firebase Hosting |
 | Backend EHIS | App và website gọi API | [functions/](functions/README.md) | Node/Express trên Vercel Hobby |
 | Dữ liệu / xác thực | Tài khoản, hồ sơ, thẻ, ca và quyền đọc | [Firebase config](docs/REPO_MAP.md#4-cấu-hình-và-dữ-liệu) | Firebase Auth + Firestore Standard Singapore |
 
 Patient và Volunteer là hai khu vực của **cùng một app**. Trang quản trị thuộc website. App xuất ra web dùng cùng code React Native; đó là giao diện khác website người qua đường.
+
+Theo quyết định mới: [hoàn thiện và duyệt web trước](docs/WEB_TRIAL.md), rồi mới phát hành Android/iOS mới. Không phát OTA/APK trong giai đoạn chờ duyệt web. Lựa chọn đối tượng được lưu qua backend và chỉ quyết định giao diện; quyền TNV vẫn cần quản trị xét duyệt.
 
 ## 2. Cấu trúc repository
 

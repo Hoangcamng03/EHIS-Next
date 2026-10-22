@@ -21,6 +21,8 @@ Chưa rõ các nền tảng phối hợp thế nào? Bắt đầu với [PLATFOR
 
 ## 3. Build, vận hành và thử nghiệm hiện tại
 
+**Ưu tiên mới:** [WEB_TRIAL.md](WEB_TRIAL.md) — hoàn thiện web, nghiệm thu có kiểm soát và chờ chủ dự án duyệt trước khi phát hành Android/iOS mới. APK 0.4.1 là bản cũ; không coi nó tự có các sửa đổi web 0.4.2.
+
 | Tài liệu | Phạm vi |
 |---|---|
 | [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md) | Phát triển local với dữ liệu giả trong Emulator |

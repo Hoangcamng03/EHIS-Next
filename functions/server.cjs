@@ -12,7 +12,7 @@ app.use((req,res,next) => {
   next();
 });
 app.use((_req,res,next) => { res.set('Cache-Control','no-store'); res.set('X-Content-Type-Options','nosniff'); next(); });
-const names = new Set(['getMyAccess','savePatientProfile','createIncident','submitBystanderReport','acceptIncident','getVolunteerIncidentDetails','setVolunteerAvailability','finishIncident','issuePatientCard','revokePatientCard','applyVolunteer','listVolunteerApplications','reviewVolunteerApplication','markIncidentArrived','cancelPatientIncident']);
+const names = new Set(['getMyAccess','setAccountPurpose','savePatientProfile','createIncident','submitBystanderReport','acceptIncident','getVolunteerIncidentDetails','setVolunteerAvailability','finishIncident','issuePatientCard','revokePatientCard','applyVolunteer','listVolunteerApplications','reviewVolunteerApplication','markIncidentArrived','cancelPatientIncident']);
 app.get('/api/health', functions.health);
 app.all('/api/:operation', (req,res,next) => {
   if (!names.has(req.params.operation)) return res.status(404).json({ error: { status: 'NOT_FOUND', message: 'Unknown endpoint' } });

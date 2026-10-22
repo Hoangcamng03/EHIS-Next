@@ -19,16 +19,20 @@ export { issuePatientCard, revokePatientCard, applyVolunteer, listVolunteerAppli
 
 // No identities, personal data, or secrets in a public health check.
 export const health = onRequest({ cors: true }, (_request, response) => {
-  response.json({ service: 'ehis-next', status: 'ok', version: '0.4.0', projectId: getApp().options.projectId || process.env.GCLOUD_PROJECT || null });
+  response.json({ service: 'ehis-next', status: 'ok', version: '0.4.2', projectId: getApp().options.projectId || process.env.GCLOUD_PROJECT || null });
 });
 
 export const getMyAccess = onCall('getMyAccess', async request => {
   if (!request.auth) throw new HttpsError('unauthenticated', 'Sign in first');
-  const volunteer = await getFirestore().doc(`volunteers/${request.auth.uid}`).get();
+  const db = getFirestore(), uid = request.auth.uid;
+  const [volunteer, user, patient, application] = await db.getAll(db.doc(`volunteers/${uid}`), db.doc(`users/${uid}`), db.doc(`patients/${uid}`), db.doc(`volunteerApplications/${uid}`));
+  const saved = user.data()?.accountPurpose;
+  const accountPurpose = saved === 'patient' || saved === 'volunteer' ? saved : volunteer.exists || application.exists ? 'volunteer' : patient.exists ? 'patient' : null;
   return {
     uid: request.auth.uid,
     isAdmin: request.auth.token.admin === true,
     isVerifiedVolunteer: volunteer.exists && volunteer.data()?.verificationStatus === 'approved',
+    accountPurpose,
   };
 });
 
@@ -50,3 +54,4 @@ export const savePatientProfile = onCall('savePatientProfile', async request => 
 });
 
 export { maintenance } from './maintenance';
+export { setAccountPurpose } from './account';

@@ -2,7 +2,6 @@ import { Text } from '../components/AppText';
 import { Button } from '../components/ActionButton';
 import { useEffect, useState } from 'react';
 import { Linking, Platform, ScrollView, Switch, TextInput, View } from 'react-native';
-import { Link } from 'expo-router';
 import { collection, doc, getDoc, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
 
 import QRCode from 'react-native-qrcode-svg';
@@ -13,7 +12,7 @@ import { ConfirmAction } from '../components/ConfirmAction';
 
 type Card = { cardId: string; active: boolean; shareProfile: boolean };
 type History = { id: string; status: string; createdAt?: { toDate(): Date }; invitedCount?: number };
-export default function PatientScreen() { return <AuthGate>{user => <PatientDashboard key={user.uid} uid={user.uid} />}</AuthGate>; }
+export default function PatientScreen() { return <AuthGate purpose="patient">{user => <PatientDashboard key={user.uid} uid={user.uid} />}</AuthGate>; }
 function PatientDashboard({ uid }: { uid: string }) {
   const [fullName, setFullName] = useState(''), [allergies, setAllergies] = useState(''), [phone, setPhone] = useState('');
   const [loaded, setLoaded] = useState(false), [savedProfile, setSavedProfile] = useState(false);
@@ -64,7 +63,7 @@ function PatientDashboard({ uid }: { uid: string }) {
   const active = history.find(item => ['dispatching', 'accepted', 'arrived'].includes(item.status));
   return <ScrollView contentContainerStyle={ui.page} keyboardShouldPersistTaps="handled">
     <Text style={ui.eyebrow}>EHIS · BỆNH NHÂN</Text><Text style={ui.title}>Thẻ sức khỏe của bạn</Text>
-    <Link href="/" style={ui.link}>← Chuyển khu vực</Link><AccountBar />
+    <AccountBar />
     {!connected && <Text accessibilityRole="alert" style={ui.error}>Đang chờ máy chủ. Thẻ và trạng thái lưu trên thiết bị có thể đã cũ.</Text>}
     {isLocalEmulator && <View style={ui.notice}><Text>Bản thử nghiệm · chỉ nhập hồ sơ giả. QR localhost chỉ dùng trên máy tính này; quét bằng điện thoại cần URL HTTPS truy cập được.</Text></View>}
     {isTrialMode && !isLocalEmulator && <View style={ui.notice}><Text>Thẻ dùng trong buổi chạy thử. Chỉ nhập hồ sơ giả; QR này mở website trực tuyến trên thiết bị khác.</Text></View>}

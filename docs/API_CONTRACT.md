@@ -2,17 +2,23 @@
 
 Chỉ các API ở mục Đã viết tồn tại. Không gọi API ở backlog như thể đã có.
 
-## Đã viết (source; chưa deploy cloud)
+## Đã viết
+
+Cloud API đang chạy trên Vercel; trạng thái phát hành từng thay đổi ghi trong LAB_NOTES.md. Phần lựa chọn tài khoản bên dưới thuộc source 0.4.2, chỉ coi deploy sau khi có bằng chứng trong lab note.
 
 Region: `asia-southeast1`.
 
 ### health — HTTP GET
 
-Không Auth. Trả `{ service: "ehis-next", status: "ok", version: "0.4.0", projectId }`. Không trả credentials hoặc dữ liệu người dùng.
+Không Auth. Trả `{ service: "ehis-next", status: "ok", version: "0.4.2", projectId }`. Không trả credentials hoặc dữ liệu người dùng.
 
 ### getMyAccess — callable
 
-Cần Firebase Auth. Đầu vào rỗng. Trả uid từ token, isAdmin từ custom claim, isVerifiedVolunteer từ document server quản lý. Không nhận role/verified từ client.
+Cần Firebase Auth. Đầu vào rỗng. Trả uid từ token, isAdmin từ custom claim, isVerifiedVolunteer từ document server quản lý và `accountPurpose: "patient" | "volunteer" | null`. Không nhận role/verified từ client. Ưu tiên accountPurpose đã lưu trong users/{uid}; tài khoản cũ chưa lưu dùng volunteer/application tồn tại trước, rồi patient profile; không có dữ liệu thì null và UI yêu cầu hoàn tất một lần.
+
+### setAccountPurpose — callable (0.4.2)
+
+Cần tài khoản đăng ký, từ chối anonymous. Chỉ nhận `{ purpose: "patient" | "volunteer" }`; UID lấy từ token. Ghi bằng transaction vào users/{uid}, merge giữ field cũ, không ghi role/admin/verification. Cùng lựa chọn được thử lại an toàn; đổi lựa chọn đã lưu trả failed-precondition. Trả `{ accountPurpose }` khi đã lưu. Lựa chọn chỉ quyết định giao diện, không cấp quyền nhận ca. Tài khoản cũ có cả hai loại hồ sơ sẽ ưu tiên Volunteer nếu chưa lưu lựa chọn; nhóm hỗ trợ xử lý ngoại lệ trước nghiệm thu. Không có endpoint tự đổi đối tượng ở đợt này.
 
 ### savePatientProfile — callable
 

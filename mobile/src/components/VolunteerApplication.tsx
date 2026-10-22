@@ -16,7 +16,7 @@ export function VolunteerApplication({ status }: { status?: string }) {
   }
   return <View style={ui.card}><Text style={ui.heading}>Đăng ký tham gia hỗ trợ</Text>
     <Text style={ui.body}>Chọn khu vực TNV không tự cấp quyền nhận ca. Nhóm quản trị cần xem xét đơn trước; đây không phải chứng nhận hành nghề y tế.</Text>
-    {(status === 'pending' || sent) ? <Text style={ui.success}>Đã gửi đăng ký · đang chờ quản trị duyệt. Có thể quay về khu vực Bệnh nhân trong lúc chờ.</Text> : <>
+    {(status === 'pending' || sent) ? <Text style={ui.success}>Đã gửi đăng ký · đang chờ quản trị duyệt. Lần đăng nhập sau EHIS vẫn mở khu vực Tình nguyện viên của bạn.</Text> : <>
       {!!status && <Text>{statusLabel[status] || status}. Có thể bổ sung thông tin và gửi lại.</Text>}
       <Text>Họ và tên</Text><TextInput accessibilityLabel="Họ tên TNV" value={name} onChangeText={setName} maxLength={100} style={ui.input} editable={!busy} />
       <Text>Số điện thoại liên hệ</Text><TextInput accessibilityLabel="Số điện thoại TNV" value={phone} onChangeText={setPhone} maxLength={40} keyboardType="phone-pad" style={ui.input} editable={!busy} />

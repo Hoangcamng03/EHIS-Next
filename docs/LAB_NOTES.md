@@ -19,7 +19,7 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 | Quản trị (Admin) | `ehis-trial-admin-bf2d0ccb@example.test` | Chỉ nhóm quản trị; đăng nhập web /admin |
 
 - App: https://ehis-next-20261021-hc03-app.web.app; quản trị: https://ehis-next-20261021-hc03.web.app/admin.
-- Patient và TNV đăng nhập ở app, sau đó chọn đúng khu vực. Dùng hai thiết bị/hồ sơ trình duyệt riêng để thử đồng thời; các tab cùng origin dùng chung phiên cloud.
+- Bản web 0.4.2 tự mở đúng khu vực theo lựa chọn tài khoản; tài khoản cũ suy ra từ hồ sơ hiện có hoặc hoàn tất lựa chọn một lần. APK 0.4.1 cũ vẫn theo luồng trước. Dùng hai thiết bị/hồ sơ trình duyệt riêng để thử đồng thời; các tab cùng origin dùng chung phiên cloud.
 - Người quét QR **không cần tài khoản đăng nhập**; Firebase tạo phiên ẩn danh để theo dõi yêu cầu.
 - Tài khoản Emulator trong `.local/complete-demo.json` và `.local/report-demo.json` chỉ dùng cho local, không đăng nhập được vào APK cloud. Đã gom thông tin vào file nội bộ; chưa xác minh lại Emulator trong lần cập nhật này.
 - Tài khoản sinh ngẫu nhiên trong integration/probe không được coi là tài khoản bàn giao ổn định. Khi thêm tài khoản thử dùng chung, cập nhật danh sách này và file mật khẩu nội bộ; không ghi token hoặc khóa service account.
@@ -91,3 +91,14 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 - Đề xuất checkpoint ổn định và lộ trình quan sát lỗi → AI tạo PR nháp → phát hành có kiểm soát. Chưa tạo bot nền, tự động sửa, giám sát hoặc tự deploy; chưa xem checkpoint là chứng nhận an toàn y tế.
 - Thêm mẫu Bug report, mở rộng mẫu PR; liên kết từ README/mục lục/CONTRIBUTING và đưa quy định mọi thay đổi vào AGENTS.md. Mẫu Issue/PR có thể cần merge vào nhánh mặc định trước khi GitHub tự hiện; hiện có thể sao chép dùng thủ công. PR #1 vẫn chờ review, không tự merge.
 - Phạm vi vòng này chỉ tài liệu và mẫu quy trình; không đổi mã app/backend/Rules, không phát hành APK/OTA/web mới. Kiểm tra đạt: 83 đường dẫn nội bộ trong 9 tài liệu/mẫu, các lệnh check/test:integration/release:preview có trong package.json, git diff --check không lỗi. Không chạy lại build/test runtime vì không đổi runtime; Android thật vẫn chờ nghiệm thu.
+
+## 2026-10-22 — Web 0.4.2: ghi nhớ đối tượng và nghiệm thu trước native
+
+- Chủ dự án chốt **hoàn thiện web có kiểm soát trước**, sau khi duyệt mới đưa lên Android/iOS. Đã cập nhật AGENTS/README/MOBILE_RELEASES/WEB_TRIAL; không phát APK hoặc OTA trong đợt này.
+- Phát hiện nguyên nhân đăng nhập hỏi lại: lựa chọn signup chỉ ở ref trong phiên, chưa lưu server. Thêm setAccountPurpose và getMyAccess.accountPurpose; transaction chỉ lưu patient/volunteer theo UID, không cấp admin/approved, không nhận UID/role tùy ý. Giữ dữ liệu users cũ khi merge.
+- Session chờ xác nhận server, có thử lại khi lỗi; đăng nhập tự mở đúng khu vực, URL sai khu vực chuyển lại. Bỏ nút chuyển khu vực. Tài khoản cũ suy ra từ hồ sơ/application, nếu trống thì chọn một lần; accountPurpose đã lưu không tự đổi trong đợt thử này.
+- Thêm xác nhận đã đọc thông tin thử nghiệm trước đăng ký, lỗi email đã dùng/mạng/quá nhiều lần thử rõ hơn; cảnh báo mất mạng. Diễn đạt là đăng ký đợt thử có hướng dẫn với dữ liệu lưu thật; vẫn dùng dữ liệu giả khi nghiệm thu, không nhận cấp cứu thật.
+- Thêm manifest, icon web và hướng dẫn thêm màn hình chính iPhone/Android ở cả trước/sau đăng nhập; không có IPA/TestFlight hay service worker lưu hồ sơ offline. Browser/thiết bị chưa thử phải để chờ, không hứa mọi trình duyệt đều đạt.
+- Cloud UI không còn thao tác nhập tọa độ giả; chỉ Emulator cho phép. Không thay đổi quyền thẻ/ca, giới hạn dispatch hoặc thông báo nền.
+- Kiểm tra đã đạt: npm run check (lint/typecheck/build backend/11 unit checks), build hai bản web; năm suite integration trên Emulator có sẵn, gồm bổ sung purpose, từ chối field injection, lưu lặp an toàn và không tăng quyền. Lần khởi động Emulator mới báo cổng đang dùng; không dừng dịch vụ của người dùng, chuyển sang kiểm tra trên Emulator đang chạy bằng kết nối được cấp phép.
+- Đang chuẩn bị triển khai backend/web và kiểm tra browser/cloud. Chưa coi source/build là deploy hoặc nghiệm thu iPhone/Android; kết quả thực sẽ được bổ sung sau.

@@ -10,7 +10,7 @@ import { VolunteerAvailability } from '../components/VolunteerAvailability';
 import { IncidentNavigation } from '../components/IncidentNavigation';
 import { AuthGate, AccountBar } from '../components/Session';
 import { VolunteerApplication } from '../components/VolunteerApplication';
-import { Link, usePathname } from 'expo-router';
+import { usePathname } from 'expo-router';
 import { statusLabel } from '../lib/ui';
 import { ConfirmAction } from '../components/ConfirmAction';
 
@@ -72,7 +72,7 @@ function IncidentAlert({ alert, connected, now }: { alert: Alert; connected: boo
     {!!error && !terminal && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
   </View>;
 }
-export default function VolunteerScreen() { return <AuthGate>{user => <VolunteerDashboard key={user.uid} user={user} />}</AuthGate>; }
+export default function VolunteerScreen() { return <AuthGate purpose="volunteer">{user => <VolunteerDashboard key={user.uid} user={user} />}</AuthGate>; }
 function VolunteerDashboard({ user }: { user: User }) {
   const focused = usePathname() === '/volunteer';
   const [alerts, setAlerts] = useState<Alert[]>([]), [connected, setConnected] = useState(false);
@@ -92,9 +92,9 @@ function VolunteerDashboard({ user }: { user: User }) {
   useEffect(() => { if (!focused) updateAvailability({ available: false }, 4000).catch(() => undefined); }, [focused, user.uid]);
   return <ScrollView contentContainerStyle={styles.page} keyboardShouldPersistTaps="handled">
     <Text style={styles.eyebrow}>EHIS · TÌNH NGUYỆN VIÊN</Text><Text style={styles.title}>Hỗ trợ cộng đồng</Text>
-    <Link href="/" style={{ color: '#096951', paddingVertical: 8 }}>← Chuyển khu vực</Link><AccountBar />
+    <AccountBar />
     {!checked ? <Text>Đang xác nhận quyền với máy chủ…</Text> : !approved ? <VolunteerApplication status={application} /> : <>
-      <Text style={styles.intro}>Bạn đã được duyệt. Bật sẵn sàng và giữ màn hình này mở trong lúc thử nghiệm. Đổi khu vực sẽ tắt sẵn sàng cho ca mới.</Text>
+      <Text style={styles.intro}>Bạn đã được duyệt. Bật sẵn sàng và giữ màn hình này mở để nhận lời mời. Đăng xuất sẽ tắt sẵn sàng cho ca mới.</Text>
       {!connected && <Text accessibilityRole="alert">Đang chờ đồng bộ máy chủ. Chưa thể nhận hoặc kết thúc ca.</Text>}
       <VolunteerAvailability key={user.uid} uid={user.uid} paused={!connected || !focused} />
       {connected && !alerts.length && <Text>Chưa có lời mời. Hãy bật sẵn sàng trước khi người báo gửi yêu cầu.</Text>}
