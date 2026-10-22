@@ -27,7 +27,7 @@ Không cần build APK riêng cho Patient và Volunteer. Người qua đường 
 
 | Mục tiêu | Màn hình / giao diện | Backend / dữ liệu | Người phối hợp |
 |---|---|---|---|
-| Đăng nhập / chuyển khu vực | `mobile/src/components/Session.tsx`, `mobile/src/app/index.tsx` | Firebase Auth, `getMyAccess` | TV3 + TV1 |
+| Chọn mục đích / đăng ký / đăng nhập / chuyển khu vực | `mobile/src/components/PurposeChoices.tsx`, `mobile/src/lib/account-purpose.ts`, `mobile/src/components/Session.tsx`, `mobile/src/app/index.tsx` | Firebase Auth, `getMyAccess`; lựa chọn không tự cấp quyền | TV3 + TV1 |
 | Hồ sơ và QR Patient | `mobile/src/app/patient.tsx` | `savePatientProfile` trong `functions/src/index.ts`; card APIs trong `lifecycle.ts` | TV3 + TV1 + TV4 nếu đổi URL |
 | TNV ứng tuyển / được duyệt | `VolunteerApplication.tsx`; `web/src/components/AdminDashboard.tsx` | `applyVolunteer`, `reviewVolunteerApplication` trong `lifecycle.ts` | TV2 + TV4 + TV1 |
 | TNV sẵn sàng / vị trí | `mobile/src/components/VolunteerAvailability.tsx` | `setVolunteerAvailability` trong `reports.ts`; `volunteers` | TV2 + TV1 |

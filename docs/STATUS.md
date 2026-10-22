@@ -6,6 +6,8 @@
 - Backend Node/Express trên Vercel Hobby: https://ehis-next-api-hc03.vercel.app/api. Service account runtime chỉ có Datastore User; khóa chỉ nằm trong secret backend.
 - Luồng cloud tự động đã đạt: lưu hồ sơ → cấp QR → đăng ký/duyệt TNV → sẵn sàng → gửi trước → bổ sung không phone → nhận → đến nơi → kết thúc → từ chối đọc thông tin riêng sau đóng.
 - UI có nút tối thiểu 56px, chữ nội dung lớn hơn, hiện/ẩn và quên mật khẩu; xác nhận trước hủy/kết thúc. Chế độ chạy thử được ghi rõ và cho dùng tọa độ giả; không đưa hồ sơ thật vào bài thử.
+- App web đã cập nhật bước chọn Bệnh nhân/Tình nguyện viên kèm mô tả trước đăng ký; sau tạo tài khoản chuyển đúng khu vực. Đã thử hai signup thật với tài khoản giả và xác nhận không tự cấp quyền. Code Android/Hermes export đạt; APK v0.4 đã phát hành trước đó chưa chứa cập nhật onboarding này, chưa xuất APK mới trong vòng này.
+- Tài khoản/mật khẩu chạy thử đã lưu trong repo private EHIS-Next-Team-Access, có link cố định ở README/lab note public. Hiện chỉ chủ dự án được truy cập theo yêu cầu.
 - Rate limit theo phút: 120/UID, tạo yêu cầu 30/UID, 600/IP băm. Chưa phải chống bot toàn diện; App Check chưa cưỡng chế.
 - Cron Vercel hằng ngày xử lý hết hạn và dọn dữ liệu riêng đủ 24h. Thực tế có thể 24–48h hoặc lâu hơn khi lỗi/quota/backlog; không phải SLA.
 - EAS project ehiss-team/ehis-next đã tạo và liên kết; preview dùng backend cloud, APK đã build FINISHED và tải về, kiểm tra manifest/DEX/embedded bundle và đúng backend/project cloud. Chưa xác nhận APK cài/chạy trên thiết bị; chưa IPA/TestFlight.

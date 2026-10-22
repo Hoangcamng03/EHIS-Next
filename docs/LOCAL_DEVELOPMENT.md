@@ -55,7 +55,7 @@ Khi Emulator sẵn sàng, mở terminal khác ở root:
 npm run trial:prepare
 ```
 
-Tài khoản giả local được lưu trong `.local/complete-demo.json`. Các tài khoản cloud bàn giao được liệt kê riêng ở [LAB_NOTES.md](LAB_NOTES.md); mật khẩu nội bộ không có trong GitHub. Không dùng script operator cloud để seed Emulator.
+Tài khoản giả local được lưu trong `.local/complete-demo.json`. Các tài khoản cloud bàn giao được liệt kê riêng ở [LAB_NOTES.md](LAB_NOTES.md); mật khẩu có trong [repo GitHub riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access), không nằm trong repo public. Không dùng script operator cloud để seed Emulator.
 
 Thử theo thứ tự: Patient lưu/cấp QR → admin duyệt TNV → TNV sẵn sàng ở vị trí giả → mở URL thẻ bằng website → gửi và bổ sung không phone → TNV nhận/xem tuyến/đến nơi/kết thúc. Chi tiết kịch bản PC: [COMPLETE_FLOW.md](COMPLETE_FLOW.md).
 

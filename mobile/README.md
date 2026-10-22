@@ -11,6 +11,7 @@
 | Hồ sơ, thẻ QR, consent, thu hồi, lịch sử Patient | [src/app/patient.tsx](src/app/patient.tsx) |
 | Lời mời, nhận/đến nơi/kết thúc ca | [src/app/volunteer.tsx](src/app/volunteer.tsx) |
 | Đăng nhập, đăng ký, quên mật khẩu | [src/components/Session.tsx](src/components/Session.tsx) |
+| Chọn mục đích trước đăng ký và mô tả hai đối tượng | [src/components/PurposeChoices.tsx](src/components/PurposeChoices.tsx), [src/lib/account-purpose.ts](src/lib/account-purpose.ts) |
 | Đơn ứng tuyển TNV | [src/components/VolunteerApplication.tsx](src/components/VolunteerApplication.tsx) |
 | GPS, tọa độ giả, heartbeat sẵn sàng | [src/components/VolunteerAvailability.tsx](src/components/VolunteerAvailability.tsx) |
 | Tính và trình bày tuyến đường | [src/components/IncidentNavigation.tsx](src/components/IncidentNavigation.tsx), [src/lib/directions.ts](src/lib/directions.ts) |
@@ -26,6 +27,8 @@ Expo tự chọn file `.web.tsx` khi chạy trên web, file `.tsx` tương ứng
 ## Vận hành
 
 App dùng Firebase Auth. Các thao tác ghi gọi backend; Firestore listener chỉ đọc dữ liệu được Rules cho phép. Patient cấp QR trỏ website `web/`, không trỏ Metro hoặc app web. TNV nhận listener khi màn hình mở; chưa có push/GPS nền.
+
+Khi chưa đăng nhập, người dùng chọn Bệnh nhân hoặc Tình nguyện viên và đọc mô tả trước khi thấy form đăng ký. Sau đăng ký chuyển đúng khu vực; intent được giữ tại SessionProvider để không mất khi Auth thông báo và unmount form. Đây là lựa chọn điều hướng, không ghi/cấp role; đăng ký TNV vẫn cần nộp đơn và xét duyệt. Tài khoản có sẵn dùng nút Đăng nhập.
 
 Từ **root repo**: `npm run mobile:web` để xem app trên PC, hoặc `npm run mobile` cho development build. Chuẩn bị Emulator/môi trường trước theo [LOCAL_DEVELOPMENT.md](../docs/LOCAL_DEVELOPMENT.md). Expo Go chỉ là cách xem development tương thích SDK, không phải APK độc lập.
 

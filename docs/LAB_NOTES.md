@@ -5,7 +5,9 @@ Ghi thay đổi quan trọng và kết quả quan sát, không lưu mật khẩu
 ## TÀI KHOẢN CHẠY THỬ — MỤC BÀN GIAO
 
 > [!IMPORTANT]
-> **Dùng tài khoản CLOUD dưới đây cho APK v0.4 và app web HTTPS.** Đã xác minh đăng nhập/quyền lại ngày 2026-10-22. **Mật khẩu chỉ lưu trong file nội bộ trên máy: `.local/LAB_NOTES_PRIVATE_ACCOUNTS.md`; không đưa lên repo public.**
+> **TÀI KHOẢN + MẬT KHẨU: [mở repo riêng tư EHIS-Next-Team-Access](https://github.com/Hoangcamng03/EHIS-Next-Team-Access).** Đăng nhập GitHub bằng tài khoản được cấp quyền. Repo hiện chỉ dành cho chủ dự án; chủ dự án sẽ tự thêm thành viên sau. Link hiện 404 nếu chưa có quyền hoặc đăng nhập sai tài khoản.
+>
+> **Dùng tài khoản CLOUD dưới đây cho APK và app web HTTPS.** Đã xác minh đăng nhập/quyền ngày 2026-10-22. Mật khẩu nằm trong README của repo riêng tư; bản sao local là `.local/LAB_NOTES_PRIVATE_ACCOUNTS.md`. Không đăng mật khẩu vào repo public này.
 
 | Đối tượng | Email đăng nhập | Cách dùng |
 |---|---|---|
@@ -57,3 +59,12 @@ Ghi thay đổi quan trọng và kết quả quan sát, không lưu mật khẩu
 - Thêm REPO_MAP, LOCAL_DEVELOPMENT và mục lục docs phân loại thiết kế/vận hành/kiểm chứng/lịch sử. Cập nhật CONTRIBUTING về branch, review, file chung và phân biệt source–CI–deployment.
 - Ghi nhận ảnh người dùng: APK đã tải nhưng Play Protect chặn cài; chưa nghiệm thu Android thật. Việc tổ chức tài liệu không thay đổi APK/backend đang chạy.
 - Kiểm tra bộ tài liệu tiếp quản: 123 đường dẫn nội bộ và 16 lệnh root đều khớp file/script hiện có; không có lỗi đường dẫn hoặc mật khẩu thử trong các file chuẩn bị push. Vòng tổ chức này chỉ thay đổi 11 file Markdown.
+
+## 2026-10-22 — Tài khoản riêng tư và chọn mục đích trước đăng ký
+
+- Theo lựa chọn của chủ dự án, đã tạo `Hoangcamng03/EHIS-Next-Team-Access` và xác minh `private: true` trước/sau khi lưu bảng tài khoản + mật khẩu. Chỉ chứa thông tin đăng nhập thử (cloud/local); không có service account, token hạ tầng hoặc khóa ký. Hiện không mời thêm thành viên theo yêu cầu của chủ dự án.
+- README và mục tài khoản cố định trong lab note public dẫn tới repo riêng tư. Người chưa có quyền sẽ thấy 404; không đưa mật khẩu vào public Git history.
+- Luồng mở app khi chưa đăng nhập: chọn Bệnh nhân hoặc Tình nguyện viên kèm giải thích → form email/mật khẩu → tạo tài khoản → vào đúng khu vực. Cho phép đổi lựa chọn trước khi gửi; đăng nhập tài khoản có sẵn đi theo lối riêng.
+- Lựa chọn là mục đích điều hướng, không cấp role/approved. TNV mới vẫn phải nộp đơn và chờ xét duyệt. Một tài khoản vẫn có thể dùng hai khu vực sau này.
+- Kiểm chứng: đã signup Patient mới rồi tự vào `/patient`; signup TNV mới từ trang `/patient` rồi tự vào `/volunteer`, chỉ thấy nộp đơn. Cả hai tài khoản được Auth/API xác nhận chưa có quyền admin/approved; thông tin đăng nhập lưu thêm trong repo riêng tư.
+- Kiểm tra mã, build cloud web và Android/Hermes export đạt. App web đã được phát hành; chưa xuất APK mới cho onboarding, nên APK tải trước đó không tự có giao diện này. Ảnh thử ở `.local/signup-proof-20261022`.

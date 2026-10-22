@@ -30,7 +30,7 @@
 | [SECURITY_REVIEW.json](SECURITY_REVIEW.json) | Các rủi ro đã biết; không phải chứng nhận bảo mật |
 | [LAB_NOTES.md](LAB_NOTES.md) | Nhật ký thay đổi; mục tài khoản thử được highlight ở đầu |
 
-Mật khẩu thử chỉ có trong file nội bộ `.local/LAB_NOTES_PRIVATE_ACCOUNTS.md` trên máy triển khai. Không có mật khẩu hoặc service account trong các tài liệu public này.
+Email/mật khẩu thử dùng chung nằm tại [repo riêng tư EHIS-Next-Team-Access](https://github.com/Hoangcamng03/EHIS-Next-Team-Access); hiện chỉ chủ dự án có quyền và sẽ tự thêm thành viên sau. Bản sao local: `.local/LAB_NOTES_PRIVATE_ACCOUNTS.md`. Không có mật khẩu hoặc service account trong các tài liệu public này.
 
 ## 4. Tài liệu lịch sử / kịch bản PC cũ
 
