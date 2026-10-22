@@ -21,6 +21,8 @@ Chưa rõ các nền tảng phối hợp thế nào? Bắt đầu với [PLATFOR
 
 ## 3. Build, vận hành và thử nghiệm hiện tại
 
+**Mới nhất: [web 0.4.4 — màu theo đối tượng, sửa lỗi và ma trận kiểm tra](VERIFICATION_V0_4_4.md).** Có ảnh 4 khu vực, cảnh báo đỏ, bản đồ và checklist để chủ dự án nghiệm thu. APK/OTA/iOS chưa cập nhật.
+
 **Ưu tiên mới:** [WEB_TRIAL.md](WEB_TRIAL.md) — hoàn thiện web, nghiệm thu có kiểm soát và chờ chủ dự án duyệt trước khi phát hành Android/iOS mới. APK 0.4.1 là bản cũ; không coi nó tự có các sửa đổi web 0.4.2.
 
 Kết quả thực của đợt mới: [VERIFICATION_V0_4_2.md](VERIFICATION_V0_4_2.md), phân biệt kiểm tra local/cloud/browser và thiết bị chưa thử.

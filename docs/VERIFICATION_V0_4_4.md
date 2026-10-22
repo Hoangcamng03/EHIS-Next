@@ -33,9 +33,33 @@ Mã màu app tập trung tại `mobile/src/lib/palette.ts`; CSS web có kiểm t
 | Emulator 3 | Patient, consent, duyệt TNV, đến nơi/kết thúc, thu hồi quyền riêng | PASS |
 | Emulator 4 | Maintenance, retention, giữ phân công đang hoạt động, rate limit nguyên tử | PASS |
 | Emulator 5 | HTTP, token, CORS, allowlist, cron secret | PASS |
-| Build/deploy/browser | Hai website, flow cloud, hình ảnh | Đang thực hiện; xem cập nhật lab note |
+| Build/deploy/browser | Hai website, flow cloud, hình ảnh | PASS trong phạm vi dưới đây |
 
 Emulator dùng project `demo-ehis-next`, tách dữ liệu cloud. Bộ kiểm tra tự động không phải bằng chứng đã nghe loa hoặc cảm nhận rung thật. Nhánh lỗi đọc hồ sơ và race cấp quyền âm thanh được sửa qua rà soát mã; chưa có thử nghiệm tiêm lỗi vào trình duyệt cho hai nhánh này.
+
+## Bằng chứng build / cloud / trình duyệt
+
+- Source giao diện: `5ac3a9beb88f9960d7c9ff5c2db9bd5fb79d2636`. [GitHub CI run 39827135983](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/39827135983) SUCCESS, gồm check, Android JS export, web build và 5 bộ integration. Android JS export không phải APK/kiểm thử điện thoại.
+- Cloud build Next/Expo thành công; deploy cả hai Firebase Hosting thành công. Backend project/health đúng, API thiếu token trả 401. Không thay backend, Rules, billing hoặc tạo quyền mới.
+- `node scripts/verify-cloud-artifacts.cjs`: PASS **31** lần kiểm tra HTML/JS/CSS, SHA-256 của tệp đang phục vụ khớp artifact local. Có thể chạy lại sau build/deploy; bằng chứng máy lưu `.local/cloud-artifact-proof.json` (không thay thế bài thử nghiệp vụ).
+- Case cloud giả `b00b72529e…`: backend mời đúng 1 TNV, từ chối hồ sơ trước nhận; UI hiện cảnh báo đỏ. Thử chuông thấy trạng thái đang phát; chưa xác minh loa vật lý.
+- Bổ sung không phone nhận revision 1; gửi lại cùng submission không tăng bản. UI hiển thị ba quan sát và bản 1.
+- Bấm nhận trên UI → backend xác nhận → hồ sơ giả theo consent, phone null, tự mở OSRM 0.44 km/khoảng 2 phút; bấm đã đến → xác nhận kết thúc trên UI → map/hồ sơ biến mất, API private trả 403.
+- Đã trả TNV về không sẵn sàng; không để ca giả mở. Giữ nguyên phiên/dữ liệu Patient đang có, không gửi yêu cầu từ QR của người dùng.
+- Patient mở thẳng đúng khu vực, header/nền xanh dương, version 0.4.4. TNV xanh lá. Người báo có nền cam, nút gửi đỏ chỉ mở khi xác nhận đứng cạnh bệnh nhân; bài thử UI này không bấm gửi/GPS. Admin tím: đăng nhập, tải danh sách không lỗi, rồi đăng xuất; không duyệt thêm ai.
+- Cảnh báo build Leaflet về ảnh icon mặc định vẫn còn; app dùng marker A/B riêng, cả hai và tuyến đã hiển thị trong ảnh. Không tuyên bố loại bỏ toàn bộ cảnh báo dependency/build.
+
+Ảnh thật của bản web (thông tin giả; ảnh Patient chỉ lưu phần đầu, không chứa QR/điện thoại):
+
+| Màn hình | Ảnh |
+|---|---|
+| Patient xanh dương | [Xem ảnh](assets/trial-044/patient.jpg) |
+| Volunteer xanh lá, đã tắt sẵn sàng sau thử | [Xem ảnh](assets/trial-044/volunteer.jpg) |
+| Người báo cam, nút gửi đỏ | [Xem ảnh](assets/trial-044/reporter.jpg) |
+| Quản trị tím | [Xem ảnh](assets/trial-044/admin.jpg) |
+| Thử chuông trên web | [Xem ảnh](assets/trial-044/volunteer-ready.jpg) |
+| Cảnh báo khẩn | [Xem ảnh](assets/trial-044/emergency-request.jpg) |
+| Tuyến đường sau nhận | [Xem ảnh](assets/trial-044/accepted-route.jpg) |
 
 ## Chủ dự án nghiệm thu
 

@@ -44,6 +44,12 @@ APK build bằng EAS từ `mobile/`, không qua `cloud:deploy-web`. [Android](..
 
 ## 4. Phát hành app web và điện thoại đồng bộ
 
-Ưu tiên `npm run release:preview -- --message "mô tả"` cho thay đổi app tương thích runtime; thêm `--native` khi cần APK mới. `release-preview.cjs` kiểm tra source sạch/env/fingerprint, chạy check, phát OTA Android + Hosting từ cùng commit; `eas-cli.cjs` chọn CLI của operator hoặc CLI chính thức qua npm. Kết quả trong `.local/release-preview.latest.json`, không bao gồm credentials.
+**Chỉ áp dụng sau khi chủ dự án duyệt web và cho phép phát hành native.** Trong giai đoạn nghiệm thu hiện tại dùng `cloud:build` và `cloud:deploy-web`, không chạy `release:preview` vì sẽ phát OTA/Android.
+
+Khi được phép, dùng `npm run release:preview -- --message "mô tả"` cho thay đổi app tương thích runtime; thêm `--native` khi cần APK mới. `release-preview.cjs` kiểm tra source sạch/env/fingerprint, chạy check, phát OTA Android + Hosting từ cùng commit; `eas-cli.cjs` chọn CLI của operator hoặc CLI chính thức qua npm. Kết quả trong `.local/release-preview.latest.json`, không bao gồm credentials.
 
 Script chặn OTA đơn lẻ nếu native fingerprint không khớp APK preview FINISHED gần nhất. Chế độ native chỉ gửi build; phải chờ và xác nhận APK FINISHED, tải artifact, rồi thử thiết bị. Không tự reload ca đang hoạt động. [MOBILE_RELEASES.md](../docs/MOBILE_RELEASES.md) là đầu mối phiên bản và hướng dẫn.
+
+## 5. Kiểm chứng bản web đã phát hành
+
+Sau `npm run cloud:build` và `npm run cloud:deploy-web`, chạy `node scripts/verify-cloud-artifacts.cjs` để đối chiếu HTML/JS/CSS trên hai site với artifact local bằng SHA-256. Chỉ đọc mạng, ghi kết quả vào `.local/cloud-artifact-proof.json`; không thay dữ liệu hoặc thay cho kiểm thử nghiệp vụ/thiết bị. Bản build local phải là bản vừa deploy, nếu không so sánh sẽ báo lệch đúng chủ đích.

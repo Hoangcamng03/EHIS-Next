@@ -1,4 +1,6 @@
-# Trạng thái web v0.4.3 / APK gần nhất v0.4.1
+# Trạng thái web v0.4.4 / APK gần nhất v0.4.1
+
+Web **0.4.4** đã deploy: Patient xanh dương, TNV xanh lá, người báo cam, quản trị tím; yêu cầu khẩn đỏ kèm chữ. Sửa form hồ sơ chưa tải, lời mời hết/thiếu hạn và race tắt chuông. 20 unit + 5 integration, CI/build/cloud và 31 đối chiếu artifact đạt; flow giả đã kết thúc, private API chặn sau đóng. [Bằng chứng và checklist manual](VERIFICATION_V0_4_4.md). Chưa kiểm tra loa/rung/GPS trên điện thoại; APK/OTA/iOS chưa cập nhật.
 
 Web 0.4.3 đã thêm công tắc sẵn sàng và cảnh báo nổi bật, chuông 6 giây/yêu cầu, 2 giây/bổ sung, rung tùy hỗ trợ khi trang mở phía trước; nhận ca xác nhận rồi mới xem hồ sơ theo consent và tự mở tuyến OSRM. Luồng giả đầu đã chạy hết đến kết thúc/quyền riêng bị chặn; kết quả vòng cuối và ảnh ở [lab note](LAB_NOTES.md). [Cách dùng và giới hạn](VOLUNTEER_ALERTS.md). Backend vẫn 0.4.2, Rules/schema không đổi, chưa phát native mới.
 

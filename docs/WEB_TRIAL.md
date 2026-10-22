@@ -4,6 +4,8 @@ Quyết định ngày 2026-10-22: hoàn thiện bản web để nhóm duyệt, t
 
 ## 1. Mở đúng phần
 
+Bản hiện tại **0.4.4**: [màu, lỗi đã sửa, bằng chứng và checklist nghiệm thu](VERIFICATION_V0_4_4.md). Tải lại trang rồi kiểm tra số phiên bản; Patient xanh dương, TNV xanh lá, người báo cam, quản trị tím, yêu cầu khẩn đỏ.
+
 - App Patient/Volunteer: https://ehis-next-20261021-hc03-app.web.app . Một app, tự mở khu vực theo đối tượng tài khoản.
 - Website người quét: https://ehis-next-20261021-hc03.web.app . Người quét đi vào đường dẫn QR của thẻ; trang chính giải thích và dẫn sang app.
 - Quản trị: https://ehis-next-20261021-hc03.web.app/admin . Cần tài khoản có quyền admin.
