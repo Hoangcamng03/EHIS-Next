@@ -49,6 +49,8 @@ Source app `7728b327957b91c01bc0f17248190363bfd94711`. Check: 27 bài unit/logic
 
 APK build [a989bd07](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/a989bd07-e2a7-49f5-a6ad-197bd6997fa7) đã được EAS nhận, trạng thái quan sát gần nhất IN_QUEUE. Trang /install có link tiến độ; link APK trực tiếp chỉ điền khi kiểm tra FINISHED và artifact. Chưa xác nhận cài thiết bị. Không phát OTA, không submit store, không đổi backend/Rules/billing.
 
+Web/link tiến độ source `79779715be90307ea0a49c2fd6f06778a1a8573c` đã deploy, [CI 39984732046](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/39984732046) SUCCESS và 32 đối chiếu artifact đạt lần cuối. Một lần deploy lỗi kết nối đã được kiểm tra lại health 200 rồi deploy thành công. Đường dẫn EAS được kiểm tra trên browser; trạng thái queue không phải xác nhận đã có tệp APK. Công cụ verify-trial-apk đã chuẩn bị/kiểm tra cú pháp nhưng chưa chạy với artifact mới vì build chưa hoàn tất.
+
 Ảnh kiểm tra: [trang cài](assets/trial-045/install.jpg), [QR lỗi vẫn có trợ giúp](assets/trial-045/invalid-qr-help.jpg).
 
 Audit mobile báo 9 high từ node-forge/grpc và chuỗi phụ thuộc. `npm update node-forge @grpc/grpc-js` không có bản vá tương thích được áp dụng; không hạ Expo/Firebase về major cũ theo gợi ý audit. Giữ là blocker bảo mật cho phát hành chính thức; đánh giá khả năng ảnh hưởng runtime/tooling với maintainer trước khi đóng.
