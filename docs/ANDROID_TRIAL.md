@@ -1,9 +1,11 @@
-# Cài và thử Android — EHIS 0.4.1
+# Cài và thử Android — cập nhật 0.4.5
+
+**Mới nhất:** [trang cài/tiến độ APK 0.4.5](https://ehis-next-20261021-hc03.web.app/install). Build thử được chủ dự án cho phép sau hoàn thiện demo. [Bằng chứng và checklist thiết bị](PHONE_INSTALL_AND_LAUNCH.md). Hướng dẫn 0.4.1 dưới đây giữ để đối chiếu lịch sử; vị trí giả chỉ có trên Emulator ở bản mới.
 
 > [!IMPORTANT]
 > Nhóm đang nghiệm thu [web 0.4.2](WEB_TRIAL.md) trước theo quyết định mới. APK dưới đây là bản 0.4.1 cũ, chưa có sửa lỗi ghi nhớ đối tượng của web 0.4.2. Chưa xuất APK/OTA/iOS mới trong giai đoạn chờ chủ dự án duyệt web.
 
-**[Tải APK mới nhất: EHIS 0.4.1](https://expo.dev/artifacts/eas/A843wAUos26XMQ22xgAHE6StP5qC0C6_cw5fyf_raKY.apk)** — khoảng 102 MB, versionCode 2. [Trang build đã hoàn tất](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/6e645e3e-bbcc-474b-89bf-f67205bfdcd7); [quy trình cập nhật và lịch sử](MOBILE_RELEASES.md).
+**[APK lịch sử: EHIS 0.4.1](https://expo.dev/artifacts/eas/A843wAUos26XMQ22xgAHE6StP5qC0C6_cw5fyf_raKY.apk)** — khoảng 102 MB, versionCode 2. [Trang build đã hoàn tất](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/6e645e3e-bbcc-474b-89bf-f67205bfdcd7); [quy trình cập nhật và lịch sử](MOBILE_RELEASES.md).
 
 1. Tải APK trên điện thoại Android rồi mở file. Nếu Android yêu cầu quyền cài từ trình duyệt/tệp, chỉ cấp cho nguồn đang dùng để cài bản của nhóm; có thể tắt lại sau khi cài. Nếu Play Protect chặn, dừng và lưu thông báo chi tiết; không tắt Play Protect/Auto Blocker để vượt chặn. Build thành công không thay kiểm tra an toàn hoặc nghiệm thu thiết bị.
 2. Nếu đã cài 0.4.0, cần cài bộ 0.4.1 một lần để có onboarding và EAS Update. Giữ cùng package/ký; ưu tiên cài đè, không gỡ app trước để tránh mất dữ liệu local. Việc cài đè/giữ phiên trên máy nhóm chưa được kiểm chứng.

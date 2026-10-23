@@ -1,5 +1,5 @@
 {
-  "android": { "version": null, "apkUrl": null },
+  "android": { "version": "0.4.5", "apkUrl": null, "buildUrl": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/a989bd07-e2a7-49f5-a6ad-197bd6997fa7" },
   "ios": { "testFlightUrl": null },
   "googlePlayUrl": null,
   "appStoreUrl": null

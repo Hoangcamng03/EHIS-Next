@@ -17,7 +17,12 @@ try {
  }else if(mode==='status'){
   if(!record?.id)throw Error('No trial build recorded.');
   const build=eas(['build:view',record.id,'--json']);record.status=build.status;
-  if(build.status==='FINISHED'&&build.artifacts?.buildUrl)record.apkUrl=build.artifacts.buildUrl;
+  if(build.status==='FINISHED'){
+   if(build.gitCommitHash!==record.commit||build.appVersion!==record.version||Number(build.appBuildVersion)!==record.versionCode)throw Error('Finished build does not match the recorded source/version.');
+   const url=build.artifacts?.applicationArchiveUrl||build.artifacts?.buildUrl;
+   if(!url?.startsWith('https://expo.dev/artifacts/eas/')||!url.endsWith('.apk'))throw Error('Finished build has no expected APK artifact.');
+   record.apkUrl=url;
+  }
  }else throw Error('Use start or status.');
  fs.mkdirSync(path.dirname(recordFile),{recursive:true});fs.writeFileSync(recordFile,JSON.stringify(record,null,2)+'\n');console.log(JSON.stringify(record,null,2));
 }catch(error){console.error(error.message);process.exitCode=1;}

@@ -1,4 +1,7 @@
-# Trạng thái web v0.4.4 / APK gần nhất v0.4.1
+# Trạng thái web 0.4.5 / APK 0.4.5 đang build thử
+
+Web 0.4.5 đã deploy: trang /install, đường gọi trợ giúp độc lập với GPS/backend, trạng thái chờ tiếp nhận rõ và xử lý browser offline. Source native có chuông/rung foreground, 27 unit/logic + 5 integration PASS, Android/iOS JS export và cấu hình quyền đạt. [Tiến độ và giới hạn](PHONE_INSTALL_AND_LAUNCH.md). APK build a989bd07 đang chờ EAS, chưa FINISHED/thiết bị. iPhone dùng web trên màn hình chính; chưa IPA/TestFlight. Backend vẫn 0.4.2.
+
 
 Web **0.4.4** đã deploy: Patient xanh dương, TNV xanh lá, người báo cam, quản trị tím; yêu cầu khẩn đỏ kèm chữ. Sửa form hồ sơ chưa tải, lời mời hết/thiếu hạn và race tắt chuông. 20 unit + 5 integration, CI/build/cloud và 31 đối chiếu artifact đạt; flow giả đã kết thúc, private API chặn sau đóng. [Bằng chứng và checklist manual](VERIFICATION_V0_4_4.md). Chưa kiểm tra loa/rung/GPS trên điện thoại; APK/OTA/iOS chưa cập nhật.
 

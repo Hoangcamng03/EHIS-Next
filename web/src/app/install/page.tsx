@@ -9,6 +9,7 @@ export default function InstallPage() {
     <a className="primary home-action" href={app}>Mở EHIS ngay trên trình duyệt</a>
     <section className="report-panel"><h2>Android</h2>
       {releases.android.apkUrl ? <><a className="primary home-action" href={releases.android.apkUrl}>Tải APK EHIS {releases.android.version}</a><p>APK chạy độc lập, không cần Expo Go hoặc mở laptop. Các thao tác gửi/nhận dữ liệu cần Internet.</p></> : <p>APK mới đang được chuẩn bị. Dùng bản web ở trên trong lúc chờ; chưa có link tải bản mới được xác nhận.</p>}
+      {!releases.android.apkUrl && releases.android.buildUrl && <><a className="secondary home-action" href={releases.android.buildUrl}>Xem tiến độ bản Android {releases.android.version}</a><p>Trang EAS sẽ có nút cài khi build hoàn tất. Chỉ cài bản có trạng thái Succeeded; build lỗi hoặc đang chờ chưa có APK để cài.</p></>}
       <p>Với Chrome: mở EHIS → menu ⋮ → Thêm vào màn hình chính hoặc Cài đặt ứng dụng nếu trình duyệt có tùy chọn này.</p>
       <p>Nếu Android chặn cài APK, kiểm tra nguồn và cảnh báo. Nhóm không yêu cầu tắt Play Protect để cài app.</p>
     </section>

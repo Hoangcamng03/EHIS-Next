@@ -53,3 +53,7 @@ Script chặn OTA đơn lẻ nếu native fingerprint không khớp APK preview 
 ## 5. Kiểm chứng bản web đã phát hành
 
 Sau `npm run cloud:build` và `npm run cloud:deploy-web`, chạy `node scripts/verify-cloud-artifacts.cjs` để đối chiếu HTML/JS/CSS trên hai site với artifact local bằng SHA-256. Chỉ đọc mạng, ghi kết quả vào `.local/cloud-artifact-proof.json`; không thay dữ liệu hoặc thay cho kiểm thử nghiệp vụ/thiết bị. Bản build local phải là bản vừa deploy, nếu không so sánh sẽ báo lệch đúng chủ đích.
+
+## 6. Build APK thử và kiểm tra artifact
+
+`node scripts/build-trial-android.cjs start` gửi build preview từ source sạch; `status` đọc tiến độ và xác minh source/version khi FINISHED. `node scripts/verify-trial-apk.cjs` tải/kiểm tra manifest, quyền, target cloud, WAV và SHA-256; không thay nghiệm thu thiết bị hoặc kiểm tra chứng chỉ ký. Không tự phát OTA/submit store. [Quy trình](../docs/PHONE_INSTALL_AND_LAUNCH.md).

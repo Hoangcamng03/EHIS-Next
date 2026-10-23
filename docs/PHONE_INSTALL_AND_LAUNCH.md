@@ -45,4 +45,10 @@ Google Play yêu cầu khai báo ứng dụng sức khỏe và đường xóa t�
 
 ## Kết quả của đợt này
 
-Đang kiểm tra/build; kết quả thực cập nhật LAB_NOTES.md. Audit mobile báo 9 high từ node-forge/grpc và chuỗi phụ thuộc. `npm update node-forge @grpc/grpc-js` không có bản vá tương thích được áp dụng; không hạ Expo/Firebase về major cũ theo gợi ý audit. Giữ là blocker bảo mật cho phát hành chính thức; đánh giá khả năng ảnh hưởng runtime/tooling với maintainer trước khi đóng.
+Source app `7728b327957b91c01bc0f17248190363bfd94711`. Check: 27 bài unit/logic PASS, 5 bộ integration PASS sau khi khởi động Emulator mới; Android và iOS JS/Hermes export PASS (không phải IPA). Introspection xác nhận iOS không microphone/audio background, Android không microphone, có vị trí/rung. [CI 39982552257](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/39982552257) SUCCESS. Hai website đã deploy, 32 đối chiếu HTML/JS/CSS cloud/local khớp; browser mở trang /install và QR lỗi vẫn hiện đường liên hệ. Không bấm gọi 115, không thử gửi GPS thật.
+
+APK build [a989bd07](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/a989bd07-e2a7-49f5-a6ad-197bd6997fa7) đã được EAS nhận, trạng thái quan sát gần nhất IN_QUEUE. Trang /install có link tiến độ; link APK trực tiếp chỉ điền khi kiểm tra FINISHED và artifact. Chưa xác nhận cài thiết bị. Không phát OTA, không submit store, không đổi backend/Rules/billing.
+
+Ảnh kiểm tra: [trang cài](assets/trial-045/install.jpg), [QR lỗi vẫn có trợ giúp](assets/trial-045/invalid-qr-help.jpg).
+
+Audit mobile báo 9 high từ node-forge/grpc và chuỗi phụ thuộc. `npm update node-forge @grpc/grpc-js` không có bản vá tương thích được áp dụng; không hạ Expo/Firebase về major cũ theo gợi ý audit. Giữ là blocker bảo mật cho phát hành chính thức; đánh giá khả năng ảnh hưởng runtime/tooling với maintainer trước khi đóng.

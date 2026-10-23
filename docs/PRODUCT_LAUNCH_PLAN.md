@@ -68,4 +68,3 @@ Không thay code điều phối/ngưỡng y khoa dựa trên giả định chưa
 - Nhóm TNV mục tiêu về sau là sinh viên trường y; chưa có đội ngũ hoặc người phụ trách chuyên môn. Không coi tư cách sinh viên y là đủ xác nhận năng lực cấp cứu.
 - Chưa chốt địa điểm pilot. Liên hệ đối tác sau khi phần mềm đạt tiêu chí UAT; đề xuất trao đổi yêu cầu sớm để tránh xây sai flow, không đồng nghĩa tiếp nhận ca thật.
 - Thay tiêu chí không lỗi tuyệt đối bằng: không còn lỗi P0/P1 đã biết, kịch bản trọng yếu đạt, lỗi còn lại có người phụ trách, có đường dự phòng và bằng chứng thiết bị.
-

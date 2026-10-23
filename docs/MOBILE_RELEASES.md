@@ -3,6 +3,8 @@
 > [!IMPORTANT]
 > **Ưu tiên mới ngày 2026-10-22:** hoàn thiện/duyệt [web 0.4.2](WEB_TRIAL.md) trước, chỉ phát hành APK/OTA/iOS mới sau khi chủ dự án duyệt. Hướng dẫn đồng bộ bên dưới áp dụng khi được phép phát hành native trở lại. APK 0.4.1 chưa có các sửa đổi chỉ ở web 0.4.2.
 
+**Cập nhật 2026-10-23:** được phép build APK thử sau hoàn thiện demo; chưa được xem là phát hành chính thức. [Trang cài EHIS](https://ehis-next-20261021-hc03.web.app/install), [kết quả/giới hạn 0.4.5](PHONE_INSTALL_AND_LAUNCH.md). iPhone dùng web khi chưa có Apple Developer.
+
 ## Cách nhóm sử dụng
 
 Từ bản Android **0.4.1**, EHIS được cấu hình EAS Update kênh `preview`. Cần cài APK hỗ trợ cập nhật một lần; APK 0.4.0 cũ không tự có tính năng này.
@@ -16,10 +18,11 @@ Từ bản Android **0.4.1**, EHIS được cấu hình EAS Update kênh `previe
 
 | Bản | Web | Android | OTA |
 |---|---|---|---|
+| **0.4.5 — cài điện thoại và luồng dự phòng** | Đã deploy | Đang chờ build EAS a989bd07; chưa nghiệm thu thiết bị | Không phát OTA |
 | **0.4.4 — màu theo đối tượng và kiểm tra hệ thống** | Đã deploy; [bằng chứng/checklist](VERIFICATION_V0_4_4.md) | Chưa phát hành, chờ duyệt web | Chưa phát hành, chờ duyệt web |
 | 0.4.3 — cảnh báo Volunteer trên web | Đã deploy; [cách dùng/giới hạn](VOLUNTEER_ALERTS.md), kết quả từng vòng trong lab note | Chưa phát hành, chờ duyệt web | Chưa phát hành, chờ duyệt web |
 | 0.4.2 — nghiệm thu web trước | Đã deploy ở vòng trước; [kết quả kiểm chứng](VERIFICATION_V0_4_2.md) | Chưa phát hành, chờ duyệt web | Chưa phát hành, chờ duyệt web |
-| **0.4.1 — APK gần nhất** | Bản web trước đợt 0.4.2 | **[Tải APK 0.4.1](https://expo.dev/artifacts/eas/A843wAUos26XMQ22xgAHE6StP5qC0C6_cw5fyf_raKY.apk)** · versionCode 2 · khoảng 102 MB | **Đã publish** kênh preview, cùng native fingerprint |
+| **0.4.1 — APK lịch sử đã FINISHED** | Bản web trước đợt 0.4.2 | **[Tải APK 0.4.1](https://expo.dev/artifacts/eas/A843wAUos26XMQ22xgAHE6StP5qC0C6_cw5fyf_raKY.apk)** · versionCode 2 · khoảng 102 MB | **Đã publish** kênh preview, cùng native fingerprint |
 | 0.4.0 | Có các vòng cập nhật web sau build | [APK cũ](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/cf99a628-de58-4e55-b93c-f48f13178af7), chưa có onboarding mới | Chưa cấu hình trong bộ cài này |
 
 Build/publish thành công không chứng minh đã áp dụng trên thiết bị. Báo cáo Play Protect chặn cài trước đây vẫn chưa được nghiệm thu; không tắt bảo vệ để vượt chặn.
