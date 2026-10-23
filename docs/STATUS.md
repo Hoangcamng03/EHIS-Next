@@ -1,4 +1,4 @@
-**Đợt 0.4.6 đang kiểm tra:** [GPS foreground, điểm bệnh nhân và iPhone](LIVE_GPS_0_4_6.md). Source đã bỏ nút 115; kết quả deploy mới cập nhật ở LAB_NOTES. APK 0.4.5 đã xác minh artifact, chưa thiết bị, không tự cập nhật lên 0.4.6. Các mục dưới là mốc lịch sử.
+**Web/backend 0.4.6 đã deploy:** [GPS foreground, điểm bệnh nhân và iPhone](LIVE_GPS_0_4_6.md). Bỏ nút 115; 31 unit/logic và sáu bộ integration PASS, 32 đối chiếu artifact cloud PASS. Browser/cloud xác nhận điểm mới → tuyến mới → bổ sung giữ điểm → kết thúc/chặn private. [CI 39992904086](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/39992904086) SUCCESS. APK 0.4.5 đã xác minh artifact, chưa thiết bị, không tự cập nhật lên 0.4.6; build 0.4.6 ghi riêng ở LAB_NOTES. Chưa GPS/loa/rung trên máy thật, iOS native hoặc ca thật. Các mục dưới là mốc lịch sử.
 
 # Trạng thái web 0.4.5 / APK 0.4.5 đang build thử
 

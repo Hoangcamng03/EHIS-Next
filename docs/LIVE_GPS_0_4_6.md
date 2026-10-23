@@ -37,3 +37,13 @@ Chủ tài khoản tự đăng ký, xác minh và trả phí; không gửi mật
 Nguồn chính thức kiểm tra ngày 2026-10-23: [Apple account/Xcode](https://developer.apple.com/help/account/basics/about-your-developer-account), [Apple Program](https://developer.apple.com/programs/enroll/), [Safari](https://support.apple.com/guide/iphone/bookmark-a-website-iph42ab2f3a7/ios), [Expo Location 58](https://docs.expo.dev/versions/v58.0.0/sdk/location/), [WebView](https://github.com/react-native-webview/react-native-webview/blob/master/docs/Reference.md).
 
 Kết quả code, deploy, artifact và thiết bị được ghi riêng trong [lab note](LAB_NOTES.md); chưa coi các bước checklist là đã đạt.
+
+## Kết quả đã xác nhận
+
+- Source runtime `5bfd4af02a19aa935a0b5aa8bf24412af81f9850`; [CI 39992904086](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/39992904086) SUCCESS.
+- 31 unit/logic, sáu bộ integration Emulator PASS. Android/iOS JS export PASS, không phải IPA hoặc nghiệm thu hardware.
+- Backend Vercel READY/health 0.4.6 đúng project; cả hai Hosting deploy và 32 đối chiếu byte HTML/JS/CSS PASS.
+- Browser/cloud ca giả: nhận ca → tuyến 0,44km → đổi B từ 11.052/106.851 sang 11.053/106.852 → tuyến 0,72km và nhãn đổi điểm. Bổ sung không phone revision 2; gửi lại vẫn revision 2 và giữ điểm. Đến nơi/kết thúc trên UI; API private và đổi điểm mới bị chặn; fixture TNV không sẵn sàng khi bàn giao.
+- Chưa bấm công tắc lấy GPS thật, chưa kiểm thử di chuyển ngoài trời, iPhone Safari/loa/rung/khóa màn hình hoặc native WebView. Không suy từ tọa độ giả ra độ chính xác thiết bị.
+
+![Bản đồ sau xác nhận đổi điểm — toàn bộ tọa độ là giả; công tắc GPS đang tắt](assets/trial-046/confirmed-route.jpg)

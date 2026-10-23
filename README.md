@@ -13,7 +13,7 @@ Dự án Capstone viết mới cho nhóm 4 người. Repository chứa **toàn b
 
 | Sản phẩm | Người dùng | Code | Kết quả build / nơi chạy |
 |---|---|---|---|
-| App EHIS | Patient và Volunteer, ghi nhớ đối tượng khi đăng ký và tự mở sau đăng nhập | [mobile/](mobile/README.md) | Web 0.4.6 đang kiểm tra; APK 0.4.5 đã xác minh artifact; iPhone cài web, chưa IPA |
+| App EHIS | Patient và Volunteer, ghi nhớ đối tượng khi đăng ký và tự mở sau đăng nhập | [mobile/](mobile/README.md) | Web 0.4.6 đã deploy; APK 0.4.5 đã xác minh artifact; iPhone cài web, chưa IPA |
 | Website EHIS | Người qua đường mở QR; quản trị vào `/admin` | [web/](web/README.md) | Website tĩnh HTTPS trên Firebase Hosting |
 | Backend EHIS | App và website gọi API | [functions/](functions/README.md) | Node/Express trên Vercel Hobby |
 | Dữ liệu / xác thực | Tài khoản, hồ sơ, thẻ, ca và quyền đọc | [Firebase config](docs/REPO_MAP.md#4-cấu-hình-và-dữ-liệu) | Firebase Auth + Firestore Standard Singapore |
