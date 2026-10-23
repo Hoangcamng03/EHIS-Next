@@ -137,3 +137,19 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 - Vòng cuối b161a09 đã build/deploy, HTML/entry JS hash khớp artifact; CI 39823458878 đạt. Thử ca giả thứ hai: nhận trước, xem tuyến 0,44 km, rồi bổ sung revision 1; tuyến vẫn giữ trên màn hình không bấm tính lại. Đã đóng ca và xác nhận API chặn private. Thử mute/bật lại hoạt động; để tài khoản Volunteer bàn giao không sẵn sàng khi kết thúc.
 - Bổ sung hướng dẫn file/module, trạng thái 0.4.3 và ảnh minh họa public đã kiểm tra chỉ có dữ liệu/tọa độ giả; toàn bộ ảnh local ở .local/volunteer-alarm-proof. AGENTS ghi rõ phải triển khai/kiểm tra audio/haptics native trước khi phát hành như tính năng điện thoại; hiện chỉ web foreground, chưa APK/OTA/IPA hay loa/rung vật lý. Không bật billing, không cấp thêm role/admin và không thay backend/Rules.
 - Kiểm tra bàn giao tài liệu đạt: 160 đường dẫn nội bộ trong 20 tài liệu, ảnh public đúng ca/tọa độ giả, git diff --check không lỗi. Source app cuối b161a09; các commit bàn giao sau đó chỉ bổ sung tài liệu/ảnh, không cần build lại runtime.
+
+## 2026-10-23 — Đánh giá sản phẩm và kế hoạch vận hành
+- Thêm PRODUCT_LAUNCH_PLAN.md: rủi ro P0, MVP giữ/hoãn, flow đề xuất, roadmap UAT, phân công 4 người, GTM và cổng pháp lý/y tế.
+- Đối chiếu STATUS/ARCHITECTURE và nguồn WHO/Chính phủ. Chưa coi test web là chứng nhận vận hành thật. Ngưỡng hiệu năng là mục tiêu đề xuất, chưa đo.
+- Chờ xác nhận địa điểm pilot, đầu mối y tế và ngân sách. Phiên này chỉ thay tài liệu local; chưa đổi runtime/deploy hoặc tuyên bố đã sửa các hạng mục backlog.
+- Chủ dự án xác nhận chỉ diễn tập miễn phí; TNV mục tiêu tương lai là sinh viên y, hiện chưa có đầu mối chuyên môn. Đã cập nhật phạm vi này vào kế hoạch; chưa mở ca thật.
+
+## 2026-10-23 — Chuẩn bị 0.4.5 để cài điện thoại
+
+- Chủ dự án muốn Android qua link APK, iPhone qua cách cài dễ hiểu, chưa có Apple Developer/Google Play Console; xác nhận hoàn thiện demo rồi build điện thoại. Đợt này tiếp tục diễn tập miễn phí, chưa mở cấp cứu thật; TestFlight/Store chưa có tài khoản và link.
+- Thay đổi: trang /install cố định, manifest link chưa có để null; đường gọi 115 trên trang báo/QR lỗi, tách rõ server nhận với con người nhận, xử lý thiết bị offline và nối lại trạng thái. Không gọi số khẩn cấp khi thử; không thêm hướng dẫn y khoa chưa được duyệt.
+- Native: thêm expo-audio 58.0.10/haptics 58.0.7, WAV tự tạo, logic chuông hữu hạn/dừng/mute/chuyển nền, bỏ fallback trống; vô hiệu microphone/recording/background audio, dedupe location permission; fingerprint iOS và APK code 3. Referrer-Policy app chuyển no-referrer.
+- Thêm kiểm tra race âm thanh và trạng thái chờ/hết hạn; build guard không cho production dùng trial; công cụ chỉ build APK thử, không tự OTA/store. Kế hoạch/nội dung cũ từ phiên trước được giữ và đưa vào cùng đợt bàn giao.
+- Thử chưa đạt ban đầu: patch native có hai thao tác cùng file bị từ chối, đã áp dụng lại bằng update; lint/build bắt lỗi thiếu ngoặc JSX, đã sửa. Một check sandbox đứng lâu ở lint; chạy lại ngoài vùng hạn chế để lấy kết quả rõ ràng. Chưa bỏ qua check hoặc coi build lỗi là thành công.
+- Audit mobile báo 9 high; npm update hai dependency gián tiếp không vá được. Chưa dùng force/downgrade major. Rà nguồn cảnh báo/khả năng ảnh hưởng còn mở, là blocker phát chính thức. Chi tiết và tiêu chí native/clinical ở PHONE_INSTALL_AND_LAUNCH.md.
+- Kiểm tra/build/deploy/APK đang thực hiện; chưa coi loa/rung/GPS thật hoặc iOS native đã đạt. Kết quả sẽ bổ sung sau mỗi mốc xác nhận.

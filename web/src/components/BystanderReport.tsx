@@ -4,6 +4,9 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 import { callable as httpsCallable, firebaseClient, readableError, reporterSession } from '@/lib/firebase-client';
+import { EmergencyContact } from './EmergencyContact';
+import { reportProgress } from '@/lib/report-status';
+import { useOnline } from '@/lib/use-online';
 
 const questions = [
   { key: 'responsiveness', title: '1. Bệnh nhân có phản hồi khi bạn gọi?', choices: [['responsive', 'Có phản hồi'], ['unresponsive', 'Không thấy phản hồi'], ['unknown', 'Không rõ']] },
@@ -13,6 +16,7 @@ const questions = [
 type Answers = Record<typeof questions[number]['key'], string>;
 type Status = { status: string; invitedCount: number; reportSubmitted: boolean; reportRevision: number; offerExpiresAt?: { toMillis(): number } };
 export function BystanderReport({ incidentId }: { incidentId: string }) {
+  const online = useOnline();
   const [status, setStatus] = useState<Status>();
   const [serverConfirmed, setServerConfirmed] = useState(false);
   const [answers, setAnswers] = useState<Answers>({ responsiveness: '', breathing: '', bleeding: '' });
@@ -28,6 +32,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
     let cancelled = false;
     reporterSession().then(uid => {
       if (cancelled) return;
+      if (!online) { setServerConfirmed(false); return; }
       unsubscribe = onSnapshot(doc(firebaseClient().db, `reporters/${uid}/incidentStatuses/${incidentId}`), { includeMetadataChanges: true }, snapshot => {
         setServerConfirmed(!snapshot.metadata.fromCache);
         if (snapshot.exists()) { setStatus(snapshot.data() as Status); setError(''); }
@@ -35,13 +40,13 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
       }, err => { setServerConfirmed(false); setStatus(undefined); setError(readableError(err)); });
     }).catch(err => { if (!cancelled) setError(readableError(err)); });
     return () => { cancelled = true; unsubscribe?.(); };
-  }, [incidentId, retry]);
+  }, [incidentId, retry, online]);
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
   }, []);
   async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); setBusy(true); setError(''); setSuccess('');
+    event.preventDefault(); if (!canSend || busy) return; setBusy(true); setError(''); setSuccess('');
     const payload = { incidentId, phone: phone.trim(), answers };
     const fingerprint = JSON.stringify(payload);
     if (attempt.current?.fingerprint !== fingerprint) attempt.current = { fingerprint, submissionId: crypto.randomUUID() };
@@ -53,20 +58,27 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
     finally { setBusy(false); }
   }
   async function cancel() {
+    if (!online || !serverConfirmed || busy || terminal) return;
     setBusy(true); setError('');
     try { await httpsCallable(firebaseClient().functions, 'finishIncident', { timeout: 20000 })({ incidentId, outcome: 'cancelled' }); setSuccess('Đã hủy yêu cầu chưa có người tiếp nhận.'); }
     catch (err) { setError(readableError(err)); }
     finally { setBusy(false); }
   }
-  const expired = status?.status === 'expired' || (status?.status === 'dispatching' && !!status.offerExpiresAt && status.offerExpiresAt.toMillis() <= now);
-  const terminal = !!status && (expired || ['completed', 'cancelled'].includes(status.status));
-  const canSend = serverConfirmed && !!status && !terminal && ['dispatching', 'accepted', 'arrived'].includes(status.status);
+  const progress = status ? reportProgress(status.status, status.invitedCount, status.offerExpiresAt?.toMillis(), now) : undefined;
+  const terminal = !!progress?.terminal;
+  const canSend = online && serverConfirmed && !!status && !terminal && ['dispatching', 'accepted', 'arrived'].includes(status.status);
   return <main className="report-page role-reporter">
     <div className="report-brand">EHIS NEXT <span>NGƯỜI BÁO TIN</span></div>
+    <EmergencyContact />
+    {!online && <p role="alert" className="error">Thiết bị đang báo mất mạng. Chưa thể gửi hoặc xác nhận trạng thái mới. Không chờ EHIS nếu cần cấp cứu.</p>}
     <p className="step">BƯỚC 2 / 2</p><h1>Bổ sung<br />tình trạng.</h1>
     {!status && !error && <p role="status">Đang kiểm tra yêu cầu…</p>}
     {status && !serverConfirmed && <p className="notice" role="status">Đang chờ kết nối máy chủ. Thông tin dưới đây có thể đã cũ; chưa thể gửi thêm cho đến khi kết nối lại.</p>}
-    {status && <div className={`status-banner ${!terminal && status.status === 'dispatching' ? 'awaiting-help' : ''}`} role="status"><strong>{terminal ? 'Phiên hỗ trợ đã kết thúc hoặc hết hạn.' : 'Máy chủ đã nhận yêu cầu.'}</strong><p>{terminal ? 'Trang này không nhận thêm thông tin bổ sung. Mở lại trang thẻ nếu cần tạo yêu cầu mới.' : status.status === 'arrived' ? 'TNV đã xác nhận đến nơi.' : status.status === 'accepted' ? 'TNV đã tiếp nhận và đang di chuyển.' : status.invitedCount > 0 ? `Đã tạo lời mời cho ${status.invitedCount} TNV; đang chờ người tiếp nhận.` : 'Hiện chưa có TNV phù hợp để mời. Chưa có người tiếp nhận.'}</p>{status.reportSubmitted && <p>Đã ghi nhận bản bổ sung số {status.reportRevision}.</p>}</div>}
+    {progress && <div className={`status-banner ${progress.waiting || progress.delayed ? 'awaiting-help' : ''}`} role="status">
+      <strong>{progress.title}</strong><p>{progress.detail}</p>
+      {progress.waiting && progress.delayed && <p>Yêu cầu đang chờ. Đừng chờ ứng dụng nếu cần cấp cứu ngay.</p>}
+      {status?.reportSubmitted && <p>Đã ghi nhận bản bổ sung số {status.reportRevision}.</p>}
+    </div>}
     <p className="report-intro">Trả lời theo điều bạn quan sát. Nếu chưa chắc, chọn “Không rõ”. Thông tin sẽ cập nhật cho TNV trong ca này.</p>
     <form className="report-panel" onSubmit={submit}>
       <label className="phone-label" htmlFor="phone">Số điện thoại của bạn <span>Không bắt buộc</span></label>
@@ -76,7 +88,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
         <div className="choices">{question.choices.map(([value, label]) => <label key={value} className={answers[question.key] === value ? 'choice selected' : 'choice'}><input type="radio" name={question.key} value={value} required checked={answers[question.key] === value} onChange={() => { setAnswers(previous => ({ ...previous, [question.key]: value })); setSuccess(''); }} />{label}</label>)}</div>
       </fieldset>)}
       <button className="primary" type="submit" disabled={busy || !canSend}>{busy ? 'Đang gửi…' : 'Gửi thông tin bổ sung →'}</button>
-      {status?.status === 'dispatching' && <button className="secondary" type="button" disabled={busy || !serverConfirmed} onClick={cancel}>Hủy yêu cầu chưa có TNV nhận</button>}
+      {status?.status === 'dispatching' && <button className="secondary" type="button" disabled={busy || !serverConfirmed || !online || terminal} onClick={cancel}>Hủy yêu cầu chưa có TNV nhận</button>}
       <p className="hint">Bỏ trống số điện thoại vẫn gửi được. Ba câu hỏi đều cần chọn một đáp án.</p>
       {success && <p className="success" role="status">{success}</p>}{error && <p className="error" role="alert">{error}</p>}
       {!status && error && <button className="secondary" type="button" onClick={() => { setError(''); setRetry(value => value + 1); }}>Thử kết nối lại</button>}

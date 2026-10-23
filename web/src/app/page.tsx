@@ -11,6 +11,6 @@ export default function Home() {
       <article className="card"><span>02 · NGƯỜI QUA ĐƯỜNG</span><h2>Quét thẻ, báo hỗ trợ</h2><p>Quét QR bằng camera điện thoại. Gửi yêu cầu khi ở cạnh bệnh nhân, rồi trả lời ba câu hỏi. Không cần tài khoản; số điện thoại không bắt buộc.</p></article>
       <article className="card"><span>03 · TÌNH NGUYỆN VIÊN</span><h2>Sẵn sàng giúp đỡ</h2><p>Đăng ký và chờ xét duyệt trong ứng dụng. Sau khi được duyệt, bật sẵn sàng và giữ màn hình mở để nhận lời mời trong buổi thử.</p></article>
     </section>
-    <footer><Link href="/admin">Đăng nhập quản trị</Link><Link href="/privacy">Thông tin được lưu và chia sẻ thế nào?</Link></footer>
+    <footer><Link href="/install">Cài EHIS trên Android / iPhone</Link><Link href="/admin">Đăng nhập quản trị</Link><Link href="/privacy">Thông tin được lưu và chia sẻ thế nào?</Link></footer>
   </main>;
 }

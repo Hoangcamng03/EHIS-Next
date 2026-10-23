@@ -5,10 +5,13 @@ import { useRouter } from 'next/navigation';
 
 import { callable as httpsCallable, firebaseClient, readableError, reporterSession } from '@/lib/firebase-client';
 import { DemoLocation, parseDemoLocation } from './DemoLocation';
+import { EmergencyContact } from './EmergencyContact';
+import { useOnline } from '@/lib/use-online';
 
 type PendingRequest = { requestId: string; location: { latitude: number; longitude: number } };
 export function RequestHelp({ cardId }: { cardId: string }) {
   const router = useRouter();
+  const online = useOnline();
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -19,6 +22,7 @@ export function RequestHelp({ cardId }: { cardId: string }) {
   const pendingRequest = useRef<PendingRequest | null>(null);
   const localDemo = process.env.NEXT_PUBLIC_USE_EMULATORS === 'true' && process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID === 'demo-ehis-next';
   async function send() {
+    if (busy || !online) return;
     setBusy(true); setError(''); setMessage('Đang chuẩn bị yêu cầu…');
     try {
       const uid = await reporterSession();
@@ -62,6 +66,8 @@ export function RequestHelp({ cardId }: { cardId: string }) {
   }
   return <main className="report-page role-reporter">
     <div className="report-brand">EHIS NEXT <span>NGƯỜI BÁO TIN</span></div>
+    <EmergencyContact />
+    {!online && <p className="error" role="alert">Thiết bị đang báo mất mạng. Chưa gửi được yêu cầu qua EHIS. Bạn vẫn có thể dùng điện thoại để gọi trợ giúp.</p>}
     <p className="step">BƯỚC 1 / 2</p><h1>Gửi yêu cầu<br />hỗ trợ.</h1>
     <p className="report-intro">Thông báo trước cho tình nguyện viên gần đây. Sau khi máy chủ nhận yêu cầu, bạn có thể bổ sung tình trạng bệnh nhân.</p>
     <section className="report-panel"><h2>Bạn đang ở cạnh bệnh nhân?</h2>
@@ -69,7 +75,7 @@ export function RequestHelp({ cardId }: { cardId: string }) {
       <label className="confirm"><input type="checkbox" checked={confirmed} onChange={e => setConfirmed(e.target.checked)} disabled={busy} />Tôi đang ở cùng vị trí với bệnh nhân.</label>
       {localDemo && <label className="confirm"><input type="checkbox" checked={syntheticLocation} onChange={e => setSyntheticLocation(e.target.checked)} disabled={busy} />BUỔI CHẠY THỬ: dùng vị trí giả thay cho GPS.</label>}
       {localDemo && syntheticLocation && <DemoLocation latitude={latitude} longitude={longitude} onLatitude={setLatitude} onLongitude={setLongitude} disabled={busy} />}
-      <button className="primary emergency-action" onClick={send} disabled={busy || !confirmed}>{busy ? 'Đang gửi…' : 'Gửi yêu cầu hỗ trợ →'}</button>
+      <button className="primary emergency-action" onClick={send} disabled={busy || !confirmed || !online}>{busy ? 'Đang gửi…' : 'Gửi yêu cầu hỗ trợ →'}</button>
       <p className="hint">Chưa cần nhập số điện thoại hay trả lời câu hỏi ở bước này.</p>
       {message && <p role="status">{message}</p>}{error && <p className="error" role="alert">{error}</p>}
     </section>
