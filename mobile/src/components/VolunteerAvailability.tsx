@@ -15,7 +15,7 @@ export async function currentLocation(askPermission: boolean) {
   let timer: ReturnType<typeof setTimeout> | undefined;
   try {
     const result = await Promise.race([
-      Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }),
+      Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High }),
       new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error('location-timeout')), 20000); }),
     ]);
     return { latitude: result.coords.latitude, longitude: result.coords.longitude };
@@ -53,7 +53,7 @@ export function VolunteerAvailability({ uid, paused = false, prepareAlerts }: { 
       try { await refresh(source, false); if (!cancelled) setError(''); }
       catch { if (!cancelled) setError('Chưa làm mới vị trí. Kiểm tra kết nối và bấm bật sẵn sàng lại.'); }
       finally { inFlight = false; }
-    }, 60000);
+    }, 30000);
     return () => { cancelled = true; clearInterval(interval); };
   }, [source, volunteer?.isAvailable, volunteer?.activeIncidentId, volunteer?.verificationStatus, refresh, paused]);
   async function enable(method: 'gps' | 'demo') {
@@ -81,7 +81,7 @@ export function VolunteerAvailability({ uid, paused = false, prepareAlerts }: { 
   return <View style={{ gap: 14, padding: 20, backgroundColor: volunteer?.isAvailable && verifiedFromServer && !paused ? '#d9f3e2' : '#edf1f3', borderRadius: 14, borderWidth: 2, borderColor: volunteer?.isAvailable && verifiedFromServer && !paused ? '#167447' : '#879a9c' }}>
     <Text accessibilityRole="header" style={{ fontWeight: '800', fontSize: 23 }}>{!verifiedFromServer ? 'Đang xác nhận với máy chủ…' : !approved ? 'Tài khoản chưa được duyệt' : volunteer?.activeIncidentId ? 'ĐANG PHỤ TRÁCH CA' : paused ? 'TẠM MẤT ĐỒNG BỘ' : volunteer?.isAvailable ? 'ĐANG SẴN SÀNG' : 'CHƯA SẴN SÀNG'}</Text>
     <View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}><Switch accessibilityLabel="Sẵn sàng nhận yêu cầu hỗ trợ" value={!!volunteer?.isAvailable && verifiedFromServer && !paused} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} onValueChange={value => { if (value) void enable('gps'); else void disable(); }} /><Text style={{ flex: 1, fontSize: 18, lineHeight: 26 }}>{busy ? 'Đang chờ máy chủ xác nhận…' : volunteer?.activeIncidentId ? 'Hoàn tất ca hiện tại trước khi nhận ca mới.' : 'Bật để nhận yêu cầu gần bạn. Tắt khi không thể tham gia.'}</Text></View>
-    <Text>Bật sẵn sàng để gửi vị trí và chuẩn bị chuông. Khi màn hình này đang mở, vị trí được làm mới mỗi phút; vị trí cũ quá 5 phút sẽ không được chọn cho ca mới.</Text>
+    <Text>Bật sẵn sàng để gửi vị trí và chuẩn bị chuông. Khi màn hình này đang mở, vị trí được làm mới khoảng mỗi 30 giây; vị trí cũ quá 5 phút sẽ không được chọn cho ca mới.</Text>
     {volunteer?.isAvailable && <Button title={busy ? 'Đang cập nhật…' : 'Làm mới vị trí GPS'} onPress={() => enable('gps')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} />}
     {isTrialMode && <><Text>BUỔI CHẠY THỬ: nhập vị trí giả của TNV. Mặc định ở trung tâm TP.HCM. Bấm bật sẵn sàng để áp dụng tọa độ; không dùng cho ca thật.</Text>
       <TextInput accessibilityLabel="Vĩ độ TNV giả" value={latitude} onChangeText={setLatitude} editable={!busy && !volunteer?.activeIncidentId} style={{ backgroundColor: 'white', borderRadius: 8, padding: 12 }} />

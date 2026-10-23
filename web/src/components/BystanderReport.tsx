@@ -4,9 +4,9 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 import { callable as httpsCallable, firebaseClient, readableError, reporterSession } from '@/lib/firebase-client';
-import { EmergencyContact } from './EmergencyContact';
 import { reportProgress } from '@/lib/report-status';
 import { useOnline } from '@/lib/use-online';
+import { UpdatePatientLocation } from './UpdatePatientLocation';
 
 const questions = [
   { key: 'responsiveness', title: '1. Bệnh nhân có phản hồi khi bạn gọi?', choices: [['responsive', 'Có phản hồi'], ['unresponsive', 'Không thấy phản hồi'], ['unknown', 'Không rõ']] },
@@ -69,7 +69,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
   const canSend = online && serverConfirmed && !!status && !terminal && ['dispatching', 'accepted', 'arrived'].includes(status.status);
   return <main className="report-page role-reporter">
     <div className="report-brand">EHIS NEXT <span>NGƯỜI BÁO TIN</span></div>
-    <EmergencyContact />
+
     {!online && <p role="alert" className="error">Thiết bị đang báo mất mạng. Chưa thể gửi hoặc xác nhận trạng thái mới. Không chờ EHIS nếu cần cấp cứu.</p>}
     <p className="step">BƯỚC 2 / 2</p><h1>Bổ sung<br />tình trạng.</h1>
     {!status && !error && <p role="status">Đang kiểm tra yêu cầu…</p>}
@@ -80,6 +80,8 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
       {status?.reportSubmitted && <p>Đã ghi nhận bản bổ sung số {status.reportRevision}.</p>}
     </div>}
     <p className="report-intro">Trả lời theo điều bạn quan sát. Nếu chưa chắc, chọn “Không rõ”. Thông tin sẽ cập nhật cho TNV trong ca này.</p>
+    {status && ['accepted', 'arrived'].includes(status.status) && <UpdatePatientLocation key={incidentId} incidentId={incidentId} enabled={canSend} />}
+    {status?.status === 'dispatching' && <p className="hint">Nếu điểm bệnh nhân ban đầu sai hoặc đã di chuyển: hủy yêu cầu chưa được nhận, rồi mở thẻ để gửi tại điểm đúng. Sau khi TNV nhận, bạn có thể xác nhận cập nhật điểm tại đây.</p>}
     <form className="report-panel" onSubmit={submit}>
       <label className="phone-label" htmlFor="phone">Số điện thoại của bạn <span>Không bắt buộc</span></label>
       <input id="phone" type="tel" autoComplete="tel" inputMode="tel" maxLength={40} placeholder="Có thể để trống" value={phone} disabled={busy} onChange={e => { setPhone(e.target.value); setSuccess(''); }} />

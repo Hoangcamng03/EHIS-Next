@@ -15,6 +15,7 @@ export default function InstallPage() {
     </section>
     <section className="report-panel"><h2>iPhone / iPad</h2>
       <p>Mở EHIS bằng Safari → Chia sẻ → Thêm vào Màn hình chính → Thêm. Sau đó mở bằng biểu tượng EHIS. Không cần Expo Go.</p>
+      <p>Cách này miễn phí, dùng web qua Internet. Để cả nhóm cài bản iOS native bằng link TestFlight, chủ dự án cần Apple Developer Program. Tài khoản Apple miễn phí chỉ hỗ trợ thử cá nhân qua Mac/Xcode, phải ký và cài lại sau 7 ngày.</p>
       {releases.ios.testFlightUrl ? <a className="primary home-action" href={releases.ios.testFlightUrl}>Cài bản thử qua TestFlight</a> : <p>Bản iOS native/TestFlight chưa phát hành. iPhone không cài được tệp APK; biểu tượng web trên màn hình chính hiện là cách dùng được ngay.</p>}
     </section>
     <section className="report-panel"><h2>Chuẩn bị trước buổi thử</h2><ol><li>Dùng tài khoản nhóm đã cấp hoặc đăng ký đúng đối tượng.</li><li>TNV cần được duyệt, bật sẵn sàng và cho phép vị trí khi thử.</li><li>Bấm thử chuông, kiểm tra âm lượng; không coi đã cài app là đã nhận thông báo nền.</li></ol><Link href="/privacy">Đọc cách EHIS dùng dữ liệu</Link></section>

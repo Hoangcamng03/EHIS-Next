@@ -1,3 +1,5 @@
+**Cập nhật 0.4.6:** bỏ nút 115 theo phạm vi TNV; có GPS foreground và người báo xác nhận đổi điểm. Xem [luồng mới và cách cài iPhone](LIVE_GPS_0_4_6.md). Phần 0.4.5 bên dưới giữ làm lịch sử; không áp dụng lại nút 115. APK 0.4.5 đã FINISHED và xác minh artifact, chưa nghiệm thu thiết bị; chưa có GPS 0.4.6.
+
 # EHIS 0.4.5 — Cài điện thoại và các mốc phát hành
 
 Ngày 2026-10-23: chủ dự án chưa có Apple Developer/Google Play Console, muốn link cài đơn giản. Tiếp tục diễn tập miễn phí, hoàn thiện demo rồi build điện thoại. Người dùng mục tiêu TNV là sinh viên y; chưa có đơn vị phụ trách y tế. Không xem đây là quyết định mở tiếp nhận ca thật.

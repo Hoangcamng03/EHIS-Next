@@ -1,3 +1,5 @@
+**Đợt 0.4.6 đang kiểm tra:** [GPS foreground, điểm bệnh nhân và iPhone](LIVE_GPS_0_4_6.md). Source đã bỏ nút 115; kết quả deploy mới cập nhật ở LAB_NOTES. APK 0.4.5 đã xác minh artifact, chưa thiết bị, không tự cập nhật lên 0.4.6. Các mục dưới là mốc lịch sử.
+
 # Trạng thái web 0.4.5 / APK 0.4.5 đang build thử
 
 Web 0.4.5 đã deploy: trang /install, đường gọi trợ giúp độc lập với GPS/backend, trạng thái chờ tiếp nhận rõ và xử lý browser offline. Source native có chuông/rung foreground, 27 unit/logic + 5 integration PASS, Android/iOS JS export và cấu hình quyền đạt. [Tiến độ và giới hạn](PHONE_INSTALL_AND_LAUNCH.md). APK build a989bd07 đang chờ EAS, chưa FINISHED/thiết bị. iPhone dùng web trên màn hình chính; chưa IPA/TestFlight. Backend vẫn 0.4.2.

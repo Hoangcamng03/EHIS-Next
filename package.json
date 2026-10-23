@@ -1,6 +1,6 @@
 {
   "name": "ehis-next",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "private": true,
   "description": "Independent EHIS capstone starter for a four-person team",
   "scripts": {
@@ -20,7 +20,7 @@
     "functions:build": "npm --prefix functions run build",
     "test:integration": "npm run functions:build && node scripts/firebase-local.cjs test",
     "emulators": "npm run functions:build && node scripts/firebase-local.cjs start",
-    "check": "npm --prefix mobile run typecheck && npm --prefix mobile run lint && npm --prefix web run lint && npm --prefix web run typecheck && npm --prefix functions run build && npm --prefix functions test && node --test scripts/test-navigation.cjs scripts/test-emergency-alerts.cjs scripts/test-palette.cjs scripts/test-native-signal.cjs scripts/test-report-status.cjs scripts/test-build-environment.cjs",
+    "check": "npm --prefix mobile run typecheck && npm --prefix mobile run lint && npm --prefix web run lint && npm --prefix web run typecheck && npm --prefix functions run build && npm --prefix functions test && node --test scripts/test-navigation.cjs scripts/test-emergency-alerts.cjs scripts/test-palette.cjs scripts/test-native-signal.cjs scripts/test-report-status.cjs scripts/test-build-environment.cjs scripts/test-live-location.cjs",
     "release:preview": "node scripts/release-preview.cjs"
   }
 }

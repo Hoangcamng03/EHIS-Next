@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 
 import { callable as httpsCallable, firebaseClient, readableError, reporterSession } from '@/lib/firebase-client';
 import { DemoLocation, parseDemoLocation } from './DemoLocation';
-import { EmergencyContact } from './EmergencyContact';
 import { useOnline } from '@/lib/use-online';
+import { confirmedPoint } from '@/lib/location-fix';
 
 type PendingRequest = { requestId: string; location: { latitude: number; longitude: number } };
 export function RequestHelp({ cardId }: { cardId: string }) {
@@ -41,7 +41,7 @@ export function RequestHelp({ cardId }: { cardId: string }) {
         if (localDemo && syntheticLocation && !demoPoint) throw new Error('demo-location');
         const location = localDemo && syntheticLocation ? demoPoint! : await new Promise<{ latitude: number; longitude: number }>((resolve, reject) => {
           if (!navigator.geolocation) return reject(new Error('location'));
-          navigator.geolocation.getCurrentPosition(position => resolve({ latitude: position.coords.latitude, longitude: position.coords.longitude }), () => reject(new Error('location')), { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+          navigator.geolocation.getCurrentPosition(position => { try { resolve(confirmedPoint(position, Date.now())); } catch (error) { reject(error); } }, () => reject(new Error('location')), { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
         });
         pending = { requestId: crypto.randomUUID(), location };
         pendingRequest.current = pending;
@@ -66,12 +66,12 @@ export function RequestHelp({ cardId }: { cardId: string }) {
   }
   return <main className="report-page role-reporter">
     <div className="report-brand">EHIS NEXT <span>NGƯỜI BÁO TIN</span></div>
-    <EmergencyContact />
+
     {!online && <p className="error" role="alert">Thiết bị đang báo mất mạng. Chưa gửi được yêu cầu qua EHIS. Bạn vẫn có thể dùng điện thoại để gọi trợ giúp.</p>}
     <p className="step">BƯỚC 1 / 2</p><h1>Gửi yêu cầu<br />hỗ trợ.</h1>
     <p className="report-intro">Thông báo trước cho tình nguyện viên gần đây. Sau khi máy chủ nhận yêu cầu, bạn có thể bổ sung tình trạng bệnh nhân.</p>
     <section className="report-panel"><h2>Bạn đang ở cạnh bệnh nhân?</h2>
-      <p>Vị trí thiết bị sẽ được dùng làm điểm cần hỗ trợ. Trang này không hiển thị hồ sơ y tế của chủ thẻ.</p>
+      <p>Vị trí thiết bị sẽ được dùng làm điểm cần hỗ trợ. Bật vị trí chính xác và đứng ở nơi thoáng nếu GPS yếu. Trang này không hiển thị hồ sơ y tế của chủ thẻ.</p>
       <label className="confirm"><input type="checkbox" checked={confirmed} onChange={e => setConfirmed(e.target.checked)} disabled={busy} />Tôi đang ở cùng vị trí với bệnh nhân.</label>
       {localDemo && <label className="confirm"><input type="checkbox" checked={syntheticLocation} onChange={e => setSyntheticLocation(e.target.checked)} disabled={busy} />BUỔI CHẠY THỬ: dùng vị trí giả thay cho GPS.</label>}
       {localDemo && syntheticLocation && <DemoLocation latitude={latitude} longitude={longitude} onLatitude={setLatitude} onLongitude={setLongitude} disabled={busy} />}

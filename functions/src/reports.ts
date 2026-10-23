@@ -156,6 +156,39 @@ export const acceptIncident = onCall('acceptIncident', async request => {
   });
 });
 
+// A reporter confirms a new patient point. Never follow the reporter automatically.
+// Before assignment, cancel/recreate so selection is based on the new position.
+export const updateIncidentLocation = onCall('updateIncidentLocation', async request => {
+  const uid = requiredUid(request.auth);
+  const data = validate(input => {
+    const value = objectValue(input, ['incidentId', 'updateId', 'location']);
+    const point = parseCreateIncident({ cardId: 'location-only', requestId: 'location-only', location: value.location }).location;
+    if (Math.abs(point.latitude) > 85) throw new Error('Location outside supported map range');
+    return { incidentId: identifier(value.incidentId), updateId: identifier(value.updateId), location: point };
+  }, request.data);
+  const db = getFirestore(), ref = db.doc(`incidents/${data.incidentId}`);
+  const event = ref.collection('reportEvents').doc(makeId(`location:${uid}:${data.updateId}`)), fingerprint = makeId(JSON.stringify(data));
+  return db.runTransaction(async tx => {
+    const snapshot = await tx.get(ref), value = snapshot.data();
+    if (!value || value.reporterUid !== uid) throw new HttpsError('permission-denied', 'Phiên này không sở hữu yêu cầu.');
+    const prior = await tx.get(event);
+    if (prior.exists) {
+      if (prior.data()!.fingerprint !== fingerprint) throw new HttpsError('invalid-argument', 'Update ID already used');
+      return { received: true, revision: prior.data()!.revision, locationRevision: prior.data()!.locationRevision };
+    }
+    if (!value.acceptedBy || !['accepted', 'arrived'].includes(value.status)) throw new HttpsError('failed-precondition', 'Chỉ đổi điểm sau khi TNV nhận. Trước đó hãy hủy và gửi lại để tìm TNV phù hợp.');
+    const revision = Number(value.reportRevision || 0) + 1, locationRevision = Number(value.locationRevision || 0) + 1, at = FieldValue.serverTimestamp();
+    tx.set(ref.collection('private').doc('location'), data.location);
+    tx.set(ref.collection('private').doc('reporter'), { revision }, { merge: true });
+    tx.update(ref, { reportRevision: revision, locationRevision, locationUpdatedAt: at });
+    tx.create(event, { revision, locationRevision, fingerprint, createdAt: at });
+    tx.update(db.doc(`reporters/${uid}/incidentStatuses/${data.incidentId}`), { reportRevision: revision, locationRevision });
+    tx.set(db.doc(`volunteers/${value.acceptedBy}/alerts/${data.incidentId}`), { reportRevision: revision, locationRevision, reportUpdatedAt: at }, { merge: true });
+    tx.create(db.doc(`auditLogs/${makeId(`location:${data.incidentId}:${data.updateId}`)}`), { action: 'incident-location-confirmed', actorUid: uid, incidentId: data.incidentId, createdAt: at });
+    return { received: true, revision, locationRevision };
+  });
+});
+
 export const setVolunteerAvailability = onCall('setVolunteerAvailability', async request => {
   const uid = requiredUid(request.auth);
   const data = validate(input => {
@@ -226,7 +259,7 @@ export const getVolunteerIncidentDetails = onCall('getVolunteerIncidentDetails',
     const patient = card.data()?.shareProfile === true ? await tx.get(db.doc(`patients/${incident.data()!.patientId}`)) : null;
     const profile = patient?.data();
     return { incidentId: id, phone: report.data()?.phone ?? null, answers: report.data()?.answers ?? null,
-      revision: report.data()?.revision ?? 0, location: location.data() ?? null,
+      revision: report.data()?.revision ?? 0, location: location.data() ?? null, locationRevision: incident.data()!.locationRevision ?? 0,
       patientProfile: profile ? { fullName: profile.fullName, allergies: profile.allergies ?? [], emergencyContactPhone: profile.emergencyContactPhone ?? null } : null };
   });
 });

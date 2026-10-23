@@ -1,3 +1,5 @@
+Từ 0.4.6: xem [GPS foreground và đổi điểm đã xác nhận](LIVE_GPS_0_4_6.md). Mô tả GPS bấm một lần bên dưới là lịch sử trước 0.4.6.
+
 # Bản đồ và chỉ đường
 
 Từ web 0.4.3, thao tác **Nhận ca và mở đường đi** được backend xác nhận rồi mới mở chi tiết và tính tuyến một lần; xem [cảnh báo Volunteer](VOLUNTEER_ALERTS.md). Khi khôi phục ca đang nhận từ phiên khác vẫn có nút xem đường để người dùng chủ động. Bảng hỏi bổ sung không đổi tọa độ ca và không làm mất tuyến đang xem. Bệnh án/phone chỉ hiển thị khi có bản dữ liệu được cấp quyền phù hợp; đóng ca hoặc mất đồng bộ thì gỡ phần riêng.

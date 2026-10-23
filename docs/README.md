@@ -52,3 +52,5 @@ Email/mật khẩu thử dùng chung nằm tại [repo riêng tư EHIS-Next-Team
 - [VERIFICATION_V0_3.md](VERIFICATION_V0_3.md): bằng chứng ở thời điểm v0.3; không dùng để khẳng định v0.4 đã thử thiết bị.
 
 Các đường dẫn cũ được giữ để link đã chia sẻ trong nhóm tiếp tục dùng được. Khi thêm tài liệu: chọn nhóm mục đích ở đây, ghi môi trường/phiên bản rõ và cập nhật lab note cho mọi thay đổi, gom theo mục tiêu công việc.
+
+Mới 0.4.6: [GPS khi mở chỉ đường, xác nhận đổi điểm bệnh nhân và cách cài iPhone](LIVE_GPS_0_4_6.md). Kết quả từng mốc tại lab note; Android preview được chủ dự án cho phép build sau kiểm tra demo, chưa OTA/store/clinical.

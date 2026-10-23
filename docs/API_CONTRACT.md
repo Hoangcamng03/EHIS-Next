@@ -75,7 +75,15 @@ Input `{ incidentId }`. Mỗi lần gọi kiểm tra đúng acceptedBy UID, appr
 
 ### setVolunteerAvailability — callable
 
-Input `{ available: boolean, location?: {latitude, longitude} }`. UID lấy từ Auth; bắt buộc approved. Bật true yêu cầu vị trí số hữu hạn trong phạm vi hợp lệ, không được đang phụ trách ca; cập nhật lastSeenAt theo server. Tắt false không cần vị trí. Không nhận role/verified/UID từ client. Trả `{ available }`. Mobile làm mới mỗi phút chỉ khi màn hình active và đã chủ động bật sẵn sàng trong phiên này; không phải GPS nền. Location là do client tự khai, chưa có xác minh chống giả mạo.
+Input `{ available: boolean, location?: {latitude, longitude} }`. UID lấy từ Auth; bắt buộc approved. Bật true yêu cầu vị trí số hữu hạn trong phạm vi hợp lệ, không được đang phụ trách ca; cập nhật lastSeenAt theo server. Tắt false không cần vị trí. Không nhận role/verified/UID từ client. Trả `{ available }`. Mobile làm mới mỗi 30 giây chỉ khi màn hình active và đã chủ động bật sẵn sàng trong phiên này; không phải GPS nền. Location là do client tự khai, chưa có xác minh chống giả mạo.
+
+### updateIncidentLocation — callable, thêm 0.4.6
+
+Input `{ incidentId, updateId, location: {latitude, longitude} }`; identifier như createIncident, tọa độ hữu hạn, latitude -85..85, longitude -180..180, không nhận field thừa. Auth UID phải là reporterUid của ca; chỉ sửa khi accepted/arrived và đã có acceptedBy. UI yêu cầu lấy GPS đủ mới/chính xác và xác nhận đứng cạnh bệnh nhân; backend không thể chứng minh vị trí client là thật.
+
+Trả `{received:true, revision, locationRevision}`. Ghi đè private/location, tăng reportRevision và locationRevision riêng, giữ phone/answers, chỉ báo lại TNV phụ trách. Không đưa tọa độ vào projection/alert/audit/event, không lưu lịch sử điểm. Event chỉ chứa fingerprint chống lặp và revision. Cùng UID/updateId/payload trả ack cũ kể cả sau đóng, không ghi lại; payload khác cùng ID trả invalid-argument. Phiên khác permission-denied, chưa nhận/đã đóng failed-precondition. Trước nhận phải hủy/gửi lại để chọn TNV theo điểm mới.
+
+getVolunteerIncidentDetails thêm `locationRevision` (ca cũ mặc định 0). Alert của TNV phụ trách và trạng thái người báo thêm locationRevision. Client phải ẩn điểm cũ khi revision vị trí chưa khớp. Mọi ghi client trực tiếp vẫn bị Rules từ chối; rate limit callable hiện có áp dụng.
 
 ### finishIncident — callable
 
@@ -115,7 +123,7 @@ Thêm owner reads `patientCards/{uid}`, `volunteerApplications/{uid}`, `patients
 
 ## Hosting API v0.4
 
-15 callable nghiệp vụ đi qua POST /api/<operation>, body {data: payload}, Bearer Firebase ID token. Token thiếu/sai trả 401. Production dùng httpsCallableFromURL; Emulator dùng httpsCallable như trước. GET /api/health trả version 0.4.0 và projectId. Chỉ allowlist được định tuyến, JSON tối đa 32KB; tên endpoint lạ trả 404.
+Các callable nghiệp vụ đi qua POST /api/<operation>, body {data: payload}, Bearer Firebase ID token. Token thiếu/sai trả 401. Production dùng httpsCallableFromURL; Emulator dùng httpsCallable như trước. GET /api/health trả version runtime và projectId. Chỉ allowlist được định tuyến, JSON tối đa 32KB; tên endpoint lạ trả 404.
 
 Mỗi callable có hạn theo phút: 120/UID, riêng createIncident 30/UID, 600/IP băm; vượt trả resource-exhausted. _requestLimits chỉ backend truy cập. App Check chỉ cưỡng chế nếu được cấu hình/bật, hiện chưa bật.
 

@@ -64,8 +64,3 @@ input { min-width: 0; }
 .role-reporter .emergency-action { background: #b4232b; }
 .role-reporter .awaiting-help { background: #fff0f0; color: #7c1720; border: 2px solid #b4232b; }
 .role-reporter .primary:disabled, .role-admin .primary:disabled { background: #dce5e1; color: #465c55; }
-.emergency-contact { margin: 20px 0; padding: 18px; background: #fff0f0; border: 2px solid #b4232b; border-radius: 14px; color: #7c1720; }
-.emergency-contact strong { font-size: 22px; }
-.emergency-contact p { margin: 8px 0; }
-.emergency-contact .primary { display: block; text-align: center; text-decoration: none; color: #fff; margin: 12px 0; }
-.emergency-contact small { display: block; font-size: 15px; line-height: 1.5; }

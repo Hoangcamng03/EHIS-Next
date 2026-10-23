@@ -17,11 +17,24 @@ const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoo
 tiles.on('tileerror',()=>{document.getElementById('status').textContent='Một phần bản đồ chưa tải được. Có thể mở Google Maps.';});
 tiles.on('load',()=>{document.getElementById('status').textContent='A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo';});
 function pin(point,label,color,text){return L.marker([point.latitude,point.longitude],{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+color+'">'+label+'</div>',iconSize:[34,34],iconAnchor:[17,17]})}).addTo(map).bindTooltip(text);}
-pin(data.destination,'B','#ca3b32','Bệnh nhân');const bounds=[[data.destination.latitude,data.destination.longitude]];
-if(data.origin){pin(data.origin,'A','#1677c8','TNV');bounds.push([data.origin.latitude,data.origin.longitude]);}
-if(data.coordinates.length){const points=data.coordinates.map(p=>[p[1],p[0]]);L.polyline(points,{color:'#1677c8',weight:6,opacity:.85}).addTo(map);bounds.push(...points);}
-map.fitBounds(L.latLngBounds(bounds),{padding:[35,45],maxZoom:17});
+let a=null,b=null,line=null,previousTarget='',hadRoute=false;
+window.ehisUpdate=function(next){
+const bounds=[[next.destination.latitude,next.destination.longitude]],target=next.destination.latitude+','+next.destination.longitude;
+if(b)b.setLatLng(bounds[0]);else b=pin(next.destination,'B','#ca3b32','Bệnh nhân');
+if(next.origin){const pos=[next.origin.latitude,next.origin.longitude];if(a)a.setLatLng(pos);else a=pin(next.origin,'A','#1677c8','TNV');bounds.push(pos);}
+const points=next.coordinates.map(p=>[p[1],p[0]]);
+if(points.length){if(line)line.setLatLngs(points);else line=L.polyline(points,{color:'#1677c8',weight:6,opacity:.85}).addTo(map);bounds.push(...points);}else if(line){map.removeLayer(line);line=null;}
+if(!previousTarget||previousTarget!==target||(!hadRoute&&points.length))map.fitBounds(L.latLngBounds(bounds),{padding:[35,45],maxZoom:17});
+previousTarget=target;hadRoute=points.length>0;
+};window.ehisUpdate(data);
 new ResizeObserver(()=>map.invalidateSize()).observe(document.getElementById('map'));
+if(window.ReactNativeWebView)window.ReactNativeWebView.postMessage('ehis-map-ready');
 }
 </script></body></html>`;
+}
+
+export function routeUpdateScript(origin: MapPoint | null, destination: MapPoint, route: RoadRoute | null) {
+  if (!validPoint(destination) || (origin && !validPoint(origin)) || (route && !route.coordinates.every(pair => pair.length === 2 && validPoint({ latitude: pair[1], longitude: pair[0] })))) throw new Error('invalid-location');
+  const payload = JSON.stringify({ origin, destination, coordinates: route?.coordinates ?? [] }).replace(/</g, '\\u003c');
+  return `if(window.ehisUpdate)window.ehisUpdate(${payload});true;`;
 }

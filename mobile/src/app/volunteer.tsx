@@ -18,8 +18,8 @@ import { palette } from '../lib/palette';
 import { useEmergencySignal } from '../lib/use-emergency-signal';
 
 type Answers = { responsiveness: string; breathing: string; bleeding: string };
-type Alert = { incidentId: string; status: string; reportRevision: number; distanceMeters: number; answers: Answers | null; offerExpiresAt?: { toMillis(): number } };
-type Details = { phone: string | null; answers: Answers | null; revision: number; location: { latitude: number; longitude: number } | null; patientProfile?: { fullName: string; allergies: string[]; emergencyContactPhone: string | null } | null };
+type Alert = { incidentId: string; status: string; reportRevision: number; locationRevision?: number; distanceMeters: number; answers: Answers | null; offerExpiresAt?: { toMillis(): number } };
+type Details = { phone: string | null; answers: Answers | null; revision: number; locationRevision?: number; location: { latitude: number; longitude: number } | null; patientProfile?: { fullName: string; allergies: string[]; emergencyContactPhone: string | null } | null };
 const labels: Record<string, string> = { responsive: 'Có phản hồi', unresponsive: 'Không thấy phản hồi', unknown: 'Không rõ', normal: 'Có vẻ bình thường', abnormal: 'Có vẻ bất thường / không thấy thở', none_seen: 'Không thấy', visible: 'Có thấy' };
 function Observation({ answers }: { answers: Answers | null }) {
   if (!answers) return <Text>Người báo chưa gửi câu trả lời bổ sung.</Text>;
@@ -37,7 +37,7 @@ function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false 
       .then(result => { if (!cancelled) { setDetails(result.data); setError(''); } })
       .catch(err => { if (!cancelled) { setDetails(undefined); setError(readableError(err)); } });
     return () => { cancelled = true; };
-  }, [alert.incidentId, alert.reportRevision, alert.status, connected, detailAttempt]);
+  }, [alert.incidentId, alert.reportRevision, alert.locationRevision, alert.status, connected, detailAttempt]);
   async function accept() {
     setBusy(true); setError('');
     try { await httpsCallable(firebaseClient().functions, 'acceptIncident', { timeout: 15000 })({ incidentId: alert.incidentId }); onAccepted?.(alert.incidentId); }
@@ -71,7 +71,7 @@ function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false 
       <Text>{privateData ? `SĐT người báo: ${privateData.phone || 'Không cung cấp'}` : 'Đang chờ thông tin được cấp quyền từ máy chủ…'}</Text>
       {!privateData && !!error && <Button title="Tải lại chi tiết ca" disabled={!connected} onPress={() => { setError(''); setDetailAttempt(value => value + 1); }} />}
       {privateData?.patientProfile ? <View style={styles.answers}><Text style={styles.cardTitle}>Hồ sơ bệnh nhân tự khai</Text><Text>Họ tên: {privateData.patientProfile.fullName}</Text><Text>Dị ứng: {privateData.patientProfile.allergies.join(', ') || 'Chưa khai báo'}</Text><Text>Liên hệ khẩn cấp: {privateData.patientProfile.emergencyContactPhone || 'Chưa khai báo'}</Text><Text>Chỉ dùng cho ca đang phụ trách; thông tin chưa được xác minh y khoa.</Text></View> : privateData && <Text>Bệnh nhân không chia sẻ hồ sơ sức khỏe qua thẻ này.</Text>}
-      {connected && details?.location && <IncidentNavigation destination={details.location} connected={connected} autoPreview={autoPreview} />}
+      {(alert.locationRevision || 0) > 0 && <Text style={styles.urgentTitle}>Điểm bệnh nhân đã được xác nhận lại · lần {alert.locationRevision}</Text>}{connected && details?.location && <IncidentNavigation destination={details.location} connected={connected && (details.locationRevision || 0) === (alert.locationRevision || 0)} autoPreview={autoPreview || (alert.locationRevision || 0) > 0} />}{connected && (details?.locationRevision || 0) !== (alert.locationRevision || 0) && <Text>Đang tải điểm bệnh nhân mới từ máy chủ…</Text>}
       {alert.status === 'accepted' && <Button title="Xác nhận đã đến nơi" disabled={busy || !connected} onPress={arrive} />}
       <Text>Chỉ kết thúc khi phiên hỗ trợ đã xong. Sau đó bạn có thể bật sẵn sàng để thử ca tiếp theo.</Text>
       <ConfirmAction title="Kết thúc phiên hỗ trợ" explanation="Bạn xác nhận phiên hỗ trợ đã xong? Sau bước này, thông tin riêng và bản đồ của ca sẽ đóng." disabled={busy || !connected} onConfirm={finish} />
