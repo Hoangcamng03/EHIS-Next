@@ -47,3 +47,4 @@ Kết quả code, deploy, artifact và thiết bị được ghi riêng trong [l
 - Chưa bấm công tắc lấy GPS thật, chưa kiểm thử di chuyển ngoài trời, iPhone Safari/loa/rung/khóa màn hình hoặc native WebView. Không suy từ tọa độ giả ra độ chính xác thiết bị.
 
 ![Bản đồ sau xác nhận đổi điểm — toàn bộ tọa độ là giả; công tắc GPS đang tắt](assets/trial-046/confirmed-route.jpg)
+Trang tải: [EHIS trên điện thoại](https://ehis-next-20261021-hc03.web.app/install). [Ảnh kiểm tra link Android 0.4.6](assets/trial-046/install.jpg). APK mới đang build, chưa coi đã cài hoặc đã nghiệm thu thiết bị.

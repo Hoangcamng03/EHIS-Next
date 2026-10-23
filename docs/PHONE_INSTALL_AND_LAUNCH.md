@@ -16,14 +16,18 @@ Trang cố định: https://ehis-next-20261021-hc03.web.app/install
 ## Đợt mã 0.4.5
 
 - Web: đường gọi 115 luôn có trên trang QR/bổ sung và liên kết không hợp lệ; không phụ thuộc Auth/GPS/backend. Không gọi trong diễn tập. Nguồn số cấp cứu: https://capcuu115hanoi.com/lien-he/ và https://xaydungchinhsach.chinhphu.vn/tong-dai-so-112-tiep-nhan-24-7-cac-thong-tin-ve-su-co-thien-tai-tham-hoa-119250902150528929.htm
-- Trạng thái phân biệt backend nhận với TNV nhận; nhắc khi chờ, hết hạn, không có TNV. Không tuyên bố có điều phối dự phòng tự động. Browser báo offline thì khóa gửi/hủy, nối lại listener khi online. `navigator.onLine` không chứng minh backend truy cập được; chỉ xác nhận sau API/snapshot server.
+- Trạng thái phân biệt backend nhận với TNV nhận; nhắc khi chờ, hết hạn, không có TNV. Không tuyên bố có điều phối dự phòng tự động. Browser báo offline thì khóa gửi/hủy, nối lại listener khi online. 
+avigator.onLine` không chứng minh backend truy cập được; chỉ xác nhận sau API/snapshot server.
 - Native: expo-audio/haptics, âm gốc WAV đi kèm, tối đa 6s yêu cầu/2s bổ sung/1s thử; dừng khi chuyển nền, mute hoặc unmount. Kiểm tra logic hủy async; cần nghiệm thu loa/rung thật, mức âm lượng và thiết bị. Không phải thông báo đẩy nền.
 - Không xin microphone/ghi âm/audio background. Dedupe quyền vị trí; fingerprint iOS và Android; APK mới versionCode 3. Native module mới cần binary mới, không dùng OTA để thay APK 0.4.1.
 - Hook build chặn Emulator và chặn production trỏ tài nguyên trial. Chưa tạo backend/database production hoặc bật billing.
 
 ## Kỹ thuật build thử
 
-Sau source sạch, `npm run check` và CI đạt, người được chủ dự án giao phát hành chạy `node scripts/build-trial-android.cjs start`; xem tiến độ bằng `node scripts/build-trial-android.cjs status`. Script chỉ build preview APK; không phát OTA hoặc submit store. Kết quả local `.local/android-trial-build.json`, ghi lab note riêng cho start/FINISHED/artifact/device.
+Sau source sạch, 
+pm run check` và CI đạt, người được chủ dự án giao phát hành chạy 
+ode scripts/build-trial-android.cjs start`; xem tiến độ bằng 
+ode scripts/build-trial-android.cjs status`. Script chỉ build preview APK; không phát OTA hoặc submit store. Kết quả local `.local/android-trial-build.json`, ghi lab note riêng cho start/FINISHED/artifact/device.
 
 Trang tải lấy link từ `web/src/config/releases.json`. Chỉ điền APK version/link khi build FINISHED và tải kiểm tra được artifact. TestFlight/Store để null đến khi có link thật. Build mới chưa được coi đã cài trên máy. Bộ guard không thay thế duyệt bảo mật, pháp lý hoặc y khoa.
 
@@ -55,4 +59,9 @@ Web/link tiến độ source `79779715be90307ea0a49c2fd6f06778a1a8573c` đã dep
 
 Ảnh kiểm tra: [trang cài](assets/trial-045/install.jpg), [QR lỗi vẫn có trợ giúp](assets/trial-045/invalid-qr-help.jpg).
 
-Audit mobile báo 9 high từ node-forge/grpc và chuỗi phụ thuộc. `npm update node-forge @grpc/grpc-js` không có bản vá tương thích được áp dụng; không hạ Expo/Firebase về major cũ theo gợi ý audit. Giữ là blocker bảo mật cho phát hành chính thức; đánh giá khả năng ảnh hưởng runtime/tooling với maintainer trước khi đóng.
+Audit mobile báo 9 high từ node-forge/grpc và chuỗi phụ thuộc. 
+pm update node-forge @grpc/grpc-js` không có bản vá tương thích được áp dụng; không hạ Expo/Firebase về major cũ theo gợi ý audit. Giữ là blocker bảo mật cho phát hành chính thức; đánh giá khả năng ảnh hưởng runtime/tooling với maintainer trước khi đóng.
+
+## Cập nhật 0.4.6 — mốc hiện tại
+
+Web/backend mới đã deploy và kiểm tra; xem LIVE_GPS_0_4_6.md. [Build APK 0.4.6](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/5e60b1c0-b010-4c16-90f0-2396d0fa5159) đang IN_QUEUE tại lần kiểm tra; chưa xác minh artifact hoặc cài thiết bị. Trang /install trỏ đúng build này. Bản 0.4.5 phía trên chỉ là lịch sử.
