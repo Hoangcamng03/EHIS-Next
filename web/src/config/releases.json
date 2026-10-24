@@ -1,0 +1,12 @@
+{
+  "android": {
+    "version": "0.4.7",
+    "apkUrl": "https://expo.dev/artifacts/eas/p-bvv6mim5eRquQ0Rz9Za9BypBnupwey6V2EbutCfHc.apk",
+    "buildUrl": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/cec0b212-b53c-48cb-a83a-b2780816cd3c"
+  },
+  "ios": {
+    "testFlightUrl": null
+  },
+  "googlePlayUrl": null,
+  "appStoreUrl": null
+}

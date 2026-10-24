@@ -1,4 +1,5 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Text } from './AppText';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 export function ModuleOverview({ title, owner, tasks }: { title: string; owner: string; tasks: string[] }) {
   return <ScrollView contentContainerStyle={styles.page}>

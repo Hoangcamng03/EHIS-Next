@@ -9,6 +9,18 @@ service cloud.firestore {
     match /patients/{uid} {
       allow read: if owner(uid);
       allow write: if false;
+      match /incidentStatuses/{incidentId} {
+        allow read: if owner(uid);
+        allow write: if false;
+      }
+    }
+    match /patientCards/{uid} {
+      allow read: if owner(uid);
+      allow write: if false;
+    }
+    match /volunteerApplications/{uid} {
+      allow read: if owner(uid);
+      allow write: if false;
     }
     // Roles and verification can never be set by a client.
     match /users/{uid} {
@@ -16,6 +28,15 @@ service cloud.firestore {
       allow write: if false;
     }
     match /volunteers/{uid} {
+      allow read: if owner(uid);
+      allow write: if false;
+      match /alerts/{incidentId} {
+        allow read: if owner(uid) &&
+          get(/databases/$(database)/documents/volunteers/$(uid)).data.verificationStatus == 'approved';
+        allow write: if false;
+      }
+    }
+    match /reporters/{uid}/incidentStatuses/{incidentId} {
       allow read: if owner(uid);
       allow write: if false;
     }

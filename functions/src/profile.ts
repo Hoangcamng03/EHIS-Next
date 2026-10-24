@@ -22,7 +22,7 @@ export function parsePatientProfile(input: unknown): PatientProfile {
     throw new Error('Allergies must contain at most 20 short text items');
   }
   if (typeof value.emergencyContactPhone !== 'string' ||
-      !/^\+?[0-9]{8,15}$/.test(value.emergencyContactPhone)) {
+      (value.emergencyContactPhone !== '' && !/^\+?[0-9]{8,15}$/.test(value.emergencyContactPhone))) {
     throw new Error('Emergency contact phone format is invalid');
   }
   return {

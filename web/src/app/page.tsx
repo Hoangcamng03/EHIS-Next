@@ -1,15 +1,16 @@
 import Link from 'next/link';
 export default function Home() {
   return <main className="page">
-    <div className="eyebrow">CAPSTONE · FIREBASE · REACT NATIVE</div>
-    <h1>EHIS Next</h1>
-    <p className="intro">Nền tảng mới để nhóm xây lại hệ thống thẻ hỗ trợ y tế khẩn cấp, từng bước và có kiểm chứng.</p>
-    <div className="notice">Bản khởi đầu phát triển. Chưa dùng để báo sự cố thật và chưa có hồ sơ bệnh nhân.</div>
+    <div className="eyebrow">EHIS · HỖ TRỢ CỘNG ĐỒNG</div>
+    <h1>Thẻ của bạn.<br />Kết nối người hỗ trợ.</h1>
+    <p className="intro">Bạn quản lý thẻ sức khỏe. Người quét thẻ có thể báo vị trí và tình trạng để tình nguyện viên tiếp nhận.</p>
+    <div className="notice">Đợt thử nghiệm có hướng dẫn của nhóm EHIS. Tài khoản và dữ liệu được lưu trên máy chủ; chỉ nhập tình huống và thông tin giả trong đợt nghiệm thu phần mềm. Không bảo đảm có người tiếp nhận và không thay thế dịch vụ cấp cứu.</div>
+    <a className="primary home-action" href={process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:8082/'}>Mở ứng dụng EHIS →</a>
     <section className="grid">
-      <article className="card"><span>01 · MOBILE</span><h2>Một app, hai khu vực</h2><p>Bệnh nhân quản lý hồ sơ và thẻ. Tình nguyện viên được duyệt để nhận và xử lý ca.</p></article>
-      <article className="card"><span>02 · WEB</span><h2>Người báo sự cố</h2><p>Trang /c/[cardId] sẽ xác nhận vị trí, gửi yêu cầu và theo dõi trạng thái. Không hiển thị hồ sơ y tế.</p><Link href="/c/demo">Xem khung trang →</Link></article>
-      <article className="card"><span>03 · BACKEND</span><h2>Quyền do server kiểm tra</h2><p>Firebase project riêng. Backend khởi đầu có health, getMyAccess và savePatientProfile.</p></article>
+      <article className="card"><span>01 · CHỦ THẺ</span><h2>Chuẩn bị thẻ sức khỏe</h2><p>Chọn Bệnh nhân khi đăng ký. Những lần đăng nhập sau, ứng dụng mở thẳng hồ sơ và thẻ QR của bạn. Bạn quyết định có chia sẻ hồ sơ với người tiếp nhận hay không.</p></article>
+      <article className="card"><span>02 · NGƯỜI QUA ĐƯỜNG</span><h2>Quét thẻ, báo hỗ trợ</h2><p>Quét QR bằng camera điện thoại. Gửi yêu cầu khi ở cạnh bệnh nhân, rồi trả lời ba câu hỏi. Không cần tài khoản; số điện thoại không bắt buộc.</p></article>
+      <article className="card"><span>03 · TÌNH NGUYỆN VIÊN</span><h2>Sẵn sàng giúp đỡ</h2><p>Đăng ký và chờ xét duyệt trong ứng dụng. Sau khi được duyệt, bật sẵn sàng và giữ màn hình mở để nhận lời mời trong buổi thử.</p></article>
     </section>
-    <footer><Link href="/admin">Khu vực quản trị (chưa triển khai)</Link><span>Không có chức năng tự cấp quyền quản trị trên giao diện.</span></footer>
+    <footer><Link href="/install">Cài EHIS trên Android / iPhone</Link><Link href="/admin">Đăng nhập quản trị</Link><Link href="/privacy">Thông tin được lưu và chia sẻ thế nào?</Link></footer>
   </main>;
 }

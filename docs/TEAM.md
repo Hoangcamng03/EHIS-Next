@@ -1,5 +1,20 @@
 # Phân công nhóm 4 người
 
+## Tiếp quản bản thử v0.4
+
+Luồng cơ bản trong bảng cũ bên dưới đã có mã và đã chạy thử PC. Nhóm nên tiếp quản theo đầu ra tiếp theo, không viết lại song song cùng chức năng:
+
+| Người | Đầu ra tiếp theo | Kiểm tra thành công |
+|---|---|---|
+| TV1 | Backend/Rules: quản lý cloud Spark + Vercel đã có, theo dõi cron/quota, App Check và hoàn thiện chính sách dữ liệu | kiểm thử từ chối sai quyền vẫn qua; kiểm tra log cron và thời gian dọn thực tế |
+| TV2 | Volunteer: thử GPS và WebView Android thật, xử lý vòng đời app và push | nhận ca đúng tài khoản, tọa độ đúng, trạng thái đến nơi/hoàn tất đồng bộ; ghi rõ giới hạn khi app đóng |
+| TV3 | Patient/Auth và APK: quản lý dự án ehiss-team/ehis-next đã liên kết, thử bản preview trên Android thật | APK cài được, mở lại giữ phiên, QR trỏ HTTPS đúng backend; ghi lại model/Android và kết quả |
+| TV4 | Website/admin: thử QR trên trình duyệt điện thoại, hồi phục phiên, đa kích thước và accessibility | backend xác nhận rồi mới chuyển bảng hỏi; phone tùy chọn; không có TNV vẫn hiện đúng trạng thái |
+
+Một người sửa một vùng chức năng trên nhánh riêng; thống nhất API trước. Khi cùng sửa một file, chia hàm/component rồi review diff; dùng Live Share cho buổi pair programming, không dùng thư mục đồng bộ làm cơ chế hợp nhất mã. Mỗi PR phải có bước thử và người khác review trước khi merge.
+
+## Phân công khởi đầu (tham chiếu)
+
 | Người | Phần sở hữu | Việc đầu tiên | Đạt khi |
 |---|---|---|---|
 | TV1 (bạn) | Functions, schema, Rules, API | Chạy Emulator, bổ sung Auth/rules integration tests | chủ hồ sơ lưu được; người khác bị từ chối |

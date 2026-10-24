@@ -1,14 +1,28 @@
 {
   "name": "ehis-next",
-  "version": "0.1.0",
+  "version": "0.4.7",
   "private": true,
   "description": "Independent EHIS capstone starter for a four-person team",
   "scripts": {
+    "setup:local": "node scripts/setup-local.cjs",
+    "doctor:local": "node scripts/doctor-local.cjs",
+    "trial:seed": "node scripts/seed-report-demo.cjs 10.875 106.8",
+    "trial:prepare": "node scripts/prepare-complete-demo.cjs",
+    "trial:snapshot": "node scripts/firebase-local.cjs snapshot",
+    "cloud:configure": "node scripts/cloud.cjs configure",
+    "cloud:build": "node scripts/cloud.cjs build",
+    "cloud:probe": "node scripts/cloud.cjs probe",
+    "cloud:deploy-web": "node scripts/cloud.cjs deploy-web",
+    "cloud:status": "node scripts/cloud-access.cjs status",
+    "mobile:web": "npm --prefix mobile run web -- --port 8082",
     "mobile": "npm --prefix mobile start",
-    "web": "npm --prefix web run dev",
+    "web": "npm --prefix web run dev -- --port 3100",
     "functions:build": "npm --prefix functions run build",
-    "test:integration": "npm run functions:build && npx -y firebase-tools@latest emulators:exec --project demo-ehis-next --only auth,firestore,functions \"node scripts/smoke-starter.cjs\"",
-    "emulators": "npm run functions:build && npx -y firebase-tools@latest emulators:start --project demo-ehis-next",
-    "check": "npm --prefix mobile run typecheck && npm --prefix mobile run lint && npm --prefix web run lint && npm --prefix web run typecheck && npm --prefix functions run build && npm --prefix functions test"
+    "test:integration": "npm run functions:build && node scripts/firebase-local.cjs test",
+    "test:active": "npm run functions:build && node scripts/firebase-local.cjs test active",
+    "test:multi": "npm run functions:build && node scripts/firebase-local.cjs test multi",
+    "emulators": "npm run functions:build && node scripts/firebase-local.cjs start",
+    "check": "npm --prefix mobile run typecheck && npm --prefix mobile run lint && npm --prefix web run lint && npm --prefix web run typecheck && npm --prefix functions run build && npm --prefix functions test && node --test scripts/test-navigation.cjs scripts/test-emergency-alerts.cjs scripts/test-palette.cjs scripts/test-native-signal.cjs scripts/test-report-status.cjs scripts/test-build-environment.cjs scripts/test-live-location.cjs scripts/test-alert-feed.cjs",
+    "release:preview": "node scripts/release-preview.cjs"
   }
 }

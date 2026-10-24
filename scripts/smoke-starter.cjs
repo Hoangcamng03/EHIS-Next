@@ -5,7 +5,7 @@ const dataBase = 'http://127.0.0.1:8180/v1/projects/demo-ehis-next/databases/(de
 async function call(name, data, token) {
   return fetch(`${base}/${name}`, { method: 'POST', headers: {
     'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  }, body: JSON.stringify({ data }), signal: AbortSignal.timeout(15000) });
+  }, body: JSON.stringify({ data }), signal: AbortSignal.timeout(30000) });
 }
 async function signup(label) {
   const response = await fetch(`${authBase}/accounts:signUp?key=emulator-key`, {
