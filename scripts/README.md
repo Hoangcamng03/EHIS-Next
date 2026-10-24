@@ -1,3 +1,5 @@
+**0.4.7:** `npm run test:integration` gồm tám bộ; `npm run test:multi` chỉ nhiều ca/vùng; `npm run test:active` chỉ feed SDK. Các helper trong `test-support/emulator.cjs` khóa loopback/project demo, không chạy lên cloud. Đợt này được phép build APK preview sau kiểm chứng web/cloud; không tự OTA/store. [Nghiệm thu](../docs/ACCEPTANCE_FLOW.md).
+
 # Scripts — phân biệt chạy local, kiểm tra và triển khai
 
 Các lệnh npm bên dưới chạy từ **root repo**. Script công cụ không phải code giao diện. Đọc phần môi trường trước khi chạy; tác vụ cloud cần tài khoản/quyền của nhóm, không bật billing tự động.

@@ -66,3 +66,7 @@ Thời gian Emulator ghi nhận ở đợt 215 tài khoản: createIncident p95 
 [Cảnh báo khẩn](assets/trial-047/volunteer-alert.jpg) · [Đã gửi, chưa có người nhận](assets/trial-047/report-before-accept.jpg) · [Kết thúc](assets/trial-047/report-closed.jpg) · [Patient](assets/trial-047/patient-role-and-history.jpg) · [TNV sau duyệt](assets/trial-047/volunteer-approved.jpg) · [Quản trị hết đơn](assets/trial-047/admin-empty-after-review.jpg) · [TNV bị chặn quản trị](assets/trial-047/admin-denied-volunteer.jpg).
 
 Rà Rules có phạm vi tại [SECURITY_RULES_AUDIT](SECURITY_RULES_AUDIT_2026_10_24.json); điểm audit không phải chứng nhận cả hệ thống.
+
+## Mốc cloud đã xác nhận
+
+Runtime 257185b, [CI 40076506537](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40076506537) SUCCESS. Backend health đúng 0.4.7/project; 32 tệp Hosting khớp build. Truy vấn vùng/index chạy được với ca giả thật: 1 TNV được mời, private trước nhận 403; nhận, báo không phone và replay, đổi điểm đúng chủ và replay, đến/kết thúc; private sau đóng 403 và mutation mới 400. Token thiếu/sai 401. Fixture OFF/no-active đã đọc lại server. Các call ở mẫu nhỏ warm này khoảng 103–280ms, không thay cho đo tải, cold start hoặc điện thoại. [Ảnh cloud 0.4.7](assets/trial-047/cloud-volunteer-047.jpg).
