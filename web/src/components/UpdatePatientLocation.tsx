@@ -29,9 +29,9 @@ export function UpdatePatientLocation({ incidentId, enabled }: { incidentId: str
     } catch (err) { setError(readableError(err)); }
     finally { setBusy(false); }
   }
-  return <section className="report-panel"><h2>Bệnh nhân đã đổi vị trí?</h2><p>Chỉ cập nhật khi bạn đang đứng cạnh bệnh nhân tại điểm mới. Điện thoại của bạn di chuyển không tự làm thay đổi điểm đến.</p>
+  return <details className="report-panel"><summary style={{ minHeight: 56, cursor: 'pointer', fontWeight: 700 }}>Bệnh nhân đã đổi vị trí? Cập nhật điểm</summary><p>Chỉ cập nhật khi bạn đang đứng cạnh bệnh nhân tại điểm mới. Điện thoại của bạn di chuyển không tự làm thay đổi điểm đến.</p>
     <button className="secondary" type="button" disabled={!enabled || busy} onClick={locate}>{busy ? 'Đang xử lý vị trí…' : 'Lấy GPS để xác nhận điểm mới'}</button>
     {candidate && <><p>Điểm mới: {candidate.location.latitude.toFixed(6)}, {candidate.location.longitude.toFixed(6)} · sai số ước tính ±{Math.round(candidate.accuracy)} m.</p><label className="confirm"><input type="checkbox" checked={confirmed} onChange={event => setConfirmed(event.target.checked)} disabled={busy || !enabled} />Tôi đang ở cạnh bệnh nhân và xác nhận dùng điểm mới này.</label><button className="primary" type="button" disabled={!enabled || busy || !confirmed} onClick={send}>Xác nhận đổi điểm và báo TNV</button></>}
     {!!error && <p role="alert" className="error">{error}</p>}{!!message && <p role="status" className="success">{message}</p>}
-  </section>;
+  </details>;
 }

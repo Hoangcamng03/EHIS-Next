@@ -58,7 +58,7 @@ export function readableError(error: unknown) {
   if (code === 'auth/network-request-failed' || code === 'functions/unavailable' || code === 'functions/deadline-exceeded') return 'Chưa kết nối được máy chủ. Kiểm tra Internet rồi thử lại. Chỉ coi thao tác thành công khi có xác nhận.';
   if (code === 'auth/too-many-requests') return 'Có quá nhiều lần thử đăng nhập. Đợi một lúc rồi thử lại hoặc đặt lại mật khẩu.';
   if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') return 'Email hoặc mật khẩu chưa đúng trong môi trường này. Tài khoản thử trên máy tính (Emulator) không dùng được trên website cloud; dùng tài khoản CLOUD của nhóm hoặc tài khoản bạn đã đăng ký ở đây.';
-  if (code === 'functions/resource-exhausted') return 'Bạn thao tác quá nhanh. Đợi khoảng một phút rồi thử lại.';
+  if (code === 'functions/resource-exhausted') return 'Hệ thống đang giới hạn lượt thao tác. Đợi khoảng một phút rồi thử lại.';
   if (code === 'functions/failed-precondition') return 'Trạng thái hiện tại chưa cho phép thao tác. Kiểm tra hồ sơ, thẻ hoặc ca đang hoạt động rồi thử lại.';
   if (code === 'functions/invalid-argument') return 'Thông tin chưa hợp lệ. Kiểm tra tên, số điện thoại và các trường đã nhập.';
   if (code === 'auth/weak-password') return 'Mật khẩu chưa đủ mạnh. Dùng ít nhất 8 ký tự.';

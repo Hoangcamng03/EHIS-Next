@@ -50,8 +50,9 @@ export async function reporterSession(): Promise<string> {
 
 export function readableError(error: unknown): string {
   const code = (error as { code?: string })?.code;
+  if (code === 'functions/resource-exhausted' && (error as { details?: { reason?: string } }).details?.reason === 'dispatch-capacity') return 'Hệ thống chưa đủ khả năng tìm TNV lúc này. Yêu cầu chưa được tạo. Hãy liên hệ người phụ trách buổi thử và tìm hỗ trợ trực tiếp.';
   const messages: Record<string, string> = {
-    'functions/resource-exhausted': 'Bạn thao tác quá nhanh. Đợi khoảng một phút rồi thử lại.',
+    'functions/resource-exhausted': 'Hệ thống đang giới hạn lượt thao tác. Đợi khoảng một phút rồi thử lại.',
     'functions/not-found': 'Thẻ không tồn tại hoặc đã bị thu hồi.',
     'functions/already-exists': 'Thẻ này đang có yêu cầu hỗ trợ. Không tạo thêm ca trùng.',
     'functions/permission-denied': 'Phiên này không có quyền với yêu cầu. Hãy dùng trình duyệt đã gửi yêu cầu.',

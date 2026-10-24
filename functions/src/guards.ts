@@ -19,7 +19,7 @@ export async function enforceRequestBudget(uid: string, operation: string, ip?: 
 
 export function guardedCall<T>(operation: string, handler: (request: CallableRequest<unknown>) => Promise<T>) {
   return onCall({ enforceAppCheck: process.env.EHIS_ENFORCE_APP_CHECK === 'true' }, async request => {
-    if (!request.auth) throw new HttpsError('unauthenticated', 'Cần phiên đăng nhập.');
+    if (!request.auth || typeof request.auth.uid !== 'string' || !request.auth.uid) throw new HttpsError('unauthenticated', 'Cần phiên đăng nhập hợp lệ.');
     await enforceRequestBudget(request.auth.uid, operation, request.rawRequest.ip);
     return handler(request);
   });

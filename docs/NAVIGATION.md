@@ -1,3 +1,5 @@
+**Nghiệm thu hiện tại:** [0.4.7: nhiều ca/vùng, ca active không mất sau 30 thông báo](VERIFICATION_V0_4_7.md) · [GPS/mạng trên hai Android](ACCEPTANCE_FLOW.md).
+
 Từ 0.4.6: xem [GPS foreground và đổi điểm đã xác nhận](LIVE_GPS_0_4_6.md). Mô tả GPS bấm một lần bên dưới là lịch sử trước 0.4.6.
 
 # Bản đồ và chỉ đường

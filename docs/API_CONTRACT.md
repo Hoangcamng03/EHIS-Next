@@ -44,7 +44,7 @@ Cần Auth, cho phép anonymous. Input `{ cardId, requestId, location: { latitud
 
 Trả `{ incidentId, status, invitedCount }` sau transaction tạo incident, vị trí riêng tư, trạng thái người báo và lời mời. `invitedCount` không phải số người đã nhận. `0` vẫn là backend đã nhận yêu cầu, UI phải nói rõ chưa có TNV phù hợp. Frontend chỉ chuyển trang sau thành công.
 
-Cùng UID + requestId + payload trả cùng ca; dùng lại ID với payload khác trả invalid-argument. Thẻ đang có ca dispatching/accepted/arrived trả already-exists mà không lộ mã ca của phiên khác. Prototype mời tối đa 5/100 TNV eligible, bán kính 5km, lastSeen <=5 phút, offer 10 phút; chưa tự đóng ca.
+Cùng UID + requestId + payload trả cùng ca; dùng lại ID với payload khác trả invalid-argument. Thẻ đang có ca dispatching/accepted/arrived trả already-exists mà không lộ mã ca của phiên khác. Từ 0.4.7, query bbox/timestamp mới trước giới hạn, lọc Haversine trong 5km và mời tối đa 5 TNV gần nhất. Vùng truy vấn có hơn 1000 ứng viên trả resource-exhausted với details.reason=dispatch-capacity trước ghi incident/projection/pointer. Latitude hỗ trợ -85..85, longitude -180..180; query tách ở kinh tuyến 180. lastSeen <=5 phút, không quá tương lai 1 phút; offer 10 phút. API chặn quá hạn ngay; worker ngày không phải điều phối/escalation liên tục.
 
 ### submitBystanderReport — callable
 
@@ -128,3 +128,7 @@ Các callable nghiệp vụ đi qua POST /api/<operation>, body {data: payload},
 Mỗi callable có hạn theo phút: 120/UID, riêng createIncident 30/UID, 600/IP băm; vượt trả resource-exhausted. _requestLimits chỉ backend truy cập. App Check chỉ cưỡng chế nếu được cấu hình/bật, hiện chưa bật.
 
 GET /internal/maintenance yêu cầu Bearer CRON_SECRET, không dùng token client. Chạy hằng ngày: tối đa 50 dispatch hết hạn, 50 ca đủ hạn purgeAfter, 200 counter cũ. Không purge ca accepted/arrived. Index incidents(status, offerExpiresAt) đã deploy.
+
+## Feed TNV 0.4.7
+
+Client đọc volunteers/{uid}.activeIncidentId từ owner snapshot và theo dõi riêng alert đó bên cạnh 30 alert gần nhất. Chỉ khóa mở thao tác khi owner approval và các stream cần thiết được xác nhận từ server. Quyền/backend không thay bởi đường dẫn hoặc pin UI. Khi nhận snapshot thu hồi quyền, xóa feed; không cam kết thu hồi ngay trên thiết bị đang offline hoặc xóa dữ liệu đã được người dùng xem/chụp lại.

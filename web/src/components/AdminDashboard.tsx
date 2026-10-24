@@ -9,11 +9,12 @@ export function AdminDashboard() {
   const [user, setUser] = useState<User | null>(null), [admin, setAdmin] = useState(false), [ready, setReady] = useState(false);
   const [email, setEmail] = useState(''), [password, setPassword] = useState(''), [error, setError] = useState(''), [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false), [items, setItems] = useState<Application[]>([]);
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     let cancelled = false;
     const client = adminClient();
     const unsubscribe = onAuthStateChanged(client.auth, value => {
-      setUser(value); setAdmin(false); setReady(!value); setItems([]); setError('');
+      setUser(value); setAdmin(false); setReady(!value); setItems([]); setLoaded(false); setError('');
       if (value) httpsCallable<Record<string, never>, { isAdmin: boolean }>(client.functions, 'getMyAccess', { timeout: 15000 })({}).then(result => {
         if (!cancelled && client.auth.currentUser?.uid === value.uid) { setAdmin(result.data.isAdmin); setReady(true); }
       }).catch(() => { if (!cancelled) { setError('Chưa xác minh được quyền quản trị. Kiểm tra kết nối.'); setReady(true); } });
@@ -22,7 +23,7 @@ export function AdminDashboard() {
   }, []);
   async function load() {
     const result = await httpsCallable<Record<string, never>, { applications: Application[] }>(adminClient().functions, 'listVolunteerApplications', { timeout: 15000 })({});
-    setItems(result.data.applications);
+    setItems(result.data.applications); setLoaded(true);
   }
   async function act(operation: 'login' | 'logout' | 'load' | 'approved' | 'rejected', uid?: string) {
     setBusy(true); setError(''); setMessage('');
@@ -45,11 +46,11 @@ export function AdminDashboard() {
     </form> : <><p>{user.email}</p><button className="secondary" disabled={busy} onClick={() => act('logout')}>Đăng xuất quản trị</button>
       {ready && !admin && <p role="alert" className="error">Tài khoản này không có quyền quản trị. Chọn vai trò hoặc đăng ký tài khoản không tự cấp quyền.</p>}
       {admin && <><button className="primary" disabled={busy} onClick={() => act('load')}>Tải đơn chờ duyệt</button><p className="hint">Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp theo.</p>
-        {!items.length && <p>Chưa tải danh sách hoặc hiện không có đơn chờ.</p>}
+        {!items.length && <p>{loaded ? 'Hiện không có đơn chờ duyệt.' : 'Bấm Tải đơn chờ duyệt để xem danh sách.'}</p>}
         {items.map(item => <section className="report-panel" key={item.uid}><h2>{item.fullName}</h2><p>Liên hệ: {item.phone}</p><p>Kinh nghiệm tự khai: {item.experience}</p><button className="primary" disabled={busy} onClick={() => act('approved', item.uid)}>Duyệt {item.fullName}</button><button className="secondary" disabled={busy} onClick={() => act('rejected', item.uid)}>Từ chối {item.fullName}</button></section>)}
       </>}
     </>}
     {!!error && <p role="alert" className="error">{error}</p>}{!!message && <p role="status" className="success">{message}</p>}
-    <p className="hint">Chỉ tài khoản có custom claim admin do môi trường quản trị tin cậy cấp mới được duyệt. Không có nút tự tạo quản trị.</p>
+    <p className="hint">Chỉ tài khoản quản trị được nhóm phụ trách cấp mới được duyệt TNV. Đăng ký hoặc chọn đối tượng không tự cấp quyền quản trị.</p>
   </main>;
 }

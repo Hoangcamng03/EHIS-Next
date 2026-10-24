@@ -1,0 +1,20 @@
+{
+  "score": 4,
+  "summary": "Scoped review of firestore.rules, not certification of the whole application. Owner-only reads, server-controlled volunteer approval and deny-all client writes prevent the tested cross-user/update bypasses. Admin SDK authorization and operational readiness are separate gates. Emulator integration covered unauthorized reads/writes, assignment, revocation and closure. No Rules changes made in this session.",
+  "findings": [
+    {
+      "check": "Resource Exhaustion/DoS",
+      "severity": "minor",
+      "issue": "Allowed owner collection reads do not enforce a query limit. An owner can repeatedly read their own history outside the app UI; API request budgets do not cover direct Firestore SDK reads.",
+      "recommendation": "Before a public launch, assess bounded list rules, App Check enforcement, quota monitoring and incident response without breaking owner document reads. A query limit alone does not prevent repeated reads. No untested enforcement was enabled."
+    }
+  ],
+  "checklist": {
+    "create_update_bypass": "All direct client writes, including delete and field injection, denied; tested on Emulator.",
+    "authority_source": "UID from authenticated request; approval stored in server-written volunteer document. A UI purpose does not grant approval/admin.",
+    "business_logic": "Private incident data via assigned/approved callable only, owner projections via SDK; multi-account and closure tests pass.",
+    "type_and_size": "Client write validators in Rules not applicable because writes are denied; callable parsers validate permitted fields and portable backend bounds JSON size.",
+    "identity_vs_field_security": "Owner identity checks and default deny exist; no field-only allow rule.",
+    "admin_scope": "Admin SDK bypasses Rules; endpoint checks separately tested. This score does not assess legal, medical, dependency or infrastructure risk."
+  }
+}

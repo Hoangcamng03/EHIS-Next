@@ -13,14 +13,14 @@ Dự án Capstone viết mới cho nhóm 4 người. Repository chứa **toàn b
 
 | Sản phẩm | Người dùng | Code | Kết quả build / nơi chạy |
 |---|---|---|---|
-| App EHIS | Patient và Volunteer, ghi nhớ đối tượng khi đăng ký và tự mở sau đăng nhập | [mobile/](mobile/README.md) | Web 0.4.6 đã deploy; APK 0.4.6 đang build thử; iPhone cài web, chưa IPA |
+| App EHIS | Patient và Volunteer, ghi nhớ đối tượng khi đăng ký và tự mở sau đăng nhập | [mobile/](mobile/README.md) | 0.4.7 đang nghiệm thu; ưu tiên Android miễn phí; iPhone dùng web, iOS native hoãn |
 | Website EHIS | Người qua đường mở QR; quản trị vào `/admin` | [web/](web/README.md) | Website tĩnh HTTPS trên Firebase Hosting |
 | Backend EHIS | App và website gọi API | [functions/](functions/README.md) | Node/Express trên Vercel Hobby |
 | Dữ liệu / xác thực | Tài khoản, hồ sơ, thẻ, ca và quyền đọc | [Firebase config](docs/REPO_MAP.md#4-cấu-hình-và-dữ-liệu) | Firebase Auth + Firestore Standard Singapore |
 
 Patient và Volunteer là hai khu vực của **cùng một app**. Trang quản trị thuộc website. App xuất ra web dùng cùng code React Native; đó là giao diện khác website người qua đường.
 
-Theo quyết định mới: [hoàn thiện và duyệt web trước](docs/WEB_TRIAL.md), rồi mới phát hành Android/iOS mới. Không phát OTA/APK trong giai đoạn chờ duyệt web. Lựa chọn đối tượng được lưu qua backend và chỉ quyết định giao diện; quyền TNV vẫn cần quản trị xét duyệt.
+Theo quyết định 2026-10-24: ưu tiên Android miễn phí + web, iOS native hoãn đến khi có tài trợ. Kiểm chứng web/cloud rồi build APK preview và nghiệm thu trên hai Android; không tự OTA/store hoặc tiếp nhận ca thật. [Kịch bản và cổng nghiệm thu](docs/ACCEPTANCE_FLOW.md). Lựa chọn đối tượng được lưu qua backend và chỉ quyết định giao diện; quyền TNV vẫn cần quản trị xét duyệt.
 
 Web trước **0.4.4** có [màu theo đối tượng, sửa lỗi và kết quả kiểm tra](docs/VERIFICATION_V0_4_4.md). Chủ dự án thử web rồi duyệt trước bản điện thoại. Web 0.4.3 đã thêm [công tắc sẵn sàng, cảnh báo chuông/rung và bản đồ sau nhận ca](docs/VOLUNTEER_ALERTS.md). Chuông nghiệm thu khi trang mở phía trước; chưa phải thông báo nền của điện thoại.
 

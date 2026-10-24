@@ -1,3 +1,5 @@
+**Nghiệm thu 0.4.7 / Android trước:** [flow và hai Android](ACCEPTANCE_FLOW.md) · [kết quả, lỗi và ảnh](VERIFICATION_V0_4_7.md). Các mục phiên bản cũ bên dưới là lịch sử; không đánh dấu thiết bị đạt từ test PC.
+
 # Kịch bản kiểm tra
 
 ## Kiểm tra tự động của starter

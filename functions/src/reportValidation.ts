@@ -18,7 +18,7 @@ export function parseCreateIncident(input: unknown) {
   const data = objectValue(input, ['cardId', 'requestId', 'location']);
   const location = objectValue(data.location, ['latitude', 'longitude']);
   const { latitude, longitude } = location;
-  if (typeof latitude !== 'number' || !Number.isFinite(latitude) || Math.abs(latitude) > 90 ||
+  if (typeof latitude !== 'number' || !Number.isFinite(latitude) || Math.abs(latitude) > 85 ||
       typeof longitude !== 'number' || !Number.isFinite(longitude) || Math.abs(longitude) > 180) {
     throw new Error('Invalid location');
   }

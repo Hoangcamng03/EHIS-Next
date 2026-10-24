@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { HttpsError } from 'firebase-functions/v2/https';
 import { distanceMeters, identifier, objectValue, parseBystanderReport, parseCreateIncident } from './reportValidation';
+import { dispatchBounds } from './dispatchBounds';
 
 const makeId = (value: string) => createHash('sha256').update(value).digest('hex').slice(0, 40);
 function validate<T>(parser: (input: unknown) => T, input: unknown): T {
@@ -62,12 +63,21 @@ export const createIncident = onCall('createIncident', async request => {
         } else throw new HttpsError('already-exists', 'Thẻ này đang có một yêu cầu hỗ trợ. Không tạo thêm ca trùng.');
       }
     }
-    const candidates = await tx.get(db.collection('volunteers').where('verificationStatus', '==', 'approved').where('isAvailable', '==', true).limit(100));
-    const selected = candidates.docs.flatMap(doc => {
+    // Query the local area and fresh timestamps before the cap, not the first IDs globally.
+    const windows = dispatchBounds(data.location);
+    const pages = await Promise.all(windows.map(window => tx.get(db.collection('volunteers')
+      .where('verificationStatus', '==', 'approved').where('isAvailable', '==', true)
+      .where('location.latitude', '>=', window.south).where('location.latitude', '<=', window.north)
+      .where('location.longitude', '>=', window.west).where('location.longitude', '<=', window.east)
+      .where('lastSeenAt', '>=', Timestamp.fromMillis(now - 300000)).where('lastSeenAt', '<=', Timestamp.fromMillis(now + 60000))
+      .orderBy('location.latitude').orderBy('location.longitude').orderBy('lastSeenAt').limit(1001))));
+    const candidates = [...new Map(pages.flatMap(page => page.docs).map(item => [item.id, item])).values()];
+    if (candidates.length > 1000) throw new HttpsError('resource-exhausted', 'Dispatch capacity exceeded', { reason: 'dispatch-capacity' });
+    const selected = candidates.flatMap(doc => {
       const volunteer = doc.data();
       const location = volunteer.location;
       if (doc.id === patient.id || volunteer.activeIncidentId || !location || typeof location.latitude !== 'number' || typeof location.longitude !== 'number' ||
-          !Number.isFinite(location.latitude) || !Number.isFinite(location.longitude) || Math.abs(location.latitude) > 90 || Math.abs(location.longitude) > 180 ||
+          !Number.isFinite(location.latitude) || !Number.isFinite(location.longitude) || Math.abs(location.latitude) > 85 || Math.abs(location.longitude) > 180 ||
           typeof volunteer.lastSeenAt?.toMillis !== 'function' || now - volunteer.lastSeenAt.toMillis() > 300000 || volunteer.lastSeenAt.toMillis() > now + 60000) return [];
       const distance = distanceMeters(data.location, location);
       return distance <= 5000 ? [{ uid: doc.id, distance }] : [];

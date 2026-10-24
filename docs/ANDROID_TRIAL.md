@@ -1,3 +1,5 @@
+**Nghiệm thu 0.4.7 / Android trước:** [flow và hai Android](ACCEPTANCE_FLOW.md) · [kết quả, lỗi và ảnh](VERIFICATION_V0_4_7.md). Các mục phiên bản cũ bên dưới là lịch sử; không đánh dấu thiết bị đạt từ test PC.
+
 # Cài và thử Android — cập nhật 0.4.5
 
 **Mới nhất:** [trang cài/tiến độ APK 0.4.5](https://ehis-next-20261021-hc03.web.app/install). Build thử được chủ dự án cho phép sau hoàn thiện demo. [Bằng chứng và checklist thiết bị](PHONE_INSTALL_AND_LAUNCH.md). Hướng dẫn 0.4.1 dưới đây giữ để đối chiếu lịch sử; vị trí giả chỉ có trên Emulator ở bản mới.
