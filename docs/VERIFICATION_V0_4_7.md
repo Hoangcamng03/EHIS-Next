@@ -70,3 +70,9 @@ Rà Rules có phạm vi tại [SECURITY_RULES_AUDIT](SECURITY_RULES_AUDIT_2026_1
 ## Mốc cloud đã xác nhận
 
 Runtime 257185b, [CI 40076506537](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40076506537) SUCCESS. Backend health đúng 0.4.7/project; 32 tệp Hosting khớp build. Truy vấn vùng/index chạy được với ca giả thật: 1 TNV được mời, private trước nhận 403; nhận, báo không phone và replay, đổi điểm đúng chủ và replay, đến/kết thúc; private sau đóng 403 và mutation mới 400. Token thiếu/sai 401. Fixture OFF/no-active đã đọc lại server. Các call ở mẫu nhỏ warm này khoảng 103–280ms, không thay cho đo tải, cold start hoặc điện thoại. [Ảnh cloud 0.4.7](assets/trial-047/cloud-volunteer-047.jpg).
+
+## Android artifact 0.4.7
+
+EAS cec0b212-b53c-48cb-a83a-b2780816cd3c FINISHED, source db55a086f6fbcebad62c3ef4d05aaeb93d9127ec, versionCode5, 103742037 byte; manifest/package, embedded cloud target, WAV và quyền đã xác minh. SHA-256: 11dfa714614d08cf46b5645d00f973687813109c181e75ed108bcb8aeffea774. [Tải APK](https://expo.dev/artifacts/eas/p-bvv6mim5eRquQ0Rz9Za9BypBnupwey6V2EbutCfHc.apk). Chưa xác minh trên thiết bị hoặc chấp nhận bởi Play Protect. CI cho source APK: [40076794250](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40076794250) SUCCESS. Không OTA/store/iOS/billing.
+
+Trang cài sau phát hành: [ảnh nút tải đúng APK0.4.7](assets/trial-047/install-047.jpg). Browser và 32 đối chiếu artifact Hosting cuối đạt; phiếu A01–A13 chưa được nhóm chạy trên thiết bị.

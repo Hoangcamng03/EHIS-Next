@@ -53,3 +53,25 @@ Mỗi tình huống ghi: ID, version, người thử, thiết bị/mạng, giờ
 - Không xóa chữ diễn tập hoặc đổi nhãn thành chính thức chỉ để vượt cổng. Vấn đề ngoài code được giữ thành blocker và có chủ trì trong [kế hoạch sản phẩm](PRODUCT_LAUNCH_PLAN.md).
 
 Kết quả từng đợt và quyết định phát hành xem [LAB_NOTES.md](LAB_NOTES.md) và [STATUS.md](STATUS.md).
+
+## 6. Phiếu điền khi thử hai Android
+
+Sao chép phần này vào bản ghi riêng của buổi thử. Ghi ngày/người thử; máy A/B (model, Android, phiên bản APK/code, browser nếu dùng web), mạng ban đầu, quyền GPS, âm lượng và cỡ chữ. Không ghi mật khẩu hoặc dữ liệu người bệnh thật. Máy tính có thể giữ vai Patient/người báo để hai điện thoại dành cho hai TNV; đảo vai ở vòng sau.
+
+| Mã | Bài trên máy thật | Kết quả hiện tại | Bằng chứng / Issue |
+| --- | --- | --- | --- |
+| A01 | Đăng ký/đăng nhập lại Patient và TNV, TNV chờ duyệt | Chưa thử | — |
+| A02 | QR → gửi/ack → báo thêm không phone → chuông/rung → nhận/map → đến/kết thúc | Chưa thử | — |
+| A03 | Hai TNV bấm nhận một ca cùng lúc | Chưa thử | — |
+| A04 | Hai Patient khác nhau báo gần đồng thời, ở hai vị trí khác nhau | Chưa thử | — |
+| A05 | Hai người báo quét một thẻ, bấm lặp khi chờ ack | Chưa thử | — |
+| A06 | Mất mạng lúc gửi và lúc nhận, nối lại/đổi Wi-Fi↔4G | Chưa thử | — |
+| A07 | GPS từ chối, độ chính xác kém hoặc điểm quá cũ | Chưa thử | — |
+| A08 | Đi bộ theo GPS foreground, reporter xác nhận đổi điểm; mất dịch vụ bản đồ | Chưa thử | — |
+| A09 | Mở lại app/đổi tài khoản khi có ca; kiểm tra đúng người/ca | Chưa thử | — |
+| A10 | Đưa nền/khóa màn hình rồi có yêu cầu mới | Chưa thử; chưa hỗ trợ tiếp nhận nền được xác minh | — |
+| A11 | Không TNV gần; TNV tắt/bận/chưa duyệt; thu hồi quyền trong ca | Chưa thử | — |
+| A12 | Đóng ca → dữ liệu riêng bị khóa → cùng thẻ thử ca kế tiếp | Chưa thử | — |
+| A13 | Màn nhỏ/cỡ chữ lớn: nút, popup, bàn phím, kéo trang và lỗi có đọc được không | Chưa thử | — |
+
+Cho mỗi vòng A02/A04/A06, cùng một người dùng đồng hồ bấm giờ hoặc video hai máy để ghi các khoảng: bấm gửi→ack; ack→cảnh báo; bấm nhận→ack; xác nhận đổi điểm→map đổi. Không trừ hai đồng hồ điện thoại chưa đồng bộ. Ghi số mẫu, lần chậm nhất, lỗi và điều kiện mạng; chưa có SLA được phê duyệt, không lấy một lượt nhanh làm nghiệm thu hiệu năng. Nếu máy không cài được APK do Play Protect, ghi Bị chặn và dùng web để thử UI; bài APK/phần cứng vẫn Chưa thử, không tắt bảo vệ để điền Đạt.

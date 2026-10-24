@@ -1,3 +1,5 @@
+**APK 0.4.7/code 5 đã FINISHED và xác minh artifact:** [tải APK](https://expo.dev/artifacts/eas/p-bvv6mim5eRquQ0Rz9Za9BypBnupwey6V2EbutCfHc.apk) · [trang cài](https://ehis-next-20261021-hc03.web.app/install). Chưa nghiệm thu cài/loa/rung/GPS trên điện thoại. [Phiếu hai Android](ACCEPTANCE_FLOW.md), chưa đủ điều kiện tiếp nhận ca thật. Các trạng thái build chờ bên dưới là lịch sử.
+
 **Đợt Android hiện tại 0.4.7/code 5:** [trang cài cố định](https://ehis-next-20261021-hc03.web.app/install) · [tiến độ EAS](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/cec0b212-b53c-48cb-a83a-b2780816cd3c). EAS đã nhận source db55a08, trạng thái lúc ghi IN_PROGRESS; chưa có artifact mới được xác minh/điện thoại. Android 0.4.6 FINISHED đã xác minh chỉ là đối chứng cũ. Ưu tiên miễn phí + web, iOS native hoãn; không OTA/store. [Kết quả](VERIFICATION_V0_4_7.md) · [Hai Android](ACCEPTANCE_FLOW.md).
 
 # Cập nhật đồng bộ web và app điện thoại
