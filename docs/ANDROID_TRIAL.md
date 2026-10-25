@@ -1,29 +1,25 @@
-**Nghiệm thu 0.4.7 / Android trước:** [flow và hai Android](ACCEPTANCE_FLOW.md) · [kết quả, lỗi và ảnh](VERIFICATION_V0_4_7.md). Các mục phiên bản cũ bên dưới là lịch sử; không đánh dấu thiết bị đạt từ test PC.
+# Android — cài đặt và nghiệm thu
 
-# Cài và thử Android — cập nhật 0.4.5
+## 1. Chọn đúng bản
 
-**Mới nhất:** [trang cài/tiến độ APK 0.4.5](https://ehis-next-20261021-hc03.web.app/install). Build thử được chủ dự án cho phép sau hoàn thiện demo. [Bằng chứng và checklist thiết bị](PHONE_INSTALL_AND_LAUNCH.md). Hướng dẫn 0.4.1 dưới đây giữ để đối chiếu lịch sử; vị trí giả chỉ có trên Emulator ở bản mới.
+[STATUS](STATUS.md) là nơi tra cứu phiên bản. Mốc bàn giao 25/10: APK 0.4.7/code 5 đã FINISHED và xác minh artifact; source 0.4.8 còn local. [Trang cài cố định](https://ehis-next-20261021-hc03.web.app/install). Không tải APK lịch sử chỉ vì thấy link trong báo cáo cũ.
 
-> [!IMPORTANT]
-> Nhóm đang nghiệm thu [web 0.4.2](WEB_TRIAL.md) trước theo quyết định mới. APK dưới đây là bản 0.4.1 cũ, chưa có sửa lỗi ghi nhớ đối tượng của web 0.4.2. Chưa xuất APK/OTA/iOS mới trong giai đoạn chờ chủ dự án duyệt web.
+## 2. Cài trên thiết bị
 
-**[APK lịch sử: EHIS 0.4.1](https://expo.dev/artifacts/eas/A843wAUos26XMQ22xgAHE6StP5qC0C6_cw5fyf_raKY.apk)** — khoảng 102 MB, versionCode 2. [Trang build đã hoàn tất](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/6e645e3e-bbcc-474b-89bf-f67205bfdcd7); [quy trình cập nhật và lịch sử](MOBILE_RELEASES.md).
+1. Mở trang cài trên Android và tải APK được nhóm bàn giao.
+2. Kiểm tra nguồn/tên app và thông báo hệ thống. Nếu bị chặn, ghi cảnh báo, dừng cài và xem [xử lý lỗi](DEMO_TROUBLESHOOTING.md). Không tắt Play Protect hoặc bảo vệ thiết bị để điền kết quả Đạt.
+3. Với máy đã có EHIS, ưu tiên thử cài đè đúng package/ký; không tự gỡ app trước vì có thể mất dữ liệu local. Chưa có bằng chứng cài đè trên máy nhóm thì ghi Chưa thử.
+4. Mở app, kiểm tra phiên bản. Không cần Expo Go/laptop; đăng nhập, gửi/nhận ca và bản đồ cần Internet.
+5. Dùng tài khoản CLOUD theo [bảng hướng dẫn](MANUAL_DEMO_ACCOUNTS.md). Tài khoản sẵn có chọn Đã có tài khoản? Đăng nhập nếu màn hình ban đầu hỏi đăng ký. App tự mở đúng Patient/TNV.
 
-1. Tải APK trên điện thoại Android rồi mở file. Nếu Android yêu cầu quyền cài từ trình duyệt/tệp, chỉ cấp cho nguồn đang dùng để cài bản của nhóm; có thể tắt lại sau khi cài. Nếu Play Protect chặn, dừng và lưu thông báo chi tiết; không tắt Play Protect/Auto Blocker để vượt chặn. Build thành công không thay kiểm tra an toàn hoặc nghiệm thu thiết bị.
-2. Nếu đã cài 0.4.0, cần cài bộ 0.4.1 một lần để có onboarding và EAS Update. Giữ cùng package/ký; ưu tiên cài đè, không gỡ app trước để tránh mất dữ liệu local. Việc cài đè/giữ phiên trên máy nhóm chưa được kiểm chứng.
-3. Mở EHIS Next, kiểm tra dòng **EHIS 0.4.1**. Không cần Expo Go, Metro QR hoặc laptop. Gửi/nhận ca, đăng nhập và bản đồ cần Wi-Fi/4G/5G; mất mạng không được coi là gửi thành công.
-4. Tài khoản có sẵn: chọn **Đã có tài khoản? Đăng nhập**. Email/mật khẩu thử ở [repo riêng tư của nhóm](https://github.com/Hoangcamng03/EHIS-Next-Team-Access), hiện chỉ chủ dự án có quyền. Danh mục: [LAB_NOTES.md](LAB_NOTES.md).
-5. Người mới chọn **Bệnh nhân** hoặc **Tình nguyện viên**, đọc mô tả rồi đăng ký email. Có thể Đổi lựa chọn trước khi gửi. Sau tạo tài khoản app vào đúng khu vực; chọn TNV không tự cấp quyền nhận ca. Chỉ nhập thông tin giả.
-6. Patient lưu hồ sơ, chọn consent và cấp QR. TNV dùng tài khoản khác trên thiết bị khác, gửi đơn, được admin duyệt rồi bật sẵn sàng. Thử vị trí giả A: 10.7769, 106.7009; giữ màn TNV mở. GPS thật chỉ bật khi người dùng tự đồng ý quyền vị trí.
-7. Thiết bị/trình duyệt khác quét QR, xác nhận cạnh bệnh nhân và dùng vị trí giả B: 10.779, 106.699. Bấm gửi → chờ backend ack → trả lời ba câu, bỏ trống phone vẫn gửi được.
-8. TNV nhận ca/bổ sung, xem đường đi trong EHIS, xác nhận đến nơi và kết thúc qua hai bước. Người báo/Patient nhận trạng thái đóng; TNV không còn xem hồ sơ riêng.
-9. Với cập nhật giao diện tương thích sau này: mở app có Internet để tải, hoàn tất thao tác rồi đóng hẳn/mở lại để áp dụng; có thể cần mở lại hai lần. App không tự reload ca đang chạy. Nếu đổi native runtime, tải APK mới theo MOBILE_RELEASES.md.
-10. Ghi model máy, Android, phiên bản, bước và ảnh lỗi. Không đưa mật khẩu/hồ sơ thật vào issue public. Thử mất mạng trước gửi phải có lỗi/chờ, không báo giả thành công.
+## 3. Thử theo flow
 
-Dùng hai thiết bị/hồ sơ trình duyệt riêng cho hai tài khoản; các tab app web cùng origin chia sẻ phiên cloud. Web HTTPS trên iPhone không thay cho build/signing/kiểm tra iOS native; chưa có IPA/TestFlight.
+[Bắt đầu](START_HERE_DEMO.md) → [runbook](DEMO_RUNBOOK.md) → [phiếu A01–A13](ACCEPTANCE_FLOW.md). Hai Android đủ vòng một TNV/người báo cùng laptop; bài tranh ca hai TNV cần thêm nơi báo tin có định vị đạt.
 
-SHA-256 APK 0.4.1: `cb8c76bcf350af47b453071d2078488f3d6d9f2eb014dab04af0f751940846c8`. Source commit `794bcbd4db670621b76fa9570f5b065c04e93d9a`; native fingerprint `60be4f048122470351bfde1bf494fa80b951eb07`. Chưa xác nhận cài/chạy trên điện thoại thật.
+Chỉ dùng dữ liệu giả. Cho phép GPS khi cần; TNV bật sẵn sàng và thử chuông trước khi báo. Tọa độ giả chỉ có ở Emulator local, không phải tính năng để nhập điểm giả trên APK cloud. Khóa máy/đưa nền chưa được xác minh tiếp nhận; giữ màn mở trong vòng chính.
 
-## Bản cũ để đối chiếu
+## 4. Ghi kết quả và kết thúc
 
-APK 0.4.0: build cf99a628-de58-4e55-b93c-f48f13178af7; chưa có onboarding/OTA mới. SHA-256 `c351199f2ce2752d75f5f069a30a4b75e2089f1514b48f773840b5351b92b413`. APK cũ upload từ working tree trước commit, dashboard ghi commit nền e2b809f; APK 0.4.1 được build từ commit sạch nêu trên.
+Ghi model/Android, phiên bản, mạng/quyền, bước, thực tế và bằng chứng không có secret. Tách Đạt/Không đạt/Chưa thử/Bị chặn; web chạy được không thay cho APK đã cài. Cuối buổi đóng ca và kiểm tra TNV OFF.
+
+Người đóng gói xem [MOBILE_RELEASES](MOBILE_RELEASES.md); lịch sử APK cũ ở [ANDROID_TRIAL_HISTORY](ANDROID_TRIAL_HISTORY.md). Không phát hành hoặc đổi cloud khi chỉ đang chạy bài thử.

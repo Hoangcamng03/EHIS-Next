@@ -1,5 +1,7 @@
 # EHIS — bốn người phối hợp chạy demo
 
+[Danh mục tài liệu](README.md) · [Bắt đầu từ đầu](START_HERE_DEMO.md) · [Trạng thái phiên bản](STATUS.md)
+
 [Bắt đầu](START_HERE_DEMO.md) · [Tài khoản](MANUAL_DEMO_ACCOUNTS.md) · [Khi có lỗi](DEMO_TROUBLESHOOTING.md). Các tên nút dưới đây theo bản 0.4.7 hiện hành; 0.4.8 chưa phát hành. Điền tên thật của bốn thành viên trước buổi tập.
 
 ## 1. Chia vai theo thiết bị thực có

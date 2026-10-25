@@ -1,37 +1,33 @@
-**APK 0.4.7/code 5 đã FINISHED và xác minh artifact:** [tải APK](https://expo.dev/artifacts/eas/p-bvv6mim5eRquQ0Rz9Za9BypBnupwey6V2EbutCfHc.apk) · [trang cài](https://ehis-next-20261021-hc03.web.app/install). Chưa nghiệm thu cài/loa/rung/GPS trên điện thoại. [Phiếu hai Android](ACCEPTANCE_FLOW.md), chưa đủ điều kiện tiếp nhận ca thật. Các trạng thái build chờ bên dưới là lịch sử.
+# Trạng thái EHIS — tra cứu phiên bản tại đây
 
-**Cloud 0.4.7 đã deploy và kiểm chứng:** backend Vercel + hai Hosting, 32 đối chiếu artifact đạt; ca giả xác nhận đúng TNV, đổi điểm/bổ sung/retry, đến/kết thúc và chặn private sau đóng. Fixture TNV đã OFF, không còn ca active. [CI 40076506537](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40076506537) SUCCESS cho runtime 257185b. APK mới đang chuẩn bị, chưa cài hai Android; iOS native hoãn.
+Mốc tổng hợp ngày 25/10/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). Đây là đầu mối phiên bản; các tài liệu khác dẫn về đây. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
 
-**Đợt nghiệm thu 0.4.7 — 2026-10-24:** Android miễn phí + web trước, hoãn iOS native. 34 unit/logic, type/lint, tám bộ integration, mô phỏng 215 Auth giả/181 API/14 nhóm đạt. Đã kiểm tra browser theo vai trò và vòng đời, có ảnh; chưa nghiệm thu hai Android thật. Bản cloud/APK chỉ coi đã phát hành khi có mốc xác nhận trong [LAB_NOTES](LAB_NOTES.md). [Kết quả và lỗi mở](VERIFICATION_V0_4_7.md) · [Flow nghiệm thu hai máy](ACCEPTANCE_FLOW.md). Các mục sau là lịch sử.
+## 1. Bản đang bàn giao
 
-**Web/backend 0.4.6 đã deploy:** [GPS foreground, điểm bệnh nhân và iPhone](LIVE_GPS_0_4_6.md). Bỏ nút 115; 31 unit/logic và sáu bộ integration PASS, 32 đối chiếu artifact cloud PASS. Browser/cloud xác nhận điểm mới → tuyến mới → bổ sung giữ điểm → kết thúc/chặn private. [CI 39992904086](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/39992904086) SUCCESS. APK 0.4.5 đã xác minh artifact, chưa thiết bị, không tự cập nhật lên 0.4.6; build 0.4.6 ghi riêng ở LAB_NOTES. Chưa GPS/loa/rung trên máy thật, iOS native hoặc ca thật. Các mục dưới là mốc lịch sử.
+| Phần | Mốc đã xác minh | Còn thiếu |
+| --- | --- | --- |
+| App web, web người báo/admin và backend | 0.4.7 đã deploy; 32 đối chiếu artifact và ca cloud giả đạt | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
+| APK Android | 0.4.7, versionCode 5; EAS FINISHED, artifact đã kiểm tra | Cài đè/Play Protect/loa/rung/GPS trên máy thật |
+| Source sửa giao diện | 0.4.8/code 6 đang ở local, chưa phát hành | UI TNV/reporter/admin, build cuối, CI, cloud và APK mới chưa hoàn tất |
+| iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
+| Tài khoản demo | Sáu tài khoản cloud cấp ngày 25/10, kiểm tra login/quyền đạt | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra lại trước mỗi vòng |
 
-# Trạng thái web 0.4.5 / APK 0.4.5 đang build thử
+[Mở app](https://ehis-next-20261021-hc03-app.web.app) · [Trang cài](https://ehis-next-20261021-hc03.web.app/install) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin) · [Tài khoản](MANUAL_DEMO_ACCOUNTS.md).
 
-Web 0.4.5 đã deploy: trang /install, đường gọi trợ giúp độc lập với GPS/backend, trạng thái chờ tiếp nhận rõ và xử lý browser offline. Source native có chuông/rung foreground, 27 unit/logic + 5 integration PASS, Android/iOS JS export và cấu hình quyền đạt. [Tiến độ và giới hạn](PHONE_INSTALL_AND_LAUNCH.md). APK build a989bd07 đang chờ EAS, chưa FINISHED/thiết bị. iPhone dùng web trên màn hình chính; chưa IPA/TestFlight. Backend vẫn 0.4.2.
+## 2. Bằng chứng theo đúng lớp
 
+- Bản 0.4.7: [VERIFICATION_V0_4_7](VERIFICATION_V0_4_7.md). Logic/Emulator/browser/cloud/artifact được ghi riêng; không thay thế thử điện thoại.
+- Bản sửa local 0.4.8: [VERIFICATION_V0_4_8](VERIFICATION_V0_4_8.md). 35 unit/logic + type/lint và tám bộ integration đã đạt; Patient đã thử một phần. Computer-use tự dừng ở bước mở tab mới; chưa nghiệm thu cả UI hoặc phát hành 0.4.8.
+- Phiếu người thử: [ACCEPTANCE_FLOW](ACCEPTANCE_FLOW.md), A01–A13. Chưa có kết quả nhóm gửi về thì vẫn Chưa thử.
 
-Web **0.4.4** đã deploy: Patient xanh dương, TNV xanh lá, người báo cam, quản trị tím; yêu cầu khẩn đỏ kèm chữ. Sửa form hồ sơ chưa tải, lời mời hết/thiếu hạn và race tắt chuông. 20 unit + 5 integration, CI/build/cloud và 31 đối chiếu artifact đạt; flow giả đã kết thúc, private API chặn sau đóng. [Bằng chứng và checklist manual](VERIFICATION_V0_4_4.md). Chưa kiểm tra loa/rung/GPS trên điện thoại; APK/OTA/iOS chưa cập nhật.
+## 3. Phạm vi đang áp dụng
 
-Web 0.4.3 đã thêm công tắc sẵn sàng và cảnh báo nổi bật, chuông 6 giây/yêu cầu, 2 giây/bổ sung, rung tùy hỗ trợ khi trang mở phía trước; nhận ca xác nhận rồi mới xem hồ sơ theo consent và tự mở tuyến OSRM. Luồng giả đầu đã chạy hết đến kết thúc/quyền riêng bị chặn; kết quả vòng cuối và ảnh ở [lab note](LAB_NOTES.md). [Cách dùng và giới hạn](VOLUNTEER_ALERTS.md). Backend vẫn 0.4.2, Rules/schema không đổi, chưa phát native mới.
+Android miễn phí + web, dữ liệu giả, trình thầy và diễn tập có kiểm soát. Chưa đủ điều kiện tiếp nhận cấp cứu thật. Không tự bật Blaze/nâng gói, OTA, cửa hàng hoặc iOS native. Quyền TNV/admin do backend quyết định; chọn đối tượng chỉ mở đúng giao diện.
 
-Ưu tiên mới: [nghiệm thu web có kiểm soát](WEB_TRIAL.md), chủ dự án duyệt rồi mới phát hành Android/iOS mới. Source 0.4.2 lưu đối tượng trên backend, tự mở giao diện khi đăng nhập và bổ sung manifest/icon/hướng dẫn web. Xem lab note để phân biệt source/build/deploy/browser/device; không xem APK 0.4.1 tự có thay đổi này. Các kết quả bên dưới về APK/OTA là mốc lịch sử 0.4.1.
+Các việc còn mở: thiết bị/GPS/âm/rung và nhận nền, hiệu năng tải lớn, advisory dependency, giám sát/quota và điều kiện chuyên môn/vận hành. [Kế hoạch sản phẩm](PRODUCT_LAUNCH_PLAN.md) · [Kế hoạch trình thầy/cuối kỳ](MIDTERM_DEMO.md).
 
-- Đã tạo Firestore thật Standard tại Singapore trong project riêng ehis-next-20261021-hc03. Billing được xác nhận false; không dùng dữ liệu dự án cũ.
-- Auth email/password và anonymous đã bật; Rules và composite index đã deploy. Client không được ghi trực tiếp; backend xác thực token và quyền trên từng API.
-- Web: https://ehis-next-20261021-hc03.web.app; app Patient/TNV: https://ehis-next-20261021-hc03-app.web.app. Hai bản đã phát hành lên Hosting.
-- Backend Node/Express trên Vercel Hobby: https://ehis-next-api-hc03.vercel.app/api. Service account runtime chỉ có Datastore User; khóa chỉ nằm trong secret backend.
-- Luồng cloud tự động đã đạt: lưu hồ sơ → cấp QR → đăng ký/duyệt TNV → sẵn sàng → gửi trước → bổ sung không phone → nhận → đến nơi → kết thúc → từ chối đọc thông tin riêng sau đóng.
-- UI có nút tối thiểu 56px, chữ nội dung lớn hơn, hiện/ẩn và quên mật khẩu; xác nhận trước hủy/kết thúc. Chế độ chạy thử được ghi rõ; từ source 0.4.2 thao tác nhập tọa độ giả chỉ có ở Emulator. Không đưa hồ sơ thật vào bài thử.
-- App web đã cập nhật bước chọn Bệnh nhân/Tình nguyện viên kèm mô tả trước đăng ký; sau tạo tài khoản chuyển đúng khu vực. Đã thử hai signup thật với tài khoản giả và xác nhận không tự cấp quyền. Code Android/Hermes export đạt; APK 0.4.1 đã FINISHED, gồm onboarding và EAS Update. Web/OTA/APK cùng source và fingerprint; chưa nghiệm thu thiết bị.
-- Tài khoản/mật khẩu chạy thử đã lưu trong repo private EHIS-Next-Team-Access, có link cố định ở README/lab note public. Hiện chỉ chủ dự án được truy cập theo yêu cầu.
-- Rate limit theo phút: 120/UID, tạo yêu cầu 30/UID, 600/IP băm. Chưa phải chống bot toàn diện; App Check chưa cưỡng chế.
-- Cron Vercel hằng ngày xử lý hết hạn và dọn dữ liệu riêng đủ 24h. Thực tế có thể 24–48h hoặc lâu hơn khi lỗi/quota/backlog; không phải SLA.
-- EAS project ehiss-team/ehis-next đã tạo và liên kết; preview dùng backend cloud, APK đã build FINISHED và tải về, kiểm tra manifest/DEX/embedded bundle và đúng backend/project cloud. Chưa xác nhận APK cài/chạy trên thiết bị; chưa IPA/TestFlight.
-- Chưa có push/GPS nền, dẫn đường liên tục/giọng nói, NFC, tìm TNV nhiều đợt hoặc vận hành cấp cứu thật. Giữ màn TNV mở trong thử nghiệm.
-- APK 0.4.0 từng có cảnh báo 5 patch Expo; 0.4.1 đã cập nhật tương thích và Expo Doctor 20/20. Các advisory dependency khác vẫn cần theo dõi; đây không phải chứng nhận bảo mật.
-- Thử cài trên điện thoại đã gặp Play Protect chặn, thông báo chưa nhận diện nhà phát triển. Chưa xử lý xong và chưa coi là cài thành công; không yêu cầu tắt Play Protect. Có thể tiếp tục thử UI cloud bằng trình duyệt trong lúc xác minh.
+## 4. Khi cập nhật lần sau
 
-Hướng dẫn: [CLOUD_TRIAL.md](CLOUD_TRIAL.md). Quy trình thay đổi: [LAB_NOTES.md](LAB_NOTES.md). Bảo mật: [SECURITY_REVIEW.json](SECURITY_REVIEW.json).
+Ghi bằng chứng ở lab note trước, cập nhật bảng phần 1 theo kết quả thực; chưa thử thì không đổi thành Đạt. Hướng dẫn thao tác ở trang cài/demo/phát hành; không chép lịch sử dài vào trang trạng thái này.
 
-Bản điện thoại và lịch sử cập nhật: [MOBILE_RELEASES.md](MOBILE_RELEASES.md). Backend source 0.4.2 tương thích thêm field accountPurpose với app cũ; kết quả triển khai và kiểm tra ghi trong lab note. Chưa phát hành native/OTA mới trong giai đoạn chờ duyệt web.
+[Lịch sử trạng thái trước lần tổ chức](STATUS_HISTORY.md).

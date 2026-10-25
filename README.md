@@ -1,112 +1,65 @@
 # EHIS Next — thẻ sức khỏe và hỗ trợ cộng đồng
 
-Dự án Capstone viết mới cho nhóm 4 người. Repository chứa **toàn bộ hệ thống**: một app Patient/Volunteer, website người báo/quản trị và backend dùng Firebase làm nơi lưu dữ liệu tập trung.
+Repository chứa **toàn bộ hệ thống** của nhóm Capstone bốn người: một app Bệnh nhân/Tình nguyện viên (TNV), website người báo/quản trị và backend lưu dữ liệu tập trung tại Firebase.
 
-> [!IMPORTANT]
-> **Mới vào nhóm/chạy demo?** [Bắt đầu từ đầu](docs/START_HERE_DEMO.md) → [bốn người phối hợp](docs/DEMO_RUNBOOK.md) → [xử lý vướng mắc](docs/DEMO_TROUBLESHOOTING.md).
->
-> **Tham gia sửa code?** [Bản đồ mã nguồn](docs/REPO_MAP.md) → [chạy local](docs/LOCAL_DEVELOPMENT.md) → [phân công phát triển](docs/TEAM.md).
->
-> **Hiểu hệ thống và xử lý lỗi:** [Vai trò Expo / GitHub / Vercel / Firebase](docs/PLATFORM_ROLES.md) · [Quy trình sửa lỗi và ghi lab note](docs/BUG_FIX_WORKFLOW.md). Mọi phiên có thay đổi đều phải ghi [LAB_NOTES.md](docs/LAB_NOTES.md), kể cả kết quả chưa đạt.
->
-> **Về nhánh Git:** `main` là nhánh tích hợp. Bản triển khai v0.4 đang được review ở [PR #1](https://github.com/Hoangcamng03/EHIS-Next/pull/1), nhánh `feat/bystander-two-step-report`. Nhánh đó có toàn bộ phần phát triển mới; tên xuất phát từ công việc đầu tiên. Các thư mục mới là cách chia code theo chức năng. Merge sau khi thành viên khác review và CI đạt.
+**Thành viên mới:** [Bắt đầu từ đầu](docs/START_HERE_DEMO.md) → [phối hợp chạy demo](docs/DEMO_RUNBOOK.md) → [xử lý vướng mắc](docs/DEMO_TROUBLESHOOTING.md).
 
-**Trình thầy tuần 26/10–01/11 và midterm giữa tháng 11:** [kịch bản/chuẩn bị/kế hoạch cuối kỳ](docs/MIDTERM_DEMO.md) · [bản sửa 0.4.8](docs/VERIFICATION_V0_4_8.md).
+**Tra cứu:** [Danh mục đầy đủ theo tám nhóm](docs/README.md) · [Phiên bản và việc còn thiếu](docs/STATUS.md) · [Nhật ký thay đổi](docs/LAB_NOTES.md).
 
-## 1. Sản phẩm và các giao diện
+Mốc 25/10/2026: bản bàn giao web/backend/APK **0.4.7**; source sửa **0.4.8 còn local, chưa phát hành**. Phạm vi là diễn tập có kiểm soát bằng dữ liệu giả để trình thầy/lớp. Chưa nghiệm thu vận hành cấp cứu thật. Các lần cập nhật sau tra tại STATUS.
 
-| Sản phẩm | Người dùng | Code | Kết quả build / nơi chạy |
-|---|---|---|---|
-| App EHIS | Patient và Volunteer, ghi nhớ đối tượng khi đăng ký và tự mở sau đăng nhập | [mobile/](mobile/README.md) | 0.4.7 hiện hành; 0.4.8 đang sửa local/chưa phát hành; ưu tiên Android miễn phí |
-| Website EHIS | Người qua đường mở QR; quản trị vào `/admin` | [web/](web/README.md) | Website tĩnh HTTPS trên Firebase Hosting |
-| Backend EHIS | App và website gọi API | [functions/](functions/README.md) | Node/Express trên Vercel Hobby |
-| Dữ liệu / xác thực | Tài khoản, hồ sơ, thẻ, ca và quyền đọc | [Firebase config](docs/REPO_MAP.md#4-cấu-hình-và-dữ-liệu) | Firebase Auth + Firestore Standard Singapore |
+## 1. Tổng quan và bắt đầu
 
-Patient và Volunteer là hai khu vực của **cùng một app**. Trang quản trị thuộc website. App xuất ra web dùng cùng code React Native; đó là giao diện khác website người qua đường.
+- [Hiểu sản phẩm, vai trò và luồng từ đầu](docs/START_HERE_DEMO.md).
+- [Expo, GitHub, Vercel và Firebase làm gì?](docs/PLATFORM_ROLES.md).
 
-Theo quyết định 2026-10-24: ưu tiên Android miễn phí + web, iOS native hoãn đến khi có tài trợ. Kiểm chứng web/cloud rồi build APK preview và nghiệm thu trên hai Android; không tự OTA/store hoặc tiếp nhận ca thật. [Kịch bản và cổng nghiệm thu](docs/ACCEPTANCE_FLOW.md). Lựa chọn đối tượng được lưu qua backend và chỉ quyết định giao diện; quyền TNV vẫn cần quản trị xét duyệt.
+| Giao diện | Dành cho | Đường dẫn |
+| --- | --- | --- |
+| App EHIS | Bệnh nhân và TNV, tự vào đúng khu vực sau đăng nhập | [Mở app web](https://ehis-next-20261021-hc03-app.web.app) |
+| Web báo hỗ trợ | Người qua đường, không tự tạo tài khoản | Quét QR Patient; [trang giới thiệu](https://ehis-next-20261021-hc03.web.app) |
+| Quản trị | Người được cấp quyền duyệt TNV | [Mở quản trị](https://ehis-next-20261021-hc03.web.app/admin) |
+| Cài trên điện thoại | Android APK; iPhone dùng web | [Trang cài cố định](https://ehis-next-20261021-hc03.web.app/install) |
 
-Web trước **0.4.4** có [màu theo đối tượng, sửa lỗi và kết quả kiểm tra](docs/VERIFICATION_V0_4_4.md). Chủ dự án thử web rồi duyệt trước bản điện thoại. Web 0.4.3 đã thêm [công tắc sẵn sàng, cảnh báo chuông/rung và bản đồ sau nhận ca](docs/VOLUNTEER_ALERTS.md). Chuông nghiệm thu khi trang mở phía trước; chưa phải thông báo nền của điện thoại.
+## 2. Tài khoản, chuẩn bị và chạy demo
 
-**GPS mới:** [0.4.6: foreground và đổi điểm được xác nhận](docs/LIVE_GPS_0_4_6.md).
+[Bộ tài khoản và cách phân vai](docs/MANUAL_DEMO_ACCOUNTS.md) → [kịch bản bốn người](docs/DEMO_RUNBOOK.md) → [bảng xử lý vướng mắc](docs/DEMO_TROUBLESHOOTING.md). Email/mật khẩu/QR chỉ ở [repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access), hiện chủ dự án quản lý quyền. Tài khoản GitHub khác tài khoản đăng nhập EHIS.
 
-**Cài trên điện thoại:** [trang cài EHIS](https://ehis-next-20261021-hc03.web.app/install) — Android có APK 0.4.7 đã xác minh artifact, iPhone có hướng dẫn thêm web lên màn hình chính. [Mốc phát hành và điều kiện còn thiếu](docs/PHONE_INSTALL_AND_LAUNCH.md). Đây là diễn tập, chưa tiếp nhận cấp cứu thật.
+## 3. Kiến trúc, dữ liệu và tính năng
 
-## 2. Cấu trúc repository
+| Thành phần | Code và hướng dẫn | Vai trò |
+| --- | --- | --- |
+| App React Native/Expo | [mobile/](mobile/README.md) | Hai khu vực Patient và Volunteer, build Android và app web |
+| Website Next.js | [web/](web/README.md) | Quét QR, báo hỗ trợ, bổ sung và quản trị |
+| Backend Node/Express | [functions/](functions/README.md) | Xử lý nghiệp vụ, token và quyền; đang chạy Vercel Hobby |
+| Firebase | [Kiến trúc](docs/ARCHITECTURE.md) | Auth, Firestore Standard Singapore và Hosting trên Spark |
+| Công cụ và tài liệu | [scripts/](scripts/README.md), [docs/](docs/README.md) | Kiểm tra, vận hành, hướng dẫn và bằng chứng |
 
-```text
-EHIS-Next/
-├── mobile/                 App React Native / Expo: Patient + Volunteer
-│   ├── src/app/            Màn hình và điều hướng
-│   ├── src/components/     Form, nút, bản đồ và trạng thái
-│   └── src/lib/            Firebase client, gọi API, tuyến đường
-├── web/                    Next.js: người báo + quản trị
-│   ├── src/app/            /card, /report, /admin, /privacy
-│   ├── src/components/     Gửi yêu cầu, bảng hỏi, duyệt TNV
-│   └── src/lib/            Firebase client và phiên web
-├── functions/              Backend nghiệp vụ và phân quyền
-│   ├── src/                API TypeScript, validation, bảo trì
-│   ├── api/                Điểm vào Vercel
-│   └── test/               Unit tests backend
-├── scripts/                Công cụ local, kiểm tra và triển khai
-├── docs/                   Hướng dẫn, kiến trúc, API và lab note
-├── .github/                CI và mẫu PR
-├── firebase.json           Hosting, Auth, Emulator và đường dẫn backend
-├── firestore.rules         Quyền đọc/ghi trực tiếp của client
-├── firestore.indexes.json  Index truy vấn
-└── package.json            Các lệnh điều phối từ thư mục gốc
-```
+[Bản đồ repository](docs/REPO_MAP.md) · [API và dữ liệu](docs/API_CONTRACT.md) · [Luồng người báo](docs/BYSTANDER_FLOW.md) · [Bản đồ/chỉ đường](docs/NAVIGATION.md).
 
-Mỗi module có README riêng. [REPO_MAP.md](docs/REPO_MAP.md) chỉ rõ từng file và luồng phối hợp; [scripts/README.md](scripts/README.md) phân loại công cụ.
+Luồng chính: Patient lưu hồ sơ và phát hành QR → người báo mở QR, xác nhận vị trí rồi gửi → backend xác nhận, web mở bảng hỏi → TNV phù hợp nhận cảnh báo → một TNV nhận ca, xem thông tin theo quyền/consent → chỉ đường, xác nhận đến và kết thúc. TNV phải được duyệt và bật sẵn sàng trước khi gửi. Thao tác dữ liệu cần Internet.
 
-## 3. Dòng hoạt động
+## 4. Phát triển và cộng tác
 
-```mermaid
-flowchart LR
-  P[Patient trong app] -->|Hồ sơ và thẻ| API[Backend Vercel]
-  P -->|QR| W[Website người báo]
-  W -->|Gửi rồi bổ sung| API
-  V[Volunteer trong app] -->|Nhận và xử lý ca| API
-  A[Quản trị web] -->|Xét duyệt TNV| API
-  API -->|Token, quyền, giao dịch| DB[(Firestore)]
-  DB -->|Listener có quyền đọc| V
-  DB -->|Trạng thái| P
-  DB -->|Trạng thái| W
-```
+[Chạy local](docs/LOCAL_DEVELOPMENT.md) → [chia việc nhóm](docs/TEAM.md) → [nhánh, review và hợp nhất code](CONTRIBUTING.md). Đọc README module trước khi sửa; thay API cần thống nhất giữa các phần.
 
-Backend xác nhận đã nhận yêu cầu thì web mới chuyển bảng hỏi; phone người báo không bắt buộc. TNV được duyệt và nhận đúng ca mới xem thông tin riêng phù hợp consent. Client write trực tiếp vào Firestore bị chặn; thay đổi nghiệp vụ đi qua API. Xem [kiến trúc](docs/ARCHITECTURE.md) và [API contract](docs/API_CONTRACT.md).
+Nhánh phát triển hiện dùng là `feat/bystander-two-step-report`, chứa cả hệ thống; tên nhánh xuất phát từ việc đầu tiên. [PR #1](https://github.com/Hoangcamng03/EHIS-Next/pull/1) đang chờ review, chưa hợp nhất vào `main`. Không hiểu tên nhánh là chỉ chứa web người qua đường.
 
-## 4. Bản chạy thử cloud
+## 5. Kiểm thử và sửa lỗi
 
-| Mục | Đường dẫn |
-|---|---|
-| App Patient / Volunteer trên web | https://ehis-next-20261021-hc03-app.web.app |
-| Website người báo | https://ehis-next-20261021-hc03.web.app |
-| Quản trị | https://ehis-next-20261021-hc03.web.app/admin |
-| APK Android | [Cài và thử Android](docs/ANDROID_TRIAL.md) |
-| Cập nhật web + điện thoại | [Bản phát hành và quy trình đồng bộ](docs/MOBILE_RELEASES.md) |
-| Tài khoản thử | [Mục nổi bật trong lab note](docs/LAB_NOTES.md#tài-khoản-chạy-thử--mục-bàn-giao) |
-| Email + mật khẩu thử (riêng tư) | [EHIS-Next-Team-Access](https://github.com/Hoangcamng03/EHIS-Next-Team-Access) — hiện chỉ chủ dự án có quyền |
-| Kết quả / giới hạn | [STATUS.md](docs/STATUS.md), [kiểm chứng v0.4](docs/VERIFICATION_V0_4.md) |
+[Flow nghiệm thu và phiếu Android](docs/ACCEPTANCE_FLOW.md) → [các tình huống thử](docs/TEST_SCENARIOS.md) → [vòng lặp sửa lỗi](docs/BUG_FIX_WORKFLOW.md). [Nghiệm thu web](docs/WEB_TRIAL.md) là bước riêng trước bản điện thoại; build thành công không thay thử thiết bị.
 
-Cloud dùng Firebase **Spark** (Auth/Firestore/Hosting) + **Vercel Hobby** (backend), project riêng `ehis-next-20261021-hc03`. `functions/` giữ tên lúc khởi tạo Firebase; backend hiện không deploy Firebase Functions. App độc lập không cần laptop; thao tác dữ liệu cần Internet.
+## 6. Cài đặt, phát hành và vận hành
 
-Chỉ dùng dữ liệu giả. Chưa nghiệm thu Android thật; đã có báo cáo Play Protect chặn cài đang cần xử lý. Chưa có push/GPS nền, dẫn đường liên tục, NFC hoặc iOS signing. Không tắt bảo vệ thiết bị để nghiệm thu. [Trạng thái chi tiết](docs/STATUS.md).
+[Trạng thái hiện hành](docs/STATUS.md) → [cách dùng điện thoại](docs/PHONE_INSTALL_AND_LAUNCH.md) → [cài/nghiệm thu Android](docs/ANDROID_TRIAL.md). Người phụ trách triển khai đọc [phát hành](docs/MOBILE_RELEASES.md) và [cloud](docs/CLOUD_TRIAL.md).
 
-## 5. Bắt đầu làm việc
+Ưu tiên Android miễn phí + web, hoãn iOS native đến khi có tài trợ. Không tự OTA/cửa hàng/bật billing. Backend trong thư mục `functions/` hiện được triển khai trên Vercel, không phải Firebase Functions.
 
-1. Chọn nhánh theo [quy trình đóng góp](CONTRIBUTING.md).
-2. Cài và chạy theo [LOCAL_DEVELOPMENT.md](docs/LOCAL_DEVELOPMENT.md).
-3. Đọc README của module mình phụ trách và [TEAM.md](docs/TEAM.md).
-4. Thống nhất [API](docs/API_CONTRACT.md) trước khi sửa phần kết nối giữa các module.
-5. Kiểm tra, mở PR và nhờ thành viên khác review.
+## 7. Báo cáo và kế hoạch phát triển
 
-```powershell
-npm run check
-npm --prefix web run build
-npm run test:integration
-```
+[Trình thầy, midterm và đầu việc cuối kỳ](docs/MIDTERM_DEMO.md) · [kế hoạch sản phẩm/vận hành/pitching](docs/PRODUCT_LAUNCH_PLAN.md).
 
-Build APK và triển khai cloud là bước riêng: [CLOUD_TRIAL.md](docs/CLOUD_TRIAL.md), [ANDROID_TRIAL.md](docs/ANDROID_TRIAL.md). [Danh mục tài liệu](docs/README.md) phân biệt hướng dẫn hiện tại với kết quả lịch sử.
+## 8. Nhật ký, bằng chứng và lịch sử
 
-Mật khẩu, token, service account, keystore, file môi trường và hồ sơ thật không được đưa vào Git. `.local/`, build output và `node_modules/` là dữ liệu riêng/tự sinh. Xem [lab note](docs/LAB_NOTES.md) để biết thay đổi đã thực hiện.
+Mọi phiên thay đổi phải ghi [LAB_NOTES](docs/LAB_NOTES.md): lý do, phần đã đổi, kết quả kiểm tra, trạng thái phát hành và việc còn thiếu. [Bằng chứng 0.4.7](docs/VERIFICATION_V0_4_7.md) khác [bản sửa local 0.4.8](docs/VERIFICATION_V0_4_8.md). Các mốc cũ được phân riêng trong [danh mục tài liệu](docs/README.md).
+
+Không đưa mật khẩu, token, khóa service account, keystore, file môi trường hoặc bệnh án thật vào Git. Giữ nguyên liên kết tài liệu đã chia sẻ; thêm hướng dẫn hiện hành vào đúng nhóm và tách nội dung cũ thành lịch sử có nhãn rõ.

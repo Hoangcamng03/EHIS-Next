@@ -1,5 +1,7 @@
 # Bộ tài khoản cloud để tự demo — 25/10/2026
 
+[Danh mục tài liệu](README.md) · [Bắt đầu từ đầu](START_HERE_DEMO.md) · [Trạng thái phiên bản](STATUS.md)
+
 **[Mở email, mật khẩu và QR trong repo riêng tư của nhóm](https://github.com/Hoangcamng03/EHIS-Next-Team-Access)** → mục đầu **BỘ TÀI KHOẢN DEMO MỚI — 25/10/2026**. Đăng nhập GitHub bằng tài khoản chủ repo; hiện chủ dự án tự quản lý việc thêm thành viên. Không đưa bảng mật khẩu vào slide, ảnh hoặc repo public.
 
 | Mã trong bảng riêng tư | Dùng để thử | Trạng thái khi cấp |

@@ -1,6 +1,8 @@
-**Phối hợp buổi demo:** đọc [bắt đầu](START_HERE_DEMO.md) rồi [runbook bốn người](DEMO_RUNBOOK.md). Bảng bên dưới chia việc phát triển code; vai A/B/C/D trong runbook chia thao tác buổi thử, không bắt buộc cùng người sở hữu module.
-
 # Phân công nhóm 4 người
+
+[Danh mục tài liệu](README.md) · [Bắt đầu từ đầu](START_HERE_DEMO.md) · [Trạng thái phiên bản](STATUS.md)
+
+**Phối hợp buổi demo:** đọc [bắt đầu](START_HERE_DEMO.md) rồi [runbook bốn người](DEMO_RUNBOOK.md). Bảng dưới chia việc phát triển; vai trong runbook chia thao tác buổi thử.
 
 ## Tiếp quản bản thử v0.4
 

@@ -1,10 +1,22 @@
 # EHIS — thành viên mới bắt đầu từ đây
 
-Cập nhật 25/10/2026. Dành cho cả thành viên chưa rành lập trình. Đọc trang này rồi làm theo [kịch bản phối hợp](DEMO_RUNBOOK.md); gặp lỗi mở [bảng xử lý](DEMO_TROUBLESHOOTING.md).
+Cập nhật 25/10/2026. Dành cho cả thành viên chưa rành lập trình. [Danh mục đầy đủ theo tám nhóm](README.md) · [Tra phiên bản](STATUS.md).
 
-## 1. Chúng ta đang có những gì?
+**Thứ tự đọc trang này:** [1. Mục tiêu](#muc-tieu) → [2. Hiểu hệ thống](#he-thong) → [3. Chuẩn bị](#chuan-bi) → [4. Chạy demo](#chay-demo) → [5. Kiểm tra](#kiem-tra) → [6. Làm tiếp](#lam-tiep).
 
-EHIS giúp người mang QR được người qua đường báo hỗ trợ đến tình nguyện viên (TNV). Đây là diễn tập phần mềm với dữ liệu giả để trình thầy/lớp, chưa tiếp nhận cấp cứu thật.
+<a id="muc-tieu"></a>
+
+## 1. Mục tiêu và phiên bản
+
+Trang này giúp bạn biết hệ thống gồm gì, lấy đúng tài khoản, chuẩn bị thiết bị và phối hợp demo. Đây là diễn tập phần mềm với dữ liệu giả để trình thầy/lớp; chưa tiếp nhận cấp cứu thật.
+
+Tra [STATUS](STATUS.md) trước khi bắt đầu: mốc bàn giao 25/10 là web/APK 0.4.7; bản sửa 0.4.8 còn local/chưa phát hành. Có tài liệu hoặc ảnh 0.4.8 không có nghĩa app đang cài đã có các nút mới.
+
+<a id="he-thong"></a>
+
+## 2. Hiểu hệ thống trước khi bấm
+
+### 2.1. Các phần và nơi mở
 
 | Phần | Ai dùng | Mở ở đâu |
 | --- | --- | --- |
@@ -13,9 +25,7 @@ EHIS giúp người mang QR được người qua đường báo hỗ trợ đ�
 | Web quản trị | Người phụ trách duyệt TNV | [Trang quản trị](https://ehis-next-20261021-hc03.web.app/admin) |
 | Bảng đăng nhập | Chủ dự án và người được cấp quyền | [Repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access), mục đầu ngày 25/10/2026 |
 
-**Bản hiện hành: web/APK 0.4.7.** Bản sửa 0.4.8 đang ở local và chưa phát hành. Giao diện trên máy thành viên có thể khác ảnh thử local 0.4.8; đừng tìm nút mới chưa được phát hành. Xem [STATUS](STATUS.md) và [LAB_NOTES](LAB_NOTES.md) khi có bản tiếp theo.
-
-## 2. Hiểu luồng trước khi bấm
+### 2.2. Luồng hoạt động
 
 ```mermaid
 flowchart LR
@@ -35,7 +45,22 @@ flowchart LR
 - Người báo không xem hồ sơ y tế; chỉ TNV đúng ca, sau khi nhận và theo lựa chọn chia sẻ của Patient, mới được xem thông tin riêng.
 - Hai TNV tranh một ca: chỉ một người được nhận. Không dùng chung một tài khoản cho hai người để thử tranh ca.
 
-## 3. Lấy đúng tài khoản
+### 2.3. Nền tảng dùng để làm gì?
+
+| Tên | Ý nghĩa trong dự án |
+| --- | --- |
+| GitHub | Lưu source, hướng dẫn, Issue và lab note; không phải nơi app lưu bệnh án |
+| Expo/EAS | Công cụ phát triển/đóng gói APK; người chạy APK độc lập không cần Expo Go |
+| Vercel | Chạy backend xử lý yêu cầu và kiểm tra quyền |
+| Firebase | Xác thực đăng nhập, Firestore lưu dữ liệu và Hosting phục vụ web |
+
+Người demo chỉ cần app/web và tài khoản được cấp, không cần quyền Vercel/Firebase/Expo.
+
+<a id="chuan-bi"></a>
+
+## 3. Chuẩn bị tài khoản và thiết bị
+
+### 3.1. Lấy đúng tài khoản
 
 | Mã | Vai trò | Chuẩn bị sẵn để làm gì |
 | --- | --- | --- |
@@ -51,7 +76,7 @@ Trạng thái trong bảng là khi cấp tài khoản; kiểm tra lại trong ap
 
 Email `.test` là giả, không nhận thư Quên mật khẩu/xác minh. Tài khoản local/Emulator không dùng được trên cloud/APK. [Chi tiết bộ tài khoản](MANUAL_DEMO_ACCOUNTS.md).
 
-## 4. Chuẩn bị trước buổi thử
+### 3.2. Kiểm tra thiết bị trước buổi thử
 
 - Internet, một laptop và từ hai Android. Dùng bản HTTPS cloud; không nhập localhost trên điện thoại, không cần chạy PowerShell/Expo Go hoặc cài Firebase để tham gia demo.
 - Nếu cài APK: tải ở trang cài trên, kiểm tra số phiên bản trong app. Nếu bị chặn, ghi cảnh báo và dùng web để thử giao diện; phần APK vẫn chưa được nghiệm thu. Không tắt Play Protect để bỏ qua cảnh báo.
@@ -61,13 +86,33 @@ Email `.test` là giả, không nhận thư Quên mật khẩu/xác minh. Tài k
 
 **Checkpoint:** mọi người mở đúng địa chỉ, được phân đúng tài khoản, biết ai ra hiệu gửi/nhận/kết thúc và mở được [runbook](DEMO_RUNBOOK.md).
 
-## 5. Cần biết nền tảng ở mức nào?
+<a id="chay-demo"></a>
 
-| Tên | Ý nghĩa trong dự án |
+## 4. Phân vai và chạy một vòng hoàn chỉnh
+
+1. Mở [DEMO_RUNBOOK](DEMO_RUNBOOK.md), phân rõ người đóng Patient, người báo, TNV và người quan sát. Nếu chỉ hai Android, dùng cách bố trí laptop đã ghi trong runbook.
+2. Kiểm tra Patient có QR; TNV đúng tài khoản, được duyệt, thử chuông và bật sẵn sàng **trước khi người báo gửi**.
+3. Người báo quét QR, xác nhận đang cạnh bệnh nhân giả và gửi. Chỉ chuyển sang bảng hỏi sau khi backend xác nhận; phone là tùy chọn.
+4. TNV nhận cảnh báo, bấm nhận ca, xem bản đồ/thông tin được phép, xác nhận đến và kết thúc theo đúng nút của bản đang dùng.
+5. Người quan sát đối chiếu trạng thái giữa các màn; kết thúc ca rồi tắt sẵn sàng. Không xóa dữ liệu dùng chung để tự đặt lại buổi demo.
+
+**Checkpoint:** ca đi từ gửi → nhận → đến → kết thúc; các bên thấy cùng kết quả, không còn ca thử đang hoạt động. Runbook có từng thao tác và kết quả cần thấy.
+
+<a id="kiem-tra"></a>
+
+## 5. Khi có lỗi và cách ghi kết quả
+
+- Gặp lỗi: tra [DEMO_TROUBLESHOOTING](DEMO_TROUBLESHOOTING.md) theo triệu chứng. Ghi bước, bản app, thiết bị/mạng, kết quả mong đợi và thực tế; tránh mật khẩu, QR hoặc dữ liệu riêng trong ảnh public.
+- Chạy nhiều tình huống: dùng [ACCEPTANCE_FLOW](ACCEPTANCE_FLOW.md) và [TEST_SCENARIOS](TEST_SCENARIOS.md). Chưa thực hiện thì ghi **Chưa thử**, không tự đánh dấu Đạt.
+- Thành viên sửa code theo [BUG_FIX_WORKFLOW](BUG_FIX_WORKFLOW.md); mọi phiên thay đổi ghi [LAB_NOTES](LAB_NOTES.md). Kết quả phần mềm và nghiệm thu điện thoại được ghi riêng.
+
+<a id="lam-tiep"></a>
+
+## 6. Sau buổi demo, đọc phần nào tiếp?
+
+| Mục tiêu | Tài liệu tiếp theo |
 | --- | --- |
-| GitHub | Lưu source, hướng dẫn, Issue và lab note; không phải nơi app lưu bệnh án |
-| Expo/EAS | Công cụ phát triển/đóng gói APK; người chạy APK độc lập không cần Expo Go |
-| Vercel | Chạy backend xử lý yêu cầu và kiểm tra quyền |
-| Firebase | Xác thực đăng nhập, Firestore lưu dữ liệu và Hosting phục vụ web |
-
-Người demo chỉ cần app/web và tài khoản được cấp, không cần quyền Vercel/Firebase/Expo. Thành viên sửa code đọc tiếp [PLATFORM_ROLES](PLATFORM_ROLES.md) → [REPO_MAP](REPO_MAP.md) → [LOCAL_DEVELOPMENT](LOCAL_DEVELOPMENT.md) → [TEAM](TEAM.md) → [CONTRIBUTING](../CONTRIBUTING.md). Chưa cần đọc hết các tài liệu kỹ thuật trước buổi tập.
+| Tiếp quản code | [REPO_MAP](REPO_MAP.md) → [LOCAL_DEVELOPMENT](LOCAL_DEVELOPMENT.md) → [TEAM](TEAM.md) → [CONTRIBUTING](../CONTRIBUTING.md) |
+| Cài và thử Android | [PHONE_INSTALL_AND_LAUNCH](PHONE_INSTALL_AND_LAUNCH.md) → [ANDROID_TRIAL](ANDROID_TRIAL.md) |
+| Chuẩn bị trình thầy/báo cáo | [MIDTERM_DEMO](MIDTERM_DEMO.md) |
+| Tra tài liệu theo công việc | [Danh mục tám nhóm](README.md) |

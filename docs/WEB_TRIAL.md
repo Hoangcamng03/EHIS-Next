@@ -1,10 +1,10 @@
 # Nghiệm thu web trước khi phát hành điện thoại
 
-Quyết định ngày 2026-10-22: hoàn thiện bản web để nhóm duyệt, thử nghiệm có kiểm soát trước; chỉ phát hành Android/iOS mới sau khi chủ dự án duyệt. Quyết định này thay cho yêu cầu phát hành web/điện thoại đồng thời trong giai đoạn nghiệm thu hiện tại.
+Thứ tự hiện hành: kiểm chứng code/web → APK preview Android cho diễn tập → nghiệm thu điện thoại. Chủ dự án đã cho phép build preview sau khi demo được kiểm tra (23–24/10); không tự OTA, cửa hàng, iOS native hoặc bật billing. [STATUS](STATUS.md) là nơi tra phiên bản, [MOBILE_RELEASES](MOBILE_RELEASES.md) ghi các bước phát hành.
 
 ## 1. Mở đúng phần
 
-Bản đang nghiệm thu **0.4.7**: xem [kết quả theo flow](VERIFICATION_V0_4_7.md) và [kịch bản hai Android](ACCEPTANCE_FLOW.md). Các mốc phát hành thực ghi tại LAB_NOTES. Lịch sử **0.4.4**: [màu, lỗi đã sửa, bằng chứng và checklist nghiệm thu](VERIFICATION_V0_4_4.md). Tải lại trang rồi kiểm tra số phiên bản; Patient xanh dương, TNV xanh lá, người báo cam, quản trị tím, yêu cầu khẩn đỏ.
+Mốc bàn giao 25/10 là **0.4.7**; source 0.4.8 còn local/chưa phát hành. Đối chiếu [STATUS](STATUS.md) ở các lần tiếp theo. Bản 0.4.7: xem [kết quả theo flow](VERIFICATION_V0_4_7.md) và [kịch bản hai Android](ACCEPTANCE_FLOW.md). Các mốc phát hành thực ghi tại LAB_NOTES. Lịch sử **0.4.4**: [màu, lỗi đã sửa, bằng chứng và checklist nghiệm thu](VERIFICATION_V0_4_4.md). Tải lại trang rồi kiểm tra số phiên bản; Patient xanh dương, TNV xanh lá, người báo cam, quản trị tím, yêu cầu khẩn đỏ.
 
 - App Patient/Volunteer: https://ehis-next-20261021-hc03-app.web.app . Một app, tự mở khu vực theo đối tượng tài khoản.
 - Website người quét: https://ehis-next-20261021-hc03.web.app . Người quét đi vào đường dẫn QR của thẻ; trang chính giải thích và dẫn sang app.
