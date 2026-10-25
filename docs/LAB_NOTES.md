@@ -8,6 +8,9 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 ## TÀI KHOẢN CHẠY THỬ — MỤC BÀN GIAO
 
 > [!IMPORTANT]
+> **Bộ mới cấp ngày 25/10/2026:** P1/P2, V1/V2 đã duyệt để diễn tập, V3 chờ duyệt và A1 quản trị. Email + mật khẩu + QR nằm ở mục đầu [repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access). [Hướng dẫn tự demo](MANUAL_DEMO_ACCOUNTS.md). Đã xác minh đăng nhập/quyền; TNV OFF, chưa có ca. Bảng email 22/10 bên dưới là bộ trước, được giữ nguyên.
+
+> [!IMPORTANT]
 > **TÀI KHOẢN + MẬT KHẨU: [mở repo riêng tư EHIS-Next-Team-Access](https://github.com/Hoangcamng03/EHIS-Next-Team-Access).** Đăng nhập GitHub bằng tài khoản được cấp quyền. Repo hiện chỉ dành cho chủ dự án; chủ dự án sẽ tự thêm thành viên sau. Link hiện 404 nếu chưa có quyền hoặc đăng nhập sai tài khoản.
 >
 > **Dùng tài khoản CLOUD dưới đây cho APK và app web HTTPS.** Đã xác minh đăng nhập/quyền ngày 2026-10-22. Mật khẩu nằm trong README của repo riêng tư; bản sao local là `.local/LAB_NOTES_PRIVATE_ACCOUNTS.md`. Không đăng mật khẩu vào repo public này.
@@ -191,3 +194,21 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 - APK 0.4.7/code 5 FINISHED, đã xác minh đúng source db55a086f6fbcebad62c3ef4d05aaeb93d9127ec/version/package/cloud target/WAV, không microphone và có quyền rung. 103742037 byte; SHA-256 11dfa714614d08cf46b5645d00f973687813109c181e75ed108bcb8aeffea774. Tải về https://expo.dev/artifacts/eas/p-bvv6mim5eRquQ0Rz9Za9BypBnupwey6V2EbutCfHc.apk; chưa kiểm chứng chữ ký bằng công cụ Android, cài đè/Play Protect hoặc phần cứng. Không tự cài/cập nhật máy, không OTA. Trang cài được cập nhật APK mới sau proof, các vòng phát hành/cài thực tế phân biệt rõ.
 
 - Bàn giao: /install đã deploy nút tải APK 0.4.7 đúng artifact được xác minh; browser kiểm tra link thật, lưu ảnh install-047.jpg, đối chiếu lại 32 tệp Hosting đều khớp. Source APK db55a08 có CI40076794250 SUCCESS; mốc link4795c7f có CI40077004770 SUCCESS. Thêm phiếu A01–A13 và cách đo thời gian bằng cùng đồng hồ/video; toàn bộ kết quả điện thoại vẫn Chưa thử. Issues #2–#4 bổ sung bằng chứng cloud/giới hạn thu hồi khi offline, #2 làm rõ budget counter có ghi trước nhưng incident/pointer không ghi dở dang. PR#1 đã cập nhật/chưa merge, #2–#6 vẫn mở để review/nghiệm thu. Hai máy/Wi-Fi/4G là bước người dùng thực hiện tiếp theo; chưa tự cài lên điện thoại, không cam kết hết lỗi hoặc đủ điều kiện ca thật.
+
+## 2026-10-25 — 0.4.8: sắp xếp UI, kiểm thử và chuẩn bị midterm
+
+- Mục tiêu: thầy xem khoảng tuần 26/10–01/11, midterm giữa tháng 11 (chưa ngày chính xác), rồi phát triển cuối kỳ. Vẫn diễn tập miễn phí Android/web với dữ liệu giả; không billing/OTA/store/ca thật.
+- Sửa hierarchy nút, đăng nhập mặc định/đăng ký có chọn đối tượng, tài khoản/cài đặt và lịch sử thu gọn, QR/ca active ưu tiên; đồng bộ lời gọi thao tác. Chặn tạo QR khi draft hồ sơ chưa được lưu và thêm regression chuẩn hóa/tách thông tin. Hoàn tất ca dùng màu TNV kèm xác nhận; hủy/thu hồi vẫn cảnh báo đỏ. Reporter hỏi nhanh trước, phone tùy chọn sau; hủy và admin duyệt có bước xác nhận. Google Maps/chặng chi tiết chuyển vào tùy chọn, map trong app giữ chính.
+- 35 unit/logic + type/lint và tám bộ integration PASS. Vòng nhiều ca: 215 Auth giả/180 API/14 nhóm đều PASS; số API có thể khác do nhánh tranh chấp hợp lệ. Không dùng số đó làm tải cloud/SLA. Emulator lần chạy trong sandbox timeout, chạy lại ngoài sandbox đạt; fixture UI loopback bị chặn trong sandbox, seed ngoài sandbox đạt.
+- Một patch ghép nhiều file thiếu anchor không áp dụng, đã sửa bằng patch cụ thể. Rà diff bắt thao tác thay version toàn file đã chạm dependency trong lock; khôi phục dependency nguyên trạng từ HEAD và chỉ cập nhật hai version gốc, không build/phát hành lock sai.
+- Browser nhúng báo transport closed: tạo tab, đọc inventory và reset session vẫn chưa khôi phục. Mở Brave qua computer-use; local timeout được quan sát thật, chuyển server app/web ra host ngoài sandbox, Brave đã mở màn đăng nhập 0.4.8. Đang tiếp tục thử thao tác; chưa đánh dấu UI hoàn tất hoặc phát hành bản mới. Không thay quyền/security hệ thống để vượt lỗi.
+- Thêm MIDTERM_DEMO, VERIFICATION_V0_4_8 và tổ chức lại đầu mối docs/README để tránh các dòng “mới nhất” cũ mâu thuẫn. Kết quả browser/cloud/APK bổ sung sau bằng chứng thực.
+
+- Browser Brave đã xác nhận đăng nhập đúng Patient, vô hiệu hóa QR, sửa draft khóa tạo QR và lưu backend. Khi tạo lại QR, bố cục đưa thẻ lên trên nhưng vị trí cuộn cũ khiến khó thấy kết quả; thêm đưa về đầu khi thẻ active/ID đổi và QR co theo chiều rộng. Một số click accessibility khi trang cuộn nhắm sai vị trí; chuyển sang ảnh mới/tọa độ và kiểm tra API/AX sau thao tác, không kết luận API hỏng từ lỗi công cụ.
+
+## 2026-10-25 — cấp mới tài khoản cloud cho demo bằng tay
+
+- Theo yêu cầu chủ dự án, tạo sáu tài khoản Firebase Auth mới trong project ehis-next-20261021-hc03: 2 Patient có QR (chia sẻ bật/tắt), 2 TNV approved cho diễn tập, 1 TNV pending và 1 admin QA. Lưu purpose server-side, duyệt qua API và cấp admin chỉ đúng UID mới bằng quyền operator hiện có. Không thay IAM/service account/Rules/billing hoặc tài khoản cũ.
+- Kiểm tra lại sáu đăng nhập và quyền qua backend thật. Non-admin đều bị chặn API quản trị; pending bị chặn bật sẵn sàng; approved đều OFF/no-active. Patient có hồ sơ giả/QR đúng consent và lịch sử ca trống; TNV không đọc trực tiếp hồ sơ Patient. Không tạo ca mới để nhóm tự demo từ đầu, không nhập vị trí/GPS thật.
+- Bảng mật khẩu/QR đã lưu đầu README repo PRIVATE EHIS-Next-Team-Access và đọc lại xác nhận; kiểm tra private trước/sau, commit bc3a84bbbaf049c31d37d49f998a404c9077ae19. Bản sao ở file local bị Git bỏ qua; public chỉ có vai trò/hướng dẫn, không có mật khẩu/token. Quyền repo giữ nguyên chủ dự án, chưa mời thành viên. Email .test không nhận thư khôi phục/xác minh.
+- Tài khoản dùng bản cloud/APK 0.4.7 hiện hành; lần cấp mới không deploy UI/backend/OTA/APK. Source 0.4.8 của phiên trước vẫn local/chưa phát hành và còn bước TNV/reporter/admin UI chưa nghiệm thu: computer-use đã tự dừng khi không xác định URL ở thao tác mở tab mới. Không bỏ qua mốc đó hoặc coi API account check là hardware/UI acceptance.
