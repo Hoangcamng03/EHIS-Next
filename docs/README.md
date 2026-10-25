@@ -1,58 +1,40 @@
-**Nghiệm thu 0.4.7 / Android trước:** [flow và hai Android](ACCEPTANCE_FLOW.md) · [kết quả, lỗi và ảnh](VERIFICATION_V0_4_7.md). Các mục phiên bản cũ bên dưới là lịch sử; không đánh dấu thiết bị đạt từ test PC.
+# EHIS — bắt đầu ở đây
 
-# Tài liệu EHIS — đọc theo mục đích
+## Thành viên chạy demo: đọc ba trang này trước
 
-## 1. Thành viên mới: đọc theo thứ tự
+1. [START_HERE_DEMO](START_HERE_DEMO.md): hiểu vai trò, địa chỉ, tài khoản và thiết bị từ đầu.
+2. [DEMO_RUNBOOK](DEMO_RUNBOOK.md): phân vai bốn người, thao tác từng bước và checkpoint.
+3. [DEMO_TROUBLESHOOTING](DEMO_TROUBLESHOOTING.md): đăng nhập, QR, GPS, chuông, bản đồ và đóng ca.
 
-Chưa rõ các nền tảng phối hợp thế nào? Bắt đầu với [PLATFORM_ROLES.md](PLATFORM_ROLES.md). Khi phát hiện lỗi hoặc giao AI sửa, dùng [BUG_FIX_WORKFLOW.md](BUG_FIX_WORKFLOW.md). Mọi phiên có thay đổi đều cập nhật [LAB_NOTES.md](LAB_NOTES.md), bao gồm tài liệu/cấu hình và việc chưa hoàn tất.
+Bản cloud/APK đang dùng là **0.4.7**. Source 0.4.8 còn ở local/chưa phát hành. [Tài khoản demo mới](MANUAL_DEMO_ACCOUNTS.md) dùng được trên bản hiện hành; mật khẩu ở repo riêng tư.
 
-1. [REPO_MAP.md](REPO_MAP.md): có những phần nào, code nằm đâu, luồng kết nối và môi trường.
-2. [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md): cài và chạy trên máy; checkpoint cho mỗi bước.
-3. [TEAM.md](TEAM.md): chia việc 4 người và phần cần phối hợp.
-4. [Quy trình Git/PR](../CONTRIBUTING.md): nhánh, commit, review và xử lý file chung.
-5. README module: [Mobile](../mobile/README.md), [Web](../web/README.md), [Backend](../functions/README.md), [Scripts](../scripts/README.md).
+## Đợt hiện tại: trình thầy và midterm
 
-## 2. Thiết kế và hợp đồng giữa các phần
+- [MIDTERM_DEMO](MIDTERM_DEMO.md): kịch bản, chuẩn bị bốn người và kế hoạch cuối kỳ.
+- [VERIFICATION 0.4.8](VERIFICATION_V0_4_8.md): ghi chú bản sửa local/chưa phát hành, không phải trạng thái app trên điện thoại.
+- [STATUS](STATUS.md): phiên bản đã phát hành; [LAB_NOTES](LAB_NOTES.md): mọi thay đổi, việc chưa đạt.
+- [ACCEPTANCE_FLOW](ACCEPTANCE_FLOW.md): flow F01–F13 và phiếu hai Android A01–A13.
+- [Trang cài](https://ehis-next-20261021-hc03.web.app/install): bản APK đã xác minh, tách riêng với source đang sửa.
 
-| Tài liệu | Khi nào đọc |
-|---|---|
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Hiểu vai trò, dữ liệu, quyền và các giới hạn điều phối |
-| [API_CONTRACT.md](API_CONTRACT.md) | Trước khi đổi payload, API hoặc trạng thái |
-| [BYSTANDER_FLOW.md](BYSTANDER_FLOW.md) | Sửa luồng gửi trước/bổ sung sau của người qua đường |
-| [NAVIGATION.md](NAVIGATION.md) | Sửa bản đồ, routing, tọa độ và giới hạn dẫn đường |
+## Thành viên mới
 
-## 3. Build, vận hành và thử nghiệm hiện tại
+Đọc [vai trò nền tảng](PLATFORM_ROLES.md) → [bản đồ repo](REPO_MAP.md) → [chạy local](LOCAL_DEVELOPMENT.md) → [chia việc](TEAM.md) → [Git/review](../CONTRIBUTING.md).
 
-[Cài điện thoại và mốc phát hành 0.4.5](PHONE_INSTALL_AND_LAUNCH.md) — Android APK thử, iPhone web trên màn hình chính, điều kiện TestFlight và các việc chưa đạt trước vận hành thật. [Kế hoạch sản phẩm](PRODUCT_LAUNCH_PLAN.md) ghi backlog và quyết định chỉ diễn tập miễn phí.
+## Khi sửa code hoặc triển khai
 
-**Mới nhất: [web 0.4.4 — màu theo đối tượng, sửa lỗi và ma trận kiểm tra](VERIFICATION_V0_4_4.md).** Có ảnh 4 khu vực, cảnh báo đỏ, bản đồ và checklist để chủ dự án nghiệm thu. APK/OTA/iOS chưa cập nhật.
+| Công việc | Tài liệu |
+| --- | --- |
+| Thiết kế/quyền/dữ liệu | [ARCHITECTURE](ARCHITECTURE.md), [API_CONTRACT](API_CONTRACT.md) |
+| App Patient/TNV | [Mobile README](../mobile/README.md) |
+| Người báo/admin | [Web README](../web/README.md), [BYSTANDER_FLOW](BYSTANDER_FLOW.md) |
+| Backend | [Functions README](../functions/README.md), [CLOUD_TRIAL](CLOUD_TRIAL.md) |
+| GPS/bản đồ | [NAVIGATION](NAVIGATION.md), [LIVE_GPS](LIVE_GPS_0_4_6.md) |
+| Lỗi/kiểm tra | [BUG_FIX_WORKFLOW](BUG_FIX_WORKFLOW.md), [TEST_SCENARIOS](TEST_SCENARIOS.md) |
+| Android/phát hành | [ANDROID_TRIAL](ANDROID_TRIAL.md), [MOBILE_RELEASES](MOBILE_RELEASES.md), [Scripts](../scripts/README.md) |
+| Kế hoạch sản phẩm | [PRODUCT_LAUNCH_PLAN](PRODUCT_LAUNCH_PLAN.md) |
 
-**Ưu tiên mới:** [WEB_TRIAL.md](WEB_TRIAL.md) — hoàn thiện web, nghiệm thu có kiểm soát và chờ chủ dự án duyệt trước khi phát hành Android/iOS mới. APK 0.4.1 là bản cũ; không coi nó tự có các sửa đổi web 0.4.2.
+## Tài khoản và lịch sử
 
-Kết quả thực của đợt mới: [VERIFICATION_V0_4_2.md](VERIFICATION_V0_4_2.md), phân biệt kiểm tra local/cloud/browser và thiết bị chưa thử.
+Email/mật khẩu dùng chung chỉ ở [repo riêng tư của nhóm](https://github.com/Hoangcamng03/EHIS-Next-Team-Access), hiện chủ dự án quản lý quyền. Không chép secret hoặc hồ sơ thật vào tài liệu public.
 
-Đợt tiếp theo web 0.4.3: [VOLUNTEER_ALERTS.md](VOLUNTEER_ALERTS.md) — công tắc sẵn sàng, cảnh báo nổi bật, chuông/rung khi trang mở và bản đồ sau nhận ca. Kết quả build/deploy/test thực xem lab note.
-
-| Tài liệu | Phạm vi |
-|---|---|
-| [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md) | Phát triển local với dữ liệu giả trong Emulator |
-| [CLOUD_TRIAL.md](CLOUD_TRIAL.md) | Firebase Spark + Vercel, Auth/Firestore/Hosting và secret backend |
-| [ANDROID_TRIAL.md](ANDROID_TRIAL.md) | APK, cách cài, nhiều thiết bị, Internet và các bước nghiệm thu |
-| [MOBILE_RELEASES.md](MOBILE_RELEASES.md) | Bản điện thoại mới nhất, OTA và quy trình phát hành web/Android cùng snapshot |
-| [TEST_SCENARIOS.md](TEST_SCENARIOS.md) | Kịch bản nghiệp vụ và trường hợp từ chối |
-| [STATUS.md](STATUS.md) | Đã có gì và còn thiếu gì |
-| [VERIFICATION_V0_4.md](VERIFICATION_V0_4.md) | Bằng chứng v0.4; phân biệt build, browser và thiết bị thật |
-| [SECURITY_REVIEW.json](SECURITY_REVIEW.json) | Các rủi ro đã biết; không phải chứng nhận bảo mật |
-| [LAB_NOTES.md](LAB_NOTES.md) | Nhật ký thay đổi; mục tài khoản thử được highlight ở đầu |
-
-Email/mật khẩu thử dùng chung nằm tại [repo riêng tư EHIS-Next-Team-Access](https://github.com/Hoangcamng03/EHIS-Next-Team-Access); hiện chỉ chủ dự án có quyền và sẽ tự thêm thành viên sau. Bản sao local: `.local/LAB_NOTES_PRIVATE_ACCOUNTS.md`. Không có mật khẩu hoặc service account trong các tài liệu public này.
-
-## 4. Tài liệu lịch sử / kịch bản PC cũ
-
-- [COMPLETE_FLOW.md](COMPLETE_FLOW.md): kịch bản đầy đủ PC local v0.3; tham khảo khi thử Emulator, không phải trạng thái triển khai cloud mới nhất.
-- [TRIAL_CHECKLIST.md](TRIAL_CHECKLIST.md): checklist local v0.3.
-- [VERIFICATION_V0_3.md](VERIFICATION_V0_3.md): bằng chứng ở thời điểm v0.3; không dùng để khẳng định v0.4 đã thử thiết bị.
-
-Các đường dẫn cũ được giữ để link đã chia sẻ trong nhóm tiếp tục dùng được. Khi thêm tài liệu: chọn nhóm mục đích ở đây, ghi môi trường/phiên bản rõ và cập nhật lab note cho mọi thay đổi, gom theo mục tiêu công việc.
-
-Mới 0.4.6: [GPS khi mở chỉ đường, xác nhận đổi điểm bệnh nhân và cách cài iPhone](LIVE_GPS_0_4_6.md). Kết quả từng mốc tại lab note; Android preview được chủ dự án cho phép build sau kiểm tra demo, chưa OTA/store/clinical.
+Các báo cáo 0.3–0.4.7 giữ để đối chiếu lịch sử, không phải kết quả mới: [0.4.7](VERIFICATION_V0_4_7.md), [0.4.4](VERIFICATION_V0_4_4.md), [0.4.2](VERIFICATION_V0_4_2.md), [0.3](VERIFICATION_V0_3.md). Mục cũ trong tài liệu phát hành luôn phải đọc kèm mốc mới ở đầu file.

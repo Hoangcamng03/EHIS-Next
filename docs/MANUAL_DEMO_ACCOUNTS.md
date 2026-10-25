@@ -12,6 +12,8 @@
 | A1 | Quản trị | Chỉ dùng trang quản trị để thử duyệt V3 |
 | Người qua đường | Quét QR P1/P2 | Không cần email/mật khẩu; giữ nguyên trình duyệt đã gửi để theo dõi |
 
+Thành viên mới đọc [bắt đầu từ đầu](START_HERE_DEMO.md), [runbook phối hợp](DEMO_RUNBOOK.md) và [xử lý lỗi thường gặp](DEMO_TROUBLESHOOTING.md). Trạng thái tài khoản trong bảng là lúc cấp; đọc lại trạng thái trong app trước mỗi vòng vì nhóm có thể đã dùng thử.
+
 ## Mở và thao tác theo thứ tự
 
 1. [Tải APK hiện hành](https://ehis-next-20261021-hc03.web.app/install) hoặc [mở app web](https://ehis-next-20261021-hc03-app.web.app). Tài khoản cloud mới dùng được với bản hiện hành 0.4.7. Bản nguồn 0.4.8 vẫn đang nghiệm thu, chưa tự cập nhật lên điện thoại.

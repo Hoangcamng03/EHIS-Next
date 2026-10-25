@@ -3,17 +3,21 @@
 Dự án Capstone viết mới cho nhóm 4 người. Repository chứa **toàn bộ hệ thống**: một app Patient/Volunteer, website người báo/quản trị và backend dùng Firebase làm nơi lưu dữ liệu tập trung.
 
 > [!IMPORTANT]
-> **Mới vào nhóm?** Đọc [bản đồ mã nguồn](docs/REPO_MAP.md) → [chạy local](docs/LOCAL_DEVELOPMENT.md) → [phân công](docs/TEAM.md).
+> **Mới vào nhóm/chạy demo?** [Bắt đầu từ đầu](docs/START_HERE_DEMO.md) → [bốn người phối hợp](docs/DEMO_RUNBOOK.md) → [xử lý vướng mắc](docs/DEMO_TROUBLESHOOTING.md).
+>
+> **Tham gia sửa code?** [Bản đồ mã nguồn](docs/REPO_MAP.md) → [chạy local](docs/LOCAL_DEVELOPMENT.md) → [phân công phát triển](docs/TEAM.md).
 >
 > **Hiểu hệ thống và xử lý lỗi:** [Vai trò Expo / GitHub / Vercel / Firebase](docs/PLATFORM_ROLES.md) · [Quy trình sửa lỗi và ghi lab note](docs/BUG_FIX_WORKFLOW.md). Mọi phiên có thay đổi đều phải ghi [LAB_NOTES.md](docs/LAB_NOTES.md), kể cả kết quả chưa đạt.
 >
 > **Về nhánh Git:** `main` là nhánh tích hợp. Bản triển khai v0.4 đang được review ở [PR #1](https://github.com/Hoangcamng03/EHIS-Next/pull/1), nhánh `feat/bystander-two-step-report`. Nhánh đó có toàn bộ phần phát triển mới; tên xuất phát từ công việc đầu tiên. Các thư mục mới là cách chia code theo chức năng. Merge sau khi thành viên khác review và CI đạt.
 
+**Trình thầy tuần 26/10–01/11 và midterm giữa tháng 11:** [kịch bản/chuẩn bị/kế hoạch cuối kỳ](docs/MIDTERM_DEMO.md) · [bản sửa 0.4.8](docs/VERIFICATION_V0_4_8.md).
+
 ## 1. Sản phẩm và các giao diện
 
 | Sản phẩm | Người dùng | Code | Kết quả build / nơi chạy |
 |---|---|---|---|
-| App EHIS | Patient và Volunteer, ghi nhớ đối tượng khi đăng ký và tự mở sau đăng nhập | [mobile/](mobile/README.md) | 0.4.7 đang nghiệm thu; ưu tiên Android miễn phí; iPhone dùng web, iOS native hoãn |
+| App EHIS | Patient và Volunteer, ghi nhớ đối tượng khi đăng ký và tự mở sau đăng nhập | [mobile/](mobile/README.md) | 0.4.7 hiện hành; 0.4.8 đang sửa local/chưa phát hành; ưu tiên Android miễn phí |
 | Website EHIS | Người qua đường mở QR; quản trị vào `/admin` | [web/](web/README.md) | Website tĩnh HTTPS trên Firebase Hosting |
 | Backend EHIS | App và website gọi API | [functions/](functions/README.md) | Node/Express trên Vercel Hobby |
 | Dữ liệu / xác thực | Tài khoản, hồ sơ, thẻ, ca và quyền đọc | [Firebase config](docs/REPO_MAP.md#4-cấu-hình-và-dữ-liệu) | Firebase Auth + Firestore Standard Singapore |
@@ -26,7 +30,7 @@ Web trước **0.4.4** có [màu theo đối tượng, sửa lỗi và kết qu�
 
 **GPS mới:** [0.4.6: foreground và đổi điểm được xác nhận](docs/LIVE_GPS_0_4_6.md).
 
-**Cài trên điện thoại:** [trang cài EHIS](https://ehis-next-20261021-hc03.web.app/install) — Android có link tiến độ APK, iPhone có hướng dẫn thêm web lên màn hình chính. [Mốc phát hành và điều kiện còn thiếu](docs/PHONE_INSTALL_AND_LAUNCH.md). Đây là diễn tập, chưa tiếp nhận cấp cứu thật.
+**Cài trên điện thoại:** [trang cài EHIS](https://ehis-next-20261021-hc03.web.app/install) — Android có APK 0.4.7 đã xác minh artifact, iPhone có hướng dẫn thêm web lên màn hình chính. [Mốc phát hành và điều kiện còn thiếu](docs/PHONE_INSTALL_AND_LAUNCH.md). Đây là diễn tập, chưa tiếp nhận cấp cứu thật.
 
 ## 2. Cấu trúc repository
 
