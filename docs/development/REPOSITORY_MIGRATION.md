@@ -14,7 +14,7 @@
 ## 2. Thành viên đang có code trên máy
 
 1. Ghi lại nhánh/commit và lưu công việc đang sửa bằng commit riêng hoặc stash, gồm file mới. Không dùng reset --hard hoặc xóa thư mục để ép đồng bộ.
-2. Fetch và đọc PR di chuyển. Với source sạch, chuyển sang nhánh đã bàn giao; không merge tùy tiện vào bản có thay đổi local.
+2. Fetch và đọc PR di chuyển. Với source sạch, chuyển sang main và cập nhật bằng fast-forward; không merge tùy tiện vào bản có thay đổi local. Clone mới mặc định lấy main, không cần tìm nhánh feat/bystander-two-step-report hoặc chore/repository-structure.
 3. Cài dependency theo lockfile ở ba đường dẫn mới, chạy setup:local và doctor:local. Node 22, Java 21. Không copy node_modules/build output vào Git.
 4. Các file môi trường trên máy cũ: app chuyển vào frontend/app, web vào frontend/web; backend/.vercel là liên kết Vercel trên từng máy. Chỉ người vận hành mới chuyển cấu hình riêng; không in secret hoặc đưa vào commit. Mẫu env hiện hành nằm trong module.
 5. Khôi phục công việc dang dở theo bảng đường dẫn, review diff và chạy test trước khi ghép. Bản UI 0.4.8 ở checkout cũ chưa được áp vào đợt sắp xếp; không coi source mất chỉ vì đổi cây thư mục.

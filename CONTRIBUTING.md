@@ -4,7 +4,7 @@
 
 Đọc [bản đồ repo](docs/architecture/REPO_MAP.md) và README của module: [Mobile](frontend/app/README.md), [Web](frontend/web/README.md), [Backend](backend/README.md), [Scripts](scripts/README.md). Mỗi nhánh chứa toàn bộ hệ thống; chia trách nhiệm theo thư mục/file, không hiểu tên branch là một ứng dụng riêng.
 
-Bản sắp xếp ngày 26/10 phát triển từ nhánh `feat/bystander-two-step-report` trên nhánh `chore/repository-structure`. Khi PR sắp xếp còn review, dùng đúng nhánh được chủ dự án bàn giao; sau review và merge, lấy `main` làm nguồn chuẩn. Với máy còn sửa source cũ, đọc [hướng dẫn chuyển cấu trúc](docs/development/REPOSITORY_MIGRATION.md) trước khi kéo thay đổi.
+`main` là nguồn chuẩn chứa toàn bộ hệ thống và cấu trúc frontend/app, frontend/web, backend. Hai nhánh phát triển trước đợt sắp xếp chỉ là lịch sử công việc, không phải nơi thành viên phải vào để tìm bản hoàn chỉnh. Với máy còn sửa source cũ, đọc [hướng dẫn chuyển cấu trúc](docs/development/REPOSITORY_MIGRATION.md) trước khi kéo thay đổi.
 
 ## Một task đến một PR
 
@@ -15,6 +15,8 @@ Khi sửa lỗi, theo [BUG_FIX_WORKFLOW.md](docs/testing/BUG_FIX_WORKFLOW.md): t
 3. Chỉ sửa phạm vi liên quan. Báo người phối hợp khi sửa file chung hoặc API.
 4. Commit, push branch, mở PR. Mỗi PR cần mô tả hành vi và bằng chứng kiểm tra.
 5. Một thành viên khác review. Sau merge, người còn lại cập nhật main; không gửi ZIP và chép đè file.
+
+Đợt hợp nhất cấu trúc ngày 26/10/2026 được chủ dự án yêu cầu trực tiếp đưa bản đã kiểm thử vào main. Ghi chỉ đạo đó và bằng chứng CI trong lab note; không ghi thành đã có người khác approve nếu chưa có. Quy trình review thông thường vẫn áp dụng cho công việc tiếp theo.
 
 Người phối hợp: Backend/Rules/API — TV1; Volunteer/Maps — TV2; Mobile config/Auth/Patient — TV3; Web/Admin — TV4.
 

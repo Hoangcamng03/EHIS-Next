@@ -9,7 +9,7 @@ Cần Git, Node.js 22 và Java 21 cho Emulator. Cấu trúc hiện dùng ba pack
 ```powershell
 git clone https://github.com/Hoangcamng03/EHIS-Next.git
 cd EHIS-Next
-# Nếu main chưa nhận PR sắp xếp, checkout nhánh PR đã được nhóm bàn giao.
+git switch main
 npm --prefix frontend/app ci
 npm --prefix frontend/web ci
 npm --prefix backend ci
@@ -17,7 +17,7 @@ npm run setup:local
 npm run doctor:local
 ```
 
-Sau clone, chọn main đã tích hợp hoặc nhánh PR sắp xếp đang review theo bàn giao của chủ dự án. Không chạy lại clone nếu đã có checkout: lưu công việc, fetch và chọn nhánh theo [CONTRIBUTING](../../CONTRIBUTING.md). Không kéo thay đổi di chuyển thư mục đè lên source đang sửa; xem [hướng dẫn chuyển cấu trúc](REPOSITORY_MIGRATION.md).
+Sau clone, dùng main làm nguồn chuẩn. Không chạy lại clone nếu đã có checkout: lưu công việc, fetch rồi cập nhật main theo [CONTRIBUTING](../../CONTRIBUTING.md). Không kéo thay đổi di chuyển thư mục đè lên source đang sửa; xem [hướng dẫn chuyển cấu trúc](REPOSITORY_MIGRATION.md).
 
 **Đạt khi:** cài được ba package, doctor xác nhận Java/cấu hình cần thiết. `.local/` chứa dữ liệu riêng được tạo trên máy đó, không được tải từ repo. `.env.example` là mẫu; nếu setup báo thiếu, copy mẫu module thành `.env.local` và kiểm tra project `demo-ehis-next`, bật Emulator theo mẫu. Giữ lockfile, không ép downgrade framework bằng audit fix.
 

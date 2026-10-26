@@ -9,7 +9,7 @@
 
 Cấu trúc được đổi ngày 26/10/2026: frontend/app, frontend/web và backend; docs chia theo công việc. Nhánh feat/bystander-two-step-report là nguồn phát triển trước đợt sắp xếp. Không dựa tên nhánh để tìm code; dùng thư mục và README module.
 
-Main là đầu mối sau khi bản thay đổi đạt kiểm tra và được review. Không di chuyển code vào main chỉ để dễ nhìn khi chưa kiểm chứng. Nhánh công việc chứa cả repo; PR chỉ sửa phạm vi cần thiết. [Quy trình nhóm](../../CONTRIBUTING.md).
+Main là đầu mối chứa cấu trúc và toàn bộ sản phẩm đã tích hợp theo chỉ đạo chủ dự án ngày 26/10. Thành viên mở trang gốc repo hoặc clone main để làm việc. Nhánh công việc về sau chỉ dùng tạm cho thay đổi nhỏ rồi hợp nhất, không là một bản sản phẩm riêng. [Quy trình nhóm](../../CONTRIBUTING.md).
 
 ## 2. Những gì phải build và triển khai
 

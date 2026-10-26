@@ -28,7 +28,7 @@ Các việc còn mở: thiết bị/GPS/âm/rung và nhận nền, hiệu năng 
 
 ## 4. Khi cập nhật lần sau
 
-**Đợt source 26/10:** cây thư mục mới frontend/app, frontend/web, backend và docs theo công việc, dựa bản 0.4.7. Kiểm tra local, tám integration, Android JS export và hai frontend cloud build đã đạt; không deploy/phát APK/OTA. Theo dõi CI và review trước khi tích hợp tại [PR #7](https://github.com/Hoangcamng03/EHIS-Next/pull/7); [hướng dẫn chuyển máy thành viên](development/REPOSITORY_MIGRATION.md). Source UI 0.4.8 còn ở checkout trước, chưa ghép vào đợt này.
+**Nguồn chuẩn là main:** frontend/app, frontend/web, backend và docs theo công việc, dựa bản 0.4.7. Hợp nhất qua [PR #7](https://github.com/Hoangcamng03/EHIS-Next/pull/7) theo chỉ đạo trực tiếp của chủ dự án ngày 26/10; mở trang gốc repo là thấy cấu trúc này. Local/CI đã kiểm chứng logic, tám integration, Android JS export và web build; không deploy/phát APK/OTA. [Hướng dẫn chuyển máy thành viên](development/REPOSITORY_MIGRATION.md). Source UI 0.4.8 còn ở checkout trước, chưa ghép vào đợt này.
 
 Ghi bằng chứng ở lab note trước, cập nhật bảng phần 1 theo kết quả thực; chưa thử thì không đổi thành Đạt. Hướng dẫn thao tác ở trang cài/demo/phát hành; không chép lịch sử dài vào trang trạng thái này.
 
