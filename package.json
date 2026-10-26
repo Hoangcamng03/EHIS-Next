@@ -24,6 +24,8 @@
     "app:web": "npm --prefix frontend/app run web -- --port 8082",
     "app": "npm --prefix frontend/app start",
     "backend:build": "npm --prefix backend run build",
-    "check:repo": "node scripts/check-repository.cjs"
+    "check:repo": "node scripts/check-repository.cjs",
+    "perf:emulator": "node scripts/benchmark-emulator.cjs",
+    "perf:builds": "node scripts/benchmark-builds.cjs"
   }
 }

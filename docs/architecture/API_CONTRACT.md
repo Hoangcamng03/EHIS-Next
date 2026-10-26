@@ -127,6 +127,8 @@ Các callable nghiệp vụ đi qua POST /api/<operation>, body {data: payload},
 
 Mỗi callable có hạn theo phút: 120/UID, riêng createIncident 30/UID, 600/IP băm; vượt trả resource-exhausted. _requestLimits chỉ backend truy cập. App Check chỉ cưỡng chế nếu được cấu hình/bật, hiện chưa bật.
 
+Tối ưu 26/10: trong mỗi process, các transaction budget dùng cùng IP/phút (hoặc UID khi không có IP) đi qua hàng đợi ngắn trước khi chạm Firestore để giảm tranh chấp/retry. Firestore transaction vẫn kiểm tra và tăng nguyên tử mọi counter, kể cả giữa các process/instance; không cấp thêm quota hoặc bỏ kiểm tra. Hàng đợi giữ tối đa 256 khóa, 64 lượt/khóa, chờ tối đa hai giây; quá tải trả resource-exhausted với details.reason=request-budget-busy. Chỉ transaction budget được xếp hàng; nghiệp vụ ca và phân quyền giữ nguyên, không tuần tự hóa cả luồng.
+
 GET /internal/maintenance yêu cầu Bearer CRON_SECRET, không dùng token client. Chạy hằng ngày: tối đa 50 dispatch hết hạn, 50 ca đủ hạn purgeAfter, 200 counter cũ. Không purge ca accepted/arrived. Index incidents(status, offerExpiresAt) đã deploy.
 
 ## Feed TNV 0.4.7

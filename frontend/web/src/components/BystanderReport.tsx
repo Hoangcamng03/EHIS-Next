@@ -84,7 +84,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
     {status?.status === 'dispatching' && <p className="hint">Nếu điểm bệnh nhân ban đầu sai hoặc đã di chuyển: hủy yêu cầu chưa được nhận, rồi mở thẻ để gửi tại điểm đúng. Sau khi TNV nhận, bạn có thể xác nhận cập nhật điểm tại đây.</p>}
     <form className="report-panel" onSubmit={submit}>
       <label className="phone-label" htmlFor="phone">Số điện thoại của bạn <span>Không bắt buộc</span></label>
-      <input id="phone" type="tel" autoComplete="tel" inputMode="tel" maxLength={40} placeholder="Có thể để trống" value={phone} disabled={busy} onChange={e => { setPhone(e.target.value); setSuccess(''); }} />
+      <input id="phone" type="tel" autoComplete="tel" inputMode="tel" maxLength={40} placeholder="Có thể để trống" value={phone} disabled={busy || !canSend} onChange={e => { setPhone(e.target.value); setSuccess(''); }} />
       <p className="hint">Chỉ TNV được phân công ca mới có thể xem số bạn cung cấp để liên hệ.</p>
       {questions.map(question => <fieldset key={question.key} disabled={busy || !canSend}><legend>{question.title}</legend>
         <div className="choices">{question.choices.map(([value, label]) => <label key={value} className={answers[question.key] === value ? 'choice selected' : 'choice'}><input type="radio" name={question.key} value={value} required checked={answers[question.key] === value} onChange={() => { setAnswers(previous => ({ ...previous, [question.key]: value })); setSuccess(''); }} />{label}</label>)}</div>

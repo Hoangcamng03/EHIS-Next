@@ -1,6 +1,6 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
-Mốc tổng hợp ngày 25/10/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). Đây là đầu mối phiên bản; các tài liệu khác dẫn về đây. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
+Mốc tổng hợp ngày 26/10/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). Đây là đầu mối phiên bản; các tài liệu khác dẫn về đây. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
 
 ## 1. Bản đang bàn giao
 
@@ -9,6 +9,7 @@ Mốc tổng hợp ngày 25/10/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 | App web, web người báo/admin và backend | 0.4.7 đã deploy; 32 đối chiếu artifact và ca cloud giả đạt | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
 | APK Android | 0.4.7, versionCode 5; EAS FINISHED, artifact đã kiểm tra | Cài đè/Play Protect/loa/rung/GPS trên máy thật |
 | Source sửa giao diện | 0.4.8/code 6 đang ở local, chưa phát hành | UI TNV/reporter/admin, build cuối, CI, cloud và APK mới chưa hoàn tất |
+| Source main sau sắp xếp và tối ưu | Giảm tranh chấp budget, khóa phone ca đóng; 39 unit/logic và chín integration local đạt | Chưa deploy tối ưu lên cloud/điện thoại; cần review độc lập và nghiệm thu đích |
 | iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
 | Tài khoản demo | Sáu tài khoản cloud cấp ngày 25/10, kiểm tra login/quyền đạt | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra lại trước mỗi vòng |
 
@@ -19,6 +20,7 @@ Mốc tổng hợp ngày 25/10/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 - Bản 0.4.7: [VERIFICATION_V0_4_7](testing/verification/VERIFICATION_V0_4_7.md). Logic/Emulator/browser/cloud/artifact được ghi riêng; không thay thế thử điện thoại.
 - Bản sửa local 0.4.8: [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md). 35 unit/logic + type/lint và tám bộ integration đã đạt; Patient đã thử một phần. Computer-use tự dừng ở bước mở tab mới; chưa nghiệm thu cả UI hoặc phát hành 0.4.8.
 - Phiếu người thử: [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md), A01–A13. Chưa có kết quả nhóm gửi về thì vẫn Chưa thử.
+- [So sánh hiệu suất 26/10](testing/PERFORMANCE_COMPARISON.md): baseline cùng tính năng trước sắp xếp; 192 ca đo qua hai lượt, build/payload và luồng browser. Kết quả local không thay SLA cloud hoặc thử Android thật.
 
 ## 3. Phạm vi đang áp dụng
 

@@ -57,6 +57,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | Trang | Nội dung |
 | --- | --- |
 | [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md) | Flow F01–F13, phiếu Android A01–A13, điều kiện nghiệm thu |
+| [PERFORMANCE_COMPARISON](testing/PERFORMANCE_COMPARISON.md) | Phương pháp và kết quả so sánh bản trước/sau cấu trúc, API/realtime/build |
 | [TEST_SCENARIOS](testing/TEST_SCENARIOS.md) | Tình huống nhiều tài khoản/vị trí, đồng thời và các nhánh lỗi |
 | [BUG_FIX_WORKFLOW](testing/BUG_FIX_WORKFLOW.md) | Tái hiện → sửa nguyên nhân → kiểm tra hồi quy → review → phát hành và xác minh |
 | [WEB_TRIAL](testing/WEB_TRIAL.md) | Hướng dẫn nghiệm thu web có kiểm soát trước bản điện thoại |
@@ -87,6 +88,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | Trang | Cách đọc |
 | --- | --- |
 | [LAB_NOTES](LAB_NOTES.md) | Mọi phiên thay đổi, cả việc chưa đạt; mục tài khoản ở đầu trang |
+| [PERFORMANCE_2026_10_26.json](testing/verification/PERFORMANCE_2026_10_26.json) | Số tổng hợp trước/sau tối ưu, hash source và giới hạn phép đo local |
 | [VERIFICATION_V0_4_7](testing/verification/VERIFICATION_V0_4_7.md) | Bằng chứng bản 0.4.7 đã bàn giao; thử điện thoại vẫn là lớp riêng |
 | [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md) | **Local/chưa phát hành**, còn thiếu UI và kiểm chứng các lớp tiếp theo |
 

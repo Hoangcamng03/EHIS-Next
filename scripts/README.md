@@ -1,6 +1,6 @@
 # Scripts — phân biệt chạy local, kiểm tra và triển khai
 
-**Kiểm thử 0.4.7:** `npm run test:integration` gồm tám bộ; `npm run test:multi` chỉ nhiều ca/vùng; `npm run test:active` chỉ feed SDK. Các helper trong `test-support/emulator.cjs` khóa loopback/project demo, không chạy lên cloud. APK preview sau kiểm chứng code/web/cloud; không tự OTA/store. [Nghiệm thu](../docs/testing/ACCEPTANCE_FLOW.md).
+**Kiểm thử:** `npm run test:integration` gồm chín bộ (tám bộ flow và một bộ quota qua hai process); `npm run test:multi` chỉ nhiều ca/vùng; `npm run test:active` chỉ feed SDK. Các helper trong `test-support/emulator.cjs` khóa loopback/project demo, không chạy lên cloud. APK preview sau kiểm chứng code/web/cloud; không tự OTA/store. [Nghiệm thu](../docs/testing/ACCEPTANCE_FLOW.md).
 
 Các lệnh npm bên dưới chạy từ **root repo**. Script công cụ không phải code giao diện. Đọc phần môi trường trước khi chạy; tác vụ cloud cần tài khoản/quyền của nhóm, không bật billing tự động.
 
@@ -22,7 +22,7 @@ Các lệnh npm bên dưới chạy từ **root repo**. Script công cụ không
 
 - `npm run check`: lint/typecheck app/web, build TypeScript backend, unit validation, `test-navigation.cjs` và `test-emergency-alerts.cjs` (dedupe/expiry/lịch chuông hữu hạn). Kiểm tra phần mềm không xác nhận loa/rung vật lý.
 - `npm run test:integration`: build backend, khởi động Emulator kiểm tra và chạy `run-integration.cjs`; tránh trùng port phiên phát triển đang chạy.
-- `run-integration.cjs`: gọi 5 suite `smoke-starter`, `smoke-reports`, `smoke-lifecycle`, `smoke-maintenance`, `smoke-portable` trên Emulator sẵn sàng. Các suite dùng dữ liệu giả, kiểm tra quyền/trạng thái/transaction/HTTP wrapper; không chạy chúng vào database cloud.
+- `run-integration.cjs`: gọi chín suite starter, reports, lifecycle, maintenance, portable, location-updates, multi-incident, active-alert và budget-queue trên Emulator sẵn sàng. Các suite dùng dữ liệu giả, kiểm tra quyền/trạng thái/transaction/HTTP wrapper, nhiều ca/vùng, SDK realtime và quota giữa hai process; không chạy vào database cloud.
 - `npm --prefix frontend/web run build`: production build web local; khác `cloud:build` có static export và cấu hình cloud.
 - GitHub CI ở `../.github/workflows/check.yml`: cài dependency, chạy check, Android JS export, web build và integration; **không tự deploy**.
 
@@ -63,3 +63,11 @@ Sau `npm run cloud:build` và `npm run cloud:deploy-web`, chạy `node scripts/v
 ## 7. Kiểm tra cấu trúc và liên kết
 
 `npm run check:repo` chỉ đọc source: kiểm tra liên kết Markdown/mục, danh mục tài liệu, module npm, đường dẫn Firebase và hook EAS. Được gọi trong `npm run check` và CI; không khởi tạo cloud hay thay dữ liệu. Khi di chuyển file, cập nhật các nơi sử dụng trước khi đánh dấu đạt.
+
+## 8. Đo đối chứng hiệu suất local
+
+- `npm run perf:emulator -- --baseline ../ehis-next-baseline`: hai backend process, một Emulator riêng, lịch cân bằng, dữ liệu giả và client SDK thật; đo 96 ca cùng tám warmup. Tự từ chối port đang dùng; không dừng server của người khác.
+- `npm run perf:builds -- --baseline ../ehis-next-baseline`: build luân phiên sau warmup, so kích thước JavaScript/gzip/Hermes. Chạy riêng khỏi phép đo API và các tác vụ nặng khác.
+- Sau một lần đầy đủ, thêm `--only backend`, `--only web` hoặc `--only android` để đo lại phần vừa sửa, giữ số liệu phần không đổi. Chỉ dùng lại khi baseline/máy/config không đổi; báo rõ phần nào được đo lại.
+- Checkout đối chứng phải có dependency theo lockfile, backend đã build, env local và runtime Java/CLI trên máy. Tham số là đường dẫn checkout, không phải URL hoặc database cloud.
+- Kết quả thô/log ở `.local/performance`, không vào Git. Khi RECHECK, xem dữ liệu/dao động và tìm nguyên nhân; không nới ngưỡng chỉ để được PASS. Báo cáo công khai tại [PERFORMANCE_COMPARISON](../docs/testing/PERFORMANCE_COMPARISON.md).
