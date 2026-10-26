@@ -39,4 +39,4 @@ Thực tế / tần suất: ...
 
 Giả thuyết → kiểm tra → kết quả; PR/commit; bản phát hành; kết quả Android nếu áp dụng; bước còn thiếu.
 
-Quy trình: [BUG_FIX_WORKFLOW.md](../../docs/testing/BUG_FIX_WORKFLOW.md). Mẫu nằm trên nhánh phát triển; GitHub có thể chỉ hiển thị lựa chọn New issue sau khi mẫu đã vào nhánh mặc định. Trước đó có thể sao chép nội dung này vào Issue thường.
+Quy trình: [BUG_FIX_WORKFLOW.md](../../docs/testing/BUG_FIX_WORKFLOW.md). Mẫu đã có trên main, mở Issues → New issue → Bug report. Nếu không mở được mẫu, sao chép các mục trên vào Issue thường; không chép thông tin riêng. Muốn đề xuất cải tiến thì dùng mẫu Góp ý.

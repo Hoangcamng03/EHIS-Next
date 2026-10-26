@@ -1,6 +1,6 @@
 # EHIS — thành viên mới bắt đầu từ đây
 
-Cập nhật 25/10/2026. Dành cho cả thành viên chưa rành lập trình. [Danh mục đầy đủ theo tám nhóm](README.md) · [Tra phiên bản](STATUS.md).
+Cập nhật 26/10/2026. Dành cho cả thành viên chưa rành lập trình. [Trang link chung của nhóm](demo/TEAM_LINKS.md) · [Danh mục đầy đủ theo tám nhóm](README.md) · [Tra phiên bản](STATUS.md).
 
 **Thứ tự đọc trang này:** [1. Mục tiêu](#muc-tieu) → [2. Hiểu hệ thống](#he-thong) → [3. Chuẩn bị](#chuan-bi) → [4. Chạy demo](#chay-demo) → [5. Kiểm tra](#kiem-tra) → [6. Làm tiếp](#lam-tiep).
 

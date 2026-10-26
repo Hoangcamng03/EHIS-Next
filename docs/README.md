@@ -16,6 +16,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 
 | Trang | Nội dung |
 | --- | --- |
+| [TEAM_LINKS](demo/TEAM_LINKS.md) | Một link gửi cả nhóm: đọc từ đầu, mở hệ thống, demo, theo dõi và góp ý |
 | [START_HERE_DEMO](START_HERE_DEMO.md) | Lộ trình từ đầu: sản phẩm → chuẩn bị → thao tác → kiểm tra |
 | [PLATFORM_ROLES](architecture/PLATFORM_ROLES.md) | Vai trò Expo, GitHub, Vercel và Firebase |
 

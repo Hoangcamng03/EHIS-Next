@@ -4,6 +4,8 @@ Một repository cho toàn bộ dự án Capstone bốn người: app Bệnh nh�
 
 **Nguồn chuẩn của nhóm là [nhánh main](https://github.com/Hoangcamng03/EHIS-Next/tree/main).** Mở trang gốc repository hoặc clone mặc định để thấy cấu trúc này; không cần chuyển sang nhánh tính năng cũ.
 
+**Gửi cho cả nhóm: [Trang link chung — bắt đầu, demo và góp ý](docs/demo/TEAM_LINKS.md).** Có thứ tự đọc, link mở app/cài Android, tài khoản riêng, phân vai và nơi ghi lỗi/góp ý.
+
 **Chạy demo:** [Bắt đầu từ đây](docs/START_HERE_DEMO.md) → [phân vai và thao tác](docs/demo/DEMO_RUNBOOK.md) → [xử lý vướng mắc](docs/demo/DEMO_TROUBLESHOOTING.md).
 
 **Tra cứu:** [Tất cả tài liệu](docs/README.md) · [Phiên bản/việc còn thiếu](docs/STATUS.md) · [Lab note](docs/LAB_NOTES.md).
