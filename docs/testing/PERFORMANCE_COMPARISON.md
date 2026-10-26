@@ -76,6 +76,8 @@ Các chênh lệch build nhỏ không chứng minh nhanh/chậm về mặt thố
 
 Mã đo dựa HEAD 7c9154a cộng thay đổi trong phiên; JSON ghi rõ base và hash source backend, không giả nhận đã đo trên commit chưa tồn tại. Raw log/fixture ở .local/performance, bị Git bỏ qua. Source hoàn thiện đưa lên main; chưa deploy backend/Hosting, chưa tạo APK/OTA mới, cloud và APK bàn giao vẫn 0.4.7.
 
+Source bàn giao: 52c1a223b834ebc49c1ea189915cc779878947d5. [CI đúng revision](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40336695063) SUCCESS, gồm check, Android export, web build và chín integration trên Node 22. Bản ghi tài liệu sau đó không thay mã đã đo/kiểm thử.
+
 Chưa đo cold start Vercel, quota/latency cloud, 4G/5G/mạng yếu, Android thật/loa/rung/GPS/nhận nền hoặc tải nhiều instance lớn. Hàng đợi cục bộ không loại tranh chấp giữa các instance; bài hai process chứng minh tính đúng quota, không chứng minh SLA. Tiếp tục theo phiếu Android và nghiệm thu thành viên độc lập, giữ Issue hiệu suất cloud/thiết bị mở. Không coi kết quả này là đủ điều kiện cấp cứu thật.
 
 ## 4. Khi cần sửa
