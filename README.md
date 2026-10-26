@@ -1,95 +1,69 @@
-# EHIS Next
+# EHIS Next — thẻ sức khỏe và hỗ trợ cộng đồng
 
-Bản khởi đầu **viết mới** cho nhóm Capstone 4 người: một app mobile, một website và backend Firebase riêng. Không sao chép source, dữ liệu hoặc định danh của nhóm trước.
+Một repository cho toàn bộ dự án Capstone bốn người: app Bệnh nhân/Tình nguyện viên, web người báo/quản trị, backend và tài liệu.
 
-## Tài nguyên của nhóm
+**Nguồn chuẩn của nhóm là [nhánh main](https://github.com/Hoangcamng03/EHIS-Next/tree/main).** Mở trang gốc repository hoặc clone mặc định để thấy cấu trúc này; không cần chuyển sang nhánh tính năng cũ.
 
-- GitHub public: https://github.com/Hoangcamng03/EHIS-Next
-- Firebase: https://console.firebase.google.com/project/ehis-next-20261021-hc03/overview
-- Firebase project ID: `ehis-next-20261021-hc03`
-- Android package / iOS bundle ID: `com.hoangcamng.ehisnext`
-- Project Emulator: `demo-ehis-next` — dữ liệu local không tự xuất hiện trên cloud.
-- `.env.example` dùng demo local; `.env.cloud.example` là mẫu riêng cho cloud. Không trộn project ID của hai môi trường.
+**Chạy demo:** [Bắt đầu từ đây](docs/START_HERE_DEMO.md) → [phân vai và thao tác](docs/demo/DEMO_RUNBOOK.md) → [xử lý vướng mắc](docs/demo/DEMO_TROUBLESHOOTING.md).
 
-## Hiện có gì?
+**Tra cứu:** [Tất cả tài liệu](docs/README.md) · [Phiên bản/việc còn thiếu](docs/STATUS.md) · [Lab note](docs/LAB_NOTES.md).
 
-- Mobile Expo SDK 58 + TypeScript + Expo Router: trang chính và khung Patient/Volunteer; nút thử health endpoint thật.
-- Web Next.js: trang chính, khung `/c/[cardId]` và `/admin`. Các trang ghi rõ chức năng chưa triển khai, không gửi báo sự cố thật.
-- Functions: `health`, `getMyAccess`, `savePatientProfile` có xác thực, allow-list dữ liệu và validation.
-- Firestore Rules mặc định đóng; bệnh nhân chỉ đọc hồ sơ chính mình. Không client nào tự gán role/verified.
-- Profile validation tests, cấu hình Emulator, EAS build profiles và kiểm tra CI.
+## 1. Cấu trúc chính
 
-**Chưa hoàn thành:** Auth UI, QR/NFC, tạo/nhận ca, bản đồ, push, duyệt TNV, audit đầy đủ, APK và kiểm thử thiết bị. Functions chưa triển khai cloud; việc tạo Firebase project không đồng nghĩa đã tạo Firestore database hoặc bật Auth providers.
-
-## Cài thư viện (mỗi máy)
-
-Cần Git, Node.js tương thích các package hiện tại; Java 21 cho Emulator. Dùng npm và giữ các lockfile. Chạy từ root repo:
-
-```powershell
-npm --prefix mobile ci
-npm --prefix web ci
-npm --prefix functions ci
+```text
+EHIS-Next/
+├── frontend/               Giao diện người dùng
+│   ├── app/                React Native/Expo: Patient + Volunteer; Android và app web
+│   └── web/                Next.js: người báo qua QR, quản trị và trang cài
+├── backend/                API Node/Express, nghiệp vụ và kiểm tra quyền
+├── docs/                   Hướng dẫn, kiến trúc, kiểm thử, vận hành và báo cáo
+├── scripts/                Công cụ local, test, cloud và phát hành
+├── .github/                CI, mẫu Issue và mẫu pull request
+├── firebase.json           Hosting, Emulator và đường dẫn backend
+├── firestore.rules         Quyền đọc/ghi trực tiếp của client
+├── firestore.indexes.json  Index truy vấn
+├── package.json            Lệnh điều phối từ root
+└── CONTRIBUTING.md         Quy trình làm việc chung
 ```
 
-## Chạy từng phần
+| Bạn cần sửa gì? | Đọc và làm việc tại |
+| --- | --- |
+| Patient, TNV, đăng nhập, QR và bản đồ trong app | [frontend/app](frontend/app/README.md) |
+| Người báo, bảng hỏi, quản trị hoặc trang tải | [frontend/web](frontend/web/README.md) |
+| Tài khoản, phân quyền, chọn TNV, nhận/kết thúc ca | [backend](backend/README.md) |
+| Build, test, môi trường và phát hành | [scripts](scripts/README.md) |
+| Hướng dẫn và bằng chứng | [docs](docs/README.md) |
 
-Website:
+Patient và TNV là hai khu vực trong **một app**. App web xuất từ frontend/app dùng chung source mobile; website người báo/quản trị ở frontend/web là phần riêng. [Bản đồ file chi tiết](docs/architecture/REPO_MAP.md).
 
-```powershell
-npm run web
-```
+## 2. Mở bản đang bàn giao
 
-Mở địa chỉ localhost được in trong terminal. Đây là website local, chưa phải website public.
+| Phần | Địa chỉ |
+| --- | --- |
+| App Patient/TNV trên web | [Mở app](https://ehis-next-20261021-hc03-app.web.app) |
+| Người báo | Quét QR Patient; [trang giới thiệu](https://ehis-next-20261021-hc03.web.app) |
+| Quản trị | [Mở /admin](https://ehis-next-20261021-hc03.web.app/admin) |
+| Android | [Trang cài APK](https://ehis-next-20261021-hc03.web.app/install) |
+| Tài khoản demo | [Hướng dẫn tài khoản](docs/demo/MANUAL_DEMO_ACCOUNTS.md); mật khẩu chỉ ở repo riêng tư |
 
-Backend local (terminal riêng):
+Mốc 26/10/2026: cloud/APK bàn giao vẫn **0.4.7**. Đợt sắp xếp source không tự deploy hay cập nhật điện thoại. Bản UI 0.4.8 đang làm trước đó được giữ riêng, chưa ghép vào đợt này. Tra trạng thái tiếp theo tại STATUS.
 
-```powershell
-npm run emulators
-```
+## 3. Bắt đầu phát triển
 
-Emulator UI: http://127.0.0.1:4100. Auth: 9199, Firestore: 8180, Functions: 5101. Các port khác bản Rebuild để giảm nhầm lẫn. Nếu đang có Emulator project khác, dừng nó trước.
-
-Mobile: copy `mobile/.env.example` thành `mobile/.env.local`, chỉnh `EXPO_PUBLIC_HEALTH_URL` theo mạng của máy rồi chạy:
-
-```powershell
-npm run mobile
-```
-
-Lệnh trên nhắm development build. Nếu chỉ thử khung giao diện với Expo Go tương thích SDK, dùng `npm --prefix mobile run go`. Expo Go khác SDK không phải lỗi nghiệp vụ.
-
-Trên điện thoại thật, `127.0.0.1` là điện thoại, không phải laptop. Thay host của health URL bằng IP LAN laptop, kết nối cùng mạng và chỉ mở firewall cho mạng riêng khi cần. Local HTTP chỉ phục vụ phát triển; APK demo độc lập dùng HTTPS cloud.
-
-Health URL local:
-`http://127.0.0.1:5101/demo-ehis-next/asia-southeast1/health`
-
-Health thành công chỉ chứng minh endpoint hoạt động; không chứng minh Auth, Firestore hoặc luồng ca đã chạy.
-
-## Kiểm tra trước PR
+[Cài/chạy local](docs/development/LOCAL_DEVELOPMENT.md) → [chia việc](docs/development/TEAM.md) → [Git và review](CONTRIBUTING.md). Dùng Node 22 và Java 21 theo CI.
 
 ```powershell
+npm --prefix frontend/app ci
+npm --prefix frontend/web ci
+npm --prefix backend ci
+npm run setup:local
 npm run check
-npm --prefix web run build
-npm run test:integration
 ```
 
-## Build APK sau khi có EAS project của nhóm
+Gọi lệnh từ thư mục gốc; tham gia demo cloud không cần cài các công cụ phát triển. Main là nhánh tích hợp; bản đề xuất thay đổi phải qua CI và review trước khi hợp nhất. Thư mục phân chia chức năng, nhánh Git là phiên bản của cả repository.
 
-Tại `mobile/`, đăng nhập và liên kết EAS project mới của nhóm, không dùng owner/project ID cũ:
+## 4. Nguyên tắc vận hành và tài liệu
 
-```powershell
-npx eas-cli@latest login
-npx eas-cli@latest init
-npx eas-cli@latest build --platform android --profile preview
-```
+Firebase Spark lưu Auth/Firestore và phục vụ Hosting; backend chạy Vercel Hobby. Đợt hiện tại là diễn tập dữ liệu giả có kiểm soát, ưu tiên Android miễn phí + web; iOS native hoãn. Internet cần cho gửi/nhận ca và bản đồ. Chưa nghiệm thu vận hành cấp cứu thật.
 
-`preview` xuất APK có code đóng gói; `development` dùng để lập trình; `production` xuất AAB Android. Chưa có EAS project hoặc signing trong lần khởi tạo repo này. Nếu dùng biến môi trường, cấu hình cả môi trường EAS preview, không chỉ `.env.local` trên máy.
-
-Backend/web phải chạy cloud thì APK mới dùng toàn luồng khi laptop tắt. Firebase Functions cần Blaze để deploy; không bật thanh toán tự động. iOS cần cấu hình signing riêng; không cài APK trên iPhone.
-
-## Làm việc nhóm
-
-- Repo public cho phép xem/clone, không tự cấp quyền push. Chủ repo mời từng GitHub username làm collaborator.
-- Một nhánh cho một việc nhỏ; PR vào `main`; có người khác review trước khi merge.
-- Xem [phân công](docs/TEAM.md), [kiến trúc](docs/ARCHITECTURE.md), [API contract](docs/API_CONTRACT.md), [kịch bản kiểm tra](docs/TEST_SCENARIOS.md).
-- Không đưa credentials quản trị, token, keystore, file `.env` hoặc dữ liệu y tế thật lên repo.
-- Dependency từ các template chính thức vẫn có thể có advisory; xem `docs/STATUS.md` trước khi phát hành. Không chạy `npm audit fix --force` vì có thể đổi major SDK hoặc downgrade framework.
+Mỗi phiên thay đổi ghi LAB_NOTES. Kiểm tra source, build, deploy và thiết bị là các lớp riêng. Không đưa mật khẩu, token, service account, keystore, file môi trường hoặc bệnh án thật vào Git. File sinh tự động không phải source. Tài liệu cũ được truy từ lịch sử Git thay vì giữ nhiều bản sao trong cây hiện hành.

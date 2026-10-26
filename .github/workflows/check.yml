@@ -1,29 +1,35 @@
-name: Check starter
+name: Check EHIS
 on:
   push:
     branches: [main]
   pull_request:
 permissions:
   contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: npm
           cache-dependency-path: |
-            mobile/package-lock.json
-            web/package-lock.json
-            functions/package-lock.json
-      - run: npm --prefix mobile ci
-      - run: npm --prefix web ci
-      - run: npm --prefix functions ci
+            frontend/app/package-lock.json
+            frontend/web/package-lock.json
+            backend/package-lock.json
+      - run: npm --prefix frontend/app ci
+      - run: npm --prefix frontend/web ci
+      - run: npm --prefix backend ci
       - run: npm run check
-      - run: npm --prefix web run build
-      - uses: actions/setup-java@v4
+      - run: npx expo export --platform android
+        working-directory: frontend/app
+      - run: npm --prefix frontend/web run build
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'

@@ -1,4 +1,16 @@
 {
-  "indexes": [],
+  "indexes": [
+    { "collectionGroup": "incidents", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "status", "order": "ASCENDING" },
+      { "fieldPath": "offerExpiresAt", "order": "ASCENDING" }
+    ] },
+    { "collectionGroup": "volunteers", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "verificationStatus", "order": "ASCENDING" },
+      { "fieldPath": "isAvailable", "order": "ASCENDING" },
+      { "fieldPath": "location.latitude", "order": "ASCENDING" },
+      { "fieldPath": "location.longitude", "order": "ASCENDING" },
+      { "fieldPath": "lastSeenAt", "order": "ASCENDING" }
+    ] }
+  ],
   "fieldOverrides": []
 }

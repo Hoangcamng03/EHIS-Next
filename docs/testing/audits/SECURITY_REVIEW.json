@@ -1,0 +1,37 @@
+{
+  "version": "0.4.0",
+  "reviewDate": "2026-10-22",
+  "summary": "Controlled synthetic cloud trial review; not a production security certification. Auth, Rules, Admin SDK permissions, transitions, limits and maintenance tested. Runtime secrets excluded from clients and Git.",
+  "findings": [
+    {
+      "severity": "major",
+      "check": "Abuse prevention",
+      "issue": "Basic per-UID/IP-hash minute limits exist. App Check is not enforced; anonymous UID rotation can evade UID limits. No operational anti-abuse assurance.",
+      "recommendation": "Keep controlled synthetic trials; configure App Check and monitoring before broader use."
+    },
+    {
+      "severity": "moderate",
+      "check": "Delivery",
+      "issue": "Foreground listeners do not replace push/background delivery. No multi-wave redispatch.",
+      "recommendation": "Keep volunteer screen open during trials; implement and verify push/outbox before field use."
+    },
+    {
+      "severity": "moderate",
+      "check": "Retention",
+      "issue": "Private data becomes eligible after 24h; bounded daily cron can delay deletion beyond 24–48h. Historical audit/status data is retained.",
+      "recommendation": "Monitor worker and define complete retention/deletion policy before real data."
+    },
+    {
+      "severity": "moderate",
+      "check": "Runtime credential",
+      "issue": "Datastore User key can access project data through Admin SDK and bypass Rules. Stored as Vercel backend secret only.",
+      "recommendation": "Rotate/revoke at end of trial; do not export to clients, EAS or Git."
+    },
+    {
+      "severity": "moderate",
+      "check": "Dependencies",
+      "issue": "Earlier 2026-10-21 audit reported upstream advisories; counts from v0.3 are historical, not a current scan.",
+      "recommendation": "Review reachable advisories and compatible SDK updates before public real-data use; do not force framework downgrades."
+    }
+  ]
+}

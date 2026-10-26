@@ -2,7 +2,9 @@
 **/.expo/
 **/.next/
 **/dist/
-**/lib/
+**/out/
+**/.next-cloud/
+backend/lib/
 **/.env
 **/.env.local
 **/.env.*.local
@@ -12,6 +14,7 @@
 **/*-debug.log*
 **/tsconfig.tsbuildinfo
 .firebase/
+**/.vercel/
 .local/
 **/*.jks
 **/*.keystore
@@ -22,4 +25,4 @@
 **/android/
 **/ios/
 .DS_Store
-mobile/.claude/
+frontend/app/.claude/
