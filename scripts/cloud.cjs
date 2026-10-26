@@ -29,8 +29,8 @@ async function main() {
   const config = JSON.parse(fs.readFileSync(localConfig,'utf8').replace(/^\uFEFF/,'')).result.sdkConfig;
   if(config.projectId !== projectId || !config.apiKey || !config.appId) throw new Error('Sai cấu hình project.');
   const values = { FIREBASE_PROJECT_ID:projectId,FIREBASE_API_KEY:config.apiKey,FIREBASE_APP_ID:config.appId,FIREBASE_AUTH_DOMAIN:config.authDomain,USE_EMULATORS:'false',TRIAL_MODE:'true',BACKEND_URL:backend.replace(/\/+$/,''),HEALTH_URL:`${backend}/health` };
-  for(const [folder,prefix] of [['mobile','EXPO_PUBLIC_'],['web','NEXT_PUBLIC_']]) {
-   const extras = folder === 'mobile' ? {BYSTANDER_URL:webUrl} : {APP_URL:appUrl};
+  for(const [folder,prefix] of [['frontend/app','EXPO_PUBLIC_'],['frontend/web','NEXT_PUBLIC_']]) {
+   const extras = folder === 'frontend/app' ? {BYSTANDER_URL:webUrl} : {APP_URL:appUrl};
    fs.writeFileSync(path.join(root,folder,'.env.cloud.local'),Object.entries({...values,...extras}).map(([key,value])=>`${prefix}${key}=${value}`).join('\n')+'\n');
   }
   fs.writeFileSync(path.join(root,'.local/cloud-target.json'),JSON.stringify({projectId,backend,webUrl,appUrl},null,2));
@@ -38,11 +38,11 @@ async function main() {
  }
  if(mode === 'build') {
   if(!process.env.npm_execpath) throw new Error('Chạy qua npm script.');
-  for(const folder of ['web','mobile']) {
+  for(const folder of ['frontend/web','frontend/app']) {
    const env = {...process.env,...loadEnv(path.join(root,folder,'.env.cloud.local'))};
-   if(env[folder === 'web' ? 'NEXT_PUBLIC_USE_EMULATORS':'EXPO_PUBLIC_USE_EMULATORS'] !== 'false') throw new Error('Cloud build must not use emulators.');
-   if(folder === 'web') { env.EHIS_STATIC_EXPORT = 'true'; run([process.env.npm_execpath,'run','build'],path.join(root,folder),env); }
-   else run([path.join(root,'mobile/node_modules/expo/bin/cli'),'export','--clear','--platform','web','--output-dir','.local/cloud-app'],path.join(root,folder),env);
+   if(env[folder === 'frontend/web' ? 'NEXT_PUBLIC_USE_EMULATORS':'EXPO_PUBLIC_USE_EMULATORS'] !== 'false') throw new Error('Cloud build must not use emulators.');
+   if(folder === 'frontend/web') { env.EHIS_STATIC_EXPORT = 'true'; run([process.env.npm_execpath,'run','build'],path.join(root,folder),env); }
+   else run([path.join(root,'frontend/app/node_modules/expo/bin/cli'),'export','--clear','--platform','web','--output-dir','.local/cloud-app'],path.join(root,folder),env);
   }
   return;
  }
@@ -56,7 +56,7 @@ async function main() {
   if(unauth.status !== 401) throw new Error('Backend chưa từ chối yêu cầu không đăng nhập.');
   console.log('Cloud backend health/project and unauthenticated denial passed.');
   if(mode === 'deploy-web') {
-   for(const entry of ['web/.next-cloud/index.html','web/.next-cloud/card.html','web/.next-cloud/report.html','mobile/.local/cloud-app/index.html']) if(!fs.existsSync(path.join(root,entry))) throw new Error('Chưa có artifact cloud: '+entry);
+   for(const entry of ['frontend/web/.next-cloud/index.html','frontend/web/.next-cloud/card.html','frontend/web/.next-cloud/report.html','frontend/app/.local/cloud-app/index.html']) if(!fs.existsSync(path.join(root,entry))) throw new Error('Chưa có artifact cloud: '+entry);
    run(firebaseInvocation(['deploy','--only','hosting','--project',projectId,'--non-interactive']));
   }
   return;

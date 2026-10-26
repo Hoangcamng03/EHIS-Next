@@ -1,7 +1,7 @@
 // Synthetic emulator fixtures only. Tests ownership, lifecycle, retries and privacy.
 const assert=require('node:assert/strict'),{randomUUID}=require('node:crypto'),{createRequire}=require('node:module'),path=require('node:path');
 process.env.FIRESTORE_EMULATOR_HOST='127.0.0.1:8180';process.env.FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9199';
-const req=createRequire(path.resolve(__dirname,'../functions/package.json'));
+const req=createRequire(path.resolve(__dirname,'../backend/package.json'));
 req('firebase-admin/app').initializeApp({projectId:'demo-ehis-next'});
 const {getFirestore,Timestamp}=req('firebase-admin/firestore'),db=getFirestore();
 async function user(anonymous=false){const r=await fetch('http://127.0.0.1:9199/identitytoolkit.googleapis.com/v1/accounts:signUp?key=demo-key',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(anonymous?{returnSecureToken:true}:{email:`location-${randomUUID()}@example.test`,password:'Synthetic-local-only-4291!',returnSecureToken:true})});assert.equal(r.status,200);return r.json();}

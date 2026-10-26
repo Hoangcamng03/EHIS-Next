@@ -1,47 +1,121 @@
 {
-  "functions": [{ "source": "functions", "codebase": "ehis-next" }],
+  "functions": [
+    {
+      "source": "backend",
+      "codebase": "ehis-next"
+    }
+  ],
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
   "auth": {
-    "authorizedDomains": ["localhost", "ehis-next-20261021-hc03.web.app", "ehis-next-20261021-hc03.firebaseapp.com", "ehis-next-20261021-hc03-app.web.app", "ehis-next-20261021-hc03-app.firebaseapp.com"],
-    "providers": { "anonymous": true, "emailPassword": true }
+    "authorizedDomains": [
+      "localhost",
+      "ehis-next-20261021-hc03.web.app",
+      "ehis-next-20261021-hc03.firebaseapp.com",
+      "ehis-next-20261021-hc03-app.web.app",
+      "ehis-next-20261021-hc03-app.firebaseapp.com"
+    ],
+    "providers": {
+      "anonymous": true,
+      "emailPassword": true
+    }
   },
   "hosting": [
     {
       "site": "ehis-next-20261021-hc03",
-      "public": "web/.next-cloud",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "public": "frontend/web/.next-cloud",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
       "cleanUrls": true,
       "redirects": [
-        { "source": "/c/:cardId", "destination": "/card?id=:cardId", "type": 302 },
-        { "source": "/report/:incidentId", "destination": "/report?id=:incidentId", "type": 302 }
+        {
+          "source": "/c/:cardId",
+          "destination": "/card?id=:cardId",
+          "type": 302
+        },
+        {
+          "source": "/report/:incidentId",
+          "destination": "/report?id=:incidentId",
+          "type": 302
+        }
       ],
-      "headers": [{ "source": "**", "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "no-referrer" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(self)" },
-        { "key": "Cache-Control", "value": "no-cache" }
-      ] }]
+      "headers": [
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "no-referrer"
+            },
+            {
+              "key": "Permissions-Policy",
+              "value": "camera=(), microphone=(), geolocation=(self)"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        }
+      ]
     },
     {
       "site": "ehis-next-20261021-hc03-app",
-      "public": "mobile/.local/cloud-app",
-      "ignore": ["**/.*", "**/node_modules/**"],
-      "rewrites": [{ "source": "**", "destination": "/index.html" }],
-      "headers": [{ "source": "**", "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "no-referrer" },
-        { "key": "Cache-Control", "value": "no-cache" }
-      ] }]
+      "public": "frontend/app/.local/cloud-app",
+      "ignore": [
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "no-referrer"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        }
+      ]
     }
   ],
   "emulators": {
-    "auth": { "port": 9199 },
-    "functions": { "port": 5101 },
-    "firestore": { "port": 8180 },
-    "ui": { "enabled": true, "port": 4100 },
+    "auth": {
+      "port": 9199
+    },
+    "functions": {
+      "port": 5101
+    },
+    "firestore": {
+      "port": 8180
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4100
+    },
     "singleProjectMode": true
   }
 }

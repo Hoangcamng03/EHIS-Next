@@ -1,7 +1,7 @@
 const fs = require('node:fs'), path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { easInvocation } = require('./eas-cli.cjs');
-const root = path.resolve(__dirname, '..'), mobile = path.join(root, 'mobile');
+const root = path.resolve(__dirname, '..'), mobile = path.join(root, 'frontend/app');
 const args = process.argv.slice(2), native = args.includes('--native');
 const messageAt = args.indexOf('--message'), message = messageAt >= 0 ? args[messageAt + 1] : undefined;
 if (!message || message.startsWith('--'))
@@ -31,12 +31,12 @@ function npm(script) { if (!process.env.npm_execpath)
 function eas(argv) { return command(process.execPath, easInvocation(argv), mobile, true); }
 try {
     if (git(['status', '--porcelain']))
-        throw new Error('Commit source trước khi phát hành để web/APK/OTA dùng cùng snapshot có thể truy vết.');
+        throw new Error('Commit source trước khi phát hành để frontend/web/APK/OTA dùng cùng snapshot có thể truy vết.');
     const config = JSON.parse(fs.readFileSync(path.join(mobile, 'app.json'), 'utf8')).expo;
     const profile = JSON.parse(fs.readFileSync(path.join(mobile, 'eas.json'), 'utf8')).build.preview;
     if (config.extra?.eas?.projectId !== 'eb11cc2d-e7b9-46ed-8794-0eae2b3495ed' || profile.channel !== 'preview' || profile.environment !== 'preview' || config.android.runtimeVersion?.policy !== 'fingerprint')
         throw new Error('Sai project/channel/environment/runtime policy.');
-    for (const [folder, prefix] of [['mobile', 'EXPO_PUBLIC_'], ['web', 'NEXT_PUBLIC_']]) {
+    for (const [folder, prefix] of [['frontend/app', 'EXPO_PUBLIC_'], ['frontend/web', 'NEXT_PUBLIC_']]) {
         const env = fs.readFileSync(path.join(root, folder, '.env.cloud.local'), 'utf8');
         if (!env.includes(prefix + 'FIREBASE_PROJECT_ID=ehis-next-20261021-hc03') || !env.includes(prefix + 'USE_EMULATORS=false'))
             throw new Error('Cấu hình cloud chưa đúng trong ' + folder);

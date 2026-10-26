@@ -2,7 +2,7 @@
 
 [Về trang dự án](../README.md) · [Bắt đầu chạy demo](START_HERE_DEMO.md) · [Phiên bản hiện hành](STATUS.md)
 
-Tài liệu được chia theo công việc, giữ nguyên đường dẫn đã chia sẻ. Không cần đọc tất cả từ đầu đến cuối. **STATUS** là nơi tra phiên bản; **LAB_NOTES** ghi các lần thay đổi; tài liệu có nhãn **lịch sử** không dùng làm hướng dẫn hiện hành.
+Tài liệu được chia thành thư mục theo công việc. Bốn đầu mối giữ tại gốc docs: README, START_HERE_DEMO, STATUS và LAB_NOTES. Không cần đọc tất cả từ đầu đến cuối. **STATUS** là nơi tra phiên bản; **LAB_NOTES** ghi các lần thay đổi; tài liệu có nhãn **lịch sử** không dùng làm hướng dẫn hiện hành.
 
 | Bạn cần làm gì? | Thứ tự đọc |
 | --- | --- |
@@ -17,67 +17,68 @@ Tài liệu được chia theo công việc, giữ nguyên đường dẫn đã 
 | Trang | Nội dung |
 | --- | --- |
 | [START_HERE_DEMO](START_HERE_DEMO.md) | Lộ trình từ đầu: sản phẩm → chuẩn bị → thao tác → kiểm tra |
-| [PLATFORM_ROLES](PLATFORM_ROLES.md) | Vai trò Expo, GitHub, Vercel và Firebase |
+| [PLATFORM_ROLES](architecture/PLATFORM_ROLES.md) | Vai trò Expo, GitHub, Vercel và Firebase |
 
 ## 2. Tài khoản, chuẩn bị và chạy demo
 
 | Trang | Nội dung |
 | --- | --- |
-| [MANUAL_DEMO_ACCOUNTS](MANUAL_DEMO_ACCOUNTS.md) | P1/P2, V1/V2/V3, A1 và link bảng mật khẩu riêng tư |
-| [DEMO_RUNBOOK](DEMO_RUNBOOK.md) | Phân vai bốn người, hai Android/laptop, từng thao tác và kết quả cần thấy |
-| [DEMO_TROUBLESHOOTING](DEMO_TROUBLESHOOTING.md) | Tìm theo triệu chứng: đăng nhập, QR, GPS, chuông, nhận ca, bản đồ, cài đặt |
+| [MANUAL_DEMO_ACCOUNTS](demo/MANUAL_DEMO_ACCOUNTS.md) | P1/P2, V1/V2/V3, A1 và link bảng mật khẩu riêng tư |
+| [DEMO_RUNBOOK](demo/DEMO_RUNBOOK.md) | Phân vai bốn người, hai Android/laptop, từng thao tác và kết quả cần thấy |
+| [DEMO_TROUBLESHOOTING](demo/DEMO_TROUBLESHOOTING.md) | Tìm theo triệu chứng: đăng nhập, QR, GPS, chuông, nhận ca, bản đồ, cài đặt |
 
 ## 3. Kiến trúc, dữ liệu và tính năng
 
 | Trang | Nội dung |
 | --- | --- |
-| [REPO_MAP](REPO_MAP.md) | Code phần nào ở đâu, file cấu hình và đường đi dữ liệu |
-| [ARCHITECTURE](ARCHITECTURE.md) | Thành phần hệ thống, phân quyền và ranh giới dữ liệu |
-| [API_CONTRACT](API_CONTRACT.md) | Giao tiếp app/web/backend và schema; kiểm tra trạng thái source trước khi áp dụng |
-| [BYSTANDER_FLOW](BYSTANDER_FLOW.md) | Báo hỗ trợ hai bước và cập nhật thông tin |
-| [NAVIGATION](NAVIGATION.md) | Bản đồ/chỉ đường, điều kiện và giới hạn |
-| [VOLUNTEER_ALERTS](VOLUNTEER_ALERTS.md) | Tham chiếu tính năng cảnh báo từ 0.4.3, không phải báo cáo thiết bị mới |
-| [LIVE_GPS_0_4_6](LIVE_GPS_0_4_6.md) | Tham chiếu thiết kế GPS foreground và xác nhận đổi điểm từ 0.4.6 |
+| [REPO_MAP](architecture/REPO_MAP.md) | Code phần nào ở đâu, file cấu hình và đường đi dữ liệu |
+| [ARCHITECTURE](architecture/ARCHITECTURE.md) | Thành phần hệ thống, phân quyền và ranh giới dữ liệu |
+| [API_CONTRACT](architecture/API_CONTRACT.md) | Giao tiếp app/frontend/web/backend và schema; kiểm tra trạng thái source trước khi áp dụng |
+| [BYSTANDER_FLOW](architecture/BYSTANDER_FLOW.md) | Báo hỗ trợ hai bước và cập nhật thông tin |
+| [NAVIGATION](architecture/NAVIGATION.md) | Bản đồ/chỉ đường, điều kiện và giới hạn |
+| [VOLUNTEER_ALERTS](architecture/VOLUNTEER_ALERTS.md) | Tham chiếu tính năng cảnh báo từ 0.4.3, không phải báo cáo thiết bị mới |
+| [LIVE_GPS_0_4_6](architecture/LIVE_GPS_0_4_6.md) | Tham chiếu thiết kế GPS foreground và xác nhận đổi điểm từ 0.4.6 |
 
 ## 4. Phát triển và cộng tác
 
 | Trang | Nội dung |
 | --- | --- |
-| [LOCAL_DEVELOPMENT](LOCAL_DEVELOPMENT.md) | Cài/chạy local và Emulator bằng dữ liệu giả |
-| [TEAM](TEAM.md) | Chia việc phát triển cho bốn thành viên và tiêu chí bàn giao |
+| [LOCAL_DEVELOPMENT](development/LOCAL_DEVELOPMENT.md) | Cài/chạy local và Emulator bằng dữ liệu giả |
+| [REPOSITORY_MIGRATION](development/REPOSITORY_MIGRATION.md) | Đường dẫn trước/sau, chuyển máy đang sửa code, EAS/Vercel và quay lui |
+| [TEAM](development/TEAM.md) | Chia việc phát triển cho bốn thành viên và tiêu chí bàn giao |
 | [CONTRIBUTING](../CONTRIBUTING.md) | Làm việc chung, nhánh Git, review và xử lý khi sửa cùng file |
-| [Mobile README](../mobile/README.md) | App Patient/Volunteer |
-| [Web README](../web/README.md) | Website người báo/quản trị |
-| [Backend README](../functions/README.md) | API và kiểm tra quyền |
+| [Mobile README](../frontend/app/README.md) | App Patient/Volunteer |
+| [Web README](../frontend/web/README.md) | Website người báo/quản trị |
+| [Backend README](../backend/README.md) | API và kiểm tra quyền |
 | [Scripts README](../scripts/README.md) | Công cụ kiểm thử, build và vận hành |
 
 ## 5. Kiểm thử và sửa lỗi
 
 | Trang | Nội dung |
 | --- | --- |
-| [ACCEPTANCE_FLOW](ACCEPTANCE_FLOW.md) | Flow F01–F13, phiếu Android A01–A13, điều kiện nghiệm thu |
-| [TEST_SCENARIOS](TEST_SCENARIOS.md) | Tình huống nhiều tài khoản/vị trí, đồng thời và các nhánh lỗi |
-| [BUG_FIX_WORKFLOW](BUG_FIX_WORKFLOW.md) | Tái hiện → sửa nguyên nhân → kiểm tra hồi quy → review → phát hành và xác minh |
-| [WEB_TRIAL](WEB_TRIAL.md) | Hướng dẫn nghiệm thu web có kiểm soát trước bản điện thoại |
-| [SECURITY_REVIEW.json](SECURITY_REVIEW.json) | Kết quả rà soát bảo mật trong phạm vi/ngày ghi trong file; không phải chứng nhận |
-| [SECURITY_RULES_AUDIT_2026_10_24.json](SECURITY_RULES_AUDIT_2026_10_24.json) | Bằng chứng rà Rules ngày 24/10, không thay rà soát các thay đổi sau đó |
+| [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md) | Flow F01–F13, phiếu Android A01–A13, điều kiện nghiệm thu |
+| [TEST_SCENARIOS](testing/TEST_SCENARIOS.md) | Tình huống nhiều tài khoản/vị trí, đồng thời và các nhánh lỗi |
+| [BUG_FIX_WORKFLOW](testing/BUG_FIX_WORKFLOW.md) | Tái hiện → sửa nguyên nhân → kiểm tra hồi quy → review → phát hành và xác minh |
+| [WEB_TRIAL](testing/WEB_TRIAL.md) | Hướng dẫn nghiệm thu web có kiểm soát trước bản điện thoại |
+| [SECURITY_REVIEW.json](testing/audits/SECURITY_REVIEW.json) | Kết quả rà soát bảo mật trong phạm vi/ngày ghi trong file; không phải chứng nhận |
+| [SECURITY_RULES_AUDIT_2026_10_24.json](testing/audits/SECURITY_RULES_AUDIT_2026_10_24.json) | Bằng chứng rà Rules ngày 24/10, không thay rà soát các thay đổi sau đó |
 
 ## 6. Cài đặt, phát hành và vận hành
 
 | Trang | Nội dung |
 | --- | --- |
 | [STATUS](STATUS.md) | **Đầu mối tra phiên bản:** source, cloud, APK và máy thật được ghi riêng |
-| [PHONE_INSTALL_AND_LAUNCH](PHONE_INSTALL_AND_LAUNCH.md) | Android/web/iPhone dùng cách nào, chuẩn bị và giới hạn |
-| [ANDROID_TRIAL](ANDROID_TRIAL.md) | Cài APK và nghiệm thu thiết bị |
-| [MOBILE_RELEASES](MOBILE_RELEASES.md) | Dành cho người phát hành: điều kiện, build, kiểm chứng, trang tải và quay lui |
-| [CLOUD_TRIAL](CLOUD_TRIAL.md) | Cấu hình/triển khai Firebase Spark + Vercel, quyền và kiểm tra cloud |
+| [PHONE_INSTALL_AND_LAUNCH](operations/PHONE_INSTALL_AND_LAUNCH.md) | Android/frontend/web/iPhone dùng cách nào, chuẩn bị và giới hạn |
+| [ANDROID_TRIAL](operations/ANDROID_TRIAL.md) | Cài APK và nghiệm thu thiết bị |
+| [MOBILE_RELEASES](operations/MOBILE_RELEASES.md) | Dành cho người phát hành: điều kiện, build, kiểm chứng, trang tải và quay lui |
+| [CLOUD_TRIAL](operations/CLOUD_TRIAL.md) | Cấu hình/triển khai Firebase Spark + Vercel, quyền và kiểm tra cloud |
 
 ## 7. Báo cáo và kế hoạch phát triển
 
 | Trang | Nội dung |
 | --- | --- |
-| [MIDTERM_DEMO](MIDTERM_DEMO.md) | Chuẩn bị trình thầy, kịch bản midterm, chia việc và mốc cuối kỳ |
-| [PRODUCT_LAUNCH_PLAN](PRODUCT_LAUNCH_PLAN.md) | Phạm vi MVP, rủi ro, kế hoạch vận hành/chuyên môn và pitching để dùng sau |
+| [MIDTERM_DEMO](planning/MIDTERM_DEMO.md) | Chuẩn bị trình thầy, kịch bản midterm, chia việc và mốc cuối kỳ |
+| [PRODUCT_LAUNCH_PLAN](planning/PRODUCT_LAUNCH_PLAN.md) | Phạm vi MVP, rủi ro, kế hoạch vận hành/chuyên môn và pitching để dùng sau |
 
 ## 8. Nhật ký, bằng chứng và lịch sử
 
@@ -86,29 +87,22 @@ Tài liệu được chia theo công việc, giữ nguyên đường dẫn đã 
 | Trang | Cách đọc |
 | --- | --- |
 | [LAB_NOTES](LAB_NOTES.md) | Mọi phiên thay đổi, cả việc chưa đạt; mục tài khoản ở đầu trang |
-| [VERIFICATION_V0_4_7](VERIFICATION_V0_4_7.md) | Bằng chứng bản 0.4.7 đã bàn giao; thử điện thoại vẫn là lớp riêng |
-| [VERIFICATION_V0_4_8](VERIFICATION_V0_4_8.md) | **Local/chưa phát hành**, còn thiếu UI và kiểm chứng các lớp tiếp theo |
+| [VERIFICATION_V0_4_7](testing/verification/VERIFICATION_V0_4_7.md) | Bằng chứng bản 0.4.7 đã bàn giao; thử điện thoại vẫn là lớp riêng |
+| [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md) | **Local/chưa phát hành**, còn thiếu UI và kiểm chứng các lớp tiếp theo |
 
 ### 8.2. Bằng chứng các mốc cũ — dùng để đối chiếu
 
 | Trang | Phạm vi lịch sử |
 | --- | --- |
-| [VERIFICATION_V0_4_4](VERIFICATION_V0_4_4.md) | Màu theo vai trò và kiểm chứng 0.4.4 |
-| [VERIFICATION_V0_4_2](VERIFICATION_V0_4_2.md) | Định tuyến đối tượng và kiểm chứng 0.4.2 |
-| [VERIFICATION_V0_4](VERIFICATION_V0_4.md) | Kiểm chứng mốc 0.4 |
-| [VERIFICATION_V0_3](VERIFICATION_V0_3.md) | Kiểm chứng local 0.3 |
-| [COMPLETE_FLOW](COMPLETE_FLOW.md) | Flow local cũ; nghiệm thu mới dùng nhóm 5 |
-| [TRIAL_CHECKLIST](TRIAL_CHECKLIST.md) | Checklist local cũ; không thay phiếu Android hiện hành |
+| [VERIFICATION_V0_4_4](testing/verification/VERIFICATION_V0_4_4.md) | Màu theo vai trò và kiểm chứng 0.4.4 |
+| [VERIFICATION_V0_4_2](testing/verification/VERIFICATION_V0_4_2.md) | Định tuyến đối tượng và kiểm chứng 0.4.2 |
+| [VERIFICATION_V0_4](testing/verification/VERIFICATION_V0_4.md) | Kiểm chứng mốc 0.4 |
+| [VERIFICATION_V0_3](testing/verification/VERIFICATION_V0_3.md) | Kiểm chứng local 0.3 |
+| [COMPLETE_FLOW cũ](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/COMPLETE_FLOW.md) | Flow local cũ; nghiệm thu mới dùng nhóm 5 |
+| [TRIAL_CHECKLIST cũ](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/TRIAL_CHECKLIST.md) | Checklist local cũ; không thay phiếu Android hiện hành |
 
-### 8.3. Bản sao tài liệu trước đợt sắp xếp 25/10
+### 8.3. Nội dung đã bỏ khỏi cây hiện tại
 
-Những file này giữ nguyên nội dung cũ để truy vết, có thể chứa nhiều câu “mới nhất” ở các thời điểm khác nhau. Các trang hiện hành tương ứng nằm tại nhóm 6.
+Bốn bản sao *_HISTORY, COMPLETE_FLOW và TRIAL_CHECKLIST cũ đã bỏ vì trùng lặp hoặc thay bằng flow nghiệm thu hiện hành. Nội dung vẫn có trong [snapshot trước sắp xếp](https://github.com/Hoangcamng03/EHIS-Next/tree/f921d33/docs), dùng để truy vết. Không thêm bản sao toàn file chỉ để lưu lịch sử; dùng Git và lab note.
 
-| Bản sao lịch sử | Trang dùng hiện nay |
-| --- | --- |
-| [STATUS_HISTORY](STATUS_HISTORY.md) | STATUS, nhóm 6 |
-| [ANDROID_TRIAL_HISTORY](ANDROID_TRIAL_HISTORY.md) | ANDROID_TRIAL, nhóm 6 |
-| [MOBILE_RELEASES_HISTORY](MOBILE_RELEASES_HISTORY.md) | MOBILE_RELEASES, nhóm 6 |
-| [PHONE_INSTALL_AND_LAUNCH_HISTORY](PHONE_INSTALL_AND_LAUNCH_HISTORY.md) | PHONE_INSTALL_AND_LAUNCH, nhóm 6 |
-
-**Quy tắc thêm tài liệu:** chọn một trong tám nhóm theo mục đích chính, thêm vào bảng tương ứng, dẫn về STATUS nếu nhắc phiên bản và ghi LAB_NOTES. Mật khẩu chỉ ở repo riêng tư. Giữ tên/đường dẫn tài liệu đã chia sẻ; nội dung cũ cần có nhãn lịch sử, không xen lẫn chỉ dẫn hiện hành.
+**Quy tắc thêm tài liệu:** chọn đúng thư mục demo, architecture, development, testing, operations hoặc planning; thêm một mục vào bảng tương ứng và ghi LAB_NOTES. Trạng thái phiên bản dẫn về STATUS. File verification/audit có bằng chứng riêng được giữ; dữ liệu trùng hoặc hướng dẫn đã thay thế không để lẫn với hướng dẫn hiện hành.

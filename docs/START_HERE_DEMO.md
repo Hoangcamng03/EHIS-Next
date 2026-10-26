@@ -10,7 +10,7 @@ Cập nhật 25/10/2026. Dành cho cả thành viên chưa rành lập trình. [
 
 Trang này giúp bạn biết hệ thống gồm gì, lấy đúng tài khoản, chuẩn bị thiết bị và phối hợp demo. Đây là diễn tập phần mềm với dữ liệu giả để trình thầy/lớp; chưa tiếp nhận cấp cứu thật.
 
-Tra [STATUS](STATUS.md) trước khi bắt đầu: mốc bàn giao 25/10 là web/APK 0.4.7; bản sửa 0.4.8 còn local/chưa phát hành. Có tài liệu hoặc ảnh 0.4.8 không có nghĩa app đang cài đã có các nút mới.
+Tra [STATUS](STATUS.md) trước khi bắt đầu: mốc bàn giao 25/10 là frontend/web/APK 0.4.7; bản sửa 0.4.8 còn local/chưa phát hành. Có tài liệu hoặc ảnh 0.4.8 không có nghĩa app đang cài đã có các nút mới.
 
 <a id="he-thong"></a>
 
@@ -74,7 +74,7 @@ Trạng thái trong bảng là khi cấp tài khoản; kiểm tra lại trong ap
 
 **Nếu thành viên gặp 404 ở repo mật khẩu:** hiện repo chỉ chủ dự án có quyền. Chủ dự án có thể trực tiếp phân/điền tài khoản trong buổi thử; nếu muốn thành viên tự xem, chủ repo tự mời đúng GitHub username qua Settings → Collaborators → Add people, rồi thành viên chấp nhận lời mời. Repo cá nhân cấp quyền collaborator có cả quyền sửa nội dung; chủ dự án cần chọn người phù hợp. Không bật public hoặc dùng chung tài khoản GitHub của chủ repo. Đây là hướng dẫn, chưa tự mời ai. [Nguồn GitHub về lời mời](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository), [phạm vi quyền collaborator](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/permission-levels-for-a-personal-account-repository).
 
-Email `.test` là giả, không nhận thư Quên mật khẩu/xác minh. Tài khoản local/Emulator không dùng được trên cloud/APK. [Chi tiết bộ tài khoản](MANUAL_DEMO_ACCOUNTS.md).
+Email `.test` là giả, không nhận thư Quên mật khẩu/xác minh. Tài khoản local/Emulator không dùng được trên cloud/APK. [Chi tiết bộ tài khoản](demo/MANUAL_DEMO_ACCOUNTS.md).
 
 ### 3.2. Kiểm tra thiết bị trước buổi thử
 
@@ -84,13 +84,13 @@ Email `.test` là giả, không nhận thư Quên mật khẩu/xác minh. Tài k
 - Các bên đứng gần nhau trong khu thử, ngồi đủ xa để nghe thiết bị nào reo. Người báo phải đứng cạnh bệnh nhân giả; không lái xe khi thao tác.
 - Chỉ dữ liệu giả, không đưa mật khẩu, số liên lạc thật hay vị trí chính xác vào ảnh/slide public. Một người quan sát và ghi kết quả, không phải cả bốn người cùng bấm.
 
-**Checkpoint:** mọi người mở đúng địa chỉ, được phân đúng tài khoản, biết ai ra hiệu gửi/nhận/kết thúc và mở được [runbook](DEMO_RUNBOOK.md).
+**Checkpoint:** mọi người mở đúng địa chỉ, được phân đúng tài khoản, biết ai ra hiệu gửi/nhận/kết thúc và mở được [runbook](demo/DEMO_RUNBOOK.md).
 
 <a id="chay-demo"></a>
 
 ## 4. Phân vai và chạy một vòng hoàn chỉnh
 
-1. Mở [DEMO_RUNBOOK](DEMO_RUNBOOK.md), phân rõ người đóng Patient, người báo, TNV và người quan sát. Nếu chỉ hai Android, dùng cách bố trí laptop đã ghi trong runbook.
+1. Mở [DEMO_RUNBOOK](demo/DEMO_RUNBOOK.md), phân rõ người đóng Patient, người báo, TNV và người quan sát. Nếu chỉ hai Android, dùng cách bố trí laptop đã ghi trong runbook.
 2. Kiểm tra Patient có QR; TNV đúng tài khoản, được duyệt, thử chuông và bật sẵn sàng **trước khi người báo gửi**.
 3. Người báo quét QR, xác nhận đang cạnh bệnh nhân giả và gửi. Chỉ chuyển sang bảng hỏi sau khi backend xác nhận; phone là tùy chọn.
 4. TNV nhận cảnh báo, bấm nhận ca, xem bản đồ/thông tin được phép, xác nhận đến và kết thúc theo đúng nút của bản đang dùng.
@@ -102,9 +102,9 @@ Email `.test` là giả, không nhận thư Quên mật khẩu/xác minh. Tài k
 
 ## 5. Khi có lỗi và cách ghi kết quả
 
-- Gặp lỗi: tra [DEMO_TROUBLESHOOTING](DEMO_TROUBLESHOOTING.md) theo triệu chứng. Ghi bước, bản app, thiết bị/mạng, kết quả mong đợi và thực tế; tránh mật khẩu, QR hoặc dữ liệu riêng trong ảnh public.
-- Chạy nhiều tình huống: dùng [ACCEPTANCE_FLOW](ACCEPTANCE_FLOW.md) và [TEST_SCENARIOS](TEST_SCENARIOS.md). Chưa thực hiện thì ghi **Chưa thử**, không tự đánh dấu Đạt.
-- Thành viên sửa code theo [BUG_FIX_WORKFLOW](BUG_FIX_WORKFLOW.md); mọi phiên thay đổi ghi [LAB_NOTES](LAB_NOTES.md). Kết quả phần mềm và nghiệm thu điện thoại được ghi riêng.
+- Gặp lỗi: tra [DEMO_TROUBLESHOOTING](demo/DEMO_TROUBLESHOOTING.md) theo triệu chứng. Ghi bước, bản app, thiết bị/mạng, kết quả mong đợi và thực tế; tránh mật khẩu, QR hoặc dữ liệu riêng trong ảnh public.
+- Chạy nhiều tình huống: dùng [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md) và [TEST_SCENARIOS](testing/TEST_SCENARIOS.md). Chưa thực hiện thì ghi **Chưa thử**, không tự đánh dấu Đạt.
+- Thành viên sửa code theo [BUG_FIX_WORKFLOW](testing/BUG_FIX_WORKFLOW.md); mọi phiên thay đổi ghi [LAB_NOTES](LAB_NOTES.md). Kết quả phần mềm và nghiệm thu điện thoại được ghi riêng.
 
 <a id="lam-tiep"></a>
 
@@ -112,7 +112,7 @@ Email `.test` là giả, không nhận thư Quên mật khẩu/xác minh. Tài k
 
 | Mục tiêu | Tài liệu tiếp theo |
 | --- | --- |
-| Tiếp quản code | [REPO_MAP](REPO_MAP.md) → [LOCAL_DEVELOPMENT](LOCAL_DEVELOPMENT.md) → [TEAM](TEAM.md) → [CONTRIBUTING](../CONTRIBUTING.md) |
-| Cài và thử Android | [PHONE_INSTALL_AND_LAUNCH](PHONE_INSTALL_AND_LAUNCH.md) → [ANDROID_TRIAL](ANDROID_TRIAL.md) |
-| Chuẩn bị trình thầy/báo cáo | [MIDTERM_DEMO](MIDTERM_DEMO.md) |
+| Tiếp quản code | [REPO_MAP](architecture/REPO_MAP.md) → [LOCAL_DEVELOPMENT](development/LOCAL_DEVELOPMENT.md) → [TEAM](development/TEAM.md) → [CONTRIBUTING](../CONTRIBUTING.md) |
+| Cài và thử Android | [PHONE_INSTALL_AND_LAUNCH](operations/PHONE_INSTALL_AND_LAUNCH.md) → [ANDROID_TRIAL](operations/ANDROID_TRIAL.md) |
+| Chuẩn bị trình thầy/báo cáo | [MIDTERM_DEMO](planning/MIDTERM_DEMO.md) |
 | Tra tài liệu theo công việc | [Danh mục tám nhóm](README.md) |

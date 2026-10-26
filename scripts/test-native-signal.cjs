@@ -1,5 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const modulePromise=import('../mobile/src/lib/native-signal.ts');
+const modulePromise=import('../frontend/app/src/lib/native-signal.ts');
 function deferred(){let resolve;const promise=new Promise(r=>resolve=r);return {promise,resolve};}
 async function fixture(overrides={}){
  const {createNativeSignal}=await modulePromise, events=[],timers=[];

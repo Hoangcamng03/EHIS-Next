@@ -5,7 +5,7 @@ const {randomUUID}=require('node:crypto');
 const base='http://127.0.0.1:5201';
 async function main() {
  const secret=randomUUID()+randomUUID();
- const child=spawn(process.execPath,['server.cjs'],{cwd:path.resolve(__dirname,'../functions'),windowsHide:true,stdio:'ignore',env:{...process.env,PORT:'5201',GCLOUD_PROJECT:'demo-ehis-next',FIREBASE_CONFIG:JSON.stringify({projectId:'demo-ehis-next'}),FUNCTIONS_EMULATOR:'true',FIRESTORE_EMULATOR_HOST:'127.0.0.1:8180',FIREBASE_AUTH_EMULATOR_HOST:'127.0.0.1:9199',CRON_SECRET:secret}});
+ const child=spawn(process.execPath,['server.cjs'],{cwd:path.resolve(__dirname,'../backend'),windowsHide:true,stdio:'ignore',env:{...process.env,PORT:'5201',GCLOUD_PROJECT:'demo-ehis-next',FIREBASE_CONFIG:JSON.stringify({projectId:'demo-ehis-next'}),FUNCTIONS_EMULATOR:'true',FIRESTORE_EMULATOR_HOST:'127.0.0.1:8180',FIREBASE_AUTH_EMULATOR_HOST:'127.0.0.1:9199',CRON_SECRET:secret}});
  try {
   let ready=false;
   for(let i=0;i<40;i++) {try {if((await fetch(base+'/api/health')).ok) {ready=true;break;}}catch{} await new Promise(resolve=>setTimeout(resolve,250));}

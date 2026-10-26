@@ -1,7 +1,7 @@
 // Fixed loopback + demo project: this helper cannot target cloud fixtures.
 const assert=require('node:assert/strict'),{createRequire}=require('node:module'),path=require('node:path'),{randomUUID}=require('node:crypto');
 process.env.FIRESTORE_EMULATOR_HOST='127.0.0.1:8180';process.env.FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9199';
-const req=createRequire(path.resolve(__dirname,'../../functions/package.json'));
+const req=createRequire(path.resolve(__dirname,'../../backend/package.json'));
 req('firebase-admin/app').initializeApp({projectId:'demo-ehis-next'});
 const {getFirestore,Timestamp}=req('firebase-admin/firestore'),{getAuth}=req('firebase-admin/auth');
 const db=getFirestore(),auth=getAuth(),metrics=[],actors=[];

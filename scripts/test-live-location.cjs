@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-const policy=import('../mobile/src/lib/live-location.ts');
+const policy=import('../frontend/app/src/lib/live-location.ts');
 test('reporter rejects weak/stale GPS before initial request and confirmed relocation',async()=>{
- const {confirmedPoint}=await import('../web/src/lib/location-fix.ts'),position={coords:{latitude:10.8,longitude:106.7,accuracy:12},timestamp:100000};
+ const {confirmedPoint}=await import('../frontend/web/src/lib/location-fix.ts'),position={coords:{latitude:10.8,longitude:106.7,accuracy:12},timestamp:100000};
  assert.deepEqual(confirmedPoint(position,100000),{latitude:10.8,longitude:106.7});
  for(const change of [{coords:{...position.coords,accuracy:300}},{timestamp:80000},{timestamp:106000},{coords:{...position.coords,latitude:NaN}}])assert.throws(()=>confirmedPoint({...position,...change},100000));
 });
@@ -18,8 +18,8 @@ test('rerouting is immediate for a new destination and bounded for movement and 
  assert.equal(r(last,a,{latitude:10.82,longitude:106.71},100001),true);
 });
 test('native map updates move markers without recreating map; invalid points cannot enter bridge',async()=>{
- const ts=require('../mobile/node_modules/typescript'),directions=await import('../mobile/src/lib/directions.ts');
- const compiled=ts.transpileModule(fs.readFileSync('mobile/src/lib/route-html.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;
+ const ts=require('../frontend/app/node_modules/typescript'),directions=await import('../frontend/app/src/lib/directions.ts');
+ const compiled=ts.transpileModule(fs.readFileSync('frontend/app/src/lib/route-html.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;
  const exports={};vm.runInNewContext(compiled,{exports,require:name=>{assert.equal(name,'./directions');return directions;}});
  const a={latitude:10.8,longitude:106.7},b={latitude:10.81,longitude:106.71};
  const count={map:0,pin:0,moved:0},map={fitBounds(){},invalidateSize(){},removeLayer(){}};

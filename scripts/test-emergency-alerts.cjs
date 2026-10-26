@@ -1,6 +1,6 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const policy=import('../mobile/src/lib/alert-policy.ts');
-const audio=import('../mobile/src/lib/emergency-audio.ts');
+const policy=import('../frontend/app/src/lib/alert-policy.ts');
+const audio=import('../frontend/app/src/lib/emergency-audio.ts');
 const offer=(values={})=>({incidentId:'synthetic-case',status:'offered',reportRevision:0,expiresAt:20000,...values});
 
 test('expired or malformed invitation cannot appear actionable while awaiting maintenance',async()=>{

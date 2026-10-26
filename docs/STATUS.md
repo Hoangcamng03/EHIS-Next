@@ -12,22 +12,24 @@ Mốc tổng hợp ngày 25/10/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 | iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
 | Tài khoản demo | Sáu tài khoản cloud cấp ngày 25/10, kiểm tra login/quyền đạt | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra lại trước mỗi vòng |
 
-[Mở app](https://ehis-next-20261021-hc03-app.web.app) · [Trang cài](https://ehis-next-20261021-hc03.web.app/install) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin) · [Tài khoản](MANUAL_DEMO_ACCOUNTS.md).
+[Mở app](https://ehis-next-20261021-hc03-app.web.app) · [Trang cài](https://ehis-next-20261021-hc03.web.app/install) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin) · [Tài khoản](demo/MANUAL_DEMO_ACCOUNTS.md).
 
 ## 2. Bằng chứng theo đúng lớp
 
-- Bản 0.4.7: [VERIFICATION_V0_4_7](VERIFICATION_V0_4_7.md). Logic/Emulator/browser/cloud/artifact được ghi riêng; không thay thế thử điện thoại.
-- Bản sửa local 0.4.8: [VERIFICATION_V0_4_8](VERIFICATION_V0_4_8.md). 35 unit/logic + type/lint và tám bộ integration đã đạt; Patient đã thử một phần. Computer-use tự dừng ở bước mở tab mới; chưa nghiệm thu cả UI hoặc phát hành 0.4.8.
-- Phiếu người thử: [ACCEPTANCE_FLOW](ACCEPTANCE_FLOW.md), A01–A13. Chưa có kết quả nhóm gửi về thì vẫn Chưa thử.
+- Bản 0.4.7: [VERIFICATION_V0_4_7](testing/verification/VERIFICATION_V0_4_7.md). Logic/Emulator/browser/cloud/artifact được ghi riêng; không thay thế thử điện thoại.
+- Bản sửa local 0.4.8: [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md). 35 unit/logic + type/lint và tám bộ integration đã đạt; Patient đã thử một phần. Computer-use tự dừng ở bước mở tab mới; chưa nghiệm thu cả UI hoặc phát hành 0.4.8.
+- Phiếu người thử: [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md), A01–A13. Chưa có kết quả nhóm gửi về thì vẫn Chưa thử.
 
 ## 3. Phạm vi đang áp dụng
 
 Android miễn phí + web, dữ liệu giả, trình thầy và diễn tập có kiểm soát. Chưa đủ điều kiện tiếp nhận cấp cứu thật. Không tự bật Blaze/nâng gói, OTA, cửa hàng hoặc iOS native. Quyền TNV/admin do backend quyết định; chọn đối tượng chỉ mở đúng giao diện.
 
-Các việc còn mở: thiết bị/GPS/âm/rung và nhận nền, hiệu năng tải lớn, advisory dependency, giám sát/quota và điều kiện chuyên môn/vận hành. [Kế hoạch sản phẩm](PRODUCT_LAUNCH_PLAN.md) · [Kế hoạch trình thầy/cuối kỳ](MIDTERM_DEMO.md).
+Các việc còn mở: thiết bị/GPS/âm/rung và nhận nền, hiệu năng tải lớn, advisory dependency, giám sát/quota và điều kiện chuyên môn/vận hành. [Kế hoạch sản phẩm](planning/PRODUCT_LAUNCH_PLAN.md) · [Kế hoạch trình thầy/cuối kỳ](planning/MIDTERM_DEMO.md).
 
 ## 4. Khi cập nhật lần sau
 
+**Đợt source 26/10:** cây thư mục mới frontend/app, frontend/web, backend và docs theo công việc, dựa bản 0.4.7. Kiểm tra local, tám integration, Android JS export và hai frontend cloud build đã đạt; không deploy/phát APK/OTA. Còn CI và review PR trước khi tích hợp; [hướng dẫn chuyển máy thành viên](development/REPOSITORY_MIGRATION.md). Source UI 0.4.8 còn ở checkout trước, chưa ghép vào đợt này.
+
 Ghi bằng chứng ở lab note trước, cập nhật bảng phần 1 theo kết quả thực; chưa thử thì không đổi thành Đạt. Hướng dẫn thao tác ở trang cài/demo/phát hành; không chép lịch sử dài vào trang trạng thái này.
 
-[Lịch sử trạng thái trước lần tổ chức](STATUS_HISTORY.md).
+[Lịch sử trạng thái trước lần tổ chức](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/STATUS_HISTORY.md).

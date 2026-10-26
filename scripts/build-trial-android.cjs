@@ -1,7 +1,7 @@
 // Builds an APK for controlled device testing. Does not publish OTA or store releases.
 const fs=require('node:fs'),path=require('node:path'),{spawnSync}=require('node:child_process');
 const {easInvocation}=require('./eas-cli.cjs');
-const root=path.resolve(__dirname,'..'),mobile=path.join(root,'mobile'),recordFile=path.join(root,'.local/android-trial-build.json');
+const root=path.resolve(__dirname,'..'),mobile=path.join(root,'frontend/app'),recordFile=path.join(root,'.local/android-trial-build.json');
 function run(command,args,cwd=root){const r=spawnSync(command,args,{cwd,encoding:'utf8',windowsHide:true,maxBuffer:20*1024*1024,env:{...process.env,EXPO_NO_DOTENV:'1'},stdio:['ignore','pipe','inherit']});if(r.status!==0)throw Error('Command did not complete: '+args[0]);return r.stdout;}
 function eas(args){return JSON.parse(run(process.execPath,easInvocation(args),mobile).replace(/^\uFEFF/,''));}
 try {

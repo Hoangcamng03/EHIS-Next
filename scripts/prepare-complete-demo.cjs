@@ -4,7 +4,7 @@ const { mkdirSync, writeFileSync } = require('node:fs');
 const path = require('node:path');
 process.env.FIRESTORE_EMULATOR_HOST = '127.0.0.1:8180';
 process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9199';
-const requireFunctions = createRequire(path.resolve(__dirname, '../functions/package.json'));
+const requireFunctions = createRequire(path.resolve(__dirname, '../backend/package.json'));
 const { initializeApp } = requireFunctions('firebase-admin/app');
 const { getAuth } = requireFunctions('firebase-admin/auth');
 initializeApp({ projectId: 'demo-ehis-next' });

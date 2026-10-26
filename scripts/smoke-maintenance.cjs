@@ -4,12 +4,12 @@ const { createRequire } = require('node:module');
 const path = require('node:path');
 process.env.FIRESTORE_EMULATOR_HOST='127.0.0.1:8180';
 process.env.FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9199';
-const requireFunctions = createRequire(path.resolve(__dirname,'../functions/package.json'));
+const requireFunctions = createRequire(path.resolve(__dirname,'../backend/package.json'));
 const { initializeApp } = requireFunctions('firebase-admin/app');
 const { getFirestore, Timestamp } = requireFunctions('firebase-admin/firestore');
 initializeApp({projectId:'demo-ehis-next'});
-const { runMaintenance } = require('../functions/lib/maintenance');
-const { enforceRequestBudget } = require('../functions/lib/guards');
+const { runMaintenance } = require('../backend/lib/maintenance');
+const { enforceRequestBudget } = require('../backend/lib/guards');
 async function main() {
  const db=getFirestore(), id=`maintenance-${randomUUID()}`, now=Date.now(), ref=db.doc(`incidents/${id}`);
  const uid=id+'-patient', reporter=id+'-reporter', volunteer=id+'-volunteer';

@@ -2,13 +2,13 @@
 
 ## Hiểu repository trước khi nhận việc
 
-Đọc [bản đồ repo](docs/REPO_MAP.md) và README của module: [Mobile](mobile/README.md), [Web](web/README.md), [Backend](functions/README.md), [Scripts](scripts/README.md). Mỗi nhánh chứa toàn bộ hệ thống; chia trách nhiệm theo thư mục/file, không hiểu tên branch là một ứng dụng riêng.
+Đọc [bản đồ repo](docs/architecture/REPO_MAP.md) và README của module: [Mobile](frontend/app/README.md), [Web](frontend/web/README.md), [Backend](backend/README.md), [Scripts](scripts/README.md). Mỗi nhánh chứa toàn bộ hệ thống; chia trách nhiệm theo thư mục/file, không hiểu tên branch là một ứng dụng riêng.
 
-Hiện bản v0.4 nằm trong `feat/bystander-two-step-report`, [PR #1](https://github.com/Hoangcamng03/EHIS-Next/pull/1), còn `main` là bản nền. Thành viên cần xem/chạy bản mới dùng nhánh PR. Sau review và merge, lấy `main` làm nguồn chuẩn cho task tiếp theo; không bắt đầu một chức năng phụ thuộc v0.4 từ bản nền thiếu API.
+Bản sắp xếp ngày 26/10 phát triển từ nhánh `feat/bystander-two-step-report` trên nhánh `chore/repository-structure`. Khi PR sắp xếp còn review, dùng đúng nhánh được chủ dự án bàn giao; sau review và merge, lấy `main` làm nguồn chuẩn. Với máy còn sửa source cũ, đọc [hướng dẫn chuyển cấu trúc](docs/development/REPOSITORY_MIGRATION.md) trước khi kéo thay đổi.
 
 ## Một task đến một PR
 
-Khi sửa lỗi, theo [BUG_FIX_WORKFLOW.md](docs/BUG_FIX_WORKFLOW.md): tái hiện → nguyên nhân → sửa → kiểm tra → review → phát hành → nghiệm thu. Mẫu báo lỗi ở [.github/ISSUE_TEMPLATE/bug_report.md](.github/ISSUE_TEMPLATE/bug_report.md). Mọi phiên có thay đổi (kể cả tài liệu/cấu hình/thử chưa đạt) phải cập nhật [LAB_NOTES.md](docs/LAB_NOTES.md); gom các chỉnh sửa nhỏ theo cùng mục tiêu. Không ghi secret hoặc dữ liệu bệnh nhân thật.
+Khi sửa lỗi, theo [BUG_FIX_WORKFLOW.md](docs/testing/BUG_FIX_WORKFLOW.md): tái hiện → nguyên nhân → sửa → kiểm tra → review → phát hành → nghiệm thu. Mẫu báo lỗi ở [.github/ISSUE_TEMPLATE/bug_report.md](.github/ISSUE_TEMPLATE/bug_report.md). Mọi phiên có thay đổi (kể cả tài liệu/cấu hình/thử chưa đạt) phải cập nhật [LAB_NOTES.md](docs/LAB_NOTES.md); gom các chỉnh sửa nhỏ theo cùng mục tiêu. Không ghi secret hoặc dữ liệu bệnh nhân thật.
 
 1. Chốt việc nhỏ trong Issue: mục tiêu, file/module, đầu vào/đầu ra, cách kiểm tra.
 2. Cập nhật `main` sau khi đã commit công việc đang làm; tạo branch `feat/...` hoặc `fix/...`.
@@ -26,7 +26,7 @@ Public repo không có nghĩa ai cũng có quyền ghi. Mời collaborator bằn
 
 | Thay đổi | Phải phối hợp / cập nhật |
 |---|---|
-| Field, API, quyền hoặc trạng thái ca | TV1 + người sửa app/web; cập nhật `docs/API_CONTRACT.md`; kiểm thử quyền và vòng đời |
+| Field, API, quyền hoặc trạng thái ca | TV1 + người sửa app/web; cập nhật `docs/architecture/API_CONTRACT.md`; kiểm thử quyền và vòng đời |
 | QR hoặc đường dẫn web | TV3 + TV4 + TV1 nếu đổi card semantics; thử QR mở đúng website |
 | Nút/chữ/bố cục | Chủ module; thử loading/error, màn hẹp và font lớn phù hợp |
 | Rule/index hoặc deployment config | TV1 + chủ module; xác nhận đúng local/cloud, không tự bật billing |
@@ -36,6 +36,6 @@ Trong issue/PR ghi: mục tiêu, module/file, API liên quan, cách thử, kết
 
 ## Source, CI và deployment là các bước riêng
 
-Push branch → CI kiểm tra → review → merge `main`. Phát hành web/backend hoặc build APK là bước sau theo hướng dẫn vận hành; workflow CI hiện không tự deploy. Sửa code trên GitHub không tự đổi APK đã cài.
+Push branch → CI kiểm tra → review → merge `main`. Phát hành frontend/web/backend hoặc build APK là bước sau theo hướng dẫn vận hành; workflow CI hiện không tự deploy. Sửa code trên GitHub không tự đổi APK đã cài.
 
 Tên nhánh mới nên mô tả một mục tiêu như `feat/patient-profile`, `fix/volunteer-location`, `docs/onboarding`. Không đổi/xóa nhánh PR đang dùng chỉ để làm đẹp tên trong lúc review; sau merge có thể xóa nhánh công việc bằng quy trình GitHub thông thường.

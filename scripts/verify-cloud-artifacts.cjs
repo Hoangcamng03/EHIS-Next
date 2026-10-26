@@ -16,8 +16,8 @@ async function check(url, file) {
 }
 async function main() {
   const targets=[
-    ['https://ehis-next-20261021-hc03.web.app','web/.next-cloud'],
-    ['https://ehis-next-20261021-hc03-app.web.app','mobile/.local/cloud-app'],
+    ['https://ehis-next-20261021-hc03.web.app','frontend/web/.next-cloud'],
+    ['https://ehis-next-20261021-hc03-app.web.app','frontend/app/.local/cloud-app'],
   ];
   let checked=0;
   for(const [base,folder] of targets){
@@ -29,7 +29,7 @@ async function main() {
       await check(base+route,file);checked++;
     }
   }
-  await check('https://ehis-next-20261021-hc03-app.firebaseapp.com/volunteer','mobile/.local/cloud-app/index.html');checked++;
+  await check('https://ehis-next-20261021-hc03-app.firebaseapp.com/volunteer','frontend/app/.local/cloud-app/index.html');checked++;
   fs.mkdirSync('.local',{recursive:true});
   fs.writeFileSync('.local/cloud-artifact-proof.json',JSON.stringify({checkedAt:new Date().toISOString(),checked,sha256Match:true,targets:targets.map(([url])=>url)},null,2));
   console.log(`PASS ${checked} deployed HTML/JS/CSS checks: bytes match local build artifacts.`);

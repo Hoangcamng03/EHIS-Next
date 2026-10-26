@@ -12,11 +12,11 @@ check('Node', () => {
   return process.version;
 });
 check('Java', () => `Java ${checkJava(localEnvironment())}`);
-for (const moduleName of ['functions', 'web', 'mobile']) check(`Thư viện ${moduleName}`, () => {
-  const packageName = moduleName === 'functions' ? 'firebase-admin' : moduleName === 'web' ? 'next' : 'expo';
+for (const moduleName of ['backend', 'frontend/web', 'frontend/app']) check(`Thư viện ${moduleName}`, () => {
+  const packageName = moduleName === 'backend' ? 'firebase-admin' : moduleName === 'frontend/web' ? 'next' : 'expo';
   if (!existsSync(path.join(root, moduleName, 'node_modules', packageName, 'package.json'))) throw new Error(`Chạy npm --prefix ${moduleName} ci`);
 });
-for (const [moduleName, prefix] of [['web', 'NEXT_PUBLIC'], ['mobile', 'EXPO_PUBLIC']]) check(`Môi trường ${moduleName}`, () => {
+for (const [moduleName, prefix] of [['frontend/web', 'NEXT_PUBLIC'], ['frontend/app', 'EXPO_PUBLIC']]) check(`Môi trường ${moduleName}`, () => {
   const file = path.join(root, moduleName, '.env.local');
   if (!existsSync(file)) throw new Error('Chạy npm run setup:local');
   const config = Object.fromEntries(readFileSync(file, 'utf8').replace(/^\uFEFF/, '').split(/\r?\n/).filter(line => line && !line.startsWith('#')).map(line => { const at = line.indexOf('='); return [line.slice(0, at), line.slice(at + 1).trim()]; }));

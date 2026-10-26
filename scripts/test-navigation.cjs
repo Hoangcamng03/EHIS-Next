@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const { test } = require('node:test');
 const { pathToFileURL } = require('node:url');
 const path = require('node:path');
-const modulePromise = import(pathToFileURL(path.resolve(__dirname, '../mobile/src/lib/directions.ts')).href);
+const modulePromise = import(pathToFileURL(path.resolve(__dirname, '../frontend/app/src/lib/directions.ts')).href);
 const origin = { latitude: 10.7769, longitude: 106.7009 };
 const destination = { latitude: 10.779, longitude: 106.699 };
 const response = () => ({ code: 'Ok', routes: [{ distance: 1020, duration: 180, geometry: { coordinates: [[106.7009, 10.7769], [106.699, 10.779]] }, legs: [{ steps: [{ distance: 1020, name: 'Đường thử nghiệm', maneuver: { type: 'depart' } }, { distance: 0, name: '', maneuver: { type: 'arrive' } }] }] }] });

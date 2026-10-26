@@ -15,16 +15,16 @@ jobs:
           node-version: '22'
           cache: npm
           cache-dependency-path: |
-            mobile/package-lock.json
-            web/package-lock.json
-            functions/package-lock.json
-      - run: npm --prefix mobile ci
-      - run: npm --prefix web ci
-      - run: npm --prefix functions ci
+            frontend/app/package-lock.json
+            frontend/web/package-lock.json
+            backend/package-lock.json
+      - run: npm --prefix frontend/app ci
+      - run: npm --prefix frontend/web ci
+      - run: npm --prefix backend ci
       - run: npm run check
       - run: npx expo export --platform android
-        working-directory: mobile
-      - run: npm --prefix web run build
+        working-directory: frontend/app
+      - run: npm --prefix frontend/web run build
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

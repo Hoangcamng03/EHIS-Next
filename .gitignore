@@ -4,7 +4,7 @@
 **/dist/
 **/out/
 **/.next-cloud/
-functions/lib/
+backend/lib/
 **/.env
 **/.env.local
 **/.env.*.local
@@ -25,4 +25,4 @@ functions/lib/
 **/android/
 **/ios/
 .DS_Store
-mobile/.claude/
+frontend/app/.claude/

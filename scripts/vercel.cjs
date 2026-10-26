@@ -1,5 +1,5 @@
 const fs=require('node:fs');const path=require('node:path');const {spawnSync}=require('node:child_process');const {randomBytes}=require('node:crypto');
-const root=path.resolve(__dirname,'..'), cwd=path.join(root,'functions');
+const root=path.resolve(__dirname,'..'), cwd=path.join(root,'backend');
 const runtime=JSON.parse(fs.readFileSync(path.join(root,'.local/runtime.json'),'utf8').replace(/^\uFEFF/,''));
 function run(args,input) {
  if(!runtime.vercelCli || !fs.existsSync(runtime.vercelCli)) throw new Error('Cấu hình vercelCli trong .local/runtime.json và đăng nhập CLI trước.');
