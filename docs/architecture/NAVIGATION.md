@@ -1,5 +1,7 @@
 **Nghiệm thu hiện tại:** [0.4.7: nhiều ca/vùng, ca active không mất sau 30 thông báo](../testing/verification/VERIFICATION_V0_4_7.md) · [GPS/mạng trên hai Android](../testing/ACCEPTANCE_FLOW.md).
 
+Nhãn giao diện 0.4.10: **Thử chuông**, **Nhận ca**, **Đóng · Xem danh sách ca**, **Đã đến nơi**. Các nhãn dài ở phần lịch sử dưới đây mô tả bản cũ; quyền/logic nhận ca vẫn do backend xác nhận. GPS foreground hiện hành xem [LIVE_GPS](LIVE_GPS_0_4_6.md), phiên bản xem [STATUS](../STATUS.md).
+
 Từ 0.4.6: xem [GPS foreground và đổi điểm đã xác nhận](LIVE_GPS_0_4_6.md). Mô tả GPS bấm một lần bên dưới là lịch sử trước 0.4.6.
 
 # Bản đồ và chỉ đường

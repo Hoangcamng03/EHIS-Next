@@ -2,7 +2,7 @@
 
 ## 1. Chọn đúng bản
 
-[STATUS](../STATUS.md) là nơi tra cứu phiên bản. Mốc bàn giao 27/10: APK 0.4.9/code 7 đã FINISHED và xác minh artifact, cùng source runtime c40e2f1 với web/backend. Chưa nghiệm thu máy thật. [Trang cài cố định](https://ehis-next-20261021-hc03.web.app/install). Không tải APK lịch sử chỉ vì thấy link trong báo cáo cũ.
+[STATUS](../STATUS.md) là nơi tra cứu phiên bản. Mốc hiện tại: bản tải vẫn là APK 0.4.9/code 7 đã xác minh. Web đã lên UI 0.4.10; APK 0.4.10/code 8 đang chờ Expo, chưa có tệp được xác minh để thay link. Backend giữ 0.4.9. Chưa nghiệm thu máy thật. [Trang cài cố định](https://ehis-next-20261021-hc03.web.app/install). Không tải APK lịch sử chỉ vì thấy link trong báo cáo cũ.
 
 ## 2. Cài trên thiết bị
 
@@ -26,7 +26,16 @@ Người đóng gói xem [MOBILE_RELEASES](MOBILE_RELEASES.md); lịch sử APK 
 
 ## Thử lại lỗi 0.4.9 trên Samsung/Android
 
-1. Cài đè APK từ trang cài, không cần gỡ bản cũ. Vào Tài khoản và cài đặt, kiểm tra EHIS 0.4.9. Dừng ca đang thử trước khi cập nhật.
+1. Cài đè APK từ trang cài, không cần gỡ bản cũ. Vào Tài khoản và cài đặt, kiểm tra phiên bản khớp bản tải được bàn giao trong STATUS. Dừng ca đang thử trước khi cập nhật.
 2. Trong Cài đặt Android → Ứng dụng → EHIS Next → Quyền → Vị trí, cho phép khi sử dụng và bật Vị trí chính xác nếu máy có tùy chọn. Bật dịch vụ vị trí, đứng nơi thoáng; ghi thời gian lấy fix đầu, sai số/độ mới. Cache EHIS chỉ nhận <=15 giây và <=100m; điểm yếu/cũ phải bị từ chối.
 3. Mở thanh âm lượng mở rộng của Samsung và đặt Media >0; lần lượt thử Bình thường, Rung, Im lặng bằng nút thử chuông và một ca mới. Dừng chuông hiện tại rồi gửi ca khác để xác nhận không bị mute lâu dài. Ghi thêm Bluetooth/tai nghe, Media=0 và DND như các điều kiện riêng; không coi có popup là nghe được âm.
 4. V1/V2 OFF, P1/P2 dùng hai thẻ khác nhau báo; bật V1/V2 khi còn hạn trong 5km. Xác nhận thấy/chuyển được cả hai ca, một TNV chỉ nhận một ca; TNV kia nhận ca còn lại. Dùng Wi-Fi/4G, giữ app mở; ghi version/máy/giờ/ảnh và kết quả vào A01–A13.
+
+## Thử giao diện 0.4.10 sau khi có APK mới
+
+1. Tra STATUS/trang cài trước; chỉ thử khi APK được ghi 0.4.10/code 8. Dừng ca diễn tập trước khi cài đè.
+2. Đăng nhập, chạm sát mép trong nút; mở bàn phím rồi bấm nút một lần. Kéo trang rồi chạm, kiểm tra không nhận nhầm thao tác kéo thành nhận ca.
+3. Bấm cả chữ ở hàng Sẵn sàng/Rung/Chia sẻ, không cần nhắm đúng biểu tượng nhỏ. Khi đang xử lý, nút phải khóa và hiện trạng thái chờ.
+4. Kiểm tra chữ mặc định, sau đó tăng cỡ chữ hệ thống: nội dung phải xuống dòng, cuộn được và nút vẫn thao tác được. Không tắt phóng chữ để che lỗi.
+5. Hai Patient báo trước TNV ON, chuyển ca thứ hai, Nhận ca → map/zoom → Đã đến nơi → Hoàn tất ca hỗ trợ → Quay lại → xác nhận. Đóng · Xem danh sách ca chỉ đóng popup, không hủy ca.
+6. Ghi model/Android, cỡ chữ, bước bị bỏ chạm và video/ảnh vào phiếu A01–A13. Browser đã đạt không thay kết quả này.

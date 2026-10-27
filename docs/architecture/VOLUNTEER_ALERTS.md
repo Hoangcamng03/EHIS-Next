@@ -1,5 +1,7 @@
 # Cảnh báo yêu cầu hỗ trợ cho Volunteer
 
+Nhãn giao diện 0.4.10: **Thử chuông**, **Nhận ca**, **Đóng · Xem danh sách ca**, **Đã đến nơi**. Các nhãn dài ở phần lịch sử dưới đây mô tả bản cũ; quyền/logic nhận ca vẫn do backend xác nhận. GPS foreground hiện hành xem [LIVE_GPS](LIVE_GPS_0_4_6.md), phiên bản xem [STATUS](../STATUS.md).
+
 Cập nhật theo source 0.4.9; phiên bản đã phát hành tra [STATUS](../STATUS.md). Kiểm chứng mới ở [VERIFICATION_V0_4_9](../testing/verification/VERIFICATION_V0_4_9.md); chưa xác nhận phần cứng Samsung/Android từ kiểm tra browser.
 
 ## Luồng để nhóm hiểu và chạy thử

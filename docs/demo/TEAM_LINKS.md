@@ -77,6 +77,7 @@ Cuối buổi: D tổng hợp bài đạt/chưa đạt, người phụ trách v�
 | [LAB_NOTES](../LAB_NOTES.md) | Lý do, phạm vi, kiểm chứng, việc chưa xong của từng phiên |
 | [GitHub Actions](https://github.com/Hoangcamng03/EHIS-Next/actions) | CI theo commit; tick xanh không chứng minh máy đã cài bản mới |
 | [Lịch sử main](https://github.com/Hoangcamng03/EHIS-Next/commits/main/) | Ai thay đổi gì và khi nào |
+| [Kiểm chứng UI 0.4.10](../testing/verification/VERIFICATION_V0_4_10.md) | Chữ/nút/công tắc gọn hơn, flow hai ca và map màn nhỏ; thử máy thật theo phiếu Android |
 | [Kiểm chứng 0.4.9](../testing/verification/VERIFICATION_V0_4_9.md) | Bản sửa GPS/chuông/nhiều ca/ON muộn, cloud/APK; còn nghiệm thu Samsung/Android |
 | [So sánh hiệu suất 26/10](../testing/PERFORMANCE_COMPARISON.md) | Số đo local trước/sau tối ưu; không dùng làm cam kết tốc độ cloud |
 | [Kế hoạch midterm/cuối kỳ](../planning/MIDTERM_DEMO.md) | Kịch bản trình thầy và phần phát triển tiếp |

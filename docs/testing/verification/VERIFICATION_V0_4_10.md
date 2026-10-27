@@ -39,3 +39,11 @@ Không chạy lại bài local 1.000 Auth chỉ để đo chữ; backend không 
 [Đăng nhập](../../assets/trial-0410/login.png) · [Chọn vai trò](../../assets/trial-0410/roles.png) · [TNV](../../assets/trial-0410/volunteer-idle.png) · [Hai ca khẩn](../../assets/trial-0410/emergency.png) · [Map 360px](../../assets/trial-0410/map.png) · [Patient QR](../../assets/trial-0410/patient-qr.png). Ảnh dùng dữ liệu giả/Emulator; RN ScrollView chỉ chụp vùng đang thấy.
 
 Máy Android/Samsung thật **Chưa thử**. Cần cài đè APK mới, kiểm tra bấm sát mép, cuộn rồi bấm, bàn phím mở, chữ hệ thống lớn, công tắc, popup hai ca, zoom và xác nhận hoàn tất. Kiểm tra loa/rung/GPS theo [phiếu nghiệm thu](../ACCEPTANCE_FLOW.md). Không coi browser hoặc artifact đạt là đã sửa được mọi vấn đề cảm ứng/vận hành thật.
+
+## 5. Phát hành và CI
+
+- Runtime **913fcd0**, [CI 40542127985](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40542127985) **SUCCESS**. Đạt check, Android export, Next build, 10 integration và scale: 1.000 Auth giả, 32 ca đồng thời/tám vùng, 320 API. Không phải 1.000 người dùng online hoặc đo cloud production.
+- Frontend Hosting đã deploy; **33** đối chiếu HTML/JS/CSS khớp bản build. Backend không deploy lại, vẫn 0.4.9.
+- EAS preview **07845960-25e3-4c5b-ba9d-055628e86427** / app 0.4.10/code 8 đã gửi; đang chờ kết quả. Chỉ đổi trang tải sau FINISHED và kiểm chứng artifact; chưa có kết quả máy thật.
+- Dashboard tại thời điểm kiểm tra: **Queued / Free Tier**, đã chờ ~7 phút, ước tính còn ~41 phút trước khi bắt đầu. Đây là ước tính hàng chờ, không phải cam kết giờ có APK. Không nâng gói hoặc tạo build trùng để vượt hàng chờ. Bản tải giữ 0.4.9/code 7.
+- Bước tiếp theo của người phát hành: đọc `node scripts/build-trial-android.cjs status`; khi FINISHED, chạy `node scripts/verify-trial-apk.cjs`. Chỉ sau khi đúng commit/version/code/package/cloud và có hash mới được đổi `frontend/web/src/config/releases.json`, build/deploy Hosting, đối chiếu artifact và cập nhật STATUS/lab note. Chưa thực hiện các bước sau FINISHED trong phiên này; không có cập nhật ngầm lên điện thoại.

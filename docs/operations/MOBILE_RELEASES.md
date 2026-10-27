@@ -2,7 +2,7 @@
 
 ## 1. Xác định phiên bản và phạm vi
 
-Xem [STATUS](../STATUS.md) và [LAB_NOTES](../LAB_NOTES.md). Mốc 27/10: frontend/web/backend/APK bàn giao 0.4.9, Android code 7; source runtime c40e2f1. Nghiệm thu điện thoại còn chờ nhóm. GitHub có tài liệu 0.4.8 không có nghĩa source/binary hoặc máy người dùng đã cập nhật.
+Xem [STATUS](../STATUS.md) và [LAB_NOTES](../LAB_NOTES.md). Đợt UI 27/10: frontend app 0.4.10/code 8 từ source 913fcd0; backend giữ 0.4.9. Tra STATUS để biết web đã deploy, APK đã xác minh hay còn đang build. Nghiệm thu điện thoại vẫn chờ nhóm; không suy ra máy đã cập nhật từ source hoặc link tải.
 
 Được phép chuẩn bị/build APK preview sau kiểm chứng code/web cho diễn tập Android miễn phí. Chưa tự OTA, submit cửa hàng, iOS native, bật billing hoặc mở tiếp nhận ca thật. Không dùng release:preview như bước mặc định: helper đó có thể publish OTA, vượt phạm vi đợt này.
 
