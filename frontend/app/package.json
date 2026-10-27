@@ -1,6 +1,6 @@
 {
   "name": "ehis-next-mobile",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "main": "expo-router/entry",
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
@@ -44,5 +44,10 @@
     "build:preview": "npx eas-cli@latest build --platform android --profile preview",
     "eas-build-pre-install": "node ../../scripts/check-build-environment.cjs"
   },
-  "private": true
+  "private": true,
+  "overrides": {
+    "@firebase/firestore": {
+      "@grpc/grpc-js": "1.13.6"
+    }
+  }
 }

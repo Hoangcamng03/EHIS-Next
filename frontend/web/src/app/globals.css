@@ -64,3 +64,7 @@ input { min-width: 0; }
 .role-reporter .emergency-action { background: #b4232b; }
 .role-reporter .awaiting-help { background: #fff0f0; color: #7c1720; border: 2px solid #b4232b; }
 .role-reporter .primary:disabled, .role-admin .primary:disabled { background: #dce5e1; color: #465c55; }
+.optional-phone { margin-top: 28px; }
+.danger-action { color: #a12626; border-color: #a12626; }
+.review-confirm { border: 2px solid var(--role-border); padding: 18px; border-radius: 12px; margin-top: 18px; }
+button, input, a { overflow-wrap: anywhere; }

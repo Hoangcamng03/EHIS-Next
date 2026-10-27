@@ -1,0 +1,420 @@
+{
+  "date": "2026-10-27",
+  "sourceVersion": "0.4.8",
+  "androidVersionCode": 6,
+  "scope": "Controlled synthetic trial; local evidence does not imply cloud or device acceptance",
+  "sourceHashes": {
+    "backend/src/guards.ts": "0c29af61eb51fc23c55bfc571894f6a4b84a6cf0a1b30c1a2e2da34dd2f49e28",
+    "backend/src/reports.ts": "95b20424004a0b7967a887236d2b3f33e07ec0a8717b27613b0e84c3e3ccabee",
+    "frontend/app/src/app/patient.tsx": "4ca11b27e4bcec4c1286a80a7eba227d8af079d26dacc5429bb1b3ba10df990a",
+    "frontend/app/src/app/volunteer.tsx": "952440d0ac1c2f16f5277724905ee8c1b050002a190c0d6e6ca72a5869283e5a",
+    "frontend/web/src/components/BystanderReport.tsx": "3068c264873aba6c5e85cc904f5a32e74bc3ef4f74660a824a0ac84862cb95e3",
+    "frontend/app/package-lock.json": "b6c6e5c0f63ecfbee26017fd143ebafce62d7bb5a69c8c054643dbf78b1099c4",
+    "frontend/web/package-lock.json": "609a8c415095e590dbe734d5cb4aadd85badeaa0676e6615b9b4e6354c76f465",
+    "scripts/smoke-scale.cjs": "b1a5768a601fdb2c138051e7486a3b318f55b3d58a57c71da074f0a76738edb1"
+  },
+  "unitLogic": 40,
+  "integrationSuites": 9,
+  "multiCaseGroups": 14,
+  "multiCaseAuthAccounts": 215,
+  "functionsFrontDoorBefore": {
+    "interpretation": "Correctness passed; latency RECHECK against the existing 15-second app timeout",
+    "report": {
+      "scope": "LOCAL EMULATOR ONLY; not cloud, phone or SLA",
+      "projectId": "demo-ehis-next",
+      "startedAt": "2026-10-27T04:50:33.993Z",
+      "endedAt": "2026-10-27T04:52:52.137Z",
+      "authenticatedAccounts": 1000,
+      "concurrentIncidents": 32,
+      "regions": 8,
+      "readyVolunteers": 64,
+      "backgroundOfflinePending": 872,
+      "apiCalls": 320,
+      "expectedDenials": 40,
+      "automaticRetries": 0,
+      "stages": [
+        {
+          "name": "1000 Auth accounts; 8 zones; 32 patients/reporters and 64 ready volunteers",
+          "status": "PASS",
+          "ms": 13153
+        },
+        {
+          "name": "32 simultaneous requests; exact nearest five; no cross-zone invitation",
+          "status": "PASS",
+          "ms": 17397
+        },
+        {
+          "name": "8 lost-ack retries return the same incident",
+          "status": "PASS",
+          "ms": 106
+        },
+        {
+          "name": "32 observations with optional phone omitted or supplied",
+          "status": "PASS",
+          "ms": 17681
+        },
+        {
+          "name": "32 assignments; correct private profile; cross-zone access denied",
+          "status": "PASS",
+          "ms": 38913
+        },
+        {
+          "name": "16 confirmed destination changes preserve incident ownership",
+          "status": "PASS",
+          "ms": 10451
+        },
+        {
+          "name": "32 arrivals and completions; all pointers released; private reads denied",
+          "status": "PASS",
+          "ms": 40440
+        }
+      ],
+      "latency": {
+        "savePatientProfile": {
+          "samples": 32,
+          "p50Ms": 35,
+          "p95Ms": 49,
+          "maxMs": 2166
+        },
+        "issuePatientCard": {
+          "samples": 32,
+          "p50Ms": 88,
+          "p95Ms": 93,
+          "maxMs": 2160
+        },
+        "createIncident": {
+          "samples": 40,
+          "p50Ms": 16701,
+          "p95Ms": 17301,
+          "maxMs": 17385
+        },
+        "submitBystanderReport": {
+          "samples": 32,
+          "p50Ms": 17277,
+          "p95Ms": 17632,
+          "maxMs": 17677
+        },
+        "acceptIncident": {
+          "samples": 32,
+          "p50Ms": 18095,
+          "p95Ms": 18766,
+          "maxMs": 18795
+        },
+        "getVolunteerIncidentDetails": {
+          "samples": 32,
+          "p50Ms": 18802,
+          "p95Ms": 19497,
+          "maxMs": 19525
+        },
+        "updateIncidentLocation": {
+          "samples": 16,
+          "p50Ms": 9984,
+          "p95Ms": 10276,
+          "maxMs": 10276
+        },
+        "markIncidentArrived": {
+          "samples": 32,
+          "p50Ms": 18944,
+          "p95Ms": 19301,
+          "maxMs": 19360
+        },
+        "finishIncident": {
+          "samples": 32,
+          "p50Ms": 19125,
+          "p95Ms": 19709,
+          "maxMs": 19802
+        }
+      },
+      "status": "PASS"
+    }
+  },
+  "portableFirst": {
+    "scope": "LOCAL EMULATOR ONLY; not cloud, phone or SLA",
+    "projectId": "demo-ehis-next",
+    "transport": "portable HTTP wrapper used by Vercel, loopback 5203",
+    "startedAt": "2026-10-27T04:55:10.477Z",
+    "endedAt": "2026-10-27T04:55:25.914Z",
+    "authenticatedAccounts": 1000,
+    "concurrentIncidents": 32,
+    "regions": 8,
+    "readyVolunteers": 64,
+    "backgroundOfflinePending": 872,
+    "apiCalls": 320,
+    "expectedDenials": 40,
+    "automaticRetries": 0,
+    "stages": [
+      {
+        "name": "1000 Auth accounts; 8 zones; 32 patients/reporters and 64 ready volunteers",
+        "status": "PASS",
+        "ms": 10000
+      },
+      {
+        "name": "32 simultaneous requests; exact nearest five; no cross-zone invitation",
+        "status": "PASS",
+        "ms": 675
+      },
+      {
+        "name": "8 lost-ack retries return the same incident",
+        "status": "PASS",
+        "ms": 162
+      },
+      {
+        "name": "32 observations with optional phone omitted or supplied",
+        "status": "PASS",
+        "ms": 551
+      },
+      {
+        "name": "32 assignments; correct private profile; cross-zone access denied",
+        "status": "PASS",
+        "ms": 1589
+      },
+      {
+        "name": "16 confirmed destination changes preserve incident ownership",
+        "status": "PASS",
+        "ms": 528
+      },
+      {
+        "name": "32 arrivals and completions; all pointers released; private reads denied",
+        "status": "PASS",
+        "ms": 1355
+      }
+    ],
+    "latency": {
+      "savePatientProfile": {
+        "samples": 32,
+        "p50Ms": 36,
+        "p95Ms": 52,
+        "maxMs": 887
+      },
+      "issuePatientCard": {
+        "samples": 32,
+        "p50Ms": 85,
+        "p95Ms": 91,
+        "maxMs": 92
+      },
+      "createIncident": {
+        "samples": 40,
+        "p50Ms": 455,
+        "p95Ms": 607,
+        "maxMs": 660
+      },
+      "submitBystanderReport": {
+        "samples": 32,
+        "p50Ms": 272,
+        "p95Ms": 509,
+        "maxMs": 545
+      },
+      "acceptIncident": {
+        "samples": 32,
+        "p50Ms": 294,
+        "p95Ms": 463,
+        "maxMs": 476
+      },
+      "getVolunteerIncidentDetails": {
+        "samples": 32,
+        "p50Ms": 276,
+        "p95Ms": 463,
+        "maxMs": 480
+      },
+      "updateIncidentLocation": {
+        "samples": 16,
+        "p50Ms": 166,
+        "p95Ms": 283,
+        "maxMs": 283
+      },
+      "markIncidentArrived": {
+        "samples": 32,
+        "p50Ms": 255,
+        "p95Ms": 453,
+        "maxMs": 459
+      },
+      "finishIncident": {
+        "samples": 32,
+        "p50Ms": 239,
+        "p95Ms": 409,
+        "maxMs": 427
+      }
+    },
+    "status": "PASS"
+  },
+  "portableFinal": {
+    "scope": "LOCAL EMULATOR ONLY; not cloud, phone or SLA",
+    "projectId": "demo-ehis-next",
+    "transport": "portable HTTP wrapper used by Vercel, loopback 5203",
+    "startedAt": "2026-10-27T05:19:00.378Z",
+    "endedAt": "2026-10-27T05:19:18.683Z",
+    "authenticatedAccounts": 1000,
+    "concurrentIncidents": 32,
+    "regions": 8,
+    "readyVolunteers": 64,
+    "backgroundOfflinePending": 872,
+    "accountsWithSession": 128,
+    "liveVolunteerClients": 32,
+    "apiCalls": 320,
+    "expectedDenials": 40,
+    "automaticRetries": 0,
+    "stages": [
+      {
+        "name": "1000 Auth accounts; 8 zones; 32 patients/reporters and 64 ready volunteers",
+        "status": "PASS",
+        "ms": 9774
+      },
+      {
+        "name": "32 independent authenticated volunteer SDK feeds ready from server",
+        "status": "PASS",
+        "ms": 1858
+      },
+      {
+        "name": "32 simultaneous requests; nearest five; live delivery; no cross-zone invitation",
+        "status": "PASS",
+        "ms": 1172
+      },
+      {
+        "name": "8 lost-ack retries return the same incident",
+        "status": "PASS",
+        "ms": 142
+      },
+      {
+        "name": "32 observations with optional phone omitted or supplied",
+        "status": "PASS",
+        "ms": 882
+      },
+      {
+        "name": "32 assignments; correct private profile; cross-zone access denied",
+        "status": "PASS",
+        "ms": 1722
+      },
+      {
+        "name": "16 confirmed destination changes preserve incident ownership",
+        "status": "PASS",
+        "ms": 482
+      },
+      {
+        "name": "32 arrivals and completions; all pointers released; private reads denied",
+        "status": "PASS",
+        "ms": 1719
+      }
+    ],
+    "latency": {
+      "alertDelivery": {
+        "samples": 32,
+        "p50Ms": 715,
+        "p95Ms": 1120,
+        "maxMs": 1141
+      },
+      "savePatientProfile": {
+        "samples": 32,
+        "p50Ms": 35,
+        "p95Ms": 50,
+        "maxMs": 677
+      },
+      "issuePatientCard": {
+        "samples": 32,
+        "p50Ms": 87,
+        "p95Ms": 91,
+        "maxMs": 92
+      },
+      "createIncident": {
+        "samples": 40,
+        "p50Ms": 597,
+        "p95Ms": 1094,
+        "maxMs": 1141
+      },
+      "submitBystanderReport": {
+        "samples": 32,
+        "p50Ms": 507,
+        "p95Ms": 862,
+        "maxMs": 875
+      },
+      "acceptIncident": {
+        "samples": 32,
+        "p50Ms": 398,
+        "p95Ms": 671,
+        "maxMs": 693
+      },
+      "getVolunteerIncidentDetails": {
+        "samples": 32,
+        "p50Ms": 217,
+        "p95Ms": 368,
+        "maxMs": 402
+      },
+      "updateIncidentLocation": {
+        "samples": 16,
+        "p50Ms": 170,
+        "p95Ms": 268,
+        "maxMs": 268
+      },
+      "markIncidentArrived": {
+        "samples": 32,
+        "p50Ms": 268,
+        "p95Ms": 428,
+        "maxMs": 465
+      },
+      "finishIncident": {
+        "samples": 32,
+        "p50Ms": 429,
+        "p95Ms": 728,
+        "maxMs": 751
+      }
+    },
+    "status": "PASS",
+    "latencyGateMs": 15000,
+    "latencyStatus": "PASS"
+  },
+  "dependencyAudits": {
+    "backend": {
+      "counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 8,
+        "high": 0,
+        "critical": 0,
+        "total": 8
+      },
+      "remainingHigh": []
+    },
+    "frontend-app": {
+      "counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 4,
+        "critical": 0,
+        "total": 4
+      },
+      "remainingHigh": [
+        "@expo/cli",
+        "expo",
+        "node-forge",
+        "zod"
+      ]
+    },
+    "frontend-web": {
+      "counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "remainingHigh": []
+    }
+  },
+  "grpcOverride": "@firebase/firestore > @grpc/grpc-js 1.13.6",
+  "browser": {
+    "patient": "signup, purpose, no-phone profile, dirty-save QR gate, QR, wrong/correct login, role redirect",
+    "volunteer": "pending approval, readiness, alert/update, accept, consented profile, embedded 0.78 km route, arrived, completion, private closed, OFF",
+    "reporter": "ack then form, all three answers, no phone, cancellation confirmation/back, closed form disabled",
+    "admin": "pending application, explicit review confirmation",
+    "measuredWidths": [
+      "Patient 390 px",
+      "Volunteer 390 px",
+      "Reporter 390 px"
+    ],
+    "realGpsUsed": false,
+    "deviceSpeakerOrVibrationVerified": false
+  },
+  "nativeDeviceAcceptance": "PENDING_TEAM_ANDROID_ACCEPTANCE",
+  "releaseStatus": "See docs/STATUS.md; build/deploy/install are separate gates"
+}

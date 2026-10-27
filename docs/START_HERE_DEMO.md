@@ -10,7 +10,7 @@ Cập nhật 26/10/2026. Dành cho cả thành viên chưa rành lập trình. [
 
 Trang này giúp bạn biết hệ thống gồm gì, lấy đúng tài khoản, chuẩn bị thiết bị và phối hợp demo. Đây là diễn tập phần mềm với dữ liệu giả để trình thầy/lớp; chưa tiếp nhận cấp cứu thật.
 
-Tra [STATUS](STATUS.md) trước khi bắt đầu: mốc bàn giao 25/10 là frontend/web/APK 0.4.7; bản sửa 0.4.8 còn local/chưa phát hành. Có tài liệu hoặc ảnh 0.4.8 không có nghĩa app đang cài đã có các nút mới.
+Tra [STATUS](STATUS.md) trước khi bắt đầu: ghi riêng source, web/backend đã deploy, APK đã build và phần nhóm cần thử máy. Có tài liệu hoặc ảnh phiên bản mới không có nghĩa app đang cài đã có các nút mới. Trong 0.4.8, đăng xuất nằm trong Tài khoản và cài đặt; kết thúc ca dùng nút Hoàn tất ca hỗ trợ.
 
 <a id="he-thong"></a>
 

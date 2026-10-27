@@ -1,6 +1,6 @@
 {
   "name": "ehis-next",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "private": true,
   "description": "Independent EHIS capstone starter for a four-person team",
   "scripts": {
@@ -19,13 +19,14 @@
     "test:active": "npm run backend:build && node scripts/firebase-local.cjs test active",
     "test:multi": "npm run backend:build && node scripts/firebase-local.cjs test multi",
     "emulators": "npm run backend:build && node scripts/firebase-local.cjs start",
-    "check": "npm run check:repo && npm --prefix frontend/app run typecheck && npm --prefix frontend/app run lint && npm --prefix frontend/web run lint && npm --prefix frontend/web run typecheck && npm --prefix backend run build && npm --prefix backend test && node --test scripts/test-navigation.cjs scripts/test-emergency-alerts.cjs scripts/test-palette.cjs scripts/test-native-signal.cjs scripts/test-report-status.cjs scripts/test-build-environment.cjs scripts/test-live-location.cjs scripts/test-alert-feed.cjs",
+    "check": "npm run check:repo && npm --prefix frontend/app run typecheck && npm --prefix frontend/app run lint && npm --prefix frontend/web run lint && npm --prefix frontend/web run typecheck && npm --prefix backend run build && npm --prefix backend test && node --test scripts/test-navigation.cjs scripts/test-emergency-alerts.cjs scripts/test-palette.cjs scripts/test-native-signal.cjs scripts/test-report-status.cjs scripts/test-build-environment.cjs scripts/test-live-location.cjs scripts/test-alert-feed.cjs scripts/test-profile-draft.cjs",
     "release:preview": "node scripts/release-preview.cjs",
     "app:web": "npm --prefix frontend/app run web -- --port 8082",
     "app": "npm --prefix frontend/app start",
     "backend:build": "npm --prefix backend run build",
     "check:repo": "node scripts/check-repository.cjs",
     "perf:emulator": "node scripts/benchmark-emulator.cjs",
-    "perf:builds": "node scripts/benchmark-builds.cjs"
+    "perf:builds": "node scripts/benchmark-builds.cjs",
+    "test:scale": "npm run backend:build && node scripts/firebase-local.cjs test scale"
   }
 }

@@ -5,7 +5,10 @@ const req=createRequire(path.resolve(__dirname,'../../backend/package.json'));
 req('firebase-admin/app').initializeApp({projectId:'demo-ehis-next'});
 const {getFirestore,Timestamp}=req('firebase-admin/firestore'),{getAuth}=req('firebase-admin/auth');
 const db=getFirestore(),auth=getAuth(),metrics=[],actors=[];
-const password=`Local-only-${randomUUID()}!`,base='http://127.0.0.1:5101/demo-ehis-next/asia-southeast1';
+// Only the isolated scale harness may select its own loopback portable server.
+const portablePort=process.env.EHIS_TEST_HTTP_PORT;
+if(portablePort)assert.equal(portablePort,'5203');
+const password=`Local-only-${randomUUID()}!`,base=portablePort?'http://127.0.0.1:5203/api':'http://127.0.0.1:5101/demo-ehis-next/asia-southeast1';
 async function actor(label,anonymous=false){
  const email=`qa-${label}-${randomUUID()}@example.test`;
  const r=await fetch('http://127.0.0.1:9199/identitytoolkit.googleapis.com/v1/accounts:signUp?key=demo-key',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(anonymous?{returnSecureToken:true}:{email,password,returnSecureToken:true})});

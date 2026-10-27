@@ -1,8 +1,8 @@
 # EHIS — bản trình thầy và midterm
 
-Cập nhật 25/10/2026. Mục tiêu chủ dự án: thầy xem tiến độ khoảng tuần 26/10–01/11; midterm khoảng giữa tháng 11, chưa chốt ngày/thời lượng. Đây là trình diễn phần mềm có kiểm soát với hồ sơ và tình huống giả, không tiếp nhận cấp cứu thật.
+Cập nhật 27/10/2026. Mục tiêu chủ dự án: thầy xem tiến độ khoảng tuần 26/10–01/11; midterm khoảng giữa tháng 11, chưa chốt ngày/thời lượng. Đây là trình diễn phần mềm có kiểm soát với hồ sơ và tình huống giả, không tiếp nhận cấp cứu thật.
 
-**Tài liệu buổi thử cho người mới:** [bắt đầu](../START_HERE_DEMO.md) → [runbook](../demo/DEMO_RUNBOOK.md) → [xử lý lỗi](../demo/DEMO_TROUBLESHOOTING.md). Dùng 0.4.7 hiện hành; 0.4.8 đang sửa local, chưa deploy/build APK mới. Bản hướng dẫn không phải xác nhận nghiệm thu thiết bị.
+**Tài liệu buổi thử cho người mới:** [trang chung](../demo/TEAM_LINKS.md) → [bắt đầu](../START_HERE_DEMO.md) → [runbook](../demo/DEMO_RUNBOOK.md) → [xử lý lỗi](../demo/DEMO_TROUBLESHOOTING.md). Source mục tiêu 0.4.8/code 6; bản đã phát hành tra [STATUS](../STATUS.md). Bản hướng dẫn không phải xác nhận nghiệm thu thiết bị.
 
 ## 1. Mở đúng nơi
 
@@ -33,8 +33,8 @@ Nếu chỉ được 5 phút: bỏ bước đổi điểm/tranh ca trực tiếp
 | Người | Trước khi thầy xem | Sau phản hồi của thầy |
 | --- | --- | --- |
 | TV1 — tích hợp/backend | Phiên bản, sơ đồ dữ liệu/quyền, bằng chứng API/CI; kiểm tra quay lui | Phân loại phản hồi, điều tra độ trễ/quota, giữ API contract |
-| TV2 — Patient và giao diện | Hồ sơ giả/QR, thứ tự thao tác, thử màn nhỏ/cỡ chữ lớn | Tối ưu form, lưu/chia sẻ/thu hồi dữ liệu theo phản hồi |
-| TV3 — TNV/Android | Hai máy, GPS/loa/rung/đổi mạng; điền A01–A13 | Đánh giá nhận nền, định vị và pin bằng kiểm thử thiết bị |
+| TV2 — TNV/bản đồ | Cảnh báo, ca được phân công, tuyến đường; phối hợp TV3 thử GPS/loa/rung/đổi mạng | Đánh giá định vị, nhận nền và pin bằng kiểm thử thiết bị |
+| TV3 — Patient/Auth/Android | Hồ sơ giả/QR, đăng nhập/đăng ký, build/cài đúng APK; phối hợp điền A01–A13 | Tối ưu form, lưu/chia sẻ/thu hồi và phân biệt source với APK đã cài |
 | TV4 — frontend/web/nghiệm thu/tài liệu | Người báo/admin, chụp màn hình, video dự phòng và lab note | Kịch bản người dùng, báo cáo lỗi, tổng hợp số đo và kết quả |
 
 Mỗi thay đổi có một người khác review; lỗi do TV nào sửa thì người khác thử lại. Tên thực tế do nhóm tự phân công.

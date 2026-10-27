@@ -22,6 +22,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
   const [answers, setAnswers] = useState<Answers>({ responsiveness: '', breathing: '', bleeding: '' });
   const [phone, setPhone] = useState('');
   const [busy, setBusy] = useState(false);
+  const [confirmCancel, setConfirmCancel] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [retry, setRetry] = useState(0);
@@ -60,7 +61,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
   async function cancel() {
     if (!online || !serverConfirmed || busy || terminal) return;
     setBusy(true); setError('');
-    try { await httpsCallable(firebaseClient().functions, 'finishIncident', { timeout: 20000 })({ incidentId, outcome: 'cancelled' }); setSuccess('Đã hủy yêu cầu chưa có người tiếp nhận.'); }
+    try { await httpsCallable(firebaseClient().functions, 'finishIncident', { timeout: 20000 })({ incidentId, outcome: 'cancelled' }); setConfirmCancel(false); setSuccess('Đã hủy yêu cầu chưa có người tiếp nhận.'); }
     catch (err) { setError(readableError(err)); }
     finally { setBusy(false); }
   }
@@ -83,18 +84,20 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
     {status && ['accepted', 'arrived'].includes(status.status) && <UpdatePatientLocation key={incidentId} incidentId={incidentId} enabled={canSend} />}
     {status?.status === 'dispatching' && <p className="hint">Nếu điểm bệnh nhân ban đầu sai hoặc đã di chuyển: hủy yêu cầu chưa được nhận, rồi mở thẻ để gửi tại điểm đúng. Sau khi TNV nhận, bạn có thể xác nhận cập nhật điểm tại đây.</p>}
     <form className="report-panel" onSubmit={submit}>
-      <label className="phone-label" htmlFor="phone">Số điện thoại của bạn <span>Không bắt buộc</span></label>
-      <input id="phone" type="tel" autoComplete="tel" inputMode="tel" maxLength={40} placeholder="Có thể để trống" value={phone} disabled={busy || !canSend} onChange={e => { setPhone(e.target.value); setSuccess(''); }} />
-      <p className="hint">Chỉ TNV được phân công ca mới có thể xem số bạn cung cấp để liên hệ.</p>
       {questions.map(question => <fieldset key={question.key} disabled={busy || !canSend}><legend>{question.title}</legend>
         <div className="choices">{question.choices.map(([value, label]) => <label key={value} className={answers[question.key] === value ? 'choice selected' : 'choice'}><input type="radio" name={question.key} value={value} required checked={answers[question.key] === value} onChange={() => { setAnswers(previous => ({ ...previous, [question.key]: value })); setSuccess(''); }} />{label}</label>)}</div>
       </fieldset>)}
-      <button className="primary" type="submit" disabled={busy || !canSend}>{busy ? 'Đang gửi…' : 'Gửi thông tin bổ sung →'}</button>
-      {status?.status === 'dispatching' && <button className="secondary" type="button" disabled={busy || !serverConfirmed || !online || terminal} onClick={cancel}>Hủy yêu cầu chưa có TNV nhận</button>}
+      <label className="phone-label optional-phone" htmlFor="phone">Số điện thoại để TNV liên hệ <span>Không bắt buộc</span></label>
+      <input id="phone" type="tel" autoComplete="tel" inputMode="tel" maxLength={40} placeholder="Để trống nếu không muốn cung cấp" value={phone} disabled={busy || !canSend} onChange={e => { setPhone(e.target.value); setSuccess(''); }} />
+      <p className="hint">Chỉ TNV được phân công ca mới có thể xem số bạn cung cấp.</p>
+      <button className="primary" type="submit" disabled={busy || !canSend || questions.some(question => !answers[question.key])}>{busy ? 'Đang gửi…' : 'Gửi thông tin bổ sung'}</button>
       <p className="hint">Bỏ trống số điện thoại vẫn gửi được. Ba câu hỏi đều cần chọn một đáp án.</p>
       {success && <p className="success" role="status">{success}</p>}{error && <p className="error" role="alert">{error}</p>}
       {!status && error && <button className="secondary" type="button" onClick={() => { setError(''); setRetry(value => value + 1); }}>Thử kết nối lại</button>}
     </form>
+    {status?.status === 'dispatching' && !terminal && <section className="report-panel"><h2>Đã gửi nhầm yêu cầu?</h2>
+      {confirmCancel ? <><p>Chỉ hủy nếu đã gửi nhầm hoặc không còn cần hỗ trợ. Nếu TNV vừa nhận ca, máy chủ sẽ từ chối hủy.</p><button className="secondary danger-action" type="button" disabled={busy || !canSend} onClick={cancel}>Xác nhận hủy yêu cầu</button><button className="secondary" type="button" disabled={busy} onClick={() => setConfirmCancel(false)}>Giữ yêu cầu đang chờ</button></> : <button className="secondary" type="button" disabled={busy || !canSend} onClick={() => setConfirmCancel(true)}>Hủy yêu cầu chưa có TNV nhận</button>}
+    </section>}
     <p className="hint">Thông tin tự khai từ người chứng kiến, không phải kết luận y khoa. Nếu TNV chưa mở ứng dụng, bản thử nghiệm này chưa bảo đảm thông báo nền.</p>
   </main>;
 }

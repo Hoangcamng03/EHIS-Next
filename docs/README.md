@@ -91,7 +91,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [LAB_NOTES](LAB_NOTES.md) | Mọi phiên thay đổi, cả việc chưa đạt; mục tài khoản ở đầu trang |
 | [PERFORMANCE_2026_10_26.json](testing/verification/PERFORMANCE_2026_10_26.json) | Số tổng hợp trước/sau tối ưu, hash source và giới hạn phép đo local |
 | [VERIFICATION_V0_4_7](testing/verification/VERIFICATION_V0_4_7.md) | Bằng chứng bản 0.4.7 đã bàn giao; thử điện thoại vẫn là lớp riêng |
-| [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md) | **Local/chưa phát hành**, còn thiếu UI và kiểm chứng các lớp tiếp theo |
+| [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md) | Đợt UI/tải lớn 27/10; trạng thái cloud/APK/máy thật tra STATUS |
+| [MIDTERM_2026_10_27.json](testing/verification/MIDTERM_2026_10_27.json) | Số liệu hai lớp gọi tải lớn, hash source và dependency 0.4.8 |
 
 ### 8.2. Bằng chứng các mốc cũ — dùng để đối chiếu
 

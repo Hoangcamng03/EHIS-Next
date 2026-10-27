@@ -12,6 +12,7 @@ import { RouteMap } from './RouteMap';
 import { DirectionsLink } from './DirectionsLink';
 
 export function LiveIncidentNavigation({ destination, connected, autoPreview = false }: { destination: MapPoint; connected: boolean; autoPreview?: boolean }) {
+  const [extrasOpen, setExtrasOpen] = useState(false);
   const [storedOrigin, setStoredOrigin] = useState<MapPoint | null>(null);
   const [tracking, setTracking] = useState(false), [routeEnabled, setRouteEnabled] = useState(autoPreview);
   const [result, setResult] = useState<{ route: RoadRoute; target: string; at: number } | null>(null);
@@ -58,10 +59,14 @@ export function LiveIncidentNavigation({ destination, connected, autoPreview = f
     <Text>GPS chỉ chạy khi app mở. Tọa độ dùng để tính tuyến sẽ gửi tới OSRM; bản đồ dùng OpenStreetMap. Không gửi hồ sơ hoặc số điện thoại. {isLocalEmulator ? 'Điểm đã lưu trong diễn tập có thể là tọa độ giả.' : ''}</Text>
     <Button title={busy ? 'Đang tính tuyến…' : 'Tính lại đường đi'} disabled={busy || !origin || !connected || (tracking && (!fresh || !live.foreground))} onPress={() => { setRouteEnabled(true); void preview(); }} />
     <RouteMap origin={origin} destination={destination} route={visibleRoute} />
-    {visibleRoute && <><Text accessibilityRole="header" style={{ fontSize: 20, fontWeight: '700', color: '#125b99' }}>Theo đường ô tô: {(visibleRoute.distance / 1000).toFixed(2)} km · khoảng {Math.max(1, Math.ceil(visibleRoute.duration / 60))} phút</Text><Text>Tuyến tính {Math.max(0, Math.floor((now - result!.at) / 1000))} giây trước. Không có giao thông trực tiếp; khi bật GPS, tính lại có giới hạn tần suất để tránh quá tải.</Text>{visibleRoute.steps.map((step, index) => <Text key={index}>{index + 1}. {step.instruction} · {Math.round(step.distance)} m</Text>)}</>}
+    {visibleRoute && <><Text accessibilityRole="header" style={{ fontSize: 20, fontWeight: '700', color: '#125b99' }}>Theo đường ô tô: {(visibleRoute.distance / 1000).toFixed(2)} km · khoảng {Math.max(1, Math.ceil(visibleRoute.duration / 60))} phút</Text><Text>Tuyến tính {Math.max(0, Math.floor((now - result!.at) / 1000))} giây trước. Không có giao thông trực tiếp; khi bật GPS, tính lại có giới hạn tần suất để tránh quá tải.</Text></>}
     {!!(error || (tracking && live.error)) && <Text accessibilityRole="alert" style={{ color: '#9f2424' }}>{error || live.error}</Text>}
+    <Button variant="secondary" title={extrasOpen ? 'Ẩn chặng đường và tùy chọn' : 'Xem chặng đường và tùy chọn bản đồ'} onPress={() => setExtrasOpen(value => !value)} />
+    {extrasOpen && <>
+    {visibleRoute?.steps.map((step, index) => <Text key={index}>{index + 1}. {step.instruction} · {Math.round(step.distance)} m</Text>)}
     <DirectionsLink title="Xem tuyến này trên Google Maps" disabled={!origin || !connected} url={googleDirections(destination, origin ?? undefined)} />
     <DirectionsLink title="Dẫn đường bằng Google Maps" disabled={!connected} url={googleDirections(destination)} />
+    </>}
     <Text>EHIS chưa có dẫn đường bằng giọng nói. Tuyến ô tô và thời gian chỉ tham khảo; người báo có thể xác nhận cập nhật điểm bệnh nhân, không tự theo điện thoại người báo.</Text>
   </View>;
 }

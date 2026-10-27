@@ -30,7 +30,7 @@ Expo tự chọn file `.web.tsx` khi chạy trên web, file `.tsx` tương ứng
 
 App dùng Firebase Auth. Các thao tác ghi gọi backend; Firestore listener chỉ đọc dữ liệu được Rules cho phép. Patient cấp QR trỏ website `frontend/web/`, không trỏ Metro hoặc app web. TNV nhận listener khi màn hình mở; chưa có push/GPS nền.
 
-Khi chưa đăng nhập, người dùng chọn Bệnh nhân hoặc Tình nguyện viên và đọc mô tả trước khi thấy form đăng ký. Sau đăng ký chuyển đúng khu vực; intent được giữ tại SessionProvider để không mất khi Auth thông báo và unmount form. Đây là lựa chọn điều hướng, không ghi/cấp role; đăng ký TNV vẫn cần nộp đơn và xét duyệt. Tài khoản có sẵn dùng nút Đăng nhập.
+Từ source 0.4.8, màn đầu là Đăng nhập. Chọn Chưa có tài khoản? Đăng ký để đọc mô tả và chọn Bệnh nhân hoặc Tình nguyện viên trước form đăng ký. Sau đăng ký chuyển đúng khu vực; intent giữ tại SessionProvider để không mất khi Auth thông báo và unmount form. Đây là lựa chọn điều hướng, không cấp role; TNV vẫn cần nộp đơn và xét duyệt. Tra STATUS trước khi đối chiếu app đã cài.
 
 Từ **root repo**: `npm run app:web` để xem app trên PC, hoặc `npm run app` cho development build. Chuẩn bị Emulator/môi trường trước theo [LOCAL_DEVELOPMENT.md](../../docs/development/LOCAL_DEVELOPMENT.md). Expo Go chỉ là cách xem development tương thích SDK, không phải APK độc lập.
 

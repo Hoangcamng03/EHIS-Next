@@ -13,9 +13,14 @@ async function main() {
  const file=path.join(root,'.local/cloud-demo.json');
  const demo={environment:project,backend:target.backend,webUrl:target.webUrl,appUrl:target.appUrl,createdAt:new Date().toISOString(),patient:{email:patient.email,password:patient.password,uid:patient.localId},volunteer:{email:volunteer.email,password:volunteer.password,uid:volunteer.localId},admin:{email:admin.email,password:admin.password,uid:admin.localId}};
  fs.writeFileSync(file,JSON.stringify(demo,null,2),{mode:0o600});
+ try {
  await googleRequest(`https://identitytoolkit.googleapis.com/v1/projects/${project}/accounts:update`,'POST',{localId:admin.localId,customAttributes:JSON.stringify({admin:true})});
  Object.assign(admin,await authCall('signInWithPassword',{email:admin.email,password:admin.password,returnSecureToken:true}));
  await call('getMyAccess',{},null,401);
+ await call('setAccountPurpose',{purpose:'patient'},patient);
+ await call('setAccountPurpose',{purpose:'volunteer'},volunteer);
+ assert.equal((await call('getMyAccess',{},patient)).accountPurpose,'patient');
+ assert.equal((await call('getMyAccess',{},volunteer)).accountPurpose,'volunteer');
  await call('savePatientProfile',{fullName:'Bệnh nhân giả · thử cloud EHIS',allergies:['Thông tin giả để kiểm tra'],emergencyContactPhone:''},patient);
  const card=await call('issuePatientCard',{shareProfile:true},patient);demo.cardId=card.cardId;demo.cardUrl=target.webUrl+'/card?id='+card.cardId;
  fs.writeFileSync(file,JSON.stringify(demo,null,2),{mode:0o600});
@@ -23,8 +28,9 @@ async function main() {
  await call('reviewVolunteerApplication',{uid:volunteer.localId,decision:'approved'},patient,403);
  const list=await call('listVolunteerApplications',{},admin);assert.ok(list.applications.some(value=>value.uid===volunteer.localId));
  await call('reviewVolunteerApplication',{uid:volunteer.localId,decision:'approved'},admin);
- await call('setVolunteerAvailability',{available:true,location:{latitude:10.7769,longitude:106.7009}},volunteer);
- const incident=await call('createIncident',{cardId:card.cardId,requestId:randomUUID(),location:{latitude:10.779,longitude:106.699}},reporter);
+ // Synthetic remote points isolate this probe from the team's normal demo area.
+ await call('setVolunteerAvailability',{available:true,location:{latitude:80,longitude:-150}},volunteer);
+ const incident=await call('createIncident',{cardId:card.cardId,requestId:randomUUID(),location:{latitude:80.001,longitude:-150.001}},reporter);
  assert.ok(incident.invitedCount>=1);demo.incidentId=incident.incidentId;
  await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer,403);
  await call('submitBystanderReport',{incidentId:incident.incidentId,submissionId:randomUUID(),phone:'',answers:{responsiveness:'unknown',breathing:'unknown',bleeding:'unknown'}},reporter);
@@ -36,7 +42,14 @@ async function main() {
  const documentUrl=`https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/patients/${patient.localId}`;
  const own=await fetch(documentUrl,{headers:{Authorization:'Bearer '+patient.idToken}});assert.equal(own.status,200);assert.equal((await own.json()).fields.fullName.stringValue,'Bệnh nhân giả · thử cloud EHIS');
  assert.equal((await fetch(documentUrl,{headers:{Authorization:'Bearer '+volunteer.idToken}})).status,403);
- demo.result='PASS: cloud full lifecycle';fs.writeFileSync(file,JSON.stringify(demo,null,2),{mode:0o600});
+ demo.result='FLOW_PASSED_CLEANUP_PENDING';
+ } finally {
+  await googleRequest(`https://identitytoolkit.googleapis.com/v1/projects/${project}/accounts:update`,'POST',{localId:admin.localId,customAttributes:'{}'});
+  Object.assign(admin,await authCall('signInWithPassword',{email:admin.email,password:admin.password,returnSecureToken:true}));
+  assert.equal((await call('getMyAccess',{},admin)).isAdmin,false,'Temporary admin must not retain its role on new login');
+  demo.temporaryAdminClaimRemoved=true;fs.writeFileSync(file,JSON.stringify(demo,null,2),{mode:0o600});
+ }
+ demo.result='PASS: cloud full lifecycle and temporary-admin cleanup';fs.writeFileSync(file,JSON.stringify(demo,null,2),{mode:0o600});
  console.log('PASS cloud full flow: real Auth/Firestore, owner profile, QR, admin approval, initial/optional-phone report, assignment, arrived, completed and private-access denial. Only synthetic accounts/data used; credentials remain in ignored local file.');
 }
 main().catch(error=>{console.error(error.message);process.exitCode=1;});

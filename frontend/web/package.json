@@ -22,5 +22,10 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.2",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@firebase/firestore": {
+      "@grpc/grpc-js": "1.13.6"
+    }
   }
 }

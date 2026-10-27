@@ -48,7 +48,7 @@ Patient và TNV là hai khu vực trong **một app**. App web xuất từ front
 | Android | [Trang cài APK](https://ehis-next-20261021-hc03.web.app/install) |
 | Tài khoản demo | [Hướng dẫn tài khoản](docs/demo/MANUAL_DEMO_ACCOUNTS.md); mật khẩu chỉ ở repo riêng tư |
 
-Mốc 26/10/2026: cloud/APK bàn giao vẫn **0.4.7**. Đợt sắp xếp source không tự deploy hay cập nhật điện thoại. Bản UI 0.4.8 đang làm trước đó được giữ riêng, chưa ghép vào đợt này. Tra trạng thái tiếp theo tại STATUS.
+Đợt 27/10/2026 tích hợp UI 0.4.8/code 6 và kiểm thử tải lớn. **Tra STATUS để biết bản cloud/APK thực đã bàn giao.** Push source không tự cập nhật điện thoại; chỉ ghi máy đã cập nhật sau khi người thử xác nhận cài đúng bản.
 
 ## 3. Bắt đầu phát triển
 

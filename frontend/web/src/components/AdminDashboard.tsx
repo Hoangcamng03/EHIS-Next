@@ -10,11 +10,12 @@ export function AdminDashboard() {
   const [email, setEmail] = useState(''), [password, setPassword] = useState(''), [error, setError] = useState(''), [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false), [items, setItems] = useState<Application[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [review, setReview] = useState<{ uid: string; decision: 'approved' | 'rejected' } | null>(null);
   useEffect(() => {
     let cancelled = false;
     const client = adminClient();
     const unsubscribe = onAuthStateChanged(client.auth, value => {
-      setUser(value); setAdmin(false); setReady(!value); setItems([]); setLoaded(false); setError('');
+      setUser(value); setAdmin(false); setReady(!value); setItems([]); setLoaded(false); setReview(null); setError('');
       if (value) httpsCallable<Record<string, never>, { isAdmin: boolean }>(client.functions, 'getMyAccess', { timeout: 15000 })({}).then(result => {
         if (!cancelled && client.auth.currentUser?.uid === value.uid) { setAdmin(result.data.isAdmin); setReady(true); }
       }).catch(() => { if (!cancelled) { setError('Chưa xác minh được quyền quản trị. Kiểm tra kết nối.'); setReady(true); } });
@@ -23,7 +24,7 @@ export function AdminDashboard() {
   }, []);
   async function load() {
     const result = await httpsCallable<Record<string, never>, { applications: Application[] }>(adminClient().functions, 'listVolunteerApplications', { timeout: 15000 })({});
-    setItems(result.data.applications); setLoaded(true);
+    setItems(result.data.applications); setLoaded(true); setReview(null);
   }
   async function act(operation: 'login' | 'logout' | 'load' | 'approved' | 'rejected', uid?: string) {
     setBusy(true); setError(''); setMessage('');
@@ -47,7 +48,9 @@ export function AdminDashboard() {
       {ready && !admin && <p role="alert" className="error">Tài khoản này không có quyền quản trị. Chọn vai trò hoặc đăng ký tài khoản không tự cấp quyền.</p>}
       {admin && <><button className="primary" disabled={busy} onClick={() => act('load')}>Tải đơn chờ duyệt</button><p className="hint">Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp theo.</p>
         {!items.length && <p>{loaded ? 'Hiện không có đơn chờ duyệt.' : 'Bấm Tải đơn chờ duyệt để xem danh sách.'}</p>}
-        {items.map(item => <section className="report-panel" key={item.uid}><h2>{item.fullName}</h2><p>Liên hệ: {item.phone}</p><p>Kinh nghiệm tự khai: {item.experience}</p><button className="primary" disabled={busy} onClick={() => act('approved', item.uid)}>Duyệt {item.fullName}</button><button className="secondary" disabled={busy} onClick={() => act('rejected', item.uid)}>Từ chối {item.fullName}</button></section>)}
+        {items.map(item => <section className="report-panel" key={item.uid}><h2>{item.fullName}</h2><p>Liên hệ: {item.phone}</p><p>Kinh nghiệm tự khai: {item.experience}</p>
+          {review?.uid === item.uid ? <div className="review-confirm"><p>{review.decision === 'approved' ? 'Cho phép tài khoản này bật sẵn sàng và nhận ca? Xác nhận bạn đã kiểm tra điều kiện tham gia buổi thử.' : 'Từ chối đơn này? Người đăng ký có thể bổ sung và gửi lại.'}</p><button className="primary" disabled={busy} onClick={() => act(review.decision, item.uid)}>{busy ? 'Đang lưu…' : review.decision === 'approved' ? 'Xác nhận duyệt đơn' : 'Xác nhận từ chối đơn'}</button><button className="secondary" disabled={busy} onClick={() => setReview(null)}>Quay lại xem đơn</button></div> : <><button className="primary" disabled={busy} onClick={() => setReview({ uid: item.uid, decision: 'approved' })}>Duyệt đơn</button><button className="secondary" disabled={busy} onClick={() => setReview({ uid: item.uid, decision: 'rejected' })}>Từ chối đơn</button></>}
+        </section>)}
       </>}
     </>}
     {!!error && <p role="alert" className="error">{error}</p>}{!!message && <p role="status" className="success">{message}</p>}

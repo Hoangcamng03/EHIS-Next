@@ -68,14 +68,14 @@ export function RequestHelp({ cardId }: { cardId: string }) {
     <div className="report-brand">EHIS NEXT <span>NGƯỜI BÁO TIN</span></div>
 
     {!online && <p className="error" role="alert">Thiết bị đang báo mất mạng. Chưa gửi được yêu cầu qua EHIS. Bạn vẫn có thể dùng điện thoại để gọi trợ giúp.</p>}
-    <p className="step">BƯỚC 1 / 2</p><h1>Gửi yêu cầu<br />hỗ trợ.</h1>
+    <p className="step">BƯỚC 1 / 2 · BÁO HỖ TRỢ</p><h1>Gửi yêu cầu<br />hỗ trợ.</h1>
     <p className="report-intro">Thông báo trước cho tình nguyện viên gần đây. Sau khi máy chủ nhận yêu cầu, bạn có thể bổ sung tình trạng bệnh nhân.</p>
     <section className="report-panel"><h2>Bạn đang ở cạnh bệnh nhân?</h2>
       <p>Vị trí thiết bị sẽ được dùng làm điểm cần hỗ trợ. Bật vị trí chính xác và đứng ở nơi thoáng nếu GPS yếu. Trang này không hiển thị hồ sơ y tế của chủ thẻ.</p>
       <label className="confirm"><input type="checkbox" checked={confirmed} onChange={e => setConfirmed(e.target.checked)} disabled={busy} />Tôi đang ở cùng vị trí với bệnh nhân.</label>
       {localDemo && <label className="confirm"><input type="checkbox" checked={syntheticLocation} onChange={e => setSyntheticLocation(e.target.checked)} disabled={busy} />BUỔI CHẠY THỬ: dùng vị trí giả thay cho GPS.</label>}
       {localDemo && syntheticLocation && <DemoLocation latitude={latitude} longitude={longitude} onLatitude={setLatitude} onLongitude={setLongitude} disabled={busy} />}
-      <button className="primary emergency-action" onClick={send} disabled={busy || !confirmed || !online}>{busy ? 'Đang gửi…' : 'Gửi yêu cầu hỗ trợ →'}</button>
+      <button className="primary emergency-action" onClick={send} disabled={busy || !confirmed || !online}>{busy ? 'Đang gửi…' : 'Báo tình nguyện viên gần đây'}</button>
       <p className="hint">Chưa cần nhập số điện thoại hay trả lời câu hỏi ở bước này.</p>
       {message && <p role="status">{message}</p>}{error && <p className="error" role="alert">{error}</p>}
     </section>

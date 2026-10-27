@@ -12,7 +12,7 @@ try {
   env.FUNCTIONS_DISCOVERY_TIMEOUT ||= '60';
   const args = [mode === 'start' ? 'emulators:start' : 'emulators:exec', '--project', 'demo-ehis-next', '--only', 'auth,firestore,functions'];
   if (mode === 'snapshot') args.splice(0, args.length, 'emulators:export', path.join(root, '.local', 'emulator-data'), '--project', 'demo-ehis-next', '--force');
-  else if (mode === 'test') { const suite=process.argv[3]||'all'; if(!['all','active','multi'].includes(suite))throw new Error('Unknown test suite'); args.push(`node scripts/run-integration.cjs ${suite}`); }
+  else if (mode === 'test') { const suite=process.argv[3]||'all'; if(!['all','active','multi','scale'].includes(suite))throw new Error('Unknown test suite'); args.push(`node scripts/run-integration.cjs ${suite}`); }
   else {
     const snapshot = path.join(root, '.local', 'emulator-data');
     if (existsSync(path.join(snapshot, 'firebase-export-metadata.json'))) args.push('--import', snapshot);

@@ -50,6 +50,7 @@ export async function reporterSession(): Promise<string> {
 
 export function readableError(error: unknown): string {
   const code = (error as { code?: string })?.code;
+  if (code === 'functions/resource-exhausted' && (error as { details?: { reason?: string } }).details?.reason === 'request-budget-busy') return 'Máy chủ đang bận. Giữ trang này, chờ vài giây rồi thử lại; không cần mở thẻ khác để gửi thêm.';
   if (code === 'functions/resource-exhausted' && (error as { details?: { reason?: string } }).details?.reason === 'dispatch-capacity') return 'Hệ thống chưa đủ khả năng tìm TNV lúc này. Yêu cầu chưa được tạo. Hãy liên hệ người phụ trách buổi thử và tìm hỗ trợ trực tiếp.';
   const messages: Record<string, string> = {
     'functions/resource-exhausted': 'Hệ thống đang giới hạn lượt thao tác. Đợi khoảng một phút rồi thử lại.',

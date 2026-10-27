@@ -34,3 +34,4 @@ jobs:
           distribution: temurin
           java-version: '21'
       - run: npm run test:integration
+      - run: npm run test:scale

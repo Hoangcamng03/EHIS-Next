@@ -12,6 +12,7 @@
 | [src/profile.ts](src/profile.ts) | Kiểm tra và chuẩn hóa hồ sơ Patient |
 | [src/reportValidation.ts](src/reportValidation.ts) | Kiểm tra câu trả lời/phone/vị trí và dữ liệu người báo |
 | [src/guards.ts](src/guards.ts) | Yêu cầu Auth và giới hạn thao tác trước handler |
+| [src/budgetQueue.ts](src/budgetQueue.ts) | Hàng đợi hữu hạn quanh transaction budget trong process; Firestore giữ quota chung |
 | [src/maintenance.ts](src/maintenance.ts) | Hết hạn ca và dọn dữ liệu riêng; lịch Firebase chỉ tùy chọn |
 | [server.cjs](server.cjs) | Express: giới hạn body, allowlist API, wrapper kiểm tra token, cron secret |
 | [api/index.js](api/index.js) | Adapter/đường dẫn vào Vercel |

@@ -87,7 +87,7 @@ export function VolunteerAvailability({ uid, paused = false, prepareAlerts }: { 
       <TextInput accessibilityLabel="Vĩ độ TNV giả" value={latitude} onChangeText={setLatitude} editable={!busy && !volunteer?.activeIncidentId} style={{ backgroundColor: 'white', borderRadius: 8, padding: 12 }} />
       <TextInput accessibilityLabel="Kinh độ TNV giả" value={longitude} onChangeText={setLongitude} editable={!busy && !volunteer?.activeIncidentId} style={{ backgroundColor: 'white', borderRadius: 8, padding: 12 }} />
       <Button title="Bật sẵn sàng bằng vị trí giả" onPress={() => enable('demo')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} /></>}
-    {verifiedFromServer && volunteer?.location && <><Button title={showLocation ? 'Ẩn bản đồ vị trí của tôi' : 'Xem vị trí tôi đã gửi'} onPress={() => setShowLocation(value => !value)} color="#526f67" />{showLocation && <LocationMap point={volunteer.location} title="Vị trí TNV đã gửi lên máy chủ" />}</>}
+    {verifiedFromServer && volunteer?.location && <><Button variant="secondary" title={showLocation ? 'Ẩn bản đồ vị trí của tôi' : 'Xem vị trí tôi đã gửi'} onPress={() => setShowLocation(value => !value)} color="#526f67" />{showLocation && <LocationMap point={volunteer.location} title="Vị trí TNV đã gửi lên máy chủ" />}</>}
     {!!error && <Text accessibilityRole="alert" style={{ color: '#9f2424' }}>{error}</Text>}
   </View>;
 }
