@@ -6,10 +6,9 @@ Mốc tổng hợp ngày 27/10/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
-| App web, web người báo/admin và backend | 0.4.8 đã deploy; 32 đối chiếu artifact và ca cloud giả đạt | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
-| APK Android | 0.4.8, versionCode 6; EAS FINISHED, artifact đã kiểm tra | Cài đè/Play Protect/loa/rung/GPS trên máy thật |
-| Source phát hành | 2098709, 0.4.8/code 6: CI SUCCESS, giữ tối ưu budget, hồi quy/tải lớn/browser đạt | Chưa nghiệm thu máy thật; tải local không thay số đo cloud |
-| Source bản sửa đang kiểm chứng | 0.4.9/code 7: GPS, chuông, 32 ca trước ON, 46 unit/logic, 10 integration và scale SDK đạt local | CI/cloud/APK mới ghi riêng sau phát hành; Samsung/GPS/loa/rung còn chờ máy thật |
+| App web, web người báo/admin và backend | 0.4.9 đã deploy; 32 đối chiếu artifact, hai ca cloud trước ON/late matching đạt | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
+| APK Android | 0.4.9, versionCode 7; EAS FINISHED, artifact đã kiểm tra | Cài đè/Play Protect/loa/rung/GPS trên máy thật |
+| Source phát hành | c40e2f1, 0.4.9/code 7: CI SUCCESS, 46 unit/logic, 10 integration, scale SDK và UI ba ca đạt | Chưa nghiệm thu máy thật; Samsung/GPS/loa/rung còn chờ nhóm. Tải local không thay số đo cloud |
 | iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
 | Tài khoản demo | Sáu tài khoản cloud cấp ngày 25/10, kiểm tra login/quyền đạt | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra lại trước mỗi vòng |
 
@@ -18,7 +17,8 @@ Mốc tổng hợp ngày 27/10/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 ## 2. Bằng chứng theo đúng lớp
 
 - Bản 0.4.7: [VERIFICATION_V0_4_7](testing/verification/VERIFICATION_V0_4_7.md). Logic/Emulator/browser/cloud/artifact được ghi riêng; không thay thế thử điện thoại.
-- Đợt 0.4.8 ngày 27/10: [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md). 40 unit/logic, chín integration, bài 1.000 Auth/32 ca và browser đủ vai trò; chưa thay phiếu máy thật. Kết quả sau vá dependency/CI/phát hành ở lab note và bảng trên.
+- Bản đối chiếu 0.4.8 ngày 27/10: [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md). 40 unit/logic, chín integration, bài 1.000 Auth/32 ca và browser đủ vai trò; chưa thay phiếu máy thật. Kết quả sau vá dependency/CI/phát hành ở lab note và bảng trên.
+- Bản sửa 0.4.9: [VERIFICATION_V0_4_9](testing/verification/VERIFICATION_V0_4_9.md), [JSON](testing/verification/FIX_2026_10_27_0_4_9.json). TNV ON muộn, nhiều ca tách history, GPS cache/watch và audio tải muộn; cloud/APK đạt lớp phát hành, máy thật vẫn chờ.
 - Phiếu người thử: [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md), A01–A13. Chưa có kết quả nhóm gửi về thì vẫn Chưa thử.
 - [So sánh hiệu suất 26/10](testing/PERFORMANCE_COMPARISON.md): baseline cùng tính năng trước sắp xếp; 192 ca đo qua hai lượt, build/payload và luồng browser. Kết quả local không thay SLA cloud hoặc thử Android thật.
 

@@ -6,9 +6,11 @@ async function main() {
  assert.equal(target.projectId,project);
  const sdk=JSON.parse(fs.readFileSync(path.join(root,'.local/cloud-sdk.json'),'utf8').replace(/^\uFEFF/,'')).result.sdkConfig;
  const auth='https://identitytoolkit.googleapis.com/v1/accounts:';
- async function authCall(operation,data) {const response=await fetch(auth+operation+'?key='+sdk.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data),signal:AbortSignal.timeout(30000)});const value=await response.json();assert.equal(response.status,200,operation+': '+(value.error?.message || response.status));return value;}
+ async function checkedFetch(label,url,options){try{return await fetch(url,options);}catch(error){throw new Error(label+': '+error.message+' ('+(error.cause?.code||'network')+')');}}
+
+ async function authCall(operation,data) {const response=await checkedFetch('Auth '+operation,auth+operation+'?key='+sdk.apiKey,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data),signal:AbortSignal.timeout(30000)});const value=await response.json();assert.equal(response.status,200,operation+': '+(value.error?.message || response.status));return value;}
  async function account(role,anonymous=false) {const email=`ehis-trial-${role}-${randomBytes(4).toString('hex')}@example.test`,password='Trial-'+randomBytes(15).toString('hex')+'!';return {...await authCall('signUp',anonymous?{returnSecureToken:true}:{email,password,returnSecureToken:true}),email:anonymous?null:email,password:anonymous?null:password};}
- async function call(name,data,user,expected=200) {const response=await fetch(target.backend+'/'+name,{method:'POST',headers:{'Content-Type':'application/json',...(user?{Authorization:'Bearer '+user.idToken}:{})},body:JSON.stringify({data}),signal:AbortSignal.timeout(45000)});const value=await response.json();assert.equal(response.status,expected,name+': '+JSON.stringify(value.error || {status:response.status}));return value.result;}
+ async function call(name,data,user,expected=200) {const response=await checkedFetch('API '+name,target.backend+'/'+name,{method:'POST',headers:{'Content-Type':'application/json',...(user?{Authorization:'Bearer '+user.idToken}:{})},body:JSON.stringify({data}),signal:AbortSignal.timeout(45000)});const value=await response.json();assert.equal(response.status,expected,name+': '+JSON.stringify(value.error || {status:response.status}));return value.result;}
  const patient=await account('patient'),volunteer=await account('volunteer'),admin=await account('admin'),reporter=await account('reporter',true);
  const file=path.join(root,'.local/cloud-demo.json');
  const demo={environment:project,backend:target.backend,webUrl:target.webUrl,appUrl:target.appUrl,createdAt:new Date().toISOString(),patient:{email:patient.email,password:patient.password,uid:patient.localId},volunteer:{email:volunteer.email,password:volunteer.password,uid:volunteer.localId},admin:{email:admin.email,password:admin.password,uid:admin.localId}};
@@ -33,19 +35,19 @@ async function main() {
  await call('setAccountPurpose',{purpose:'patient'},patient2);
  await call('savePatientProfile',{fullName:'Bệnh nhân giả thứ hai · EHIS',allergies:[],emergencyContactPhone:''},patient2);
  const card2=await call('issuePatientCard',{shareProfile:false},patient2);
- const incident2=await call('createIncident',{cardId:card2.cardId,requestId:randomUUID(),location:{latitude:80.002,longitude:-150.002}},reporter2);
+ const incident2=await call('createIncident',{cardId:card2.cardId,requestId:randomUUID(),location:{latitude:78.002,longitude:-145.002}},reporter2);
  assert.equal(incident2.invitedCount,0,'Probe begins with volunteer OFF');
- const incident=await call('createIncident',{cardId:card.cardId,requestId:randomUUID(),location:{latitude:80.001,longitude:-150.001}},reporter);
+ const incident=await call('createIncident',{cardId:card.cardId,requestId:randomUUID(),location:{latitude:78.001,longitude:-145.001}},reporter);
  assert.equal(incident.invitedCount,0);demo.incidentId=incident.incidentId;demo.secondIncidentId=incident2.incidentId;
  await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer,403);
  await call('submitBystanderReport',{incidentId:incident.incidentId,submissionId:randomUUID(),phone:'',answers:{responsiveness:'unknown',breathing:'unknown',bleeding:'unknown'}},reporter);
- const catchUp=await call('setVolunteerAvailability',{available:true,location:{latitude:80,longitude:-150}},volunteer);
+ const catchUp=await call('setVolunteerAvailability',{available:true,location:{latitude:78,longitude:-145}},volunteer);
  assert.equal(catchUp.matchedCount,2);
- const alertsResponse=await fetch(`https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/volunteers/${volunteer.localId}:runQuery`,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+volunteer.idToken},body:JSON.stringify({structuredQuery:{from:[{collectionId:'alerts'}],where:{fieldFilter:{field:{fieldPath:'status'},op:'EQUAL',value:{stringValue:'offered'}}},orderBy:[{field:{fieldPath:'createdAt'},direction:'DESCENDING'}],limit:101}}),signal:AbortSignal.timeout(30000)});
+ const alertsResponse=await checkedFetch('Firestore offered query',`https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/volunteers/${volunteer.localId}:runQuery`,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+volunteer.idToken},body:JSON.stringify({structuredQuery:{from:[{collectionId:'alerts'}],where:{fieldFilter:{field:{fieldPath:'status'},op:'EQUAL',value:{stringValue:'offered'}}},orderBy:[{field:{fieldPath:'createdAt'},direction:'DESCENDING'}],limit:101}}),signal:AbortSignal.timeout(30000)});
  assert.equal(alertsResponse.status,200,'Live offered index must be queryable on cloud');
  const alertDocs=(await alertsResponse.json()).filter(item=>item.document).map(item=>item.document.fields);
  assert.equal(alertDocs.length,2);assert.ok(alertDocs.every(fields=>!fields.phone&&!fields.location));
- assert.equal((await call('setVolunteerAvailability',{available:true,location:{latitude:80,longitude:-150}},volunteer)).matchedCount,0);
+ assert.equal((await call('setVolunteerAvailability',{available:true,location:{latitude:78,longitude:-145}},volunteer)).matchedCount,0);
  await call('acceptIncident',{incidentId:incident.incidentId},volunteer);
  await call('acceptIncident',{incidentId:incident2.incidentId},volunteer,400);
  await call('getVolunteerIncidentDetails',{incidentId:incident2.incidentId},volunteer,403);
@@ -53,7 +55,7 @@ async function main() {
  await call('markIncidentArrived',{incidentId:incident.incidentId},volunteer);
  await call('finishIncident',{incidentId:incident.incidentId,outcome:'completed'},volunteer);
  await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer,403);
- await call('setVolunteerAvailability',{available:true,location:{latitude:80,longitude:-150}},volunteer);
+ await call('setVolunteerAvailability',{available:true,location:{latitude:78,longitude:-145}},volunteer);
  await call('acceptIncident',{incidentId:incident2.incidentId},volunteer);
  assert.equal((await call('getVolunteerIncidentDetails',{incidentId:incident2.incidentId},volunteer)).patientProfile,null);
  await call('finishIncident',{incidentId:incident2.incidentId,outcome:'completed'},volunteer);

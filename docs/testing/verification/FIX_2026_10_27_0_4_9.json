@@ -159,5 +159,49 @@
     "consoleErrorsAtFinalRead": 0,
     "speakerGpsVibrationDeviceVerified": false
   },
-  "releaseStatus": "See docs/STATUS.md; source/build/deploy/install are separate"
+  "releaseStatus": "See docs/STATUS.md; source/build/deploy/install are separate",
+  "release": {
+    "runtimeCommit": "c40e2f13b21acc9d7ab7c026b8c3184358e38677",
+    "ci": "https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40513433847",
+    "ciConclusion": "SUCCESS",
+    "backendVersion": "0.4.9",
+    "hosting": {
+      "checkedAt": "2026-10-27T14:57:51.593Z",
+      "checked": 32,
+      "sha256Match": true,
+      "targets": [
+        "https://ehis-next-20261021-hc03.web.app",
+        "https://ehis-next-20261021-hc03-app.web.app"
+      ]
+    },
+    "cloudFlow": {
+      "status": "PASS",
+      "pendingBeforeOnline": 2,
+      "offersVerifiedOnCloudIndex": true,
+      "lateReadinessVerified": true,
+      "temporaryAdminClaimRemovedAndFreshLoginVerified": true,
+      "earlierAttempt": "Network fetch failed before lifecycle confirmation; cleanup succeeded. Health checked and controlled recheck passed in separate synthetic region."
+    },
+    "android": {
+      "id": "bb033cab-3e0b-4c2c-b9a9-c4e8734c9ba4",
+      "commit": "c40e2f13b21acc9d7ab7c026b8c3184358e38677",
+      "version": "0.4.9",
+      "versionCode": 7,
+      "status": "FINISHED",
+      "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/bb033cab-3e0b-4c2c-b9a9-c4e8734c9ba4",
+      "startedAt": "2026-10-27T13:37:38.377Z",
+      "deviceVerified": false,
+      "apkUrl": "https://expo.dev/artifacts/eas/AQKpv7mXpAKGIejz4Fs6CpnA1zpFMC5l4_mWcqSM5UQ.apk",
+      "bytes": 103753501,
+      "sha256": "cbb03c19629fec53574da1622dd317000590a3a2b476f7c7eec07d4a6db49b8e",
+      "artifactVerified": true,
+      "packageName": "com.hoangcamng.ehisnext",
+      "microphonePermission": false,
+      "vibrationPermission": true,
+      "embeddedTone": true,
+      "cloudTargetVerified": true
+    },
+    "installPageBrowserVerified": true,
+    "deviceAcceptance": "PENDING_USER_SAMSUNG_ANDROID"
+  }
 }
