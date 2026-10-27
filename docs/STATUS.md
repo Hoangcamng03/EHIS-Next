@@ -6,9 +6,9 @@ Mốc tổng hợp ngày 27/10/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
-| App web, web người báo/admin và backend | 0.4.7 đã deploy; 32 đối chiếu artifact và ca cloud giả đạt | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
-| APK Android | 0.4.7, versionCode 5; EAS FINISHED, artifact đã kiểm tra | Cài đè/Play Protect/loa/rung/GPS trên máy thật |
-| Source chuẩn bị phát hành | 0.4.8/code 6: UI đã tích hợp, giữ tối ưu budget, hồi quy/tải lớn/browser đã thử | Đang chốt kiểm tra sau vá dependency, CI/deploy/APK ghi riêng; chưa nghiệm thu máy thật |
+| App web, web người báo/admin và backend | 0.4.8 đã deploy; 32 đối chiếu artifact và ca cloud giả đạt | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
+| APK Android | 0.4.8, versionCode 6; EAS FINISHED, artifact đã kiểm tra | Cài đè/Play Protect/loa/rung/GPS trên máy thật |
+| Source phát hành | 2098709, 0.4.8/code 6: CI SUCCESS, giữ tối ưu budget, hồi quy/tải lớn/browser đạt | Chưa nghiệm thu máy thật; tải local không thay số đo cloud |
 | iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
 | Tài khoản demo | Sáu tài khoản cloud cấp ngày 25/10, kiểm tra login/quyền đạt | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra lại trước mỗi vòng |
 
@@ -25,7 +25,7 @@ Mốc tổng hợp ngày 27/10/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 
 Android miễn phí + web, dữ liệu giả, trình thầy và diễn tập có kiểm soát. Chưa đủ điều kiện tiếp nhận cấp cứu thật. Không tự bật Blaze/nâng gói, OTA, cửa hàng hoặc iOS native. Quyền TNV/admin do backend quyết định; chọn đối tượng chỉ mở đúng giao diện.
 
-Các việc còn mở: thiết bị/GPS/âm/rung và nhận nền, hiệu năng tải lớn, advisory dependency, giám sát/quota và điều kiện chuyên môn/vận hành. [Kế hoạch sản phẩm](planning/PRODUCT_LAUNCH_PLAN.md) · [Kế hoạch trình thầy/cuối kỳ](planning/MIDTERM_DEMO.md).
+Các việc còn mở: thiết bị/GPS/âm/rung và nhận nền, hiệu năng tải lớn trên cloud, advisory dependency, giám sát/quota và điều kiện chuyên môn/vận hành. [Kế hoạch sản phẩm](planning/PRODUCT_LAUNCH_PLAN.md) · [Kế hoạch trình thầy/cuối kỳ](planning/MIDTERM_DEMO.md).
 
 ## 4. Khi cập nhật lần sau
 

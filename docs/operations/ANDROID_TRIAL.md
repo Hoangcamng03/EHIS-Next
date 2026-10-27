@@ -2,7 +2,7 @@
 
 ## 1. Chọn đúng bản
 
-[STATUS](../STATUS.md) là nơi tra cứu phiên bản. Mốc bàn giao 25/10: APK 0.4.7/code 5 đã FINISHED và xác minh artifact; source 0.4.8 còn local. [Trang cài cố định](https://ehis-next-20261021-hc03.web.app/install). Không tải APK lịch sử chỉ vì thấy link trong báo cáo cũ.
+[STATUS](../STATUS.md) là nơi tra cứu phiên bản. Mốc bàn giao 27/10: APK 0.4.8/code 6 đã FINISHED và xác minh artifact, cùng source runtime 2098709 với web/backend. Chưa nghiệm thu máy thật. [Trang cài cố định](https://ehis-next-20261021-hc03.web.app/install). Không tải APK lịch sử chỉ vì thấy link trong báo cáo cũ.
 
 ## 2. Cài trên thiết bị
 

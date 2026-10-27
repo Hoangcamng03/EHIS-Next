@@ -1,6 +1,6 @@
 # EHIS 0.4.8 — sắp xếp giao diện và bản trình midterm
 
-Source chuẩn bị 0.4.8/code 6. **Tra [STATUS](../../STATUS.md) để biết cloud/APK đã phát hành đến đâu**; source, deploy và cài trên máy là các mốc riêng. Chưa có phiếu máy thật thì không coi đã nghiệm thu Android.
+Đã bàn giao web/backend và APK 0.4.8/code 6 từ runtime commit 2098709. **Tra [STATUS](../../STATUS.md) để biết cloud/APK đã phát hành đến đâu**; source, deploy và cài trên máy là các mốc riêng. Chưa có phiếu máy thật thì không coi đã nghiệm thu Android.
 
 Ngày 27/10/2026. Android miễn phí + web; diễn tập dữ liệu giả. [Kịch bản trình thầy và hướng cuối kỳ](../../planning/MIDTERM_DEMO.md) · [Trang link chung](../../demo/TEAM_LINKS.md).
 
@@ -29,7 +29,7 @@ Các giới hạn giữ nguyên: nhận nền chưa được xác minh; hiệu n
 | Scale Functions Emulator | 1.000 Auth giả, 32 ca/tám vùng, 320 API, đúng dữ liệu/quyền; nhiều p95 17–20 giây, không đạt mốc thời gian chờ app |
 | Scale HTTP wrapper dùng cho Vercel | Cùng workload trên loopback, 320 API gồm 40 từ chối đúng quyền; lượt đầu p95 tạo 607 ms, nhận 463 ms, hoàn tất 409 ms |
 | Browser | Đăng ký/consent, sai mật khẩu/tự định tuyến, profile không phone/dirty, QR, pending/duyệt, ON, báo/ack/bổ sung, cảnh báo/nhận/map, đến/hoàn tất và khóa private/form đều thử |
-| Build | Next production, Expo web local đạt; export sạch cache hiển thị đúng 0.4.8. Android/CI/cloud/APK ghi riêng khi có kết quả |
+| Build | Next production, Expo web/cloud, Android Hermes export và CI đạt; APK FINISHED, artifact đạt. Cloud và APK chi tiết ở phần bàn giao bên dưới |
 | Máy thật | Chưa có phiếu nghiệm thu mới của nhóm; không suy ra từ browser/Emulator hoặc APK |
 
 ### Cách đọc bài scale
@@ -51,3 +51,12 @@ Patient, TNV và reporter đã đo viewport 390 px không tràn ngang ở màn q
 [Advisory gRPC](https://github.com/advisories/GHSA-m9gg-hp2v-232j) nêu bản vá 1.13.6. [node-forge](https://github.com/advisories/GHSA-86w9-cpqp-85rv) chưa có bản vá trong advisory; [Zod](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5) yêu cầu 4.6.6, trong khi Expo/lint đang yêu cầu nhánh 3. Không ép Zod 4 khi chưa chứng minh tương thích. EHIS không trực tiếp import các API đó trong giao diện; chưa chứng minh không còn rủi ro toolchain. Giữ đánh giá dependency, cold start/quota/nhiều instance và mạng di động cho mốc tiếp theo; không dùng dữ liệu y tế thật.
 
 Trước trình thầy, nhóm chạy runbook và hai vòng độc lập với >=2 Android, Wi-Fi/4G, điền A01–A13, chuẩn bị video dự phòng và công bố giới hạn foreground/Internet. Sau midterm: phản hồi thầy → lỗi P0/P1 → máy thật/GPS/nền → hiệu năng cloud/dependency → báo cáo cuối kỳ. Bản nháp 25/10 còn trong lịch sử Git; không dùng kết quả cũ thay đợt này.
+
+## Bàn giao cloud và APK ngày 27/10
+
+- Source runtime 2098709; [CI 40455643347](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40455643347) SUCCESS trên Node 22, gồm check 40 bài, Android export, web build, chín integration và scale có 32 client realtime.
+- Backend Vercel production 0.4.8 READY, Hosting app/reporter/admin 0.4.8 đã deploy, 32 đối chiếu artifact đạt. Một vòng cloud giả đủ lifecycle/quyền đạt; admin tạm đã thu hồi và đăng nhập mới xác nhận mất quyền. Không dùng tải lớn trên cloud miễn phí.
+- [APK 0.4.8/code 6](https://expo.dev/artifacts/eas/GVSwNBDHy3eXQ38jolgn5Zvhqwl_ntpx_pHmMcIw9Uo.apk) từ [EAS FINISHED](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/5e30f2be-62bb-4826-beb5-42a98b3db9ef), đúng runtime commit, package và cloud; có WAV/rung, không quyền microphone. Dung lượng 103745689 byte; SHA-256: f0a2996307a35a325d1e93e0d0dba6f43bd259c2ee8c050f25313b14c334cd10. Đây là kiểm tra artifact, chưa xác minh chữ ký/Play Protect hoặc cài/chạy trên máy.
+- Trang cài được cập nhật bằng URL artifact này và build/deploy lại; kết quả cuối ghi trong lab note. Không OTA/iOS/cửa hàng/billing; cần hai vòng Android thật theo A01–A13 trước buổi trình thầy.
+
+Trang tải sau deploy đã mở bằng browser: [ảnh cloud 0.4.8](../../assets/trial-048/install-cloud.jpg). Đối chiếu cuối 32 URL gốc đạt lúc 06:36 UTC ngày 27/10; lần đầu ngay sau deploy lệch một HTML được giữ trong lab note và kiểm tra lại đầy đủ. Hash source trong JSON là byte của working file Windows khi đo, có thể khác hash Git do kết thúc dòng; commit runtime là nguồn đối chiếu mã.

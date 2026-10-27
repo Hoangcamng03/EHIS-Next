@@ -416,5 +416,46 @@
     "deviceSpeakerOrVibrationVerified": false
   },
   "nativeDeviceAcceptance": "PENDING_TEAM_ANDROID_ACCEPTANCE",
-  "releaseStatus": "See docs/STATUS.md; build/deploy/install are separate gates"
+  "releaseStatus": "See docs/STATUS.md; build/deploy/install are separate gates",
+  "releaseEvidence": {
+    "runtimeCommit": "2098709bae621dd22a6e5f5c9ad90dd1ba2d918f",
+    "ciRun": "https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40455643347",
+    "ciConclusion": "SUCCESS",
+    "backendVersion": "0.4.8",
+    "backendDeployment": "dpl_5Rk26zSLofdFjEev2v5SWpfjWrng",
+    "hostingArtifactComparisons": 32,
+    "cloudSyntheticLifecycle": "PASS",
+    "temporaryAdminClaimRemovedAndFreshLoginVerified": true,
+    "android": {
+      "id": "5e30f2be-62bb-4826-beb5-42a98b3db9ef",
+      "commit": "2098709bae621dd22a6e5f5c9ad90dd1ba2d918f",
+      "version": "0.4.8",
+      "versionCode": 6,
+      "status": "FINISHED",
+      "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/5e30f2be-62bb-4826-beb5-42a98b3db9ef",
+      "startedAt": "2026-10-27T05:42:33.573Z",
+      "deviceVerified": false,
+      "apkUrl": "https://expo.dev/artifacts/eas/GVSwNBDHy3eXQ38jolgn5Zvhqwl_ntpx_pHmMcIw9Uo.apk",
+      "bytes": 103745689,
+      "sha256": "f0a2996307a35a325d1e93e0d0dba6f43bd259c2ee8c050f25313b14c334cd10",
+      "artifactVerified": true,
+      "packageName": "com.hoangcamng.ehisnext",
+      "microphonePermission": false,
+      "vibrationPermission": true,
+      "embeddedTone": true,
+      "cloudTargetVerified": true
+    },
+    "deviceAcceptance": "PENDING",
+    "finalHostingVerification": {
+      "checkedAt": "2026-10-27T06:36:21.478Z",
+      "checked": 32,
+      "sha256Match": true,
+      "targets": [
+        "https://ehis-next-20261021-hc03.web.app",
+        "https://ehis-next-20261021-hc03-app.web.app"
+      ]
+    },
+    "installPageBrowserVerified": true
+  },
+  "sourceHashesScope": "Working-file bytes on Windows at measurement time; line endings may differ from Git blobs. Runtime source commit is recorded in releaseEvidence."
 }
