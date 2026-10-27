@@ -9,7 +9,7 @@ export function PurposeChoices({ onChoose }: { onChoose(purpose: AccountPurpose)
     {(['patient', 'volunteer'] as const).map(purpose => {
       const item = accountPurposes[purpose];
       return <Pressable key={purpose} accessibilityRole="button" accessibilityLabel={`Chọn ${item.title}`}
-        accessibilityHint={`${item.description} ${item.nextStep}`} onPress={() => onChoose(purpose)}
+        hitSlop={6} pressRetentionOffset={32} unstable_pressDelay={0} android_ripple={{ color: '#dbe8e3' }} accessibilityHint={`${item.description} ${item.nextStep}`} onPress={() => onChoose(purpose)}
         style={({ pressed }) => [ui.card, { padding: 16, gap: 10, borderWidth: 2, borderColor: palette[purpose].primary, backgroundColor: palette[purpose].background, opacity: pressed ? 0.8 : 1 }]}>
         <Text style={[ui.heading, { color: palette[purpose].ink }]}>{item.title}</Text>
         <Text style={ui.body}>{item.description}</Text>

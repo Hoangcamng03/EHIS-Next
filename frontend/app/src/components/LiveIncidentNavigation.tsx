@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Switch, View } from 'react-native';
+import { View } from 'react-native';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { Text } from './AppText';
 import { Button } from './ActionButton';
+import { ToggleRow } from './ToggleRow';
+import { InfoDisclosure } from './InfoDisclosure';
 import { firebaseClient, isLocalEmulator } from '../lib/firebase';
 import { googleDirections, loadRoute, validPoint, type RoadRoute } from '../lib/directions';
 import { shouldRefreshRoute, usableFix, type RouteAttempt } from '../lib/live-location';
@@ -12,7 +14,6 @@ import { RouteMap } from './RouteMap';
 import { DirectionsLink } from './DirectionsLink';
 
 export function LiveIncidentNavigation({ destination, connected, autoPreview = false }: { destination: MapPoint; connected: boolean; autoPreview?: boolean }) {
-  const [extrasOpen, setExtrasOpen] = useState(false);
   const [storedOrigin, setStoredOrigin] = useState<MapPoint | null>(null);
   const [tracking, setTracking] = useState(!isLocalEmulator), [routeEnabled, setRouteEnabled] = useState(autoPreview);
   const [result, setResult] = useState<{ route: RoadRoute; target: string; at: number } | null>(null);
@@ -49,24 +50,22 @@ export function LiveIncidentNavigation({ destination, connected, autoPreview = f
   }, [routeEnabled, autoPreview, origin, connected, tracking, fresh, live.foreground, destination, now, preview]);
   function setLive(value: boolean) { setTracking(value); setRouteEnabled(value || routeEnabled); setError(''); }
   if (!connected) return <View><Text>Đang chờ điểm đến và kết nối được xác nhận. Tạm dừng bản đồ/GPS để tránh dùng điểm cũ.</Text></View>;
-  return <View style={{ gap: 12, padding: 14, backgroundColor: '#edf5fb', borderRadius: 12 }}>
-    <Text style={{ fontSize: 19, fontWeight: '700' }}>Đường đi đến bệnh nhân</Text>
-    <Text>A · TNV: {origin ? `${origin.latitude}, ${origin.longitude}` : 'Chưa có vị trí'}</Text>
-    <Text>B · Điểm bệnh nhân đã xác nhận: {destination.latitude}, {destination.longitude}</Text>
-    <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}><Switch accessibilityLabel="Cập nhật GPS khi mở chỉ đường" value={tracking} disabled={!connected} onValueChange={setLive} /><Text style={{ flex: 1 }}>Cập nhật GPS và tuyến đường khi đang mở màn này</Text></View>
-    <Text accessibilityLiveRegion="polite">{tracking ? !live.foreground ? 'GPS tạm dừng khi ứng dụng ở nền.' : live.fix ? `GPS ${fresh ? 'đang cập nhật' : 'đã cũ'} · sai số ước tính ±${Math.round(live.fix.accuracy)} m · ${Math.max(0, Math.floor((now - live.fix.timestamp) / 1000))} giây trước` : 'Đang chờ GPS chính xác. Cho phép vị trí trên thiết bị.' : 'Đang dùng vị trí đã lưu, không phải GPS trực tiếp. Bật cập nhật để theo vị trí hiện tại.'}</Text>
-    {tracking && !fresh && <Text style={{ color: '#9f2424' }}>Chưa có điểm GPS đủ mới để tính tuyến trực tiếp. Kiểm tra quyền vị trí và ra nơi thoáng.</Text>}
-    <Text>GPS chỉ chạy khi app mở. Tọa độ dùng để tính tuyến sẽ gửi tới OSRM; bản đồ dùng OpenStreetMap. Không gửi hồ sơ hoặc số điện thoại. {isLocalEmulator ? 'Điểm đã lưu trong diễn tập có thể là tọa độ giả.' : ''}</Text>
-    <Button title={busy ? 'Đang tính tuyến…' : 'Tính lại đường đi'} disabled={busy || !origin || !connected || (tracking && (!fresh || !live.foreground))} onPress={() => { setRouteEnabled(true); void preview(); }} />
+  return <View style={{ gap: 10, padding: 12, backgroundColor: '#edf5fb', borderRadius: 12 }}>
+    <Text style={{ fontSize: 18, fontWeight: '700' }}>Đường đến bệnh nhân</Text>
+    <ToggleRow accessibilityLabel="Cập nhật GPS khi mở chỉ đường" label="GPS trực tiếp khi mở bản đồ" value={tracking} disabled={!connected} onValueChange={setLive} />
+    <Text accessibilityLiveRegion="polite" style={{ fontSize: 14, lineHeight: 20 }}>{tracking ? !live.foreground ? 'GPS tạm dừng khi app ở nền.' : live.fix ? `GPS ${fresh ? 'đang cập nhật' : 'đã cũ'} · ±${Math.round(live.fix.accuracy)}m · ${Math.max(0, Math.floor((now - live.fix.timestamp) / 1000))}s trước` : 'Đang lấy GPS…' : 'Vị trí đã lưu · Chưa theo dõi GPS trực tiếp.'}</Text>
+    {tracking && !fresh && <Text style={{ color: '#9f2424', fontSize: 14 }}>Chờ GPS mới, đủ chính xác. Kiểm tra quyền vị trí hoặc ra nơi thoáng.</Text>}
     <RouteMap origin={origin} destination={destination} route={visibleRoute} />
-    {visibleRoute && <><Text accessibilityRole="header" style={{ fontSize: 20, fontWeight: '700', color: '#125b99' }}>Theo đường ô tô: {(visibleRoute.distance / 1000).toFixed(2)} km · khoảng {Math.max(1, Math.ceil(visibleRoute.duration / 60))} phút</Text><Text>Tuyến tính {Math.max(0, Math.floor((now - result!.at) / 1000))} giây trước. Không có giao thông trực tiếp; khi bật GPS, tính lại có giới hạn tần suất để tránh quá tải.</Text></>}
+    {visibleRoute && <><Text accessibilityRole="header" style={{ fontSize: 18, fontWeight: '700', color: '#125b99' }}>{(visibleRoute.distance / 1000).toFixed(2)} km · ~{Math.max(1, Math.ceil(visibleRoute.duration / 60))} phút</Text><Text style={{ fontSize: 14 }}>Tuyến ô tô tham khảo · {Math.max(0, Math.floor((now - result!.at) / 1000))}s trước.</Text></>}
     {!!(error || (tracking && live.error)) && <Text accessibilityRole="alert" style={{ color: '#9f2424' }}>{error || live.error}</Text>}
-    <Button variant="secondary" title={extrasOpen ? 'Ẩn chặng đường và tùy chọn' : 'Xem chặng đường và tùy chọn bản đồ'} onPress={() => setExtrasOpen(value => !value)} />
-    {extrasOpen && <>
-    {visibleRoute?.steps.map((step, index) => <Text key={index}>{index + 1}. {step.instruction} · {Math.round(step.distance)} m</Text>)}
-    <DirectionsLink title="Xem tuyến này trên Google Maps" disabled={!origin || !connected} url={googleDirections(destination, origin ?? undefined)} />
-    <DirectionsLink title="Dẫn đường bằng Google Maps" disabled={!connected} url={googleDirections(destination)} />
-    </>}
-    <Text>EHIS chưa có dẫn đường bằng giọng nói. Tuyến ô tô và thời gian chỉ tham khảo; người báo có thể xác nhận cập nhật điểm bệnh nhân, không tự theo điện thoại người báo.</Text>
+    <Button variant="secondary" loading={busy} title={busy ? 'Đang tính tuyến…' : 'Tính lại tuyến'} disabled={busy || !origin || !connected || (tracking && (!fresh || !live.foreground))} onPress={() => { setRouteEnabled(true); void preview(); }} />
+    <InfoDisclosure title="Chặng đường và tùy chọn">
+      <Text>A · TNV: {origin ? `${origin.latitude.toFixed(6)}, ${origin.longitude.toFixed(6)}` : 'Chưa có vị trí'}</Text>
+      <Text>B · Bệnh nhân: {destination.latitude.toFixed(6)}, {destination.longitude.toFixed(6)}</Text>
+      {visibleRoute?.steps.map((step, index) => <Text key={index}>{index + 1}. {step.instruction} · {Math.round(step.distance)} m</Text>)}
+      <DirectionsLink title="Xem trên Google Maps" disabled={!origin || !connected} url={googleDirections(destination, origin ?? undefined)} />
+      <DirectionsLink title="Dẫn đường Google Maps" disabled={!connected} url={googleDirections(destination)} />
+      <Text>GPS chỉ chạy khi app mở. Tọa độ tính tuyến gửi tới OSRM, bản đồ dùng OpenStreetMap; không gửi hồ sơ hay số điện thoại. Chưa có giao thông trực tiếp hoặc dẫn đường giọng nói. Người báo phải xác nhận khi đổi điểm bệnh nhân. {isLocalEmulator ? 'Điểm diễn tập có thể là tọa độ giả.' : ''}</Text>
+    </InfoDisclosure>
   </View>;
 }

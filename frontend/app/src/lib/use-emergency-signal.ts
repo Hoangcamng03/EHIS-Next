@@ -11,7 +11,7 @@ function enablePlayerAudio(player: AudioPlayer) { player.muted = false; player.v
 // Foreground only. These modules require a new binary and device acceptance.
 export function useEmergencySignal() {
   const player = useAudioPlayer(require('../../assets/emergency-tone.wav'));
-  const [state, setState] = useState({ ready: false, sounding: false, message: 'Bấm thử chuông và giữ ứng dụng mở để nhận cảnh báo.' });
+  const [state, setState] = useState({ ready: false, sounding: false, message: 'Thử chuông và giữ app mở.' });
   const [soundEnabled, setSoundEnabled] = useState(true), [vibrationEnabled, setVibrationEnabled] = useState(true);
   const [foreground, setForeground] = useState(AppState.currentState === 'active');
   const signal = useMemo(() => createNativeSignal({

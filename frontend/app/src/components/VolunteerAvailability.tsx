@@ -1,7 +1,9 @@
 import { Text } from './AppText';
 import { Button } from './ActionButton';
+import { ToggleRow } from './ToggleRow';
+import { InfoDisclosure } from './InfoDisclosure';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AppState, Switch, TextInput, View } from 'react-native';
+import { AppState, TextInput, View } from 'react-native';
 import * as Location from 'expo-location';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { firebaseClient, isLocalEmulator as isTrialMode, readableError, updateAvailability } from '../lib/firebase';
@@ -44,10 +46,10 @@ export function VolunteerAvailability({ uid, paused = false, prepareAlerts }: { 
   const refresh = useCallback(async (method: 'gps' | 'demo', askPermission: boolean) => {
     const startedAt = epoch.current;
     locationRequest.current?.abort(); const abort = new AbortController(); locationRequest.current = abort;
-    if (askPermission) setPhase('Đang lấy vị trí mới · tối đa 12 giây sau khi cấp quyền…');
+    if (askPermission) setPhase('Đang lấy vị trí · tối đa 12 giây…');
     const location = method === 'demo' && isTrialMode ? demoPoint.current : await currentLocation(askPermission, abort.signal);
     if (startedAt !== epoch.current || firebaseClient().auth.currentUser?.uid !== uid) return;
-    if (askPermission) setPhase('Đang xác nhận sẵn sàng và tìm các ca gần còn chờ…');
+    if (askPermission) setPhase('Đang tìm ca gần bạn…');
     await updateAvailability({ available: true, location });
   }, [uid]);
   useEffect(() => {
@@ -85,15 +87,15 @@ export function VolunteerAvailability({ uid, paused = false, prepareAlerts }: { 
     finally { setBusy(false); }
   }
   const approved = verifiedFromServer && volunteer?.verificationStatus === 'approved';
-  return <View style={{ gap: 14, padding: 20, backgroundColor: volunteer?.isAvailable && verifiedFromServer && !paused ? '#d9f3e2' : '#edf1f3', borderRadius: 14, borderWidth: 2, borderColor: volunteer?.isAvailable && verifiedFromServer && !paused ? '#167447' : '#879a9c' }}>
-    <Text accessibilityRole="header" style={{ fontWeight: '800', fontSize: 23 }}>{!verifiedFromServer ? 'Đang xác nhận với máy chủ…' : !approved ? 'Tài khoản chưa được duyệt' : volunteer?.activeIncidentId ? 'ĐANG PHỤ TRÁCH CA' : paused ? 'TẠM MẤT ĐỒNG BỘ' : volunteer?.isAvailable ? 'ĐANG SẴN SÀNG' : 'CHƯA SẴN SÀNG'}</Text>
-    <View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}><Switch accessibilityLabel="Sẵn sàng nhận yêu cầu hỗ trợ" value={!!volunteer?.isAvailable && verifiedFromServer && !paused} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} onValueChange={value => { if (value) void enable('gps'); else void disable(); }} /><Text style={{ flex: 1, fontSize: 18, lineHeight: 26 }}>{busy ? phase || 'Đang chờ máy chủ xác nhận…' : volunteer?.activeIncidentId ? 'Hoàn tất ca hiện tại trước khi nhận ca mới.' : 'Bật để nhận yêu cầu gần bạn, kể cả ca đã báo còn chờ. Tắt khi không thể tham gia.'}</Text></View>
-    <Text>Bật sẵn sàng để gửi vị trí và chuẩn bị chuông. Khi màn hình này đang mở, vị trí được làm mới khoảng mỗi 30 giây; vị trí cũ quá 5 phút sẽ không được chọn cho ca mới.</Text>
-    {volunteer?.isAvailable && <Button title={busy ? 'Đang cập nhật…' : 'Làm mới vị trí GPS'} onPress={() => enable('gps')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} />}
-    {isTrialMode && <><Text>BUỔI CHẠY THỬ: nhập vị trí giả của TNV. Mặc định ở trung tâm TP.HCM. Bấm bật sẵn sàng để áp dụng tọa độ; không dùng cho ca thật.</Text>
+  return <View style={{ gap: 10, padding: 16, backgroundColor: volunteer?.isAvailable && verifiedFromServer && !paused ? '#d9f3e2' : '#edf1f3', borderRadius: 14, borderWidth: 2, borderColor: volunteer?.isAvailable && verifiedFromServer && !paused ? '#167447' : '#879a9c' }}>
+    <Text accessibilityRole="header" style={{ fontWeight: '700', fontSize: 18 }}>{!verifiedFromServer ? 'Đang xác nhận với máy chủ…' : !approved ? 'Tài khoản chưa được duyệt' : volunteer?.activeIncidentId ? 'ĐANG PHỤ TRÁCH CA' : paused ? 'TẠM MẤT ĐỒNG BỘ' : volunteer?.isAvailable ? 'ĐANG SẴN SÀNG' : 'CHƯA SẴN SÀNG'}</Text>
+    <ToggleRow accessibilityLabel="Sẵn sàng nhận yêu cầu hỗ trợ" label={busy ? phase || "Đang xác nhận…" : volunteer?.activeIncidentId ? "Hoàn tất ca để nhận ca mới" : "Sẵn sàng nhận ca gần bạn"} value={!!volunteer?.isAvailable && verifiedFromServer && !paused} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} onValueChange={value => { if (value) void enable('gps'); else void disable(); }} />
+    <InfoDisclosure title="Vị trí và tìm ca"><Text>Gửi vị trí khi bật sẵn sàng, làm mới mỗi 30 giây khi app mở. Tìm ca trong 5km, kể cả ca báo trước còn hạn. Điểm cũ quá 5 phút không được chọn cho ca mới.</Text></InfoDisclosure>
+    {volunteer?.isAvailable && <Button variant="secondary" loading={busy} title={busy ? 'Đang cập nhật…' : 'Làm mới vị trí'} onPress={() => enable('gps')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} />}
+    {isTrialMode && <InfoDisclosure title="Vị trí giả · chỉ local"><Text>Chỉnh tọa độ để diễn tập trên máy tính.</Text>
       <TextInput accessibilityLabel="Vĩ độ TNV giả" value={latitude} onChangeText={setLatitude} editable={!busy && !volunteer?.activeIncidentId} style={{ backgroundColor: 'white', borderRadius: 8, padding: 12 }} />
       <TextInput accessibilityLabel="Kinh độ TNV giả" value={longitude} onChangeText={setLongitude} editable={!busy && !volunteer?.activeIncidentId} style={{ backgroundColor: 'white', borderRadius: 8, padding: 12 }} />
-      <Button title="Bật sẵn sàng bằng vị trí giả" onPress={() => enable('demo')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} /></>}
+      <Button title="Bật sẵn sàng bằng vị trí giả" onPress={() => enable('demo')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} /></InfoDisclosure>}
     {verifiedFromServer && volunteer?.location && <><Button variant="secondary" title={showLocation ? 'Ẩn bản đồ vị trí của tôi' : 'Xem vị trí tôi đã gửi'} onPress={() => setShowLocation(value => !value)} color="#526f67" />{showLocation && <LocationMap point={volunteer.location} title="Vị trí TNV đã gửi lên máy chủ" />}</>}
     {!!error && <Text accessibilityRole="alert" style={{ color: '#9f2424' }}>{error}</Text>}
   </View>;

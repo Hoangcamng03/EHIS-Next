@@ -6,7 +6,7 @@ export function useEmergencySignal() {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const muted = useRef(false), mounted = useRef(true);
   const [ready, setReady] = useState(false), [soundEnabled, setSoundEnabled] = useState(true);
-  const [sounding, setSounding] = useState(false), [message, setMessage] = useState('Bật sẵn sàng hoặc bấm thử chuông để chuẩn bị âm thanh.');
+  const [sounding, setSounding] = useState(false), [message, setMessage] = useState('Bấm Thử chuông để bật âm thanh.');
   const [foreground, setForeground] = useState(() => typeof document === 'undefined' || document.visibilityState === 'visible');
   const vibrationSupported = typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function';
   const [vibrationEnabled, setVibrationEnabled] = useState(true);
@@ -28,7 +28,7 @@ export function useEmergencySignal() {
       if (context.current.state !== 'running') await Promise.race([context.current.resume(), new Promise<never>((_, reject) => { resumeTimer = setTimeout(() => reject(new Error('audio-resume-timeout')), 4000); })]);
       if (!mounted.current || muted.current) return false;
       const running = context.current.state === 'running';
-      setReady(running); setMessage(running ? 'Chuông đã sẵn sàng. Kiểm tra âm lượng thiết bị và giữ trang này mở.' : 'Trình duyệt đang chặn âm thanh. Bấm Bật và thử chuông.');
+      setReady(running); setMessage(running ? 'Chuông sẵn sàng · Giữ trang mở.' : 'Trình duyệt đang chặn âm thanh. Bấm Thử chuông.');
       return running;
     } catch {
       if (mounted.current && !muted.current) { setReady(false); setMessage('Chưa bật được âm thanh. Cảnh báo vẫn hiện trên màn hình; thử lại hoặc dùng trình duyệt khác.'); }
@@ -41,8 +41,8 @@ export function useEmergencySignal() {
     let played = false;
     if (!muted.current && context.current?.state === 'running') {
       try { cancel.current = startAlertTone(context.current, kind); played = true; }
-      catch { setReady(false); setMessage('Chuông chưa phát được. Bấm Bật và thử chuông; yêu cầu vẫn hiển thị.'); }
-    } else if (!muted.current) { setReady(false); setMessage('Có cập nhật mới nhưng âm thanh chưa được cho phép. Bấm Bật và thử chuông.'); }
+      catch { setReady(false); setMessage('Chuông chưa phát được. Bấm Thử chuông; yêu cầu vẫn hiển thị.'); }
+    } else if (!muted.current) { setReady(false); setMessage('Chạm Thử chuông để cho phép âm thanh.'); }
     if (vibration.current && typeof navigator.vibrate === 'function') navigator.vibrate(kind === 'request' ? [120, 160, 120] : [100]);
     setSounding(played);
     timer.current = setTimeout(() => { cancel.current?.(); cancel.current = null; timer.current = null; if (mounted.current) setSounding(false); }, signalDuration(kind) * 1000);

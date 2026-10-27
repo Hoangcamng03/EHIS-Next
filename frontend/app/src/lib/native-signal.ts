@@ -19,7 +19,7 @@ export function createNativeSignal(port: NativeSignalPort) {
       await port.prepare();
       if (disposed || muted || started !== epoch || !port.active()) return false;
       ready = port.loaded();
-      notify({ ready, message: ready ? 'Chuông đã sẵn sàng. Bấm thử chuông và kiểm tra âm lượng thiết bị.' : 'Âm thanh đang tải. Bấm thử lại; cảnh báo hình ảnh vẫn hoạt động.' });
+      notify({ ready, message: ready ? 'Chuông sẵn sàng · Kiểm tra âm lượng Media.' : 'Đang tải âm thanh. Bấm Thử chuông để kiểm tra.' });
       return ready;
     } catch {
       if (!disposed && !muted && started === epoch) { ready = false; notify({ ready: false, message: 'Chưa chuẩn bị được chuông. Thử lại; cảnh báo hình ảnh vẫn hoạt động.' }); }

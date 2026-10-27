@@ -7,7 +7,7 @@ export function routeHtml(origin: MapPoint | null, destination: MapPoint, route:
   const payload = JSON.stringify({ origin, destination, coordinates: route?.coordinates ?? [] }).replace(/</g, '\\u003c');
   return `<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-<style>html,body,#map{height:100%;width:100%;margin:0;font-family:Arial,sans-serif}#status{position:absolute;z-index:1000;top:8px;left:50px;right:8px;background:white;padding:8px;border-radius:8px;font-size:12px}.pin{border:3px solid white;border-radius:50%;color:white;text-align:center;font:bold 14px/28px Arial;box-shadow:0 1px 6px #333}</style></head>
+<style>html,body,#map{height:100%;width:100%;margin:0;font-family:Arial,sans-serif}#status{position:absolute;z-index:1000;top:8px;left:72px;right:8px;background:white;padding:8px;border-radius:8px;font-size:12px}.leaflet-control-zoom a,.leaflet-touch .leaflet-control-zoom a{width:48px;height:48px;line-height:48px;font-size:22px;touch-action:manipulation}.pin{width:28px;height:28px;margin:7px;border:3px solid white;border-radius:50%;color:white;text-align:center;font:bold 14px/28px Arial;box-shadow:0 1px 6px #333}</style></head>
 <body><div id="status" role="status">Đang tải bản đồ…</div><div id="map" aria-label="Bản đồ tuyến đường TNV đến bệnh nhân"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
@@ -16,7 +16,7 @@ const data=${payload};const map=L.map('map',{scrollWheelZoom:false});
 const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>'}).addTo(map);
 tiles.on('tileerror',()=>{document.getElementById('status').textContent='Một phần bản đồ chưa tải được. Có thể mở Google Maps.';});
 tiles.on('load',()=>{document.getElementById('status').textContent='A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo';});
-function pin(point,label,color,text){return L.marker([point.latitude,point.longitude],{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+color+'">'+label+'</div>',iconSize:[34,34],iconAnchor:[17,17]})}).addTo(map).bindTooltip(text);}
+function pin(point,label,color,text){return L.marker([point.latitude,point.longitude],{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+color+'">'+label+'</div>',iconSize:[48,48],iconAnchor:[24,24]})}).addTo(map).bindTooltip(text);}
 let a=null,b=null,line=null,previousTarget='',hadRoute=false;
 window.ehisUpdate=function(next){
 const bounds=[[next.destination.latitude,next.destination.longitude]],target=next.destination.latitude+','+next.destination.longitude;

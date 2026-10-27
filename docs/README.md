@@ -94,6 +94,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md) | Đợt UI/tải lớn 27/10; trạng thái cloud/APK/máy thật tra STATUS |
 | [FIX_2026_10_27_0_4_9.json](testing/verification/FIX_2026_10_27_0_4_9.json) | Kết quả hồi quy, 32 ca bật muộn và tải local 0.4.9 |
 | [VERIFICATION_V0_4_9](testing/verification/VERIFICATION_V0_4_9.md) | Sửa GPS, chuông, nhiều ca chờ và TNV bật muộn; nghiệm thu máy riêng |
+| [VERIFICATION_V0_4_10](testing/verification/VERIFICATION_V0_4_10.md) | Chữ gọn, nút/công tắc dễ thao tác; flow hai ca, đăng ký và map trên màn nhỏ |
 | [MIDTERM_2026_10_27.json](testing/verification/MIDTERM_2026_10_27.json) | Số liệu hai lớp gọi tải lớn, hash source và dependency 0.4.8 |
 
 ### 8.2. Bằng chứng các mốc cũ — dùng để đối chiếu

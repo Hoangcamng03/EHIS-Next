@@ -2,7 +2,7 @@
 
 [Danh mục tài liệu](../README.md) · [Bắt đầu từ đầu](../START_HERE_DEMO.md) · [Trạng thái phiên bản](../STATUS.md)
 
-[Bắt đầu](../START_HERE_DEMO.md) · [Tài khoản](MANUAL_DEMO_ACCOUNTS.md) · [Khi có lỗi](DEMO_TROUBLESHOOTING.md). Tên nút theo source 0.4.9; tra STATUS để biết bản web/APK đang bàn giao. Điền tên thật của bốn thành viên trước buổi tập. Bản 0.4.7 còn dùng tên Kết thúc phiên hỗ trợ; 0.4.8 dùng Hoàn tất ca hỗ trợ.
+[Bắt đầu](../START_HERE_DEMO.md) · [Tài khoản](MANUAL_DEMO_ACCOUNTS.md) · [Khi có lỗi](DEMO_TROUBLESHOOTING.md). Tên nút theo source 0.4.10; tra STATUS để biết bản web/APK đang bàn giao. Điền tên thật của bốn thành viên trước buổi tập. Bản 0.4.7 còn dùng tên Kết thúc phiên hỗ trợ; 0.4.8 dùng Hoàn tất ca hỗ trợ.
 
 ## 1. Chia vai theo thiết bị thực có
 
@@ -36,7 +36,7 @@ Nếu app hiện lựa chọn đối tượng: tài khoản đã cấp chọn **
 | 2 | B | Bật sẵn sàng V1, thử chuông, giữ màn mở | D xác nhận V1 sẵn sàng trước khi C gửi |
 | 3 | C | Quét QR P1, xác nhận đang cạnh bệnh nhân, bấm Báo tình nguyện viên gần đây | Đang gửi → backend xác nhận → web mở bảng hỏi. Chưa ai được nói TNV đã nhận |
 | 4 | C | Chọn ba câu theo tình huống giả; không rõ thì chọn Không rõ; bỏ trống phone rồi gửi bổ sung | Web xác nhận đã ghi nhận bổ sung; không tạo ca mới |
-| 5 | B | Khi cảnh báo đỏ hiện, bấm Nhận ca và mở đường đi | Chỉ sau xác nhận máy chủ mới xem chi tiết; C thấy TNV đã nhận, A thấy trạng thái thay đổi |
+| 5 | B | Khi cảnh báo đỏ hiện, bấm Nhận ca | Chỉ sau xác nhận máy chủ mới xem chi tiết; C thấy TNV đã nhận, A thấy trạng thái thay đổi |
 | 6 | B/C | Xem bản đồ trong app. Nếu thử GPS, đi bộ an toàn và giữ màn chỉ đường mở. C chỉ cập nhật điểm khi đứng cạnh điểm mới và xác nhận | Ký hiệu A/B trên bản đồ lần lượt là vị trí TNV/điểm cần hỗ trợ, khác tên thành viên A/B; tọa độ điểm bệnh nhân không tự chạy theo người báo. Thời gian tuyến chỉ tham khảo |
 | 7 | B | Bấm Xác nhận đã đến nơi khi đến điểm diễn tập | A/C thấy TNV xác nhận đã đến; đây là thao tác xác nhận của TNV |
 | 8 | B | Bấm Hoàn tất ca hỗ trợ và xác nhận | A/C thấy ca kết thúc; B không còn xem hồ sơ riêng/bản đồ của ca |

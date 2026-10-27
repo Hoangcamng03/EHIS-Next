@@ -1,5 +1,6 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
+import '../lib/map-controls.css';
 import type { MapPoint } from '../lib/map';
 import type { RoadRoute } from '../lib/directions';
 
@@ -17,7 +18,7 @@ export const PersistentRouteMap = memo(function PersistentRouteMap({ origin, des
       tiles.on('tileerror', () => { if (!cancelled) setError('Một phần bản đồ chưa tải được. Kiểm tra Internet hoặc mở Google Maps.'); });
       let a: import('leaflet').Marker | undefined, b: import('leaflet').Marker | undefined, line: import('leaflet').Polyline | undefined, target = '', hadRoute = false;
       function pin(point: MapPoint, label: string, color: string, tooltip: string) {
-        return L.marker([point.latitude, point.longitude], { icon: L.divIcon({ className: '', html: `<div style="border:3px solid white;border-radius:50%;background:${color};color:white;text-align:center;font:bold 14px/28px Arial;box-shadow:0 1px 6px #333">${label}</div>`, iconSize: [34, 34], iconAnchor: [17, 17] }) }).addTo(map).bindTooltip(tooltip);
+        return L.marker([point.latitude, point.longitude], { icon: L.divIcon({ className: '', html: `<div style="width:28px;height:28px;margin:7px;border:3px solid white;border-radius:50%;background:${color};color:white;text-align:center;font:bold 14px/28px Arial;box-shadow:0 1px 6px #333">${label}</div>`, iconSize: [48, 48], iconAnchor: [24, 24] }) }).addTo(map).bindTooltip(tooltip);
       }
       render.current = data => {
         const nextTarget = `${data.destination.latitude},${data.destination.longitude}`, bounds: [number, number][] = [[data.destination.latitude, data.destination.longitude]];
@@ -34,5 +35,5 @@ export const PersistentRouteMap = memo(function PersistentRouteMap({ origin, des
     }).catch(() => { if (!cancelled) setError('Chưa tải được bản đồ. Có thể mở Google Maps bên dưới.'); });
     return () => { cancelled = true; cleanup?.(); };
   }, []);
-  return <div style={{ width: '100%', minWidth: 0 }}><p style={{ fontSize: 12 }}>A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo</p><div ref={container} role="region" aria-label="Bản đồ tuyến đường TNV đến bệnh nhân" style={{ width: '100%', height: 350, border: '1px solid #b8cbc1', borderRadius: 12 }} />{!!error && <p role="alert">{error}</p>}</div>;
+  return <div style={{ width: '100%', minWidth: 0 }}><p style={{ fontSize: 12 }}>A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo</p><div ref={container} className="ehis-route-map" role="region" aria-label="Bản đồ tuyến đường TNV đến bệnh nhân" style={{ width: '100%', height: 350, border: '1px solid #b8cbc1', borderRadius: 12 }} />{!!error && <p role="alert">{error}</p>}</div>;
 });

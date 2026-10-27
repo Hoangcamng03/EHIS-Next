@@ -1,7 +1,9 @@
 import { Text } from '../components/AppText';
 import { Button } from '../components/ActionButton';
+import { ToggleRow } from '../components/ToggleRow';
+import { InfoDisclosure } from '../components/InfoDisclosure';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Modal, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { Modal, ScrollView, StyleSheet, View } from 'react-native';
 import { User } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 
@@ -28,8 +30,8 @@ const OfferSummary = memo(function OfferSummary({ alert, onOpen }: { alert: Aler
     <Button variant="secondary" title={`Xem ca ${alert.incidentId.slice(0, 10)}`} color={palette.emergency.primary} onPress={() => onOpen(alert.incidentId)} /></View>;
 });
 function Observation({ answers }: { answers: Answers | null }) {
-  if (!answers) return <Text>Người báo chưa gửi câu trả lời bổ sung.</Text>;
-  return <View style={styles.answers}><Text>Phản hồi: {labels[answers.responsiveness]}</Text><Text>Nhịp thở: {labels[answers.breathing]}</Text><Text>Chảy máu bên ngoài: {labels[answers.bleeding]}</Text></View>;
+  if (!answers) return <Text>Chờ người báo bổ sung tình trạng.</Text>;
+  return <View style={styles.answers}><Text>Phản hồi: {labels[answers.responsiveness]}</Text><Text>Thở: {labels[answers.breathing]}</Text><Text>Chảy máu: {labels[answers.bleeding]}</Text></View>;
 }
 function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false, canAccept = true }: { alert: Alert; connected: boolean; now: number; onAccepted?: (id: string) => void; autoPreview?: boolean; canAccept?: boolean }) {
   const [details, setDetails] = useState<Details>();
@@ -67,20 +69,20 @@ function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false,
   const terminal = offerExpired || ['closed', 'completed', 'cancelled', 'expired'].includes(alert.status);
   const privateData = connected && details?.revision === alert.reportRevision ? details : undefined;
   return <View style={[styles.card, !terminal && !assigned && styles.urgent]}>
-    <Text style={styles.cardTitle}>{assigned ? 'Bạn đang phụ trách ca' : terminal ? 'Ca / lời mời đã kết thúc' : 'Yêu cầu hỗ trợ mới'}</Text>
-    <Text>Ca {alert.incidentId.slice(0, 10)} · Đường thẳng lúc gửi lời mời: {alert.distanceMeters} m</Text>
+    {(assigned || terminal) && <Text style={styles.cardTitle}>{assigned ? 'Đang phụ trách' : 'Đã kết thúc'}</Text>}
+    <Text>Ca {alert.incidentId.slice(0, 10)} · Đường thẳng: {alert.distanceMeters} m</Text>
     <Text style={!terminal && !assigned ? styles.urgentTitle : styles.revision}>{statusLabel[visibleStatus] || visibleStatus}</Text>
-    <Text style={styles.revision}>{alert.reportRevision > 0 ? `Thông tin bổ sung · bản ${alert.reportRevision}` : 'Chưa có thông tin bổ sung'}</Text>
+
     {!terminal && <Observation answers={alert.answers} />}
-    {alert.status === 'offered' && !offerExpired && <><Text style={styles.note}>Hồ sơ sức khỏe và vị trí chi tiết chỉ mở sau khi bạn nhận ca, theo quyền chia sẻ của bệnh nhân. GPS sẽ bật trên màn chỉ đường; tọa độ tính tuyến gửi đến OSRM. Mỗi TNV chỉ phụ trách một ca tại một thời điểm.</Text><Button title={busy ? 'Đang xác nhận nhận ca…' : 'Nhận ca và mở đường đi'} disabled={busy || !connected || !canAccept} color={palette.emergency.primary} onPress={accept} /></>}
+    {alert.status === 'offered' && !offerExpired && <><Text style={styles.note}>Nhận ca để mở hồ sơ được chia sẻ và bản đồ. Tọa độ tính tuyến gửi tới OSRM.</Text><Button loading={busy} title={busy ? 'Đang nhận…' : 'Nhận ca'} disabled={busy || !connected || !canAccept} color={palette.emergency.primary} onPress={accept} /></>}
     {assigned && <View style={styles.answers}>
-      <Text>{privateData ? `Số điện thoại người báo: ${privateData.phone || 'Không cung cấp'}` : 'Đang chờ thông tin được cấp quyền từ máy chủ…'}</Text>
+      <Text>{privateData ? `Người báo: ${privateData.phone || 'Không cung cấp'}` : 'Đang tải chi tiết ca…'}</Text>
       {!privateData && !!error && <Button title="Tải lại chi tiết ca" disabled={!connected} onPress={() => { setError(''); setDetailAttempt(value => value + 1); }} />}
-      {privateData?.patientProfile ? <View style={styles.answers}><Text style={styles.cardTitle}>Hồ sơ bệnh nhân tự khai</Text><Text>Họ tên: {privateData.patientProfile.fullName}</Text><Text>Dị ứng: {privateData.patientProfile.allergies.join(', ') || 'Chưa khai báo'}</Text><Text>Liên hệ khẩn cấp: {privateData.patientProfile.emergencyContactPhone || 'Chưa khai báo'}</Text><Text>Chỉ dùng cho ca đang phụ trách; thông tin chưa được xác minh y khoa.</Text></View> : privateData && <Text>Bệnh nhân không chia sẻ hồ sơ sức khỏe qua thẻ này.</Text>}
-      {(alert.locationRevision || 0) > 0 && <Text style={styles.urgentTitle}>Điểm bệnh nhân đã được xác nhận lại · lần {alert.locationRevision}</Text>}{connected && details?.location && <IncidentNavigation destination={details.location} connected={connected && (details.locationRevision || 0) === (alert.locationRevision || 0)} autoPreview={autoPreview || (alert.locationRevision || 0) > 0} />}{connected && (details?.locationRevision || 0) !== (alert.locationRevision || 0) && <Text>Đang tải điểm bệnh nhân mới từ máy chủ…</Text>}
-      {alert.status === 'accepted' && <Button title="Xác nhận đã đến nơi" disabled={busy || !connected} onPress={arrive} />}
-      <Text>Chỉ kết thúc khi phiên hỗ trợ đã xong. Sau đó bạn có thể bật sẵn sàng để thử ca tiếp theo.</Text>
-      <ConfirmAction tone="complete" title="Hoàn tất ca hỗ trợ" explanation="Bạn xác nhận phiên hỗ trợ đã xong? Sau bước này, thông tin riêng và bản đồ của ca sẽ đóng." disabled={busy || !connected} onConfirm={finish} />
+      {privateData?.patientProfile ? <View style={styles.answers}><Text style={styles.cardTitle}>Hồ sơ bệnh nhân</Text><Text>Họ tên: {privateData.patientProfile.fullName}</Text><Text>Dị ứng: {privateData.patientProfile.allergies.join(', ') || 'Chưa khai báo'}</Text><Text>Liên hệ khẩn cấp: {privateData.patientProfile.emergencyContactPhone || 'Chưa khai báo'}</Text><Text>Thông tin tự khai, chưa xác minh y tế.</Text></View> : privateData && <Text>Bệnh nhân không chia sẻ hồ sơ sức khỏe.</Text>}
+      {(alert.locationRevision || 0) > 0 && <Text style={styles.urgentTitle}>Điểm bệnh nhân vừa được cập nhật</Text>}{connected && details?.location && <IncidentNavigation destination={details.location} connected={connected && (details.locationRevision || 0) === (alert.locationRevision || 0)} autoPreview={autoPreview || (alert.locationRevision || 0) > 0} />}{connected && (details?.locationRevision || 0) !== (alert.locationRevision || 0) && <Text>Đang cập nhật điểm đến…</Text>}
+      {alert.status === 'accepted' && <Button loading={busy} title="Đã đến nơi" disabled={busy || !connected} onPress={arrive} />}
+
+      <ConfirmAction tone="complete" title="Hoàn tất ca hỗ trợ" explanation="Hoàn tất ca và đóng thông tin riêng?" disabled={busy || !connected} onConfirm={finish} />
     </View>}
     {!!error && !terminal && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
   </View>;
@@ -139,36 +141,36 @@ function VolunteerDashboard({ user }: { user: User }) {
     // The API has confirmed assignment; do not wait for a later listener to show it.
     setFeed(previous => ({ ...previous, alerts: previous.alerts.map(alert => alert.incidentId === id ? { ...alert, status: 'accepted' } : alert) }));
   }
-  return <ScrollView contentContainerStyle={styles.page} keyboardShouldPersistTaps="handled">
+  return <ScrollView contentContainerStyle={styles.page} keyboardShouldPersistTaps="always" keyboardDismissMode="on-drag">
     <Text style={styles.eyebrow}>EHIS · TÌNH NGUYỆN VIÊN</Text><Text style={styles.title}>{assigned.length ? 'Đang hỗ trợ' : 'Hỗ trợ cộng đồng'}</Text>
     {!checked ? <Text>Đang xác nhận quyền với máy chủ…</Text> : !approved ? <VolunteerApplication status={application} /> : <>
-      {!assigned.length && <Text style={styles.intro}>Bật sẵn sàng, kiểm tra chuông và giữ trang này mở. Yêu cầu mới sẽ hiện cảnh báo nổi bật; nhận ca để mở hồ sơ được chia sẻ và đường đi.</Text>}
-      {!connected && <Text accessibilityRole="alert">Đang chờ đồng bộ máy chủ. Chưa thể nhận hoặc kết thúc ca.</Text>}
-      {feed.overflow && <Text accessibilityRole="alert" style={styles.error}>Có hơn 100 lời mời. Danh sách đang giới hạn; báo người vận hành trước khi tiếp tục buổi thử.</Text>}
-      {offers.length > 0 && <View style={assigned.length ? styles.card : styles.urgent}><Text accessibilityRole="alert" style={assigned.length ? styles.cardTitle : styles.urgentTitle}>{assigned.length ? `Còn ${offers.length} yêu cầu khác đang chờ` : `⚠ CẦN HỖ TRỢ KHẨN · ${offers.length} YÊU CẦU`}</Text><Text style={styles.urgentText}>{assigned.length ? "Bạn đang phụ trách một ca. Hãy hoàn tất ca hiện tại trước khi nhận ca khác." : "Chưa có người nhận ca cho đến khi máy chủ xác nhận. Xem tình trạng và chỉ nhận nếu bạn có thể hỗ trợ."}</Text><Button title="Mở cảnh báo yêu cầu" color={palette.emergency.primary} onPress={() => setWakeId(offers[0].incidentId)} /></View>}
+      {!assigned.length && <Text style={styles.intro}>Bật sẵn sàng để nhận yêu cầu gần bạn.</Text>}
+      {!connected && <Text accessibilityRole="alert">Đang đồng bộ · Tạm khóa thao tác ca.</Text>}
+      {feed.overflow && <Text accessibilityRole="alert" style={styles.error}>Vượt 100 lời mời. Liên hệ người vận hành.</Text>}
+      {offers.length > 0 && <View style={assigned.length ? styles.card : styles.urgent}><Text accessibilityRole="alert" style={assigned.length ? styles.cardTitle : styles.urgentTitle}>{assigned.length ? `Còn ${offers.length} yêu cầu khác đang chờ` : `⚠ Cần hỗ trợ khẩn · ${offers.length} ca`}</Text><Text style={styles.urgentText}>{assigned.length ? "Hoàn tất ca hiện tại trước khi nhận ca khác." : "Chỉ nhận khi bạn có thể đến hỗ trợ."}</Text><Button title="Xem yêu cầu" color={palette.emergency.primary} onPress={() => setWakeId(offers[0].incidentId)} /></View>}
       {assigned.map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected && approved} now={now} autoPreview={autoRouteId === alert.incidentId} />)}
       {offers.map(alert => <OfferSummary key={alert.incidentId} alert={alert} onOpen={openOffer} />)}
       <VolunteerAvailability key={user.uid} uid={user.uid} paused={!connected || !focused} prepareAlerts={signal.prepare} />
-      <View style={styles.card}><Text style={styles.cardTitle}>Chuông và rung cảnh báo</Text><Text accessibilityLiveRegion="polite">{signal.sounding ? 'Đang phát chuông cảnh báo…' : signal.message}</Text><Button variant="secondary" title="Bật và thử chuông · 1 giây" onPress={signal.test} color="#0b5962" /><View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}><Switch accessibilityLabel="Rung nhẹ khi có cảnh báo" value={signal.vibrationEnabled} onValueChange={signal.toggleVibration} disabled={!signal.vibrationSupported} /><Text style={{ flex: 1 }}>{signal.vibrationSupported ? 'Rung nhẹ nếu thiết bị cho phép.' : 'Trình duyệt này chưa hỗ trợ rung; cảnh báo hình ảnh vẫn hoạt động.'}</Text></View><Text>Chuông luôn được bật trong EHIS khi sẵn sàng. Android: bật âm lượng Media; Im lặng/Rung khác với Media bằng 0 hoặc Không làm phiền. Hãy thử chuông trên máy của bạn.</Text>{signal.sounding && <Button title="Dừng chuông hiện tại" onPress={signal.stop} color={palette.emergency.primary} />}<Text style={styles.note}>Yêu cầu mới: chuông tối đa 6 giây. Thông tin bổ sung mới: 2 giây. Không phát lặp cho cùng một bản cập nhật. Web cần được mở ở phía trước; không bảo đảm chuông khi khóa màn hình hoặc đóng trình duyệt.</Text></View>
-      {connected && !offers.length && !assigned.length && <Text>Chưa có lời mời đang chờ. Bật sẵn sàng để tìm yêu cầu gần bạn, bao gồm ca đã báo còn hạn và chưa có người nhận.</Text>}
-      {history.length > 0 && <View style={styles.card}><Button variant="secondary" title={historyOpen ? 'Ẩn lịch sử gần đây' : `Xem lịch sử gần đây (${history.length})`} color="#526f67" onPress={() => setHistoryOpen(value => !value)} /><Text>Tối đa 30 thông báo gần nhất. Ca đang phụ trách luôn có khu vực riêng phía trên.</Text>{historyOpen && history.map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected && approved} now={now} />)}</View>}
-      <Modal visible={!!wakeOffer && foreground && focused && connected} transparent animationType="fade" onRequestClose={closeAlarm}>
-        <View style={styles.backdrop}><ScrollView contentContainerStyle={styles.modalContent} keyboardShouldPersistTaps="handled"><Text accessibilityRole="alert" style={styles.urgentTitle}>⚠ CẦN HỖ TRỢ KHẨN</Text>{wakeOffer && <><Text style={styles.urgentText}>Lời mời còn khoảng {Math.max(0, Math.ceil((wakeOffer.offerExpiresAt!.toMillis() - now) / 1000))} giây theo hạn máy chủ. {offers.length > 1 ? `Có ${offers.length} lời mời đang chờ.` : ''}</Text>{!available && !assigned.length && <Text>Bật sẵn sàng trước khi nhận lời mời này.</Text>}<IncidentAlert alert={wakeOffer} connected={connected && approved} now={now} onAccepted={accepted} canAccept={available && !assigned.length} /></>}{offers.length > 1 && <View style={{ gap: 8 }}><Text style={styles.cardTitle}>Chọn ca chờ khác ({offers.length})</Text>{offers.map((item, index) => <Button key={item.incidentId} variant={item.incidentId === wakeId ? "primary" : "secondary"} title={`${index + 1}. Ca ${item.incidentId.slice(0, 10)} · ${item.distanceMeters} m${item.incidentId === wakeId ? " · đang xem" : ""}`} onPress={() => { stop(); setWakeId(item.incidentId); }} />)}</View>}<Button variant="secondary" title="Xem tất cả ca chờ và dừng chuông hiện tại" onPress={closeAlarm} color="#526f67" /><Text style={styles.note}>Đóng cửa sổ chỉ xác nhận bạn đã xem; không tự nhận hoặc từ chối ca. Lời mời còn hạn vẫn nằm trong danh sách.</Text></ScrollView></View>
+      <View style={styles.card}><Text style={styles.cardTitle}>Âm thanh cảnh báo</Text><Text accessibilityLiveRegion="polite" style={styles.note}>{signal.sounding ? "Đang phát chuông…" : signal.message}</Text><Button variant="secondary" title="Thử chuông" onPress={signal.test} color="#0b5962" />{signal.sounding && <Button title="Dừng chuông" onPress={signal.stop} color={palette.emergency.primary} />}<InfoDisclosure title="Tùy chọn chuông và rung"><ToggleRow accessibilityLabel="Rung nhẹ khi có cảnh báo" label={signal.vibrationSupported ? "Rung khi có cảnh báo" : "Thiết bị chưa hỗ trợ rung"} value={signal.vibrationEnabled} onValueChange={signal.toggleVibration} disabled={!signal.vibrationSupported} /><Text style={styles.note}>Chuông luôn bật khi sẵn sàng. Android cần Media &gt; 0. Yêu cầu mới: 6 giây; bổ sung: 2 giây. Chưa bảo đảm phát khi khóa màn hình, đóng app hoặc bật Không làm phiền.</Text></InfoDisclosure></View>
+      {connected && !offers.length && !assigned.length && <Text>Chưa có ca chờ gần bạn.</Text>}
+      {history.length > 0 && <View style={styles.card}><Button variant="secondary" title={historyOpen ? 'Ẩn lịch sử gần đây' : `Xem lịch sử gần đây (${history.length})`} color="#526f67" onPress={() => setHistoryOpen(value => !value)} />{historyOpen && history.map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected && approved} now={now} />)}</View>}
+      <Modal visible={!!wakeOffer && foreground && focused && connected} transparent animationType="none" hardwareAccelerated onRequestClose={closeAlarm}>
+        <View style={styles.backdrop}><ScrollView contentContainerStyle={styles.modalContent} keyboardShouldPersistTaps="always" keyboardDismissMode="on-drag"><Text accessibilityRole="alert" style={styles.urgentTitle}>⚠ Cần hỗ trợ khẩn</Text>{wakeOffer && <><Text style={styles.urgentText}>Còn {Math.max(0, Math.ceil((wakeOffer.offerExpiresAt!.toMillis() - now) / 1000))} giây để nhận. {offers.length > 1 ? `Có ${offers.length} lời mời đang chờ.` : ''}</Text>{!available && !assigned.length && <Text>Bật sẵn sàng trước khi nhận lời mời này.</Text>}<IncidentAlert alert={wakeOffer} connected={connected && approved} now={now} onAccepted={accepted} canAccept={available && !assigned.length} /></>}{offers.length > 1 && <View style={{ gap: 8 }}><Text style={styles.cardTitle}>Chọn ca chờ khác ({offers.length})</Text>{offers.map((item, index) => <Button key={item.incidentId} variant={item.incidentId === wakeId ? "primary" : "secondary"} title={`${index + 1}. Ca ${item.incidentId.slice(0, 10)} · ${item.distanceMeters} m${item.incidentId === wakeId ? " · đang xem" : ""}`} onPress={() => { stop(); setWakeId(item.incidentId); }} />)}</View>}<Button variant="secondary" title="Đóng · Xem danh sách ca" onPress={closeAlarm} color="#526f67" /><Text style={styles.note}>Đóng cửa sổ không hủy lời mời.</Text></ScrollView></View>
       </Modal>
     </>}
     <AccountBar />
     {!!error && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
-    <Text style={styles.note}>Chưa có thông báo đẩy khi app đóng. Không coi việc bật sẵn sàng là cam kết có ca; không thay thế dịch vụ cấp cứu.</Text>
+    <Text style={styles.note}>Giữ app mở khi sẵn sàng · Chưa có cảnh báo nền.</Text>
   </ScrollView>;
 }
 const styles = StyleSheet.create({
-  page: { padding: 20, gap: 18, backgroundColor: palette.volunteer.background, flexGrow: 1, width: '100%', maxWidth: 800, alignSelf: 'center' },
+  page: { padding: 16, gap: 14, backgroundColor: palette.volunteer.background, flexGrow: 1, width: '100%', maxWidth: 800, alignSelf: 'center' },
   urgent: { backgroundColor: palette.emergency.background, borderColor: palette.emergency.border, borderWidth: 2, borderRadius: 16, padding: 18, gap: 12 },
-  urgentTitle: { color: palette.emergency.ink, fontSize: 24, fontWeight: '800' }, urgentText: { color: '#57282b', fontSize: 17, lineHeight: 25 },
+  urgentTitle: { color: palette.emergency.ink, fontSize: 20, lineHeight: 27, fontWeight: '700' }, urgentText: { color: '#57282b', fontSize: 16, lineHeight: 23 },
   backdrop: { flex: 1, backgroundColor: 'rgba(19, 30, 33, 0.75)', padding: 18, justifyContent: 'center' },
-  modalContent: { backgroundColor: palette.emergency.background, padding: 20, gap: 16, borderRadius: 18, borderWidth: 3, borderColor: palette.emergency.border, width: '100%', maxWidth: 760, alignSelf: 'center', marginVertical: 20 },
-  eyebrow: { color: '#526f67', fontSize: 12, fontWeight: '700' }, title: { color: '#123c37', fontSize: 38, fontWeight: '700' },
-  intro: { fontSize: 17, lineHeight: 26, color: '#36574e' }, card: { backgroundColor: '#fff', padding: 20, borderRadius: 16, gap: 14, borderWidth: 1, borderColor: '#dce8e0' },
-  cardTitle: { fontSize: 19, fontWeight: '700', color: '#123c37' }, input: { borderWidth: 1, borderColor: '#b8cbc1', borderRadius: 10, padding: 14 },
-  revision: { color: '#096951', fontWeight: '700' }, answers: { gap: 8 }, error: { color: '#9f2424', fontSize: 17 }, note: { color: '#405e54', fontSize: 16, lineHeight: 25 },
+  modalContent: { backgroundColor: palette.emergency.background, padding: 16, gap: 12, borderRadius: 16, borderWidth: 3, borderColor: palette.emergency.border, width: '100%', maxWidth: 760, alignSelf: 'center', marginVertical: 20 },
+  eyebrow: { color: '#526f67', fontSize: 12, fontWeight: '700' }, title: { color: '#123c37', fontSize: 26, lineHeight: 33, fontWeight: '700' },
+  intro: { fontSize: 16, lineHeight: 23, color: '#36574e' }, card: { backgroundColor: '#fff', padding: 16, borderRadius: 16, gap: 12, borderWidth: 1, borderColor: '#dce8e0' },
+  cardTitle: { fontSize: 17, lineHeight: 24, fontWeight: '700', color: '#123c37' }, input: { borderWidth: 1, borderColor: '#b8cbc1', borderRadius: 10, padding: 14 },
+  revision: { color: '#096951', fontWeight: '700' }, answers: { gap: 8 }, error: { color: '#9f2424', fontSize: 17 }, note: { color: '#405e54', fontSize: 14, lineHeight: 20 },
 });
