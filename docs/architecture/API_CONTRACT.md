@@ -75,7 +75,7 @@ Input `{ incidentId }`. Mỗi lần gọi kiểm tra đúng acceptedBy UID, appr
 
 ### setVolunteerAvailability — callable
 
-Input `{ available: boolean, location?: {latitude, longitude} }`. UID lấy từ Auth; bắt buộc approved. Bật true yêu cầu vị trí số hữu hạn trong phạm vi hợp lệ, không được đang phụ trách ca; cập nhật lastSeenAt theo server. Tắt false không cần vị trí. Không nhận role/verified/UID từ client. Trả `{ available }`. Mobile làm mới mỗi 30 giây chỉ khi màn hình active và đã chủ động bật sẵn sàng trong phiên này; không phải GPS nền. Location là do client tự khai, chưa có xác minh chống giả mạo.
+Input `{ available: boolean, location?: {latitude, longitude} }`. UID lấy từ Auth; bắt buộc approved. Bật true yêu cầu vị trí số hữu hạn trong phạm vi hợp lệ, không được đang phụ trách ca; cập nhật lastSeenAt theo server. Tắt false không cần vị trí. Không nhận role/verified/UID từ client. Từ 0.4.9 trả `{ available, matchedCount }`. Khi chuyển OFF→ON, vị trí trước đã quá 5 phút hoặc di chuyển >=250m, transaction tìm thêm ca dispatching chưa nhận/còn hạn, trong 5km, không phải Patient tự nhận; đưa đúng revision/answers hiện tại vào lời mời, giữ phone/vị trí riêng. Không gia hạn ca hoặc tạo ca mới. Đợt đầu vẫn tối đa 5 TNV; bổ sung giới hạn tổng 20 người/ca và không gửi lặp cho UID đã mời. Quét tối đa 100 ca còn chờ trên pilot bằng index status/offerExpiresAt; vượt trả resource-exhausted/reason=pending-dispatch-capacity trước ghi availability/lời mời, không cắt âm thầm. Mọi reads trước writes để tranh nhận/hủy/bổ sung được retry nhất quán. Không quét lại trên heartbeat 30 giây không đổi vùng. Mobile làm mới mỗi 30 giây chỉ khi màn hình active và đã chủ động bật sẵn sàng trong phiên này; không phải GPS nền. Location là do client tự khai, chưa có xác minh chống giả mạo.
 
 ### updateIncidentLocation — callable, thêm 0.4.6
 
@@ -98,7 +98,7 @@ Backend lưu `reporters/{uid}/requestReceipts/{hash(requestId)}` (client không 
 ### Firestore projection reads
 
 - Người báo: `reporters/{auth.uid}/incidentStatuses/{incidentId}`: status, createdAt, invitedCount, reportSubmitted, reportRevision.
-- TNV approved: `volunteers/{auth.uid}/alerts`, orderBy createdAt desc, limit 30; mỗi doc: incidentId, status offered/accepted/closed, distanceMeters, timestamps, reportRevision, answers. Không phone, vị trí chính xác hoặc danh tính bệnh nhân.
+- TNV approved: `volunteers/{auth.uid}/alerts`, lịch sử orderBy createdAt desc/limit 30, từ 0.4.9 thêm listener status==offered/orderBy createdAt desc/limit 101; hiển thị tối đa 100 lời mời và cảnh báo nếu vượt, ca active ghim bằng listener riêng. Index alerts(status ASC, createdAt DESC) phải READY trước frontend mới. Không để lịch sử mới đẩy lời mời còn hạn ra ngoài danh sách. Mỗi doc: incidentId, status offered/accepted/closed, distanceMeters, timestamps, reportRevision, answers. Không phone, vị trí chính xác hoặc danh tính bệnh nhân.
 - Tất cả client-write đều bị chặn, kể cả sửa status, approved, assignment hoặc báo cáo. Gọi callable để ghi.
 
 ## Backlog cần chốt trước khi viết

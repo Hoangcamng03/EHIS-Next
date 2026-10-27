@@ -1,6 +1,6 @@
 # Scripts — phân biệt chạy local, kiểm tra và triển khai
 
-**Kiểm thử:** `npm run test:integration` gồm chín bộ (tám bộ flow và một bộ quota qua hai process); `npm run test:multi` chỉ nhiều ca/vùng; `npm run test:active` chỉ feed SDK. Các helper trong `test-support/emulator.cjs` khóa loopback/project demo, không chạy lên cloud. APK preview sau kiểm chứng code/web/cloud; không tự OTA/store. [Nghiệm thu](../docs/testing/ACCEPTANCE_FLOW.md).
+**Kiểm thử:** `npm run test:integration` gồm mười bộ (thêm pending-dispatch: 32 ca báo trước ON/SDK, tranh nhận và giới hạn pilot); `npm run test:multi` chỉ nhiều ca/vùng; `npm run test:active` chỉ feed SDK. Các helper trong `test-support/emulator.cjs` khóa loopback/project demo, không chạy lên cloud. APK preview sau kiểm chứng code/web/cloud; không tự OTA/store. [Nghiệm thu](../docs/testing/ACCEPTANCE_FLOW.md).
 
 Các lệnh npm bên dưới chạy từ **root repo**. Script công cụ không phải code giao diện. Đọc phần môi trường trước khi chạy; tác vụ cloud cần tài khoản/quyền của nhóm, không bật billing tự động.
 
@@ -23,7 +23,7 @@ Các lệnh npm bên dưới chạy từ **root repo**. Script công cụ không
 - `npm run check`: lint/typecheck app/web, build TypeScript backend, unit validation, `test-navigation.cjs` và `test-emergency-alerts.cjs` (dedupe/expiry/lịch chuông hữu hạn). Kiểm tra phần mềm không xác nhận loa/rung vật lý.
 - `npm run test:integration`: build backend, khởi động Emulator kiểm tra và chạy `run-integration.cjs`; tránh trùng port phiên phát triển đang chạy.
 - `npm run test:scale`: Emulator riêng, 1.000 Auth giả/32 ca đồng thời/tám vùng qua HTTP wrapper như Vercel tại loopback 5203. Kiểm tra vòng đời, đúng hồ sơ, chống lặp và quyền; max HTTP thành công dưới 15 giây (timeout ngắn nhất app), không phải SLA cloud. Báo cáo .local/scale-acceptance.json ghi RUNNING/FAIL/PASS/RECHECK để không nhầm kết quả cũ. Đặt EHIS_SCALE_TRANSPORT=functions khi đối chiếu front door 5101; bài đó có thể RECHECK độ trễ dù nghiệp vụ đúng. Đóng Emulator phát triển trước khi chạy; không thử tải vào cloud.
-- `run-integration.cjs`: gọi chín suite starter, reports, lifecycle, maintenance, portable, location-updates, multi-incident, active-alert và budget-queue trên Emulator sẵn sàng. Các suite dùng dữ liệu giả, kiểm tra quyền/trạng thái/transaction/HTTP wrapper, nhiều ca/vùng, SDK realtime và quota giữa hai process; không chạy vào database cloud.
+- `run-integration.cjs`: gọi mười suite starter, reports, lifecycle, maintenance, portable, location-updates, multi-incident, active-alert, budget-queue và pending-dispatch trên Emulator sẵn sàng. Các suite dùng dữ liệu giả, kiểm tra quyền/trạng thái/transaction/HTTP wrapper, nhiều ca/vùng, SDK realtime và quota giữa hai process; không chạy vào database cloud.
 - `npm --prefix frontend/web run build`: production build web local; khác `cloud:build` có static export và cấu hình cloud.
 - GitHub CI ở `../.github/workflows/check.yml`: cài dependency, chạy check, Android JS export, web build và integration; **không tự deploy**.
 

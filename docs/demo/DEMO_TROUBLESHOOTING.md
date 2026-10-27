@@ -14,8 +14,8 @@
 | APK bị Android chặn | Xác minh tải từ trang cài nhóm, ghi nguyên cảnh báo. Dùng web để thử UI trong lúc xử lý; không tắt Play Protect | Cài được mới ghi đạt APK; dùng web chưa chứng minh APK đã chạy |
 | Điện thoại không mở được localhost | localhost là thiết bị hiện tại, không phải laptop của bạn. Dùng URL HTTPS cloud trong trang bắt đầu | App/QR mở đúng website cloud |
 | Không lấy được vị trí | Kiểm tra quyền vị trí của app/trình duyệt và dịch vụ định vị. Đứng nơi thoáng, thử lại. Người báo phải cạnh bệnh nhân giả; laptop có thể không lấy vị trí đủ chính xác | Web chấp nhận điểm thật vừa xác nhận; không tự nhập tọa độ giả vào bản cloud |
-| Gửi xong không TNV nào được mời | TNV đã bật trước gửi chưa, đã duyệt/chưa bận, có ở gần và điểm mới không? Hiện dispatch trong 5km, vị trí TNV quá 5 phút không được chọn. Sau khi sửa điều kiện, hủy ca chưa nhận rồi tạo ca mới theo runbook | Có lời mời đúng tài khoản; không coi bật ON sau gửi là sẽ tự có lời mời cũ |
-| Có popup nhưng không nghe chuông | Bấm thử chuông bằng tay, kiểm tra âm lượng/tắt âm và giữ màn mở phía trước. Rung phụ thuộc thiết bị/trình duyệt | Ghi kết quả thực từng máy; popup không đồng nghĩa loa/rung đã đạt |
+| Gửi xong không TNV nào được mời | Kiểm tra đúng bản 0.4.9 trở lên, TNV đã duyệt/chưa bận, GPS mới và trong 5km. Bật sẵn sàng sau báo sẽ tìm ca còn hạn/chưa nhận; ca quá 10 phút không được phục hồi. Khi báo giới hạn pilot, ghi lỗi cho người vận hành; không gửi lặp | Có lời mời đúng tài khoản, kể cả ON sau gửi khi đủ điều kiện |
+| Có popup nhưng không nghe chuông | Bấm thử chuông, bật Media >0 và giữ màn mở. Samsung Im lặng/Rung khác với Media=0/Không làm phiền; thử từng chế độ. Chuông EHIS luôn bật nhưng OS/loa Bluetooth/volume vẫn chi phối. Rung phụ thuộc thiết bị/trình duyệt | Ghi kết quả thực từng máy; popup không đồng nghĩa loa/rung đã đạt |
 | Bấm Đã xem nhưng chưa có map | Đã xem chỉ đóng popup. Cần Nhận ca và mở đường đi, chờ backend xác nhận; có thể người khác vừa nhận | Đúng một TNV được phân công; chưa nhận không được xem private/map |
 | Người thứ hai không nhận được | Nếu đang thử tranh ca, kiểm tra ai đã nhận. Đây có thể là kết quả đúng. Một TNV đã bận cũng không nhận thêm ca active | Một người phụ trách, không nhân đôi ca hoặc cấp quyền tay để vượt chặn |
 | TNV nhận rồi không thấy hồ sơ | Với P2, đó là lựa chọn không chia sẻ. Với P1, kiểm tra đúng ca/người nhận và kết nối | Đúng consent và đúng phân công, không lộ hồ sơ cho người khác |
@@ -24,7 +24,7 @@
 | Mất mạng khi gửi/nhận | Giữ nguyên trình duyệt/phiên, nối lại và thử lại tại trang đó để dùng cơ chế chống lặp. Không mở nhiều tài khoản/QR để gửi bù | Server chỉ có một kết quả hợp lệ, không báo thành công khi chưa có ack |
 | Đóng/mở trang báo bằng trình duyệt khác không thấy ca | Phiên người báo thuộc trình duyệt đã gửi. Không xóa dữ liệu trình duyệt/đổi hồ sơ giữa ca | Quay lại đúng phiên; không công khai mã ca để tìm cách truy cập |
 | QR đang có ca, không báo thêm được | Chỉ một ca active/thẻ. Đúng TNV kết thúc hoặc đúng người báo/Patient hủy nếu chưa nhận | Ca cũ đóng trước khi thử vòng mới; không xóa Firestore để dọn |
-| Điện thoại vẫn hiển thị giao diện cũ | Kiểm tra phiên bản và /install. Source 0.4.8 chưa phát hành không tự xuất hiện trong APK 0.4.7 | Các máy cùng bản đã phát hành; chưa gọi publish là đã cài trên máy |
+| Điện thoại vẫn hiển thị giao diện cũ | Tra STATUS và /install; cài đúng APK đã phát hành. Sửa source/web không tự thay APK trên máy | Các máy cùng bản đã phát hành; chưa gọi publish là đã cài trên máy |
 
 ## Khi cần nhờ sửa
 

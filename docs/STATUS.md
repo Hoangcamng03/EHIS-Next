@@ -9,6 +9,7 @@ Mốc tổng hợp ngày 27/10/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 | App web, web người báo/admin và backend | 0.4.8 đã deploy; 32 đối chiếu artifact và ca cloud giả đạt | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
 | APK Android | 0.4.8, versionCode 6; EAS FINISHED, artifact đã kiểm tra | Cài đè/Play Protect/loa/rung/GPS trên máy thật |
 | Source phát hành | 2098709, 0.4.8/code 6: CI SUCCESS, giữ tối ưu budget, hồi quy/tải lớn/browser đạt | Chưa nghiệm thu máy thật; tải local không thay số đo cloud |
+| Source bản sửa đang kiểm chứng | 0.4.9/code 7: GPS, chuông, 32 ca trước ON, 46 unit/logic, 10 integration và scale SDK đạt local | CI/cloud/APK mới ghi riêng sau phát hành; Samsung/GPS/loa/rung còn chờ máy thật |
 | iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
 | Tài khoản demo | Sáu tài khoản cloud cấp ngày 25/10, kiểm tra login/quyền đạt | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra lại trước mỗi vòng |
 

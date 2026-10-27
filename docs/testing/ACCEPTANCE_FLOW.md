@@ -75,3 +75,7 @@ Sao chép phần này vào bản ghi riêng của buổi thử. Ghi ngày/ngư�
 | A13 | Màn nhỏ/cỡ chữ lớn: nút, popup, bàn phím, kéo trang và lỗi có đọc được không | Chưa thử | — |
 
 Cho mỗi vòng A02/A04/A06, cùng một người dùng đồng hồ bấm giờ hoặc video hai máy để ghi các khoảng: bấm gửi→ack; ack→cảnh báo; bấm nhận→ack; xác nhận đổi điểm→map đổi. Không trừ hai đồng hồ điện thoại chưa đồng bộ. Ghi số mẫu, lần chậm nhất, lỗi và điều kiện mạng; chưa có SLA được phê duyệt, không lấy một lượt nhanh làm nghiệm thu hiệu năng. Nếu máy không cài được APK do Play Protect, ghi Bị chặn và dùng web để thử UI; bài APK/phần cứng vẫn Chưa thử, không tắt bảo vệ để điền Đạt.
+
+## Hồi quy 0.4.9 bổ sung
+
+Báo từ hai thẻ Patient khác nhau khi V1/V2 OFF; sau đó bật từng TNV trong 5km, khi lời mời chưa quá 10 phút. Kiểm tra đủ danh sách/chuyển ca, nhận một ca, TNV khác nhận ca còn lại. Với cùng thẻ, chặn ca active trùng là hành vi đúng. Kiểm tra chuông Samsung với Media >0 ở Bình thường/Rung/Im lặng và ghi riêng DND/Media=0/phụ kiện; không đánh đồng việc player báo play với âm thực nghe được. Tự động có smoke-pending-dispatch: 32 ca trước ON, 35 history, ba race và ngưỡng 101; nguồn bằng chứng tại VERIFICATION_V0_4_9.

@@ -1,4 +1,6 @@
-# Cảnh báo yêu cầu hỗ trợ cho Volunteer — web 0.4.3
+# Cảnh báo yêu cầu hỗ trợ cho Volunteer
+
+Cập nhật theo source 0.4.9; phiên bản đã phát hành tra [STATUS](../STATUS.md). Kiểm chứng mới ở [VERIFICATION_V0_4_9](../testing/verification/VERIFICATION_V0_4_9.md); chưa xác nhận phần cứng Samsung/Android từ kiểm tra browser.
 
 ## Luồng để nhóm hiểu và chạy thử
 
@@ -16,7 +18,7 @@
 - Trước khi nhận: chỉ tình trạng quan sát và khoảng cách trong projection được cấp quyền. Không gửi bệnh án/vị trí chính xác/phone tới toàn bộ TNV. QR chỉ chứa mã thẻ, không chứa bệnh án.
 - Hạn lời mời lấy từ backend, hiển thị đếm ngược gần đúng theo đồng hồ thiết bị. Không lấy bộ đếm 30 giây riêng để tự từ chối/đóng ca như một số mẫu UI cũ.
 - **Đã xem · đóng cảnh báo và dừng chuông** chỉ đóng popup, không nhận/từ chối/hủy ca; lời mời còn hạn vẫn ở danh sách. Lời mời hết hạn hoặc người khác nhận sẽ đóng popup. Không dùng nháy màn hình liên tục.
-- **Tắt âm chuông** giữ cảnh báo hình ảnh; rung có lựa chọn riêng. **Dừng chuông hiện tại** không tắt chuông của lần yêu cầu sau. Rời trang, mất đồng bộ, tắt sẵn sàng hoặc hết ca sẽ dừng tín hiệu đang chạy khi không còn ca hoạt động.
+- Từ 0.4.9 không có nút mute lâu dài khi nhận ca; **Dừng chuông hiện tại** chỉ dừng lượt này, không tắt chuông của lời mời sau. Android cần Media >0; Im lặng/Rung không đồng nghĩa Không làm phiền hoặc Media bằng 0. Rời trang, mất đồng bộ, tắt sẵn sàng hoặc hết ca sẽ dừng tín hiệu đang chạy khi không còn ca hoạt động.
 - Phần vị trí của TNV được thu gọn sau nút **Xem vị trí tôi đã gửi**; bản đồ ca đang phụ trách được ưu tiên phía trên. Chi tiết ca có nút tải lại khi lỗi; khi chưa có bản đúng revision, không hiện hồ sơ/phone cũ như bản hiện tại. Bảng hỏi bổ sung không đổi tọa độ ca, nên giữ bản đồ/tuyến đã xác nhận trong khi tải phần bổ sung để không mất tuyến; mất đồng bộ hoặc đóng ca thì gỡ phần riêng.
 - Tuyến đường trong EHIS dùng OSM/OSRM, không tính kẹt xe hoặc tự dẫn đường liên tục khi di chuyển. OSRM nhận hai tọa độ khi nhận ca và mở tuyến. Có nút tính lại và phương án mở Google Maps nếu dịch vụ lỗi. Xem [NAVIGATION.md](NAVIGATION.md).
 
@@ -26,7 +28,7 @@ Chuông web cần tương tác người dùng để mở audio. Trình duyệt c
 
 Vibration API không hoạt động trên mọi trình duyệt/thiết bị; có API cũng không chứng minh motor rung thực tế. iPhone/Safari không được hứa rung từ web. Thông báo UI không thay cho người kiểm tra loa/rung trên điện thoại.
 
-Đợt này chưa phát APK/OTA/IPA. Module native dùng giao diện dự phòng, không tự nhận đã có audio/haptics native. Sau khi chủ dự án duyệt web, cần triển khai audio/haptics và push theo nền tảng, ký/build và thử foreground/background trên Android/iOS thật trước khi mô tả là tính năng đã hoạt động.
+APK đã có expo-audio/haptics foreground, không còn fallback cũ; trạng thái build/cài ở STATUS. 0.4.9 đợi WAV có hạn và tự chuẩn bị lại khi cảnh báo đến. Browser/adapter/build không chứng minh loa/rung Samsung thật hoặc push nền; nhóm phải thử máy. Chưa IPA/OTA/push nền.
 
 Tài liệu nền tảng: [Web Audio và thao tác người dùng](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices), [Vibration API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vibrate).
 
@@ -71,3 +73,7 @@ Source bản cuối: `b161a09a7d3de5695d97800396d1a359949a4d61`. Hosting đã ph
 ![Tuyến đường trong EHIS sau nhận ca](../assets/volunteer-alerts-043/accepted-route.jpg)
 
 ![Tuyến được giữ khi có thông tin bổ sung sau nhận](../assets/volunteer-alerts-043/route-after-update.jpg)
+
+## Nhiều ca và TNV bật muộn — từ 0.4.9
+
+Bật ON tìm lại ca gần còn hạn, không cần người báo gửi lần nữa; không gia hạn ca hoặc mời Patient tự nhận. Lời mời đọc riêng khỏi 30 mục lịch sử. Hàng đợi ở trên cài đặt, chọn ca khác trong popup hoặc Xem tất cả ca chờ; mở ca theo hạn trước rồi khoảng cách, không tự phân loại y khoa. Khi đang phụ trách, nút nhận ca khác bị khóa. Xem API_CONTRACT về giới hạn pilot 100 ca chờ, 20 người mời/ca và feed 100 có cảnh báo vượt giới hạn.

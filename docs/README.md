@@ -92,6 +92,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [PERFORMANCE_2026_10_26.json](testing/verification/PERFORMANCE_2026_10_26.json) | Số tổng hợp trước/sau tối ưu, hash source và giới hạn phép đo local |
 | [VERIFICATION_V0_4_7](testing/verification/VERIFICATION_V0_4_7.md) | Bằng chứng bản 0.4.7 đã bàn giao; thử điện thoại vẫn là lớp riêng |
 | [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md) | Đợt UI/tải lớn 27/10; trạng thái cloud/APK/máy thật tra STATUS |
+| [FIX_2026_10_27_0_4_9.json](testing/verification/FIX_2026_10_27_0_4_9.json) | Kết quả hồi quy, 32 ca bật muộn và tải local 0.4.9 |
+| [VERIFICATION_V0_4_9](testing/verification/VERIFICATION_V0_4_9.md) | Sửa GPS, chuông, nhiều ca chờ và TNV bật muộn; nghiệm thu máy riêng |
 | [MIDTERM_2026_10_27.json](testing/verification/MIDTERM_2026_10_27.json) | Số liệu hai lớp gọi tải lớn, hash source và dependency 0.4.8 |
 
 ### 8.2. Bằng chứng các mốc cũ — dùng để đối chiếu

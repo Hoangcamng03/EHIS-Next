@@ -14,6 +14,12 @@ export function useLiveLocation(enabled: boolean) {
       const permission = await Location.requestForegroundPermissionsAsync();
       if (cancelled) return;
       if (permission.status !== 'granted') throw new Error('permission');
+      // Show a recent accurate fix immediately while the foreground watcher warms up.
+      void Location.getLastKnownPositionAsync({ maxAge: 15000, requiredAccuracy: 100 }).then(value => {
+        if (!value || cancelled) return;
+        const next = { point: { latitude: value.coords.latitude, longitude: value.coords.longitude }, accuracy: value.coords.accuracy ?? Infinity, timestamp: value.timestamp };
+        if (usableFix(next, Date.now())) setFix(previous => !previous || next.timestamp > previous.timestamp ? next : previous);
+      }).catch(() => undefined);
       const result = await Location.watchPositionAsync({ accuracy: Location.Accuracy.High, timeInterval: 3000, distanceInterval: 3 }, value => {
         if (cancelled) return;
         const next = { point: { latitude: value.coords.latitude, longitude: value.coords.longitude }, accuracy: value.coords.accuracy ?? Infinity, timestamp: value.timestamp };

@@ -1,0 +1,163 @@
+{
+  "date": "2026-10-27",
+  "version": "0.4.9",
+  "androidVersionCode": 7,
+  "scope": "Controlled synthetic trial; device acceptance pending",
+  "unitLogic": 46,
+  "integrationSuites": 10,
+  "pendingDispatch": {
+    "scope": "LOCAL EMULATOR / synthetic only",
+    "status": "PASS",
+    "pendingBeforeOnline": 32,
+    "lateInvitations": 32,
+    "joinAcceptRaces": 3,
+    "pendingCapacityDenial": 101,
+    "newerHistory": 35,
+    "serverFeedDeliveryMs": 2135,
+    "checks": [
+      "off->on catch-up",
+      "all 32 behind history visible in real SDK",
+      "observations preserved; no phone/location leak",
+      "expired/cancelled/far excluded",
+      "repeat/reenable idempotent",
+      "one assignment only; private denied for other case",
+      "all closed invitations removed"
+    ]
+  },
+  "scale": {
+    "scope": "LOCAL EMULATOR ONLY; not cloud, phone or SLA",
+    "projectId": "demo-ehis-next",
+    "transport": "portable HTTP wrapper used by Vercel, loopback 5203",
+    "startedAt": "2026-10-27T12:35:06.041Z",
+    "endedAt": "2026-10-27T12:35:19.900Z",
+    "authenticatedAccounts": 1000,
+    "concurrentIncidents": 32,
+    "regions": 8,
+    "readyVolunteers": 64,
+    "backgroundOfflinePending": 872,
+    "accountsWithSession": 128,
+    "liveVolunteerClients": 32,
+    "apiCalls": 320,
+    "expectedDenials": 40,
+    "automaticRetries": 0,
+    "stages": [
+      {
+        "name": "1000 Auth accounts; 8 zones; 32 patients/reporters and 64 ready volunteers",
+        "status": "PASS",
+        "ms": 7201
+      },
+      {
+        "name": "32 independent authenticated volunteer SDK feeds ready from server",
+        "status": "PASS",
+        "ms": 1090
+      },
+      {
+        "name": "32 simultaneous requests; nearest five; live delivery; no cross-zone invitation",
+        "status": "PASS",
+        "ms": 919
+      },
+      {
+        "name": "8 lost-ack retries return the same incident",
+        "status": "PASS",
+        "ms": 126
+      },
+      {
+        "name": "32 observations with optional phone omitted or supplied",
+        "status": "PASS",
+        "ms": 721
+      },
+      {
+        "name": "32 assignments; correct private profile; cross-zone access denied",
+        "status": "PASS",
+        "ms": 1615
+      },
+      {
+        "name": "16 confirmed destination changes preserve incident ownership",
+        "status": "PASS",
+        "ms": 452
+      },
+      {
+        "name": "32 arrivals and completions; all pointers released; private reads denied",
+        "status": "PASS",
+        "ms": 1171
+      }
+    ],
+    "latency": {
+      "alertDelivery": {
+        "samples": 32,
+        "p50Ms": 530,
+        "p95Ms": 869,
+        "maxMs": 910
+      },
+      "savePatientProfile": {
+        "samples": 32,
+        "p50Ms": 34,
+        "p95Ms": 36,
+        "maxMs": 393
+      },
+      "issuePatientCard": {
+        "samples": 32,
+        "p50Ms": 75,
+        "p95Ms": 79,
+        "maxMs": 81
+      },
+      "createIncident": {
+        "samples": 40,
+        "p50Ms": 450,
+        "p95Ms": 851,
+        "maxMs": 911
+      },
+      "submitBystanderReport": {
+        "samples": 32,
+        "p50Ms": 384,
+        "p95Ms": 693,
+        "maxMs": 719
+      },
+      "acceptIncident": {
+        "samples": 32,
+        "p50Ms": 312,
+        "p95Ms": 551,
+        "maxMs": 579
+      },
+      "getVolunteerIncidentDetails": {
+        "samples": 32,
+        "p50Ms": 205,
+        "p95Ms": 339,
+        "maxMs": 390
+      },
+      "updateIncidentLocation": {
+        "samples": 16,
+        "p50Ms": 121,
+        "p95Ms": 200,
+        "maxMs": 200
+      },
+      "markIncidentArrived": {
+        "samples": 32,
+        "p50Ms": 177,
+        "p95Ms": 302,
+        "maxMs": 318
+      },
+      "finishIncident": {
+        "samples": 32,
+        "p50Ms": 270,
+        "p95Ms": 506,
+        "maxMs": 519
+      }
+    },
+    "status": "PASS",
+    "latencyGateMs": 15000,
+    "latencyStatus": "PASS"
+  },
+  "browser": {
+    "width": 390,
+    "scrollWidth": 390,
+    "pendingBeforeOnline": 3,
+    "selectedSecondCase": true,
+    "assignedCorrectCase": true,
+    "embeddedRouteKm": 0.88,
+    "completedPrivateClosed": true,
+    "consoleErrorsAtFinalRead": 0,
+    "speakerGpsVibrationDeviceVerified": false
+  },
+  "releaseStatus": "See docs/STATUS.md; source/build/deploy/install are separate"
+}

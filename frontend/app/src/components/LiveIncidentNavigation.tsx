@@ -14,7 +14,7 @@ import { DirectionsLink } from './DirectionsLink';
 export function LiveIncidentNavigation({ destination, connected, autoPreview = false }: { destination: MapPoint; connected: boolean; autoPreview?: boolean }) {
   const [extrasOpen, setExtrasOpen] = useState(false);
   const [storedOrigin, setStoredOrigin] = useState<MapPoint | null>(null);
-  const [tracking, setTracking] = useState(false), [routeEnabled, setRouteEnabled] = useState(autoPreview);
+  const [tracking, setTracking] = useState(!isLocalEmulator), [routeEnabled, setRouteEnabled] = useState(autoPreview);
   const [result, setResult] = useState<{ route: RoadRoute; target: string; at: number } | null>(null);
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [now, setNow] = useState(Date.now);
   const live = useLiveLocation(tracking && connected);

@@ -31,7 +31,9 @@ export function createNativeSignal(port: NativeSignalPort) {
     if (disposed || !port.active()) return;
     if (vibration) void port.haptic().catch(() => undefined);
     if (muted) return;
-    if (!ready || !port.loaded()) { notify({ ready: false, message: 'Có cập nhật mới. Bấm thử chuông để chuẩn bị âm thanh.' }); return; }
+    // A first invitation may arrive before the bundled asset finished loading.
+    // Prepare at delivery too; never permanently lose sound until a second tap.
+    if ((!ready || !port.loaded()) && !await prepare()) return;
     try {
       await port.seek();
       if (disposed || muted || started !== epoch || !port.active()) return;
@@ -41,7 +43,7 @@ export function createNativeSignal(port: NativeSignalPort) {
   }
   function mute() { muted = true; ready = false; stop(); notify({ ready: false, message: 'Đã tắt chuông. Cảnh báo hình ảnh vẫn hoạt động; rung theo lựa chọn.' }); }
   async function test() { muted = false; if (await prepare()) await play(1); }
-  return { prepare, play, stop, mute, test,
+  return { prepare, play, stop, mute, test, arm() { muted = false; return prepare(); },
     activate() { disposed = false; },
     toggleVibration(value: boolean) { vibration = value; },
     dispose() { disposed = true; stop(); },

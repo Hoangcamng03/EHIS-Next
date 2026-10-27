@@ -4,6 +4,7 @@ import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { HttpsError } from 'firebase-functions/v2/https';
 import { distanceMeters, identifier, objectValue, parseBystanderReport, parseCreateIncident } from './reportValidation';
 import { dispatchBounds } from './dispatchBounds';
+import { offerPendingIncidents } from './pendingDispatch';
 
 const makeId = (value: string) => createHash('sha256').update(value).digest('hex').slice(0, 40);
 function validate<T>(parser: (input: unknown) => T, input: unknown): T {
@@ -213,9 +214,14 @@ export const setVolunteerAvailability = onCall('setVolunteerAvailability', async
     const volunteer = await tx.get(ref);
     if (volunteer.data()?.verificationStatus !== 'approved') throw new HttpsError('permission-denied', 'TNV chưa được duyệt.');
     if (data.available && volunteer.data()?.activeIncidentId) throw new HttpsError('failed-precondition', 'Bạn đang phụ trách một ca.');
+    const now = Date.now(), prior = volunteer.data()!;
+    const shouldCatchUp = data.available && data.location && (!prior.isAvailable ||
+      !prior.lastSeenAt?.toMillis || now - prior.lastSeenAt.toMillis() > 300000 ||
+      !prior.location || distanceMeters(prior.location, data.location) >= 250);
+    const matchedCount = shouldCatchUp && data.location ? await offerPendingIncidents(tx, db, uid, data.location, now) : 0;
     tx.update(ref, { isAvailable: data.available, lastSeenAt: FieldValue.serverTimestamp(),
       ...(data.location ? { location: data.location } : {}) });
-    return { available: data.available };
+    return { available: data.available, matchedCount };
   });
 });
 

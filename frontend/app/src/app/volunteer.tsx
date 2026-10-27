@@ -1,6 +1,6 @@
 import { Text } from '../components/AppText';
 import { Button } from '../components/ActionButton';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Modal, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { User } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
@@ -22,11 +22,16 @@ type Answers = { responsiveness: string; breathing: string; bleeding: string };
 type Alert = { incidentId: string; status: string; reportRevision: number; locationRevision?: number; distanceMeters: number; answers: Answers | null; offerExpiresAt?: { toMillis(): number } };
 type Details = { phone: string | null; answers: Answers | null; revision: number; locationRevision?: number; location: { latitude: number; longitude: number } | null; patientProfile?: { fullName: string; allergies: string[]; emergencyContactPhone: string | null } | null };
 const labels: Record<string, string> = { responsive: 'Có phản hồi', unresponsive: 'Không thấy phản hồi', unknown: 'Không rõ', normal: 'Có vẻ bình thường', abnormal: 'Có vẻ bất thường / không thấy thở', none_seen: 'Không thấy', visible: 'Có thấy' };
+const OfferSummary = memo(function OfferSummary({ alert, onOpen }: { alert: Alert; onOpen: (id: string) => void }) {
+  return <View style={styles.card}><Text style={styles.cardTitle}>Ca {alert.incidentId.slice(0, 10)} · {alert.distanceMeters} m</Text>
+    <Text>{alert.answers ? `Phản hồi: ${labels[alert.answers.responsiveness]} · Nhịp thở: ${labels[alert.answers.breathing]}` : 'Người báo chưa gửi tình trạng bổ sung.'}</Text>
+    <Button variant="secondary" title={`Xem ca ${alert.incidentId.slice(0, 10)}`} color={palette.emergency.primary} onPress={() => onOpen(alert.incidentId)} /></View>;
+});
 function Observation({ answers }: { answers: Answers | null }) {
   if (!answers) return <Text>Người báo chưa gửi câu trả lời bổ sung.</Text>;
   return <View style={styles.answers}><Text>Phản hồi: {labels[answers.responsiveness]}</Text><Text>Nhịp thở: {labels[answers.breathing]}</Text><Text>Chảy máu bên ngoài: {labels[answers.bleeding]}</Text></View>;
 }
-function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false }: { alert: Alert; connected: boolean; now: number; onAccepted?: (id: string) => void; autoPreview?: boolean }) {
+function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false, canAccept = true }: { alert: Alert; connected: boolean; now: number; onAccepted?: (id: string) => void; autoPreview?: boolean; canAccept?: boolean }) {
   const [details, setDetails] = useState<Details>();
   const [detailAttempt, setDetailAttempt] = useState(0);
   const [error, setError] = useState('');
@@ -67,7 +72,7 @@ function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false 
     <Text style={!terminal && !assigned ? styles.urgentTitle : styles.revision}>{statusLabel[visibleStatus] || visibleStatus}</Text>
     <Text style={styles.revision}>{alert.reportRevision > 0 ? `Thông tin bổ sung · bản ${alert.reportRevision}` : 'Chưa có thông tin bổ sung'}</Text>
     {!terminal && <Observation answers={alert.answers} />}
-    {alert.status === 'offered' && !offerExpired && <><Text style={styles.note}>Hồ sơ sức khỏe và vị trí chi tiết chỉ mở sau khi bạn nhận ca, theo quyền chia sẻ của bệnh nhân. Khi mở đường đi, tọa độ được gửi đến OSRM.</Text><Button title={busy ? 'Đang xác nhận nhận ca…' : 'Nhận ca và mở đường đi'} disabled={busy || !connected} color={palette.emergency.primary} onPress={accept} /></>}
+    {alert.status === 'offered' && !offerExpired && <><Text style={styles.note}>Hồ sơ sức khỏe và vị trí chi tiết chỉ mở sau khi bạn nhận ca, theo quyền chia sẻ của bệnh nhân. GPS sẽ bật trên màn chỉ đường; tọa độ tính tuyến gửi đến OSRM. Mỗi TNV chỉ phụ trách một ca tại một thời điểm.</Text><Button title={busy ? 'Đang xác nhận nhận ca…' : 'Nhận ca và mở đường đi'} disabled={busy || !connected || !canAccept} color={palette.emergency.primary} onPress={accept} /></>}
     {assigned && <View style={styles.answers}>
       <Text>{privateData ? `Số điện thoại người báo: ${privateData.phone || 'Không cung cấp'}` : 'Đang chờ thông tin được cấp quyền từ máy chủ…'}</Text>
       {!privateData && !!error && <Button title="Tải lại chi tiết ca" disabled={!connected} onPress={() => { setError(''); setDetailAttempt(value => value + 1); }} />}
@@ -109,22 +114,24 @@ function VolunteerDashboard({ user }: { user: User }) {
   }, [user.uid, approved, activeId, feedKey]);
   useEffect(() => () => { updateAvailability({ available: false }, 4000).catch(() => undefined); }, [user.uid]);
   useEffect(() => { if (!focused) updateAvailability({ available: false }, 4000).catch(() => undefined); }, [focused, user.uid]);
-  const offers = alerts.filter(alert => activeOffer({ ...alert, expiresAt: alert.offerExpiresAt?.toMillis() }, now));
-  const assigned = alerts.filter(alert => ['accepted', 'arrived'].includes(alert.status));
+  const offers = useMemo(() => alerts.filter(alert => activeOffer({ ...alert, expiresAt: alert.offerExpiresAt?.toMillis() }, now)).sort((a, b) => (a.offerExpiresAt?.toMillis() || 0) - (b.offerExpiresAt?.toMillis() || 0) || a.distanceMeters - b.distanceMeters || a.incidentId.localeCompare(b.incidentId)), [alerts, now]);
+  const assigned = useMemo(() => alerts.filter(alert => ['accepted', 'arrived'].includes(alert.status)), [alerts]);
   const history = alerts.filter(alert => !['accepted', 'arrived'].includes(alert.status) && !activeOffer({ ...alert, expiresAt: alert.offerExpiresAt?.toMillis() }, now));
   const wakeOffer = offers.find(alert => alert.incidentId === wakeId);
   const { play, stop, foreground } = signal;
+  const openOffer = useCallback((id: string) => { stop(); setWakeId(id); }, [stop]);
   const feedbackActive = approved && connected && focused && foreground && (available || assigned.length > 0);
   useEffect(() => { if (!feedbackActive) stop(); }, [feedbackActive, stop]);
   useEffect(() => {
     if (!feedbackActive) return;
-    const events = collectSignalEvents(seen.current, alerts.map(alert => ({ ...alert, expiresAt: alert.offerExpiresAt?.toMillis() })), now);
+    const eligible = assigned.length ? assigned : alerts;
+    const events = collectSignalEvents(seen.current, eligible.map(alert => ({ ...alert, expiresAt: alert.offerExpiresAt?.toMillis() })), now);
     if (events.length) {
       play(events.some(event => event.kind === 'request') ? 'request' : 'update');
-      const invitation = events.find(event => alerts.some(alert => alert.incidentId === event.incidentId && activeOffer({ ...alert, expiresAt: alert.offerExpiresAt?.toMillis() }, now)));
-      if (invitation) setWakeId(previous => alerts.some(alert => alert.incidentId === previous && activeOffer({ ...alert, expiresAt: alert.offerExpiresAt?.toMillis() }, now)) ? previous : invitation.incidentId);
+      const invitation = offers.find(alert => events.some(event => event.incidentId === alert.incidentId));
+      if (invitation) setWakeId(previous => offers.some(alert => alert.incidentId === previous) ? previous : invitation.incidentId);
     }
-  }, [alerts, feedbackActive, now, play]);
+  }, [alerts, offers, assigned, feedbackActive, now, play]);
   useEffect(() => { if (wakeId && !wakeOffer) stop(); }, [wakeId, wakeOffer, stop]);
   function closeAlarm() { stop(); setWakeId(null); }
   function accepted(id: string) {
@@ -137,15 +144,16 @@ function VolunteerDashboard({ user }: { user: User }) {
     {!checked ? <Text>Đang xác nhận quyền với máy chủ…</Text> : !approved ? <VolunteerApplication status={application} /> : <>
       {!assigned.length && <Text style={styles.intro}>Bật sẵn sàng, kiểm tra chuông và giữ trang này mở. Yêu cầu mới sẽ hiện cảnh báo nổi bật; nhận ca để mở hồ sơ được chia sẻ và đường đi.</Text>}
       {!connected && <Text accessibilityRole="alert">Đang chờ đồng bộ máy chủ. Chưa thể nhận hoặc kết thúc ca.</Text>}
-      {offers.length > 0 && <View style={styles.urgent}><Text accessibilityRole="alert" style={styles.urgentTitle}>⚠ CẦN HỖ TRỢ KHẨN · {offers.length} YÊU CẦU</Text><Text style={styles.urgentText}>Chưa có người nhận ca cho đến khi máy chủ xác nhận. Xem tình trạng và chỉ nhận nếu bạn có thể hỗ trợ.</Text><Button title="Mở cảnh báo yêu cầu" color={palette.emergency.primary} onPress={() => setWakeId(offers[0].incidentId)} /></View>}
+      {feed.overflow && <Text accessibilityRole="alert" style={styles.error}>Có hơn 100 lời mời. Danh sách đang giới hạn; báo người vận hành trước khi tiếp tục buổi thử.</Text>}
+      {offers.length > 0 && <View style={assigned.length ? styles.card : styles.urgent}><Text accessibilityRole="alert" style={assigned.length ? styles.cardTitle : styles.urgentTitle}>{assigned.length ? `Còn ${offers.length} yêu cầu khác đang chờ` : `⚠ CẦN HỖ TRỢ KHẨN · ${offers.length} YÊU CẦU`}</Text><Text style={styles.urgentText}>{assigned.length ? "Bạn đang phụ trách một ca. Hãy hoàn tất ca hiện tại trước khi nhận ca khác." : "Chưa có người nhận ca cho đến khi máy chủ xác nhận. Xem tình trạng và chỉ nhận nếu bạn có thể hỗ trợ."}</Text><Button title="Mở cảnh báo yêu cầu" color={palette.emergency.primary} onPress={() => setWakeId(offers[0].incidentId)} /></View>}
       {assigned.map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected && approved} now={now} autoPreview={autoRouteId === alert.incidentId} />)}
+      {offers.map(alert => <OfferSummary key={alert.incidentId} alert={alert} onOpen={openOffer} />)}
       <VolunteerAvailability key={user.uid} uid={user.uid} paused={!connected || !focused} prepareAlerts={signal.prepare} />
-      <View style={styles.card}><Text style={styles.cardTitle}>Chuông và rung cảnh báo</Text><Text accessibilityLiveRegion="polite">{signal.sounding ? 'Đang phát chuông cảnh báo…' : signal.message}</Text><Button variant="secondary" title="Bật và thử chuông · 1 giây" onPress={signal.test} color="#0b5962" /><View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}><Switch accessibilityLabel="Rung nhẹ khi có cảnh báo" value={signal.vibrationEnabled} onValueChange={signal.toggleVibration} disabled={!signal.vibrationSupported} /><Text style={{ flex: 1 }}>{signal.vibrationSupported ? 'Rung nhẹ nếu thiết bị cho phép.' : 'Trình duyệt này chưa hỗ trợ rung; cảnh báo hình ảnh vẫn hoạt động.'}</Text></View>{signal.soundEnabled && <Button variant="secondary" title="Tắt âm chuông" onPress={signal.mute} color="#526f67" />}{signal.sounding && <Button title="Dừng chuông hiện tại" onPress={signal.stop} color={palette.emergency.primary} />}<Text style={styles.note}>Yêu cầu mới: chuông tối đa 6 giây. Thông tin bổ sung mới: 2 giây. Không phát lặp cho cùng một bản cập nhật. Web cần được mở ở phía trước; không bảo đảm chuông khi khóa màn hình hoặc đóng trình duyệt.</Text></View>
-      {connected && !offers.length && !assigned.length && <Text>Chưa có lời mời đang chờ. Hãy bật sẵn sàng trước khi người báo gửi yêu cầu.</Text>}
-      {offers.filter(alert => alert.incidentId !== wakeOffer?.incidentId).map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected && approved} now={now} onAccepted={accepted} />)}
+      <View style={styles.card}><Text style={styles.cardTitle}>Chuông và rung cảnh báo</Text><Text accessibilityLiveRegion="polite">{signal.sounding ? 'Đang phát chuông cảnh báo…' : signal.message}</Text><Button variant="secondary" title="Bật và thử chuông · 1 giây" onPress={signal.test} color="#0b5962" /><View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}><Switch accessibilityLabel="Rung nhẹ khi có cảnh báo" value={signal.vibrationEnabled} onValueChange={signal.toggleVibration} disabled={!signal.vibrationSupported} /><Text style={{ flex: 1 }}>{signal.vibrationSupported ? 'Rung nhẹ nếu thiết bị cho phép.' : 'Trình duyệt này chưa hỗ trợ rung; cảnh báo hình ảnh vẫn hoạt động.'}</Text></View><Text>Chuông luôn được bật trong EHIS khi sẵn sàng. Android: bật âm lượng Media; Im lặng/Rung khác với Media bằng 0 hoặc Không làm phiền. Hãy thử chuông trên máy của bạn.</Text>{signal.sounding && <Button title="Dừng chuông hiện tại" onPress={signal.stop} color={palette.emergency.primary} />}<Text style={styles.note}>Yêu cầu mới: chuông tối đa 6 giây. Thông tin bổ sung mới: 2 giây. Không phát lặp cho cùng một bản cập nhật. Web cần được mở ở phía trước; không bảo đảm chuông khi khóa màn hình hoặc đóng trình duyệt.</Text></View>
+      {connected && !offers.length && !assigned.length && <Text>Chưa có lời mời đang chờ. Bật sẵn sàng để tìm yêu cầu gần bạn, bao gồm ca đã báo còn hạn và chưa có người nhận.</Text>}
       {history.length > 0 && <View style={styles.card}><Button variant="secondary" title={historyOpen ? 'Ẩn lịch sử gần đây' : `Xem lịch sử gần đây (${history.length})`} color="#526f67" onPress={() => setHistoryOpen(value => !value)} /><Text>Tối đa 30 thông báo gần nhất. Ca đang phụ trách luôn có khu vực riêng phía trên.</Text>{historyOpen && history.map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected && approved} now={now} />)}</View>}
       <Modal visible={!!wakeOffer && foreground && focused && connected} transparent animationType="fade" onRequestClose={closeAlarm}>
-        <View style={styles.backdrop}><ScrollView contentContainerStyle={styles.modalContent} keyboardShouldPersistTaps="handled"><Text accessibilityRole="alert" style={styles.urgentTitle}>{wakeOffer?.reportRevision ? 'CÓ THÔNG TIN TÌNH TRẠNG MỚI' : '⚠ CẦN HỖ TRỢ KHẨN'}</Text>{wakeOffer && <><Text style={styles.urgentText}>Lời mời còn khoảng {Math.max(0, Math.ceil((wakeOffer.offerExpiresAt!.toMillis() - now) / 1000))} giây theo hạn máy chủ. {offers.length > 1 ? `Có ${offers.length} lời mời đang chờ.` : ''}</Text><IncidentAlert alert={wakeOffer} connected={connected && approved} now={now} onAccepted={accepted} /></>}<Button variant="secondary" title="Đóng cảnh báo và dừng chuông" onPress={closeAlarm} color="#526f67" /><Text style={styles.note}>Đóng cửa sổ chỉ xác nhận bạn đã xem; không tự nhận hoặc từ chối ca. Lời mời còn hạn vẫn nằm trong danh sách.</Text></ScrollView></View>
+        <View style={styles.backdrop}><ScrollView contentContainerStyle={styles.modalContent} keyboardShouldPersistTaps="handled"><Text accessibilityRole="alert" style={styles.urgentTitle}>⚠ CẦN HỖ TRỢ KHẨN</Text>{wakeOffer && <><Text style={styles.urgentText}>Lời mời còn khoảng {Math.max(0, Math.ceil((wakeOffer.offerExpiresAt!.toMillis() - now) / 1000))} giây theo hạn máy chủ. {offers.length > 1 ? `Có ${offers.length} lời mời đang chờ.` : ''}</Text>{!available && !assigned.length && <Text>Bật sẵn sàng trước khi nhận lời mời này.</Text>}<IncidentAlert alert={wakeOffer} connected={connected && approved} now={now} onAccepted={accepted} canAccept={available && !assigned.length} /></>}{offers.length > 1 && <View style={{ gap: 8 }}><Text style={styles.cardTitle}>Chọn ca chờ khác ({offers.length})</Text>{offers.map((item, index) => <Button key={item.incidentId} variant={item.incidentId === wakeId ? "primary" : "secondary"} title={`${index + 1}. Ca ${item.incidentId.slice(0, 10)} · ${item.distanceMeters} m${item.incidentId === wakeId ? " · đang xem" : ""}`} onPress={() => { stop(); setWakeId(item.incidentId); }} />)}</View>}<Button variant="secondary" title="Xem tất cả ca chờ và dừng chuông hiện tại" onPress={closeAlarm} color="#526f67" /><Text style={styles.note}>Đóng cửa sổ chỉ xác nhận bạn đã xem; không tự nhận hoặc từ chối ca. Lời mời còn hạn vẫn nằm trong danh sách.</Text></ScrollView></View>
       </Modal>
     </>}
     <AccountBar />

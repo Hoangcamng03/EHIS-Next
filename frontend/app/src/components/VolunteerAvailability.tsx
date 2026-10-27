@@ -7,19 +7,20 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { firebaseClient, isLocalEmulator as isTrialMode, readableError, updateAvailability } from '../lib/firebase';
 import { LocationMap } from './LocationMap';
 import { MapPoint, parsePoint } from '../lib/map';
+import { firstUsableLocation } from '../lib/location-request';
+import type { LocationFix } from '../lib/live-location';
 
 type Volunteer = { verificationStatus: string; isAvailable: boolean; activeIncidentId?: string | null; location?: MapPoint };
-export async function currentLocation(askPermission: boolean) {
+export async function currentLocation(askPermission: boolean, signal?: AbortSignal) {
   const permission = askPermission ? await Location.requestForegroundPermissionsAsync() : await Location.getForegroundPermissionsAsync();
   if (permission.status !== 'granted') throw new Error('location-permission');
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  try {
-    const result = await Promise.race([
-      Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High }),
-      new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error('location-timeout')), 20000); }),
-    ]);
-    return { latitude: result.coords.latitude, longitude: result.coords.longitude };
-  } finally { clearTimeout(timer); }
+  if (!await Location.hasServicesEnabledAsync()) throw new Error('location-disabled');
+  const fix = (value: Location.LocationObject): LocationFix => ({ point: { latitude: value.coords.latitude, longitude: value.coords.longitude }, accuracy: value.coords.accuracy ?? Infinity, timestamp: value.timestamp });
+  const result = await firstUsableLocation({
+    last: async () => { const value = await Location.getLastKnownPositionAsync({ maxAge: 15000, requiredAccuracy: 100 }); return value ? fix(value) : null; },
+    watch: (receive, fail) => Location.watchPositionAsync({ accuracy: Location.Accuracy.High, timeInterval: 1000, distanceInterval: 0 }, value => receive(fix(value)), fail),
+  }, signal);
+  return result.point;
 }
 export function VolunteerAvailability({ uid, paused = false, prepareAlerts }: { uid: string; paused?: boolean; prepareAlerts?: () => Promise<unknown> }) {
   const [volunteer, setVolunteer] = useState<Volunteer>();
@@ -32,16 +33,21 @@ export function VolunteerAvailability({ uid, paused = false, prepareAlerts }: { 
   const [longitude, setLongitude] = useState('106.7009');
   const demoPoint = useRef<MapPoint>({ latitude: 10.7769, longitude: 106.7009 });
   const epoch = useRef(0);
-  useEffect(() => () => { epoch.current += 1; }, []);
-  useEffect(() => { if (paused) epoch.current += 1; }, [paused]);
+  const locationRequest = useRef<AbortController | null>(null);
+  const [phase, setPhase] = useState('');
+  useEffect(() => () => { epoch.current += 1; locationRequest.current?.abort(); }, []);
+  useEffect(() => { if (paused) { epoch.current += 1; locationRequest.current?.abort(); } }, [paused]);
   useEffect(() => onSnapshot(doc(firebaseClient().db, `volunteers/${uid}`), { includeMetadataChanges: true }, snapshot => {
     setVerifiedFromServer(!snapshot.metadata.fromCache);
     setVolunteer(snapshot.exists() ? snapshot.data() as Volunteer : undefined);
   }, err => { setVerifiedFromServer(false); setError(readableError(err)); }), [uid]);
   const refresh = useCallback(async (method: 'gps' | 'demo', askPermission: boolean) => {
     const startedAt = epoch.current;
-    const location = method === 'demo' && isTrialMode ? demoPoint.current : await currentLocation(askPermission);
+    locationRequest.current?.abort(); const abort = new AbortController(); locationRequest.current = abort;
+    if (askPermission) setPhase('Đang lấy vị trí mới · tối đa 12 giây sau khi cấp quyền…');
+    const location = method === 'demo' && isTrialMode ? demoPoint.current : await currentLocation(askPermission, abort.signal);
     if (startedAt !== epoch.current || firebaseClient().auth.currentUser?.uid !== uid) return;
+    if (askPermission) setPhase('Đang xác nhận sẵn sàng và tìm các ca gần còn chờ…');
     await updateAvailability({ available: true, location });
   }, [uid]);
   useEffect(() => {
@@ -68,10 +74,11 @@ export function VolunteerAvailability({ uid, paused = false, prepareAlerts }: { 
     setBusy(true); setError('');
     try { await refresh(method, true); setSource(method); }
     catch (err) { setError(err instanceof Error && err.message.startsWith('location-') ? 'Chưa lấy được GPS. Cho phép vị trí, kiểm tra dịch vụ định vị và thử lại.' : readableError(err)); }
-    finally { setBusy(false); }
+    finally { setBusy(false); setPhase(''); }
   }
   async function disable() {
     epoch.current += 1;
+    locationRequest.current?.abort();
     setBusy(true); setSource(null); setError('');
     try { await updateAvailability({ available: false }); }
     catch (err) { setError(readableError(err)); }
@@ -80,7 +87,7 @@ export function VolunteerAvailability({ uid, paused = false, prepareAlerts }: { 
   const approved = verifiedFromServer && volunteer?.verificationStatus === 'approved';
   return <View style={{ gap: 14, padding: 20, backgroundColor: volunteer?.isAvailable && verifiedFromServer && !paused ? '#d9f3e2' : '#edf1f3', borderRadius: 14, borderWidth: 2, borderColor: volunteer?.isAvailable && verifiedFromServer && !paused ? '#167447' : '#879a9c' }}>
     <Text accessibilityRole="header" style={{ fontWeight: '800', fontSize: 23 }}>{!verifiedFromServer ? 'Đang xác nhận với máy chủ…' : !approved ? 'Tài khoản chưa được duyệt' : volunteer?.activeIncidentId ? 'ĐANG PHỤ TRÁCH CA' : paused ? 'TẠM MẤT ĐỒNG BỘ' : volunteer?.isAvailable ? 'ĐANG SẴN SÀNG' : 'CHƯA SẴN SÀNG'}</Text>
-    <View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}><Switch accessibilityLabel="Sẵn sàng nhận yêu cầu hỗ trợ" value={!!volunteer?.isAvailable && verifiedFromServer && !paused} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} onValueChange={value => { if (value) void enable('gps'); else void disable(); }} /><Text style={{ flex: 1, fontSize: 18, lineHeight: 26 }}>{busy ? 'Đang chờ máy chủ xác nhận…' : volunteer?.activeIncidentId ? 'Hoàn tất ca hiện tại trước khi nhận ca mới.' : 'Bật để nhận yêu cầu gần bạn. Tắt khi không thể tham gia.'}</Text></View>
+    <View style={{ flexDirection: 'row', gap: 14, alignItems: 'center' }}><Switch accessibilityLabel="Sẵn sàng nhận yêu cầu hỗ trợ" value={!!volunteer?.isAvailable && verifiedFromServer && !paused} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} onValueChange={value => { if (value) void enable('gps'); else void disable(); }} /><Text style={{ flex: 1, fontSize: 18, lineHeight: 26 }}>{busy ? phase || 'Đang chờ máy chủ xác nhận…' : volunteer?.activeIncidentId ? 'Hoàn tất ca hiện tại trước khi nhận ca mới.' : 'Bật để nhận yêu cầu gần bạn, kể cả ca đã báo còn chờ. Tắt khi không thể tham gia.'}</Text></View>
     <Text>Bật sẵn sàng để gửi vị trí và chuẩn bị chuông. Khi màn hình này đang mở, vị trí được làm mới khoảng mỗi 30 giây; vị trí cũ quá 5 phút sẽ không được chọn cho ca mới.</Text>
     {volunteer?.isAvailable && <Button title={busy ? 'Đang cập nhật…' : 'Làm mới vị trí GPS'} onPress={() => enable('gps')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} />}
     {isTrialMode && <><Text>BUỔI CHẠY THỬ: nhập vị trí giả của TNV. Mặc định ở trung tâm TP.HCM. Bấm bật sẵn sàng để áp dụng tọa độ; không dùng cho ca thật.</Text>

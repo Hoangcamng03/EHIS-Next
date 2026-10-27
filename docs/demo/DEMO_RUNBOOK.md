@@ -2,7 +2,7 @@
 
 [Danh mục tài liệu](../README.md) · [Bắt đầu từ đầu](../START_HERE_DEMO.md) · [Trạng thái phiên bản](../STATUS.md)
 
-[Bắt đầu](../START_HERE_DEMO.md) · [Tài khoản](MANUAL_DEMO_ACCOUNTS.md) · [Khi có lỗi](DEMO_TROUBLESHOOTING.md). Tên nút theo source 0.4.8; tra STATUS để biết bản web/APK đang bàn giao. Điền tên thật của bốn thành viên trước buổi tập. Bản 0.4.7 còn dùng tên Kết thúc phiên hỗ trợ; 0.4.8 dùng Hoàn tất ca hỗ trợ.
+[Bắt đầu](../START_HERE_DEMO.md) · [Tài khoản](MANUAL_DEMO_ACCOUNTS.md) · [Khi có lỗi](DEMO_TROUBLESHOOTING.md). Tên nút theo source 0.4.9; tra STATUS để biết bản web/APK đang bàn giao. Điền tên thật của bốn thành viên trước buổi tập. Bản 0.4.7 còn dùng tên Kết thúc phiên hỗ trợ; 0.4.8 dùng Hoàn tất ca hỗ trợ.
 
 ## 1. Chia vai theo thiết bị thực có
 
@@ -68,3 +68,7 @@ Một người dùng cùng đồng hồ/video đo gửi→ack, ack→cảnh báo
 ## 6. Trình thầy/lớp
 
 Tập một vòng 7–10 phút, chuẩn bị video/ảnh có phiên bản, xóa/ẩn dữ liệu nhạy cảm trước khi chia sẻ. Dùng video đã ghi khi mạng lỗi và nói rõ là bằng chứng diễn tập, không giả vờ ca live đã thành công. Nêu giới hạn: cần Internet, chưa xác minh tiếp nhận nền/khóa máy và chưa vận hành cấp cứu thật. Kế hoạch tuần thầy xem, midterm và cuối kỳ: [MIDTERM_DEMO](../planning/MIDTERM_DEMO.md).
+
+## Vòng bổ sung sau sửa 0.4.9
+
+Tắt V1/V2 → P1/P2 dùng hai thẻ khác nhau gửi ca → V1 bật sẵn sàng trong 5km khi ca còn hạn → xác nhận thấy cả hai và chuyển được trong popup → V1 nhận một ca, V2 bật muộn và nhận ca còn lại. Một thẻ chỉ có một ca active để chống trùng. Trên Samsung, thử chuông khi Bình thường/Rung/Im lặng với Media >0; ghi riêng Media=0, DND, Bluetooth, nền/khóa máy. Không ghi đạt nếu chỉ thấy popup.

@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import type { MapPoint } from '../lib/map';
 import type { RoadRoute } from '../lib/directions';
 
 type Data = { origin: MapPoint | null; destination: MapPoint; route: RoadRoute | null };
-export function PersistentRouteMap({ origin, destination, route }: Data) {
+export const PersistentRouteMap = memo(function PersistentRouteMap({ origin, destination, route }: Data) {
   const container = useRef<HTMLDivElement>(null), latest = useRef<Data>({ origin, destination, route });
   const render = useRef<((data: Data) => void) | null>(null), [error, setError] = useState('');
   useEffect(() => { latest.current = { origin, destination, route }; render.current?.(latest.current); }, [origin, destination, route]);
@@ -35,4 +35,4 @@ export function PersistentRouteMap({ origin, destination, route }: Data) {
     return () => { cancelled = true; cleanup?.(); };
   }, []);
   return <div style={{ width: '100%', minWidth: 0 }}><p style={{ fontSize: 12 }}>A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo</p><div ref={container} role="region" aria-label="Bản đồ tuyến đường TNV đến bệnh nhân" style={{ width: '100%', height: 350, border: '1px solid #b8cbc1', borderRadius: 12 }} />{!!error && <p role="alert">{error}</p>}</div>;
-}
+});

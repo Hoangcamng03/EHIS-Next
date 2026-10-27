@@ -33,3 +33,12 @@ test('failed/unloaded audio stays honest; React effect restart can reactivate',a
  const a=await fixture({loaded:()=>false});assert.equal(await a.signal.prepare(),false);await a.signal.play(6);assert.ok(!a.events.includes('play'));
  const b=await fixture();b.signal.dispose();b.signal.activate();await b.signal.test();assert.ok(b.events.includes('play'));
 });
+
+test('a first alert prepares itself if readiness happened before the asset loaded',async()=>{
+ let loaded=false;const {signal,events}=await fixture({loaded:()=>loaded});
+ assert.equal(await signal.prepare(),false);loaded=true;await signal.play(6);assert.ok(events.includes('play'));
+});
+test('arming readiness restores sound after a previous mute; stopping one tone does not mute future alerts',async()=>{
+ const {signal,events}=await fixture();signal.mute();await signal.arm();await signal.play(6);signal.stop();await signal.play(6);
+ assert.equal(events.filter(e=>e==='play').length,2);
+});
