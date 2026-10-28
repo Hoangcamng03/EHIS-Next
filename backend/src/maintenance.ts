@@ -1,5 +1,6 @@
 import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
+import { flushPushJobs } from './pushJobs';
 
 export async function runMaintenance(now = Date.now()) {
   const db = getFirestore();
@@ -25,6 +26,9 @@ export async function runMaintenance(now = Date.now()) {
   });
   const counters = await db.collection('_requestLimits').where('expiresAt', '<=', Timestamp.fromMillis(now)).limit(200).get();
   if (!counters.empty) { const batch = db.batch(); counters.docs.forEach(item => batch.delete(item.ref)); await batch.commit(); }
+  const oldPush = await db.collection('pushJobs').where('purgeAfter', '<=', Timestamp.fromMillis(now)).limit(200).get();
+  if (!oldPush.empty) { const batch = db.batch(); oldPush.docs.forEach(item => batch.delete(item.ref)); await batch.commit(); }
+  await flushPushJobs();
   return { expired: expired.size, purged: purge.size, counters: counters.size };
 }
 

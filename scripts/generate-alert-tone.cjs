@@ -9,5 +9,5 @@ for(let i=0;i<count;i++){
  const envelope=offset<0.4?Math.min(1,offset/0.015,(0.4-offset)/0.04):0;
  data.writeInt16LE(Math.round(32767*0.08*envelope*Math.sin(2*Math.PI*frequency*t)),44+i*2);
 }
-fs.writeFileSync(path.join(__dirname,'../frontend/app/assets/emergency-tone.wav'),data);
+fs.writeFileSync(path.join(__dirname,'../frontend/app/assets/emergency_tone.wav'),data);
 console.log('Generated original six-second foreground alert tone.');

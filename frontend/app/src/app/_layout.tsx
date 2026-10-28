@@ -3,9 +3,10 @@ import { SessionProvider, useSession } from '../components/Session';
 import { Connectivity } from '../components/Connectivity';
 import { RoleTheme } from '../components/RoleTheme';
 import { palette } from '../lib/palette';
+import { NotificationNavigation } from '../components/NotificationNavigation';
 
 export default function RootLayout() {
-  return <SessionProvider><Connectivity /><AppStack /></SessionProvider>;
+  return <SessionProvider><Connectivity /><AppStack /><NotificationNavigation /></SessionProvider>;
 }
 function AppStack() {
   const { user, purpose, loading, error } = useSession();

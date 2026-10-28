@@ -27,10 +27,11 @@ function initializeClient(name = '[DEFAULT]') {
 }
 
 // Retain connected instances across development hot reloads.
-const scope = globalThis as typeof globalThis & { ehisFirebase?: ReturnType<typeof initializeClient>; ehisAdminFirebase?: ReturnType<typeof initializeClient> };
+const scope = globalThis as typeof globalThis & { ehisFirebase?: ReturnType<typeof initializeClient>; ehisAdminFirebase?: ReturnType<typeof initializeClient>; ehisReferrerFirebase?: ReturnType<typeof initializeClient> };
 export function firebaseClient() { return scope.ehisFirebase ??= initializeClient(); }
 // Separate Auth identity so admin sign-in never replaces an anonymous reporter session.
 export function adminClient() { return scope.ehisAdminFirebase ??= initializeClient('ehis-admin'); }
+export function referrerClient() { return scope.ehisReferrerFirebase ??= initializeClient('ehis-referrer'); }
 export function callable<Request = unknown, Response = unknown>(functions: Functions, name: string, options?: HttpsCallableOptions) {
   const base = process.env.NEXT_PUBLIC_BACKEND_URL;
   if (!base || process.env.NEXT_PUBLIC_USE_EMULATORS === 'true') return httpsCallable<Request, Response>(functions, name, options);

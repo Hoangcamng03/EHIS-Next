@@ -35,6 +35,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [REPO_MAP](architecture/REPO_MAP.md) | Code phần nào ở đâu, file cấu hình và đường đi dữ liệu |
 | [ARCHITECTURE](architecture/ARCHITECTURE.md) | Thành phần hệ thống, phân quyền và ranh giới dữ liệu |
 | [API_CONTRACT](architecture/API_CONTRACT.md) | Giao tiếp app/frontend/web/backend và schema; kiểm tra trạng thái source trước khi áp dụng |
+| [VOLUNTEER_VERIFICATION](operations/VOLUNTEER_VERIFICATION.md) | Người quản lý xác minh TNV, checklist, phân loại và duyệt hai bước |
+| [ANDROID_BACKGROUND_ALERTS](operations/ANDROID_BACKGROUND_ALERTS.md) | Cấu hình thông báo Home/khóa màn hình, giới hạn GPS và bài thử máy thật |
 | [BYSTANDER_FLOW](architecture/BYSTANDER_FLOW.md) | Báo hỗ trợ hai bước và cập nhật thông tin |
 | [NAVIGATION](architecture/NAVIGATION.md) | Bản đồ/chỉ đường, điều kiện và giới hạn |
 | [VOLUNTEER_ALERTS](architecture/VOLUNTEER_ALERTS.md) | Tham chiếu tính năng cảnh báo từ 0.4.3, không phải báo cáo thiết bị mới |
@@ -95,6 +97,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [FIX_2026_10_27_0_4_9.json](testing/verification/FIX_2026_10_27_0_4_9.json) | Kết quả hồi quy, 32 ca bật muộn và tải local 0.4.9 |
 | [VERIFICATION_V0_4_9](testing/verification/VERIFICATION_V0_4_9.md) | Sửa GPS, chuông, nhiều ca chờ và TNV bật muộn; nghiệm thu máy riêng |
 | [VERIFICATION_V0_4_10](testing/verification/VERIFICATION_V0_4_10.md) | Chữ gọn, nút/công tắc dễ thao tác; flow hai ca, đăng ký và map trên màn nhỏ |
+| [VERIFICATION_V0_4_11](testing/verification/VERIFICATION_V0_4_11.md) | Xác minh hai bước, liên hệ khẩn cấp, FCM và kết quả tải lớn cả FAIL/PASS; máy thật chờ nghiệm thu |
 | [MIDTERM_2026_10_27.json](testing/verification/MIDTERM_2026_10_27.json) | Số liệu hai lớp gọi tải lớn, hash source và dependency 0.4.8 |
 
 ### 8.2. Bằng chứng các mốc cũ — dùng để đối chiếu

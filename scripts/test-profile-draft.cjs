@@ -5,3 +5,9 @@ test('unsaved identity, allergy or contact changes cannot be treated as the save
  for(const draft of [profileDraft('Other','latex','0900000000'),profileDraft('QA Patient','latex, penicillin','0900000000'),profileDraft('QA Patient','latex','')])assert.equal(profileMatchesSaved(draft,saved),false);
  assert.equal(profileMatchesSaved(profileDraft(' QA Patient ',' latex, ','090 000 0000'),saved),true);
 });
+test('contact name and relationship changes require saving before issuing a QR',async()=>{
+ const {profileDraft,profileMatchesSaved}=await modulePromise;
+ const saved=JSON.stringify(profileDraft('QA Patient','','0900000000','QA Contact','Mẹ'));
+ assert.equal(profileMatchesSaved(profileDraft('QA Patient','','0900000000','QA Other','Mẹ'),saved),false);
+ assert.equal(profileMatchesSaved(profileDraft('QA Patient','','0900000000','QA Contact','Chị'),saved),false);
+});

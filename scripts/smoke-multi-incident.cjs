@@ -51,6 +51,16 @@ async function main(){
   await ok('acceptIncident',{incidentId:ids[remaining]},f.second);assert.equal((await api('getVolunteerIncidentDetails',{incidentId:ids[remaining]},f.first)).status,403);assert.equal((await api('getVolunteerIncidentDetails',{incidentId:ids[winner]},f.second)).status,403);
   await close(ids[winner],null,f.first);await close(ids[remaining],null,f.second);
  });
+ await scenario('BUSY-one-volunteer-three-distances-one-winner',async()=>{
+  const v=await actor('three-cases-vol'),point={latitude:-45,longitude:100};await volunteer(v,point);
+  const patients=await Promise.all(Array.from({length:3},()=>actor('three-patient'))),reporters=await Promise.all(Array.from({length:3},()=>actor('three-reporter',true)));
+  const incidents=await Promise.all(patients.map((p,i)=>create(p,reporters[i],{latitude:point.latitude+[0.001,0.01,0.03][i],longitude:point.longitude})));
+  const distances=[];for(const c of incidents){const a=(await db.doc(`volunteers/${v.localId}/alerts/${c.incidentId}`).get()).data();assert.equal(a.status,'offered');distances.push(a.distanceMeters);}assert(distances[0]>0&&distances[0]<distances[1]&&distances[1]<distances[2]&&distances[2]<5000);
+  const results=await Promise.all(incidents.map(c=>api('acceptIncident',{incidentId:c.incidentId},v)));assert.equal(results.filter(r=>r.status===200).length,1);assert.equal(results.filter(r=>r.status===400).length,2);
+  const winner=results.findIndex(r=>r.status===200);assert.equal((await db.doc(`volunteers/${v.localId}`).get()).data().activeIncidentId,incidents[winner].incidentId);
+  for(let i=0;i<3;i++)if(i!==winner){assert.equal((await api('acceptIncident',{incidentId:incidents[i].incidentId},v)).status,400);assert.equal((await api('getVolunteerIncidentDetails',{incidentId:incidents[i].incidentId},v)).status,403);await close(incidents[i].incidentId,reporters[i]);}
+  await close(incidents[winner].incidentId,null,v);
+ });
  await scenario('CANCEL-accept-versus-reporter-cancel-three-races',async()=>{
   for(let i=0;i<3;i++){const point={latitude:45+i,longitude:-10},f=await fixture(point),c=await create(f.patient,f.reporter,point);await Promise.all([api('acceptIncident',{incidentId:c.incidentId},f.first),api('finishIncident',{incidentId:c.incidentId,outcome:'cancelled'},f.reporter)]);const d=(await db.doc(`incidents/${c.incidentId}`).get()).data(),v=(await db.doc(`volunteers/${f.first.localId}`).get()).data();assert.ok(['accepted','cancelled'].includes(d.status));if(d.status==='accepted'){assert.equal(d.acceptedBy,f.first.localId);assert.equal(v.activeIncidentId,c.incidentId);await close(c.incidentId,null,f.first);}else{assert.ok(!d.acceptedBy);assert.ok(!v.activeIncidentId);assert.equal((await db.doc(`cards/${c.cardId}`).get()).data().activeIncidentId,null);}await db.doc(`volunteers/${f.second.localId}`).update({isAvailable:false});}
  });

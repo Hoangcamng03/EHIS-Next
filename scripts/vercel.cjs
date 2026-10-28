@@ -22,6 +22,10 @@ try {
    run(['env','add',name,'--environment','production','--sensitive','--yes'],value);
    console.log('Stored Vercel production secret:',name,'(value hidden)');
   }
+ } else if(mode==='push-config') {
+  if(process.argv[3]!=='--confirmed-send-only') throw new Error('Cần xác nhận quyền gửi FCM.');
+  run(['env','add','EHIS_FCM_ENABLED','--environment','production','--yes'],'true');
+  console.log('FCM flag stored for the next deployment; no secret printed.');
  } else if(mode==='deploy') run(['deploy','--prod','--yes']);
  else throw new Error('Dùng link / secrets --confirmed-runtime-access / deploy.');
 }catch(error){console.error(error.message);process.exitCode=1;}

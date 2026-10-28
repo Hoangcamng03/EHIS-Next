@@ -54,6 +54,7 @@ export function updateAvailability(data: { available: boolean; location?: { lati
 }
 export function readableError(error: unknown) {
   const code = (error as { code?: string })?.code;
+  if ((error as { details?: { reason?: string } }).details?.reason === 'referrer-unavailable') return 'Người giới thiệu chưa được EHIS xác minh. Kiểm tra email hoặc liên hệ quản trị đơn vị.';
   if (code === 'functions/resource-exhausted' && (error as { details?: { reason?: string } }).details?.reason === 'request-budget-busy') return 'Máy chủ đang bận. Giữ màn hình này, chờ vài giây rồi thử lại.';
   if (code === 'auth/email-already-in-use') return 'Email này đã có tài khoản. Chọn Đăng nhập hoặc Quên mật khẩu; không cần đăng ký lại.';
   if (code === 'auth/network-request-failed' || code === 'functions/unavailable' || code === 'functions/deadline-exceeded') return 'Chưa kết nối được máy chủ. Kiểm tra Internet rồi thử lại. Chỉ coi thao tác thành công khi có xác nhận.';

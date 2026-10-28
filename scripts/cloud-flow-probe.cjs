@@ -16,7 +16,7 @@ async function main() {
  const demo={environment:project,backend:target.backend,webUrl:target.webUrl,appUrl:target.appUrl,createdAt:new Date().toISOString(),patient:{email:patient.email,password:patient.password,uid:patient.localId},volunteer:{email:volunteer.email,password:volunteer.password,uid:volunteer.localId},admin:{email:admin.email,password:admin.password,uid:admin.localId}};
  fs.writeFileSync(file,JSON.stringify(demo,null,2),{mode:0o600});
  try {
- await googleRequest(`https://identitytoolkit.googleapis.com/v1/projects/${project}/accounts:update`,'POST',{localId:admin.localId,customAttributes:JSON.stringify({admin:true})});
+ await googleRequest(`https://identitytoolkit.googleapis.com/v1/projects/${project}/accounts:update`,'POST',{localId:admin.localId,emailVerified:true,customAttributes:JSON.stringify({admin:true})});
  Object.assign(admin,await authCall('signInWithPassword',{email:admin.email,password:admin.password,returnSecureToken:true}));
  await call('getMyAccess',{},null,401);
  await call('setAccountPurpose',{purpose:'patient'},patient);
@@ -26,10 +26,14 @@ async function main() {
  await call('savePatientProfile',{fullName:'Bệnh nhân giả · thử cloud EHIS',allergies:['Thông tin giả để kiểm tra'],emergencyContactPhone:''},patient);
  const card=await call('issuePatientCard',{shareProfile:true},patient);demo.cardId=card.cardId;demo.cardUrl=target.webUrl+'/card?id='+card.cardId;
  fs.writeFileSync(file,JSON.stringify(demo,null,2),{mode:0o600});
- await call('applyVolunteer',{fullName:'Tình nguyện viên giả · EHIS',phone:'0900000000',experience:'Chỉ là tài khoản dùng kiểm tra mạch phần mềm, không phải người hỗ trợ thật.'},volunteer);
+ const registry={email:admin.email,fullName:'Người quản lý GIẢ · kiểm thử phần mềm',phone:'0900000000',organisation:'Đơn vị GIẢ, không có năng lực y tế',position:'Chức vụ GIẢ trong fixture phần mềm',verificationNote:'Chỉ dùng kiểm thử quyền; không đối chiếu hay xác nhận chuyên môn thật.',enabled:true};
+ await call('setVolunteerReferrer',registry,admin);demo.syntheticReferrerRegistryCreated=true;
+ const application=await call('applyVolunteer',{fullName:'Tình nguyện viên giả · EHIS',phone:'0900000000',experience:'Chỉ là tài khoản dùng kiểm tra mạch phần mềm, không phải người hỗ trợ thật.',trainingLevel:'first_aid',clinicalMonths:0,homeAddress:'Khu vực GIẢ',workAddress:'Đơn vị GIẢ',serviceArea:'Vùng GIẢ',referrerEmail:admin.email},volunteer);
  await call('reviewVolunteerApplication',{uid:volunteer.localId,decision:'approved'},patient,403);
  const list=await call('listVolunteerApplications',{},admin);assert.ok(list.applications.some(value=>value.uid===volunteer.localId));
- await call('reviewVolunteerApplication',{uid:volunteer.localId,decision:'approved'},admin);
+ await call('reviewVolunteerApplication',{uid:volunteer.localId,decision:'approved',applicationRevision:application.applicationRevision},admin,400);
+ await call('submitVolunteerReferral',{uid:volunteer.localId,applicationRevision:application.applicationRevision,decision:'recommended',checklist:{identityChecked:true,affiliationChecked:true,trainingChecked:true,scopeExplained:true},confirmedLevel:'first_aid',confirmedClinicalMonths:0,evidence:'Checklist GIẢ chỉ kiểm thử phần mềm, không phải xác minh năng lực y tế.'},admin);
+ await call('reviewVolunteerApplication',{uid:volunteer.localId,decision:'approved',applicationRevision:application.applicationRevision},admin);
  // Synthetic remote points isolate this probe from the team's normal demo area.
  const patient2=await account('patient2'),reporter2=await account('reporter2',true);
  await call('setAccountPurpose',{purpose:'patient'},patient2);
@@ -65,6 +69,7 @@ async function main() {
  assert.equal((await fetch(documentUrl,{headers:{Authorization:'Bearer '+volunteer.idToken}})).status,403);
  demo.result='FLOW_PASSED_CLEANUP_PENDING';
  } finally {
+  if(demo.syntheticReferrerRegistryCreated) await call('setVolunteerReferrer',{email:admin.email,fullName:'Synthetic test manager',phone:'0900000000',organisation:'Synthetic test unit',position:'Synthetic fixture only',verificationNote:'Software test complete; revoke temporary referrer access.',enabled:false},admin);
   await googleRequest(`https://identitytoolkit.googleapis.com/v1/projects/${project}/accounts:update`,'POST',{localId:admin.localId,customAttributes:'{}'});
   Object.assign(admin,await authCall('signInWithPassword',{email:admin.email,password:admin.password,returnSecureToken:true}));
   assert.equal((await call('getMyAccess',{},admin)).isAdmin,false,'Temporary admin must not retain its role on new login');

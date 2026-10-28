@@ -9,9 +9,9 @@ import { useOnline } from '@/lib/use-online';
 import { UpdatePatientLocation } from './UpdatePatientLocation';
 
 const questions = [
-  { key: 'responsiveness', title: '1. Bệnh nhân có phản hồi khi bạn gọi?', choices: [['responsive', 'Có phản hồi'], ['unresponsive', 'Không thấy phản hồi'], ['unknown', 'Không rõ']] },
-  { key: 'breathing', title: '2. Bạn quan sát thấy nhịp thở thế nào?', choices: [['normal', 'Có vẻ bình thường'], ['abnormal', 'Có vẻ bất thường / không thấy thở'], ['unknown', 'Không rõ']] },
-  { key: 'bleeding', title: '3. Có thấy chảy máu bên ngoài?', choices: [['none_seen', 'Không thấy'], ['visible', 'Có thấy'], ['unknown', 'Không rõ']] },
+  { key: 'responsiveness', title: '1. Người này có đáp lại khi bạn gọi không?', choices: [['responsive', 'Có · nhìn, nói hoặc cử động đáp lại'], ['unresponsive', 'Không thấy đáp lại'], ['unknown', 'Không rõ / chưa kiểm tra']] },
+  { key: 'breathing', title: '2. Bạn quan sát thấy họ thở như thế nào?', choices: [['normal', 'Có vẻ thở đều'], ['abnormal', 'Khó thở, thở ngáp hoặc không thấy thở'], ['unknown', 'Không rõ / chưa kiểm tra']] },
+  { key: 'bleeding', title: '3. Bạn có thấy máu đang chảy ngoài cơ thể không?', choices: [['none_seen', 'Không thấy'], ['visible', 'Có thấy máu đang chảy'], ['unknown', 'Không rõ / chưa kiểm tra']] },
 ] as const;
 type Answers = Record<typeof questions[number]['key'], string>;
 type Status = { status: string; invitedCount: number; reportSubmitted: boolean; reportRevision: number; offerExpiresAt?: { toMillis(): number } };
@@ -80,7 +80,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
       {progress.waiting && progress.delayed && <p>Yêu cầu đang chờ. Đừng chờ ứng dụng nếu cần cấp cứu ngay.</p>}
       {status?.reportSubmitted && <p>Đã ghi nhận bản bổ sung số {status.reportRevision}.</p>}
     </div>}
-    <p className="report-intro">Trả lời theo điều bạn quan sát. Nếu chưa chắc, chọn “Không rõ”. Thông tin sẽ cập nhật cho TNV trong ca này.</p>
+    <p className="report-intro">Chỉ ghi điều bạn thấy, không cần chẩn đoán. Chưa chắc thì chọn “Không rõ”. Thông tin sẽ gửi tiếp cho TNV.</p>
     {status && ['accepted', 'arrived'].includes(status.status) && <UpdatePatientLocation key={incidentId} incidentId={incidentId} enabled={canSend} />}
     {status?.status === 'dispatching' && <p className="hint">Nếu điểm bệnh nhân ban đầu sai hoặc đã di chuyển: hủy yêu cầu chưa được nhận, rồi mở thẻ để gửi tại điểm đúng. Sau khi TNV nhận, bạn có thể xác nhận cập nhật điểm tại đây.</p>}
     <form className="report-panel" onSubmit={submit}>

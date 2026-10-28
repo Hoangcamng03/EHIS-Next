@@ -8,6 +8,8 @@ Backend là nơi cấp quyền và đổi trạng thái; route hoặc vai trò c
 
 ## Collection và quyền (Emulator hoặc cloud riêng)
 
+Từ 0.4.11, hồ sơ TNV mới đi qua **người quản lý đơn vị đã được admin xác minh → checklist riêng → admin duyệt cuối**. Phân loại/số tháng lâm sàng là thông tin được đối chiếu, không phải giấy phép hành nghề. Địa chỉ hỗ trợ quản lý vùng; điều phối vẫn theo GPS hiện tại. Chi tiết: [quy trình xác minh](../operations/VOLUNTEER_VERIFICATION.md).
+
 | Collection | Nội dung | Quyền |
 |---|---|---|
 | users | tài khoản, quyền server quản lý | chủ tài khoản đọc phần được phép |
@@ -24,6 +26,9 @@ Backend là nơi cấp quyền và đổi trạng thái; route hoặc vai trò c
 | volunteers/{uid}/alerts | lời mời | đúng TNV |
 | reporters/{uid}/incidentStatuses | trạng thái tối thiểu | đúng phiên người báo |
 | auditLogs | hành động quan trọng | backend ghi |
+| volunteerReferrers/{uid} | tổ chức, chức vụ, căn cứ xác minh và quyền giới thiệu | backend qua API kiểm tra admin hoặc chính người giới thiệu |
+| pushDevices/{uid}, pushTokenOwners/{hash} | token thiết bị và khóa sở hữu | chỉ backend; tối đa ba thiết bị/TNV |
+| pushJobs/{hash} | hàng đợi thông báo có lease, hết hạn và số lần thử | chỉ backend; không chứa bệnh án/điện thoại/vị trí |
 
 Rules cho owner-read users/patients/volunteers; người báo đọc projection trạng thái của chính phiên; TNV đã duyệt đọc alerts của chính mình. Mọi client-write bị chặn. cards/incidents/private/reportEvents đều không đọc trực tiếp. Admin SDK dùng trong callable phải kiểm tra quyền riêng.
 
@@ -42,3 +47,7 @@ Hiện tại vị trí TNV dùng bản đồ OSM; sau accept, màn hình tuyến
 ## Bản sửa TNV 0.4.9
 
 TNV bật sẵn sàng muộn được tìm lại các ca gần còn hạn trong transaction, không cần người báo gửi lại. Xem API_CONTRACT về giới hạn pilot 100 ca chờ/20 người được mời mỗi ca; đợt đầu vẫn chọn 5 gần nhất. Listener lời mời tách lịch sử, tối đa 100 với cảnh báo overflow. Modal chuyển được giữa các ca; một TNV vẫn chỉ nhận một ca. GPS dùng cache tối đa 15 giây/sai số <=100m hoặc watcher có hủy/timeout 12 giây; chỉ đường cloud tự bật GPS foreground, bản đồ memo tránh serialize polyline mỗi nhịp đếm giây. Chuông app luôn bật; không tự tăng âm lượng hệ thống/bỏ qua Không làm phiền.
+
+## Thông báo Android 0.4.11
+
+Ghi lời mời và push job cùng transaction → Vercel `waitUntil` → FCM HTTP v1 → kênh thông báo Android khi Home/khóa. Nội dung màn hình khóa chỉ nói có yêu cầu, không chứa hồ sơ. App đang mở dùng feed/âm báo hiện có để tránh hai chuông. Cần APK mới và người dùng cho phép thông báo; GPS vẫn chỉ mới trong năm phút, không có GPS nền. Hàng đợi thử lại phụ thuộc truy cập tiếp theo/cron, chưa phải worker có cam kết thời gian. [Giới hạn và nghiệm thu máy thật](../operations/ANDROID_BACKGROUND_ALERTS.md).

@@ -2,6 +2,22 @@
 
 Chỉ các API ở mục Đã viết tồn tại. Không gọi API ở backlog như thể đã có.
 
+## Thay đổi source 0.4.11 — xác minh đơn vị và thông báo
+
+Trạng thái deploy tra trong [STATUS](../STATUS.md). Không suy ra source đã chạy cloud.
+
+- `getMyAccess`: thêm `isReferrer`, chỉ true khi registry `volunteerReferrers/{uid}.enabled` do admin quản lý.
+- `savePatientProfile`: thêm `emergencyContactName` (≤100) + `emergencyContactRelationship` (≤60). Nếu gửi một trường mới phải gửi đủ cả hai, đồng thời đủ phone/name/relationship hoặc cả ba rỗng. Client cũ bỏ cả hai vẫn sửa các trường khác được; backend chặn đổi phone khi đã có tên/quan hệ để tránh gắn sai danh tính. `getVolunteerIncidentDetails.patientProfile` trả thêm hai trường sau assignment + consent, không thêm vào offers/QR/push.
+- `applyVolunteer`: chỉ nhận `fullName, phone, experience, trainingLevel, clinicalMonths, homeAddress, workAddress, serviceArea, referrerEmail`. Ba mức `first_aid | clinical_student | clinical_staff`; tháng integer 0..600, first_aid phải 0; địa chỉ ≤200, khu vực ≤100, email ≤254. Email chỉ định tài khoản đã xác minh email, không khóa, có registry enabled, không cùng UID. Ghi policyVersion=2, applicationRevision tăng, referral=null, status=pending. Gửi lại thay đơn cũ; TNV đã approved không tự đổi hồ sơ quyền qua API này. Client cũ cần dùng web/APK mới để nộp đơn mới.
+- `setVolunteerReferrer`: admin-only; `{email, fullName, phone, organisation, position, verificationNote, enabled}`. Email tài khoản có thật, đã xác minh email nếu cấp quyền. Admin phải đối chiếu chức vụ qua đơn vị trước. Ghi registry + audit, không tạo claim từ client, không tự tạo account. Thu quyền không tự rút TNV đã duyệt.
+- `listReferrerApplications`: input `{}`, registry enabled mỗi lần; trả organisation + tối đa 50 đơn pending chỉ định UID này. Danh sách này có địa chỉ/liên hệ nên không dùng Firestore client trực tiếp; Rules chặn registry và hồ sơ người khác.
+- `submitVolunteerReferral`: `{uid, applicationRevision, decision: recommended | not_recommended, checklist: {identityChecked, affiliationChecked, trainingChecked, scopeExplained}, confirmedLevel, confirmedClinicalMonths, evidence}`. Chỉ người giới thiệu được chỉ định còn quyền, không tự giới thiệu, đơn pending đúng revision; recommended cần đủ bốn boolean true. Bằng chứng ≤500. Checklist không tự cấp quyền nhận ca.
+- `reviewVolunteerApplication`: thêm applicationRevision integer≥1; admin duyệt đúng revision. Approved cần policyVersion2 + referral recommended + đủ checklist + đúng người giới thiệu đang enabled; backend đọc lại Auth để chặn tài khoản bị khóa hoặc chưa xác minh email. Ghi `verificationPolicyVersion: 2` trên volunteer, classification/clinicalMonths/serviceArea/organisation từ hồ sơ đã kiểm tra, isAvailable=false. Hồ sơ cũ thiếu revision cần gửi lại theo mẫu mới; tài khoản demo đã approved trước đây không được tự coi là xác minh chuyên môn mới.
+- `registerVolunteerDevice`: `{token, enabled}`; UID từ Auth, enabled=true chỉ TNV approved. Token native FCM bounded 20..4096, tối đa 3 device/TNV, ownership hash tránh dùng chéo tài khoản; enabled=false gỡ token của chính UID. Trả `{registered, pushEnabled}`; registered không chứng minh delivery.
+- `pushJobs`: queue trong transaction tạo lời mời / bổ sung / đổi điểm / ON muộn; ID băm uid+incident+kind+revision. Backend-only, tối đa 20 job/đợt, 5 attempts, lease 30s và expiration, có purgeAfter. Vercel waitUntil gửi sau response; retry phụ thuộc request tiếp theo/cron, chưa SLA hoặc worker liên tục. Chỉ generic lock-screen text và opaque incidentId; không PHI. Trạng thái accepted-by-fcm không phải delivered/read/audible. Native foreground tiếp tục dùng feed, không hai chuông.
+
+Các đoạn mô tả 0.4 bên dưới là API trước khi thêm trường; áp dụng các ràng buộc bổ sung ở mục này. [Quy trình quản lý](../operations/VOLUNTEER_VERIFICATION.md), [thông báo Android](../operations/ANDROID_BACKGROUND_ALERTS.md).
+
 ## Đã viết
 
 Cloud API đang chạy trên Vercel; trạng thái phát hành từng thay đổi ghi trong LAB_NOTES.md. Phần lựa chọn tài khoản bên dưới thuộc source 0.4.2, chỉ coi deploy sau khi có bằng chứng trong lab note.
@@ -10,7 +26,7 @@ Region: `asia-southeast1`.
 
 ### health — HTTP GET
 
-Không Auth. Trả `{ service: "ehis-next", status: "ok", version: "0.4.2", projectId }`. Không trả credentials hoặc dữ liệu người dùng.
+Không Auth. Trả `{ service: "ehis-next", status: "ok", version: "0.4.11", projectId }`. Không trả credentials hoặc dữ liệu người dùng.
 
 ### getMyAccess — callable
 
@@ -28,11 +44,13 @@ Cần tài khoản đã đăng ký; không chấp nhận anonymous. Đầu vào:
 {
   "fullName": "Demo Patient",
   "allergies": ["Demo allergy"],
-  "emergencyContactPhone": "0900000000"
+  "emergencyContactPhone": "0900000000",
+  "emergencyContactName": "Người thân giả",
+  "emergencyContactRelationship": "Mẹ"
 }
 ```
 
-Đây là dữ liệu tổng hợp. Hàm xác định UID từ token, chỉ ghi hồ sơ UID đó, chỉ chấp nhận 3 field kể trên. Trả `{ "saved": true }`. Lỗi: unauthenticated, invalid-argument; lỗi hệ thống vẫn là lỗi, không trả saved=true.
+Đây là dữ liệu tổng hợp. Hàm xác định UID từ token, chỉ ghi hồ sơ UID đó, chỉ chấp nhận các field kể trên. Trả `{ "saved": true }`. Ràng buộc đủ bộ liên hệ và tương thích client cũ ở mục 0.4.11. Lỗi: unauthenticated, invalid-argument; lỗi hệ thống vẫn là lỗi, không trả saved=true.
 
 Đây chưa phải schema hồ sơ y tế hoàn chỉnh. Khi bổ sung trường, cập nhật parser, contract và test cùng PR.
 
@@ -63,7 +81,7 @@ Cần đúng Auth UID tạo incident. Input:
 
 Ba câu trả lời bắt buộc, mỗi câu có `unknown`. responsiveness: responsive/unresponsive/unknown; breathing: normal/abnormal/unknown; bleeding: none_seen/visible/unknown. Đây là quan sát người chứng kiến, không chẩn đoán hay chấm điểm phân loại cấp cứu.
 
-Trả `{ received: true, revision }`. Mỗi payload mới cần submissionId mới. Retry cùng ID + payload trả revision cũ, không ghi lặp. Trạng thái cho phép: dispatching/accepted/arrived. Cập nhật cùng incident, không tạo ca mới. Trước accept cập nhật alerts những TNV được mời; sau accept chỉ cập nhật TNV phụ trách. Phone chỉ lưu trong private/reporter. Firestore listener đang mở sẽ nhận revision mới; chưa gửi push nền.
+Trả `{ received: true, revision }`. Mỗi payload mới cần submissionId mới. Retry cùng ID + payload trả revision cũ, không ghi lặp. Trạng thái cho phép: dispatching/accepted/arrived. Cập nhật cùng incident, không tạo ca mới. Trước accept cập nhật alerts những TNV được mời; sau accept chỉ cập nhật TNV phụ trách. Phone chỉ lưu trong private/reporter. Firestore listener đang mở nhận revision mới; từ 0.4.11 backend xếp thêm job thông báo Android như đầu tài liệu.
 
 ### acceptIncident — callable
 
@@ -113,9 +131,9 @@ Các API dưới đây yêu cầu tài khoản đã đăng ký, không nhận an
 
 - `issuePatientCard({shareProfile: boolean})`: bắt buộc đã lưu hồ sơ của UID. Transaction tạo cardId ngẫu nhiên 24 byte và pointer `patientCards/{uid}`. Trả `{cardId, active: true, shareProfile}`. Gọi lặp/đồng thời với cùng lựa chọn trả thẻ active hiện có. Muốn đổi consent thì thu hồi và phát hành thẻ mới; không đổi âm thầm thẻ đang có. QR chỉ do client ghép website đã cấu hình + `/card?id=cardId`.
 - `revokePatientCard({cardId})`: đúng Patient chủ thẻ; chặn khi ca dispatching/accepted/arrived còn active. Gỡ active và cập nhật pointer; retry idempotent. Có thể hủy ca chưa nhận trước rồi thu hồi. Thẻ cũ không tạo được ca mới; phát hành lại được mã mới.
-- `applyVolunteer({fullName, phone, experience})`: tên 1–100 ký tự, phone định dạng 8–15 chữ số với dấu + tùy chọn, kinh nghiệm tự khai 1–500 ký tự. Ghi `volunteerApplications/{uid}` pending. Đơn pending gửi lặp giữ nguyên; không tự tạo approved. Đơn rejected có thể nộp lại.
+- `applyVolunteer`: dùng đầy đủ schema 0.4.11 ở đầu trang. Đơn mới/sửa tăng revision và xóa referral trước khi chờ xác minh lại; không tự tạo approved.
 - `listVolunteerApplications({})`: chỉ token.admin true, tối đa 50 pending; trả uid, fullName, phone, experience. Không cho client query toàn bộ applicants bằng Rules.
-- `reviewVolunteerApplication({uid, decision})`: chỉ token.admin true; decision approved/rejected, đơn phải pending và TNV không có ca active. Transaction đổi application và volunteers.verificationStatus, đặt isAvailable=false, audit hành động. Không có API tự cấp claim admin; bootstrap local bằng script Emulator, cloud bằng scripts/cloud-access.cjs admin <UID> từ operator tin cậy.
+- `reviewVolunteerApplication`: thêm applicationRevision và checklist người quản lý theo schema 0.4.11 ở đầu trang. Chỉ token.admin true; đơn pending, đúng revision và TNV không có ca active. Transaction đổi application và volunteers.verificationStatus, đặt isAvailable=false, audit hành động. Không có API tự cấp claim admin; bootstrap local bằng script Emulator, cloud bằng scripts/cloud-access.cjs admin <UID> từ operator tin cậy.
 - `markIncidentArrived({incidentId})`: chỉ TNV approved phụ trách, ca accepted → arrived; lặp arrived idempotent. Cập nhật projection Patient/người báo/alert TNV. Đây là xác nhận chủ động, không phải bằng chứng GPS đã tới.
 - `cancelPatientIncident({incidentId})`: chỉ Patient chủ ca, chỉ dispatching chưa acceptedBy; lặp cancelled idempotent. Đóng ca, cập nhật projections và giải phóng thẻ. Người báo vẫn dùng finishIncident outcome cancelled theo quyền cũ.
 

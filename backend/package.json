@@ -11,6 +11,7 @@
     "test": "node --test test/*.test.cjs"
   },
   "dependencies": {
+    "@vercel/functions": "3.6.1",
     "express": "^4.22.3",
     "firebase-admin": "^13.6.0",
     "firebase-functions": "^6.6.0"

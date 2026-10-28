@@ -12,6 +12,7 @@ import { VolunteerAvailability } from '../components/VolunteerAvailability';
 import { IncidentNavigation } from '../components/IncidentNavigation';
 import { AuthGate, AccountBar } from '../components/Session';
 import { VolunteerApplication } from '../components/VolunteerApplication';
+import { BackgroundNotifications } from '../components/BackgroundNotifications';
 import { usePathname } from 'expo-router';
 import { statusLabel } from '../lib/ui';
 import { ConfirmAction } from '../components/ConfirmAction';
@@ -22,7 +23,7 @@ import { subscribeVolunteerAlerts, type AlertFeedState } from '../lib/subscribe-
 
 type Answers = { responsiveness: string; breathing: string; bleeding: string };
 type Alert = { incidentId: string; status: string; reportRevision: number; locationRevision?: number; distanceMeters: number; answers: Answers | null; offerExpiresAt?: { toMillis(): number } };
-type Details = { phone: string | null; answers: Answers | null; revision: number; locationRevision?: number; location: { latitude: number; longitude: number } | null; patientProfile?: { fullName: string; allergies: string[]; emergencyContactPhone: string | null } | null };
+type Details = { phone: string | null; answers: Answers | null; revision: number; locationRevision?: number; location: { latitude: number; longitude: number } | null; patientProfile?: { fullName: string; allergies: string[]; emergencyContactPhone: string | null; emergencyContactName?: string | null; emergencyContactRelationship?: string | null } | null };
 const labels: Record<string, string> = { responsive: 'Có phản hồi', unresponsive: 'Không thấy phản hồi', unknown: 'Không rõ', normal: 'Có vẻ bình thường', abnormal: 'Có vẻ bất thường / không thấy thở', none_seen: 'Không thấy', visible: 'Có thấy' };
 const OfferSummary = memo(function OfferSummary({ alert, onOpen }: { alert: Alert; onOpen: (id: string) => void }) {
   return <View style={styles.card}><Text style={styles.cardTitle}>Ca {alert.incidentId.slice(0, 10)} · {alert.distanceMeters} m</Text>
@@ -78,7 +79,7 @@ function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false,
     {assigned && <View style={styles.answers}>
       <Text>{privateData ? `Người báo: ${privateData.phone || 'Không cung cấp'}` : 'Đang tải chi tiết ca…'}</Text>
       {!privateData && !!error && <Button title="Tải lại chi tiết ca" disabled={!connected} onPress={() => { setError(''); setDetailAttempt(value => value + 1); }} />}
-      {privateData?.patientProfile ? <View style={styles.answers}><Text style={styles.cardTitle}>Hồ sơ bệnh nhân</Text><Text>Họ tên: {privateData.patientProfile.fullName}</Text><Text>Dị ứng: {privateData.patientProfile.allergies.join(', ') || 'Chưa khai báo'}</Text><Text>Liên hệ khẩn cấp: {privateData.patientProfile.emergencyContactPhone || 'Chưa khai báo'}</Text><Text>Thông tin tự khai, chưa xác minh y tế.</Text></View> : privateData && <Text>Bệnh nhân không chia sẻ hồ sơ sức khỏe.</Text>}
+      {privateData?.patientProfile ? <View style={styles.answers}><Text style={styles.cardTitle}>Hồ sơ bệnh nhân</Text><Text>Họ tên: {privateData.patientProfile.fullName}</Text><Text>Dị ứng: {privateData.patientProfile.allergies.join(', ') || 'Chưa khai báo'}</Text><Text>Người liên hệ: {privateData.patientProfile.emergencyContactName || 'Chưa khai báo'}{privateData.patientProfile.emergencyContactRelationship ? ` · ${privateData.patientProfile.emergencyContactRelationship}` : ''}</Text><Text>Số khẩn cấp: {privateData.patientProfile.emergencyContactPhone || 'Chưa khai báo'}</Text><Text>Thông tin tự khai, chưa xác minh y tế.</Text></View> : privateData && <Text>Bệnh nhân không chia sẻ hồ sơ sức khỏe.</Text>}
       {(alert.locationRevision || 0) > 0 && <Text style={styles.urgentTitle}>Điểm bệnh nhân vừa được cập nhật</Text>}{connected && details?.location && <IncidentNavigation destination={details.location} connected={connected && (details.locationRevision || 0) === (alert.locationRevision || 0)} autoPreview={autoPreview || (alert.locationRevision || 0) > 0} />}{connected && (details?.locationRevision || 0) !== (alert.locationRevision || 0) && <Text>Đang cập nhật điểm đến…</Text>}
       {alert.status === 'accepted' && <Button loading={busy} title="Đã đến nơi" disabled={busy || !connected} onPress={arrive} />}
 
@@ -93,7 +94,8 @@ function VolunteerDashboard({ user }: { user: User }) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [feed, setFeed] = useState<AlertFeedState & { key: string }>({ alerts: [], connected: false, error: null, key: '' });
   const feedKey = `${user.uid}:${activeId ?? ''}`;
-  const [approved, setApproved] = useState(false), [checked, setChecked] = useState(false), [application, setApplication] = useState<string>();
+  const [approved, setApproved] = useState(false), [checked, setChecked] = useState(false), [application, setApplication] = useState<{ status?: string; [key: string]: unknown }>();
+  const [applicationLoaded, setApplicationLoaded] = useState(false), [verificationVersion, setVerificationVersion] = useState(0);
   const alerts = useMemo(() => approved && feed.key === feedKey ? feed.alerts : [], [approved, feed.key, feed.alerts, feedKey]);
   const connected = approved && feed.key === feedKey && feed.connected;
   const [available, setAvailable] = useState(false);
@@ -105,8 +107,9 @@ function VolunteerDashboard({ user }: { user: User }) {
   useEffect(() => onSnapshot(doc(firebaseClient().db, `volunteers/${user.uid}`), { includeMetadataChanges: true }, snapshot => {
     setChecked(!snapshot.metadata.fromCache); setApproved(!snapshot.metadata.fromCache && snapshot.data()?.verificationStatus === 'approved'); setAvailable(!snapshot.metadata.fromCache && snapshot.data()?.isAvailable === true);
     setActiveId(typeof snapshot.data()?.activeIncidentId === 'string' ? snapshot.data()!.activeIncidentId : null);
+    setVerificationVersion(snapshot.data()?.verificationPolicyVersion || 0);
   }, err => { setChecked(false); setAvailable(false); setError(readableError(err)); }), [user.uid]);
-  useEffect(() => onSnapshot(doc(firebaseClient().db, `volunteerApplications/${user.uid}`), snapshot => setApplication(snapshot.data()?.status), err => setError(readableError(err))), [user.uid]);
+  useEffect(() => onSnapshot(doc(firebaseClient().db, `volunteerApplications/${user.uid}`), snapshot => { setApplication(snapshot.data()); setApplicationLoaded(true); }, err => setError(readableError(err))), [user.uid]);
   useEffect(() => { const timer = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(timer); }, []);
   useEffect(() => {
     if (!approved) return;
@@ -143,7 +146,8 @@ function VolunteerDashboard({ user }: { user: User }) {
   }
   return <ScrollView contentContainerStyle={styles.page} keyboardShouldPersistTaps="always" keyboardDismissMode="on-drag">
     <Text style={styles.eyebrow}>EHIS · TÌNH NGUYỆN VIÊN</Text><Text style={styles.title}>{assigned.length ? 'Đang hỗ trợ' : 'Hỗ trợ cộng đồng'}</Text>
-    {!checked ? <Text>Đang xác nhận quyền với máy chủ…</Text> : !approved ? <VolunteerApplication status={application} /> : <>
+    {!checked ? <Text>Đang xác nhận quyền với máy chủ…</Text> : !approved ? applicationLoaded ? <VolunteerApplication key={String(application?.applicationRevision || 'new')} status={application?.status} initial={application} /> : <Text>Đang tải hồ sơ đăng ký…</Text> : <>
+      {verificationVersion !== 2 && <Text style={styles.note}>Tài khoản diễn tập cũ · Chưa có checklist xác minh của đơn vị theo quy trình mới.</Text>}
       {!assigned.length && <Text style={styles.intro}>Bật sẵn sàng để nhận yêu cầu gần bạn.</Text>}
       {!connected && <Text accessibilityRole="alert">Đang đồng bộ · Tạm khóa thao tác ca.</Text>}
       {feed.overflow && <Text accessibilityRole="alert" style={styles.error}>Vượt 100 lời mời. Liên hệ người vận hành.</Text>}
@@ -151,7 +155,8 @@ function VolunteerDashboard({ user }: { user: User }) {
       {assigned.map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected && approved} now={now} autoPreview={autoRouteId === alert.incidentId} />)}
       {offers.map(alert => <OfferSummary key={alert.incidentId} alert={alert} onOpen={openOffer} />)}
       <VolunteerAvailability key={user.uid} uid={user.uid} paused={!connected || !focused} prepareAlerts={signal.prepare} />
-      <View style={styles.card}><Text style={styles.cardTitle}>Âm thanh cảnh báo</Text><Text accessibilityLiveRegion="polite" style={styles.note}>{signal.sounding ? "Đang phát chuông…" : signal.message}</Text><Button variant="secondary" title="Thử chuông" onPress={signal.test} color="#0b5962" />{signal.sounding && <Button title="Dừng chuông" onPress={signal.stop} color={palette.emergency.primary} />}<InfoDisclosure title="Tùy chọn chuông và rung"><ToggleRow accessibilityLabel="Rung nhẹ khi có cảnh báo" label={signal.vibrationSupported ? "Rung khi có cảnh báo" : "Thiết bị chưa hỗ trợ rung"} value={signal.vibrationEnabled} onValueChange={signal.toggleVibration} disabled={!signal.vibrationSupported} /><Text style={styles.note}>Chuông luôn bật khi sẵn sàng. Android cần Media &gt; 0. Yêu cầu mới: 6 giây; bổ sung: 2 giây. Chưa bảo đảm phát khi khóa màn hình, đóng app hoặc bật Không làm phiền.</Text></InfoDisclosure></View>
+      <BackgroundNotifications />
+      <View style={styles.card}><Text style={styles.cardTitle}>Âm thanh cảnh báo</Text><Text accessibilityLiveRegion="polite" style={styles.note}>{signal.sounding ? "Đang phát chuông…" : signal.message}</Text><Button variant="secondary" title="Thử chuông" onPress={signal.test} color="#0b5962" />{signal.sounding && <Button title="Dừng chuông" onPress={signal.stop} color={palette.emergency.primary} />}<InfoDisclosure title="Tùy chọn chuông và rung"><ToggleRow accessibilityLabel="Rung nhẹ khi có cảnh báo" label={signal.vibrationSupported ? "Rung khi có cảnh báo" : "Thiết bị chưa hỗ trợ rung"} value={signal.vibrationEnabled} onValueChange={signal.toggleVibration} disabled={!signal.vibrationSupported} /><Text style={styles.note}>Chuông trong app: yêu cầu mới 6 giây; bổ sung 2 giây. Android cần Media &gt; 0. Muốn nhận khi bấm Home hoặc khóa màn hình, bật thông báo Android bên dưới. Âm báo còn phụ thuộc cài đặt âm lượng và Không làm phiền.</Text></InfoDisclosure></View>
       {connected && !offers.length && !assigned.length && <Text>Chưa có ca chờ gần bạn.</Text>}
       {history.length > 0 && <View style={styles.card}><Button variant="secondary" title={historyOpen ? 'Ẩn lịch sử gần đây' : `Xem lịch sử gần đây (${history.length})`} color="#526f67" onPress={() => setHistoryOpen(value => !value)} />{historyOpen && history.map(alert => <IncidentAlert key={alert.incidentId} alert={alert} connected={connected && approved} now={now} />)}</View>}
       <Modal visible={!!wakeOffer && foreground && focused && connected} transparent animationType="none" hardwareAccelerated onRequestClose={closeAlarm}>
@@ -160,7 +165,7 @@ function VolunteerDashboard({ user }: { user: User }) {
     </>}
     <AccountBar />
     {!!error && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
-    <Text style={styles.note}>Giữ app mở khi sẵn sàng · Chưa có cảnh báo nền.</Text>
+    <Text style={styles.note}>GPS làm mới khi app mở. Điểm cũ quá 5 phút không nhận ca mới.</Text>
   </ScrollView>;
 }
 const styles = StyleSheet.create({

@@ -41,14 +41,20 @@ async function main() {
   assert.equal((await read(`patientCards/${patient.localId}`, patient, 'PATCH', { fields: { active: { booleanValue: false } } })).status, 403);
   assert.equal((await call('revokePatientCard', { cardId }, other)).status, 403);
   assert.equal((await call('applyVolunteer', { fullName: 'Injected', phone: '0900000000', experience: 'Trial', verificationStatus: 'approved' }, volunteer)).status, 400);
-  const application = { fullName: 'Synthetic Volunteer', phone: '0900000000', experience: 'Synthetic first-aid course for local testing only' };
+  await getAuth().updateUser(other.localId, { emailVerified: true });
+  await allowed('setVolunteerReferrer', { email: other.email, fullName: 'Synthetic Manager', phone: '0900000000', organisation: 'Synthetic Unit', position: 'Synthetic Head', verificationNote: 'Emulator fixture, not a clinical credential', enabled: true }, admin);
+  const application = { fullName: 'Synthetic Volunteer', phone: '0900000000', experience: 'Synthetic first-aid course for local testing only', trainingLevel: 'first_aid', clinicalMonths: 0, homeAddress: 'Synthetic ward', workAddress: 'Synthetic university', serviceArea: 'Synthetic zone', referrerEmail: other.email };
   for (const person of [volunteer, patient]) await allowed('applyVolunteer', application, person);
   assert.equal((await call('setVolunteerAvailability', { available: true, location: { latitude: 10.7769, longitude: 106.7009 } }, volunteer)).status, 403);
   assert.equal((await call('reviewVolunteerApplication', { uid: volunteer.localId, decision: 'approved' }, volunteer)).status, 403);
   assert.equal((await call('listVolunteerApplications', {}, other)).status, 403);
   assert.equal((await read(`volunteerApplications/${volunteer.localId}`, other)).status, 403);
   const pending = await allowed('listVolunteerApplications', {}, admin); assert(pending.applications.some(item => item.uid === volunteer.localId));
-  for (const person of [volunteer, patient]) await allowed('reviewVolunteerApplication', { uid: person.localId, decision: 'approved' }, admin);
+  assert.equal((await call('reviewVolunteerApplication', { uid: volunteer.localId, decision: 'approved', applicationRevision: 1 }, admin)).status, 400);
+  for (const person of [volunteer, patient]) {
+    await allowed('submitVolunteerReferral', { uid: person.localId, applicationRevision: 1, decision: 'recommended', checklist: { identityChecked: true, affiliationChecked: true, trainingChecked: true, scopeExplained: true }, confirmedLevel: 'first_aid', confirmedClinicalMonths: 0, evidence: 'Synthetic checklist exercise only' }, other);
+    await allowed('reviewVolunteerApplication', { uid: person.localId, decision: 'approved', applicationRevision: 1 }, admin);
+  }
   for (const person of [volunteer, patient]) await allowed('setVolunteerAvailability', { available: true, location: { latitude: 10.7769, longitude: 106.7009 } }, person);
   const request = { cardId, requestId: randomUUID(), location: { latitude: 10.779, longitude: 106.699 } };
   const created = await allowed('createIncident', request, reporter), id = created.incidentId;

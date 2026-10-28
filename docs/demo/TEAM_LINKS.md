@@ -24,6 +24,7 @@ Checkpoint: mỗi người nói được vai trò mình, mở đúng màn hình 
 | [Trang cài APK Android](https://ehis-next-20261021-hc03.web.app/install) | Người cài app Android | APK độc lập, không cần Expo Go; số bản đang bàn giao tra STATUS |
 | [Website người qua đường](https://ehis-next-20261021-hc03.web.app) | Xem trang giới thiệu | Để báo một bệnh nhân cụ thể, quét QR đang hoạt động; trang chủ không thay QR |
 | [Web quản trị](https://ehis-next-20261021-hc03.web.app/admin) | A1 / người được cấp quyền admin | Duyệt TNV khi chạy bài ứng tuyển; chọn vai trò không tự cấp quyền |
+| [Người giới thiệu](https://ehis-next-20261021-hc03.web.app/referrer) | Người quản lý đơn vị đã được EHIS xác minh | Đăng nhập tài khoản riêng, kiểm tra checklist của TNV được giao; [đọc quy trình](../operations/VOLUNTEER_VERIFICATION.md) |
 | [Cách dùng trên điện thoại](../operations/PHONE_INSTALL_AND_LAUNCH.md) | Android, iPhone/iPad | iPhone hiện dùng web, có thể thêm biểu tượng lên màn hình chính; chưa IPA/TestFlight |
 | [Bảng tài khoản riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access) | Chủ dự án và thành viên được cấp quyền | Chứa email/mật khẩu/QR thử; không đưa vào slide, Issue hoặc ảnh public |
 

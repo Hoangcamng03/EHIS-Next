@@ -29,10 +29,17 @@ async function main(){
  const bytes=Buffer.from(await response.arrayBuffer());assert.ok(bytes.length>1e6&&bytes.length<150e6,'Expected APK size');const zip=entries(bytes);
  const native=manifest(zip.get('AndroidManifest.xml')());assert.equal(native.attributes.package,'com.hoangcamng.ehisnext');assert.equal(native.attributes.versionName,record.version);assert.equal(Number(native.attributes.versionCode),record.versionCode);
  assert.ok(!native.permissions.includes('android.permission.RECORD_AUDIO'),'No microphone permission');assert.ok(native.permissions.includes('android.permission.VIBRATE'),'Vibration permission');
+ const backgroundNotifications=Number(record.versionCode)>=9;
+ if(backgroundNotifications){
+  assert.ok(native.permissions.includes('android.permission.POST_NOTIFICATIONS'),'Android notification permission');
+  assert.ok([...zip.keys()].some(name=>/^res\/raw\/emergency_tone\.(wav|ogg)$/.test(name)),'Native notification sound resource');
+  const dex=[...zip].filter(([name])=>/^classes\d*\.dex$/.test(name)).map(([,read])=>read());
+  assert.ok(dex.some(data=>data.includes(Buffer.from('FirebaseMessagingService'))),'FCM native service bundled');
+ }
  const bundle=zip.get('assets/index.android.bundle')();assert.ok(bundle.includes(Buffer.from('ehis-next-20261021-hc03')));assert.ok(bundle.includes(Buffer.from('https://ehis-next-api-hc03.vercel.app/api')));
- const toneHash=hash(fs.readFileSync('frontend/app/assets/emergency-tone.wav'));const tone=[...zip].filter(([name])=>name.endsWith('.wav')).some(([,read])=>hash(read())===toneHash);assert.ok(tone,'Original alarm included in binary');
+ const toneHash=hash(fs.readFileSync('frontend/app/assets/emergency_tone.wav'));const tone=[...zip].filter(([name])=>name.endsWith('.wav')).some(([,read])=>hash(read())===toneHash);assert.ok(tone,'Original alarm included in binary');
  const folder='.local/releases';fs.mkdirSync(folder,{recursive:true});fs.writeFileSync(path.join(folder,`EHIS-Next-v${record.version}.apk`),bytes);
- const result={...record,bytes:bytes.length,sha256:hash(bytes),artifactVerified:true,packageName:native.attributes.package,microphonePermission:false,vibrationPermission:true,embeddedTone:true,cloudTargetVerified:true,deviceVerified:false};
+ const result={...record,bytes:bytes.length,sha256:hash(bytes),artifactVerified:true,packageName:native.attributes.package,microphonePermission:false,vibrationPermission:true,embeddedTone:true,cloudTargetVerified:true,backgroundNotificationResourcesVerified:backgroundNotifications,deviceVerified:false};
  fs.writeFileSync('.local/android-trial-artifact.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
 }
 main().catch(error=>{console.error(error.message);process.exitCode=1;});

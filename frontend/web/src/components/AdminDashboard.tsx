@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { browserSessionPersistence, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
 
 import { callable as httpsCallable, adminClient } from '@/lib/firebase-client';
+import { ReferrerRegistry } from './ReferrerRegistry';
+import { levels, type Application } from './ReferrerDashboard';
 
-type Application = { uid: string; fullName: string; phone: string; experience: string };
 export function AdminDashboard() {
   const [user, setUser] = useState<User | null>(null), [admin, setAdmin] = useState(false), [ready, setReady] = useState(false);
   const [email, setEmail] = useState(''), [password, setPassword] = useState(''), [error, setError] = useState(''), [message, setMessage] = useState('');
@@ -33,7 +34,7 @@ export function AdminDashboard() {
       if (operation === 'login') { await setPersistence(client.auth, browserSessionPersistence); await signInWithEmailAndPassword(client.auth, email.trim(), password); setPassword(''); }
       else if (operation === 'logout') await signOut(client.auth);
       else if (operation === 'load') await load();
-      else { await httpsCallable(client.functions, 'reviewVolunteerApplication', { timeout: 15000 })({ uid, decision: operation }); setMessage(operation === 'approved' ? 'Đã duyệt TNV. Người đăng ký có thể bật sẵn sàng.' : 'Đã từ chối đơn. Người đăng ký có thể bổ sung và gửi lại.'); await load(); }
+      else { await httpsCallable(client.functions, 'reviewVolunteerApplication', { timeout: 15000 })({ uid, decision: operation, applicationRevision: items.find(item => item.uid === uid)?.applicationRevision }); setMessage(operation === 'approved' ? 'Đã duyệt TNV. Người đăng ký có thể bật sẵn sàng.' : 'Đã từ chối đơn. Người đăng ký có thể bổ sung và gửi lại.'); await load(); }
     } catch { setError('Thao tác chưa hoàn tất. Kiểm tra tài khoản, quyền quản trị và kết nối rồi thử lại.'); }
     finally { setBusy(false); }
   }
@@ -46,10 +47,12 @@ export function AdminDashboard() {
       <button className="primary" disabled={busy}>Đăng nhập quản trị</button>
     </form> : <><p>{user.email}</p><button className="secondary" disabled={busy} onClick={() => act('logout')}>Đăng xuất quản trị</button>
       {ready && !admin && <p role="alert" className="error">Tài khoản này không có quyền quản trị. Chọn vai trò hoặc đăng ký tài khoản không tự cấp quyền.</p>}
-      {admin && <><button className="primary" disabled={busy} onClick={() => act('load')}>Tải đơn chờ duyệt</button><p className="hint">Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp theo.</p>
+      {admin && <><ReferrerRegistry /><button className="primary" disabled={busy} onClick={() => act('load')}>Tải đơn chờ duyệt</button><p className="hint">Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp theo.</p>
         {!items.length && <p>{loaded ? 'Hiện không có đơn chờ duyệt.' : 'Bấm Tải đơn chờ duyệt để xem danh sách.'}</p>}
         {items.map(item => <section className="report-panel" key={item.uid}><h2>{item.fullName}</h2><p>Liên hệ: {item.phone}</p><p>Kinh nghiệm tự khai: {item.experience}</p>
-          {review?.uid === item.uid ? <div className="review-confirm"><p>{review.decision === 'approved' ? 'Cho phép tài khoản này bật sẵn sàng và nhận ca? Xác nhận bạn đã kiểm tra điều kiện tham gia buổi thử.' : 'Từ chối đơn này? Người đăng ký có thể bổ sung và gửi lại.'}</p><button className="primary" disabled={busy} onClick={() => act(review.decision, item.uid)}>{busy ? 'Đang lưu…' : review.decision === 'approved' ? 'Xác nhận duyệt đơn' : 'Xác nhận từ chối đơn'}</button><button className="secondary" disabled={busy} onClick={() => setReview(null)}>Quay lại xem đơn</button></div> : <><button className="primary" disabled={busy} onClick={() => setReview({ uid: item.uid, decision: 'approved' })}>Duyệt đơn</button><button className="secondary" disabled={busy} onClick={() => setReview({ uid: item.uid, decision: 'rejected' })}>Từ chối đơn</button></>}
+          <p>Phân loại tự khai: {levels[item.trainingLevel] || 'Hồ sơ cũ cần gửi lại'} · {item.clinicalMonths ?? 0} tháng</p><p>Cư trú: {item.homeAddress || 'Chưa có'}</p><p>Đơn vị: {item.workAddress || 'Chưa có'} · Khu vực: {item.serviceArea || 'Chưa có'}</p><p>Người giới thiệu: {item.referrerEmail || 'Chưa có'}</p>
+          {item.referral ? <div><p>Kết quả: {item.referral.decision === 'recommended' ? 'Đề nghị duyệt' : 'Chưa đủ điều kiện'} · {item.referral.position}, {item.referral.organisation}</p><p>Đã kiểm tra: {levels[item.referral.confirmedLevel]} · {item.referral.confirmedClinicalMonths} tháng</p><p>Căn cứ: {item.referral.evidence}</p></div> : <p className="hint">Chưa đủ checklist của người quản lý. Hồ sơ cũ cần TNV gửi lại theo mẫu mới.</p>}
+          {review?.uid === item.uid ? <div className="review-confirm"><p>{review.decision === 'approved' ? 'Cho phép tài khoản này bật sẵn sàng và nhận ca? Xác nhận bạn đã kiểm tra điều kiện tham gia buổi thử.' : 'Từ chối đơn này? Người đăng ký có thể bổ sung và gửi lại.'}</p><button className="primary" disabled={busy} onClick={() => act(review.decision, item.uid)}>{busy ? 'Đang lưu…' : review.decision === 'approved' ? 'Xác nhận duyệt đơn' : 'Xác nhận từ chối đơn'}</button><button className="secondary" disabled={busy} onClick={() => setReview(null)}>Quay lại xem đơn</button></div> : <><button className="primary" disabled={busy || item.policyVersion !== 2 || item.referral?.decision !== 'recommended'} onClick={() => setReview({ uid: item.uid, decision: 'approved' })}>Duyệt đơn</button><button className="secondary" disabled={busy || !item.applicationRevision} onClick={() => setReview({ uid: item.uid, decision: 'rejected' })}>Từ chối đơn</button></>}
         </section>)}
       </>}
     </>}

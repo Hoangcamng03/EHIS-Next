@@ -3,7 +3,7 @@
     "name": "EHIS Next",
     "slug": "ehis-next",
     "scheme": "ehis-next",
-    "version": "0.4.10",
+    "version": "0.4.11",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -13,6 +13,7 @@
       "buildNumber": "1"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "package": "com.hoangcamng.ehisnext",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -28,13 +29,14 @@
       "runtimeVersion": {
         "policy": "fingerprint"
       },
-      "versionCode": 8
+      "versionCode": 9
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "output": "single"
     },
     "plugins": [
+      ["expo-notifications", { "sounds": ["./assets/emergency_tone.wav"], "defaultChannel": "ehis_emergency_v1", "color": "#ac202f" }],
       "expo-router",
       [
         "expo-location",

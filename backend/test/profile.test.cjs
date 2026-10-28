@@ -21,3 +21,14 @@ test('rejects invalid structure and oversized data', () => {
     assert.throws(() => parsePatientProfile(input));
   }
 });
+
+test('contact identity and relationship are validated together without breaking legacy requests', () => {
+  const profile = { ...valid(), emergencyContactName: '  Người thân giả  ', emergencyContactRelationship: '  Mẹ  ' };
+  assert.equal(parsePatientProfile(profile).emergencyContactName, 'Người thân giả');
+  assert.equal(parsePatientProfile(profile).emergencyContactRelationship, 'Mẹ');
+  assert.equal('emergencyContactName' in parsePatientProfile(valid()), false);
+  assert.equal(parsePatientProfile({ ...profile, emergencyContactPhone: '', emergencyContactName: '', emergencyContactRelationship: '' }).emergencyContactName, '');
+  for (const bad of [{ ...profile, emergencyContactName: '' }, { ...profile, emergencyContactRelationship: '' },
+    { ...profile, emergencyContactPhone: '' }, { ...profile, emergencyContactRelationship: 'a'.repeat(61) },
+    { ...profile, emergencyContactName: ['not a name'] }]) assert.throws(() => parsePatientProfile(bad));
+});

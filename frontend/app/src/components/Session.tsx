@@ -1,4 +1,5 @@
 import { Text } from './AppText';
+import { disconnectNativePush } from '../lib/native-push';
 import { Button } from './ActionButton';
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { Redirect } from 'expo-router';
@@ -139,7 +140,7 @@ export function AccountBar() {
   const [busy, setBusy] = useState(false), [error, setError] = useState('');
   async function logout() {
     setBusy(true); setError('');
-    try { await updateAvailability({ available: false }, 4000).catch(() => undefined); await signOut(firebaseClient().auth); }
+    try { await updateAvailability({ available: false }, 4000).catch(() => undefined); await disconnectNativePush(); await signOut(firebaseClient().auth); }
     catch (err) { setError(readableError(err)); } finally { setBusy(false); }
   }
   return <View style={ui.card}><Button variant="secondary" title={open ? 'Ẩn tài khoản và cài đặt' : 'Tài khoản và cài đặt'} onPress={() => setOpen(value => !value)} />{open && <><Text style={ui.body}>{user?.email}</Text><ReleaseStatus /><Button variant="secondary" title={busy ? 'Đang đăng xuất…' : 'Đăng xuất'} onPress={logout} disabled={busy} color="#526f67" />{!!error && <Text style={ui.error}>{error}</Text>}<InstallGuide compact /></>}</View>;

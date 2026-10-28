@@ -5,6 +5,7 @@ import { HttpsError } from 'firebase-functions/v2/https';
 import { distanceMeters, identifier, objectValue, parseBystanderReport, parseCreateIncident } from './reportValidation';
 import { dispatchBounds } from './dispatchBounds';
 import { offerPendingIncidents } from './pendingDispatch';
+import { queuePush } from './pushJobs';
 
 const makeId = (value: string) => createHash('sha256').update(value).digest('hex').slice(0, 40);
 function validate<T>(parser: (input: unknown) => T, input: unknown): T {
@@ -101,10 +102,10 @@ export const createIncident = onCall('createIncident', async request => {
     tx.create(db.doc(`reporters/${uid}/incidentStatuses/${id}`), {
       status: 'dispatching', createdAt, offerExpiresAt, reportRevision: 0, reportSubmitted: false, invitedCount: selected.length,
     });
-    for (const candidate of selected) tx.create(db.doc(`volunteers/${candidate.uid}/alerts/${id}`), {
+    for (const candidate of selected) { queuePush(tx, db, candidate.uid, id, 'request', 0, offerExpiresAt); tx.create(db.doc(`volunteers/${candidate.uid}/alerts/${id}`), {
       incidentId: id, status: 'offered', distanceMeters: Math.round(candidate.distance), createdAt, offerExpiresAt,
       reportRevision: 0, answers: null,
-    });
+    }); }
     return { incidentId: id, status: 'dispatching', invitedCount: selected.length };
   });
 });
@@ -134,9 +135,9 @@ export const submitBystanderReport = onCall('submitBystanderReport', async reque
     tx.update(db.doc(`reporters/${uid}/incidentStatuses/${data.incidentId}`), { reportRevision: revision, reportSubmitted: true });
     // Observations go to offered volunteers; the optional phone stays private until assignment.
     const recipients: string[] = incident.data()!.acceptedBy ? [incident.data()!.acceptedBy] : incident.data()!.invitedVolunteerIds;
-    for (const volunteerUid of recipients) tx.set(db.doc(`volunteers/${volunteerUid}/alerts/${data.incidentId}`), {
+    for (const volunteerUid of recipients) { queuePush(tx, db, volunteerUid, data.incidentId, 'update', revision, incident.data()!.acceptedBy ? Timestamp.fromMillis(Date.now() + 120000) : incident.data()!.offerExpiresAt); tx.set(db.doc(`volunteers/${volunteerUid}/alerts/${data.incidentId}`), {
       reportRevision: revision, answers: data.answers, reportUpdatedAt: updatedAt,
-    }, { merge: true });
+    }, { merge: true }); }
     return { received: true, revision };
   });
 });
@@ -195,6 +196,7 @@ export const updateIncidentLocation = onCall('updateIncidentLocation', async req
     tx.create(event, { revision, locationRevision, fingerprint, createdAt: at });
     tx.update(db.doc(`reporters/${uid}/incidentStatuses/${data.incidentId}`), { reportRevision: revision, locationRevision });
     tx.set(db.doc(`volunteers/${value.acceptedBy}/alerts/${data.incidentId}`), { reportRevision: revision, locationRevision, reportUpdatedAt: at }, { merge: true });
+    queuePush(tx, db, value.acceptedBy, data.incidentId, 'location', revision, Timestamp.fromMillis(Date.now() + 120000));
     tx.create(db.doc(`auditLogs/${makeId(`location:${data.incidentId}:${data.updateId}`)}`), { action: 'incident-location-confirmed', actorUid: uid, incidentId: data.incidentId, createdAt: at });
     return { received: true, revision, locationRevision };
   });
@@ -276,6 +278,7 @@ export const getVolunteerIncidentDetails = onCall('getVolunteerIncidentDetails',
     const profile = patient?.data();
     return { incidentId: id, phone: report.data()?.phone ?? null, answers: report.data()?.answers ?? null,
       revision: report.data()?.revision ?? 0, location: location.data() ?? null, locationRevision: incident.data()!.locationRevision ?? 0,
-      patientProfile: profile ? { fullName: profile.fullName, allergies: profile.allergies ?? [], emergencyContactPhone: profile.emergencyContactPhone ?? null } : null };
+      patientProfile: profile ? { fullName: profile.fullName, allergies: profile.allergies ?? [], emergencyContactPhone: profile.emergencyContactPhone ?? null,
+        emergencyContactName: profile.emergencyContactName ?? null, emergencyContactRelationship: profile.emergencyContactRelationship ?? null } : null };
   });
 });

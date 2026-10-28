@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "567075088954",
+    "project_id": "ehis-next-20261021-hc03",
+    "storage_bucket": "ehis-next-20261021-hc03.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567075088954:android:b3f08138f779870660a303",
+        "android_client_info": {
+          "package_name": "com.hoangcamng.ehisnext"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATuxyp2Fo4zZ4HDSUqSsOrICJm7G45Q0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

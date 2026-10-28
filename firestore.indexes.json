@@ -1,5 +1,7 @@
 {
   "indexes": [
+    { "collectionGroup": "volunteerApplications", "queryScope": "COLLECTION", "fields": [{ "fieldPath": "referrerUid", "order": "ASCENDING" }, { "fieldPath": "status", "order": "ASCENDING" }] },
+    { "collectionGroup": "pushJobs", "queryScope": "COLLECTION", "fields": [{ "fieldPath": "status", "order": "ASCENDING" }, { "fieldPath": "leaseUntil", "order": "ASCENDING" }] },
     { "collectionGroup": "alerts", "queryScope": "COLLECTION", "fields": [
       { "fieldPath": "status", "order": "ASCENDING" },
       { "fieldPath": "createdAt", "order": "DESCENDING" }

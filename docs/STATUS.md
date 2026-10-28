@@ -1,19 +1,21 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
-Mốc tổng hợp ngày 27/10/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). Đây là đầu mối phiên bản; các tài liệu khác dẫn về đây. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
+Mốc tổng hợp ngày 28/10/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). Đây là đầu mối phiên bản; các tài liệu khác dẫn về đây. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
 
 ## 1. Bản đang bàn giao
 
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
-| App web và web người báo/admin | UI 0.4.10 đã deploy; 33 đối chiếu HTML/JS/CSS khớp bản build | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
-| Backend | Giữ 0.4.9, không thay API/Rules/dữ liệu trong đợt UI này | GPS/âm/rung trên máy thật và tải cloud vẫn là lớp riêng |
-| APK Android | Bản tải hiện tại 0.4.9/code 7; 0.4.10/code 8 từ 913fcd0 đang IN_QUEUE trên Expo miễn phí | Chờ FINISHED/xác minh artifact rồi mới đổi link; chưa cài máy thật |
-| Source phát hành | 913fcd0: CI SUCCESS, 46 test, 10 integration, scale 1.000 Auth/32 ca/tám vùng; browser 390/360px đủ luồng | Cảm ứng Samsung/GPS/loa/rung còn chờ nhóm; tải local/CI không thay số đo cloud |
+| App web và web người báo/admin/referrer | UI 0.4.11 đã deploy; 35 đối chiếu HTML/JS/CSS khớp bản build | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
+| Backend | 0.4.11: cloud flow giả đạt; index mới READY; quyền runtime chỉ đọc Auth/gửi FCM đã bổ sung đúng phạm vi được duyệt | FCM giao/chuông trên thiết bị và tải cloud chưa nghiệm thu |
+| APK Android | Trang tải vẫn 0.4.9/code 7; build cũ 0.4.10/code 8 đã FINISHED nhưng chưa kiểm tra artifact; source 0.4.11/code 9 chuẩn bị build | Không dùng APK cũ để thử thông báo nền mới; cần APK mới và kiểm thử máy thật |
+| Source kiểm tra | 0.4.11: 52 unit/logic, 12 integration, scale 1.000 Auth/32 ca/tám vùng và browser | Lượt tải đầu FAIL 429 khi máy bận, lượt chạy riêng PASS; chưa công bố số người tối đa hay SLA |
 | iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
 | Tài khoản demo | Sáu tài khoản cloud cấp ngày 25/10, kiểm tra login/quyền đạt | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra lại trước mỗi vòng |
 
 [Mở app](https://ehis-next-20261021-hc03-app.web.app) · [Trang cài](https://ehis-next-20261021-hc03.web.app/install) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin) · [Tài khoản](demo/MANUAL_DEMO_ACCOUNTS.md).
+
+[Người quản lý giới thiệu TNV](https://ehis-next-20261021-hc03.web.app/referrer) · [Quy trình xác minh](operations/VOLUNTEER_VERIFICATION.md) · [Thông báo Android và phiếu máy thật](operations/ANDROID_BACKGROUND_ALERTS.md).
 
 ## 2. Bằng chứng theo đúng lớp
 
@@ -21,6 +23,7 @@ Mốc tổng hợp ngày 27/10/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 - Bản đối chiếu 0.4.8 ngày 27/10: [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md). 40 unit/logic, chín integration, bài 1.000 Auth/32 ca và browser đủ vai trò; chưa thay phiếu máy thật. Kết quả sau vá dependency/CI/phát hành ở lab note và bảng trên.
 - Bản sửa 0.4.9: [VERIFICATION_V0_4_9](testing/verification/VERIFICATION_V0_4_9.md), [JSON](testing/verification/FIX_2026_10_27_0_4_9.json). TNV ON muộn, nhiều ca tách history, GPS cache/watch và audio tải muộn; cloud/APK đạt lớp phát hành, máy thật vẫn chờ.
 - Bản UI 0.4.10: [VERIFICATION_V0_4_10](testing/verification/VERIFICATION_V0_4_10.md). Chữ gọn, nút/công tắc cả hàng, disclosure, map 48px; đăng ký và hai ca trước ON đã kiểm tra local.
+- Bản 0.4.11: [VERIFICATION_V0_4_11](testing/verification/VERIFICATION_V0_4_11.md). Người giới thiệu/checklist/duyệt hai bước, liên hệ Patient, câu hỏi người báo và thông báo Android; ghi rõ tải FAIL/PASS và giới hạn chuông nền.
 - Phiếu người thử: [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md), A01–A13. Chưa có kết quả nhóm gửi về thì vẫn Chưa thử.
 - [So sánh hiệu suất 26/10](testing/PERFORMANCE_COMPARISON.md): baseline cùng tính năng trước sắp xếp; 192 ca đo qua hai lượt, build/payload và luồng browser. Kết quả local không thay SLA cloud hoặc thử Android thật.
 

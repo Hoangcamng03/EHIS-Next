@@ -1,6 +1,7 @@
 import { type Firestore, type Transaction, Timestamp } from 'firebase-admin/firestore';
 import { HttpsError } from 'firebase-functions/v2/https';
 import { distanceMeters } from './reportValidation';
+import { queuePush } from './pushJobs';
 
 // Bounded pilot catch-up, not a scan on every 30-second location heartbeat.
 // All reads precede writes so accept/cancel/observations race safely with joining.
@@ -23,6 +24,7 @@ export async function offerPendingIncidents(tx: Transaction, db: Firestore, uid:
   });
   for (const { item, report, distance } of matched) {
     const value = item.data(), invitedVolunteerIds = [...value.invitedVolunteerIds, uid];
+    queuePush(tx, db, uid, item.id, 'request', 0, value.offerExpiresAt);
     tx.update(item.ref, { invitedVolunteerIds });
     tx.update(db.doc(`reporters/${value.reporterUid}/incidentStatuses/${item.id}`), { invitedCount: invitedVolunteerIds.length });
     tx.set(db.doc(`patients/${value.patientId}/incidentStatuses/${item.id}`), { invitedCount: invitedVolunteerIds.length }, { merge: true });

@@ -2,6 +2,8 @@ import { createHash } from 'node:crypto';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { CallableRequest, HttpsError, onCall } from 'firebase-functions/v2/https';
 import { BudgetQueue, BudgetQueueBusy } from './budgetQueue';
+import { waitUntil } from '@vercel/functions';
+import { flushPushJobs } from './pushJobs';
 
 const budgetQueue = new BudgetQueue();
 
@@ -30,6 +32,11 @@ export function guardedCall<T>(operation: string, handler: (request: CallableReq
   return onCall({ enforceAppCheck: process.env.EHIS_ENFORCE_APP_CHECK === 'true' }, async request => {
     if (!request.auth || typeof request.auth.uid !== 'string' || !request.auth.uid) throw new HttpsError('unauthenticated', 'Cần phiên đăng nhập hợp lệ.');
     await enforceRequestBudget(request.auth.uid, operation, request.rawRequest.ip);
-    return handler(request);
+    const result = await handler(request);
+    if (['createIncident', 'submitBystanderReport', 'updateIncidentLocation', 'setVolunteerAvailability', 'registerVolunteerDevice'].includes(operation)) {
+      const task = flushPushJobs().catch(() => { console.warn('EHIS push retry remains pending; no payload logged.'); });
+      if (process.env.VERCEL) waitUntil(task); else await task;
+    }
+    return result;
   });
 }
