@@ -57,7 +57,9 @@ npm run trial:prepare
 
 Tài khoản giả local được lưu trong `.local/complete-demo.json`. Các tài khoản cloud bàn giao được liệt kê riêng ở [LAB_NOTES.md](../LAB_NOTES.md); mật khẩu có trong [repo GitHub riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access), không nằm trong repo public. Không dùng script operator cloud để seed Emulator.
 
-Thử theo thứ tự: Patient lưu/cấp QR → admin duyệt TNV → TNV sẵn sàng ở vị trí giả → mở URL thẻ bằng website → gửi và bổ sung không phone → TNV nhận/xem tuyến/đến nơi/kết thúc. Chi tiết kịch bản PC: [COMPLETE_FLOW.md](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/COMPLETE_FLOW.md).
+Script tạo bốn tài khoản GIẢ: patient, volunteer, admin và referrer. Email đã được đánh dấu xác minh trong Emulator để thử phần mềm; điều này không phải xác minh chức vụ thật. Người giới thiệu chưa có quyền cho đến khi admin cấp trong giao diện.
+
+Thử theo thứ tự: Patient lưu/cấp QR → admin xác minh người quản lý tại `/admin` → TNV gửi mẫu mới với email referrer → referrer đăng nhập `/referrer`, hoàn tất checklist → admin duyệt đúng đơn → TNV sẵn sàng bằng vị trí giả → mở URL thẻ → gửi và bổ sung không phone → TNV nhận/xem tuyến/đến nơi/kết thúc. [Hướng dẫn xác minh từng bước](../operations/VOLUNTEER_VERIFICATION.md).
 
 Trước khi dừng cưỡng bức Emulator, dùng `npm run trial:snapshot`; bình thường dừng bằng Ctrl+C để export theo cấu hình. Snapshot chỉ ở local và không tự được chuyển lên Firestore thật.
 

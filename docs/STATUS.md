@@ -8,8 +8,8 @@ Mốc tổng hợp ngày 28/10/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 | --- | --- | --- |
 | App web và web người báo/admin/referrer | UI 0.4.11 đã deploy; 35 đối chiếu HTML/JS/CSS khớp bản build | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
 | Backend | 0.4.11: cloud flow giả đạt; index mới READY; quyền runtime chỉ đọc Auth/gửi FCM đã bổ sung đúng phạm vi được duyệt | FCM giao/chuông trên thiết bị và tải cloud chưa nghiệm thu |
-| APK Android | Trang tải vẫn 0.4.9/code 7; build cũ 0.4.10/code 8 đã FINISHED nhưng chưa kiểm tra artifact; source 0.4.11/code 9 chuẩn bị build | Không dùng APK cũ để thử thông báo nền mới; cần APK mới và kiểm thử máy thật |
-| Source kiểm tra | 0.4.11: 52 unit/logic, 12 integration, scale 1.000 Auth/32 ca/tám vùng và browser | Lượt tải đầu FAIL 429 khi máy bận, lượt chạy riêng PASS; chưa công bố số người tối đa hay SLA |
+| APK Android | [0.4.11/code 9 từ d4e6591](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/1fb30d53-b177-4584-acd8-1c4be02eedf5) đang IN_QUEUE trên EAS miễn phí; chưa có artifact mới để cài | Chỉ đổi thành link tải khi FINISHED và verifier đạt; không dùng APK cũ thử thông báo nền mới |
+| Source kiểm tra | d4e6591: [CI 40720265276 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40720265276) trên Node22; 52 unit/logic, 12 integration, scale và build Android/web. Browser local đã đi hết ca | Lượt tải local đầu FAIL 429 khi máy bận, lượt chạy riêng PASS; chưa công bố số người tối đa hay SLA |
 | iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
 | Tài khoản demo | Sáu tài khoản cloud cấp ngày 25/10, kiểm tra login/quyền đạt | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra lại trước mỗi vòng |
 

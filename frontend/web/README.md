@@ -1,6 +1,6 @@
 # Web — người qua đường và quản trị
 
-**Phụ trách:** TV4. Website Next.js này có hai nhóm giao diện: người quét QR không cần tài khoản đăng nhập, và quản trị đã được cấp claim. Đây là website khác bản app React Native xuất ra web ở `frontend/app/`.
+**Phụ trách:** TV4. Website Next.js có người quét QR không cần tài khoản đăng nhập, quản trị có claim và người quản lý giới thiệu được backend xác minh. Đây là website khác bản app React Native xuất ra web ở `frontend/app/`.
 
 ## Trang và file
 
@@ -10,6 +10,7 @@
 | `/card?id=...` | Xác nhận ở cạnh bệnh nhân, vị trí, gửi yêu cầu | [src/app/card/page.tsx](src/app/card/page.tsx), [RequestHelp.tsx](src/components/RequestHelp.tsx) |
 | `/report?id=...` | Ba câu hỏi, phone tùy chọn, theo dõi ca | [src/app/report/page.tsx](src/app/report/page.tsx), [BystanderReport.tsx](src/components/BystanderReport.tsx) |
 | `/admin` | Đăng nhập quản trị, tải và xét đơn TNV | [src/app/admin/page.tsx](src/app/admin/page.tsx), [AdminDashboard.tsx](src/components/AdminDashboard.tsx) |
+| `/referrer` | Người quản lý xem đơn được giao, điền checklist riêng | [src/app/referrer/page.tsx](src/app/referrer/page.tsx), [ReferrerDashboard.tsx](src/components/ReferrerDashboard.tsx) |
 | `/privacy` | Mô tả dữ liệu và giới hạn | [src/app/privacy/page.tsx](src/app/privacy/page.tsx) |
 
 - [PublicRoute.tsx](src/components/PublicRoute.tsx): đọc/kiểm tra ID từ query trước khi hiện trang nghiệp vụ.

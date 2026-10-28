@@ -45,4 +45,20 @@ Máy chạy Node 24.21.0; Vercel/CI cấu hình Node 22. Tài nguyên máy ảnh
 
 ## 5. Cách nghiệm thu tiếp
 
+Runtime source `d4e6591`: [CI 40720265276](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40720265276) SUCCESS trên Node22, gồm check, Android JS export, web build, 12 integration và scale. Thay đổi bàn giao sau đó ở hướng dẫn, privacy, trang tiến độ APK và helper tài khoản local đã chạy lại check/build; không đổi source app/backend của APK đang xếp hàng.
+
 [Quy trình xác minh](../../operations/VOLUNTEER_VERIFICATION.md) → [thông báo Android và phiếu hai máy](../../operations/ANDROID_BACKGROUND_ALERTS.md) → [flow nghiệm thu](../ACCEPTANCE_FLOW.md). Ghi model/Android/phiên bản app, thời điểm gửi/nhận, mạng, âm lượng, kết quả thật và ảnh/video. Bản phát hành/APK hiện hành luôn tra [STATUS](../../STATUS.md).
+
+## 6. Ảnh chụp thao tác thực trên giao diện
+
+Hồ sơ/tọa độ giả, thao tác browser thật; không phải ảnh kiểm thử điện thoại Android.
+
+| Bước | Ảnh |
+| --- | --- |
+| Người quản lý gửi checklist | [Checklist](../../assets/trial-0411/referrer-checklist.jpg) |
+| Patient lưu tên/quan hệ/phone | [Liên hệ](../../assets/trial-0411/patient-contact.jpg) |
+| TNV mở đơn đã điền sẵn | [Mẫu ứng tuyển](../../assets/trial-0411/volunteer-application.jpg) |
+| Người báo gửi ba quan sát, không phone | [Bảng hỏi](../../assets/trial-0411/report-questions.jpg) |
+| ON muộn nhận ca đang chờ | [Lời mời](../../assets/trial-0411/volunteer-offer.jpg) |
+| Sau nhận: hồ sơ/đúng liên hệ và tuyến OSRM | [Bản đồ](../../assets/trial-0411/volunteer-route.jpg) |
+| Trang cài cloud khi EAS còn chờ | [Tiến độ APK](../../assets/trial-0411/install-queue.jpg) |
