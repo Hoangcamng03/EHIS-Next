@@ -2,7 +2,7 @@
 
 ## 1. Xác định phiên bản và phạm vi
 
-Xem [STATUS](../STATUS.md) và [LAB_NOTES](../LAB_NOTES.md). Đợt UI 27/10: frontend app 0.4.10/code 8 từ source 913fcd0; backend giữ 0.4.9. Tra STATUS để biết web đã deploy, APK đã xác minh hay còn đang build. Nghiệm thu điện thoại vẫn chờ nhóm; không suy ra máy đã cập nhật từ source hoặc link tải.
+Xem [STATUS](../STATUS.md) và [LAB_NOTES](../LAB_NOTES.md) để lấy mốc đang bàn giao; không suy ra phiên bản từ lịch sử build. Đợt 05/11, [0.4.12/code 10 có APK đã xác minh artifact và cloud cùng phiên bản](../testing/verification/VERIFICATION_V0_4_12.md). Nghiệm thu điện thoại vẫn chờ nhóm; không suy ra máy đã cập nhật từ source hoặc link tải.
 
 Được phép chuẩn bị/build APK preview sau kiểm chứng code/web cho diễn tập Android miễn phí. Chưa tự OTA, submit cửa hàng, iOS native, bật billing hoặc mở tiếp nhận ca thật. Không dùng release:preview như bước mặc định: helper đó có thể publish OTA, vượt phạm vi đợt này.
 

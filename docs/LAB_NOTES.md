@@ -29,6 +29,8 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 ## 2026-11-05 — Cloud 0.4.12, sửa lỗi runtime sau deploy
 
+- Rà lại hướng dẫn bàn giao: bỏ mốc đang chờ0.4.9/0.4.10 bị lỗi thời khỏi Android Trial/Mobile Releases; hướng dẫn UI thử theo phiên bản trong STATUS, thêm báo cáo0.4.12 vào link nhóm và bỏ nhãn phiên bản cũ không cần thiết ở trang bắt đầu/README. Không thay các báo cáo lịch sử.
+
 - Chốt phát hành: build trang cài0.4.12 và deploy lại đạt; 38 tệp website đối chiếu cuối khớp. Bộ ghi chú APK ban đầu đọc nhầm record trạng thái nên guard từ chối ghi đạt; đã chuyển sang proof verifier thực, giữ nguyên guard. Các lượt EPERM/patch sai context được sửa và chạy lại, không gán PASS cho attempt lỗi.
 
 - **Bàn giao APK cuối:** [Tải APK0.4.12/code10](https://expo.dev/artifacts/eas/eHIioq5ReWQNAuqHuHxGi3e2eXE4TkJdCbCSULWc0Fk.apk); 0.4.12/code10, EAS FINISHED, source bc3f2be, verifier artifact PASS; 102895417 bytes, SHA256 `8032e39a58b1dbc257051bc35787f1cdd1cdb4eceaaf7bba5730096c849ba62d`. Package/cloud/tone/rung đúng; không microphone. Đổi trang cài sang link mới sau kiểm tra. Không OTA/iOS; không ghi là điện thoại đã cài hoặc đã reo. Phiếu máy thật và các mục map/dependency/chuyên môn vẫn mở.
