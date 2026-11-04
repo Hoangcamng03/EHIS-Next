@@ -1,6 +1,6 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
-Mốc tổng hợp ngày 28/10/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). Đây là đầu mối phiên bản; các tài liệu khác dẫn về đây. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
+Mốc tổng hợp ngày 04/11/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). [Vòng kiểm thử mới nhất và dữ liệu nghiệm thu](testing/verification/ACCEPTANCE_2026_11_04.md) kết luận **nghiệm thu một phần**, còn các mục chưa đạt/chưa thử. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
 
 ## 1. Bản đang bàn giao
 
@@ -8,8 +8,9 @@ Mốc tổng hợp ngày 28/10/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 | --- | --- | --- |
 | App web và web người báo/admin/referrer | UI 0.4.11 đã deploy; 35 đối chiếu HTML/JS/CSS khớp bản build | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
 | Backend | 0.4.11: cloud flow giả đạt; index mới READY; quyền runtime chỉ đọc Auth/gửi FCM đã bổ sung đúng phạm vi được duyệt | FCM giao/chuông trên thiết bị và tải cloud chưa nghiệm thu |
-| APK Android | [0.4.11/code 9 từ d4e6591](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/1fb30d53-b177-4584-acd8-1c4be02eedf5) đang IN_QUEUE trên EAS miễn phí; chưa có artifact mới để cài | Chỉ đổi thành link tải khi FINISHED và verifier đạt; không dùng APK cũ thử thông báo nền mới |
+| APK Android | [Tải 0.4.11/code 9 từ d4e6591](https://expo.dev/artifacts/eas/QwcNvHO809CxVl4cVWy9HMVG9C5bP8PdHp_eNnsvlxk.apk): EAS FINISHED, verifier artifact đạt ngày 04/11; SHA/bytes trong báo cáo | Chưa nghiệm thu máy thật/chứng chỉ ký; trang cài cloud vẫn tiến độ cũ, dùng link đã xác minh tại đây |
 | Source kiểm tra | d4e6591: [CI 40720265276 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40720265276) trên Node22; 52 unit/logic, 12 integration, scale và build Android/web. Browser local đã đi hết ca | Lượt tải local đầu FAIL 429 khi máy bận, lượt chạy riêng PASS; chưa công bố số người tối đa hay SLA |
+| Kiểm thử lại 04/11 | Runtime không đổi từ 22aff2e; local 56 test/12 suites/multi 15/ba lượt portable/cloud flow/browser/JS export đạt theo báo cáo | Functions load RECHECK >15 s; map preview/tile lỗi; audit còn 24 app/16 web/9 backend. CI cũ không thay kết quả phiên mới |
 | iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
 | Tài khoản demo | Sáu tài khoản cloud cấp ngày 25/10, kiểm tra login/quyền đạt | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra lại trước mỗi vòng |
 

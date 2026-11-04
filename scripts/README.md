@@ -61,6 +61,8 @@ Sau `npm run cloud:build` và `npm run cloud:deploy-web`, chạy `node scripts/v
 
 `node scripts/build-trial-android.cjs start` gửi build preview từ source sạch; `status` đọc tiến độ và xác minh source/version khi FINISHED. `node scripts/verify-trial-apk.cjs` tải/kiểm tra manifest, quyền, target cloud, WAV và SHA-256; không thay nghiệm thu thiết bị hoặc kiểm tra chứng chỉ ký. Không tự phát OTA/submit store. [Quy trình](../docs/operations/PHONE_INSTALL_AND_LAUNCH.md).
 
+Từ 04/11, verifier tra tên `raw/emergency_tone` trong `resources.arsc` và bắt buộc file được ánh xạ trùng bytes âm gốc. Không dựa tên ZIP cố định vì AAPT có thể rút gọn đường dẫn. `npm run check` có bốn kiểm tra định dạng/dữ liệu hỏng cho phần này. Harness scale/multi lưu thêm từng mẫu `operation/ms/status`; file kết quả có thể ghi đè nên chép ngay sang thư mục từng lượt trước lần chạy tiếp. [Dữ liệu thực và giới hạn vòng 04/11](../docs/testing/verification/ACCEPTANCE_2026_11_04.md).
+
 ## 7. Kiểm tra cấu trúc và liên kết
 
 Công cụ mới 0.4.11: `check-fcm-config.cjs --validate-only <file-key-đã-có>` kiểm tra IAM/payload với FCM mà không gửi thông báo. Không in key/token và không đặt key trong repo. `configure-runtime-permissions.cjs` là thao tác quyền operator, chỉ chạy với phê duyệt đúng phạm vi; không phải lệnh setup của thành viên thường.

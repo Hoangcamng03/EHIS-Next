@@ -167,7 +167,7 @@ async function main() {
       startedAt, endedAt: new Date().toISOString(), authenticatedAccounts: actors.length + backgroundAccounts,
       concurrentIncidents: cases.length, regions: zones.length, readyVolunteers: 64, backgroundOfflinePending: backgroundAccounts,
       accountsWithSession: actors.length, liveVolunteerClients: liveClients.length, apiCalls: metrics.length, expectedDenials: metrics.filter(m => m.status === 403 || m.status === 400).length,
-      automaticRetries: 0, stages, latency, status: 'PASS' };
+      automaticRetries: 0, stages, latency, measurements: metrics, alertDeliverySamplesMs: deliveries, status: 'PASS' };
     // The app's shortest callable timeout is 15 seconds. Do not hide that mismatch.
     report.latencyGateMs = 15000;
     report.latencyStatus = Object.values(latency).every(item => item.maxMs < report.latencyGateMs) ? 'PASS' : 'RECHECK';

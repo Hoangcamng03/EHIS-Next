@@ -1,5 +1,6 @@
 // Artifact structure/configuration check, not device or signing-certificate acceptance.
 const fs=require('node:fs'),path=require('node:path'),zlib=require('node:zlib'),assert=require('node:assert/strict'),{createHash}=require('node:crypto');
+const {rawResourceFiles}=require('./test-support/android-resources.cjs');
 const hash=b=>createHash('sha256').update(b).digest('hex');
 function entries(bytes){
  let end=bytes.length-22;while(end>=Math.max(0,bytes.length-65557)&&bytes.readUInt32LE(end)!==0x06054b50)end--;
@@ -32,7 +33,10 @@ async function main(){
  const backgroundNotifications=Number(record.versionCode)>=9;
  if(backgroundNotifications){
   assert.ok(native.permissions.includes('android.permission.POST_NOTIFICATIONS'),'Android notification permission');
-  assert.ok([...zip.keys()].some(name=>/^res\/raw\/emergency_tone\.(wav|ogg)$/.test(name)),'Native notification sound resource');
+  const toneResources=rawResourceFiles(zip.get('resources.arsc')(),'emergency_tone');
+  assert.ok(toneResources.length>0,'Named raw notification sound must exist in Android resource table');
+  const originalTone=hash(fs.readFileSync('frontend/app/assets/emergency_tone.wav'));
+  for(const name of toneResources)assert.ok(zip.has(name)&&hash(zip.get(name)())===originalTone,'Named native notification sound must match original bytes');
   const dex=[...zip].filter(([name])=>/^classes\d*\.dex$/.test(name)).map(([,read])=>read());
   assert.ok(dex.some(data=>data.includes(Buffer.from('FirebaseMessagingService'))),'FCM native service bundled');
  }

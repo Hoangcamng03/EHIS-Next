@@ -10,6 +10,8 @@ Một repository cho toàn bộ dự án Capstone bốn người: app Bệnh nh�
 
 **Tra cứu:** [Tất cả tài liệu](docs/README.md) · [Phiên bản/việc còn thiếu](docs/STATUS.md) · [Lab note](docs/LAB_NOTES.md).
 
+**Kiểm thử 04/11/2026:** [báo cáo và 550 mẫu thực](docs/testing/verification/ACCEPTANCE_2026_11_04.md). Kết luận nghiệm thu một phần; giữ các kết quả map/tải/dependency chưa đạt và phần điện thoại chưa thử.
+
 ## 1. Cấu trúc chính
 
 ```text

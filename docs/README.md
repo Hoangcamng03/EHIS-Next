@@ -59,6 +59,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 
 | Trang | Nội dung |
 | --- | --- |
+| [ACCEPTANCE_2026_11_04](testing/verification/ACCEPTANCE_2026_11_04.md) | Vòng thực chạy 04/11: 56 test, 12 suites, bốn lượt tải, browser/cloud/APK; giữ các mục chưa đạt và phiếu điện thoại còn thiếu |
+| [ACCEPTANCE_2026_11_04.json](testing/verification/ACCEPTANCE_2026_11_04.json) | Số đo thật, từng lượt, mẫu API/lời mời, audit, timestamp và hash log; CSV 550 mẫu dẫn từ báo cáo |
 | [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md) | Flow F01–F13, phiếu Android A01–A13, điều kiện nghiệm thu |
 | [PERFORMANCE_COMPARISON](testing/PERFORMANCE_COMPARISON.md) | Phương pháp và kết quả so sánh bản trước/sau cấu trúc, API/realtime/build |
 | [TEST_SCENARIOS](testing/TEST_SCENARIOS.md) | Tình huống nhiều tài khoản/vị trí, đồng thời và các nhánh lỗi |
