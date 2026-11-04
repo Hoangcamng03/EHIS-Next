@@ -3,7 +3,7 @@
     "name": "EHIS Next",
     "slug": "ehis-next",
     "scheme": "ehis-next",
-    "version": "0.4.11",
+    "version": "0.4.12",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -29,14 +29,23 @@
       "runtimeVersion": {
         "policy": "fingerprint"
       },
-      "versionCode": 9
+      "versionCode": 10
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "output": "single"
     },
     "plugins": [
-      ["expo-notifications", { "sounds": ["./assets/emergency_tone.wav"], "defaultChannel": "ehis_emergency_v1", "color": "#ac202f" }],
+      [
+        "expo-notifications",
+        {
+          "sounds": [
+            "./assets/emergency_tone.wav"
+          ],
+          "defaultChannel": "ehis_emergency_v1",
+          "color": "#ac202f"
+        }
+      ],
       "expo-router",
       [
         "expo-location",

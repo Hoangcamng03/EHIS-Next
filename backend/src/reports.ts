@@ -277,7 +277,7 @@ export const getVolunteerIncidentDetails = onCall('getVolunteerIncidentDetails',
     const patient = card.data()?.shareProfile === true ? await tx.get(db.doc(`patients/${incident.data()!.patientId}`)) : null;
     const profile = patient?.data();
     return { incidentId: id, phone: report.data()?.phone ?? null, answers: report.data()?.answers ?? null,
-      revision: report.data()?.revision ?? 0, location: location.data() ?? null, locationRevision: incident.data()!.locationRevision ?? 0,
+      revision: report.data()?.revision ?? 0, reportedAtMs: report.data()?.updatedAt?.toMillis?.() ?? null, location: location.data() ?? null, locationRevision: incident.data()!.locationRevision ?? 0,
       patientProfile: profile ? { fullName: profile.fullName, allergies: profile.allergies ?? [], emergencyContactPhone: profile.emergencyContactPhone ?? null,
         emergencyContactName: profile.emergencyContactName ?? null, emergencyContactRelationship: profile.emergencyContactRelationship ?? null } : null };
   });

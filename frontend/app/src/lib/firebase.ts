@@ -36,10 +36,12 @@ function initializeClient() {
 const scope = globalThis as typeof globalThis & { ehisMobileFirebase?: ReturnType<typeof initializeClient> };
 export function firebaseClient() { return scope.ehisMobileFirebase ??= initializeClient(); }
 export function callable<Request = unknown, Response = unknown>(functions: Functions, name: string, options?: HttpsCallableOptions) {
-  const base = process.env.EXPO_PUBLIC_BACKEND_URL;
-  if (!base || isLocalEmulator) return httpsCallable<Request, Response>(functions, name, options);
+  const host = process.env.EXPO_PUBLIC_EMULATOR_HOST || '127.0.0.1';
+  const base = isLocalEmulator ? `http://${host}:5201/api` : process.env.EXPO_PUBLIC_BACKEND_URL;
+  if (!base) return httpsCallable<Request, Response>(functions, name, options);
   const url = new URL(base);
-  if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash) throw new Error('Invalid cloud backend URL');
+  const local = isLocalEmulator && url.protocol === 'http:' && url.hostname === host && url.port === '5201' && url.pathname === '/api';
+  if ((!local && url.protocol !== 'https:') || url.username || url.password || url.search || url.hash) throw new Error('Invalid backend URL');
   return httpsCallableFromURL<Request, Response>(functions, `${base.replace(/\/+$/, '')}/${name}`, options);
 }
 let availabilityQueue: Promise<unknown> = Promise.resolve();

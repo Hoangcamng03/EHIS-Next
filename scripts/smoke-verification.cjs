@@ -38,6 +38,9 @@ async function main() {
   assert.equal((await api('listReferrerApplications', {}, manager)).status, 403);
   assert.equal((await api('reviewVolunteerApplication', { uid: trainee.localId, applicationRevision: b.applicationRevision, decision: 'approved' }, admin)).status, 400);
   await ok('setVolunteerReferrer', registry, admin);
+  await ok('setVolunteerReferrer',{...registry,organisation:'Updated synthetic unit'},admin);
+  assert.equal((await api('reviewVolunteerApplication',{uid:trainee.localId,applicationRevision:b.applicationRevision,decision:'approved'},admin)).status,400,'Changed organisation invalidates the old checklist');
+  await ok('submitVolunteerReferral',{...referral,applicationRevision:b.applicationRevision},manager);
   await ok('reviewVolunteerApplication', { uid: trainee.localId, applicationRevision: b.applicationRevision, decision: 'approved' }, admin);
   const approved = (await db.doc(`volunteers/${trainee.localId}`).get()).data(); assert.equal(approved.verificationPolicyVersion, 2); assert.equal(approved.trainingLevel, 'clinical_student'); assert.equal(approved.clinicalMonths, 2); assert.equal(approved.isAvailable, false);
   assert.equal((await ok('getMyAccess', {}, manager)).isReferrer, true); assert.equal((await ok('getMyAccess', {}, manager)).isVerifiedVolunteer, false);

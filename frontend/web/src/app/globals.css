@@ -68,4 +68,13 @@ input { min-width: 0; }
 .optional-phone { margin-top: 28px; }
 .danger-action { color: #a12626; border-color: #a12626; }
 .review-confirm { border: 2px solid var(--role-border); padding: 18px; border-radius: 12px; margin-top: 18px; }
+.observation-heading { display: flex; align-items: center; gap: 12px; color: var(--role-ink); }
+.observation-heading svg { flex: 0 0 40px; color: var(--role-primary); }
+.observation-heading strong { display: block; font-size: 20px; line-height: 1.35; }
+.observation-heading small { font-size: 11px; letter-spacing: .08em; color: var(--muted); }
+.observation-question { padding: 16px 0 22px; border-bottom: 1px solid var(--role-border); }
+.observation-question .hint { margin: 0 0 12px; }
+.observation-question .choice { min-height: 64px; touch-action: manipulation; }
+.observation-question .choice small { display: block; font-size: 14px; color: #52645e; line-height: 1.4; margin-top: 3px; }
+.observation-progress { font-size: 14px; font-weight: 700; margin: 0; }
 button, input, a { overflow-wrap: anywhere; }

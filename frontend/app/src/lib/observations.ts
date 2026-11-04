@@ -1,0 +1,5 @@
+export type ObservationAnswers = { responsiveness: string; breathing: string; bleeding: string; breathingDetail?: string; bleedingDetail?: string };
+const labels: Record<string,string> = { responsive: 'Có phản hồi', unresponsive: 'Không thấy phản hồi', unknown: 'Chưa rõ', normal: 'Có vẻ thở đều', abnormal: 'Thở bất thường (báo cáo cũ chưa tách loại)', difficulty: 'Có vẻ khó thở', gasping: 'Thở ngáp, ngắt quãng', not_seen: 'Người báo không thấy thở', none_seen: 'Không thấy máu ngoài cơ thể', visible: 'Có thấy máu', small: 'Có thấy máu, chưa rõ là nhiều', heavy: 'Người báo thấy máu chảy nhiều' };
+export function observationLabels(answers: ObservationAnswers) {
+  return { responsiveness: labels[answers.responsiveness] || 'Chưa rõ', breathing: labels[answers.breathing === 'abnormal' && answers.breathingDetail ? answers.breathingDetail : answers.breathing] || 'Chưa rõ', bleeding: labels[answers.bleeding === 'visible' && answers.bleedingDetail ? answers.bleedingDetail : answers.bleeding] || 'Chưa rõ' };
+}

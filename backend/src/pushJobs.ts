@@ -3,9 +3,12 @@ import { getApp } from 'firebase-admin/app';
 import { getFirestore, Timestamp, type Transaction, type Firestore } from 'firebase-admin/firestore';
 import { pushMessage } from './pushPolicy';
 
-export function queuePush(tx: Transaction, db: Firestore, uid: string, incidentId: string, kind: string, revision: number, expiresAt: Timestamp) {
-  const id = createHash('sha256').update(`${uid}:${incidentId}:${kind}:${revision}`).digest('hex');
-  tx.set(db.doc(`pushJobs/${id}`), { uid, incidentId, kind, revision, expiresAt, status: 'pending', leaseUntil: 0, attempts: 0, purgeAfter: Timestamp.fromMillis(expiresAt.toMillis() + 86400000) });
+export function pushJobId(uid: string, incidentId: string, kind: string, revision: number, deviceKey?: string) {
+  return createHash('sha256').update(`${uid}:${incidentId}:${kind}:${revision}${deviceKey ? ':device:' + deviceKey : ''}`).digest('hex');
+}
+export function queuePush(tx: Transaction, db: Firestore, uid: string, incidentId: string, kind: string, revision: number, expiresAt: Timestamp, deviceKey?: string) {
+  const id = pushJobId(uid, incidentId, kind, revision, deviceKey);
+  tx.set(db.doc(`pushJobs/${id}`), { uid, incidentId, kind, revision, expiresAt, ...(deviceKey ? { deviceKey } : {}), status: 'pending', leaseUntil: 0, attempts: 0, purgeAfter: Timestamp.fromMillis(expiresAt.toMillis() + 86400000) });
 }
 export async function flushPushJobs() {
   if (process.env.EHIS_FCM_ENABLED !== 'true' || process.env.FIRESTORE_EMULATOR_HOST) return { skipped: true };
@@ -28,7 +31,7 @@ export async function flushPushJobs() {
     const assigned = ['accepted', 'arrived'].includes(value?.status) && value?.acceptedBy === job.uid && person?.activeIncidentId === job.incidentId;
     if (person?.verificationStatus !== 'approved' || (!offered && !assigned) || (job.kind === 'request' && !offered)) { await doc.ref.update({ status: 'obsolete', leaseUntil: 0 }); return 'obsolete'; }
     const devices = (device.data()?.devices || []) as { token: string; updatedAt: number }[];
-    const tokens = devices.filter(item => Date.now() - item.updatedAt <= 30 * 86400000).map(item => item.token).slice(0, 3);
+    const tokens = devices.filter(item => Date.now() - item.updatedAt <= 30 * 86400000 && (!job.deviceKey || createHash('sha256').update(item.token).digest('hex') === job.deviceKey)).map(item => item.token).slice(0, 3);
     if (!tokens.length) { await doc.ref.update({ status: 'no-device', leaseUntil: 0 }); return 'no-device'; }
     const expiry = assigned ? Math.min(job.expiresAt.toMillis(), Date.now() + 120000) : job.expiresAt.toMillis();
     const responses = await Promise.all(tokens.map(async deviceToken => {

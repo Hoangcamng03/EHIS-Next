@@ -2,6 +2,20 @@
 
 Chỉ các API ở mục Đã viết tồn tại. Không gọi API ở backlog như thể đã có.
 
+## Thay đổi source 0.4.12 — vùng quản lý, quan sát và thiết bị
+
+Trạng thái triển khai từng lớp tra [STATUS](../STATUS.md).
+
+- `listVolunteerRoster({serviceArea?, organisation?, after?})`: chỉ admin, lọc chính xác tên vùng/đơn vị. Trả `volunteers` đã duyệt hoặc tạm dừng, tối đa 50 mỗi trang + `next` cursor; trường quản lý gồm tên, phone, địa chỉ cư trú/làm việc, phân loại, số tháng, đơn vị, vùng và trạng thái có ca. Không trả bệnh án/GPS bệnh nhân. Có index cho vùng, đơn vị và kết hợp cả hai.
+- `updateVolunteerRegion({uid, serviceArea})`: chỉ admin, vùng 2..100 ký tự, audit người/thời điểm. Không thay GPS, ca đang nhận hoặc tiêu chí điều phối. Vùng phục vụ quản lý; điều phối vẫn gần nhất trong 5 km, kể cả qua ranh giới.
+- `setVolunteerSuspension({uid, suspended, reason})`: chỉ admin, lý do 10..300 ký tự, chỉ hồ sơ approved/suspended. Transaction từ chối nếu có `activeIncidentId` để tránh bỏ rơi ca. Tạm dừng và khôi phục đều đặt OFF; sau khôi phục TNV phải tự bật lại. Ghi audit; không chuyển ca tự động.
+- Duyệt TNV lưu tên/phone/địa chỉ/người giới thiệu cùng phân loại đã xác minh vào hồ sơ quản lý. Nếu đơn vị hiện tại của người giới thiệu khác đơn vị trong checklist, không duyệt bằng checklist cũ: phải xác nhận lại.
+- `submitBystanderReport.answers` giữ ba enum cũ để APK cũ tương thích. Thêm tùy chọn `breathingDetail: difficulty | gasping | not_seen` chỉ khi `breathing=abnormal`; `bleedingDetail: small | heavy` chỉ khi `bleeding=visible`. Trường thừa/xung đột bị từ chối. Đây là điều người báo nhìn thấy, không suy ra chẩn đoán. Lựa chọn “Chưa rõ” luôn có. Số điện thoại vẫn tùy chọn.
+- `getVolunteerIncidentDetails` trả thêm `reportedAtMs: number | null` từ thời gian máy chủ; TNV được phân công thấy thời điểm cập nhật. Tên và liên hệ bệnh nhân chỉ sau nhận ca + consent, không thêm vào lời mời/push công khai.
+- `registerVolunteerDevice({token, enabled, replaceToken?})`: thay token thuộc đúng UID bằng transaction, không làm đầy giới hạn ba máy khi FCM đổi token; token tài khoản khác bị từ chối. Khi bật/đăng ký lại, khôi phục tối đa 100 lời mời còn hạn và ca đang phụ trách cho đúng thiết bị mới. Trả thêm `recoveryQueued`, `recoveryOverflow`; không phát lại ca đóng, GPS cũ/OFF hoặc trên thiết bị khác. Job khôi phục có ID theo hash thiết bị, không lưu token thô trong job. Native theo dõi đổi token và hủy đăng ký trước logout; không tự xin quyền khi chưa opt-in. `queued`/FCM accepted không chứng minh điện thoại đã reo.
+
+Không thay hạn mức 120/UID/phút, 30 create/UID/phút, 600/IP/phút. Thử nghiệm chia cohort đã bỏ vì không chứng minh cải thiện tải lạnh.
+
 ## Thay đổi source 0.4.11 — xác minh đơn vị và thông báo
 
 Trạng thái deploy tra trong [STATUS](../STATUS.md). Không suy ra source đã chạy cloud.
@@ -141,7 +155,7 @@ Thêm owner reads `patientCards/{uid}`, `volunteerApplications/{uid}`, `patients
 
 ## Hosting API v0.4
 
-Các callable nghiệp vụ đi qua POST /api/<operation>, body {data: payload}, Bearer Firebase ID token. Token thiếu/sai trả 401. Production dùng httpsCallableFromURL; Emulator dùng httpsCallable như trước. GET /api/health trả version runtime và projectId. Chỉ allowlist được định tuyến, JSON tối đa 32KB; tên endpoint lạ trả 404.
+Các callable nghiệp vụ đi qua POST /api/<operation>, body {data: payload}, Bearer Firebase ID token. Token thiếu/sai trả 401. Cloud dùng HTTPS + httpsCallableFromURL. Giao diện local 0.4.12 dùng `http://127.0.0.1:5201/api` cùng adapter HTTP, chỉ khi project demo và USE_EMULATORS=true; bộ integration vẫn gọi Functions Emulator để kiểm tra riêng. GET /api/health trả version runtime và projectId. Chỉ allowlist được định tuyến, JSON tối đa 32KB; tên endpoint lạ trả 404.
 
 Mỗi callable có hạn theo phút: 120/UID, riêng createIncident 30/UID, 600/IP băm; vượt trả resource-exhausted. _requestLimits chỉ backend truy cập. App Check chỉ cưỡng chế nếu được cấu hình/bật, hiện chưa bật.
 

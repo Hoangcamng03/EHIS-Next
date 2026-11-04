@@ -1,6 +1,6 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
-Mốc tổng hợp ngày 04/11/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). [Vòng kiểm thử mới nhất và dữ liệu nghiệm thu](testing/verification/ACCEPTANCE_2026_11_04.md) kết luận **nghiệm thu một phần**, còn các mục chưa đạt/chưa thử. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
+Mốc tổng hợp ngày 04/11/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). [Vòng sửa và kiểm thử 0.4.12 mới nhất](testing/verification/VERIFICATION_V0_4_12.md) kết luận **nghiệm thu một phần**: 59 test/13 suites và tải portable đạt, còn tile map/Functions lạnh/advisory/thiết bị. Source 0.4.12 đang chuẩn bị phát hành; bảng dưới giữ mốc cloud/APK đã xác minh cho đến khi có bản mới. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
 
 ## 1. Bản đang bàn giao
 

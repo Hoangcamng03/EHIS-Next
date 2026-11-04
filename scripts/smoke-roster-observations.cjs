@@ -1,0 +1,31 @@
+// Actual Auth/Firestore/HTTP execution with synthetic identities; no FCM/clinical claims.
+const {assert,randomUUID,db,auth,actor,api,ok,card,volunteer}=require('./test-support/emulator.cjs');
+const fs=require('node:fs');
+(async()=>{
+ const startedAt=new Date().toISOString(),admin=await actor('roster-admin'),patient=await actor('roster-p'),v=await actor('roster-v'),reporter=await actor('roster-r',true),region='QA-'+randomUUID(),point={latitude:-22,longitude:30};
+ await auth.setCustomUserClaims(admin.localId,{admin:true});
+ const login=await fetch('http://127.0.0.1:9199/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=demo-key',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:admin.email,password:admin.password,returnSecureToken:true})});assert.equal(login.status,200);Object.assign(admin,await login.json());
+ await volunteer(v,point,{isAvailable:false,fullName:'Synthetic regional volunteer',serviceArea:region,organisation:'QA Unit',verificationPolicyVersion:2,homeAddress:'Synthetic residence',workAddress:'Synthetic workplace'});
+ assert.equal((await api('listVolunteerRoster',{},patient)).status,403);
+ assert.equal((await api('updateVolunteerRegion',{uid:v.localId,serviceArea:'forged'},v)).status,403);
+ let list=await ok('listVolunteerRoster',{serviceArea:region,organisation:'QA Unit'},admin);assert.equal(list.volunteers.length,1);assert.equal(list.volunteers[0].homeAddress,'Synthetic residence');
+ await ok('updateVolunteerRegion',{uid:v.localId,serviceArea:region+'-new'},admin);
+ assert.equal((await ok('listVolunteerRoster',{serviceArea:region},admin)).volunteers.length,0);
+ await ok('setVolunteerSuspension',{uid:v.localId,suspended:true,reason:'Synthetic software access review'},admin);
+ assert.equal((await api('setVolunteerAvailability',{available:true,location:point},v)).status,403);
+ await ok('setVolunteerSuspension',{uid:v.localId,suspended:false,reason:'Synthetic review completed, no real clinical verification'},admin);assert.equal((await db.doc('volunteers/'+v.localId).get()).data().isAvailable,false);
+ await ok('setVolunteerAvailability',{available:true,location:point},v);
+ const cardId=await card(patient),c=await ok('createIncident',{cardId,requestId:randomUUID(),location:point},reporter);assert.equal(c.invitedCount,1,'Region label must not block nearby GPS dispatch');
+ const answers={responsiveness:'unresponsive',breathing:'abnormal',breathingDetail:'gasping',bleeding:'visible',bleedingDetail:'heavy'},sentAt=Date.now();
+ await ok('submitBystanderReport',{incidentId:c.incidentId,submissionId:randomUUID(),answers},reporter);
+ assert.equal((await api('getVolunteerIncidentDetails',{incidentId:c.incidentId},v)).status,403);
+ await ok('acceptIncident',{incidentId:c.incidentId},v);
+ const detail=await ok('getVolunteerIncidentDetails',{incidentId:c.incidentId},v);assert.deepEqual(detail.answers,answers);assert.ok(detail.reportedAtMs>=sentAt&&detail.reportedAtMs<=Date.now());
+ assert.equal((await api('setVolunteerSuspension',{uid:v.localId,suspended:true,reason:'Must not orphan an active assignment'},admin)).status,400);
+ await ok('finishIncident',{incidentId:c.incidentId,outcome:'completed'},v);
+ const pageRegion='QA-page-'+randomUUID(),batch=db.batch();for(let i=0;i<51;i++)batch.set(db.doc(`volunteers/qa-page-${pageRegion}-${i.toString().padStart(2,'0')}`),{verificationStatus:'approved',serviceArea:pageRegion,isAvailable:false});await batch.commit();
+ const first=await ok('listVolunteerRoster',{serviceArea:pageRegion},admin);assert.equal(first.volunteers.length,50);assert.ok(first.next);
+ const second=await ok('listVolunteerRoster',{serviceArea:pageRegion,after:first.next},admin);assert.equal(second.volunteers.length,1);assert.equal(second.next,null);assert.ok(!first.volunteers.some(x=>x.uid===second.volunteers[0].uid));
+ const result={status:'PASS',scope:'LOCAL EMULATOR ONLY',startedAt,endedAt:new Date().toISOString(),checks:['admin-only roster and region','exact filters','51 records paginate without truncation','suspension denies readiness','restore leaves OFF','no orphan on active suspension','GPS still crosses management regions','detailed observations survive real API/private permissions','server report timestamp']};
+ fs.writeFileSync('.local/roster-observations-proof.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));await db.terminate();
+})().catch(e=>{console.error(e);process.exitCode=1;});

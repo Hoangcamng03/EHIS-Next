@@ -2,6 +2,8 @@
 
 Áp dụng cho hồ sơ mới từ source 0.4.11. Xem [trạng thái phát hành](../STATUS.md) trước khi thao tác trên cloud. Các tài khoản và checklist giả trong test chỉ kiểm tra phần mềm, không chứng nhận chuyên môn.
 
+Từ 0.4.12: `/admin` → **Danh sách TNV theo đơn vị và khu vực** → nhập đúng tên đã lưu (hoặc để trống) → **Tải danh sách TNV**. Mỗi trang 50 người, có nút tải tiếp. Mở **Liên hệ và quản lý vùng** để sửa vùng hoặc tạm dừng/khôi phục quyền kèm lý do. TNV đang có ca không được tạm dừng bằng thao tác này; cần người phụ trách xử lý bàn giao trước. Khôi phục giữ OFF để TNV tự xác nhận sẵn sàng. Vùng chỉ quản lý/lọc; điều phối vẫn dùng GPS gần nhất trong 5 km, bao gồm ranh giới. Nếu người giới thiệu đổi đơn vị, cần checklist xác nhận mới trước khi duyệt; không dùng xác nhận cũ cho đơn vị mới.
+
 ## 1. Chuẩn bị người giới thiệu
 
 1. Chọn người quản lý TNV có chức vụ tại đơn vị: trưởng khoa hoặc người được tổ chức giao nhiệm vụ. Nhóm kỹ thuật không tự xác nhận năng lực y tế.

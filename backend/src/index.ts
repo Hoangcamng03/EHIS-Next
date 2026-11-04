@@ -18,10 +18,11 @@ export { createIncident, submitBystanderReport, updateIncidentLocation, acceptIn
 export { issuePatientCard, revokePatientCard, applyVolunteer, listVolunteerApplications, reviewVolunteerApplication, markIncidentArrived, cancelPatientIncident } from './lifecycle';
 export { setVolunteerReferrer, listReferrerApplications, submitVolunteerReferral } from './volunteerVerification';
 export { registerVolunteerDevice } from './pushDevices';
+export { listVolunteerRoster, updateVolunteerRegion, setVolunteerSuspension } from './volunteerRoster';
 
 // No identities, personal data, or secrets in a public health check.
 export const health = onRequest({ cors: true }, (_request, response) => {
-  response.json({ service: 'ehis-next', status: 'ok', version: '0.4.11', projectId: getApp().options.projectId || process.env.GCLOUD_PROJECT || null });
+  response.json({ service: 'ehis-next', status: 'ok', version: '0.4.12', projectId: getApp().options.projectId || process.env.GCLOUD_PROJECT || null });
 });
 
 export const getMyAccess = onCall('getMyAccess', async request => {

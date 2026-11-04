@@ -100,6 +100,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [VERIFICATION_V0_4_9](testing/verification/VERIFICATION_V0_4_9.md) | Sửa GPS, chuông, nhiều ca chờ và TNV bật muộn; nghiệm thu máy riêng |
 | [VERIFICATION_V0_4_10](testing/verification/VERIFICATION_V0_4_10.md) | Chữ gọn, nút/công tắc dễ thao tác; flow hai ca, đăng ký và map trên màn nhỏ |
 | [VERIFICATION_V0_4_11](testing/verification/VERIFICATION_V0_4_11.md) | Xác minh hai bước, liên hệ khẩn cấp, FCM và kết quả tải lớn cả FAIL/PASS; máy thật chờ nghiệm thu |
+| [VERIFICATION_V0_4_12](testing/verification/VERIFICATION_V0_4_12.md) | Sửa vùng quản lý, quan sát trực quan, token recovery; 59 test/13 suites, tải 32 ca và giới hạn còn mở |
+| [VERIFICATION_V0_4_12.json](testing/verification/VERIFICATION_V0_4_12.json) | Record thực, 704 mẫu CSV dẫn từ báo cáo, audit và tải Functions chưa đạt; trạng thái phát hành tách riêng |
 | [MIDTERM_2026_10_27.json](testing/verification/MIDTERM_2026_10_27.json) | Số liệu hai lớp gọi tải lớn, hash source và dependency 0.4.8 |
 
 ### 8.2. Bằng chứng các mốc cũ — dùng để đối chiếu

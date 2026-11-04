@@ -29,7 +29,7 @@ Terminal A — backend và database giả:
 npm run emulators
 ```
 
-**Đạt khi:** Auth 9199, Firestore 8180, Functions 5101 sẵn sàng; Emulator UI ở http://127.0.0.1:4100. Health: http://127.0.0.1:5101/demo-ehis-next/asia-southeast1/health. Health chỉ kiểm tra dịch vụ, chưa chứng minh luồng ca đúng.
+**Đạt khi:** Auth 9199, Firestore 8180, Functions 5101 và backend chung 5201 sẵn sàng; Emulator UI ở http://127.0.0.1:4100. Health giao diện: http://127.0.0.1:5201/api/health. Từ 0.4.12, giao diện local dùng cùng adapter HTTP với Vercel để tránh khởi động nhiều worker Functions lạnh khi demo. Adapter vẫn xác minh token/quyền và chỉ nối project `demo-ehis-next`; không dùng khóa cloud. Cổng 5201 chỉ nghe loopback trên PC. APK cloud không dùng backend local này. Functions Emulator vẫn được giữ cho bộ kiểm thử độc lập và đo tải chẩn đoán; không coi bài tải Functions đã đạt chỉ vì đổi adapter. Health chỉ kiểm tra dịch vụ, chưa chứng minh luồng ca đúng.
 
 Terminal B — website người báo/quản trị:
 

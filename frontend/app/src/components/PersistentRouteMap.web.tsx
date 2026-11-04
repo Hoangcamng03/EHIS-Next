@@ -8,6 +8,7 @@ type Data = { origin: MapPoint | null; destination: MapPoint; route: RoadRoute |
 export const PersistentRouteMap = memo(function PersistentRouteMap({ origin, destination, route }: Data) {
   const container = useRef<HTMLDivElement>(null), latest = useRef<Data>({ origin, destination, route });
   const render = useRef<((data: Data) => void) | null>(null), [error, setError] = useState('');
+  const retry = useRef<(() => void) | null>(null);
   useEffect(() => { latest.current = { origin, destination, route }; render.current?.(latest.current); }, [origin, destination, route]);
   useEffect(() => {
     let cancelled = false, cleanup: (() => void) | undefined;
@@ -15,7 +16,11 @@ export const PersistentRouteMap = memo(function PersistentRouteMap({ origin, des
       if (cancelled || !container.current) return;
       const map = L.map(container.current, { scrollWheelZoom: false });
       const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>', referrerPolicy: 'strict-origin-when-cross-origin' }).addTo(map);
-      tiles.on('tileerror', () => { if (!cancelled) setError('Một phần bản đồ chưa tải được. Kiểm tra Internet hoặc mở Google Maps.'); });
+      const failed = new Set<HTMLImageElement>();
+      tiles.on('tileerror', event => { failed.add(event.tile); if (!cancelled) setError('Một phần nền bản đồ chưa tải được. Tuyến và tọa độ không thay đổi.'); });
+      tiles.on('tileunload', event => { failed.delete(event.tile); });
+      tiles.on('load', () => { if (!cancelled) setError(failed.size ? 'Một phần nền bản đồ chưa tải được. Thử tải lại khi có mạng.' : ''); });
+      retry.current = () => { failed.clear(); setError('Đang thử tải lại nền bản đồ…'); tiles.redraw(); };
       let a: import('leaflet').Marker | undefined, b: import('leaflet').Marker | undefined, line: import('leaflet').Polyline | undefined, target = '', hadRoute = false;
       function pin(point: MapPoint, label: string, color: string, tooltip: string) {
         return L.marker([point.latitude, point.longitude], { icon: L.divIcon({ className: '', html: `<div style="width:28px;height:28px;margin:7px;border:3px solid white;border-radius:50%;background:${color};color:white;text-align:center;font:bold 14px/28px Arial;box-shadow:0 1px 6px #333">${label}</div>`, iconSize: [48, 48], iconAnchor: [24, 24] }) }).addTo(map).bindTooltip(tooltip);
@@ -31,9 +36,9 @@ export const PersistentRouteMap = memo(function PersistentRouteMap({ origin, des
       };
       render.current(latest.current);
       const resize = new ResizeObserver(() => map.invalidateSize()); resize.observe(container.current);
-      cleanup = () => { render.current = null; resize.disconnect(); map.remove(); };
+      cleanup = () => { render.current = null; retry.current = null; resize.disconnect(); map.remove(); };
     }).catch(() => { if (!cancelled) setError('Chưa tải được bản đồ. Có thể mở Google Maps bên dưới.'); });
     return () => { cancelled = true; cleanup?.(); };
   }, []);
-  return <div style={{ width: '100%', minWidth: 0 }}><p style={{ fontSize: 12 }}>A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo</p><div ref={container} className="ehis-route-map" role="region" aria-label="Bản đồ tuyến đường TNV đến bệnh nhân" style={{ width: '100%', height: 350, border: '1px solid #b8cbc1', borderRadius: 12 }} />{!!error && <p role="alert">{error}</p>}</div>;
+  return <div style={{ width: '100%', minWidth: 0 }}><p style={{ fontSize: 12 }}>A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo</p><div ref={container} className="ehis-route-map" role="region" aria-label="Bản đồ tuyến đường TNV đến bệnh nhân" style={{ width: '100%', height: 350, border: '1px solid #b8cbc1', borderRadius: 12 }} />{!!error && <div><p role="status">{error}</p><button type="button" style={{ minHeight: 48, padding: 12, width: '100%' }} onClick={() => retry.current?.()}>Thử tải lại nền bản đồ</button></div>}</div>;
 });

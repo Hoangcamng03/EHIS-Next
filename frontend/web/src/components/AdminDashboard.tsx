@@ -4,6 +4,7 @@ import { browserSessionPersistence, onAuthStateChanged, setPersistence, signInWi
 
 import { callable as httpsCallable, adminClient } from '@/lib/firebase-client';
 import { ReferrerRegistry } from './ReferrerRegistry';
+import { VolunteerRoster } from './VolunteerRoster';
 import { levels, type Application } from './ReferrerDashboard';
 
 export function AdminDashboard() {
@@ -47,7 +48,7 @@ export function AdminDashboard() {
       <button className="primary" disabled={busy}>Đăng nhập quản trị</button>
     </form> : <><p>{user.email}</p><button className="secondary" disabled={busy} onClick={() => act('logout')}>Đăng xuất quản trị</button>
       {ready && !admin && <p role="alert" className="error">Tài khoản này không có quyền quản trị. Chọn vai trò hoặc đăng ký tài khoản không tự cấp quyền.</p>}
-      {admin && <><ReferrerRegistry /><button className="primary" disabled={busy} onClick={() => act('load')}>Tải đơn chờ duyệt</button><p className="hint">Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp theo.</p>
+      {admin && <><ReferrerRegistry /><VolunteerRoster /><button className="primary" disabled={busy} onClick={() => act('load')}>Tải đơn chờ duyệt</button><p className="hint">Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp theo.</p>
         {!items.length && <p>{loaded ? 'Hiện không có đơn chờ duyệt.' : 'Bấm Tải đơn chờ duyệt để xem danh sách.'}</p>}
         {items.map(item => <section className="report-panel" key={item.uid}><h2>{item.fullName}</h2><p>Liên hệ: {item.phone}</p><p>Kinh nghiệm tự khai: {item.experience}</p>
           <p>Phân loại tự khai: {levels[item.trainingLevel] || 'Hồ sơ cũ cần gửi lại'} · {item.clinicalMonths ?? 0} tháng</p><p>Cư trú: {item.homeAddress || 'Chưa có'}</p><p>Đơn vị: {item.workAddress || 'Chưa có'} · Khu vực: {item.serviceArea || 'Chưa có'}</p><p>Người giới thiệu: {item.referrerEmail || 'Chưa có'}</p>

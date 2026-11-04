@@ -14,8 +14,11 @@ export function routeHtml(origin: MapPoint | null, destination: MapPoint, route:
 if(!window.L){document.getElementById('status').textContent='Chưa tải được bản đồ. Kiểm tra Internet hoặc mở Google Maps.';}else{
 const data=${payload};const map=L.map('map',{scrollWheelZoom:false});
 const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>'}).addTo(map);
-tiles.on('tileerror',()=>{document.getElementById('status').textContent='Một phần bản đồ chưa tải được. Có thể mở Google Maps.';});
-tiles.on('load',()=>{document.getElementById('status').textContent='A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo';});
+const failed=new Set();const status=document.getElementById('status');
+function tileStatus(){status.textContent=failed.size?'Nền bản đồ chưa tải đủ. Tuyến và tọa độ vẫn được giữ.':'A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo';if(failed.size){const button=document.createElement('button');button.textContent='Thử tải lại';button.style.cssText='min-height:48px;width:100%;margin-top:6px';button.onclick=()=>{failed.clear();status.textContent='Đang thử tải lại…';tiles.redraw();};status.appendChild(button);}}
+tiles.on('tileerror',e=>{failed.add(e.tile);tileStatus();});
+tiles.on('tileunload',e=>{failed.delete(e.tile);});
+tiles.on('load',tileStatus);
 function pin(point,label,color,text){return L.marker([point.latitude,point.longitude],{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+color+'">'+label+'</div>',iconSize:[48,48],iconAnchor:[24,24]})}).addTo(map).bindTooltip(text);}
 let a=null,b=null,line=null,previousTarget='',hadRoute=false;
 window.ehisUpdate=function(next){

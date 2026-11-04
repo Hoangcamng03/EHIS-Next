@@ -2,6 +2,8 @@ export type ObservationAnswers = {
   responsiveness: 'responsive' | 'unresponsive' | 'unknown';
   breathing: 'normal' | 'abnormal' | 'unknown';
   bleeding: 'none_seen' | 'visible' | 'unknown';
+  breathingDetail?: 'difficulty' | 'gasping' | 'not_seen';
+  bleedingDetail?: 'small' | 'heavy';
 };
 
 export function objectValue(input: unknown, keys: string[]): Record<string, unknown> {
@@ -26,7 +28,7 @@ export function parseCreateIncident(input: unknown) {
 }
 export function parseBystanderReport(input: unknown) {
   const data = objectValue(input, ['incidentId', 'submissionId', 'phone', 'answers']);
-  const answers = objectValue(data.answers, ['responsiveness', 'breathing', 'bleeding']);
+  const answers = objectValue(data.answers, ['responsiveness', 'breathing', 'bleeding', 'breathingDetail', 'bleedingDetail']);
   const allowed: Record<string, string[]> = {
     responsiveness: ['responsive', 'unresponsive', 'unknown'],
     breathing: ['normal', 'abnormal', 'unknown'],
@@ -37,6 +39,9 @@ export function parseBystanderReport(input: unknown) {
       throw new Error('Answer every question; unknown is allowed');
     }
   }
+  // Optional detail preserves compatibility with the original three categories.
+  if (answers.breathingDetail !== undefined && (answers.breathing !== 'abnormal' || !['difficulty', 'gasping', 'not_seen'].includes(String(answers.breathingDetail)))) throw new Error('Invalid breathing detail');
+  if (answers.bleedingDetail !== undefined && (answers.bleeding !== 'visible' || !['small', 'heavy'].includes(String(answers.bleedingDetail)))) throw new Error('Invalid bleeding detail');
   let phone: string | null = null;
   if (data.phone !== undefined && data.phone !== null && data.phone !== '') {
     if (typeof data.phone !== 'string' || data.phone.length > 40) throw new Error('Invalid phone');

@@ -2,6 +2,8 @@
 
 Source 0.4.11 dùng FCM trực tiếp và expo-notifications. Cần APK mới chứa cấu hình Firebase Android và âm báo, không thể bổ sung native module bằng việc mở lại APK cũ. Xem [STATUS](../STATUS.md) để biết bản nào đã build/deploy.
 
+Source 0.4.12 theo dõi FCM đổi token, thay token đúng chủ và kiểm tra lại lời mời còn hiệu lực trên máy vừa đăng ký; không reo lại trên các máy khác của cùng TNV. Không tự bật quyền thông báo khi người dùng chưa chọn. Đây vẫn là chức năng phải kiểm tra trên Android thật: đăng ký lần đầu khi đã có lời mời, logout/login hai tài khoản trên cùng máy, Home/khóa trước và sau 5 phút. Kết quả Emulator hoặc FCM validate-only không chứng minh máy nhận/hiển thị/phát âm.
+
 ## 1. Luồng hoạt động
 
 1. TNV đã duyệt đăng nhập APK → **Bật / kiểm tra thông báo Android** → cho phép thông báo. Mỗi tài khoản tối đa ba thiết bị. Đăng xuất gỡ thiết bị đã đăng ký trong phiên.

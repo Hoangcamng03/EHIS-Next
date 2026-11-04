@@ -36,7 +36,7 @@ Dispatch 0.4.7: Firestore lọc bbox quanh bán kính 5km, approved + isAvailabl
 
 ## Môi trường
 
-- Local: `demo-ehis-next`, các port trong firebase.json. Dữ liệu giả.
+- Local: `demo-ehis-next`, các port trong firebase.json và adapter HTTP loopback 5201 do `npm run emulators` quản lý. Giao diện 0.4.12 dùng adapter cùng mã với Vercel; kiểm tra Functions riêng vẫn giữ. Dữ liệu giả, không dùng khóa cloud.
 - Cloud mới: `ehis-next-20261021-hc03`. Không dùng project gốc, Rebuild hoặc trial.
 - Cloud đã tạo: Standard/Singapore/free tier, Auth anonymous + email/password, Rules/indexes/Hosting đã deploy. Backend Express giữ HTTP callable wrapper trên Vercel Hobby; không deploy Firebase Functions/Blaze. Secrets chỉ ở runtime backend. Xem CLOUD_TRIAL.md.
 

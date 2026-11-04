@@ -16,3 +16,8 @@ test('rejects identities, arbitrary diagnosis, invalid phone and coordinates', (
   assert.throws(() => parseBystanderReport({ ...report(), answers: { ...report().answers, breathing: 'diagnosis' } }));
   assert.throws(() => parseCreateIncident({ cardId: 'demo-card', requestId: 'request-demo', location: { latitude: 91, longitude: 0 } }));
 });
+test('details preserve old APK payloads and reject conflicting observations',()=>{
+ for(const breathingDetail of ['difficulty','gasping','not_seen'])assert.equal(parseBystanderReport({...report(),answers:{...report().answers,breathing:'abnormal',breathingDetail}}).answers.breathingDetail,breathingDetail);
+ for(const bleedingDetail of ['small','heavy'])assert.equal(parseBystanderReport({...report(),answers:{...report().answers,bleeding:'visible',bleedingDetail}}).answers.bleedingDetail,bleedingDetail);
+ for(const answers of [{...report().answers,breathingDetail:'gasping'},{...report().answers,bleedingDetail:'heavy'},{...report().answers,breathing:'abnormal',breathingDetail:'diagnosis'},{...report().answers,pulse:'diagnosis'}])assert.throws(()=>parseBystanderReport({...report(),answers}));
+});

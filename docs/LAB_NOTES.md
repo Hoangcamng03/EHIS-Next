@@ -27,6 +27,16 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 - Tài khoản Emulator trong `.local/complete-demo.json` và `.local/report-demo.json` chỉ dùng cho local, không đăng nhập được vào APK cloud. Đã gom thông tin vào file nội bộ; chưa xác minh lại Emulator trong lần cập nhật này.
 - Tài khoản sinh ngẫu nhiên trong integration/probe không được coi là tài khoản bàn giao ổn định. Khi thêm tài khoản thử dùng chung, cập nhật danh sách này và file mật khẩu nội bộ; không ghi token hoặc khóa service account.
 
+## 2026-11-04 — Hoàn thiện 0.4.12 theo các mục chưa xong
+
+- **Quyết định của chủ dự án:** vùng quản lý dùng lọc/đơn vị; điều phối GPS trong 5 km, không chặn ranh giới. Giữ một ca/TNV, GPS nền mới tối đa 5 phút, diễn tập miễn phí.
+- **Đổi:** thêm roster quản trị + phân trang/sửa vùng/tạm dừng có audit; chặn khóa TNV đang phụ trách ca; checklist không còn hợp lệ khi người giới thiệu đổi đơn vị. Câu hỏi người báo có biểu tượng, đáp án quan sát chi tiết và “Chưa rõ”; chuyển tương thích APK cũ; TNV thấy chảy máu và giờ cập nhật. Không public tên/bệnh án trước assignment + consent.
+- **Đổi thêm:** Android theo dõi token mới/thay token/logout, đăng ký lại xếp hàng nhắc lời mời còn hạn cho đúng thiết bị. Thay iframe preview bằng map giữ marker và retry tile; local demo dùng adapter HTTP như cloud (5201, chỉ demo/loopback, không khóa cloud). Expo58/RN và Admin14/Functions7 được nâng tương thích; source 0.4.12/code10.
+- **Kiểm tra thực:** 59 unit/logic PASS, 13 integration PASS, bài cuối 1.000 Auth/128 phiên/32 feed SDK/32 ca/320 API PASS; p95 lời mời local 872 ms. [Báo cáo, JSON và 704 mẫu CSV](testing/verification/VERIFICATION_V0_4_12.md). Browser đã gửi → bổ sung không phone → nhận → bệnh án/đường → đến → hoàn tất; roster tạm dừng/khôi phục OFF đạt. Ảnh thật trong báo cáo.
+- **Thử chưa đạt/đã bỏ:** IP cohort không chứng minh cải thiện Functions lạnh (p95 19.622 ms >15 giây), đã bỏ và chạy portable lại hạn mức gốc. OSM tile vẫn lỗi sau retry; không ghi đã sửa dịch vụ ngoài. Override viewport390 không áp dụng (DOM1265), chưa chứng minh responsive390. Một patch tài liệu sai context bị hủy, áp dụng lại và kiểm tra link; lần đọc fixture trước khi setup xong chưa có file, sau đó đã dùng file thực.
+- **Audit sau vá:** backend0, app18/web16 trung bình; không còn high/critical tại thời điểm đo. Không ép downgrade bằng audit force. Giữ riêng kết quả trước vá.
+- **Phát hành:** chuẩn bị deploy backend/index/web và APK thử theo quyền hiện có, ghi kết quả tiếp ngay dưới mục này; build/web/điện thoại là ba lớp riêng. Chưa có nghiệm thu điện thoại, chuông/rung/khóa màn hình, GPS thực, tải cloud hoặc chuyên môn y tế. Không OTA/iOS/Blaze/ca thật.
+
 ## 2026-11-04 — Kiểm thử toàn luồng, giữ số thực để nghiệm thu
 
 - Theo yêu cầu không làm giả số liệu, chạy lại từ main `22aff2e` bằng tài khoản/hồ sơ/tọa độ giả; giữ từng log/exit code/timestamp/hash tại `.local/acceptance-2026-11-04`. Bàn giao [báo cáo](testing/verification/ACCEPTANCE_2026_11_04.md), [JSON](testing/verification/ACCEPTANCE_2026_11_04.json) và [550 mẫu CSV](testing/verification/ACCEPTANCE_2026_11_04_SAMPLES.csv). Không dùng kết quả 28/10 làm số mới.

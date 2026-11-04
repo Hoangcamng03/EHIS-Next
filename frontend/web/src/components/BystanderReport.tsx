@@ -8,12 +8,9 @@ import { reportProgress } from '@/lib/report-status';
 import { useOnline } from '@/lib/use-online';
 import { UpdatePatientLocation } from './UpdatePatientLocation';
 
-const questions = [
-  { key: 'responsiveness', title: '1. Người này có đáp lại khi bạn gọi không?', choices: [['responsive', 'Có · nhìn, nói hoặc cử động đáp lại'], ['unresponsive', 'Không thấy đáp lại'], ['unknown', 'Không rõ / chưa kiểm tra']] },
-  { key: 'breathing', title: '2. Bạn quan sát thấy họ thở như thế nào?', choices: [['normal', 'Có vẻ thở đều'], ['abnormal', 'Khó thở, thở ngáp hoặc không thấy thở'], ['unknown', 'Không rõ / chưa kiểm tra']] },
-  { key: 'bleeding', title: '3. Bạn có thấy máu đang chảy ngoài cơ thể không?', choices: [['none_seen', 'Không thấy'], ['visible', 'Có thấy máu đang chảy'], ['unknown', 'Không rõ / chưa kiểm tra']] },
-] as const;
-type Answers = Record<typeof questions[number]['key'], string>;
+import { questions, chooseAnswer, selectedAnswer, type Answers } from '@/lib/observations';
+import { ObservationIcon } from './ObservationIcon';
+
 type Status = { status: string; invitedCount: number; reportSubmitted: boolean; reportRevision: number; offerExpiresAt?: { toMillis(): number } };
 export function BystanderReport({ incidentId }: { incidentId: string }) {
   const online = useOnline();
@@ -84,8 +81,9 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
     {status && ['accepted', 'arrived'].includes(status.status) && <UpdatePatientLocation key={incidentId} incidentId={incidentId} enabled={canSend} />}
     {status?.status === 'dispatching' && <p className="hint">Nếu điểm bệnh nhân ban đầu sai hoặc đã di chuyển: hủy yêu cầu chưa được nhận, rồi mở thẻ để gửi tại điểm đúng. Sau khi TNV nhận, bạn có thể xác nhận cập nhật điểm tại đây.</p>}
     <form className="report-panel" onSubmit={submit}>
-      {questions.map(question => <fieldset key={question.key} disabled={busy || !canSend}><legend>{question.title}</legend>
-        <div className="choices">{question.choices.map(([value, label]) => <label key={value} className={answers[question.key] === value ? 'choice selected' : 'choice'}><input type="radio" name={question.key} value={value} required checked={answers[question.key] === value} onChange={() => { setAnswers(previous => ({ ...previous, [question.key]: value })); setSuccess(''); }} />{label}</label>)}</div>
+      <p className="observation-progress" role="status">Đã chọn {questions.filter(q => answers[q.key]).length}/3 câu · Có thể chọn Chưa rõ</p>
+      {questions.map((question, index) => <fieldset className="observation-question" key={question.key} disabled={busy || !canSend}><legend><span className="observation-heading"><ObservationIcon kind={question.icon} /><span><small>CÂU {index + 1} / 3</small><strong>{question.title}</strong></span></span></legend><p className="hint">{question.hint}</p>
+        <div className="choices">{question.choices.map(choice => <label key={choice.value} className={selectedAnswer(answers, question.key) === choice.value ? 'choice selected' : 'choice'}><input type="radio" name={question.key} value={choice.value} required checked={selectedAnswer(answers, question.key) === choice.value} onChange={() => { setAnswers(previous => chooseAnswer(previous, question.key, choice.value)); setSuccess(''); }} /><span><strong>{choice.label}</strong><small>{choice.hint}</small></span></label>)}</div>
       </fieldset>)}
       <label className="phone-label optional-phone" htmlFor="phone">Số điện thoại để TNV liên hệ <span>Không bắt buộc</span></label>
       <input id="phone" type="tel" autoComplete="tel" inputMode="tel" maxLength={40} placeholder="Để trống nếu không muốn cung cấp" value={phone} disabled={busy || !canSend} onChange={e => { setPhone(e.target.value); setSuccess(''); }} />
@@ -98,6 +96,6 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
     {status?.status === 'dispatching' && !terminal && <section className="report-panel"><h2>Đã gửi nhầm yêu cầu?</h2>
       {confirmCancel ? <><p>Chỉ hủy nếu đã gửi nhầm hoặc không còn cần hỗ trợ. Nếu TNV vừa nhận ca, máy chủ sẽ từ chối hủy.</p><button className="secondary danger-action" type="button" disabled={busy || !canSend} onClick={cancel}>Xác nhận hủy yêu cầu</button><button className="secondary" type="button" disabled={busy} onClick={() => setConfirmCancel(false)}>Giữ yêu cầu đang chờ</button></> : <button className="secondary" type="button" disabled={busy || !canSend} onClick={() => setConfirmCancel(true)}>Hủy yêu cầu chưa có TNV nhận</button>}
     </section>}
-    <p className="hint">Thông tin tự khai từ người chứng kiến, không phải kết luận y khoa. Nếu TNV chưa mở ứng dụng, bản thử nghiệm này chưa bảo đảm thông báo nền.</p>
+    <p className="hint">Đây là điều người báo quan sát, không phải kết luận y khoa. Chỉ báo điều bạn thấy; không đoán tên bệnh. Không chờ EHIS nếu cần hỗ trợ khẩn ngay.</p>
   </main>;
 }

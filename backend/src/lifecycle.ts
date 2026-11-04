@@ -108,12 +108,12 @@ export const reviewVolunteerApplication = onCall('reviewVolunteerApplication', a
     const value = application.data()!, referral = value.referral;
     const manager = typeof value.referrerUid === 'string' ? await tx.get(db.doc(`volunteerReferrers/${value.referrerUid}`)) : null;
     if (data.decision === 'approved' && (value.policyVersion !== 2 || !referrerAccount || referrerAccount.disabled || !referrerAccount.emailVerified || referrerAccount.uid !== value.referrerUid || manager?.data()?.email !== referrerAccount.email?.toLowerCase() || manager?.data()?.enabled !== true ||
-        referral?.decision !== 'recommended' || referral.reviewedBy !== value.referrerUid || checklistKeys.some(key => referral.checklist?.[key] !== true))) {
+        referral?.decision !== 'recommended' || referral.reviewedBy !== value.referrerUid || referral.organisation !== manager?.data()?.organisation || checklistKeys.some(key => referral.checklist?.[key] !== true))) {
       throw new HttpsError('failed-precondition', 'Cần người quản lý được xác minh hoàn tất checklist trước khi duyệt.', { reason: 'referral-required' });
     }
     tx.update(ref, { status: data.decision, reviewedBy: adminUid, reviewedAt: FieldValue.serverTimestamp() });
     tx.set(volunteerRef, { verificationStatus: data.decision, isAvailable: false, verificationPolicyVersion: 2,
-      ...(data.decision === 'approved' ? { trainingLevel: referral.confirmedLevel, clinicalMonths: referral.confirmedClinicalMonths, organisation: value.organisation, serviceArea: value.serviceArea } : {}) }, { merge: true });
+      ...(data.decision === 'approved' ? { fullName: value.fullName, phone: value.phone, homeAddress: value.homeAddress, workAddress: value.workAddress, referrerUid: value.referrerUid, trainingLevel: referral.confirmedLevel, clinicalMonths: referral.confirmedClinicalMonths, organisation: referral.organisation, serviceArea: value.serviceArea } : {}) }, { merge: true });
     tx.create(db.collection('auditLogs').doc(), { actor: adminUid, subject: data.uid, action: `volunteer-${data.decision}`, createdAt: FieldValue.serverTimestamp() });
     return { status: data.decision };
   });
