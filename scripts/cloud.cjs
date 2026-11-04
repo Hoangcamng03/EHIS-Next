@@ -50,8 +50,12 @@ async function main() {
   const target = JSON.parse(fs.readFileSync(path.join(root,'.local/cloud-target.json'),'utf8'));
   if(target.projectId !== projectId) throw new Error('Wrong cloud target');
   const response = await fetch(`${target.backend}/health`,{signal:AbortSignal.timeout(30000)});
-  const health = await response.json();
+  let health;
+  try { health = await response.json(); }
+  catch { throw new Error(`Backend health HTTP ${response.status} không trả JSON hợp lệ. Chưa phát hành frontend; xem runtime logs Vercel.`); }
   if(!response.ok || health.service !== 'ehis-next' || health.status !== 'ok' || health.projectId !== projectId) throw new Error('Chưa xác nhận backend đúng project. Chưa phát hành frontend.');
+  const expectedVersion = JSON.parse(fs.readFileSync(path.join(root,'package.json'),'utf8')).version;
+  if(health.version !== expectedVersion) throw new Error(`Backend ${health.version || '?'} chưa khớp frontend ${expectedVersion}. Deploy và kiểm tra backend trước.`);
   const unauth = await fetch(`${target.backend}/getMyAccess`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:{}}),signal:AbortSignal.timeout(30000)});
   if(unauth.status !== 401) throw new Error('Backend chưa từ chối yêu cầu không đăng nhập.');
   console.log('Cloud backend health/project and unauthenticated denial passed.');

@@ -34,6 +34,13 @@ async function main() {
  await call('reviewVolunteerApplication',{uid:volunteer.localId,decision:'approved',applicationRevision:application.applicationRevision},admin,400);
  await call('submitVolunteerReferral',{uid:volunteer.localId,applicationRevision:application.applicationRevision,decision:'recommended',checklist:{identityChecked:true,affiliationChecked:true,trainingChecked:true,scopeExplained:true},confirmedLevel:'first_aid',confirmedClinicalMonths:0,evidence:'Checklist GIẢ chỉ kiểm thử phần mềm, không phải xác minh năng lực y tế.'},admin);
  await call('reviewVolunteerApplication',{uid:volunteer.localId,decision:'approved',applicationRevision:application.applicationRevision},admin);
+ // Real cloud queries also verify that the regional composite indexes are READY.
+ await call('listVolunteerRoster',{},patient,403);
+ for(const filter of [{serviceArea:'Vùng GIẢ'},{organisation:registry.organisation},{serviceArea:'Vùng GIẢ',organisation:registry.organisation}]) assert.ok((await call('listVolunteerRoster',filter,admin)).volunteers.some(v=>v.uid===volunteer.localId));
+ await call('updateVolunteerRegion',{uid:volunteer.localId,serviceArea:'Vùng GIẢ ranh giới'},admin);
+ await call('setVolunteerSuspension',{uid:volunteer.localId,suspended:true,reason:'Synthetic cloud access test only'},admin);
+ await call('setVolunteerAvailability',{available:true,location:{latitude:78,longitude:-145}},volunteer,403);
+ await call('setVolunteerSuspension',{uid:volunteer.localId,suspended:false,reason:'Synthetic access test completed; retain OFF'},admin);
  // Synthetic remote points isolate this probe from the team's normal demo area.
  const patient2=await account('patient2'),reporter2=await account('reporter2',true);
  await call('setAccountPurpose',{purpose:'patient'},patient2);
@@ -44,7 +51,8 @@ async function main() {
  const incident=await call('createIncident',{cardId:card.cardId,requestId:randomUUID(),location:{latitude:78.001,longitude:-145.001}},reporter);
  assert.equal(incident.invitedCount,0);demo.incidentId=incident.incidentId;demo.secondIncidentId=incident2.incidentId;
  await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer,403);
- await call('submitBystanderReport',{incidentId:incident.incidentId,submissionId:randomUUID(),phone:'',answers:{responsiveness:'unknown',breathing:'unknown',bleeding:'unknown'}},reporter);
+ const observations={responsiveness:'unresponsive',breathing:'abnormal',breathingDetail:'gasping',bleeding:'visible',bleedingDetail:'heavy'};
+ await call('submitBystanderReport',{incidentId:incident.incidentId,submissionId:randomUUID(),phone:'',answers:observations},reporter);
  const catchUp=await call('setVolunteerAvailability',{available:true,location:{latitude:78,longitude:-145}},volunteer);
  assert.equal(catchUp.matchedCount,2);
  const alertsResponse=await checkedFetch('Firestore offered query',`https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/volunteers/${volunteer.localId}:runQuery`,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+volunteer.idToken},body:JSON.stringify({structuredQuery:{from:[{collectionId:'alerts'}],where:{fieldFilter:{field:{fieldPath:'status'},op:'EQUAL',value:{stringValue:'offered'}}},orderBy:[{field:{fieldPath:'createdAt'},direction:'DESCENDING'}],limit:101}}),signal:AbortSignal.timeout(30000)});
@@ -56,6 +64,7 @@ async function main() {
  await call('acceptIncident',{incidentId:incident2.incidentId},volunteer,400);
  await call('getVolunteerIncidentDetails',{incidentId:incident2.incidentId},volunteer,403);
  const details=await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer);assert.equal(details.phone,null);assert.equal(details.patientProfile.fullName,'Bệnh nhân giả · thử cloud EHIS');
+ assert.deepEqual(details.answers,observations);assert.ok(details.reportedAtMs>0);demo.regionalRosterAndObservationsVerified=true;
  await call('markIncidentArrived',{incidentId:incident.incidentId},volunteer);
  await call('finishIncident',{incidentId:incident.incidentId,outcome:'completed'},volunteer);
  await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer,403);
@@ -76,6 +85,6 @@ async function main() {
   demo.temporaryAdminClaimRemoved=true;fs.writeFileSync(file,JSON.stringify(demo,null,2),{mode:0o600});
  }
  demo.result='PASS: cloud full lifecycle and temporary-admin cleanup';fs.writeFileSync(file,JSON.stringify(demo,null,2),{mode:0o600});
- console.log('PASS cloud full flow: two cases before readiness, late matching/index query, no duplicate offers, one assignment, private consent, completed and private-access denial. Only synthetic accounts/data used; credentials remain in ignored local file.');
+ console.log('PASS cloud full flow: regional roster indexes, suspension/restore, detailed observations, two cases before readiness, late matching/index query, no duplicate offers, one assignment, private consent, completed and private-access denial. Only synthetic accounts/data used; credentials remain in ignored local file.');
 }
 main().catch(error=>{console.error(error.message);process.exitCode=1;});

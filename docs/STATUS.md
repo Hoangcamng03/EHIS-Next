@@ -1,14 +1,14 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
-Mốc tổng hợp ngày 04/11/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). [Vòng sửa và kiểm thử 0.4.12 mới nhất](testing/verification/VERIFICATION_V0_4_12.md) kết luận **nghiệm thu một phần**: 59 test/13 suites và tải portable đạt, còn tile map/Functions lạnh/advisory/thiết bị. Source 0.4.12 đang chuẩn bị phát hành; bảng dưới giữ mốc cloud/APK đã xác minh cho đến khi có bản mới. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
+Mốc tổng hợp ngày 04/11/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). [Vòng sửa và kiểm thử 0.4.12 mới nhất](testing/verification/VERIFICATION_V0_4_12.md) kết luận **nghiệm thu một phần**: 59 test/13 suites và tải portable đạt, còn tile map/Functions lạnh/advisory/thiết bị. Cloud web/backend 0.4.12 đã phát hành và qua flow/đối chiếu38 tệp; APK0.4.12 đang build riêng, chưa có nghiệm thu điện thoại. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
 
 ## 1. Bản đang bàn giao
 
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
-| App web và web người báo/admin/referrer | UI 0.4.11 đã deploy; 35 đối chiếu HTML/JS/CSS khớp bản build | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
-| Backend | 0.4.11: cloud flow giả đạt; index mới READY; quyền runtime chỉ đọc Auth/gửi FCM đã bổ sung đúng phạm vi được duyệt | FCM giao/chuông trên thiết bị và tải cloud chưa nghiệm thu |
-| APK Android | [Tải 0.4.11/code 9 từ d4e6591](https://expo.dev/artifacts/eas/QwcNvHO809CxVl4cVWy9HMVG9C5bP8PdHp_eNnsvlxk.apk): EAS FINISHED, verifier artifact đạt ngày 04/11; SHA/bytes trong báo cáo | Chưa nghiệm thu máy thật/chứng chỉ ký; trang cài cloud vẫn tiến độ cũ, dùng link đã xác minh tại đây |
+| App web và web người báo/admin/referrer | 0.4.12 đã deploy; 38 đối chiếu HTML/JS/CSS khớp bản build; login/logout browser cloud đạt | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
+| Backend | 0.4.12: sửa runtime ESM, hai flow cloud giả đạt; index vùng truy vấn được; FCM validate-only200; giữ đúng quyền runtime | FCM giao/chuông trên thiết bị và tải cloud chưa nghiệm thu |
+| APK Android | [Tải 0.4.11/code 9 từ d4e6591](https://expo.dev/artifacts/eas/QwcNvHO809CxVl4cVWy9HMVG9C5bP8PdHp_eNnsvlxk.apk): EAS FINISHED, verifier artifact đạt ngày 04/11; SHA/bytes trong báo cáo | Chưa nghiệm thu máy thật/chứng chỉ ký; 0.4.12/code10 đang build; xem link tiến độ trong báo cáo mới, chưa coi là bản đã cài |
 | Source kiểm tra | d4e6591: [CI 40720265276 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/40720265276) trên Node22; 52 unit/logic, 12 integration, scale và build Android/web. Browser local đã đi hết ca | Lượt tải local đầu FAIL 429 khi máy bận, lượt chạy riêng PASS; chưa công bố số người tối đa hay SLA |
 | Kiểm thử lại 04/11 | Runtime không đổi từ 22aff2e; local 56 test/12 suites/multi 15/ba lượt portable/cloud flow/browser/JS export đạt theo báo cáo | Functions load RECHECK >15 s; map preview/tile lỗi; audit còn 24 app/16 web/9 backend. CI cũ không thay kết quả phiên mới |
 | iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |

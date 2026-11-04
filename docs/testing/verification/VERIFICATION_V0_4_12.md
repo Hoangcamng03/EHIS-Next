@@ -1,6 +1,6 @@
 # Nghiệm thu phần mềm 0.4.12 — kết quả thực
 
-Ngày ghi: 2026-11-04T16:02:49.531Z. Kết luận **nghiệm thu một phần**. Dữ liệu giả; có thực thi Auth/Firestore/HTTP/SDK và trình duyệt thật. Không phải thử người bệnh, điện thoại hoặc giới hạn người dùng cloud. [JSON có thời điểm/hash/log và mẫu gốc](VERIFICATION_V0_4_12.json) · [704 mẫu đo CSV](VERIFICATION_V0_4_12_SAMPLES.csv). Báo cáo 04/11 trước sửa được giữ để đối chiếu.
+Ngày ghi: 2026-11-04T17:20:05.699Z. Kết luận **nghiệm thu một phần**. Dữ liệu giả; có thực thi Auth/Firestore/HTTP/SDK và trình duyệt thật. Không phải thử người bệnh, điện thoại hoặc giới hạn người dùng cloud. [JSON có thời điểm/hash/log và mẫu gốc](VERIFICATION_V0_4_12.json) · [704 mẫu đo CSV](VERIFICATION_V0_4_12_SAMPLES.csv). Báo cáo 04/11 trước sửa được giữ để đối chiếu.
 
 ## 1. Đã sửa
 
@@ -29,7 +29,7 @@ Ngày ghi: 2026-11-04T16:02:49.531Z. Kết luận **nghiệm thu một phần**.
 
 Đã thao tác: gửi → backend xác nhận → bảng hỏi; gửi ba quan sát không phone; TNV nhận lời mời 312 m → nhận ca → bệnh án/liên hệ/giờ cập nhật → tuyến OSRM 0,78 km khoảng 2 phút → đến nơi → xác nhận hoàn tất → dữ liệu riêng biến mất. Admin lọc vùng, chặn khóa khi đang có ca, tạm dừng và khôi phục giữ OFF. Dữ liệu ban đầu do script chuẩn bị, không tính phần seed là thao tác người dùng.
 
-[Ảnh bảng hỏi](../../assets/verification-0-4-12/01-bystander-observations.jpg) · [Ảnh TNV sau nhận ca](../../assets/verification-0-4-12/02-volunteer-private-details.jpg) · [Ảnh admin đang có ca](../../assets/verification-0-4-12/03-admin-active-case-guard.jpg) · [Ảnh tạm dừng](../../assets/verification-0-4-12/04-suspended-volunteer.jpg). Ảnh 04 chụp trước khi rút gọn dòng lỗi phụ, không sửa ảnh để che lỗi.
+[Ảnh bảng hỏi](../../assets/verification-0-4-12/01-bystander-observations.jpg) · [Ảnh phần nút TNV đang có ca](../../assets/verification-0-4-12/02-volunteer-private-details.jpg) · [Ảnh bệnh án thực sự hiển thị ở đầu màn](../../assets/verification-0-4-12/05-volunteer-private-details-top.jpg) · [Ảnh đăng nhập cloud](../../assets/verification-0-4-12/06-cloud-volunteer.jpg) · [Ảnh admin đang có ca](../../assets/verification-0-4-12/03-admin-active-case-guard.jpg) · [Ảnh tạm dừng](../../assets/verification-0-4-12/04-suspended-volunteer.jpg). Ảnh 04 chụp trước khi rút gọn dòng lỗi phụ, không sửa ảnh để che lỗi.
 
 **Chưa đạt:** ảnh nền OSM trong trình duyệt thử vẫn không tải sau retry; có cảnh báo thay vì báo bản đồ đã sẵn sàng. Tuyến OSRM trả về không chứng minh ảnh nền tốt. Override 390px không có hiệu lực (DOM thực 1265px); chưa xác nhận responsive 390px trong phiên này, không gán nhãn screenshot điện thoại.
 
@@ -47,3 +47,12 @@ Trạng thái được cập nhật trong JSON release và [STATUS](../../STATUS
 | Thấp | Native iOS hoãn đến khi có tài khoản/ký và ngân sách; không có IPA mới |
 
 Không công bố vận hành cấp cứu thật từ báo cáo này. Mục tiêu được kiểm tra là diễn tập có kiểm soát với dữ liệu giả.
+
+## 5. Cập nhật phát hành ngày 05/11/2026 (giờ Việt Nam)
+
+- Backend 0.4.12 đã READY và qua health/version/401 + hai lượt cloud flow. Lượt bổ sung kiểm tra index vùng/đơn vị/kết hợp đều truy vấn được, tạm dừng–khôi phục, quan sát chi tiết, hai ca trước ON, chặn ca thứ hai và private consent. Dọn quyền admin/người giới thiệu tạm sau mỗi probe. Tài khoản probe không phải tài khoản bàn giao.
+- **Lỗi phát hiện sau deploy đầu:** HTTP500 do ERR_REQUIRE_ESM trong Firebase Admin14 → jwks-rsa4 → jose6. Đọc runtime log dashboard, tái hiện bằng Node tắt require-module (exit1), bật lại theo cấu hình [Vercel chính thức](https://vercel.com/docs/functions/runtimes/node-js/advanced-node-configuration#experimental-nodejs-require-of-es-module) (exit0), triển khai lại bằng scripts/vercel.cjs. Không sửa IAM/tắt Auth/downgrade để che lỗi. Deployment khắc phục: dpl_8m5vBvcLaAzJDVF6GHtp6NiBP7o9. Chốt cloud mới kiểm tra cả phiên bản backend khớp frontend và báo rõ lỗi health không phải JSON.
+- Hai Hosting site đã lên 0.4.12; đối chiếu **38 HTML/JS/CSS** khớp artifact. Browser cloud đăng nhập TNV giả vào đúng giao diện OFF, phiên bản0.4.12; đã chờ đăng xuất hoàn tất mới ghi PASS. Lần đóng tab sớm khi đang logout không tính đạt. Trang thẻ HTTPS đã mở; không cấp GPS thật hoặc gửi thêm ca từ trình duyệt cloud.
+- FCM validate-only HTTP200; **không phải** gửi/nhận trên thiết bị. Firebase Spark, Standard Singapore, không billing.
+- APK0.4.12/code10 từ bc3f2be: [theo dõi build thật](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/99728b3e-d0d1-455e-abd9-ad4a0c0dd561); trạng thái mới nhất trong JSON release. Chỉ thay link cài sau FINISHED + verifier artifact. Trang cài được sửa để có link APK0.4.11 đã xác minh trước đó trong lúc chờ, không gán nhãn nó thành0.4.12.
+- Ảnh02 chỉ chụp phần nút bên dưới màn, không dùng làm chứng cứ bệnh án. Ảnh05 chụp đúng bệnh án ở đầu màn trên một ca giả sau đó; ảnh/record được giữ đúng bước, không chỉnh ảnh để dựng kết quả. Có thêm ca tự hết hạn khi chờ hạ tầng (web khóa gửi/nhận) và ca chọn “Chưa rõ” cả ba câu, TNV nhận đúng cập nhật.

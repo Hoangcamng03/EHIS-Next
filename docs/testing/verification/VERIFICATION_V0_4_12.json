@@ -1,15 +1,135 @@
 {
-  "generatedAt": "2026-11-04T16:02:49.531Z",
+  "generatedAt": "2026-11-04T17:20:05.699Z",
   "version": "0.4.12",
   "androidVersionCode": 10,
   "overall": "PARTIAL_ACCEPTANCE",
   "scope": "Actual software execution with synthetic data; not physical device, clinical validation, cloud load or SLA.",
-  "baseCommit": "1ba4c1bcf15bbfbc3b8c50948a7a3105b8c7d68d",
-  "runtimeFilesSha256": "2b2a1a8bed1cb11690336e792d54dd462f274ba17d58ff189ca01ba410de2ec7",
+  "baseCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+  "runtimeFilesSha256": "2b51a5c3eced966aa231fd323ba6c516215e0eaa86c4b731c976bccb90edca6b",
   "runtimeFileCount": 211,
   "unitAndLogic": 59,
   "integrationSuites": 13,
   "steps": [
+    {
+      "id": "apkstatus-12-final",
+      "operation": "apkstatus",
+      "command": "node scripts/build-trial-android.cjs status",
+      "startedAt": "2026-11-04T17:11:46.860Z",
+      "endedAt": "2026-11-04T17:11:52.639Z",
+      "elapsedMs": 5777,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstatus-12-final.log",
+      "logSha256": "9e7991fb859822f4d604f0ce4edfd4f131145f2bba0c08956bcb0d6ae41fb046",
+      "artifacts": [
+        "apkstatus-12-final-android-trial-build.json"
+      ]
+    },
+    {
+      "id": "apkstatus-12",
+      "operation": "apkstatus",
+      "command": "node scripts/build-trial-android.cjs status",
+      "startedAt": "2026-11-04T17:04:59.453Z",
+      "endedAt": "2026-11-04T17:05:05.377Z",
+      "elapsedMs": 5923,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstatus-12.log",
+      "logSha256": "9e7991fb859822f4d604f0ce4edfd4f131145f2bba0c08956bcb0d6ae41fb046",
+      "artifacts": [
+        "apkstatus-12-android-trial-build.json"
+      ]
+    },
+    {
+      "id": "apkstatus-last",
+      "operation": "apkstatus",
+      "command": "node scripts/build-trial-android.cjs status",
+      "startedAt": "2026-11-04T17:16:55.095Z",
+      "endedAt": "2026-11-04T17:17:01.374Z",
+      "elapsedMs": 6277,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstatus-last.log",
+      "logSha256": "9e7991fb859822f4d604f0ce4edfd4f131145f2bba0c08956bcb0d6ae41fb046",
+      "artifacts": [
+        "apkstatus-last-android-trial-build.json"
+      ]
+    },
+    {
+      "id": "apkstatus-release",
+      "operation": "apkstatus",
+      "command": "node scripts/build-trial-android.cjs status",
+      "startedAt": "2026-11-04T17:14:05.784Z",
+      "endedAt": "2026-11-04T17:14:11.386Z",
+      "elapsedMs": 5601,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstatus-release.log",
+      "logSha256": "9e7991fb859822f4d604f0ce4edfd4f131145f2bba0c08956bcb0d6ae41fb046",
+      "artifacts": [
+        "apkstatus-release-android-trial-build.json"
+      ]
+    },
+    {
+      "id": "artifacts-12",
+      "operation": "artifacts",
+      "command": "node scripts/verify-cloud-artifacts.cjs",
+      "startedAt": "2026-11-04T17:14:46.505Z",
+      "endedAt": "2026-11-04T17:15:00.319Z",
+      "elapsedMs": 13812,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "artifacts-12.log",
+      "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
+      "artifacts": [
+        "artifacts-12-cloud-artifact-proof.json"
+      ]
+    },
     {
       "id": "auditapp-final",
       "operation": "auditapp",
@@ -229,6 +349,162 @@
       "log": "check-initial.log",
       "logSha256": "928cff7ec5e07faf040b6da789f71d1e71aa186a3be416b02b67ce467fcdb305",
       "artifacts": []
+    },
+    {
+      "id": "check-release",
+      "operation": "check",
+      "command": "npm run check",
+      "startedAt": "2026-11-04T17:18:13.316Z",
+      "endedAt": "2026-11-04T17:18:50.777Z",
+      "elapsedMs": 37458,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "check-release.log",
+      "logSha256": "a5916b24bc7707e38666cb6bcbb1651b0143da4ffbf72a05d36d83e292b8657c",
+      "artifacts": []
+    },
+    {
+      "id": "cloudflow-12",
+      "operation": "cloudflow",
+      "command": "node scripts/cloud-flow-probe.cjs",
+      "startedAt": "2026-11-04T17:10:44.769Z",
+      "endedAt": "2026-11-04T17:11:07.665Z",
+      "elapsedMs": 22895,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "cloudflow-12.log",
+      "logSha256": "8b10c1ba65b7328c8dd9e687b6857b7d682d0f90e0b53a37b694311fcb88a4dc",
+      "artifacts": []
+    },
+    {
+      "id": "cloudflow-regions-12",
+      "operation": "cloudflow",
+      "command": "node scripts/cloud-flow-probe.cjs",
+      "startedAt": "2026-11-04T17:12:30.345Z",
+      "endedAt": "2026-11-04T17:12:51.501Z",
+      "elapsedMs": 21154,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "cloudflow-regions-12.log",
+      "logSha256": "eedc16cc6c6bed993edacc86110ede2f36e7b3f647cfb39f3a639edb0ccbfe25",
+      "artifacts": []
+    },
+    {
+      "id": "cloudprobe-12",
+      "operation": "cloudprobe",
+      "command": "npm run cloud:probe",
+      "startedAt": "2026-11-04T16:38:39.741Z",
+      "endedAt": "2026-11-04T16:38:43.815Z",
+      "elapsedMs": 4072,
+      "exitCode": 1,
+      "signal": null,
+      "status": "FAIL",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "cloudprobe-12.log",
+      "logSha256": "c1e3025440ce58caa73cebe183490c26018a4af7962f131f82359de1b3574525",
+      "artifacts": []
+    },
+    {
+      "id": "cloudprobe-interop",
+      "operation": "cloudprobe",
+      "command": "npm run cloud:probe",
+      "startedAt": "2026-11-04T17:10:29.287Z",
+      "endedAt": "2026-11-04T17:10:31.732Z",
+      "elapsedMs": 2444,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "cloudprobe-interop.log",
+      "logSha256": "ff062deff3172b69159d8f7daee2c5e458e163d5f263946610381df7f2dd64e4",
+      "artifacts": []
+    },
+    {
+      "id": "cloudprobe-version-guard",
+      "operation": "cloudprobe",
+      "command": "npm run cloud:probe",
+      "startedAt": "2026-11-04T17:15:09.996Z",
+      "endedAt": "2026-11-04T17:15:11.821Z",
+      "elapsedMs": 1825,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "cloudprobe-version-guard.log",
+      "logSha256": "ff062deff3172b69159d8f7daee2c5e458e163d5f263946610381df7f2dd64e4",
+      "artifacts": []
+    },
+    {
+      "id": "fcm-12",
+      "operation": "fcm",
+      "command": "node scripts/check-fcm-config.cjs --validate-only ../ehis-next/.local/ehis-runtime-service-account.json",
+      "startedAt": "2026-11-04T16:38:38.337Z",
+      "endedAt": "2026-11-04T16:38:40.047Z",
+      "elapsedMs": 1708,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "fcm-12.log",
+      "logSha256": "bc2f71d7fed1dec68debf8fb7da410574e332d88ee82bd5606f0c2ed2e5c80f2",
+      "artifacts": [
+        "fcm-12-fcm-config-proof.json"
+      ]
     },
     {
       "id": "integration-final",
@@ -3895,7 +4171,7 @@
     ]
   },
   "browser": {
-    "recordedAt": "2026-11-04T16:01:13.901Z",
+    "recordedAt": "2026-11-04T16:36:55.122Z",
     "environment": "LOCAL EMULATOR ONLY",
     "syntheticSetup": "prepare-ui.cjs; not a UI test",
     "observed": [
@@ -3938,15 +4214,33 @@
       {
         "name": "390px viewport override not reflected: actual DOM width 1265px",
         "status": "NOT_VERIFIED"
+      },
+      {
+        "name": "second offer expired during external waiting: report disabled and acceptance removed",
+        "status": "PASS"
+      },
+      {
+        "name": "third case: all 3 unknown choices saved; assigned volunteer sees unknown and updated time; arrived/completed",
+        "status": "PASS"
       }
     ],
     "screenshots": [
       "01-bystander-observations.jpg",
       "02-volunteer-private-details.jpg",
       "03-admin-active-case-guard.jpg",
-      "04-suspended-volunteer.jpg"
+      "04-suspended-volunteer.jpg",
+      "05-volunteer-private-details-top.jpg"
     ],
-    "hardware": "NOT_TESTED"
+    "hardware": "NOT_TESTED",
+    "screenshotNote": "02 shows controls below fold, not patient details; 05 is the actual private-profile screenshot from a later synthetic case.",
+    "cloud": {
+      "version": "0.4.12",
+      "observedAt": "2026-11-04T17:16:31.139Z",
+      "login": "PASS synthetic volunteer login, correct role and OFF dashboard",
+      "logout": "PASS: waited for logout to finish and observed login form; first attempt closed tab too early and was not counted.",
+      "cardPage": "PASS initial HTTPS page only; no GPS permission or incident submitted",
+      "screenshot": "06-cloud-volunteer.jpg"
+    }
   },
   "audits": {
     "app": {
@@ -3976,7 +4270,65 @@
   },
   "device": "NOT_TESTED",
   "release": {
-    "cloud": "NOT_DEPLOYED",
-    "android": "NOT_STARTED"
+    "recordedAt": "2026-11-04T17:18:12.567Z",
+    "cloud": {
+      "version": "0.4.12",
+      "backendDeploymentId": "dpl_8m5vBvcLaAzJDVF6GHtp6NiBP7o9",
+      "backend": "https://ehis-next-api-hc03.vercel.app/api",
+      "runtimeInterop": "NODE_OPTIONS=--experimental-require-module",
+      "initialDeployment": "FAILED at boot ERR_REQUIRE_ESM; preserved in steps and interop proof",
+      "health": "PASS including exact version and 401 denial",
+      "flow": "PASS including regional indexes, suspension/restore and detailed observations",
+      "hosting": "DEPLOYED both sites",
+      "artifactProof": {
+        "checkedAt": "2026-11-04T17:15:00.258Z",
+        "checked": 38,
+        "sha256Match": true,
+        "targets": [
+          "https://ehis-next-20261021-hc03.web.app",
+          "https://ehis-next-20261021-hc03-app.web.app"
+        ]
+      },
+      "fcm": {
+        "checkedAt": "2026-11-04T16:38:39.939Z",
+        "projectId": "ehis-next-20261021-hc03",
+        "httpStatus": 200,
+        "validateOnly": true,
+        "payloadAccepted": true,
+        "actualDeviceDeliveryVerified": false
+      }
+    },
+    "interopProof": {
+      "runtime": "v24.21.0",
+      "outcomes": [
+        {
+          "flag": "--no-experimental-require-module",
+          "startedAt": "2026-11-04T17:10:11.017Z",
+          "endedAt": "2026-11-04T17:10:12.401Z",
+          "exitCode": 1,
+          "esmError": true
+        },
+        {
+          "flag": "--experimental-require-module",
+          "startedAt": "2026-11-04T17:10:12.401Z",
+          "endedAt": "2026-11-04T17:10:14.100Z",
+          "exitCode": 0,
+          "esmError": false
+        }
+      ]
+    },
+    "android": {
+      "id": "99728b3e-d0d1-455e-abd9-ad4a0c0dd561",
+      "commit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "version": "0.4.12",
+      "versionCode": 10,
+      "status": "IN_PROGRESS",
+      "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/99728b3e-d0d1-455e-abd9-ad4a0c0dd561",
+      "startedAt": "2026-11-04T16:19:26.617Z",
+      "deviceVerified": false
+    },
+    "device": "NOT_TESTED",
+    "iosNative": "DEFERRED",
+    "billingEnabled": false
   }
 }

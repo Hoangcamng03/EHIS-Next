@@ -26,6 +26,10 @@ try {
   if(process.argv[3]!=='--confirmed-send-only') throw new Error('Cần xác nhận quyền gửi FCM.');
   run(['env','add','EHIS_FCM_ENABLED','--environment','production','--yes'],'true');
   console.log('FCM flag stored for the next deployment; no secret printed.');
- } else if(mode==='deploy') run(['deploy','--prod','--yes']);
+ } else if(mode==='deploy') {
+  // Admin 14 -> jwks-rsa 4 -> jose 6 needs require(ESM). Vercel disables it by default.
+  // Deployment-local runtime setting, no credential or IAM change.
+  run(['deploy','--prod','--yes','--env','NODE_OPTIONS=--experimental-require-module']);
+ }
  else throw new Error('Dùng link / secrets --confirmed-runtime-access / deploy.');
 }catch(error){console.error(error.message);process.exitCode=1;}
