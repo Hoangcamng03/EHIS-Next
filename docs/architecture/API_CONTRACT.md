@@ -40,7 +40,7 @@ Region: `asia-southeast1`.
 
 ### health — HTTP GET
 
-Không Auth. Trả `{ service: "ehis-next", status: "ok", version: "0.4.11", projectId }`. Không trả credentials hoặc dữ liệu người dùng.
+Không Auth. Trả `{ service: "ehis-next", status: "ok", version: "0.4.12", projectId }`. Không trả credentials hoặc dữ liệu người dùng.
 
 ### getMyAccess — callable
 

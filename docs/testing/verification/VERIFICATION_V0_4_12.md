@@ -1,6 +1,6 @@
 # Nghiệm thu phần mềm 0.4.12 — kết quả thực
 
-Ngày ghi: 2026-11-04T17:20:05.699Z. Kết luận **nghiệm thu một phần**. Dữ liệu giả; có thực thi Auth/Firestore/HTTP/SDK và trình duyệt thật. Không phải thử người bệnh, điện thoại hoặc giới hạn người dùng cloud. [JSON có thời điểm/hash/log và mẫu gốc](VERIFICATION_V0_4_12.json) · [704 mẫu đo CSV](VERIFICATION_V0_4_12_SAMPLES.csv). Báo cáo 04/11 trước sửa được giữ để đối chiếu.
+Ngày ghi: 2026-11-04T17:29:58.013Z. Kết luận **nghiệm thu một phần**. Dữ liệu giả; có thực thi Auth/Firestore/HTTP/SDK và trình duyệt thật. Không phải thử người bệnh, điện thoại hoặc giới hạn người dùng cloud. [JSON có thời điểm/hash/log và mẫu gốc](VERIFICATION_V0_4_12.json) · [704 mẫu đo CSV](VERIFICATION_V0_4_12_SAMPLES.csv). Báo cáo 04/11 trước sửa được giữ để đối chiếu.
 
 ## 1. Đã sửa
 
@@ -56,3 +56,12 @@ Không công bố vận hành cấp cứu thật từ báo cáo này. Mục tiê
 - FCM validate-only HTTP200; **không phải** gửi/nhận trên thiết bị. Firebase Spark, Standard Singapore, không billing.
 - APK0.4.12/code10 từ bc3f2be: [theo dõi build thật](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/99728b3e-d0d1-455e-abd9-ad4a0c0dd561); trạng thái mới nhất trong JSON release. Chỉ thay link cài sau FINISHED + verifier artifact. Trang cài được sửa để có link APK0.4.11 đã xác minh trước đó trong lúc chờ, không gán nhãn nó thành0.4.12.
 - Ảnh02 chỉ chụp phần nút bên dưới màn, không dùng làm chứng cứ bệnh án. Ảnh05 chụp đúng bệnh án ở đầu màn trên một ca giả sau đó; ảnh/record được giữ đúng bước, không chỉnh ảnh để dựng kết quả. Có thêm ca tự hết hạn khi chờ hạ tầng (web khóa gửi/nhận) và ca chọn “Chưa rõ” cả ba câu, TNV nhận đúng cập nhật.
+- Bài kiểm tra quota tạo trước bộ đếm598 rồi gửi8 yêu cầu thực từ hai tiến trình (2 được cấp/6 bị chặn); không tính bộ đếm seed là598 lượt đo hoặc chứng minh600 người đồng thời. Build trang cài có một lượt Windows từ chối ghi EPERM; lượt chạy lại quyền tiến trình đầy đủ PASS, không bỏ qua kiểm tra.
+
+### APK đã hoàn tất và xác minh
+
+[Ảnh trang cài cuối đã hiển thị đúng APK0.4.12](../../assets/verification-0-4-12/07-install-apk-0-4-12.jpg). Browser đã đối chiếu href với đúng URL artifact, không chỉ nhìn nhãn nút.
+
+[Tải APK0.4.12/code10](https://expo.dev/artifacts/eas/eHIioq5ReWQNAuqHuHxGi3e2eXE4TkJdCbCSULWc0Fk.apk). Build 99728b3e-d0d1-455e-abd9-ad4a0c0dd561, source bc3f2be5f8e024c3b9987299824d411997e19c1e, package com.hoangcamng.ehisnext, 102895417 bytes; SHA256 `8032e39a58b1dbc257051bc35787f1cdd1cdb4eceaaf7bba5730096c849ba62d`. Verifier kiểm tra manifest, version/code, cloud target, tone nhúng và tài nguyên notification. Không yêu cầu microphone, có quyền rung. Chưa kiểm tra chứng chỉ ký/điện thoại/âm thực/GPS thực. APK0.4.11 là mốc cũ, được thay trên trang cài sau khi0.4.12 đã có artifact đạt.
+
+Bài thử tiếp cho nhóm: dùng ít nhất hai Android (Wi-Fi/4G), cài cùng bản0.4.12 lúc không có ca active; V1/V2 bật sẵn sàng, Home/khóa dưới5 phút rồi P1/P2 gửi hai ca; thử hai TNV nhận cùng ca, một TNV bị chặn nhận ca thứ hai; xác nhận tên/liên hệ/đường đi; hoàn tất và kiểm tra thông tin riêng đóng lại. Thử Samsung Im lặng/Rung và ghi kết quả thực; không mặc định FCM accepted là điện thoại đã reo. Quá5 phút GPS nền cũ thì mở app làm mới theo thiết kế.

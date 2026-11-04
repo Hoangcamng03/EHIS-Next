@@ -29,6 +29,10 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 ## 2026-11-05 — Cloud 0.4.12, sửa lỗi runtime sau deploy
 
+- Chốt phát hành: build trang cài0.4.12 và deploy lại đạt; 38 tệp website đối chiếu cuối khớp. Bộ ghi chú APK ban đầu đọc nhầm record trạng thái nên guard từ chối ghi đạt; đã chuyển sang proof verifier thực, giữ nguyên guard. Các lượt EPERM/patch sai context được sửa và chạy lại, không gán PASS cho attempt lỗi.
+
+- **Bàn giao APK cuối:** [Tải APK0.4.12/code10](https://expo.dev/artifacts/eas/eHIioq5ReWQNAuqHuHxGi3e2eXE4TkJdCbCSULWc0Fk.apk); 0.4.12/code10, EAS FINISHED, source bc3f2be, verifier artifact PASS; 102895417 bytes, SHA256 `8032e39a58b1dbc257051bc35787f1cdd1cdb4eceaaf7bba5730096c849ba62d`. Package/cloud/tone/rung đúng; không microphone. Đổi trang cài sang link mới sau kiểm tra. Không OTA/iOS; không ghi là điện thoại đã cài hoặc đã reo. Phiếu máy thật và các mục map/dependency/chuyên môn vẫn mở.
+
 - Phát hiện và tái hiện HTTP500/ERR_REQUIRE_ESM sau deploy, dù local/build đạt. Runtime log chỉ ra Admin14/jwks-rsa4/jose6; thử Node tắt/bật require-module cho exit1/0. Lệnh deploy gắn tùy chọn runtime Vercel chính thức; triển khai lại READY, probe đúng phiên bản/401 và hai luồng cloud đạt. Không đổi quyền, không billing. Chốt phát hành mới chặn backend sai phiên bản hoặc health không JSON.
 - Index quản lý vùng/đơn vị/kết hợp đã deploy và query thật đạt. Hai website0.4.12 đã deploy; 38 tệp đối chiếu khớp. Browser cloud login đúng TNV/OFF, logout chờ xong đã xác nhận. FCM validate-only200, chưa có máy nhận thật.
 - APK0.4.12/code10 từ bc3f2be đã gửi EAS (99728b3e-d0d1-455e-abd9-ad4a0c0dd561), đang theo dõi; chưa ghi điện thoại cập nhật. Link APK0.4.11 cũ đã được xác minh được thêm vào cấu hình trang cài trong lúc chờ. Trạng thái cuối và giới hạn còn mở xem [báo cáo0.4.12](testing/verification/VERIFICATION_V0_4_12.md).

@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-04T17:20:05.699Z",
+  "generatedAt": "2026-11-04T17:44:47.967Z",
   "version": "0.4.12",
   "androidVersionCode": 10,
   "overall": "PARTIAL_ACCEPTANCE",
   "scope": "Actual software execution with synthetic data; not physical device, clinical validation, cloud load or SLA.",
-  "baseCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
-  "runtimeFilesSha256": "2b51a5c3eced966aa231fd323ba6c516215e0eaa86c4b731c976bccb90edca6b",
+  "baseCommit": "0ad8dda59c0499e10a1ba8f82bb10812c18ae1f9",
+  "runtimeFilesSha256": "181561a8c96fc5741ed343b55dfcf095f1ec3c58d4c355fd5f2d9833016b90a2",
   "runtimeFileCount": 211,
   "unitAndLogic": 59,
   "integrationSuites": 13,
@@ -59,6 +59,30 @@
       ]
     },
     {
+      "id": "apkstatus-install",
+      "operation": "apkstatus",
+      "command": "node scripts/build-trial-android.cjs status",
+      "startedAt": "2026-11-04T17:23:23.555Z",
+      "endedAt": "2026-11-04T17:23:29.585Z",
+      "elapsedMs": 6028,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "0ad8dda59c0499e10a1ba8f82bb10812c18ae1f9",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstatus-install.log",
+      "logSha256": "9e7991fb859822f4d604f0ce4edfd4f131145f2bba0c08956bcb0d6ae41fb046",
+      "artifacts": [
+        "apkstatus-install-android-trial-build.json"
+      ]
+    },
+    {
       "id": "apkstatus-last",
       "operation": "apkstatus",
       "command": "node scripts/build-trial-android.cjs status",
@@ -107,6 +131,30 @@
       ]
     },
     {
+      "id": "apkverify-12",
+      "operation": "apkverify",
+      "command": "node scripts/verify-trial-apk.cjs",
+      "startedAt": "2026-11-04T17:28:46.303Z",
+      "endedAt": "2026-11-04T17:28:53.800Z",
+      "elapsedMs": 7496,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "0ad8dda59c0499e10a1ba8f82bb10812c18ae1f9",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkverify-12.log",
+      "logSha256": "3ad1262311954063aeaaf5a547f9385810a04f16981291ce61be078c7e34d726",
+      "artifacts": [
+        "apkverify-12-android-trial-artifact.json"
+      ]
+    },
+    {
       "id": "artifacts-12",
       "operation": "artifacts",
       "command": "node scripts/verify-cloud-artifacts.cjs",
@@ -128,6 +176,54 @@
       "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
       "artifacts": [
         "artifacts-12-cloud-artifact-proof.json"
+      ]
+    },
+    {
+      "id": "artifacts-apk12",
+      "operation": "artifacts",
+      "command": "node scripts/verify-cloud-artifacts.cjs",
+      "startedAt": "2026-11-04T17:42:19.778Z",
+      "endedAt": "2026-11-04T17:42:30.834Z",
+      "elapsedMs": 11055,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "0ad8dda59c0499e10a1ba8f82bb10812c18ae1f9",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "artifacts-apk12.log",
+      "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
+      "artifacts": [
+        "artifacts-apk12-cloud-artifact-proof.json"
+      ]
+    },
+    {
+      "id": "artifacts-install",
+      "operation": "artifacts",
+      "command": "node scripts/verify-cloud-artifacts.cjs",
+      "startedAt": "2026-11-04T17:26:38.301Z",
+      "endedAt": "2026-11-04T17:26:52.015Z",
+      "elapsedMs": 13713,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "0ad8dda59c0499e10a1ba8f82bb10812c18ae1f9",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "artifacts-install.log",
+      "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
+      "artifacts": [
+        "artifacts-install-cloud-artifact-proof.json"
       ]
     },
     {
@@ -219,6 +315,28 @@
       "artifacts": []
     },
     {
+      "id": "build-apk-link",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-04T17:35:20.832Z",
+      "endedAt": "2026-11-04T17:35:44.181Z",
+      "elapsedMs": 23348,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "0ad8dda59c0499e10a1ba8f82bb10812c18ae1f9",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-apk-link.log",
+      "logSha256": "887b7faad46140868f6f34341cd3d3fecf1ea67c4f83153e0ad176255f5c3f76",
+      "artifacts": []
+    },
+    {
       "id": "build-final",
       "operation": "build",
       "command": "npm run cloud:build",
@@ -260,6 +378,50 @@
       "totalMemoryBytes": 25463480320,
       "log": "build-handoff.log",
       "logSha256": "a22d76d07f0f79165df8a3334cf60e443f13075c76ccb5e193ed9ba99b0ae823",
+      "artifacts": []
+    },
+    {
+      "id": "build-install-link-runtime",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-04T17:22:25.523Z",
+      "endedAt": "2026-11-04T17:22:51.716Z",
+      "elapsedMs": 26192,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "0ad8dda59c0499e10a1ba8f82bb10812c18ae1f9",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-install-link-runtime.log",
+      "logSha256": "8686538979547629e296d3568aeedb603278b472079e2878efd22a537f44bc77",
+      "artifacts": []
+    },
+    {
+      "id": "build-install-link",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-04T17:20:08.922Z",
+      "endedAt": "2026-11-04T17:20:20.072Z",
+      "elapsedMs": 11148,
+      "exitCode": 1,
+      "signal": null,
+      "status": "FAIL",
+      "sourceCommit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-install-link.log",
+      "logSha256": "e2a815c6db8b8e4d07720b578d20f33cfdc6cc92cdfc01495e350bced4ae9a60",
       "artifacts": []
     },
     {
@@ -4240,6 +4402,13 @@
       "logout": "PASS: waited for logout to finish and observed login form; first attempt closed tab too early and was not counted.",
       "cardPage": "PASS initial HTTPS page only; no GPS permission or incident submitted",
       "screenshot": "06-cloud-volunteer.jpg"
+    },
+    "install": {
+      "observedAt": "2026-11-04T17:44:31.461Z",
+      "version": "0.4.12",
+      "apkLink": "https://expo.dev/artifacts/eas/eHIioq5ReWQNAuqHuHxGi3e2eXE4TkJdCbCSULWc0Fk.apk",
+      "status": "PASS visible link matches verified artifact",
+      "screenshot": "07-install-apk-0-4-12.jpg"
     }
   },
   "audits": {
@@ -4270,7 +4439,7 @@
   },
   "device": "NOT_TESTED",
   "release": {
-    "recordedAt": "2026-11-04T17:18:12.567Z",
+    "recordedAt": "2026-11-04T17:44:47.967Z",
     "cloud": {
       "version": "0.4.12",
       "backendDeploymentId": "dpl_8m5vBvcLaAzJDVF6GHtp6NiBP7o9",
@@ -4281,7 +4450,7 @@
       "flow": "PASS including regional indexes, suspension/restore and detailed observations",
       "hosting": "DEPLOYED both sites",
       "artifactProof": {
-        "checkedAt": "2026-11-04T17:15:00.258Z",
+        "checkedAt": "2026-11-04T17:42:30.774Z",
         "checked": 38,
         "sha256Match": true,
         "targets": [
@@ -4322,13 +4491,67 @@
       "commit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
       "version": "0.4.12",
       "versionCode": 10,
-      "status": "IN_PROGRESS",
+      "status": "FINISHED",
       "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/99728b3e-d0d1-455e-abd9-ad4a0c0dd561",
       "startedAt": "2026-11-04T16:19:26.617Z",
-      "deviceVerified": false
+      "deviceVerified": false,
+      "apkUrl": "https://expo.dev/artifacts/eas/eHIioq5ReWQNAuqHuHxGi3e2eXE4TkJdCbCSULWc0Fk.apk"
     },
     "device": "NOT_TESTED",
     "iosNative": "DEFERRED",
-    "billingEnabled": false
+    "billingEnabled": false,
+    "androidArtifact": {
+      "id": "99728b3e-d0d1-455e-abd9-ad4a0c0dd561",
+      "commit": "bc3f2be5f8e024c3b9987299824d411997e19c1e",
+      "version": "0.4.12",
+      "versionCode": 10,
+      "status": "FINISHED",
+      "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/99728b3e-d0d1-455e-abd9-ad4a0c0dd561",
+      "startedAt": "2026-11-04T16:19:26.617Z",
+      "deviceVerified": false,
+      "apkUrl": "https://expo.dev/artifacts/eas/eHIioq5ReWQNAuqHuHxGi3e2eXE4TkJdCbCSULWc0Fk.apk",
+      "bytes": 102895417,
+      "sha256": "8032e39a58b1dbc257051bc35787f1cdd1cdb4eceaaf7bba5730096c849ba62d",
+      "artifactVerified": true,
+      "packageName": "com.hoangcamng.ehisnext",
+      "microphonePermission": false,
+      "vibrationPermission": true,
+      "embeddedTone": true,
+      "cloudTargetVerified": true,
+      "backgroundNotificationResourcesVerified": true
+    },
+    "androidBuildChecks": [
+      {
+        "checkedAt": "2026-11-04T17:25:48.695Z",
+        "status": "IN_PROGRESS",
+        "id": "99728b3e-d0d1-455e-abd9-ad4a0c0dd561"
+      },
+      {
+        "checkedAt": "2026-11-04T17:26:24.230Z",
+        "status": "IN_PROGRESS",
+        "id": "99728b3e-d0d1-455e-abd9-ad4a0c0dd561"
+      },
+      {
+        "checkedAt": "2026-11-04T17:26:59.766Z",
+        "status": "IN_PROGRESS",
+        "id": "99728b3e-d0d1-455e-abd9-ad4a0c0dd561"
+      },
+      {
+        "checkedAt": "2026-11-04T17:27:35.398Z",
+        "status": "IN_PROGRESS",
+        "id": "99728b3e-d0d1-455e-abd9-ad4a0c0dd561"
+      },
+      {
+        "checkedAt": "2026-11-04T17:28:11.036Z",
+        "status": "IN_PROGRESS",
+        "id": "99728b3e-d0d1-455e-abd9-ad4a0c0dd561"
+      },
+      {
+        "checkedAt": "2026-11-04T17:28:46.259Z",
+        "status": "FINISHED",
+        "id": "99728b3e-d0d1-455e-abd9-ad4a0c0dd561"
+      }
+    ],
+    "installPage": "0.4.12 link deployed; final 38 artifact comparisons PASS; browser proof recorded separately."
   }
 }
