@@ -4,6 +4,8 @@ Mốc tổng hợp ngày 05/11/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 
 ## 1. Bản đang bàn giao
 
+**0.4.13 đang chốt phát hành:** [báo cáo](testing/verification/VERIFICATION_V0_4_13.md) · [số thực](testing/verification/VERIFICATION_V0_4_13.json). 67 test/14 suites và bài tải32 ca/320 API local đạt; browser PARTIAL vì OSM tile. Nâng cấp GPS, mốc tìm bệnh nhân riêng tư và bảng admin; đầu mối trực vẫn trống theo xác nhận. Bảng dưới là bản0.4.12 đã bàn giao cho đến khi từng lớp mới được xác minh.
+
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
 | App web và web người báo/admin/referrer | 0.4.12 đã deploy; 38 đối chiếu HTML/JS/CSS khớp bản build; login/logout browser cloud đạt | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |

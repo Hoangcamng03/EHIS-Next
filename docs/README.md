@@ -59,6 +59,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 
 | Trang | Nội dung |
 | --- | --- |
+| [VERIFICATION_V0_4_13](testing/verification/VERIFICATION_V0_4_13.md) | Vòng cải thiện GPS/điểm hẹn/theo dõi diễn tập; kết quả từng lớp và giới hạn còn mở |
+| [VERIFICATION_V0_4_13.json](testing/verification/VERIFICATION_V0_4_13.json) | Timestamp, mã nguồn, hash log, 320 API và 32 mẫu lời mời local; không phải số đo cloud/điện thoại |
 | [ACCEPTANCE_2026_11_04](testing/verification/ACCEPTANCE_2026_11_04.md) | Vòng thực chạy 04/11: 56 test, 12 suites, bốn lượt tải, browser/cloud/APK; giữ các mục chưa đạt và phiếu điện thoại còn thiếu |
 | [ACCEPTANCE_2026_11_04.json](testing/verification/ACCEPTANCE_2026_11_04.json) | Số đo thật, từng lượt, mẫu API/lời mời, audit, timestamp và hash log; CSV 550 mẫu dẫn từ báo cáo |
 | [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md) | Flow F01–F13, phiếu Android A01–A13, điều kiện nghiệm thu |

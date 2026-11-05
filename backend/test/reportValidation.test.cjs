@@ -21,3 +21,9 @@ test('details preserve old APK payloads and reject conflicting observations',()=
  for(const bleedingDetail of ['small','heavy'])assert.equal(parseBystanderReport({...report(),answers:{...report().answers,bleeding:'visible',bleedingDetail}}).answers.bleedingDetail,bleedingDetail);
  for(const answers of [{...report().answers,breathingDetail:'gasping'},{...report().answers,bleedingDetail:'heavy'},{...report().answers,breathing:'abnormal',breathingDetail:'diagnosis'},{...report().answers,pulse:'diagnosis'}])assert.throws(()=>parseBystanderReport({...report(),answers}));
 });
+test('optional meeting note is bounded and old payload shape is preserved',()=>{
+ assert.equal(Object.hasOwn(parseBystanderReport(report()),'meetingNote'),false);
+ assert.equal(parseBystanderReport({...report(),meetingNote:'  Cổng B, tầng 2  '}).meetingNote,'Cổng B, tầng 2');
+ assert.equal(parseBystanderReport({...report(),meetingNote:''}).meetingNote,'');
+ for(const meetingNote of [null,{},'x'.repeat(241),'bad\u0000note'])assert.throws(()=>parseBystanderReport({...report(),meetingNote}));
+});

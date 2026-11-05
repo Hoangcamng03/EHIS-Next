@@ -27,7 +27,7 @@ export function parseCreateIncident(input: unknown) {
   return { cardId: identifier(data.cardId), requestId: identifier(data.requestId), location: { latitude, longitude } };
 }
 export function parseBystanderReport(input: unknown) {
-  const data = objectValue(input, ['incidentId', 'submissionId', 'phone', 'answers']);
+  const data = objectValue(input, ['incidentId', 'submissionId', 'phone', 'answers', 'meetingNote']);
   const answers = objectValue(data.answers, ['responsiveness', 'breathing', 'bleeding', 'breathingDetail', 'bleedingDetail']);
   const allowed: Record<string, string[]> = {
     responsiveness: ['responsive', 'unresponsive', 'unknown'],
@@ -52,7 +52,12 @@ export function parseBystanderReport(input: unknown) {
   return {
     incidentId: identifier(data.incidentId), submissionId: identifier(data.submissionId), phone,
     answers: answers as ObservationAnswers,
+    ...(data.meetingNote !== undefined ? { meetingNote: meetingNote(data.meetingNote) } : {}),
   };
+}
+export function meetingNote(value: unknown): string {
+  if (typeof value !== 'string' || value.length > 240 || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(value)) throw new Error('Invalid meeting note');
+  return value.trim();
 }
 export function distanceMeters(a: { latitude: number; longitude: number }, b: { latitude: number; longitude: number }) {
   const rad = Math.PI / 180;

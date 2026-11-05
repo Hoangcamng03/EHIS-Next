@@ -129,7 +129,8 @@ export const submitBystanderReport = onCall('submitBystanderReport', async reque
     if (incident.data()!.status === 'dispatching' && incident.data()!.offerExpiresAt.toMillis() <= Date.now()) throw new HttpsError('failed-precondition', 'Lời mời đã hết hạn.');
     const revision = Number(incident.data()!.reportRevision ?? 0) + 1;
     const updatedAt = FieldValue.serverTimestamp();
-    tx.set(ref.collection('private').doc('reporter'), { phone: data.phone, answers: data.answers, revision, updatedAt });
+    // Merge preserves the optional meeting note when an older APK submits the original payload.
+    tx.set(ref.collection('private').doc('reporter'), { phone: data.phone, answers: data.answers, revision, updatedAt, ...(data.meetingNote !== undefined ? { meetingNote: data.meetingNote } : {}) }, { mergeFields: ['phone', 'answers', 'revision', 'updatedAt', ...(data.meetingNote !== undefined ? ['meetingNote'] : [])] });
     tx.update(ref, { reportRevision: revision });
     tx.create(event, { revision, fingerprint, createdAt: updatedAt });
     tx.update(db.doc(`reporters/${uid}/incidentStatuses/${data.incidentId}`), { reportRevision: revision, reportSubmitted: true });
@@ -276,7 +277,7 @@ export const getVolunteerIncidentDetails = onCall('getVolunteerIncidentDetails',
     const card = await tx.get(db.doc(`cards/${incident.data()!.cardId}`));
     const patient = card.data()?.shareProfile === true ? await tx.get(db.doc(`patients/${incident.data()!.patientId}`)) : null;
     const profile = patient?.data();
-    return { incidentId: id, phone: report.data()?.phone ?? null, answers: report.data()?.answers ?? null,
+    return { incidentId: id, phone: report.data()?.phone ?? null, answers: report.data()?.answers ?? null, meetingNote: report.data()?.meetingNote ?? '',
       revision: report.data()?.revision ?? 0, reportedAtMs: report.data()?.updatedAt?.toMillis?.() ?? null, location: location.data() ?? null, locationRevision: incident.data()!.locationRevision ?? 0,
       patientProfile: profile ? { fullName: profile.fullName, allergies: profile.allergies ?? [], emergencyContactPhone: profile.emergencyContactPhone ?? null,
         emergencyContactName: profile.emergencyContactName ?? null, emergencyContactRelationship: profile.emergencyContactRelationship ?? null } : null };

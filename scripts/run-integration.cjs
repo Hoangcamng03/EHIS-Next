@@ -13,6 +13,7 @@ async function main() {
   const suites={all:['scripts/smoke-starter.cjs', 'scripts/smoke-reports.cjs', 'scripts/smoke-lifecycle.cjs', 'scripts/smoke-maintenance.cjs', 'scripts/smoke-portable.cjs', 'scripts/smoke-location-updates.cjs', 'scripts/smoke-multi-incident.cjs', 'scripts/smoke-active-alert.cjs', 'scripts/smoke-budget-queue.cjs', 'scripts/smoke-pending-dispatch.cjs'],active:['scripts/smoke-active-alert.cjs'],multi:['scripts/smoke-multi-incident.cjs']};
   suites.scale = ['scripts/smoke-scale.cjs'];
   suites.all.push('scripts/smoke-verification.cjs', 'scripts/smoke-push.cjs', 'scripts/smoke-roster-observations.cjs');
+  suites.all.push('scripts/smoke-operations.cjs');
   suites.verification = ['scripts/smoke-verification.cjs', 'scripts/smoke-push.cjs'];
   const suite=process.argv[2]||'all';if(!suites[suite])throw Error('Unknown test suite');
   for (const script of suites[suite]) execFileSync(process.execPath, [script], { stdio: 'inherit' });

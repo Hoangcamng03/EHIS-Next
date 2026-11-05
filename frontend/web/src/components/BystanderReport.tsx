@@ -7,6 +7,7 @@ import { callable as httpsCallable, firebaseClient, readableError, reporterSessi
 import { reportProgress } from '@/lib/report-status';
 import { useOnline } from '@/lib/use-online';
 import { UpdatePatientLocation } from './UpdatePatientLocation';
+import { DutyContact } from './DutyContact';
 
 import { questions, chooseAnswer, selectedAnswer, type Answers } from '@/lib/observations';
 import { ObservationIcon } from './ObservationIcon';
@@ -18,6 +19,8 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
   const [serverConfirmed, setServerConfirmed] = useState(false);
   const [answers, setAnswers] = useState<Answers>({ responsiveness: '', breathing: '', bleeding: '' });
   const [phone, setPhone] = useState('');
+  const [meetingNote, setMeetingNote] = useState('');
+  const [meetingNoteEdited, setMeetingNoteEdited] = useState(false);
   const [busy, setBusy] = useState(false);
   const [confirmCancel, setConfirmCancel] = useState(false);
   const [error, setError] = useState('');
@@ -45,7 +48,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
   }, []);
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); if (!canSend || busy) return; setBusy(true); setError(''); setSuccess('');
-    const payload = { incidentId, phone: phone.trim(), answers };
+    const payload = { incidentId, phone: phone.trim(), answers, ...(meetingNoteEdited ? { meetingNote: meetingNote.trim() } : {}) };
     const fingerprint = JSON.stringify(payload);
     if (attempt.current?.fingerprint !== fingerprint) attempt.current = { fingerprint, submissionId: crypto.randomUUID() };
     try {
@@ -77,6 +80,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
       {progress.waiting && progress.delayed && <p>Yêu cầu đang chờ. Đừng chờ ứng dụng nếu cần cấp cứu ngay.</p>}
       {status?.reportSubmitted && <p>Đã ghi nhận bản bổ sung số {status.reportRevision}.</p>}
     </div>}
+    <DutyContact urgent={!online || !!error || status?.status === 'expired' || !!progress && (progress.delayed || (progress.waiting && status?.invitedCount === 0) || progress.terminal && status?.status === 'dispatching')} />
     <p className="report-intro">Chỉ ghi điều bạn thấy, không cần chẩn đoán. Chưa chắc thì chọn “Không rõ”. Thông tin sẽ gửi tiếp cho TNV.</p>
     {status && ['accepted', 'arrived'].includes(status.status) && <UpdatePatientLocation key={incidentId} incidentId={incidentId} enabled={canSend} />}
     {status?.status === 'dispatching' && <p className="hint">Nếu điểm bệnh nhân ban đầu sai hoặc đã di chuyển: hủy yêu cầu chưa được nhận, rồi mở thẻ để gửi tại điểm đúng. Sau khi TNV nhận, bạn có thể xác nhận cập nhật điểm tại đây.</p>}
@@ -88,6 +92,9 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
       <label className="phone-label optional-phone" htmlFor="phone">Số điện thoại để TNV liên hệ <span>Không bắt buộc</span></label>
       <input id="phone" type="tel" autoComplete="tel" inputMode="tel" maxLength={40} placeholder="Để trống nếu không muốn cung cấp" value={phone} disabled={busy || !canSend} onChange={e => { setPhone(e.target.value); setSuccess(''); }} />
       <p className="hint">Chỉ TNV được phân công ca mới có thể xem số bạn cung cấp.</p>
+      <label htmlFor="meeting-note">Mốc tìm bệnh nhân · không bắt buộc</label>
+      <textarea id="meeting-note" maxLength={240} rows={2} value={meetingNote} disabled={busy || !canSend} placeholder="Ví dụ: cổng B, tầng 2, cạnh cầu thang. Không nhập bệnh án." onChange={e => { setMeetingNote(e.target.value); setMeetingNoteEdited(true); setSuccess(''); }} />
+      <p className="hint">{meetingNote.length}/240 ký tự · Không sửa ô này sẽ giữ ghi chú đã gửi. Chỉ TNV nhận ca được xem; không tự đổi GPS.</p>
       <button className="primary" type="submit" disabled={busy || !canSend || questions.some(question => !answers[question.key])}>{busy ? 'Đang gửi…' : 'Gửi thông tin bổ sung'}</button>
       <p className="hint">Bỏ trống số điện thoại vẫn gửi được. Ba câu hỏi đều cần chọn một đáp án.</p>
       {success && <p className="success" role="status">{success}</p>}{error && <p className="error" role="alert">{error}</p>}

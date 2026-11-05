@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import { callable as httpsCallable, firebaseClient, readableError, reporterSession } from '@/lib/firebase-client';
 import { DemoLocation, parseDemoLocation } from './DemoLocation';
+import { DutyContact } from './DutyContact';
 import { useOnline } from '@/lib/use-online';
 import { confirmedPoint } from '@/lib/location-fix';
 
@@ -79,6 +80,7 @@ export function RequestHelp({ cardId }: { cardId: string }) {
       <p className="hint">Chưa cần nhập số điện thoại hay trả lời câu hỏi ở bước này.</p>
       {message && <p role="status">{message}</p>}{error && <p className="error" role="alert">{error}</p>}
     </section>
+    <DutyContact urgent={!online || !!error} />
     <p className="hint">Yêu cầu gửi thành công không đồng nghĩa đã có TNV nhận ca. Đây là hỗ trợ cộng đồng, không thay thế dịch vụ cấp cứu.</p>
   </main>;
 }

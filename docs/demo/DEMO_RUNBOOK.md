@@ -6,6 +6,14 @@
 
 ## 1. Chia vai theo thiết bị thực có
 
+### Bổ sung cho 0.4.13
+
+1. Người phụ trách mở `/admin` → **Cập nhật tình trạng ca** trước/sau mỗi lượt để kiểm tra ca chờ, quá hạn và lượt gửi lỗi. Các số chỉ cập nhật khi bấm; không hiểu “FCM chấp nhận” là máy đã reo.
+2. TNV kiểm tra trạng thái xanh và thời điểm GPS. Nếu màu vàng **CẦN LÀM MỚI VỊ TRÍ**, bấm làm mới hoặc tắt sẵn sàng; GPS cũ quá năm phút không được chọn cho ca mới.
+3. Người báo có thể thêm cổng/tầng/phòng trong bảng hỏi. Bỏ phone vẫn gửi được. TNV chỉ thấy ghi chú sau nhận ca; ghi chú không tự thay điểm trên map.
+4. Nhóm chưa có đầu mối trực được phép công khai. Khi không có TNV nhận/lỗi, báo trực tiếp người phụ trách diễn tập tại chỗ; không gọi thử số cá nhân hoặc dịch vụ cấp cứu thật.
+5. Nút **Thử lại thông báo đến hạn** chỉ dành cho admin theo dõi diễn tập; Emulator không gửi FCM thật. Chỉ ghi chuông/rung đạt sau khi quan sát trên điện thoại.
+
 | Thành viên | Chỉ có hai điện thoại + laptop | Có thêm thiết bị báo tin |
 | --- | --- | --- |
 | A — điều phối/Patient | Laptop P1; chuẩn bị A1 trước buổi; hô chuyển bước | Như cột bên |

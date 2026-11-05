@@ -18,6 +18,8 @@ async function main() {
  try {
  await googleRequest(`https://identitytoolkit.googleapis.com/v1/projects/${project}/accounts:update`,'POST',{localId:admin.localId,emailVerified:true,customAttributes:JSON.stringify({admin:true})});
  Object.assign(admin,await authCall('signInWithPassword',{email:admin.email,password:admin.password,returnSecureToken:true}));
+ await call('getOperationsOverview',{},patient,403);
+ const operations=await call('getOperationsOverview',{},admin);assert.equal(typeof operations.counts.expiredPendingNotifications,'number');assert.ok(operations.oldestWaiting.length<=5);demo.operationsOverviewVerified=true;
  await call('getMyAccess',{},null,401);
  await call('setAccountPurpose',{purpose:'patient'},patient);
  await call('setAccountPurpose',{purpose:'volunteer'},volunteer);
@@ -52,19 +54,21 @@ async function main() {
  assert.equal(incident.invitedCount,0);demo.incidentId=incident.incidentId;demo.secondIncidentId=incident2.incidentId;
  await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer,403);
  const observations={responsiveness:'unresponsive',breathing:'abnormal',breathingDetail:'gasping',bleeding:'visible',bleedingDetail:'heavy'};
- await call('submitBystanderReport',{incidentId:incident.incidentId,submissionId:randomUUID(),phone:'',answers:observations},reporter);
+ const meetingNote='Cổng GIẢ, tầng 2 · kiểm thử phần mềm';
+ await call('submitBystanderReport',{incidentId:incident.incidentId,submissionId:randomUUID(),phone:'',answers:observations,meetingNote},reporter);
  const catchUp=await call('setVolunteerAvailability',{available:true,location:{latitude:78,longitude:-145}},volunteer);
  assert.equal(catchUp.matchedCount,2);
  const alertsResponse=await checkedFetch('Firestore offered query',`https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/volunteers/${volunteer.localId}:runQuery`,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+volunteer.idToken},body:JSON.stringify({structuredQuery:{from:[{collectionId:'alerts'}],where:{fieldFilter:{field:{fieldPath:'status'},op:'EQUAL',value:{stringValue:'offered'}}},orderBy:[{field:{fieldPath:'createdAt'},direction:'DESCENDING'}],limit:101}}),signal:AbortSignal.timeout(30000)});
  assert.equal(alertsResponse.status,200,'Live offered index must be queryable on cloud');
  const alertDocs=(await alertsResponse.json()).filter(item=>item.document).map(item=>item.document.fields);
- assert.equal(alertDocs.length,2);assert.ok(alertDocs.every(fields=>!fields.phone&&!fields.location));
+ assert.equal(alertDocs.length,2);assert.ok(alertDocs.every(fields=>!fields.phone&&!fields.location&&!fields.meetingNote));
  assert.equal((await call('setVolunteerAvailability',{available:true,location:{latitude:78,longitude:-145}},volunteer)).matchedCount,0);
  await call('acceptIncident',{incidentId:incident.incidentId},volunteer);
  await call('acceptIncident',{incidentId:incident2.incidentId},volunteer,400);
  await call('getVolunteerIncidentDetails',{incidentId:incident2.incidentId},volunteer,403);
  const details=await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer);assert.equal(details.phone,null);assert.equal(details.patientProfile.fullName,'Bệnh nhân giả · thử cloud EHIS');
  assert.deepEqual(details.answers,observations);assert.ok(details.reportedAtMs>0);demo.regionalRosterAndObservationsVerified=true;
+ assert.equal(details.meetingNote,meetingNote);demo.privateMeetingNoteVerified=true;
  await call('markIncidentArrived',{incidentId:incident.incidentId},volunteer);
  await call('finishIncident',{incidentId:incident.incidentId,outcome:'completed'},volunteer);
  await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer,403);

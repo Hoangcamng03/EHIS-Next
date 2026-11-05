@@ -15,6 +15,9 @@ Source 0.4.12 theo dõi FCM đổi token, thay token đúng chủ và kiểm tra
 
 ## 2. Giới hạn phải hiểu
 
+- Theo [tài liệu chính thức FCM — Life critical use cases](https://firebase.google.com/docs/cloud-messaging/customize-messages/setting-message-priority#life_critical_use_cases), FCM không được thiết kế cho cảnh báo khẩn có nguy cơ tới tính mạng và bị hạn chế dùng cho các trường hợp này. EHIS hiện chỉ diễn tập phần mềm bằng dữ liệu giả, không tiếp nhận ca thật. Trước triển khai hỗ trợ y tế thật phải rà lại thiết kế thông báo, điều khoản nhà cung cấp và đầu mối chuyên môn; gói trả phí không tự giải quyết hạn chế này.
+- Từ 0.4.13, receipt từng thiết bị tránh gửi lại các kết quả đã lưu; fencing chặn worker cũ ghi đè. Vẫn có thể lặp nếu nhà cung cấp nhận trước lúc receipt được lưu. Job hết hạn không chiếm lô 20 còn hiệu lực. Admin có thao tác thử lại thủ công, không thay worker trực liên tục.
+
 - FCM chấp nhận gửi chưa chứng minh điện thoại nhận, hiện banner, phát chuông hoặc TNV đọc. Không có cam kết độ trễ cấp cứu từ gói miễn phí.
 - Âm thông báo phụ thuộc quyền, cài đặt kênh, âm lượng thông báo, chế độ Im lặng/Không làm phiền, tiết kiệm pin, mạng và hãng máy. Không cam kết vượt mọi trạng thái tắt âm. Không dùng quyền bỏ qua Không làm phiền hoặc chuông toàn màn hình trong vòng này.
 - Phạm vi là Home và khóa màn hình; không bảo đảm Buộc dừng, tắt máy, mất mạng, hoặc trình duyệt web bị đóng. Không có định vị nền.

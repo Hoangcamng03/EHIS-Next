@@ -2,6 +2,18 @@
 
 Chỉ các API ở mục Đã viết tồn tại. Không gọi API ở backlog như thể đã có.
 
+## Thay đổi 0.4.13 — diễn tập có người theo dõi
+
+- `submitBystanderReport({incidentId, submissionId, phone?, answers, meetingNote?})`: ghi chú mốc tìm bệnh nhân tùy chọn, chuỗi tối đa 240 ký tự, trim, không nhận ký tự điều khiển. Chỉ phiên tạo ca gửi; gửi lại ID với payload khác bị chặn. Bỏ trường giữ ghi chú cũ (APK cũ tương thích); `""` xóa ghi chú. Không thay vị trí đã xác nhận.
+- Mỗi lần báo thay toàn bộ `answers`, không giữ chi tiết triệu chứng của bộ cũ. Web chỉ gửi `meetingNote` sau khi chỉnh ô; reload rồi chỉ trả lời câu hỏi không tự xóa ghi chú đã gửi.
+- `getVolunteerIncidentDetails` thêm `meetingNote: string`, mặc định `""`; chỉ TNV đã nhận ca còn hoạt động được xem. Không thêm ghi chú vào alerts, push, bảng tổng hợp hoặc URL bản đồ. Dọn cùng tài liệu private/reporter sau đóng ca.
+- `getOperationsOverview({})`: chỉ admin, read-only. Trả `checkedAtMs`, `pushEnabled`, `counts` gồm dispatching/accepted/arrived/expiredWaiting/pendingNotifications/dueNotifications/expiredPendingNotifications/failedNotifications; `oldestWaiting` tối đa năm `{incidentId,invitedCount,expiresAtMs}`. Không chứa bệnh án, người bệnh, phone hoặc GPS. Số quá hạn là phần trong tổng đang chờ, không cộng hai số thành tổng mới. Dữ liệu là ảnh chụp theo thời điểm, không phải snapshot transaction toàn hệ thống.
+- `retryPendingNotifications({})`: chỉ admin; tối đa 20 job pending, lease đã đến hạn và expiresAt còn hiệu lực. Trả `{scanned,acceptedByFcm}` hoặc `{skipped:true}` trên Emulator/FCM tắt. FCM chấp nhận không chứng minh điện thoại nhận/reo. Không gia hạn lời mời, không tạo ca, không chuyển người phụ trách. Không dùng API này để giả định worker liên tục.
+- Job có `leaseOwner` ngẫu nhiên và `deviceResults` chỉ chứa hash thiết bị, kết quả terminal và thời điểm. Retry bỏ thiết bị đã ghi nhận terminal; worker cũ không ghi đè lease mới. Vẫn có cửa sổ gửi lặp nếu nhà cung cấp nhận nhưng tiến trình dừng trước khi lưu receipt. Không cam kết exactly-once.
+- App hiển thị sẵn sàng chỉ khi GPS máy chủ <=5 phút, không tương lai >1 phút. Mở lại app khôi phục refresh foreground của tài khoản đang ON, không tự hỏi quyền GPS. Backend vẫn quyết định đủ điều kiện điều phối; không bổ sung GPS nền.
+
+Đầu mối trực chưa được nhóm cung cấp. Hai biến Hosting `NEXT_PUBLIC_DUTY_CONTACT_NAME` và `NEXT_PUBLIC_DUTY_CONTACT_PHONE` để trống; chỉ hiện nút gọi khi cả hai hợp lệ. Khi lỗi/chưa có người nhận, web nói rõ chưa cấu hình và hướng người thử tới người phụ trách tại chỗ. Không tự dùng số cá nhân hoặc 115.
+
 ## Thay đổi source 0.4.12 — vùng quản lý, quan sát và thiết bị
 
 Trạng thái triển khai từng lớp tra [STATUS](../STATUS.md).

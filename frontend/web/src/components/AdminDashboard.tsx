@@ -5,6 +5,7 @@ import { browserSessionPersistence, onAuthStateChanged, setPersistence, signInWi
 import { callable as httpsCallable, adminClient } from '@/lib/firebase-client';
 import { ReferrerRegistry } from './ReferrerRegistry';
 import { VolunteerRoster } from './VolunteerRoster';
+import { OperationsOverview } from './OperationsOverview';
 import { levels, type Application } from './ReferrerDashboard';
 
 export function AdminDashboard() {
@@ -39,8 +40,8 @@ export function AdminDashboard() {
     } catch { setError('Thao tác chưa hoàn tất. Kiểm tra tài khoản, quyền quản trị và kết nối rồi thử lại.'); }
     finally { setBusy(false); }
   }
-  return <main className="report-page role-admin"><div className="report-brand">EHIS · QUẢN TRỊ</div><h1>Duyệt TNV.</h1>
-    <p className="report-intro">Xem thông tin tự khai và kiểm tra điều kiện tham gia trước khi cấp quyền nhận ca. Duyệt trong app không thay thế xác minh năng lực thực tế.</p>
+  return <main className="report-page role-admin"><div className="report-brand">EHIS · QUẢN TRỊ</div><h1>Quản lý diễn tập.</h1>
+    <p className="report-intro">Theo dõi ca hỗ trợ, quản lý đơn vị và duyệt TNV. Chỉ cấp quyền sau khi đối chiếu điều kiện tham gia; duyệt trong app không thay thế xác minh năng lực thực tế.</p>
     {!ready && <p role="status">Đang kiểm tra quyền quản trị…</p>}
     {!user ? <form className="report-panel" onSubmit={event => { event.preventDefault(); act('login'); }}>
       <label className="phone-label">Email quản trị<input type="email" value={email} onChange={event => setEmail(event.target.value)} required disabled={busy} autoComplete="username" /></label>
@@ -48,7 +49,7 @@ export function AdminDashboard() {
       <button className="primary" disabled={busy}>Đăng nhập quản trị</button>
     </form> : <><p>{user.email}</p><button className="secondary" disabled={busy} onClick={() => act('logout')}>Đăng xuất quản trị</button>
       {ready && !admin && <p role="alert" className="error">Tài khoản này không có quyền quản trị. Chọn vai trò hoặc đăng ký tài khoản không tự cấp quyền.</p>}
-      {admin && <><ReferrerRegistry /><VolunteerRoster /><button className="primary" disabled={busy} onClick={() => act('load')}>Tải đơn chờ duyệt</button><p className="hint">Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp theo.</p>
+      {admin && <><OperationsOverview /><ReferrerRegistry /><VolunteerRoster /><button className="primary" disabled={busy} onClick={() => act('load')}>Tải đơn chờ duyệt</button><p className="hint">Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp theo.</p>
         {!items.length && <p>{loaded ? 'Hiện không có đơn chờ duyệt.' : 'Bấm Tải đơn chờ duyệt để xem danh sách.'}</p>}
         {items.map(item => <section className="report-panel" key={item.uid}><h2>{item.fullName}</h2><p>Liên hệ: {item.phone}</p><p>Kinh nghiệm tự khai: {item.experience}</p>
           <p>Phân loại tự khai: {levels[item.trainingLevel] || 'Hồ sơ cũ cần gửi lại'} · {item.clinicalMonths ?? 0} tháng</p><p>Cư trú: {item.homeAddress || 'Chưa có'}</p><p>Đơn vị: {item.workAddress || 'Chưa có'} · Khu vực: {item.serviceArea || 'Chưa có'}</p><p>Người giới thiệu: {item.referrerEmail || 'Chưa có'}</p>
