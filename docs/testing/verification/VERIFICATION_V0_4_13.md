@@ -1,6 +1,6 @@
 # EHIS 0.4.13 — GPS, điểm hẹn và theo dõi diễn tập
 
-Đang xác minh; chỉ dùng dữ liệu giả. Các số dưới đây là lượt thực chạy, không phải kết quả giao thông báo trên điện thoại.
+Kết luận: **nghiệm thu một phần**, chỉ diễn tập dữ liệu giả. Các số dưới đây là lượt thực chạy, không phải kết quả giao thông báo trên điện thoại.
 
 ## Thay đổi
 
@@ -16,7 +16,7 @@
 - `integration-13`: 14 suites PASS trước bổ sung truy vấn loại backlog hết hạn. `integration-13-final`: FAIL khởi động công cụ (port 4400/quyền môi trường), không phải PASS nghiệp vụ; lượt chạy lại được giữ riêng.
 - Receipt trong bài test là fixture tổng hợp kiểm tra giao dịch Firestore thật; không giả FCM đã nhận/giao. Emulator chủ động bỏ gửi FCM.
 
-## Chưa kết luận
+## Kết quả và phạm vi
 
 ### Vòng cuối đã chạy
 
@@ -27,6 +27,11 @@
 - Browser local đạt các nhánh GPS cũ→OFF→điểm giả mới, nhận ghi chú khi bỏ phone, private chỉ sau accept và đóng khi completed, fallback không có TNV/đầu mối, bảng admin. **PARTIAL** vì tile OSM vẫn không tải đủ; OSRM trả tuyến 0,78 km. Không thay phiếu máy thật. Các lần clipboard nhập sai/fixture trước khi dịch vụ sẵn sàng được giữ riêng.
 - Qua browser đã phát hiện/sửa lỗi giữ thông báo lỗi GPS cũ dù refresh mới thành công. OFF chờ heartbeat đang gửi xong trước khi ghi OFF. Kiểm tra mã/UI cuối ghi trong JSON theo đúng attempt.
 
-Đang chờ hồi quy cuối, tải local, browser, cloud và APK mới. APK công khai vẫn là bản 0.4.12 đã được verifier xác minh cho đến khi có artifact mới đạt kiểm tra. Không ghi điện thoại đã cập nhật nếu nhóm chưa cài/xác nhận.
+### Cloud, CI và APK
+
+- Main/runtime **359427b2676a1d4d5fcfc27619436653795cd8c7**, [GitHub CI SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42063552503), gồm check, export Android, build web, integration và scale trên Node22/Linux.
+- Backend Vercel và hai site Firebase Hosting **0.4.13 đã deploy**. Flow cloud giả đạt: overview admin/index mới, ghi chú private, ON muộn/hai ca, chỉ một assignment, consent và đóng quyền sau hoàn tất; admin/referrer tạm đã thu. Không gọi retry toàn hàng đợi cloud trong probe. 38 HTML/JS/CSS có SHA256 khớp build.
+- Browser cloud thấy TNV OFF/version0.4.13, trang Quản lý diễn tập, Privacy mô tả note và trang cài vẫn đúng APK0.4.12. Không bật GPS thật hoặc thay phiên đăng nhập đang có của người dùng. Không lặp lại bài chuông/điện thoại như thể đã thử.
+- Android0.4.13/code11: [EAS97330def-c292-4f69-b20c-b146f3fe520b](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/97330def-c292-4f69-b20c-b146f3fe520b), source359427b, **IN_QUEUE** tại lần kiểm tra trong JSON. Chưa artifact/verifier/máy thật. APK công khai vẫn0.4.12; chỉ đổi link sau EAS FINISHED và kiểm bytes/version/package/target/tone đạt. Không OTA/iOS/billing.
 
 Chưa thử máy thật: GPS, âm/rung, Home/khóa, Wi-Fi/4G/5G, pin/quyền theo hãng. Chưa nghiệm thu tải cloud, SLA, xử lý ca thật hoặc chuyên môn y tế. Các vấn đề lịch sử map tile/Functions lạnh/dependency vẫn mở nếu không có bài thử mới đóng chúng. FCM có [hạn chế life-critical](https://firebase.google.com/docs/cloud-messaging/customize-messages/setting-message-priority#life_critical_use_cases); đây chỉ là diễn tập phần mềm, không phát hành dịch vụ cấp cứu thật.

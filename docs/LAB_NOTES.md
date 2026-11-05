@@ -29,6 +29,8 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 ## 2026-11-05 — Phát triển 0.4.13: GPS, điểm hẹn và theo dõi vận hành
 
+- **Kết quả phát hành web:** main/runtime359427b đã push; CI42063552503 SUCCESS trên Node22/Linux. Backend Vercel và hai Firebase Hosting0.4.13 deploy đạt; flow cloud giả xác minh overview/index/meetingNote/một ca-TNV/quyền private, thu admin/referrer tạm; 38 HTML/JS/CSS khớp build. Browser cloud thấy version0.4.13, tiêu đề quản trị mới, Privacy và trang cài đúng; giữ phiên TNV OFF, không bật GPS thật. **Android0.4.13/code11** build97330def-c292-4f69-b20c-b146f3fe520b đã gửi từ source sạch, hiện IN_QUEUE; giữ link APK0.4.12 đã xác minh, chưa nói điện thoại đã cập nhật. Chưa có OTA/IPA/thiết bị/ca thật. Các lần trước ghi “đang” trong mục này là tiến trình; kết luận bàn giao theo dòng này và STATUS.
+
 - Chốt code trước phát hành: 67 test PASS, `integration-13-symptoms`14 suites PASS với hồi quy bỏ chi tiết triệu chứng cũ, scale cuối PASS/320 API/p95 lời mời925 ms/max942 ms; giữ cả lượt trước926 ms trong JSON. Bản cloud frontend build đạt sau sửa. Chuyển sang main/cloud/APK thử; chưa cập nhật link APK cho tới khi EAS và verifier đạt. Không thêm dependency/quyền/billing.
 
 - Review trước phát hành phát hiện Firestore merge lồng nhau có thể giữ breathingDetail/bleedingDetail cũ khi lần sau gửi Chưa rõ. Đổi mergeFields ở cấp trường để thay toàn bộ answers, chỉ giữ meetingNote khi thiếu trường. Thêm hồi quy gửi chi tiết bất thường → ba Chưa rõ, xác minh private không còn chi tiết cũ. Web mới chỉ gửi note khi người báo chỉnh ô, tránh reload rồi vô tình xóa note cũ. Đang chạy lại suite sau sửa; không dùng kết quả trước sửa thay kết quả này.

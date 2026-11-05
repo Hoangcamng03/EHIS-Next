@@ -1,17 +1,18 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
-Mốc tổng hợp ngày 05/11/2026 từ bằng chứng đã ghi trong [LAB_NOTES](LAB_NOTES.md). [Vòng sửa và kiểm thử 0.4.12 mới nhất](testing/verification/VERIFICATION_V0_4_12.md) kết luận **nghiệm thu một phần**: 59 test/13 suites và tải portable đạt, còn tile map/Functions lạnh/advisory/thiết bị. Cloud web/backend 0.4.12 đã phát hành và qua flow/đối chiếu38 tệp; APK0.4.12/code10 FINISHED và verifier artifact đạt; chưa có nghiệm thu điện thoại. Không suy ra máy đã cập nhật từ việc source hoặc build đã đổi.
+Mốc tổng hợp ngày 05/11/2026: [bản 0.4.13](testing/verification/VERIFICATION_V0_4_13.md) **nghiệm thu một phần**. Source/CI, 67 test/14 suites, tải local32 ca và web/backend cloud đạt. Bản đồ nền/thiết bị vẫn còn việc mở. APK0.4.13 đang xếp hàng; bản tải thực vẫn0.4.12 đã xác minh. Không suy ra điện thoại đã cập nhật từ việc source hoặc cloud đã đổi.
 
 ## 1. Bản đang bàn giao
 
-**0.4.13 đang chốt phát hành:** [báo cáo](testing/verification/VERIFICATION_V0_4_13.md) · [số thực](testing/verification/VERIFICATION_V0_4_13.json). 67 test/14 suites và bài tải32 ca/320 API local đạt; browser PARTIAL vì OSM tile. Nâng cấp GPS, mốc tìm bệnh nhân riêng tư và bảng admin; đầu mối trực vẫn trống theo xác nhận. Bảng dưới là bản0.4.12 đã bàn giao cho đến khi từng lớp mới được xác minh.
+**0.4.13:** GPS mới/cũ, mốc tìm bệnh nhân riêng tư, sửa giữ sót triệu chứng và bảng quản trị diễn tập. Đầu mối trực vẫn trống theo xác nhận. [Số thực/timestamp/hash log](testing/verification/VERIFICATION_V0_4_13.json).
 
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
-| App web và web người báo/admin/referrer | 0.4.12 đã deploy; 38 đối chiếu HTML/JS/CSS khớp bản build; login/logout browser cloud đạt | Nghiệm thu bằng tay trên thiết bị/điều kiện của nhóm |
-| Backend | 0.4.12: sửa runtime ESM, hai flow cloud giả đạt; index vùng truy vấn được; FCM validate-only200; giữ đúng quyền runtime | FCM giao/chuông trên thiết bị và tải cloud chưa nghiệm thu |
+| App web và web người báo/admin/referrer | 0.4.13 đã deploy; 38 HTML/JS/CSS khớp build; browser thấy version mới, quản trị/Privacy/trang cài đúng | Local browser PARTIAL vì tile map; nghiệm thu trên thiết bị của nhóm còn thiếu |
+| Backend | 0.4.13: flow cloud giả/overview admin/index mới/meetingNote riêng tư đạt; quyền tạm của probe đã thu; giữ runtime ESM và quyền hiện có | Chưa tải cloud/điện thoại; không có worker liên tục hoặc cam kết giao FCM |
 | APK Android | [Tải APK0.4.12/code10](https://expo.dev/artifacts/eas/eHIioq5ReWQNAuqHuHxGi3e2eXE4TkJdCbCSULWc0Fk.apk) từ bc3f2be; EAS FINISHED, artifact102.895.417 bytes, SHA256 trong báo cáo; đúng package/cloud/tone/quyền rung | Chưa nghiệm thu máy thật/chứng chỉ ký; chỉ cài khi không có ca active, không cần Expo Go |
-| Source kiểm tra | main: phần tính năng bc3f2be và sửa phát hành0.4.12 ở0ad8dda; local59 test/13 suites + cloud flow/index/38 artifact đạt theo báo cáo mới | Chưa xác minh kết quả CI của commit mới trong phiên này; không dùng CI cũ thay bằng chứng mới |
+| APK0.4.13 đang chuẩn bị | [Build code11](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/97330def-c292-4f69-b20c-b146f3fe520b) từ359427b: IN_QUEUE tại lần kiểm tra ghi trong JSON | Chưa artifact mới/verifier/cài máy; giữ link tải0.4.12 |
+| Source kiểm tra | main/runtime359427b; 67 test/14 suites, scale cuối32 ca/320 API/p95 lời mời925 ms local; [CI run42063552503 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42063552503) | Không diễn giải CI/local thành nghiệm thu máy thật, SLA hoặc ca thật |
 | Đối chiếu trước sửa04/11 | Runtime không đổi từ 22aff2e; local 56 test/12 suites/multi 15/ba lượt portable/cloud flow/browser/JS export đạt theo báo cáo | Functions load RECHECK >15 s; map preview/tile lỗi; audit còn 24 app/16 web/9 backend. CI cũ không thay kết quả phiên mới |
 | iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
 | Tài khoản demo | Sáu tài khoản cloud cấp ngày 25/10, kiểm tra login/quyền đạt | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra lại trước mỗi vòng |
@@ -35,6 +36,8 @@ Mốc tổng hợp ngày 05/11/2026 từ bằng chứng đã ghi trong [LAB_NOTE
 Android miễn phí + web, dữ liệu giả, trình thầy và diễn tập có kiểm soát. Chưa đủ điều kiện tiếp nhận cấp cứu thật. Không tự bật Blaze/nâng gói, OTA, cửa hàng hoặc iOS native. Quyền TNV/admin do backend quyết định; chọn đối tượng chỉ mở đúng giao diện.
 
 Các việc còn mở: thiết bị/GPS/âm/rung và nhận nền, hiệu năng tải lớn trên cloud, advisory dependency, giám sát/quota và điều kiện chuyên môn/vận hành. [Kế hoạch sản phẩm](planning/PRODUCT_LAUNCH_PLAN.md) · [Kế hoạch trình thầy/cuối kỳ](planning/MIDTERM_DEMO.md).
+
+Nhóm chưa có đầu mối trực; không tự điền số cá nhân/115. FCM có hạn chế đối với life-critical/emergency; chỉ diễn tập dữ liệu giả và phải đánh giá lại thiết kế trước ca thật, xem [giới hạn nhà cung cấp](operations/ANDROID_BACKGROUND_ALERTS.md#2-giới-hạn-phải-hiểu).
 
 ## 4. Khi cập nhật lần sau
 

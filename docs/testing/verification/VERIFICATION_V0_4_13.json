@@ -1,8 +1,78 @@
 {
   "version": "0.4.13",
-  "generatedAt": "2026-11-05T16:19:23.736Z",
+  "generatedAt": "2026-11-05T16:29:24.069Z",
   "scope": "Controlled synthetic software drills only; not clinical, real-device or cloud-load acceptance",
   "steps": [
+    {
+      "id": "apkstart-13",
+      "operation": "apkstart",
+      "command": "node scripts/build-trial-android.cjs start",
+      "startedAt": "2026-11-05T16:21:47.525Z",
+      "endedAt": "2026-11-05T16:22:27.507Z",
+      "elapsedMs": 39980,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "359427b2676a1d4d5fcfc27619436653795cd8c7",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstart-13.log",
+      "logSha256": "742348fcf3724bf2a267932dbb32b735b85df93a93761e6143b97a7525e01416",
+      "artifacts": []
+    },
+    {
+      "id": "apkstatus-13",
+      "operation": "apkstatus",
+      "command": "node scripts/build-trial-android.cjs status",
+      "startedAt": "2026-11-05T16:26:44.761Z",
+      "endedAt": "2026-11-05T16:26:50.344Z",
+      "elapsedMs": 5582,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "359427b2676a1d4d5fcfc27619436653795cd8c7",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstatus-13.log",
+      "logSha256": "65d5a3c2af5ce461291159541fb0afbe8e924fa90c231a2629b6eb0caaafef6e",
+      "artifacts": [
+        "apkstatus-13-android-trial-build.json"
+      ]
+    },
+    {
+      "id": "artifacts-13",
+      "operation": "artifacts",
+      "command": "node scripts/verify-cloud-artifacts.cjs",
+      "startedAt": "2026-11-05T16:27:52.022Z",
+      "endedAt": "2026-11-05T16:28:06.411Z",
+      "elapsedMs": 14385,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "359427b2676a1d4d5fcfc27619436653795cd8c7",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "artifacts-13.log",
+      "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
+      "artifacts": [
+        "artifacts-13-cloud-artifact-proof.json"
+      ]
+    },
     {
       "id": "build-13-release",
       "operation": "build",
@@ -177,6 +247,72 @@
       "totalMemoryBytes": 25463480320,
       "log": "check-13.log",
       "logSha256": "e377b2e23fe6094a181245c26b9e49a9e880c3e9bfa6e8fe54f1df2eed843a56",
+      "artifacts": []
+    },
+    {
+      "id": "cloudflow-13",
+      "operation": "cloudflow",
+      "command": "node scripts/cloud-flow-probe.cjs",
+      "startedAt": "2026-11-05T16:24:32.963Z",
+      "endedAt": "2026-11-05T16:24:59.932Z",
+      "elapsedMs": 26968,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "359427b2676a1d4d5fcfc27619436653795cd8c7",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "cloudflow-13.log",
+      "logSha256": "eedc16cc6c6bed993edacc86110ede2f36e7b3f647cfb39f3a639edb0ccbfe25",
+      "artifacts": []
+    },
+    {
+      "id": "deploybackend-13",
+      "operation": "deploybackend",
+      "command": "node scripts/vercel.cjs deploy",
+      "startedAt": "2026-11-05T16:23:38.059Z",
+      "endedAt": "2026-11-05T16:24:07.008Z",
+      "elapsedMs": 28948,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "359427b2676a1d4d5fcfc27619436653795cd8c7",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deploybackend-13.log",
+      "logSha256": "420339a102a007710bfa8f2de5f59bbd97b75d22f4f8343c3dbc47566341db47",
+      "artifacts": []
+    },
+    {
+      "id": "deployweb-13",
+      "operation": "deployweb",
+      "command": "npm run cloud:deploy-web",
+      "startedAt": "2026-11-05T16:25:59.803Z",
+      "endedAt": "2026-11-05T16:26:19.966Z",
+      "elapsedMs": 20161,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "359427b2676a1d4d5fcfc27619436653795cd8c7",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deployweb-13.log",
+      "logSha256": "fc4963d3b8df069d5693a885e71bdeaf59b37b95b2c1db9727d96b46f4f3858c",
       "artifacts": []
     },
     {
@@ -2130,11 +2266,53 @@
     ]
   },
   "cloud": {
-    "status": "PENDING"
+    "status": "PASS",
+    "sourceCommit": "359427b2676a1d4d5fcfc27619436653795cd8c7",
+    "version": "0.4.13",
+    "projectId": "ehis-next-20261021-hc03",
+    "flowResult": "PASS: cloud full lifecycle and temporary-admin cleanup",
+    "operationsOverviewVerified": true,
+    "privateMeetingNoteVerified": true,
+    "temporaryAdminClaimRemoved": true,
+    "regionalRosterAndObservationsVerified": true,
+    "lateReadinessAndTwoOffersVerified": true,
+    "artifactProof": {
+      "checkedAt": "2026-11-05T16:28:06.350Z",
+      "checked": 38,
+      "sha256Match": true,
+      "targets": [
+        "https://ehis-next-20261021-hc03.web.app",
+        "https://ehis-next-20261021-hc03-app.web.app"
+      ]
+    },
+    "browser": {
+      "status": "PASS for observed web pages; not device acceptance",
+      "observed": [
+        "Existing OFF volunteer session restored; account panel shows EHIS 0.4.13, no GPS enabled",
+        "Admin entry heading is Quản lý diễn tập",
+        "Privacy page explicitly describes private meeting note",
+        "Install page still offers verified APK 0.4.12; no IPA/TestFlight"
+      ],
+      "screenshots": [
+        "cloud-volunteer-version.jpg",
+        "cloud-admin-entry.jpg",
+        "cloud-install.jpg"
+      ]
+    }
   },
   "android": {
-    "status": "NOT_STARTED",
-    "installedDeviceVerified": false
+    "id": "97330def-c292-4f69-b20c-b146f3fe520b",
+    "commit": "359427b2676a1d4d5fcfc27619436653795cd8c7",
+    "version": "0.4.13",
+    "versionCode": 11,
+    "status": "IN_QUEUE",
+    "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/97330def-c292-4f69-b20c-b146f3fe520b",
+    "startedAt": "2026-11-05T16:22:27.458Z",
+    "deviceVerified": false,
+    "artifactVerified": false,
+    "installedDeviceVerified": false,
+    "publicDownloadVersion": "0.4.12",
+    "publicDownloadChanged": false
   },
   "open": [
     "No public duty contact supplied",
@@ -3902,5 +4080,12 @@
     "status": "PASS",
     "latencyGateMs": 15000,
     "latencyStatus": "PASS"
+  },
+  "ci": {
+    "id": 42063552503,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42063552503",
+    "head": "359427b2676a1d4d5fcfc27619436653795cd8c7"
   }
 }
