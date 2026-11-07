@@ -28,12 +28,12 @@ export async function enforceRequestBudget(uid: string, operation: string, ip?: 
   }
 }
 
-export function guardedCall<T>(operation: string, handler: (request: CallableRequest<unknown>) => Promise<T>) {
-  return onCall({ enforceAppCheck: process.env.EHIS_ENFORCE_APP_CHECK === 'true' }, async request => {
+export function guardedCall<T>(operation: string, handler: (request: CallableRequest<unknown>) => Promise<T>, options: { timeoutSeconds?: number } = {}) {
+  return onCall({ ...options, enforceAppCheck: process.env.EHIS_ENFORCE_APP_CHECK === 'true' }, async request => {
     if (!request.auth || typeof request.auth.uid !== 'string' || !request.auth.uid) throw new HttpsError('unauthenticated', 'Cần phiên đăng nhập hợp lệ.');
     await enforceRequestBudget(request.auth.uid, operation, request.rawRequest.ip);
     const result = await handler(request);
-    if (['createIncident', 'submitBystanderReport', 'updateIncidentLocation', 'setVolunteerAvailability', 'registerVolunteerDevice'].includes(operation)) {
+    if (['createIncident', 'submitBystanderReport', 'updateIncidentLocation', 'setVolunteerAvailability', 'registerVolunteerDevice', 'proposeIncidentHandover'].includes(operation)) {
       const task = flushPushJobs().catch(() => { console.warn('EHIS push retry remains pending; no payload logged.'); });
       if (process.env.VERCEL) waitUntil(task); else await task;
     }

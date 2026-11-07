@@ -36,6 +36,13 @@ test('simultaneous invitations remain independently deduplicated',async()=>{
  assert.equal(collectSignalEvents(seen,[offer(),offer({incidentId:'second'})],10000).length,2);
  assert.deepEqual(collectSignalEvents(seen,[offer({incidentId:'second'}),offer()],10001),[]);
 });
+test('a distinct handover proposal rings once even when the same case was previously seen',async()=>{
+ const {collectSignalEvents}=await policy,seen=new Map();
+ collectSignalEvents(seen,[offer()],10000);
+ assert.equal(collectSignalEvents(seen,[offer({handoverId:'first'})],10001)[0].kind,'request');
+ assert.deepEqual(collectSignalEvents(seen,[offer({handoverId:'first'})],10002),[]);
+ assert.equal(collectSignalEvents(seen,[offer({handoverId:'second'})],10003)[0].kind,'request');
+});
 function fakeContext(state='running'){
  const nodes=[],values=[];
  const param={setValueAtTime(value){values.push(value);},linearRampToValueAtTime(value){values.push(value);}};

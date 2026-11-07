@@ -173,8 +173,23 @@ Mỗi callable có hạn theo phút: 120/UID, riêng createIncident 30/UID, 600/
 
 Tối ưu 26/10: trong mỗi process, các transaction budget dùng cùng IP/phút (hoặc UID khi không có IP) đi qua hàng đợi ngắn trước khi chạm Firestore để giảm tranh chấp/retry. Firestore transaction vẫn kiểm tra và tăng nguyên tử mọi counter, kể cả giữa các process/instance; không cấp thêm quota hoặc bỏ kiểm tra. Hàng đợi giữ tối đa 256 khóa, 64 lượt/khóa, chờ tối đa hai giây; quá tải trả resource-exhausted với details.reason=request-budget-busy. Chỉ transaction budget được xếp hàng; nghiệp vụ ca và phân quyền giữ nguyên, không tuần tự hóa cả luồng.
 
-GET /internal/maintenance yêu cầu Bearer CRON_SECRET, không dùng token client. Chạy hằng ngày: tối đa 50 dispatch hết hạn, 50 ca đủ hạn purgeAfter, 200 counter cũ. Không purge ca accepted/arrived. Index incidents(status, offerExpiresAt) đã deploy.
+GET /internal/maintenance yêu cầu Bearer CRON_SECRET, không dùng token client. Từ0.4.14: lịch hằng ngày và admin chạy tay dùng chung khóa55s, nhiều trang50 ca/200 counter-push mỗi trang, tối đa50 trang/nhóm và ngân sách35s kiểm tra trước mỗi trang (không phải hard timeout). Lưu trạng thái complete/partial/failed ở _operations/maintenance; busy không ghi đè kết quả. Không purge ca accepted/arrived. Index incidents(status, offerExpiresAt) đã deploy.
 
 ## Feed TNV 0.4.7
 
 Client đọc volunteers/{uid}.activeIncidentId từ owner snapshot và theo dõi riêng alert đó bên cạnh 30 alert gần nhất. Chỉ khóa mở thao tác khi owner approval và các stream cần thiết được xác nhận từ server. Quyền/backend không thay bởi đường dẫn hoặc pin UI. Khi nhận snapshot thu hồi quyền, xóa feed; không cam kết thu hồi ngay trên thiết bị đang offline hoặc xóa dữ liệu đã được người dùng xem/chụp lại.
+
+
+## Phục hồi và bàn giao 0.4.14
+
+- getBystanderReport({incidentId}): đúng reporterUid/phiên sở hữu, ca còn sống; trả phone/answers/meetingNote/revision/reportedAtMs của chính người gửi, không trả vị trí hay hồ sơ Patient. Ca đóng trả failed-precondition; không sở hữu trả permission-denied.
+- submitBystanderReport thêm expectedRevision tùy chọn cho tương thích APK cũ. Client mới gửi revision đã đọc; sai trả failed-precondition reason=report-conflict. submissionId/fingerprint idempotent được kiểm tra trước revision để retry mất phản hồi không tạo bản mới. Cập nhật báo cáo pending handover chỉ gửi quan sát tối thiểu cho người được đề nghị.
+- listHandoverCases({after?}): admin,25 ca accepted/arrived mỗi trang. listHandoverCandidates({incidentId}): admin, tối đa50 gần nhất trong5km, approved/ON/rảnh/GPS<=5phút, không trả tọa độ. Tái sử dụng index latitude/longitude/lastSeenAt hiện có; không giới hạn ca theo serviceArea.
+- proposeIncidentHandover({incidentId,targetUid,requestId,reason}): admin,reason10–300 ký tự,requestId idempotent. Tạo handoverRequests/{requestId}, pointer pending5phút và alert tối thiểu. Không đổi acceptedBy/quyền riêng tư/activeIncidentId. Tổng người từng được mời giới hạn40 để giới hạn transaction cleanup; dispatch thông thường vẫn20.
+- acceptIncidentHandover({incidentId,handoverId}): chỉ TNV được đề nghị,approved/ON/rảnh/GPS mới/trong5km. Kiểm tra lại proposal và người cũ; nguyên tử chuyển acceptedBy/active pointers, thu quyền cũ, cập nhật projections và lịch sử. Retry nhận thành công idempotent. Endpoint acceptIncident cũ không chuyển quyền bàn giao.
+- cancelIncidentHandover({incidentId,handoverId}): admin, hủy pending và đóng alert mục tiêu; giữ người cũ. finishIncident đóng pending trong cùng transaction. Không có auto-close accepted hoặc auto-transfer khi hết5phút.
+- listHandoverHistory({incidentId,after?}): admin,25 bản ghi/trang, lý do/tên từ-đến/trạng thái/thời điểm; pending hết hạn hiển thị expired. Client không được đọc trực tiếp subcollection. auditLogs thêm accept/private-read/propose/transfer/cancel metadata, không ghi payload sức khỏe hay phone. Chưa có chính sách lưu audit/lịch sử dài hạn đủ cho dữ liệu thật.
+- runMaintenanceNow({}): admin, wrapper45s, dùng chung hàm dọn có ngân sách; không nhận cutoff do client tự chọn. getOperationsOverview bổ sung kết quả dọn gần nhất. Không phát sinh quyền IAM mới.
+- listVolunteerRoster bổ sung checkedAtMs,lastSeenAtMs,locationFresh,readyForDispatch, không trả tọa độ. UI giảm theo tuổi GPS bằng đồng hồ local, không poll cloud mỗi10s. TNV heartbeat foreground lấy GPS30s nhưng ghi khi>=100m hoặc>=90s; resume/làm mới gửi chủ động.
+
+Hướng dẫn người dùng: [Bàn giao và kiểm tra vận hành](../operations/HANDOVER_AND_MAINTENANCE.md). Xem STATUS để phân biệt source và bản đã triển khai.

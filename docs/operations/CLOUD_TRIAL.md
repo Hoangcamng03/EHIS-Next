@@ -44,7 +44,7 @@ Người quản trị đăng ký bằng tài khoản của mình trên app. Ch�
 ## Giới hạn miễn phí
 
 - Lời mời có hạn 10 phút; backend kiểm tra trước khi nhận hoặc gửi bổ sung, không dựa vào giao diện. Hết hạn giải phóng thẻ khi tạo lại yêu cầu; bảo trì nền cũng xử lý ca hết hạn.
-- Vercel Hobby dùng cron hằng ngày, không có lịch 2 phút. Thông tin riêng của ca được đặt hạn dọn sau 24 giờ; thực tế thường 24–48 giờ hoặc lâu hơn nếu tác vụ lỗi/hết hạn mức/backlog. Giới hạn xử lý mỗi lần: 50 ca hết hạn, 50 ca dọn dữ liệu, 200 bộ đếm cũ. Cần theo dõi trước khi tăng số ca.
+- Vercel Hobby dùng cron hằng ngày, không có lịch 2 phút. Thông tin riêng của ca được đặt hạn dọn sau 24 giờ, chưa cam kết xóa trong 24–48 giờ. Từ mã 0.4.14, dọn nhiều trang theo ngân sách trước mỗi trang khoảng35 giây, tối đa50 trang/nhóm và có khóa chống chạy trùng. Admin xem kết quả/tồn đọng và chạy lại thủ công; giữ ca đang xử lý. Xem [quy trình vận hành](HANDOVER_AND_MAINTENANCE.md).
 - Giới hạn server theo phút: 120 thao tác/tài khoản, 30 lần tạo yêu cầu/tài khoản, 600 thao tác/IP đã băm. Không phải chống bot toàn diện; tài khoản ẩn danh mới có thể vượt giới hạn tài khoản. App Check chưa được bật nếu chưa cấu hình provider; không mô tả hệ thống đã chống lạm dụng hoàn toàn.
 - Quota miễn phí có thể làm dịch vụ tạm ngừng khi hết hạn mức; không có cam kết cấp cứu hoặc đảm bảo luôn có người tiếp nhận.
 - Không có push/GPS nền, dẫn đường liên tục hoặc NFC trên thiết bị. Giữ màn hình TNV mở trong bài thử. Web/app cloud vẫn cần Internet.

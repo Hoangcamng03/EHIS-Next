@@ -1,4 +1,4 @@
-export type SignalAlert = { incidentId: string; status: string; reportRevision: number; expiresAt?: number };
+export type SignalAlert = { incidentId: string; status: string; reportRevision: number; expiresAt?: number; handoverId?: string };
 export type SignalEvent = { incidentId: string; kind: 'request' | 'update' };
 
 export function activeOffer(alert: SignalAlert, now: number) {
@@ -17,14 +17,15 @@ export function collectSignalEvents(seen: Map<string, number>, alerts: SignalAle
   for (const alert of alerts) {
     const offered = activeOffer(alert, now);
     if (!offered && !['accepted', 'arrived'].includes(alert.status)) continue;
-    const before = seen.get(alert.incidentId);
+    const key = alert.handoverId ? `${alert.incidentId}:handover:${alert.handoverId}` : alert.incidentId;
+    const before = seen.get(key);
     const revision = Math.max(0, alert.reportRevision || 0);
-    seen.set(alert.incidentId, Math.max(before ?? 0, revision));
+    seen.set(key, Math.max(before ?? 0, revision));
     if (offered && before === undefined) events.push({ incidentId: alert.incidentId, kind: 'request' });
     else if (before !== undefined && revision > before) events.push({ incidentId: alert.incidentId, kind: 'update' });
   }
   if (seen.size > 100) {
-    const live = new Set(alerts.map(alert => alert.incidentId));
+    const live = new Set(alerts.map(alert => alert.handoverId ? `${alert.incidentId}:handover:${alert.handoverId}` : alert.incidentId));
     for (const id of seen.keys()) if (!live.has(id)) seen.delete(id);
   }
   return events;

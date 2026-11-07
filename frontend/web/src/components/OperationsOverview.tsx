@@ -1,13 +1,14 @@
 'use client';
 import { useState } from 'react';
 import { adminClient, callable, readableError } from '@/lib/firebase-client';
-type Overview = { checkedAtMs: number; counts: { dispatching: number; accepted: number; arrived: number; expiredWaiting: number; pendingNotifications: number; dueNotifications: number; expiredPendingNotifications: number; failedNotifications: number }; oldestWaiting: { incidentId: string; invitedCount: number; expiresAtMs: number | null }[]; pushEnabled: boolean };
+type Overview = { checkedAtMs: number; counts: { dispatching: number; accepted: number; arrived: number; expiredWaiting: number; pendingNotifications: number; dueNotifications: number; expiredPendingNotifications: number; failedNotifications: number }; oldestWaiting: { incidentId: string; invitedCount: number; expiresAtMs: number | null }[]; pushEnabled: boolean; maintenance: { status: string; checkedAtMs: number; protectedSkipped?: number; remaining?: Record<string, boolean> } | null };
 export function OperationsOverview() {
   const [data, setData] = useState<Overview>(), [busy, setBusy] = useState(false), [message, setMessage] = useState('');
-  async function load(retry = false) {
+  async function load(retry: boolean | 'maintenance' = false) {
     setBusy(true); setMessage('');
     try {
-      if (retry) { const r = await callable<unknown, { skipped?: boolean; scanned?: number; acceptedByFcm?: number }>(adminClient().functions, 'retryPendingNotifications', { timeout: 25000 })({}); setMessage(r.data.skipped ? 'Môi trường này không gửi FCM thật.' : `Đã kiểm tra ${r.data.scanned || 0} lượt gửi; FCM chấp nhận ${r.data.acceptedByFcm || 0}. Chưa xác nhận điện thoại đã nhận hoặc reo.`); }
+      if (retry === 'maintenance') { const r = await callable<unknown, { status: string; purged: number; expired: number; counters: number }>(adminClient().functions, 'runMaintenanceNow', { timeout: 50000 })({}); setMessage(r.data.status === 'busy' ? 'Đã có lượt dọn đang chạy. Chờ rồi cập nhật lại.' : `Đã xử lý ${r.data.purged} ca đến hạn xóa riêng, ${r.data.expired} ca hết hạn và ${r.data.counters} bộ đếm. ${r.data.status === 'partial' ? 'Còn tồn đọng; có thể chạy tiếp.' : 'Lượt dọn đã hoàn tất.'}`); }
+      if (retry === true) { const r = await callable<unknown, { skipped?: boolean; scanned?: number; acceptedByFcm?: number }>(adminClient().functions, 'retryPendingNotifications', { timeout: 25000 })({}); setMessage(r.data.skipped ? 'Môi trường này không gửi FCM thật.' : `Đã kiểm tra ${r.data.scanned || 0} lượt gửi; FCM chấp nhận ${r.data.acceptedByFcm || 0}. Chưa xác nhận điện thoại đã nhận hoặc reo.`); }
       setData((await callable<unknown, Overview>(adminClient().functions, 'getOperationsOverview', { timeout: 20000 })({})).data);
     } catch (e) { setMessage(readableError(e)); } finally { setBusy(false); }
   }
@@ -15,6 +16,7 @@ export function OperationsOverview() {
     {data && <><p className="hint">Tải lúc {new Date(data.checkedAtMs).toLocaleTimeString('vi-VN')} · Bấm cập nhật để xem thay đổi.</p><dl className="operations-counts">{([['Ca chờ chưa đóng',data.counts.dispatching],['Đã có người nhận',data.counts.accepted],['Đã xác nhận đến',data.counts.arrived],['Ca chờ đã quá hạn',data.counts.expiredWaiting],['Lượt gửi chưa đóng',data.counts.pendingNotifications],['Lượt gửi đã quá hạn',data.counts.expiredPendingNotifications],['Lượt gửi đến hạn thử lại',data.counts.dueNotifications],['Lượt gửi lỗi / hết hạn',data.counts.failedNotifications]] as const).map(([name,value])=><div key={name}><dt>{name}</dt><dd>{value}</dd></div>)}</dl>
       {!!data.oldestWaiting.length && <><h3>Năm ca chờ gần hết hạn nhất</h3><ul>{data.oldestWaiting.map(c=><li key={c.incidentId}>Ca {c.incidentId.slice(0,10)} · {c.invitedCount} lời mời · {c.expiresAtMs && c.expiresAtMs <= data.checkedAtMs ? 'Đã quá hạn · cần người phụ trách kiểm tra' : `Hạn nhận ${c.expiresAtMs ? new Date(c.expiresAtMs).toLocaleTimeString('vi-VN') : 'chưa rõ'}`}</li>)}</ul></>}
       <button className="secondary" disabled={busy || !data.pushEnabled || !data.counts.dueNotifications} onClick={() => load(true)}>Thử lại thông báo đến hạn</button><p className="hint">Tối đa 20 lượt mỗi lần, giữ thời hạn và quyền nhận ca. Đây là thao tác có người trực, chưa phải cơ chế gửi lại liên tục.</p></>}
+    {data && <div><h3>Dọn dữ liệu đến hạn</h3><p>{data.maintenance ? `Lần ghi nhận: ${new Date(data.maintenance.checkedAtMs).toLocaleString('vi-VN')} · ${data.maintenance.status}` : 'Chưa có kết quả dọn được ghi nhận.'}</p>{data.maintenance && (data.maintenance.status !== 'complete' || !!data.maintenance.protectedSkipped || data.checkedAtMs - data.maintenance.checkedAtMs > 26 * 3600000) && <p className="error">Cần kiểm tra lượt dọn hoặc dữ liệu được giữ để bảo vệ ca đang hoạt động.</p>}<button className="secondary" disabled={busy} onClick={() => load('maintenance')}>Dọn dữ liệu đến hạn · tối đa một lượt mỗi lần</button><p className="hint">Chỉ dọn bản ghi đến hạn; giữ nguyên ca đang xử lý. Lượt dài có thể cần chạy tiếp, không bảo đảm xóa trong một mốc giờ cứng.</p></div>}
     {message && <p role="status">{message}</p>}
   </section>;
 }

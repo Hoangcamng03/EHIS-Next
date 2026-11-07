@@ -4,7 +4,7 @@ import { Button } from '../components/ActionButton';
 import { ToggleRow } from '../components/ToggleRow';
 import { InfoDisclosure } from '../components/InfoDisclosure';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Modal, ScrollView, StyleSheet, View } from 'react-native';
+import { Linking, Modal, ScrollView, StyleSheet, View } from 'react-native';
 import { User } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 
@@ -22,7 +22,7 @@ import { palette } from '../lib/palette';
 import { useEmergencySignal } from '../lib/use-emergency-signal';
 import { subscribeVolunteerAlerts, type AlertFeedState } from '../lib/subscribe-alerts';
 
-type Alert = { incidentId: string; status: string; reportRevision: number; locationRevision?: number; distanceMeters: number; answers: Answers | null; offerExpiresAt?: { toMillis(): number } };
+type Alert = { offerKind?: 'handover'; handoverId?: string; incidentId: string; status: string; reportRevision: number; locationRevision?: number; distanceMeters: number; answers: Answers | null; offerExpiresAt?: { toMillis(): number } };
 type Details = { phone: string | null; answers: Answers | null; meetingNote?: string; revision: number; reportedAtMs?: number | null; locationRevision?: number; location: { latitude: number; longitude: number } | null; patientProfile?: { fullName: string; allergies: string[]; emergencyContactPhone: string | null; emergencyContactName?: string | null; emergencyContactRelationship?: string | null } | null };
 const OfferSummary = memo(function OfferSummary({ alert, onOpen }: { alert: Alert; onOpen: (id: string) => void }) {
   return <View style={styles.card}><Text style={styles.cardTitle}>Ca {alert.incidentId.slice(0, 10)} · {alert.distanceMeters} m</Text>
@@ -48,7 +48,7 @@ function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false,
   }, [alert.incidentId, alert.reportRevision, alert.locationRevision, alert.status, connected, detailAttempt]);
   async function accept() {
     setBusy(true); setError('');
-    try { await httpsCallable(firebaseClient().functions, 'acceptIncident', { timeout: 15000 })({ incidentId: alert.incidentId }); onAccepted?.(alert.incidentId); }
+    try { await httpsCallable(firebaseClient().functions, alert.offerKind === 'handover' ? 'acceptIncidentHandover' : 'acceptIncident', { timeout: 15000 })({ incidentId: alert.incidentId, ...(alert.offerKind === 'handover' ? { handoverId: alert.handoverId } : {}) }); onAccepted?.(alert.incidentId); }
     catch (err) { setError(readableError(err)); }
     finally { setBusy(false); }
   }
@@ -70,13 +70,13 @@ function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false,
   const privateData = connected && details?.revision === alert.reportRevision ? details : undefined;
   return <View style={[styles.card, !terminal && !assigned && styles.urgent]}>
     {(assigned || terminal) && <Text style={styles.cardTitle}>{assigned ? 'Đang phụ trách' : 'Đã kết thúc'}</Text>}
-    <Text>Ca {alert.incidentId.slice(0, 10)} · Đường thẳng: {alert.distanceMeters} m</Text>
+    <Text>{alert.offerKind === 'handover' ? alert.status === 'offered' ? 'Đề nghị bàn giao · ' : 'Đã nhận bàn giao · ' : ''}Ca {alert.incidentId.slice(0, 10)} · Đường thẳng lúc mời: {alert.distanceMeters} m</Text>
     <Text style={!terminal && !assigned ? styles.urgentTitle : styles.revision}>{statusLabel[visibleStatus] || visibleStatus}</Text>
 
     {!terminal && <Observation answers={alert.answers} />}
-    {alert.status === 'offered' && !offerExpired && <><Text style={styles.note}>Nhận ca để mở hồ sơ được chia sẻ và bản đồ. Tọa độ tính tuyến gửi tới OSRM.</Text><Button loading={busy} title={busy ? 'Đang nhận…' : 'Nhận ca'} disabled={busy || !connected || !canAccept} color={palette.emergency.primary} onPress={accept} /></>}
+    {alert.status === 'offered' && !offerExpired && <><Text style={styles.note}>Nhận ca để mở hồ sơ được chia sẻ và bản đồ. Tọa độ tính tuyến gửi tới OSRM.</Text><Button loading={busy} title={busy ? 'Đang nhận…' : alert.offerKind === 'handover' ? 'Xác nhận nhận bàn giao' : 'Nhận ca'} disabled={busy || !connected || !canAccept} color={palette.emergency.primary} onPress={accept} /></>}
     {assigned && <View style={styles.answers}>
-      <Text>{privateData ? `Người báo: ${privateData.phone || 'Không cung cấp'}` : 'Đang tải chi tiết ca…'}</Text>
+      <Text>{privateData ? `Người báo: ${privateData.phone || 'Không cung cấp'}` : 'Đang tải chi tiết ca…'}</Text>{!!privateData?.phone && <Button variant="secondary" title="Gọi người báo" onPress={() => Linking.openURL('tel:' + privateData.phone).catch(() => setError('Chưa mở được cuộc gọi.'))} />}
       {!!privateData?.meetingNote && <View style={styles.card}><Text style={styles.cardTitle}>Mốc tìm bệnh nhân</Text><Text>{privateData.meetingNote}</Text><Text style={styles.note}>Do người báo cung cấp · Điểm GPS không thay đổi.</Text></View>}
       {!privateData && !!error && <Button title="Tải lại chi tiết ca" disabled={!connected} onPress={() => { setError(''); setDetailAttempt(value => value + 1); }} />}
       {privateData?.reportedAtMs ? <Text>Người báo cập nhật lúc {new Date(privateData.reportedAtMs).toLocaleTimeString('vi-VN')}</Text> : null}{privateData?.patientProfile ? <View style={styles.answers}><Text style={styles.cardTitle}>Hồ sơ bệnh nhân</Text><Text>Họ tên: {privateData.patientProfile.fullName}</Text><Text>Dị ứng: {privateData.patientProfile.allergies.join(', ') || 'Chưa khai báo'}</Text><Text>Người liên hệ: {privateData.patientProfile.emergencyContactName || 'Chưa khai báo'}{privateData.patientProfile.emergencyContactRelationship ? ` · ${privateData.patientProfile.emergencyContactRelationship}` : ''}</Text><Text>Số khẩn cấp: {privateData.patientProfile.emergencyContactPhone || 'Chưa khai báo'}</Text><Text>Thông tin tự khai, chưa xác minh y tế.</Text></View> : privateData && <Text>Bệnh nhân không chia sẻ hồ sơ sức khỏe.</Text>}

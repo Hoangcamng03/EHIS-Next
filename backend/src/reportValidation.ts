@@ -27,7 +27,8 @@ export function parseCreateIncident(input: unknown) {
   return { cardId: identifier(data.cardId), requestId: identifier(data.requestId), location: { latitude, longitude } };
 }
 export function parseBystanderReport(input: unknown) {
-  const data = objectValue(input, ['incidentId', 'submissionId', 'phone', 'answers', 'meetingNote']);
+  const data = objectValue(input, ['incidentId', 'submissionId', 'phone', 'answers', 'meetingNote', 'expectedRevision']);
+  if (data.expectedRevision !== undefined && (!Number.isInteger(data.expectedRevision) || Number(data.expectedRevision) < 0)) throw new Error('Invalid expected revision');
   const answers = objectValue(data.answers, ['responsiveness', 'breathing', 'bleeding', 'breathingDetail', 'bleedingDetail']);
   const allowed: Record<string, string[]> = {
     responsiveness: ['responsive', 'unresponsive', 'unknown'],
@@ -52,6 +53,7 @@ export function parseBystanderReport(input: unknown) {
   return {
     incidentId: identifier(data.incidentId), submissionId: identifier(data.submissionId), phone,
     answers: answers as ObservationAnswers,
+    ...(data.expectedRevision !== undefined ? { expectedRevision: Number(data.expectedRevision) } : {}),
     ...(data.meetingNote !== undefined ? { meetingNote: meetingNote(data.meetingNote) } : {}),
   };
 }

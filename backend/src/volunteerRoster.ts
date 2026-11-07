@@ -3,6 +3,7 @@ import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
 import { guardedCall } from './guards';
 import { identifier } from './reportValidation';
 import { verificationInput } from './volunteerVerification';
+import { volunteerReadiness } from './readiness';
 function administrator(auth: CallableRequest<unknown>['auth']) {
   if (auth?.token.admin !== true) throw new HttpsError('permission-denied', 'Chỉ quản trị được quản lý danh sách TNV.');
 }
@@ -18,8 +19,8 @@ export const listVolunteerRoster = guardedCall('listVolunteerRoster', async requ
   if (area) query = query.where('serviceArea', '==', area);
   if (organisation) query = query.where('organisation', '==', organisation);
   if (data.after !== undefined) { try { query = query.startAfter(identifier(data.after)); } catch { throw new HttpsError('invalid-argument', 'Mốc tải danh sách không hợp lệ.'); } }
-  const page = await query.limit(51).get(), docs = page.docs.slice(0, 50);
-  return { volunteers: docs.map(doc => { const v = doc.data(); return { uid: doc.id, fullName: v.fullName || 'Tài khoản diễn tập cũ', phone: v.phone || '', homeAddress: v.homeAddress || '', workAddress: v.workAddress || '', organisation: v.organisation || '', serviceArea: v.serviceArea || '', trainingLevel: v.trainingLevel || null, clinicalMonths: v.clinicalMonths ?? null, verificationStatus: v.verificationStatus, verificationPolicyVersion: v.verificationPolicyVersion ?? null, isAvailable: v.isAvailable === true, hasActiveCase: !!v.activeIncidentId }; }), next: page.size > 50 ? docs.at(-1)!.id : null };
+  const page = await query.limit(51).get(), docs = page.docs.slice(0, 50), now = Date.now();
+  return { checkedAtMs: now, volunteers: docs.map(doc => { const v = doc.data(); return { uid: doc.id, fullName: v.fullName || 'Tài khoản diễn tập cũ', phone: v.phone || '', homeAddress: v.homeAddress || '', workAddress: v.workAddress || '', organisation: v.organisation || '', serviceArea: v.serviceArea || '', trainingLevel: v.trainingLevel || null, clinicalMonths: v.clinicalMonths ?? null, verificationStatus: v.verificationStatus, verificationPolicyVersion: v.verificationPolicyVersion ?? null, isAvailable: v.isAvailable === true, hasActiveCase: !!v.activeIncidentId, ...volunteerReadiness(v, now) }; }), next: page.size > 50 ? docs.at(-1)!.id : null };
 });
 export const updateVolunteerRegion = guardedCall('updateVolunteerRegion', async request => {
   administrator(request.auth); const data = verificationInput(request.data, ['uid', 'serviceArea']);

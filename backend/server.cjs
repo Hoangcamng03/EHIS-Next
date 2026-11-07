@@ -16,6 +16,7 @@ const names = new Set(['getMyAccess','setAccountPurpose','savePatientProfile','c
 for (const name of ['setVolunteerReferrer','listReferrerApplications','submitVolunteerReferral','registerVolunteerDevice']) names.add(name);
 for (const name of ['listVolunteerRoster','updateVolunteerRegion','setVolunteerSuspension']) names.add(name);
 for (const name of ['getOperationsOverview','retryPendingNotifications']) names.add(name);
+for (const name of ['getBystanderReport','listHandoverHistory','listHandoverCases','listHandoverCandidates','proposeIncidentHandover','acceptIncidentHandover','cancelIncidentHandover','runMaintenanceNow']) names.add(name);
 app.get('/api/health', functions.health);
 app.all('/api/:operation', (req,res,next) => {
   if (!names.has(req.params.operation)) return res.status(404).json({ error: { status: 'NOT_FOUND', message: 'Unknown endpoint' } });

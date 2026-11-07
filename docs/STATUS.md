@@ -1,5 +1,7 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
+> **Đợt 0.4.14 đang phát hành:** code/local UI và kiểm thử đã đạt; cloud/APK mới chưa ghi đạt. Xem [kiểm chứng 0.4.14](testing/verification/VERIFICATION_V0_4_14.md) và [cách bàn giao](operations/HANDOVER_AND_MAINTENANCE.md). Các mốc 0.4.13 bên dưới là bản trước.
+
 Mốc rà mới ngày07/11/2026: [đánh giá toàn diện](testing/verification/PRODUCT_REVIEW_2026_11_07.md). Bản0.4.13 vẫn **nghiệm thu một phần**: 67 test/14 suites, tải local32 ca và cloud là bằng chứng05/11, chưa chạy lại toàn bộ trong phiên review. APK0.4.13 đã FINISHED và verifier artifact đạt; trang tải vẫn0.4.12, điện thoại chưa nghiệm thu. Bản đồ nền/thiết bị và các thiếu sót vận hành còn mở.
 
 ## 1. Bản đang bàn giao
@@ -46,3 +48,4 @@ Nhóm chưa có đầu mối trực; không tự điền số cá nhân/115. FCM
 Ghi bằng chứng ở lab note trước, cập nhật bảng phần 1 theo kết quả thực; chưa thử thì không đổi thành Đạt. Hướng dẫn thao tác ở trang cài/demo/phát hành; không chép lịch sử dài vào trang trạng thái này.
 
 [Lịch sử trạng thái trước lần tổ chức](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/STATUS_HISTORY.md).
+

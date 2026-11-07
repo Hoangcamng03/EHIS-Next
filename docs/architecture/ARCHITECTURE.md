@@ -53,3 +53,7 @@ TNV bật sẵn sàng muộn được tìm lại các ca gần còn hạn trong 
 ## Thông báo Android 0.4.11
 
 Ghi lời mời và push job cùng transaction → Vercel `waitUntil` → FCM HTTP v1 → kênh thông báo Android khi Home/khóa. Nội dung màn hình khóa chỉ nói có yêu cầu, không chứa hồ sơ. App đang mở dùng feed/âm báo hiện có để tránh hai chuông. Cần APK mới và người dùng cho phép thông báo; GPS vẫn chỉ mới trong năm phút, không có GPS nền. Hàng đợi thử lại phụ thuộc truy cập tiếp theo/cron, chưa phải worker có cam kết thời gian. [Giới hạn và nghiệm thu máy thật](../operations/ANDROID_BACKGROUND_ALERTS.md).
+
+## Bàn giao và bảo trì từ mã 0.4.14
+
+Admin gửi đề nghị, TNV mới xác nhận rồi transaction mới đổi người phụ trách; ca không tự kết thúc do thời gian. Báo cáo người gửi có khôi phục theo owner/revision. Maintenance dọn nhiều trang có khóa/kết quả để kiểm tra tồn đọng. [Quy trình và giới hạn](../operations/HANDOVER_AND_MAINTENANCE.md); [API](API_CONTRACT.md#phục-hồi-và-bàn-giao-0414).

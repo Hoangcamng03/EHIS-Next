@@ -37,6 +37,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [API_CONTRACT](architecture/API_CONTRACT.md) | Giao tiếp app/frontend/web/backend và schema; kiểm tra trạng thái source trước khi áp dụng |
 | [VOLUNTEER_VERIFICATION](operations/VOLUNTEER_VERIFICATION.md) | Người quản lý xác minh TNV, checklist, phân loại và duyệt hai bước |
 | [ANDROID_BACKGROUND_ALERTS](operations/ANDROID_BACKGROUND_ALERTS.md) | Cấu hình thông báo Home/khóa màn hình, giới hạn GPS và bài thử máy thật |
+| [HANDOVER_AND_MAINTENANCE](operations/HANDOVER_AND_MAINTENANCE.md) | Bàn giao có xác nhận, lịch sử, GPS mới và dọn dữ liệu nhiều trang |
 | [BYSTANDER_FLOW](architecture/BYSTANDER_FLOW.md) | Báo hỗ trợ hai bước và cập nhật thông tin |
 | [NAVIGATION](architecture/NAVIGATION.md) | Bản đồ/chỉ đường, điều kiện và giới hạn |
 | [VOLUNTEER_ALERTS](architecture/VOLUNTEER_ALERTS.md) | Tham chiếu tính năng cảnh báo từ 0.4.3, không phải báo cáo thiết bị mới |
@@ -59,6 +60,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 
 | Trang | Nội dung |
 | --- | --- |
+| [VERIFICATION_V0_4_14](testing/verification/VERIFICATION_V0_4_14.md) | Bàn giao xác nhận, phục hồi báo cáo, bảo trì và số đo thực từng lớp |
 | [PRODUCT_REVIEW_2026_11_07](testing/verification/PRODUCT_REVIEW_2026_11_07.md) | Rà toàn diện UI/flow/quyền/vận hành; backlog theo ưu tiên, APK mới được xác minh và giới hạn kiểm tra |
 | [VERIFICATION_V0_4_13](testing/verification/VERIFICATION_V0_4_13.md) | Vòng cải thiện GPS/điểm hẹn/theo dõi diễn tập; kết quả từng lớp và giới hạn còn mở |
 | [VERIFICATION_V0_4_13.json](testing/verification/VERIFICATION_V0_4_13.json) | Timestamp, mã nguồn, hash log, 320 API và 32 mẫu lời mời local; không phải số đo cloud/điện thoại |
@@ -123,3 +125,4 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 Bốn bản sao *_HISTORY, COMPLETE_FLOW và TRIAL_CHECKLIST cũ đã bỏ vì trùng lặp hoặc thay bằng flow nghiệm thu hiện hành. Nội dung vẫn có trong [snapshot trước sắp xếp](https://github.com/Hoangcamng03/EHIS-Next/tree/f921d33/docs), dùng để truy vết. Không thêm bản sao toàn file chỉ để lưu lịch sử; dùng Git và lab note.
 
 **Quy tắc thêm tài liệu:** chọn đúng thư mục demo, architecture, development, testing, operations hoặc planning; thêm một mục vào bảng tương ứng và ghi LAB_NOTES. Trạng thái phiên bản dẫn về STATUS. File verification/audit có bằng chứng riêng được giữ; dữ liệu trùng hoặc hướng dẫn đã thay thế không để lẫn với hướng dẫn hiện hành.
+

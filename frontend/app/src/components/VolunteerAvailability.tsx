@@ -12,6 +12,7 @@ import { MapPoint, parsePoint } from '../lib/map';
 import { firstUsableLocation } from '../lib/location-request';
 import type { LocationFix } from '../lib/live-location';
 import { availabilityState } from '../lib/availability';
+import { shouldSyncAvailability } from '../lib/availability-sync';
 
 type Volunteer = { verificationStatus: string; isAvailable: boolean; activeIncidentId?: string | null; location?: MapPoint; lastSeenAt?: { toMillis(): number } };
 export async function currentLocation(askPermission: boolean, signal?: AbortSignal) {
@@ -38,6 +39,7 @@ export function VolunteerAvailability({ uid, now, paused = false, prepareAlerts 
   const epoch = useRef(0);
   const locationRequest = useRef<AbortController | null>(null);
   const availabilityWrite = useRef<Promise<unknown> | null>(null);
+  const lastSent = useRef<{ point: MapPoint; at: number } | null>(null);
   const [phase, setPhase] = useState('');
   useEffect(() => () => { epoch.current += 1; locationRequest.current?.abort(); }, []);
   useEffect(() => { if (paused) { epoch.current += 1; locationRequest.current?.abort(); } }, [paused]);
@@ -45,31 +47,33 @@ export function VolunteerAvailability({ uid, now, paused = false, prepareAlerts 
     setVerifiedFromServer(!snapshot.metadata.fromCache);
     setVolunteer(snapshot.exists() ? snapshot.data() as Volunteer : undefined);
   }, err => { setVerifiedFromServer(false); setError(readableError(err)); }), [uid]);
-  const refresh = useCallback(async (method: 'gps' | 'demo', askPermission: boolean) => {
+  const refresh = useCallback(async (method: 'gps' | 'demo', askPermission: boolean, force = false) => {
     const startedAt = epoch.current;
     locationRequest.current?.abort(); const abort = new AbortController(); locationRequest.current = abort;
     if (askPermission) setPhase('Đang lấy vị trí · tối đa 12 giây…');
     const location = method === 'demo' && isTrialMode ? demoPoint.current : await currentLocation(askPermission, abort.signal);
     if (startedAt !== epoch.current || firebaseClient().auth.currentUser?.uid !== uid) return;
+    if (!shouldSyncAvailability(lastSent.current, location, Date.now(), force || askPermission)) return;
     if (askPermission) setPhase('Đang tìm ca gần bạn…');
     const write = updateAvailability({ available: true, location });
     availabilityWrite.current = write;
     await write;
+    lastSent.current = { point: location, at: Date.now() };
   }, [uid]);
   useEffect(() => {
     if (paused || !verifiedFromServer || !volunteer?.isAvailable || volunteer.activeIncidentId || volunteer.verificationStatus !== 'approved') return;
     let inFlight = false, cancelled = false;
-    const tick = async () => {
+    const tick = async (force = false) => {
       if (AppState.currentState !== 'active' || inFlight) return;
       const refreshEpoch = epoch.current;
       inFlight = true;
-      try { await refresh(source || 'gps', false); if (!cancelled) setError(''); }
+      try { await refresh(source || 'gps', false, force); if (!cancelled) setError(''); }
       catch { if (!cancelled && refreshEpoch === epoch.current) setError('Chưa làm mới vị trí. Kiểm tra kết nối và bấm bật sẵn sàng lại.'); }
       finally { inFlight = false; }
     };
     const interval = setInterval(() => { void tick(); }, 30000);
     const resume = AppState.addEventListener('change', state => {
-      if (state === 'active') void tick(); else locationRequest.current?.abort();
+      if (state === 'active') void tick(true); else locationRequest.current?.abort();
     });
     // Restore foreground refresh after reopening an already-available account; never prompt for permission here.
     if (!source) void tick();
@@ -105,7 +109,7 @@ export function VolunteerAvailability({ uid, now, paused = false, prepareAlerts 
     <ToggleRow accessibilityLabel="Sẵn sàng nhận yêu cầu hỗ trợ" label={busy ? phase || "Đang xác nhận…" : volunteer?.activeIncidentId ? "Hoàn tất ca để nhận ca mới" : state.kind === 'stale' ? 'Làm mới GPS để nhận ca mới' : "Sẵn sàng nhận ca gần bạn"} value={state.ready} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} onValueChange={value => { if (value) void enable('gps'); else void disable(); }} />
     {volunteer?.isAvailable && !volunteer.activeIncidentId && approved && <Text accessibilityRole={state.kind === 'stale' ? 'alert' : undefined}>{state.ageSeconds === null ? 'Chưa xác nhận được thời điểm GPS.' : `Vị trí cập nhật ${state.ageSeconds < 60 ? `${state.ageSeconds} giây` : `${Math.floor(state.ageSeconds / 60)} phút`} trước.`}{state.kind === 'stale' ? ' Chưa được chọn cho ca mới; mở GPS để làm mới.' : ''}</Text>}
     {state.kind === 'stale' && <Button variant="secondary" title="Tắt trạng thái sẵn sàng" onPress={disable} disabled={paused || busy} />}
-    <InfoDisclosure title="Vị trí và tìm ca"><Text>Gửi vị trí khi bật sẵn sàng, làm mới mỗi 30 giây khi app mở. Tìm ca trong 5km, kể cả ca báo trước còn hạn. Điểm cũ quá 5 phút không được chọn cho ca mới.</Text></InfoDisclosure>
+    <InfoDisclosure title="Vị trí và tìm ca"><Text>Kiểm tra GPS mỗi 30 giây khi app mở; gửi khi di chuyển từ 100 m hoặc sau tối đa 90 giây đứng yên. Tìm ca trong 5km, kể cả ca báo trước còn hạn. Điểm cũ quá 5 phút không được chọn cho ca mới.</Text></InfoDisclosure>
     {volunteer?.isAvailable && <Button variant="secondary" loading={busy} title={busy ? 'Đang cập nhật…' : 'Làm mới vị trí'} onPress={() => enable('gps')} disabled={paused || busy || !approved || !!volunteer?.activeIncidentId} />}
     {isTrialMode && <InfoDisclosure title="Vị trí giả · chỉ local"><Text>Chỉnh tọa độ để diễn tập trên máy tính.</Text>
       <TextInput accessibilityLabel="Vĩ độ TNV giả" value={latitude} onChangeText={setLatitude} editable={!busy && !volunteer?.activeIncidentId} style={{ backgroundColor: 'white', borderRadius: 8, padding: 12 }} />

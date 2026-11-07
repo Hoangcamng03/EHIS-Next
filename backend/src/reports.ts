@@ -127,6 +127,7 @@ export const submitBystanderReport = onCall('submitBystanderReport', async reque
     }
     if (!['dispatching', 'accepted', 'arrived'].includes(incident.data()!.status)) throw new HttpsError('failed-precondition', 'Ca đã đóng, không nhận bổ sung.');
     if (incident.data()!.status === 'dispatching' && incident.data()!.offerExpiresAt.toMillis() <= Date.now()) throw new HttpsError('failed-precondition', 'Lời mời đã hết hạn.');
+    if (data.expectedRevision !== undefined && data.expectedRevision !== Number(incident.data()!.reportRevision || 0)) throw new HttpsError('failed-precondition', 'Thông tin đã được cập nhật ở nơi khác. Tải lại trước khi gửi.', { reason: 'report-conflict' });
     const revision = Number(incident.data()!.reportRevision ?? 0) + 1;
     const updatedAt = FieldValue.serverTimestamp();
     // Merge preserves the optional meeting note when an older APK submits the original payload.
@@ -135,8 +136,9 @@ export const submitBystanderReport = onCall('submitBystanderReport', async reque
     tx.create(event, { revision, fingerprint, createdAt: updatedAt });
     tx.update(db.doc(`reporters/${uid}/incidentStatuses/${data.incidentId}`), { reportRevision: revision, reportSubmitted: true });
     // Observations go to offered volunteers; the optional phone stays private until assignment.
-    const recipients: string[] = incident.data()!.acceptedBy ? [incident.data()!.acceptedBy] : incident.data()!.invitedVolunteerIds;
-    for (const volunteerUid of recipients) { queuePush(tx, db, volunteerUid, data.incidentId, 'update', revision, incident.data()!.acceptedBy ? Timestamp.fromMillis(Date.now() + 120000) : incident.data()!.offerExpiresAt); tx.set(db.doc(`volunteers/${volunteerUid}/alerts/${data.incidentId}`), {
+    const pending = incident.data()!.handover?.expiresAt?.toMillis() > Date.now() ? incident.data()!.handover : null;
+    const recipients: string[] = incident.data()!.acceptedBy ? [...new Set([incident.data()!.acceptedBy as string, ...(pending ? [pending.targetUid as string] : [])])] : incident.data()!.invitedVolunteerIds;
+    for (const volunteerUid of recipients) { queuePush(tx, db, volunteerUid, data.incidentId, 'update', revision, pending?.targetUid === volunteerUid ? pending.expiresAt : incident.data()!.acceptedBy ? Timestamp.fromMillis(Date.now() + 120000) : incident.data()!.offerExpiresAt, undefined, pending?.targetUid === volunteerUid ? pending.id : undefined); tx.set(db.doc(`volunteers/${volunteerUid}/alerts/${data.incidentId}`), {
       reportRevision: revision, answers: data.answers, reportUpdatedAt: updatedAt,
     }, { merge: true }); }
     return { received: true, revision };
@@ -161,6 +163,7 @@ export const acceptIncident = onCall('acceptIncident', async request => {
       throw new HttpsError('failed-precondition', 'Ca đã được nhận, hết hạn hoặc TNV đang bận.');
     }
     tx.update(ref, { status: 'accepted', acceptedBy: uid, acceptedAt: FieldValue.serverTimestamp() });
+    tx.create(db.collection('auditLogs').doc(), { actorUid: uid, action: 'incident-accepted', incidentId: id, createdAt: FieldValue.serverTimestamp() });
     tx.update(volunteerRef, { activeIncidentId: id, isAvailable: false });
     tx.update(db.doc(`reporters/${incident.data()!.reporterUid}/incidentStatuses/${id}`), { status: 'accepted' });
     tx.set(db.doc(`patients/${incident.data()!.patientId}/incidentStatuses/${id}`), { status: 'accepted' }, { merge: true });
@@ -252,8 +255,11 @@ export const finishIncident = onCall('finishIncident', async request => {
     }
     const cardRef = db.doc(`cards/${value.cardId}`);
     const card = await tx.get(cardRef);
-    tx.update(ref, { status: data.outcome, closedAt: FieldValue.serverTimestamp(), purgeAfter: Timestamp.fromMillis(Date.now() + 86400000), closedBy: uid });
-    tx.update(db.doc(`reporters/${value.reporterUid}/incidentStatuses/${data.incidentId}`), { status: data.outcome });
+    const pendingHandover = value.handover?.id ? await tx.get(ref.collection('handoverRequests').doc(value.handover.id)) : null;
+    if (pendingHandover?.exists && pendingHandover.data()?.status === 'pending') tx.update(pendingHandover.ref, { status: 'case-closed', closedAt: FieldValue.serverTimestamp() });
+    tx.create(db.collection('auditLogs').doc(), { actorUid: uid, action: 'incident-' + data.outcome, incidentId: data.incidentId, createdAt: FieldValue.serverTimestamp() });
+    tx.update(ref, { status: data.outcome, closedAt: FieldValue.serverTimestamp(), purgeAfter: Timestamp.fromMillis(Date.now() + 86400000), closedBy: uid, handover: FieldValue.delete() });
+    tx.update(db.doc(`reporters/${value.reporterUid}/incidentStatuses/${data.incidentId}`), { status: data.outcome, handoverPending: false });
     tx.set(db.doc(`patients/${value.patientId}/incidentStatuses/${data.incidentId}`), { status: data.outcome }, { merge: true });
     if (card.data()?.activeIncidentId === data.incidentId) tx.update(cardRef, { activeIncidentId: null });
     if (data.outcome === 'completed' && volunteer.data()?.activeIncidentId === data.incidentId) tx.update(volunteerRef, { activeIncidentId: null, isAvailable: false });
@@ -277,9 +283,22 @@ export const getVolunteerIncidentDetails = onCall('getVolunteerIncidentDetails',
     const card = await tx.get(db.doc(`cards/${incident.data()!.cardId}`));
     const patient = card.data()?.shareProfile === true ? await tx.get(db.doc(`patients/${incident.data()!.patientId}`)) : null;
     const profile = patient?.data();
+    tx.create(db.collection('auditLogs').doc(), { actorUid: uid, action: 'incident-private-read', incidentId: id, createdAt: FieldValue.serverTimestamp() });
     return { incidentId: id, phone: report.data()?.phone ?? null, answers: report.data()?.answers ?? null, meetingNote: report.data()?.meetingNote ?? '',
       revision: report.data()?.revision ?? 0, reportedAtMs: report.data()?.updatedAt?.toMillis?.() ?? null, location: location.data() ?? null, locationRevision: incident.data()!.locationRevision ?? 0,
       patientProfile: profile ? { fullName: profile.fullName, allergies: profile.allergies ?? [], emergencyContactPhone: profile.emergencyContactPhone ?? null,
         emergencyContactName: profile.emergencyContactName ?? null, emergencyContactRelationship: profile.emergencyContactRelationship ?? null } : null };
+  });
+});
+
+// Only the session which created the incident may restore its own report draft.
+export const getBystanderReport = onCall('getBystanderReport', async request => {
+  const uid = requiredUid(request.auth), id = validate(incidentInput, request.data), db = getFirestore();
+  return db.runTransaction(async tx => {
+    const ref = db.doc(`incidents/${id}`), incident = await tx.get(ref), value = incident.data();
+    if (!value || value.reporterUid !== uid) throw new HttpsError('permission-denied', 'Phiên này không sở hữu yêu cầu.');
+    if (!['dispatching', 'accepted', 'arrived'].includes(value.status) || value.status === 'dispatching' && value.offerExpiresAt.toMillis() <= Date.now()) throw new HttpsError('failed-precondition', 'Ca đã đóng hoặc hết hạn.');
+    const report = (await tx.get(ref.collection('private').doc('reporter'))).data();
+    return { phone: report?.phone ?? '', answers: report?.answers ?? null, meetingNote: report?.meetingNote ?? '', revision: Number(value.reportRevision || 0), reportedAtMs: report?.updatedAt?.toMillis?.() ?? null };
   });
 });

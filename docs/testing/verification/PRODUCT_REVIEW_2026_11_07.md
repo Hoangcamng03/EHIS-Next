@@ -181,3 +181,7 @@ NFC, chẩn đoán AI, chat/video, điểm thưởng, full EHR, dẫn đường 
 | Quyền/listeners/phát hành | [Rules](../../../firestore.rules), [installer manifest](../../../frontend/web/src/config/releases.json), [quy trình phát hành](../../operations/MOBILE_RELEASES.md) |
 
 Ảnh và records của phiên lưu trong thư mục ignored `.local/review-2026-11-07`; không có mật khẩu/health record thật trong tài liệu public. Phiên này chỉ cập nhật đánh giá/trạng thái artifact và lab note, không sửa/deploy hành vi ứng dụng. Mọi mục trên là backlog/điều kiện nghiệm thu cho đến khi có commit sửa và bằng chứng mới.
+
+## Theo dõi sau review
+
+Bản review trên là ảnh chụp hiện trạng trước sửa. Đợt0.4.14 đang xử lý R02 (bàn giao xác nhận), R04 (dọn nhiều trang/giám sát), R06 (giảm ghi GPS đứng yên), R08–R09 (khôi phục báo cáo/màn lỗi), R12 (metadata đọc riêng/nhận/bàn giao), R16 (GPS roster). Không tự đánh dấu đóng toàn bộ hoặc coi đã đạt điện thoại/ca thật. Xem [STATUS](../../STATUS.md) và [quy trình vận hành mới](../../operations/HANDOVER_AND_MAINTENANCE.md).
