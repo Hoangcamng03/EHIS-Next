@@ -1,27 +1,19 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
-> **Web/backend hiện hành0.4.14:** đã deploy, cloud flow giả và38 tệp Hosting đối chiếu đạt. Source runtime b014a7b/CI SUCCESS;71 test/15 suites. APK14/code12 đang build, **chưa có file14 được xác minh**; installer hiện13/code11. Bàn giao dùng web14 trong lúc chờ. [Bằng chứng và giới hạn](testing/verification/VERIFICATION_V0_4_14.md) · [Cách bàn giao](operations/HANDOVER_AND_MAINTENANCE.md).
->
-> Hiệu suất paired: lượt1 RECHECK, lượt2 PASS không đổi mã/ngưỡng; không gọi mọi API nhanh hơn. Điện thoại thật vẫn chưa nghiệm thu.
 
-Lịch sử trước khi triển khai14 ngày07/11/2026: [đánh giá toàn diện](testing/verification/PRODUCT_REVIEW_2026_11_07.md). Bản0.4.13 vẫn **nghiệm thu một phần**: 67 test/14 suites, tải local32 ca và cloud là bằng chứng05/11, chưa chạy lại toàn bộ trong phiên review. APK0.4.13 đã FINISHED và verifier artifact đạt; trang tải vẫn0.4.12, điện thoại chưa nghiệm thu. Bản đồ nền/thiết bị và các thiếu sót vận hành còn mở.
+Cập nhật07/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng14](testing/verification/VERIFICATION_V0_4_14.md) · [Số liệu gốc](testing/verification/VERIFICATION_V0_4_14.json).
 
 ## 1. Bản đang bàn giao
 
-**0.4.14:** bàn giao xác nhận, phục hồi báo cáo/revision, GPS roster và maintenance nhiều trang. Source/local/CI/cloud/artifact có [báo cáo riêng](testing/verification/VERIFICATION_V0_4_14.md); chưa có nghiệm thu máy thật.
-
-Các mốc0.4.13 dưới đây được giữ để truy vết; trạng thái14 ở đầu trang. **0.4.13:** GPS mới/cũ, mốc tìm bệnh nhân riêng tư, sửa giữ sót triệu chứng và bảng quản trị diễn tập. Đầu mối trực vẫn trống theo xác nhận. [Số thực/timestamp/hash log](testing/verification/VERIFICATION_V0_4_13.json).
-
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
-| App web và web người báo/admin/referrer | 0.4.13 đã deploy; 38 HTML/JS/CSS khớp build; browser thấy version mới, quản trị/Privacy/trang cài đúng | Local browser PARTIAL vì tile map; nghiệm thu trên thiết bị của nhóm còn thiếu |
-| Backend | 0.4.13: flow cloud giả/overview admin/index mới/meetingNote riêng tư đạt; quyền tạm của probe đã thu; giữ runtime ESM và quyền hiện có | Chưa tải cloud/điện thoại; không có worker liên tục hoặc cam kết giao FCM |
-| APK Android | [Tải APK0.4.12/code10](https://expo.dev/artifacts/eas/eHIioq5ReWQNAuqHuHxGi3e2eXE4TkJdCbCSULWc0Fk.apk) từ bc3f2be; EAS FINISHED, artifact102.895.417 bytes, SHA256 trong báo cáo; đúng package/cloud/tone/quyền rung | Chưa nghiệm thu máy thật/chứng chỉ ký; chỉ cài khi không có ca active, không cần Expo Go |
-| Artifact Android0.4.13 | [Build code11](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/97330def-c292-4f69-b20c-b146f3fe520b) từ359427b: FINISHED, verifier ngày07/11 đạt version/package/target/tone/quyền;102897757 bytes, SHA256 trong báo cáo review | Trang cài vẫn0.4.12; chưa đổi manifest tải/deploy Hosting trong phiên review, chưa thử ký/cài/điện thoại |
-| Source kiểm tra | main/runtime359427b; 67 test/14 suites, scale cuối32 ca/320 API/p95 lời mời925 ms local; [CI run42063552503 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42063552503) | Không diễn giải CI/local thành nghiệm thu máy thật, SLA hoặc ca thật |
-| Đối chiếu trước sửa04/11 | Runtime không đổi từ 22aff2e; local 56 test/12 suites/multi 15/ba lượt portable/cloud flow/browser/JS export đạt theo báo cáo | Functions load RECHECK >15 s; map preview/tile lỗi; audit còn 24 app/16 web/9 backend. CI cũ không thay kết quả phiên mới |
-| iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
-| Tài khoản demo | Sáu tài khoản cloud cấp ngày 25/10, kiểm tra login/quyền đạt | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra lại trước mỗi vòng |
+| App web và web người báo/admin/referrer |0.4.14 đã deploy;38 HTML/JS/CSS khớp bytes build; luồng UI local thao tác thật đạt | Link trang cài14 đã kiểm tra; chưa browser cloud/điện thoại; một lượt tile/OSRM local không bảo đảm dịch vụ |
+| Backend |0.4.14 Vercel, đúng project/health/401;2 flow cloud giả đạt, gồm bàn giao xác nhận/quyền riêng tư và thu quyền fixture tạm | Chưa tải lớn cloud/worker liên tục/SLA; giữ Firebase Spark/Vercel Hobby/quyền hiện có |
+| Android |[APK0.4.14/code12](https://expo.dev/artifacts/eas/DzqyTR2sm8Ng3t9FbNvmLDyi74aMAAJIDBf8Iw6QxOE.apk), buildcad7b4b8 sourceb014a7b FINISHED; artifact verifier đạt,102899741 bytes; SHA256 trong báo cáo | Chưa nghiệm thu cài/chứng chỉ ký/GPS/âm/rung/Home/khóa trên máy thật. Chỉ cài khi không có ca active |
+| Source/CI |main, runtime b014a7b;71 test/15 integration suites; [CI42390214618 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42390214618) | CI/source/build/deploy không thay nghiệm thu thiết bị hoặc y tế |
+| Tải/hiệu suất local |2 lượt portable, mỗi lượt1000 Auth giả/128 phiên/32feed/32ca/320API; paired2×96 ca đo+16 warmup tổng | Lượt paired1 RECHECK, lượt2 PASS không đổi mã/ngưỡng; không khẳng định mọi API nhanh hơn hoặc1000 người thao tác cùng lúc |
+| iOS native |Hoãn, chưa IPA/TestFlight; iPhone dùng app web | Chưa tài khoản/ký/nghiệm thu iOS native |
+| Tài khoản demo |Bộ cloud25/10 nằm trong repo riêng tư; không đổi bộ ổn định trong đợt14 | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra trước buổi demo |
 
 [Mở app](https://ehis-next-20261021-hc03-app.web.app) · [Trang cài](https://ehis-next-20261021-hc03.web.app/install) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin) · [Tài khoản](demo/MANUAL_DEMO_ACCOUNTS.md).
 

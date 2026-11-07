@@ -24,7 +24,7 @@ Phạm vi: diễn tập phần mềm bằng dữ liệu giả. Không phải ngh
 | Cloud/backend | PASS backend14 deploy/health+401, hai flow cloud giả, owner restore/roster/candidates/transfer/private access/history; thu quyền admin/referrer tạm và2 TNV fixture mỗi flow | Không thử tải lớn/điện thoại trên cloud; lượt deploy đầu thất bại do CLI đăng xuất, probe trước deploy chặn version13→14 |
 | Hosting | PASS hai site14 deploy và38 HTML/JS/CSS khớp bytes build | Browser local đã thao tác; không ghi thành browser cloud hoặc Android |
 | CI | [42390214618 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42390214618), đúng b014a7b | Tách CI khỏi nghiệm thu thiết bị |
-| Android | Build14/code12 cad7b4b8 đang IN_PROGRESS tại lần kiểm tra16:27:41UTC | Chưa có artifact14 để xác minh; installer hiện13/code11 đã verifier đạt, bàn giao dùng web14 trong lúc chờ |
+| Android | [APK14/code12](https://expo.dev/artifacts/eas/DzqyTR2sm8Ng3t9FbNvmLDyi74aMAAJIDBf8Iw6QxOE.apk), buildcad7b4b8 sourceb014a7b FINISHED; artifact verifier PASS,102899741 bytes | Chưa thử cài, chứng chỉ ký hay GPS/chuông/Home/khóa trên máy thật |
 
 Raw log và ảnh local: `.local/improve-14`, không chứa dữ liệu y tế thật. Mỗi lần chạy có timestamp/exit code/hash log và dirty-source marker; không đổi failed thành pass. Các lỗi chuẩn bị được lưu: integration-1 bị timeout cổng trong vùng hạn chế; build-1 EPERM; setup UI gọi quá sớm khi Function chưa load; clipboard/selector CUA phải nhập/chọn lại. Invalid-report ảnh đầu là loading, ảnh resolved mới chứng minh màn lỗi.
 
@@ -36,6 +36,8 @@ Giữ bản trước7ff328e (runtime13) và bản mới b014a7b (runtime14) trê
 - Lượt2 **PASS16/16 chỉ số**, không đổi mã hoặc ngưỡng: tuần tự create157→144ms, alert157→150ms; burst create151→149ms, alert151→146ms. Một số thao tác mới vẫn chậm hơn trong ngưỡng (private read144→176ms; finish137→195ms). Không nói mọi API nhanh hơn.
 - Nhận định: chênh lệch lượt1 không tái hiện ở lượt2, nhưng chưa chứng minh nguyên nhân hay ổn định tuyệt đối. Giữ cả hai bộ raw trong JSON; không kết luận SLA/cloud/điện thoại. Đây là kết quả đo có dao động, không phải tối ưu bằng cách bỏ phân quyền/audit.
 - Scale portable lượt2 sau khi dừng UI và check kết thúc:1000 Auth/128 phiên/32feed/32ca/320API, PASS; p50/p95 lời mời946/1485ms. Hai bài scale không được coi là paired baseline. Bài đối chiếu ở trên mới dùng hai mã chạy luân phiên.
+
+APK SHA256: `b5284a403c2291c05d09a88da9b810d0bef5c80403cc92bf61548e808a09b447`. Kiểm tra ZIP/manifest/version/package/cloud/tone native/resources/quyền thông báo/rung và không microphone; không xác minh chứng chỉ ký hoặc hành vi thiết bị. File local tại .local/releases/EHIS-Next-v0.4.14.apk. Link trang cài14 đã build/deploy/đối chiếu: build-4/deployweb-2/artifacts-2 đều PASS,38 tệp khớp bytes; kiểm tra HTTP trang install trả đúng URL APK14 và backend14. Xem records thực trong JSON.
 
 ## 4. Nghiệm thu còn mở
 

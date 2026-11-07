@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-07T16:31:14.227Z",
+  "generatedAt": "2026-11-07T16:38:55.671Z",
   "version": "0.4.14",
   "runtimeCommit": "b014a7b217c8b2122fc268972470f3c259107463",
   "scope": "Synthetic controlled software drill only; source, local, cloud, artifact and physical-device evidence are separate.",
@@ -176,6 +176,54 @@
       ]
     },
     {
+      "id": "apkstatus-7",
+      "operation": "apkstatus",
+      "command": "node scripts/build-trial-android.cjs status",
+      "startedAt": "2026-11-07T16:34:18.252Z",
+      "endedAt": "2026-11-07T16:34:24.123Z",
+      "elapsedMs": 5869,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "de9d16c204a6242b49fc45863f485799c575398e",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstatus-7.log",
+      "logSha256": "d8fe03442e5f19dda8830f33ab2c8cba4178ba9510e63c47c127c4f4aebc8623",
+      "artifacts": [
+        "apkstatus-7-android-trial-build.json"
+      ]
+    },
+    {
+      "id": "apkverify-1",
+      "operation": "apkverify",
+      "command": "node scripts/verify-trial-apk.cjs",
+      "startedAt": "2026-11-07T16:34:42.815Z",
+      "endedAt": "2026-11-07T16:34:49.505Z",
+      "elapsedMs": 6686,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "de9d16c204a6242b49fc45863f485799c575398e",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkverify-1.log",
+      "logSha256": "815434c5255e5b3f14ca363d0fc3379f38cde82517a55afb7f0cebd1f267d24a",
+      "artifacts": [
+        "apkverify-1-android-trial-artifact.json"
+      ]
+    },
+    {
       "id": "artifacts-1",
       "operation": "artifacts",
       "command": "node scripts/verify-cloud-artifacts.cjs",
@@ -197,6 +245,30 @@
       "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
       "artifacts": [
         "artifacts-1-cloud-artifact-proof.json"
+      ]
+    },
+    {
+      "id": "artifacts-2",
+      "operation": "artifacts",
+      "command": "node scripts/verify-cloud-artifacts.cjs",
+      "startedAt": "2026-11-07T16:37:58.675Z",
+      "endedAt": "2026-11-07T16:38:09.880Z",
+      "elapsedMs": 11203,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "de9d16c204a6242b49fc45863f485799c575398e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "artifacts-2.log",
+      "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
+      "artifacts": [
+        "artifacts-2-cloud-artifact-proof.json"
       ]
     },
     {
@@ -263,6 +335,28 @@
       "totalMemoryBytes": 25463480320,
       "log": "build-3.log",
       "logSha256": "25732e23e5b0386649bd8369bbde97ac6d0ff32b9d5edd0ca8f124374e54ce0b",
+      "artifacts": []
+    },
+    {
+      "id": "build-4",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-07T16:35:55.931Z",
+      "endedAt": "2026-11-07T16:36:27.083Z",
+      "elapsedMs": 31150,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "de9d16c204a6242b49fc45863f485799c575398e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-4.log",
+      "logSha256": "1aefc5667d32ad5868f04a282cae0b2fa046669ae32e252cd2cff0e4739054d8",
       "artifacts": []
     },
     {
@@ -505,6 +599,28 @@
       "totalMemoryBytes": 25463480320,
       "log": "deployweb-1.log",
       "logSha256": "12337bcb3a605bd66fc75f6f23c26c89cc38c3ab97311f54f8fb50616bf5262e",
+      "artifacts": []
+    },
+    {
+      "id": "deployweb-2",
+      "operation": "deployweb",
+      "command": "npm run cloud:deploy-web",
+      "startedAt": "2026-11-07T16:36:57.678Z",
+      "endedAt": "2026-11-07T16:37:17.654Z",
+      "elapsedMs": 19976,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "de9d16c204a6242b49fc45863f485799c575398e",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deployweb-2.log",
+      "logSha256": "ab97bbd039db5b58d22ff8124cf0fcd6fc50bba0ddf02e3cdfd9f3972acc4d2f",
       "artifacts": []
     },
     {
@@ -15735,12 +15851,82 @@
     "commit": "b014a7b217c8b2122fc268972470f3c259107463",
     "version": "0.4.14",
     "versionCode": 12,
-    "status": "IN_PROGRESS",
+    "status": "FINISHED",
     "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/cad7b4b8-8130-4196-9731-b85af202e328",
     "startedAt": "2026-11-07T16:14:16.044Z",
+    "deviceVerified": false,
+    "apkUrl": "https://expo.dev/artifacts/eas/DzqyTR2sm8Ng3t9FbNvmLDyi74aMAAJIDBf8Iw6QxOE.apk"
+  },
+  "androidArtifact": {
+    "id": "cad7b4b8-8130-4196-9731-b85af202e328",
+    "commit": "b014a7b217c8b2122fc268972470f3c259107463",
+    "version": "0.4.14",
+    "versionCode": 12,
+    "status": "FINISHED",
+    "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/cad7b4b8-8130-4196-9731-b85af202e328",
+    "startedAt": "2026-11-07T16:14:16.044Z",
+    "deviceVerified": false,
+    "apkUrl": "https://expo.dev/artifacts/eas/DzqyTR2sm8Ng3t9FbNvmLDyi74aMAAJIDBf8Iw6QxOE.apk",
+    "bytes": 102899741,
+    "sha256": "b5284a403c2291c05d09a88da9b810d0bef5c80403cc92bf61548e808a09b447",
+    "artifactVerified": true,
+    "packageName": "com.hoangcamng.ehisnext",
+    "microphonePermission": false,
+    "vibrationPermission": true,
+    "embeddedTone": true,
+    "cloudTargetVerified": true,
+    "backgroundNotificationResourcesVerified": true
+  },
+  "cloudFlow": {
+    "environment": "ehis-next-20261021-hc03",
+    "createdAt": "2026-11-07T16:26:40.000Z",
+    "result": "PASS: cloud lifecycle, report restore, handover and temporary-admin cleanup",
+    "ownerReportRestoreVerified": true,
+    "handoverCloudVerified": true,
+    "regionalRosterAndObservationsVerified": true,
+    "privateMeetingNoteVerified": true,
+    "lateReadinessAndTwoOffersVerified": true,
+    "syntheticVolunteersSuspended": 2,
+    "temporaryAdminClaimRemoved": true
+  },
+  "firstCloudProbeCleanup": {
+    "status": "PASS",
+    "checkedAt": "2026-11-07T16:26:33.030Z",
+    "scope": "Only two ephemeral volunteer fixtures from cloudflow-1",
+    "suspended": 2,
+    "stableDemoAccountsChanged": false
+  },
+  "hostingArtifactProof": {
+    "checkedAt": "2026-11-07T16:38:09.780Z",
+    "checked": 38,
+    "sha256Match": true,
+    "targets": [
+      "https://ehis-next-20261021-hc03.web.app",
+      "https://ehis-next-20261021-hc03-app.web.app"
+    ]
+  },
+  "releaseManifest": {
+    "android": {
+      "version": "0.4.14",
+      "apkUrl": "https://expo.dev/artifacts/eas/DzqyTR2sm8Ng3t9FbNvmLDyi74aMAAJIDBf8Iw6QxOE.apk",
+      "buildUrl": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/cad7b4b8-8130-4196-9731-b85af202e328"
+    },
+    "ios": {
+      "testFlightUrl": null
+    },
+    "googlePlayUrl": null,
+    "appStoreUrl": null
+  },
+  "installVerification": {
+    "checkedAt": "2026-11-07T16:38:01.289Z",
+    "status": "PASS",
+    "installUrl": "https://ehis-next-20261021-hc03.web.app/install",
+    "androidVersion": "0.4.14",
+    "apkUrl": "https://expo.dev/artifacts/eas/DzqyTR2sm8Ng3t9FbNvmLDyi74aMAAJIDBf8Iw6QxOE.apk",
+    "sameAsVerifiedArtifact": true,
+    "backendVersion": "0.4.14",
     "deviceVerified": false
   },
-  "androidArtifact": null,
   "limitations": [
     "No real phone installation, GPS, Home/lock/silent-mode or ringing measured",
     "1000 Auth fixtures do not mean 1000 concurrent users; 32 active SDK listeners and 32 incidents were exercised",

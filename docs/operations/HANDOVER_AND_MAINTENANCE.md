@@ -34,3 +34,8 @@ Lịch sử nằm trong từng ca ở bảng quản trị. Với ca đã kết t
 ## 4. Điều chưa được bảo đảm
 
 Chưa xác minh chuông Home/khóa, Samsung im lặng, GPS/pin hoặc cài đè trên máy thật trong phiên này. Dịch vụ bản đồ/push miễn phí không có cam kết điều phối cấp cứu. Cần hoàn thành phiếu [Android](ANDROID_TRIAL.md), có chuyên môn y tế/đầu mối vận hành và giải quyết các mục còn mở trong [review](../testing/verification/PRODUCT_REVIEW_2026_11_07.md) trước khi xét ca thật.
+
+
+## 5. Bài nghiệm thu nhóm với hai Android
+
+Quản trị dùng laptop; A/B dùng hai Android đã cài14/code12, tài khoản được duyệt, vị trí thật gần điểm diễn tập. A nhận ca → B sẵn sàng → admin liên hệ và gửi đề nghị → trước khi B xác nhận, A vẫn thấy ca/B chưa thấy hồ sơ → B xác nhận → A mất quyền, B thấy mốc tìm/hồ sơ được chia sẻ/tuyến mới → B xác nhận đến và hoàn tất. Nhập mã ca đã đóng để tra lại lịch sử. Ghi PASS/FAIL/chưa thử cho từng bước, không thay kết quả Emulator vào phiếu máy thật. Chuông/GPS/Home/khóa và Wi-Fi/4G vẫn dùng [phiếu Android](ANDROID_TRIAL.md).
