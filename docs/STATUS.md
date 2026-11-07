@@ -1,6 +1,6 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
-Mốc tổng hợp ngày 05/11/2026: [bản 0.4.13](testing/verification/VERIFICATION_V0_4_13.md) **nghiệm thu một phần**. Source/CI, 67 test/14 suites, tải local32 ca và web/backend cloud đạt. Bản đồ nền/thiết bị vẫn còn việc mở. APK0.4.13 đang xếp hàng; bản tải thực vẫn0.4.12 đã xác minh. Không suy ra điện thoại đã cập nhật từ việc source hoặc cloud đã đổi.
+Mốc rà mới ngày07/11/2026: [đánh giá toàn diện](testing/verification/PRODUCT_REVIEW_2026_11_07.md). Bản0.4.13 vẫn **nghiệm thu một phần**: 67 test/14 suites, tải local32 ca và cloud là bằng chứng05/11, chưa chạy lại toàn bộ trong phiên review. APK0.4.13 đã FINISHED và verifier artifact đạt; trang tải vẫn0.4.12, điện thoại chưa nghiệm thu. Bản đồ nền/thiết bị và các thiếu sót vận hành còn mở.
 
 ## 1. Bản đang bàn giao
 
@@ -11,7 +11,7 @@ Mốc tổng hợp ngày 05/11/2026: [bản 0.4.13](testing/verification/VERIFIC
 | App web và web người báo/admin/referrer | 0.4.13 đã deploy; 38 HTML/JS/CSS khớp build; browser thấy version mới, quản trị/Privacy/trang cài đúng | Local browser PARTIAL vì tile map; nghiệm thu trên thiết bị của nhóm còn thiếu |
 | Backend | 0.4.13: flow cloud giả/overview admin/index mới/meetingNote riêng tư đạt; quyền tạm của probe đã thu; giữ runtime ESM và quyền hiện có | Chưa tải cloud/điện thoại; không có worker liên tục hoặc cam kết giao FCM |
 | APK Android | [Tải APK0.4.12/code10](https://expo.dev/artifacts/eas/eHIioq5ReWQNAuqHuHxGi3e2eXE4TkJdCbCSULWc0Fk.apk) từ bc3f2be; EAS FINISHED, artifact102.895.417 bytes, SHA256 trong báo cáo; đúng package/cloud/tone/quyền rung | Chưa nghiệm thu máy thật/chứng chỉ ký; chỉ cài khi không có ca active, không cần Expo Go |
-| APK0.4.13 đang chuẩn bị | [Build code11](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/97330def-c292-4f69-b20c-b146f3fe520b) từ359427b: IN_QUEUE tại lần kiểm tra ghi trong JSON | Chưa artifact mới/verifier/cài máy; giữ link tải0.4.12 |
+| Artifact Android0.4.13 | [Build code11](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/97330def-c292-4f69-b20c-b146f3fe520b) từ359427b: FINISHED, verifier ngày07/11 đạt version/package/target/tone/quyền;102897757 bytes, SHA256 trong báo cáo review | Trang cài vẫn0.4.12; chưa đổi manifest tải/deploy Hosting trong phiên review, chưa thử ký/cài/điện thoại |
 | Source kiểm tra | main/runtime359427b; 67 test/14 suites, scale cuối32 ca/320 API/p95 lời mời925 ms local; [CI run42063552503 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42063552503) | Không diễn giải CI/local thành nghiệm thu máy thật, SLA hoặc ca thật |
 | Đối chiếu trước sửa04/11 | Runtime không đổi từ 22aff2e; local 56 test/12 suites/multi 15/ba lượt portable/cloud flow/browser/JS export đạt theo báo cáo | Functions load RECHECK >15 s; map preview/tile lỗi; audit còn 24 app/16 web/9 backend. CI cũ không thay kết quả phiên mới |
 | iOS native | Hoãn, chưa có IPA/TestFlight | Chưa tài khoản/ký/nghiệm thu; iPhone có thể dùng web |
