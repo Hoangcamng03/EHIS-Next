@@ -1,7 +1,9 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { adminClient, callable, readableError } from '@/lib/firebase-client';
-type Case = { incidentId: string; status: string; responsibleName: string; acceptedAtMs: number | null; handover: { id: string; expiresAtMs: number } | null };
+import { TravelStatus } from './TravelStatus';
+import type { TravelProgress } from '@/lib/travel-progress';
+type Case = { travelProgress?: TravelProgress | null; incidentId: string; status: string; responsibleName: string; acceptedAtMs: number | null; handover: { id: string; expiresAtMs: number } | null };
 type Candidate = { uid: string; fullName: string; distanceMeters: number };
 type History = { id: string; fromName: string; targetName: string; reason: string; status: string; requestedAtMs: number | null };
 function HandoverHistory({ incidentId }: { incidentId: string }) {
@@ -15,6 +17,8 @@ function HandoverHistory({ incidentId }: { incidentId: string }) {
   return <details><summary>Lịch sử bàn giao</summary><button className="secondary" disabled={busy} onClick={() => load()}>Tải lịch sử</button>{items.map(item => <p key={item.id}>{item.fromName} → {item.targetName} · {labels[item.status] || item.status}{item.requestedAtMs ? ` · ${new Date(item.requestedAtMs).toLocaleString('vi-VN')}` : ''}<br />Lý do: {item.reason}</p>)}{next && <button className="secondary" disabled={busy} onClick={() => load(true)}>Tải thêm lịch sử</button>}{message && <p role="status">{message}</p>}</details>;
 }
 function CaseRow({ item, changed }: { item: Case; changed: () => void }) {
+  const [now, setNow] = useState(Date.now);
+  useEffect(() => { const t = setInterval(() => { if (!document.hidden) setNow(Date.now()); }, 15000); return () => clearInterval(t); }, []);
   const [candidates, setCandidates] = useState<Candidate[] | null>(null), [target, setTarget] = useState(''), [reason, setReason] = useState(''), [confirmed, setConfirmed] = useState(false), [busy, setBusy] = useState(false), [message, setMessage] = useState('');
   const attempt = useRef<{ fingerprint: string; requestId: string } | null>(null);
   async function load() {
@@ -34,7 +38,8 @@ function CaseRow({ item, changed }: { item: Case; changed: () => void }) {
     try { await callable(adminClient().functions, 'cancelIncidentHandover')({ incidentId: item.incidentId, handoverId: item.handover.id }); setMessage('Đã hủy đề nghị; người hiện tại vẫn phụ trách.'); changed(); }
     catch (e) { setMessage(readableError(e)); } finally { setBusy(false); }
   }
-  return <section className="report-panel"><h3>Ca {item.incidentId.slice(0, 10)}</h3><p>Phụ trách: {item.responsibleName} · {item.status === 'arrived' ? 'Đã xác nhận đến' : 'Đang di chuyển'}{item.acceptedAtMs ? ` · Nhận lúc ${new Date(item.acceptedAtMs).toLocaleString('vi-VN')}` : ''}</p>
+  return <section className="report-panel"><h3>Ca {item.incidentId.slice(0, 10)}</h3><p>Phụ trách: {item.responsibleName} · {item.status === 'arrived' ? 'Đã xác nhận đến' : 'Đã nhận ca'}{item.acceptedAtMs ? ` · Nhận lúc ${new Date(item.acceptedAtMs).toLocaleString('vi-VN')}` : ''}</p>
+    {item.status === 'accepted' && <TravelStatus progress={item.travelProgress} acceptedAtMs={item.acceptedAtMs} now={now} />}
     {item.handover ? <><p role="status">Có đề nghị bàn giao · hạn xác nhận {new Date(item.handover.expiresAtMs).toLocaleTimeString('vi-VN')}. Người cũ vẫn phụ trách nếu chưa có người mới nhận.</p><button className="secondary" disabled={busy} onClick={cancel}>Hủy đề nghị bàn giao</button></> : <>
       <button className="secondary" disabled={busy} onClick={load}>Tìm TNV có thể nhận bàn giao</button>
       {candidates && candidates.length > 0 && <><label className="phone-label">Người nhận đề nghị<select value={target} disabled={busy} onChange={e => setTarget(e.target.value)}><option value="">Chọn TNV gần bệnh nhân</option>{candidates.map(v => <option key={v.uid} value={v.uid}>{v.fullName} · {v.distanceMeters} m lúc tải</option>)}</select></label>
@@ -47,5 +52,5 @@ export function HandoverDesk() {
   const [items, setItems] = useState<Case[]>([]), [next, setNext] = useState<string | null>(null), [busy, setBusy] = useState(false), [message, setMessage] = useState('');
   const [historyId, setHistoryId] = useState('');
   async function load(more = false) { setBusy(true); setMessage(''); try { const r = await callable<unknown, { cases: Case[]; next: string | null }>(adminClient().functions, 'listHandoverCases')({ ...(more && next ? { after: next } : {}) }); setItems(old => more ? [...old, ...r.data.cases] : r.data.cases); setNext(r.data.next); if (!r.data.cases.length) setMessage('Không có ca đang được phụ trách trong trang này.'); } catch (e) { setMessage(readableError(e)); } finally { setBusy(false); } }
-  return <details className="report-panel"><summary>Bàn giao ca đang xử lý</summary><p>Quản trị liên hệ xác minh trước khi gửi đề nghị. Chỉ chuyển quyền khi TNV mới xác nhận; không tự đóng ca vì quá giờ. Nhận bàn giao bằng app web mới hoặc APK 0.4.14 trở lên.</p><button className="primary" disabled={busy} onClick={() => load()}>Tải ca đang xử lý</button>{items.map(item => <CaseRow key={item.incidentId + (item.handover?.id || 'none')} item={item} changed={() => { void load(); }} />)}{next && <button className="secondary" disabled={busy} onClick={() => load(true)}>Tải thêm 25 ca</button>}{message && <p role="status">{message}</p>}<label className="phone-label">Tra lịch sử, kể cả ca đã kết thúc<input value={historyId} maxLength={100} onChange={e => setHistoryId(e.target.value.trim())} placeholder="Mã ca đầy đủ" /></label>{/^[A-Za-z0-9_-]{8,100}$/.test(historyId) && <HandoverHistory key={historyId} incidentId={historyId} />}</details>;
+  return <details className="report-panel"><summary>Bàn giao ca đang xử lý</summary><p>Quản trị liên hệ xác minh trước khi gửi đề nghị. Chỉ chuyển quyền khi TNV mới xác nhận; không tự đóng ca vì quá giờ. Nhận bàn giao bằng app web mới hoặc APK 0.4.14 trở lên.</p><p className="hint">Trạng thái theo lần tải gần nhất. Bấm tải lại để nhận tiến độ mới; đồng hồ cảnh báo không thay thế cập nhật từ máy chủ.</p><button className="primary" disabled={busy} onClick={() => load()}>Tải ca đang xử lý</button>{items.map(item => <CaseRow key={item.incidentId + (item.handover?.id || 'none')} item={item} changed={() => { void load(); }} />)}{next && <button className="secondary" disabled={busy} onClick={() => load(true)}>Tải thêm 25 ca</button>}{message && <p role="status">{message}</p>}<label className="phone-label">Tra lịch sử, kể cả ca đã kết thúc<input value={historyId} maxLength={100} onChange={e => setHistoryId(e.target.value.trim())} placeholder="Mã ca đầy đủ" /></label>{/^[A-Za-z0-9_-]{8,100}$/.test(historyId) && <HandoverHistory key={historyId} incidentId={historyId} />}</details>;
 }

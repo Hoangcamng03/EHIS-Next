@@ -1,9 +1,10 @@
+import { TextInput } from './AppTextInput';
 import { Text } from './AppText';
 import { disconnectNativePush } from '../lib/native-push';
 import { Button } from './ActionButton';
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { Redirect } from 'expo-router';
-import { Linking, ScrollView, TextInput, View } from 'react-native';
+import { Linking, ScrollView, View } from 'react-native';
 import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
 import { callable, firebaseClient, isLocalEmulator, readableError, updateAvailability } from '../lib/firebase';
 import { ui } from '../lib/ui';

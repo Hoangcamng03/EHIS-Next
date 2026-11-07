@@ -1,3 +1,4 @@
+import { textFamily } from '../lib/typography';
 import { useState } from 'react';
 
 // A native browser checkbox provides label taps, Space, focus and one ARIA target.
@@ -13,6 +14,6 @@ export function ToggleRow({ label, value, disabled = false, onValueChange, acces
     <span aria-hidden="true" style={{ width: 40, height: 24, borderRadius: 14, background: value ? '#096951' : '#879a9c', display: 'inline-flex', alignItems: 'center', flexShrink: 0, padding: 3, boxSizing: 'border-box' }}>
       <span style={{ display: 'block', width: 18, height: 18, borderRadius: '50%', background: '#fff', transform: value ? 'translateX(16px)' : 'translateX(0)' }} />
     </span>
-    <span style={{ flex: 1, fontSize: 16, lineHeight: '23px', color: '#123c37', fontFamily: 'inherit' }}>{label}</span>
+    <span style={{ flex: 1, fontSize: 16, lineHeight: '23px', color: '#123c37', fontFamily: textFamily }}>{label}</span>
   </label>;
 }

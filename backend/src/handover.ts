@@ -19,7 +19,7 @@ export const listHandoverCases = guardedCall('listHandoverCases', async request 
   const uids = [...new Set(docs.map(d => d.data().acceptedBy as string))];
   const people = uids.length ? await db.getAll(...uids.map(uid => db.doc(`volunteers/${uid}`))) : [];
   const names = new Map(people.map(p => [p.id, p.data()?.fullName || 'TNV diễn tập']));
-  return { checkedAtMs: Date.now(), cases: docs.map(d => { const v = d.data(); return { incidentId: d.id, status: v.status, responsibleName: names.get(v.acceptedBy), acceptedAtMs: v.acceptedAt?.toMillis?.() ?? null,
+  return { checkedAtMs: Date.now(), cases: docs.map(d => { const v = d.data(); return { incidentId: d.id, status: v.status, responsibleName: names.get(v.acceptedBy), acceptedAtMs: v.acceptedAt?.toMillis?.() ?? null, travelProgress: v.travelProgress ?? null,
     handover: v.handover ? { id: v.handover.id, expiresAtMs: v.handover.expiresAt.toMillis() } : null }; }), next: page.size > 25 ? docs.at(-1)!.id : null };
 });
 
@@ -98,13 +98,13 @@ export const acceptIncidentHandover = guardedCall('acceptIncidentHandover', asyn
     if (!live(c) || p.status !== 'pending' || c!.handover?.id !== handoverId || c!.handover.targetUid !== uid || c!.acceptedBy !== p.fromUid || p.expiresAt.toMillis() <= Date.now() || old?.data()?.activeIncidentId !== incidentId || alert.data()?.handoverId !== handoverId || alert.data()?.status !== 'offered') throw new HttpsError('failed-precondition', 'Đề nghị đã đóng, thay đổi hoặc hết hạn.');
     if (!volunteerReadiness(v, Date.now()).readyForDispatch || !location.exists || !v.location || distanceMeters(location.data() as { latitude: number; longitude: number }, v.location) > 5000) throw new HttpsError('failed-precondition', 'Bạn đang bận, GPS cũ hoặc ngoài 5 km.');
     tx.update(record, { status: 'accepted', acceptedAt: FieldValue.serverTimestamp() });
-    tx.update(ref, { acceptedBy: uid, status: 'accepted', acceptedAt: FieldValue.serverTimestamp(), handover: FieldValue.delete() });
+    tx.update(ref, { travelProgress: null, volunteerLoadedRevision: 0, acceptedBy: uid, status: 'accepted', acceptedAt: FieldValue.serverTimestamp(), handover: FieldValue.delete() });
     tx.update(db.doc(`volunteers/${p.fromUid}`), { activeIncidentId: null, isAvailable: false });
     tx.update(db.doc(`volunteers/${uid}`), { activeIncidentId: incidentId, isAvailable: false });
     for (const recipient of c!.invitedVolunteerIds as string[]) tx.set(db.doc(`volunteers/${recipient}/alerts/${incidentId}`), { status: recipient === uid ? 'accepted' : 'closed' }, { merge: true });
-    tx.set(db.doc(`volunteers/${uid}/alerts/${incidentId}`), { reportRevision: c!.reportRevision || 0, locationRevision: c!.locationRevision || 0, answers: report.data()?.answers || null }, { merge: true });
-    tx.set(db.doc(`reporters/${c!.reporterUid}/incidentStatuses/${incidentId}`), { status: 'accepted', handoverPending: false }, { merge: true });
-    tx.set(db.doc(`patients/${c!.patientId}/incidentStatuses/${incidentId}`), { status: 'accepted' }, { merge: true });
+    tx.set(db.doc(`volunteers/${uid}/alerts/${incidentId}`), { travelProgress: null, reportRevision: c!.reportRevision || 0, locationRevision: c!.locationRevision || 0, answers: report.data()?.answers || null }, { merge: true });
+    tx.set(db.doc(`reporters/${c!.reporterUid}/incidentStatuses/${incidentId}`), { status: 'accepted', handoverPending: false, travelProgress: null, volunteerLoadedRevision: 0, acceptedAt: FieldValue.serverTimestamp() }, { merge: true });
+    tx.set(db.doc(`patients/${c!.patientId}/incidentStatuses/${incidentId}`), { status: 'accepted', travelProgress: null, acceptedAt: FieldValue.serverTimestamp() }, { merge: true });
     tx.create(db.collection('auditLogs').doc(), { action: 'handover-accepted', actorUid: uid, incidentId, handoverId, fromUid: p.fromUid, createdAt: FieldValue.serverTimestamp() });
     return { incidentId, status: 'accepted' };
   });

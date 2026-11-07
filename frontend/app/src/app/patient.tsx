@@ -1,9 +1,12 @@
+import { TextInput } from '../components/AppTextInput';
+import { TravelStatusText } from '../components/TravelStatusText';
+import type { TravelProgress } from '../lib/travel-progress';
 import { Text } from '../components/AppText';
 import { Button } from '../components/ActionButton';
 import { ToggleRow } from '../components/ToggleRow';
 import { InfoDisclosure } from '../components/InfoDisclosure';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
-import { Linking, Platform, ScrollView, TextInput, View, useWindowDimensions } from 'react-native';
+import { Linking, Platform, ScrollView, View, useWindowDimensions } from 'react-native';
 import { collection, doc, getDoc, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
 
 import QRCode from 'react-native-qrcode-svg';
@@ -14,7 +17,7 @@ import { ConfirmAction } from '../components/ConfirmAction';
 import { profileDraft, profileMatchesSaved } from '../lib/profile-draft';
 
 type Card = { cardId: string; active: boolean; shareProfile: boolean };
-type History = { id: string; status: string; createdAt?: { toDate(): Date }; invitedCount?: number };
+type History = { travelProgress?: TravelProgress | null; acceptedAt?: { toMillis(): number }; id: string; status: string; createdAt?: { toDate(): Date }; invitedCount?: number };
 export default function PatientScreen() { return <AuthGate purpose="patient">{user => <PatientDashboard key={user.uid} uid={user.uid} />}</AuthGate>; }
 function PatientDashboard({ uid }: { uid: string }) {
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
@@ -81,7 +84,7 @@ function PatientDashboard({ uid }: { uid: string }) {
   }
   const active = history.find(item => ['dispatching', 'accepted', 'arrived'].includes(item.status));
   const feedback = (target: string) => feedbackTarget === target ? <>{!!error && <Text accessibilityRole="alert" style={ui.error}>{error}</Text>}{!!message && <Text accessibilityRole="alert" style={ui.success}>{message}</Text>}</> : null;
-  const renderIncident = (item: History) => <View key={item.id} style={{ gap: 6, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#dce8e0' }}><Text style={{ fontWeight: '700' }}>{statusLabel[item.status] || item.status}</Text><Text style={ui.body}>Ca {item.id.slice(0, 10)} · {item.createdAt?.toDate().toLocaleString('vi-VN') || ''}</Text>{item.status === 'dispatching' && <Text style={ui.body}>{item.invitedCount ? 'Đã gửi lời mời; chưa đồng nghĩa đã có người nhận.' : 'Chưa có TNV phù hợp. Không chờ EHIS nếu cần dịch vụ cấp cứu.'}</Text>}{item.status === 'dispatching' && <ConfirmAction title="Hủy yêu cầu" explanation="Bạn muốn hủy yêu cầu này? Chỉ hủy nếu đã gửi nhầm hoặc không còn cần hỗ trợ qua EHIS." disabled={busy || !connected} onConfirm={() => cancel(item.id)} />}</View>;
+  const renderIncident = (item: History) => <View key={item.id} style={{ gap: 6, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#dce8e0' }}><Text style={{ fontWeight: '700' }}>{statusLabel[item.status] || item.status}</Text><Text style={ui.body}>Ca {item.id.slice(0, 10)} · {item.createdAt?.toDate().toLocaleString('vi-VN') || ''}</Text>{item.status === 'accepted' && <TravelStatusText progress={item.travelProgress} acceptedAtMs={item.acceptedAt?.toMillis()} connected={connected} />}{item.status === 'dispatching' && <Text style={ui.body}>{item.invitedCount ? 'Đã gửi lời mời; chưa đồng nghĩa đã có người nhận.' : 'Chưa có TNV phù hợp. Không chờ EHIS nếu cần dịch vụ cấp cứu.'}</Text>}{item.status === 'dispatching' && <ConfirmAction title="Hủy yêu cầu" explanation="Bạn muốn hủy yêu cầu này? Chỉ hủy nếu đã gửi nhầm hoặc không còn cần hỗ trợ qua EHIS." disabled={busy || !connected} onConfirm={() => cancel(item.id)} />}</View>;
   const cardPanel = <View style={ui.card}><Text style={ui.heading}>Thẻ QR của bạn</Text>
       {card?.active ? <>
         <Text style={ui.success}>Mã QR đang hoạt động</Text>{dirty && <Text style={ui.error}>Có thay đổi chưa lưu. QR vẫn dùng hồ sơ đã lưu.</Text>}<Text style={ui.body}>{card.shareProfile ? 'Chia sẻ hồ sơ với TNV đã nhận ca.' : 'Không chia sẻ hồ sơ sức khỏe.'}</Text>

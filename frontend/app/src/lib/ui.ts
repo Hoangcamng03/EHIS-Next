@@ -20,4 +20,4 @@ export const patientUi = { ...ui,
   heading: [ui.heading, { color: palette.patient.ink }],
   card: [ui.card, { borderColor: palette.patient.border }],
 };
-export const statusLabel: Record<string, string> = { dispatching: 'Đang tìm TNV', accepted: 'TNV đang di chuyển', arrived: 'TNV xác nhận đã đến', completed: 'Đã kết thúc hỗ trợ', cancelled: 'Yêu cầu đã hủy', expired: 'Lời mời hết hạn', closed: 'Lời mời đã đóng', offered: 'Đang chờ TNV nhận', pending: 'Đang chờ duyệt', approved: 'Đã được duyệt', rejected: 'Chưa được duyệt' };
+export const statusLabel: Record<string, string> = { dispatching: 'Đang tìm TNV', accepted: 'TNV đã nhận ca', arrived: 'TNV xác nhận đã đến', completed: 'Đã kết thúc hỗ trợ', cancelled: 'Yêu cầu đã hủy', expired: 'Lời mời hết hạn', closed: 'Lời mời đã đóng', offered: 'Đang chờ TNV nhận', pending: 'Đang chờ duyệt', approved: 'Đã được duyệt', rejected: 'Chưa được duyệt' };

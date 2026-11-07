@@ -193,3 +193,15 @@ Client đọc volunteers/{uid}.activeIncidentId từ owner snapshot và theo dõ
 - listVolunteerRoster bổ sung checkedAtMs,lastSeenAtMs,locationFresh,readyForDispatch, không trả tọa độ. UI giảm theo tuổi GPS bằng đồng hồ local, không poll cloud mỗi10s. TNV heartbeat foreground lấy GPS30s nhưng ghi khi>=100m hoặc>=90s; resume/làm mới gửi chủ động.
 
 Hướng dẫn người dùng: [Bàn giao và kiểm tra vận hành](../operations/HANDOVER_AND_MAINTENANCE.md). Xem STATUS để phân biệt source và bản đã triển khai.
+
+
+## Tiến độ và xác nhận tải từ mã0.4.15
+
+- updateIncidentProgress({incidentId,assignmentAtMs,updateId,action,etaMinutes?,obstacle?,expectedProgressRevision?}): đúng approved/TNV activeIncidentId/acceptedBy và acceptedAt.toMillis của lượt nhận; chỉ trạng thái accepted. going: ETA nguyên1–120 phút, expectedProgressRevision bắt buộc; blocked: obstacle traffic/vehicle/cannot_continue/other; heartbeat: không nhận ETA/revision/obstacle. Từ chối khóa lạ.
+- Bản tiến độ state/etaAtMs/firstEtaAtMs/revision/updatedAtMs/checkInAtMs không chứa GPS/phone/hồ sơ. FirstETA giữ qua sửa giờ/báo trở ngại; ETA đặt theo giờ server, heartbeat không gia hạn. Explicit action có idempotency fingerprint chuẩn hóa và optimistic revision; heartbeat không lưu event và giới hạn ghi mỗi60s. Client chỉ gửi heartbeat90s khi foreground/màn ca mở; không tăng reportRevision hoặc rung chuông vì heartbeat.
+- Ghi incident và owner alert/projections reporter+Patient trong transaction; events explicit/audit chỉ backend. Giữ số điện thoại/hồ sơ ở private như trước. Thêm assignmentAtMs vào getVolunteerIncidentDetails; listHandoverCases thêm travelProgress, không thêm tọa độ.
+- acknowledgeIncidentReport({incidentId,assignmentAtMs,revision}): chỉ TNV approved/current assignment, accepted hoặc arrived; số bản1..reportRevision. Lưu max revision đã được app xác nhận, không lùi số bản, trả acknowledgedRevision. Reporter projection có volunteerLoadedRevision/volunteerLoadedAtMs. Đây là dữ liệu app tự xác nhận, không chứng minh con người đọc.
+- Khi nhận/bàn giao: reset tiến độ và xác nhận tải, reporter acceptedAt đồng bộ server timestamp. Người cũ không thể gửi ETA/ack bằng token lượt cũ; người mới không kế thừa ETA/ack. Không tự chuyển/đóng ca khi trễ; arrived/completed chặn cập nhật tiến độ.
+- Không thêm client write/Rules/index/IAM/billing. Dữ liệu tiến độ events/audit vẫn là metadata chưa có chính sách retention production; không dùng ca thật.
+
+[Hướng dẫn gửi/nhận và giờ đến](../operations/REPORT_UPDATES_AND_ARRIVAL.md). Bản cũ chưa có xác nhận tải không được coi là TNV chưa đọc; chỉ hiện Chưa có xác nhận.

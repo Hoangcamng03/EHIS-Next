@@ -1,4 +1,6 @@
-import { Text as NativeText, TextProps } from 'react-native';
+import { StyleSheet, Text as NativeText, TextProps } from 'react-native';
+import { textFamily } from '../lib/typography';
 export function Text({ style, ...props }: TextProps) {
-  return <NativeText {...props} style={[{ fontSize: 16, color: '#123c37' }, style]} />;
+  const size = StyleSheet.flatten(style)?.fontSize ?? 16;
+  return <NativeText {...props} style={[{ fontFamily: textFamily, fontSize: 16, lineHeight: Math.ceil(size * 1.5), includeFontPadding: true, color: '#123c37' }, style]} />;
 }

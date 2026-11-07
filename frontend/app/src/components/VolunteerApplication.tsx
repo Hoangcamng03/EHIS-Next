@@ -1,8 +1,9 @@
+import { TextInput } from './AppTextInput';
 import { Text } from './AppText';
 import { Button } from './ActionButton';
 import { InfoDisclosure } from './InfoDisclosure';
 import { useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { View } from 'react-native';
 
 import { callable, firebaseClient, readableError } from '../lib/firebase';
 import { ui, statusLabel } from '../lib/ui';

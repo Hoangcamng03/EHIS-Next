@@ -10,6 +10,9 @@ import { doc, onSnapshot } from 'firebase/firestore';
 
 import { callable as httpsCallable, firebaseClient, readableError, updateAvailability } from '../lib/firebase';
 import { VolunteerAvailability } from '../components/VolunteerAvailability';
+import { IncidentProgress } from '../components/IncidentProgress';
+import { ReportReceipt } from '../components/ReportReceipt';
+import type { TravelProgress } from '../lib/travel-progress';
 import { IncidentNavigation } from '../components/IncidentNavigation';
 import { AuthGate, AccountBar } from '../components/Session';
 import { VolunteerApplication } from '../components/VolunteerApplication';
@@ -22,8 +25,8 @@ import { palette } from '../lib/palette';
 import { useEmergencySignal } from '../lib/use-emergency-signal';
 import { subscribeVolunteerAlerts, type AlertFeedState } from '../lib/subscribe-alerts';
 
-type Alert = { offerKind?: 'handover'; handoverId?: string; incidentId: string; status: string; reportRevision: number; locationRevision?: number; distanceMeters: number; answers: Answers | null; offerExpiresAt?: { toMillis(): number } };
-type Details = { phone: string | null; answers: Answers | null; meetingNote?: string; revision: number; reportedAtMs?: number | null; locationRevision?: number; location: { latitude: number; longitude: number } | null; patientProfile?: { fullName: string; allergies: string[]; emergencyContactPhone: string | null; emergencyContactName?: string | null; emergencyContactRelationship?: string | null } | null };
+type Alert = { travelProgress?: TravelProgress | null; reportUpdatedAt?: { toMillis(): number }; offerKind?: 'handover'; handoverId?: string; incidentId: string; status: string; reportRevision: number; locationRevision?: number; distanceMeters: number; answers: Answers | null; offerExpiresAt?: { toMillis(): number } };
+type Details = { assignmentAtMs?: number | null; phone: string | null; answers: Answers | null; meetingNote?: string; revision: number; reportedAtMs?: number | null; locationRevision?: number; location: { latitude: number; longitude: number } | null; patientProfile?: { fullName: string; allergies: string[]; emergencyContactPhone: string | null; emergencyContactName?: string | null; emergencyContactRelationship?: string | null } | null };
 const OfferSummary = memo(function OfferSummary({ alert, onOpen }: { alert: Alert; onOpen: (id: string) => void }) {
   return <View style={styles.card}><Text style={styles.cardTitle}>Ca {alert.incidentId.slice(0, 10)} · {alert.distanceMeters} m</Text>
     <Text>{alert.answers ? `Phản hồi: ${observationLabels(alert.answers).responsiveness} · Thở: ${observationLabels(alert.answers).breathing} · Máu: ${observationLabels(alert.answers).bleeding}` : 'Người báo chưa gửi tình trạng bổ sung.'}</Text>
@@ -73,9 +76,11 @@ function IncidentAlert({ alert, connected, now, onAccepted, autoPreview = false,
     <Text>{alert.offerKind === 'handover' ? alert.status === 'offered' ? 'Đề nghị bàn giao · ' : 'Đã nhận bàn giao · ' : ''}Ca {alert.incidentId.slice(0, 10)} · Đường thẳng lúc mời: {alert.distanceMeters} m</Text>
     <Text style={!terminal && !assigned ? styles.urgentTitle : styles.revision}>{statusLabel[visibleStatus] || visibleStatus}</Text>
 
-    {!terminal && <Observation answers={alert.answers} />}
+    {!terminal && <><Text style={{ fontSize: 14 }}>{alert.reportRevision ? `Bản tình trạng số ${alert.reportRevision}${alert.reportUpdatedAt ? ' · ' + new Date(alert.reportUpdatedAt.toMillis()).toLocaleTimeString('vi-VN') : ''}` : 'Chưa có bản tình trạng bổ sung'}</Text><Observation answers={alert.answers} /></>}
     {alert.status === 'offered' && !offerExpired && <><Text style={styles.note}>Nhận ca để mở hồ sơ được chia sẻ và bản đồ. Tọa độ tính tuyến gửi tới OSRM.</Text><Button loading={busy} title={busy ? 'Đang nhận…' : alert.offerKind === 'handover' ? 'Xác nhận nhận bàn giao' : 'Nhận ca'} disabled={busy || !connected || !canAccept} color={palette.emergency.primary} onPress={accept} /></>}
     {assigned && <View style={styles.answers}>
+      {privateData?.assignmentAtMs && alert.status === 'accepted' ? <IncidentProgress key={privateData.assignmentAtMs} incidentId={alert.incidentId} assignmentAtMs={privateData.assignmentAtMs} progress={alert.travelProgress} connected={connected} now={now} /> : null}
+      {!!privateData?.assignmentAtMs && alert.reportRevision > 0 && <ReportReceipt incidentId={alert.incidentId} assignmentAtMs={privateData.assignmentAtMs} revision={alert.reportRevision} enabled={!!privateData && connected} />}
       <Text>{privateData ? `Người báo: ${privateData.phone || 'Không cung cấp'}` : 'Đang tải chi tiết ca…'}</Text>{!!privateData?.phone && <Button variant="secondary" title="Gọi người báo" onPress={() => Linking.openURL('tel:' + privateData.phone).catch(() => setError('Chưa mở được cuộc gọi.'))} />}
       {!!privateData?.meetingNote && <View style={styles.card}><Text style={styles.cardTitle}>Mốc tìm bệnh nhân</Text><Text>{privateData.meetingNote}</Text><Text style={styles.note}>Do người báo cung cấp · Điểm GPS không thay đổi.</Text></View>}
       {!privateData && !!error && <Button title="Tải lại chi tiết ca" disabled={!connected} onPress={() => { setError(''); setDetailAttempt(value => value + 1); }} />}

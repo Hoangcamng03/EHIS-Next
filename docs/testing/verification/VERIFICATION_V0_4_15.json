@@ -1,0 +1,2142 @@
+{
+  "generatedAt": "2026-11-07T17:30:21.337Z",
+  "version": "0.4.15",
+  "runtimeCommit": null,
+  "scope": "Controlled synthetic-data drill; source/local/cloud/artifact/device are distinct.",
+  "checkCounts": {
+    "backend": 22,
+    "logic": 52,
+    "integrationSuites": 16
+  },
+  "records": [
+    {
+      "id": "build-1",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-07T17:07:28.768Z",
+      "endedAt": "2026-11-07T17:08:12.899Z",
+      "elapsedMs": 44130,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "32bb58cabad3727a4c8e9d5b8c455651f815dce5",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-1.log",
+      "logSha256": "cabab722eb4fd79edf472510111f14707741a7556ca29e5c9354510ae974fbd0",
+      "artifacts": []
+    },
+    {
+      "id": "build-2",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-07T17:24:45.495Z",
+      "endedAt": "2026-11-07T17:24:59.612Z",
+      "elapsedMs": 14114,
+      "exitCode": 1,
+      "signal": null,
+      "status": "FAIL",
+      "sourceCommit": "32bb58cabad3727a4c8e9d5b8c455651f815dce5",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-2.log",
+      "logSha256": "fa9a71d7d1e8086152773ad3a394896594b2c8f20add207ce72b42b1c579fb60",
+      "artifacts": []
+    },
+    {
+      "id": "build-3",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-07T17:29:19.565Z",
+      "endedAt": "2026-11-07T17:29:54.938Z",
+      "elapsedMs": 35371,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "32bb58cabad3727a4c8e9d5b8c455651f815dce5",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-3.log",
+      "logSha256": "cbb8a4a4a5c586edb64e28dbee79c54922b0d63933ed8e7c2b160c3226a1e0f5",
+      "artifacts": []
+    },
+    {
+      "id": "check-1",
+      "operation": "check",
+      "command": "npm run check",
+      "startedAt": "2026-11-07T16:54:38.072Z",
+      "endedAt": "2026-11-07T16:55:24.542Z",
+      "elapsedMs": 46468,
+      "exitCode": 1,
+      "signal": null,
+      "status": "FAIL",
+      "sourceCommit": "32bb58cabad3727a4c8e9d5b8c455651f815dce5",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "check-1.log",
+      "logSha256": "653ccf1cfefcc145c5da22208d06f09016a06b1cc433e450cd5b77f09d55b8fb",
+      "artifacts": []
+    },
+    {
+      "id": "check-2",
+      "operation": "check",
+      "command": "npm run check",
+      "startedAt": "2026-11-07T16:56:39.992Z",
+      "endedAt": "2026-11-07T16:57:28.472Z",
+      "elapsedMs": 48478,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "32bb58cabad3727a4c8e9d5b8c455651f815dce5",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "check-2.log",
+      "logSha256": "1ad202c8fad9da61d2eec436644860309c14be97f257daea7dea0867b52ac500",
+      "artifacts": []
+    },
+    {
+      "id": "check-3",
+      "operation": "check",
+      "command": "npm run check",
+      "startedAt": "2026-11-07T17:02:30.105Z",
+      "endedAt": "2026-11-07T17:03:16.234Z",
+      "elapsedMs": 46127,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "32bb58cabad3727a4c8e9d5b8c455651f815dce5",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "check-3.log",
+      "logSha256": "f4d721430f7ac62d80e09a834db03466d4dd18a538ae4f100adc316bdf47ce43",
+      "artifacts": []
+    },
+    {
+      "id": "check-4",
+      "operation": "check",
+      "command": "npm run check",
+      "startedAt": "2026-11-07T17:04:27.575Z",
+      "endedAt": "2026-11-07T17:05:17.270Z",
+      "elapsedMs": 49694,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "32bb58cabad3727a4c8e9d5b8c455651f815dce5",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "check-4.log",
+      "logSha256": "d2387ed5e80028dfe16e82ed4f401f1092e0d280fd58a509e56f4b1459897c4f",
+      "artifacts": []
+    },
+    {
+      "id": "check-5",
+      "operation": "check",
+      "command": "npm run check",
+      "startedAt": "2026-11-07T17:24:25.514Z",
+      "endedAt": "2026-11-07T17:25:14.813Z",
+      "elapsedMs": 49298,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "32bb58cabad3727a4c8e9d5b8c455651f815dce5",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "check-5.log",
+      "logSha256": "9d25d8a85cce15e792c17b4ab1c935d08b0f0484c248172b7925455670a45a64",
+      "artifacts": []
+    },
+    {
+      "id": "integration-1",
+      "operation": "integration",
+      "command": "npm run test:integration",
+      "startedAt": "2026-11-07T16:56:17.175Z",
+      "endedAt": "2026-11-07T17:01:39.792Z",
+      "elapsedMs": 322617,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "32bb58cabad3727a4c8e9d5b8c455651f815dce5",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "integration-1.log",
+      "logSha256": "b4365445e8d84d0f1c4387ad6d327c07dc76c7a9cdd6fbac1d8ef1d0f19fd85e",
+      "artifacts": [
+        "integration-1-multi-acceptance.json"
+      ]
+    },
+    {
+      "id": "integration-2",
+      "operation": "integration",
+      "command": "npm run test:integration",
+      "startedAt": "2026-11-07T17:05:49.337Z",
+      "endedAt": "2026-11-07T17:11:25.829Z",
+      "elapsedMs": 336490,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "32bb58cabad3727a4c8e9d5b8c455651f815dce5",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "integration-2.log",
+      "logSha256": "a00fbaff284eb4c5c5d31df9ed4c060c5b59c3b2ff7227ddc1961b2c295f37cc",
+      "artifacts": [
+        "integration-2-multi-acceptance.json"
+      ]
+    },
+    {
+      "id": "scale-1",
+      "operation": "scale",
+      "command": "npm run test:scale",
+      "startedAt": "2026-11-07T17:12:29.180Z",
+      "endedAt": "2026-11-07T17:13:20.271Z",
+      "elapsedMs": 51090,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "32bb58cabad3727a4c8e9d5b8c455651f815dce5",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "scale-1.log",
+      "logSha256": "a54eb31cf97ecc84a7ed04f0e5ce17251d8363934ec94e19d99c011b58efd7b4",
+      "artifacts": [
+        "scale-1-scale-acceptance.json",
+        "scale-1-scale-portable.json"
+      ]
+    }
+  ],
+  "progress": {
+    "status": "PASS",
+    "startedAt": "2026-11-07T17:11:10.505Z",
+    "endedAt": "2026-11-07T17:11:24.817Z",
+    "scope": "Real local Emulator and authenticated SDK snapshots; synthetic data. No physical device, human reading, actual travel, elapsed-90s or on-time arrival claimed.",
+    "reporterServerSnapshots": 15,
+    "volunteerServerSnapshots": 8,
+    "concurrentEtaStatuses": [
+      200,
+      400
+    ],
+    "checks": [
+      "only current assignee and assignment epoch can write",
+      "ETA bounds, idempotency and optimistic concurrency",
+      "heartbeat throttle without ETA extension",
+      "two report revisions actually delivered through real SDK; monotonic app receipt",
+      "blocked state and privacy-safe projections",
+      "handover resets progress/receipts and revokes former assignee",
+      "overdue fixture does not auto-close; arrived/completed refuse further progress"
+    ]
+  },
+  "ui": {
+    "scope": "Actual local browser actions with synthetic accounts; not Android physical-device acceptance",
+    "recordedAt": "2026-11-07T17:23:37.011Z",
+    "checks": {
+      "patientLoginAndQr": true,
+      "systemFontInLoginPatientVolunteerReporterAdmin": true,
+      "lateReadyMatchedExistingIncident": true,
+      "availabilityFalseGpsErrorFixedAndRetried": true,
+      "acceptedIsNotGoing": true,
+      "etaSelfConfirmed": true,
+      "obstacleVisibleToReporterAndAdmin": true,
+      "cannotContinueRetainsOwner": true,
+      "revisedEtaRetainsInitialDeadline": true,
+      "reportDraftMarkedUnsent": true,
+      "reportRevision1Then2Received": true,
+      "report2BreathingAbnormalVisible": true,
+      "appReceipt2VisibleToReporter": true,
+      "receiptNotHumanRead": true,
+      "realElapsedInitialEtaOverdueWhileCurrentEtaFuture": true,
+      "arrivalCompletionAndTerminalReporter": true,
+      "syntheticVolunteerAndAdminLoggedOut": true
+    },
+    "limits": [
+      "Synthetic coordinates; foreground only; no physical phone",
+      "Admin fetches current server data on explicit reload",
+      "Map tile/route availability observed once; not service reliability",
+      "No guarantee of volunteer travel/arrival"
+    ],
+    "overdueObservedAt": "2026-11-07T17:23:46.213Z",
+    "endedAt": "2026-11-07T17:24:17.868Z"
+  },
+  "font": {
+    "at": "2026-11-07T17:23:18.495Z",
+    "app": {
+      "body": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Noto Sans\", Arial, sans-serif",
+      "inputs": [
+        {
+          "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Noto Sans\", Arial, sans-serif",
+          "line": "24px"
+        },
+        {
+          "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Noto Sans\", Arial, sans-serif",
+          "line": "normal"
+        },
+        {
+          "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Noto Sans\", Arial, sans-serif",
+          "line": "normal"
+        },
+        {
+          "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Noto Sans\", Arial, sans-serif",
+          "line": "24px"
+        },
+        {
+          "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Noto Sans\", Arial, sans-serif",
+          "line": "24px"
+        }
+      ],
+      "overflow": false,
+      "viewport": {
+        "h": 668,
+        "w": 354
+      }
+    },
+    "admin": {
+      "body": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Noto Sans\", Arial, sans-serif",
+      "overflow": false
+    },
+    "reporter": {
+      "body": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Noto Sans\", Arial, sans-serif",
+      "overflow": false
+    }
+  },
+  "scale": {
+    "scope": "LOCAL EMULATOR ONLY; not cloud, phone or SLA",
+    "projectId": "demo-ehis-next",
+    "transport": "portable HTTP wrapper used by Vercel, loopback 5203",
+    "startedAt": "2026-11-07T17:12:57.629Z",
+    "endedAt": "2026-11-07T17:13:19.309Z",
+    "authenticatedAccounts": 1000,
+    "concurrentIncidents": 32,
+    "regions": 8,
+    "readyVolunteers": 64,
+    "backgroundOfflinePending": 872,
+    "accountsWithSession": 128,
+    "liveVolunteerClients": 32,
+    "apiCalls": 320,
+    "expectedDenials": 40,
+    "automaticRetries": 0,
+    "stages": [
+      {
+        "name": "1000 Auth accounts; 8 zones; 32 patients/reporters and 64 ready volunteers",
+        "status": "PASS",
+        "ms": 10838
+      },
+      {
+        "name": "32 independent authenticated volunteer SDK feeds ready from server",
+        "status": "PASS",
+        "ms": 2055
+      },
+      {
+        "name": "32 simultaneous requests; nearest five; live delivery; no cross-zone invitation",
+        "status": "PASS",
+        "ms": 1729
+      },
+      {
+        "name": "8 lost-ack retries return the same incident",
+        "status": "PASS",
+        "ms": 156
+      },
+      {
+        "name": "32 observations with optional phone omitted or supplied",
+        "status": "PASS",
+        "ms": 1110
+      },
+      {
+        "name": "32 assignments; correct private profile; cross-zone access denied",
+        "status": "PASS",
+        "ms": 1901
+      },
+      {
+        "name": "16 confirmed destination changes preserve incident ownership",
+        "status": "PASS",
+        "ms": 573
+      },
+      {
+        "name": "32 arrivals and completions; all pointers released; private reads denied",
+        "status": "PASS",
+        "ms": 1972
+      }
+    ],
+    "latency": {
+      "alertDelivery": {
+        "samples": 32,
+        "p50Ms": 1030,
+        "p95Ms": 1682,
+        "maxMs": 1713
+      },
+      "savePatientProfile": {
+        "samples": 32,
+        "p50Ms": 62,
+        "p95Ms": 77,
+        "maxMs": 614
+      },
+      "issuePatientCard": {
+        "samples": 32,
+        "p50Ms": 78,
+        "p95Ms": 90,
+        "maxMs": 100
+      },
+      "createIncident": {
+        "samples": 40,
+        "p50Ms": 878,
+        "p95Ms": 1642,
+        "maxMs": 1713
+      },
+      "submitBystanderReport": {
+        "samples": 32,
+        "p50Ms": 669,
+        "p95Ms": 1057,
+        "maxMs": 1100
+      },
+      "acceptIncident": {
+        "samples": 32,
+        "p50Ms": 407,
+        "p95Ms": 835,
+        "maxMs": 848
+      },
+      "getVolunteerIncidentDetails": {
+        "samples": 32,
+        "p50Ms": 258,
+        "p95Ms": 429,
+        "maxMs": 434
+      },
+      "updateIncidentLocation": {
+        "samples": 16,
+        "p50Ms": 195,
+        "p95Ms": 341,
+        "maxMs": 341
+      },
+      "markIncidentArrived": {
+        "samples": 32,
+        "p50Ms": 315,
+        "p95Ms": 511,
+        "maxMs": 531
+      },
+      "finishIncident": {
+        "samples": 32,
+        "p50Ms": 449,
+        "p95Ms": 756,
+        "maxMs": 829
+      }
+    },
+    "measurements": [
+      {
+        "operation": "savePatientProfile",
+        "ms": 614,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 100,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 70,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 82,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 61,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 78,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 77,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 47,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 74,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 79,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 62,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 76,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 45,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 77,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 64,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 78,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 62,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 77,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 62,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 90,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 62,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 80,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 58,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 82,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 77,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 77,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 61,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 81,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 63,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 61,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 60,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 78,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 62,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 80,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 60,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 78,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 63,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 80,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 62,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 77,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 61,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 78,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 62,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 81,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 60,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 80,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 64,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 79,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 62,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 78,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 58,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 82,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 62,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 75,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 63,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 78,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 64,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 75,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 61,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 79,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 61,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 79,
+        "status": 200
+      },
+      {
+        "operation": "savePatientProfile",
+        "ms": 46,
+        "status": 200
+      },
+      {
+        "operation": "issuePatientCard",
+        "ms": 78,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 322,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 354,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 396,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 440,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 484,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 628,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 694,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 695,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 768,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 768,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 806,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 878,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 911,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 998,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 999,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1031,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1101,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1143,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1205,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1247,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1284,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1356,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1393,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1432,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1466,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1494,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1531,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1588,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1613,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1642,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1682,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 1713,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 53,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 65,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 75,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 97,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 112,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 131,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 143,
+        "status": 200
+      },
+      {
+        "operation": "createIncident",
+        "ms": 154,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 144,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 174,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 217,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 247,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 272,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 306,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 332,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 384,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 451,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 498,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 525,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 557,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 580,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 608,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 629,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 669,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 688,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 713,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 736,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 768,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 808,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 826,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 859,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 877,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 904,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 935,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 953,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 987,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 1011,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 1036,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 1057,
+        "status": 200
+      },
+      {
+        "operation": "submitBystanderReport",
+        "ms": 1100,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 97,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 115,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 135,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 154,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 173,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 189,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 207,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 234,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 250,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 286,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 307,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 321,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 343,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 368,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 385,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 407,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 477,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 498,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 518,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 541,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 572,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 620,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 642,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 663,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 677,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 702,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 724,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 759,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 783,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 800,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 835,
+        "status": 200
+      },
+      {
+        "operation": "acceptIncident",
+        "ms": 848,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 96,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 104,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 111,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 127,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 132,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 142,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 150,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 168,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 177,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 187,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 194,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 203,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 214,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 228,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 252,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 258,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 264,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 280,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 286,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 295,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 302,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 319,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 334,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 342,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 350,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 374,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 385,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 395,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 414,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 422,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 429,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 434,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 79,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 76,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 77,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 76,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 77,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 78,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 77,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 66,
+        "status": 403
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 71,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 102,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 108,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 125,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 135,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 159,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 178,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 195,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 221,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 234,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 245,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 270,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 303,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 315,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 333,
+        "status": 200
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "ms": 341,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 57,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 75,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 89,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 102,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 117,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 124,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 153,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 172,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 184,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 214,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 246,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 259,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 271,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 293,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 300,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 315,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 320,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 338,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 342,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 364,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 382,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 396,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 415,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 427,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 437,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 455,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 461,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 473,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 491,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 504,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 511,
+        "status": 200
+      },
+      {
+        "operation": "markIncidentArrived",
+        "ms": 531,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 106,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 118,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 136,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 157,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 198,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 208,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 249,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 273,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 288,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 303,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 329,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 358,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 374,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 388,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 432,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 449,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 468,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 485,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 504,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 520,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 536,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 554,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 598,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 617,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 633,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 655,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 671,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 693,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 712,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 740,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 756,
+        "status": 200
+      },
+      {
+        "operation": "finishIncident",
+        "ms": 829,
+        "status": 200
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 61,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 79,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 89,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 96,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 108,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 115,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 120,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 148,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 165,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 177,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 208,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 239,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 255,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 262,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 284,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 294,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 303,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 310,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 318,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 326,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 333,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 346,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 356,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 361,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 391,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 404,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 419,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 435,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 440,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 448,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 457,
+        "status": 403
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "ms": 500,
+        "status": 403
+      }
+    ],
+    "alertDeliverySamplesMs": [
+      321,
+      353,
+      396,
+      439,
+      483,
+      395,
+      395,
+      396,
+      482,
+      482,
+      807,
+      877,
+      910,
+      911,
+      998,
+      1030,
+      1100,
+      1144,
+      1205,
+      1246,
+      1286,
+      1356,
+      1392,
+      1393,
+      1431,
+      1465,
+      1530,
+      1587,
+      1613,
+      1642,
+      1682,
+      1713
+    ],
+    "status": "PASS",
+    "latencyGateMs": 15000,
+    "latencyStatus": "PASS"
+  },
+  "ci": null,
+  "androidBuild": null,
+  "androidArtifact": null,
+  "cloudFlow": null,
+  "hostingArtifactProof": null,
+  "releaseManifest": {
+    "android": {
+      "version": "0.4.14",
+      "apkUrl": "https://expo.dev/artifacts/eas/DzqyTR2sm8Ng3t9FbNvmLDyi74aMAAJIDBf8Iw6QxOE.apk",
+      "buildUrl": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/cad7b4b8-8130-4196-9731-b85af202e328"
+    },
+    "ios": {
+      "testFlightUrl": null
+    },
+    "googlePlayUrl": null,
+    "appStoreUrl": null
+  },
+  "installVerification": null,
+  "limitations": [
+    "No physical Android installation, font scaling, GPS, background/lock-screen/ringing acceptance",
+    "1000 Auth fixtures, 128 sessions, 32 SDK feeds and 32 cases are not 1000 concurrent people",
+    "Local latency does not establish cloud SLA or superiority over baseline",
+    "App load receipt does not prove a person read, understood or diagnosed",
+    "Heartbeat is foreground connectivity, not GPS or movement; ETA is self-confirmed, not guaranteed",
+    "Admin current progress requires explicit reload; local clock is not a background worker",
+    "No clinical or real-emergency readiness established"
+  ]
+}

@@ -75,6 +75,14 @@ async function main() {
  const details=await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer);assert.equal(details.phone,null);assert.equal(details.patientProfile.fullName,'Bệnh nhân giả · thử cloud EHIS');
  assert.deepEqual(details.answers,observations);assert.ok(details.reportedAtMs>0);demo.regionalRosterAndObservationsVerified=true;
  assert.equal(details.meetingNote,meetingNote);demo.privateMeetingNoteVerified=true;
+ const progressPayload={incidentId:incident.incidentId,assignmentAtMs:details.assignmentAtMs,updateId:randomUUID(),action:'going',etaMinutes:10,expectedProgressRevision:0};
+ const going=await call('updateIncidentProgress',progressPayload,volunteer);assert.equal(going.progress.state,'going');assert.equal(going.progress.firstEtaAtMs,going.progress.etaAtMs);assert.equal((await call('updateIncidentProgress',progressPayload,volunteer)).progress.etaAtMs,going.progress.etaAtMs);
+ await call('acknowledgeIncidentReport',{incidentId:incident.incidentId,assignmentAtMs:details.assignmentAtMs,revision:details.revision},volunteer);
+ async function reporterProjection(){const res=await checkedFetch('reporter projection',`https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/reporters/${reporter.localId}/incidentStatuses/${incident.incidentId}`,{headers:{Authorization:'Bearer '+reporter.idToken},signal:AbortSignal.timeout(20000)});assert.equal(res.status,200);return (await res.json()).fields;}
+ let projection=await reporterProjection();assert.equal(Number(projection.volunteerLoadedRevision.integerValue),details.revision);assert.equal(projection.travelProgress.mapValue.fields.state.stringValue,'going');
+ await call('updateIncidentProgress',{...progressPayload,updateId:randomUUID(),etaMinutes:5},volunteer,400);
+ await call('updateIncidentProgress',{incidentId:incident.incidentId,assignmentAtMs:details.assignmentAtMs,updateId:randomUUID(),action:'blocked',obstacle:'traffic',expectedProgressRevision:1},volunteer);
+ const revised=await call('updateIncidentProgress',{...progressPayload,updateId:randomUUID(),etaMinutes:15,expectedProgressRevision:2},volunteer);assert.equal(revised.progress.firstEtaAtMs,going.progress.firstEtaAtMs);demo.arrivalProgressVerified=true;demo.reportLoadReceiptVerified=true;
  await call('markIncidentArrived',{incidentId:incident.incidentId},volunteer);
  await call('setVolunteerAvailability',{available:true,location:{latitude:78,longitude:-145}},targetVolunteer);
  const rosterNow=await call('listVolunteerRoster',{serviceArea:'Vùng GIẢ'},admin);assert.equal(rosterNow.volunteers.find(v=>v.uid===targetVolunteer.localId).readyForDispatch,true);
@@ -84,7 +92,12 @@ async function main() {
  await call('proposeIncidentHandover',proposal,admin);await call('proposeIncidentHandover',proposal,admin);
  await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},targetVolunteer,403);await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer);
  await call('acceptIncidentHandover',{incidentId:incident.incidentId,handoverId:proposal.requestId},targetVolunteer);
- await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer,403);assert.equal((await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},targetVolunteer)).meetingNote,meetingNote);
+ await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},volunteer,403);const targetDetails=await call('getVolunteerIncidentDetails',{incidentId:incident.incidentId},targetVolunteer);assert.equal(targetDetails.meetingNote,meetingNote);
+ projection=await reporterProjection();assert('nullValue' in projection.travelProgress);assert.equal(Number(projection.volunteerLoadedRevision.integerValue),0);
+ await call('updateIncidentProgress',{...progressPayload,updateId:randomUUID(),expectedProgressRevision:3},volunteer,403);
+ await call('acknowledgeIncidentReport',{incidentId:incident.incidentId,assignmentAtMs:details.assignmentAtMs,revision:details.revision},volunteer,403);
+ await call('updateIncidentProgress',{...progressPayload,assignmentAtMs:targetDetails.assignmentAtMs,updateId:randomUUID(),etaMinutes:5},targetVolunteer);
+ await call('acknowledgeIncidentReport',{incidentId:incident.incidentId,assignmentAtMs:targetDetails.assignmentAtMs,revision:targetDetails.revision},targetVolunteer);
  const history=await call('listHandoverHistory',{incidentId:incident.incidentId},admin);assert(history.history.some(h=>h.id===proposal.requestId&&h.status==='accepted'));await call('listHandoverHistory',{incidentId:incident.incidentId},targetVolunteer,403);
  await call('finishIncident',{incidentId:incident.incidentId,outcome:'completed'},volunteer,403);
  await call('finishIncident',{incidentId:incident.incidentId,outcome:'completed'},targetVolunteer);
@@ -110,6 +123,6 @@ async function main() {
   demo.temporaryAdminClaimRemoved=true;fs.writeFileSync(file,JSON.stringify(demo,null,2),{mode:0o600});
  }
  demo.result='PASS: cloud lifecycle, report restore, handover and temporary-admin cleanup';fs.writeFileSync(file,JSON.stringify(demo,null,2),{mode:0o600});
- console.log('PASS cloud full flow: owner report recovery, GPS-ready roster, handover candidates/proposal/explicit accept/private access/history, regional roster indexes, suspension/restore, detailed observations, two cases before readiness, late matching/index query, no duplicate offers, one assignment, private consent, completed and private-access denial. Only synthetic accounts/data used; credentials remain in ignored local file.');
+ console.log('PASS cloud full flow: ETA confirmation/revision/initial deadline, actual reporter projection/load receipt, handover progress and receipt reset, owner report recovery, GPS-ready roster, handover candidates/proposal/explicit accept/private access/history, regional roster indexes, suspension/restore, detailed observations, two cases before readiness, late matching/index query, no duplicate offers, one assignment, private consent, completed and private-access denial. Only synthetic accounts/data used; credentials remain in ignored local file.');
 }
 main().catch(error=>{console.error(error.message);process.exitCode=1;});

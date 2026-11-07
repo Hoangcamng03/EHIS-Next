@@ -1,4 +1,5 @@
-import { ActivityIndicator, ButtonProps, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, ButtonProps, Pressable, View } from 'react-native';
+import { Text } from './AppText';
 import { useRoleColor } from './RoleTheme';
 
 // System text scaling stays enabled; actions wrap instead of clipping at large fonts.
@@ -19,7 +20,7 @@ export function Button({ title, onPress, disabled, color, accessibilityLabel, te
       backgroundColor: inactive ? '#dce5e1' : subtle ? '#fff' : ink, opacity: pressed ? 0.8 : 1 })}>
     <View pointerEvents="none" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
       {loading && <ActivityIndicator size="small" color="#465c55" />}
-      <Text style={{ flexShrink: 1, fontSize: 16, lineHeight: 22, fontWeight: '600', textAlign: 'center', color: inactive ? '#465c55' : subtle ? ink : '#fff' }}>{title}</Text>
+      <Text style={{ flexShrink: 1, fontSize: 16, lineHeight: 24, fontWeight: '600', textAlign: 'center', color: inactive ? '#465c55' : subtle ? ink : '#fff' }}>{title}</Text>
     </View>
   </Pressable>;
 }

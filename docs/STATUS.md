@@ -5,6 +5,8 @@ Cập nhật07/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu 
 
 ## 1. Bản đang bàn giao
 
+**0.4.15 đang phát hành, chưa thay kết luận cloud/APK14 bên dưới.** Đã kiểm tra local74 test/16 suites,32 ca đồng thời và browser đủ vai trò cho tiến độ/ETA, câu trả lời có số bản và font. [Bằng chứng15](testing/verification/VERIFICATION_V0_4_15.md) · [Giải đáp tiến độ và cập nhật câu trả lời](operations/REPORT_UPDATES_AND_ARRIVAL.md). Chỉ cập nhật cloud/APK khi có kết quả thực.
+
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
 | App web và web người báo/admin/referrer |0.4.14 đã deploy;38 HTML/JS/CSS khớp bytes build; luồng UI local thao tác thật đạt | Link trang cài14 đã kiểm tra; chưa browser cloud/điện thoại; một lượt tile/OSRM local không bảo đảm dịch vụ |

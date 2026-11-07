@@ -1,9 +1,10 @@
+import { TextInput } from './AppTextInput';
 import { Text } from './AppText';
 import { Button } from './ActionButton';
 import { ToggleRow } from './ToggleRow';
 import { InfoDisclosure } from './InfoDisclosure';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AppState, TextInput, View } from 'react-native';
+import { AppState, View } from 'react-native';
 import * as Location from 'expo-location';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { firebaseClient, isLocalEmulator as isTrialMode, readableError, updateAvailability } from '../lib/firebase';
@@ -88,8 +89,11 @@ export function VolunteerAvailability({ uid, now, paused = false, prepareAlerts 
       demoPoint.current = point;
     }
     epoch.current += 1;
+    // Select the source before the server can publish ON; otherwise the restore
+    // effect may start an unwanted GPS request during a synthetic enable.
+    setSource(method);
     setBusy(true); setError('');
-    try { await refresh(method, true); setSource(method); setError(''); }
+    try { await refresh(method, true); setError(''); }
     catch (err) { setError(err instanceof Error && err.message.startsWith('location-') ? 'Chưa lấy được GPS. Cho phép vị trí, kiểm tra dịch vụ định vị và thử lại.' : readableError(err)); }
     finally { setBusy(false); setPhase(''); }
   }

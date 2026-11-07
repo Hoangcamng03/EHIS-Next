@@ -37,6 +37,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [API_CONTRACT](architecture/API_CONTRACT.md) | Giao tiếp app/frontend/web/backend và schema; kiểm tra trạng thái source trước khi áp dụng |
 | [VOLUNTEER_VERIFICATION](operations/VOLUNTEER_VERIFICATION.md) | Người quản lý xác minh TNV, checklist, phân loại và duyệt hai bước |
 | [ANDROID_BACKGROUND_ALERTS](operations/ANDROID_BACKGROUND_ALERTS.md) | Cấu hình thông báo Home/khóa màn hình, giới hạn GPS và bài thử máy thật |
+| [REPORT_UPDATES_AND_ARRIVAL](operations/REPORT_UPDATES_AND_ARRIVAL.md) | Giải đáp Phúc Nguyên: ETA, kiểm tra tiến độ, gửi/nhận bản trả lời và font tiếng Việt |
 | [HANDOVER_AND_MAINTENANCE](operations/HANDOVER_AND_MAINTENANCE.md) | Bàn giao có xác nhận, lịch sử, GPS mới và dọn dữ liệu nhiều trang |
 | [BYSTANDER_FLOW](architecture/BYSTANDER_FLOW.md) | Báo hỗ trợ hai bước và cập nhật thông tin |
 | [NAVIGATION](architecture/NAVIGATION.md) | Bản đồ/chỉ đường, điều kiện và giới hạn |
@@ -60,6 +61,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 
 | Trang | Nội dung |
 | --- | --- |
+| [VERIFICATION_V0_4_15](testing/verification/VERIFICATION_V0_4_15.md) | Tiến độ TNV/ETA, bản trả lời và font; kết quả thực từng lớp |
+| [VERIFICATION_V0_4_15.json](testing/verification/VERIFICATION_V0_4_15.json) | Số đo, timestamp và hash log; giữ cả lượt lỗi và giới hạn máy thật |
 | [VERIFICATION_V0_4_14.json](testing/verification/VERIFICATION_V0_4_14.json) | Số đo thực, thời điểm, hash log và trạng thái build/deploy; không chứa mật khẩu |
 | [VERIFICATION_V0_4_14](testing/verification/VERIFICATION_V0_4_14.md) | Bàn giao xác nhận, phục hồi báo cáo, bảo trì và số đo thực từng lớp |
 | [PRODUCT_REVIEW_2026_11_07](testing/verification/PRODUCT_REVIEW_2026_11_07.md) | Rà toàn diện UI/flow/quyền/vận hành; backlog theo ưu tiên, APK mới được xác minh và giới hạn kiểm tra |

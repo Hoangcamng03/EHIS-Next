@@ -162,11 +162,11 @@ export const acceptIncident = onCall('acceptIncident', async request => {
         alert.data()!.status !== 'offered' || volunteer.data()?.isAvailable !== true || (volunteer.data()?.activeIncidentId && volunteer.data()!.activeIncidentId !== id)) {
       throw new HttpsError('failed-precondition', 'Ca đã được nhận, hết hạn hoặc TNV đang bận.');
     }
-    tx.update(ref, { status: 'accepted', acceptedBy: uid, acceptedAt: FieldValue.serverTimestamp() });
+    tx.update(ref, { travelProgress: null, volunteerLoadedRevision: 0, status: 'accepted', acceptedBy: uid, acceptedAt: FieldValue.serverTimestamp() });
     tx.create(db.collection('auditLogs').doc(), { actorUid: uid, action: 'incident-accepted', incidentId: id, createdAt: FieldValue.serverTimestamp() });
     tx.update(volunteerRef, { activeIncidentId: id, isAvailable: false });
-    tx.update(db.doc(`reporters/${incident.data()!.reporterUid}/incidentStatuses/${id}`), { status: 'accepted' });
-    tx.set(db.doc(`patients/${incident.data()!.patientId}/incidentStatuses/${id}`), { status: 'accepted' }, { merge: true });
+    tx.update(db.doc(`reporters/${incident.data()!.reporterUid}/incidentStatuses/${id}`), { status: 'accepted', volunteerLoadedRevision: 0, acceptedAt: FieldValue.serverTimestamp(), travelProgress: null });
+    tx.set(db.doc(`patients/${incident.data()!.patientId}/incidentStatuses/${id}`), { status: 'accepted', travelProgress: null, acceptedAt: FieldValue.serverTimestamp() }, { merge: true });
     for (const recipient of incident.data()!.invitedVolunteerIds as string[]) tx.update(db.doc(`volunteers/${recipient}/alerts/${id}`), { status: recipient === uid ? 'accepted' : 'closed' });
     return { incidentId: id, status: 'accepted' };
   });
@@ -258,8 +258,8 @@ export const finishIncident = onCall('finishIncident', async request => {
     const pendingHandover = value.handover?.id ? await tx.get(ref.collection('handoverRequests').doc(value.handover.id)) : null;
     if (pendingHandover?.exists && pendingHandover.data()?.status === 'pending') tx.update(pendingHandover.ref, { status: 'case-closed', closedAt: FieldValue.serverTimestamp() });
     tx.create(db.collection('auditLogs').doc(), { actorUid: uid, action: 'incident-' + data.outcome, incidentId: data.incidentId, createdAt: FieldValue.serverTimestamp() });
-    tx.update(ref, { status: data.outcome, closedAt: FieldValue.serverTimestamp(), purgeAfter: Timestamp.fromMillis(Date.now() + 86400000), closedBy: uid, handover: FieldValue.delete() });
-    tx.update(db.doc(`reporters/${value.reporterUid}/incidentStatuses/${data.incidentId}`), { status: data.outcome, handoverPending: false });
+    tx.update(ref, { status: data.outcome, closedAt: FieldValue.serverTimestamp(), purgeAfter: Timestamp.fromMillis(Date.now() + 86400000), closedBy: uid, travelProgress: null, handover: FieldValue.delete() });
+    tx.update(db.doc(`reporters/${value.reporterUid}/incidentStatuses/${data.incidentId}`), { status: data.outcome, handoverPending: false, travelProgress: null });
     tx.set(db.doc(`patients/${value.patientId}/incidentStatuses/${data.incidentId}`), { status: data.outcome }, { merge: true });
     if (card.data()?.activeIncidentId === data.incidentId) tx.update(cardRef, { activeIncidentId: null });
     if (data.outcome === 'completed' && volunteer.data()?.activeIncidentId === data.incidentId) tx.update(volunteerRef, { activeIncidentId: null, isAvailable: false });
@@ -284,7 +284,7 @@ export const getVolunteerIncidentDetails = onCall('getVolunteerIncidentDetails',
     const patient = card.data()?.shareProfile === true ? await tx.get(db.doc(`patients/${incident.data()!.patientId}`)) : null;
     const profile = patient?.data();
     tx.create(db.collection('auditLogs').doc(), { actorUid: uid, action: 'incident-private-read', incidentId: id, createdAt: FieldValue.serverTimestamp() });
-    return { incidentId: id, phone: report.data()?.phone ?? null, answers: report.data()?.answers ?? null, meetingNote: report.data()?.meetingNote ?? '',
+    return { incidentId: id, assignmentAtMs: incident.data()!.acceptedAt?.toMillis?.() ?? null, phone: report.data()?.phone ?? null, answers: report.data()?.answers ?? null, meetingNote: report.data()?.meetingNote ?? '',
       revision: report.data()?.revision ?? 0, reportedAtMs: report.data()?.updatedAt?.toMillis?.() ?? null, location: location.data() ?? null, locationRevision: incident.data()!.locationRevision ?? 0,
       patientProfile: profile ? { fullName: profile.fullName, allergies: profile.allergies ?? [], emergencyContactPhone: profile.emergencyContactPhone ?? null,
         emergencyContactName: profile.emergencyContactName ?? null, emergencyContactRelationship: profile.emergencyContactRelationship ?? null } : null };

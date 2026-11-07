@@ -15,6 +15,7 @@ if (serviceAccount) {
 setGlobalOptions({ region: 'asia-southeast1', maxInstances: 2, minInstances: 0, memory: '256MiB', timeoutSeconds: 30 });
 
 export { createIncident, submitBystanderReport, updateIncidentLocation, acceptIncident, getVolunteerIncidentDetails, getBystanderReport, setVolunteerAvailability, finishIncident } from './reports';
+export { updateIncidentProgress, acknowledgeIncidentReport } from './incidentProgress';
 export { listHandoverHistory, listHandoverCases, listHandoverCandidates, proposeIncidentHandover, acceptIncidentHandover, cancelIncidentHandover } from './handover';
 export { issuePatientCard, revokePatientCard, applyVolunteer, listVolunteerApplications, reviewVolunteerApplication, markIncidentArrived, cancelPatientIncident } from './lifecycle';
 export { setVolunteerReferrer, listReferrerApplications, submitVolunteerReferral } from './volunteerVerification';
@@ -24,7 +25,7 @@ export { getOperationsOverview, retryPendingNotifications, runMaintenanceNow } f
 
 // No identities, personal data, or secrets in a public health check.
 export const health = onRequest({ cors: true }, (_request, response) => {
-  response.json({ service: 'ehis-next', status: 'ok', version: '0.4.14', projectId: getApp().options.projectId || process.env.GCLOUD_PROJECT || null });
+  response.json({ service: 'ehis-next', status: 'ok', version: '0.4.15', projectId: getApp().options.projectId || process.env.GCLOUD_PROJECT || null });
 });
 
 export const getMyAccess = onCall('getMyAccess', async request => {
