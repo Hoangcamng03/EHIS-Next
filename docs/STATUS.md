@@ -1,12 +1,16 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
-> **Đợt 0.4.14 đang phát hành:** code/local UI và kiểm thử đã đạt; cloud/APK mới chưa ghi đạt. Xem [kiểm chứng 0.4.14](testing/verification/VERIFICATION_V0_4_14.md) và [cách bàn giao](operations/HANDOVER_AND_MAINTENANCE.md). Các mốc 0.4.13 bên dưới là bản trước.
+> **Web/backend hiện hành0.4.14:** đã deploy, cloud flow giả và38 tệp Hosting đối chiếu đạt. Source runtime b014a7b/CI SUCCESS;71 test/15 suites. APK14/code12 đang build, **chưa có file14 được xác minh**; installer hiện13/code11. Bàn giao dùng web14 trong lúc chờ. [Bằng chứng và giới hạn](testing/verification/VERIFICATION_V0_4_14.md) · [Cách bàn giao](operations/HANDOVER_AND_MAINTENANCE.md).
+>
+> Hiệu suất paired: lượt1 RECHECK, lượt2 PASS không đổi mã/ngưỡng; không gọi mọi API nhanh hơn. Điện thoại thật vẫn chưa nghiệm thu.
 
-Mốc rà mới ngày07/11/2026: [đánh giá toàn diện](testing/verification/PRODUCT_REVIEW_2026_11_07.md). Bản0.4.13 vẫn **nghiệm thu một phần**: 67 test/14 suites, tải local32 ca và cloud là bằng chứng05/11, chưa chạy lại toàn bộ trong phiên review. APK0.4.13 đã FINISHED và verifier artifact đạt; trang tải vẫn0.4.12, điện thoại chưa nghiệm thu. Bản đồ nền/thiết bị và các thiếu sót vận hành còn mở.
+Lịch sử trước khi triển khai14 ngày07/11/2026: [đánh giá toàn diện](testing/verification/PRODUCT_REVIEW_2026_11_07.md). Bản0.4.13 vẫn **nghiệm thu một phần**: 67 test/14 suites, tải local32 ca và cloud là bằng chứng05/11, chưa chạy lại toàn bộ trong phiên review. APK0.4.13 đã FINISHED và verifier artifact đạt; trang tải vẫn0.4.12, điện thoại chưa nghiệm thu. Bản đồ nền/thiết bị và các thiếu sót vận hành còn mở.
 
 ## 1. Bản đang bàn giao
 
-**0.4.13:** GPS mới/cũ, mốc tìm bệnh nhân riêng tư, sửa giữ sót triệu chứng và bảng quản trị diễn tập. Đầu mối trực vẫn trống theo xác nhận. [Số thực/timestamp/hash log](testing/verification/VERIFICATION_V0_4_13.json).
+**0.4.14:** bàn giao xác nhận, phục hồi báo cáo/revision, GPS roster và maintenance nhiều trang. Source/local/CI/cloud/artifact có [báo cáo riêng](testing/verification/VERIFICATION_V0_4_14.md); chưa có nghiệm thu máy thật.
+
+Các mốc0.4.13 dưới đây được giữ để truy vết; trạng thái14 ở đầu trang. **0.4.13:** GPS mới/cũ, mốc tìm bệnh nhân riêng tư, sửa giữ sót triệu chứng và bảng quản trị diễn tập. Đầu mối trực vẫn trống theo xác nhận. [Số thực/timestamp/hash log](testing/verification/VERIFICATION_V0_4_13.json).
 
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
@@ -48,4 +52,3 @@ Nhóm chưa có đầu mối trực; không tự điền số cá nhân/115. FCM
 Ghi bằng chứng ở lab note trước, cập nhật bảng phần 1 theo kết quả thực; chưa thử thì không đổi thành Đạt. Hướng dẫn thao tác ở trang cài/demo/phát hành; không chép lịch sử dài vào trang trạng thái này.
 
 [Lịch sử trạng thái trước lần tổ chức](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/STATUS_HISTORY.md).
-

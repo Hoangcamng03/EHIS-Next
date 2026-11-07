@@ -60,6 +60,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 
 | Trang | Nội dung |
 | --- | --- |
+| [VERIFICATION_V0_4_14.json](testing/verification/VERIFICATION_V0_4_14.json) | Số đo thực, thời điểm, hash log và trạng thái build/deploy; không chứa mật khẩu |
 | [VERIFICATION_V0_4_14](testing/verification/VERIFICATION_V0_4_14.md) | Bàn giao xác nhận, phục hồi báo cáo, bảo trì và số đo thực từng lớp |
 | [PRODUCT_REVIEW_2026_11_07](testing/verification/PRODUCT_REVIEW_2026_11_07.md) | Rà toàn diện UI/flow/quyền/vận hành; backlog theo ưu tiên, APK mới được xác minh và giới hạn kiểm tra |
 | [VERIFICATION_V0_4_13](testing/verification/VERIFICATION_V0_4_13.md) | Vòng cải thiện GPS/điểm hẹn/theo dõi diễn tập; kết quả từng lớp và giới hạn còn mở |
@@ -125,4 +126,3 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 Bốn bản sao *_HISTORY, COMPLETE_FLOW và TRIAL_CHECKLIST cũ đã bỏ vì trùng lặp hoặc thay bằng flow nghiệm thu hiện hành. Nội dung vẫn có trong [snapshot trước sắp xếp](https://github.com/Hoangcamng03/EHIS-Next/tree/f921d33/docs), dùng để truy vết. Không thêm bản sao toàn file chỉ để lưu lịch sử; dùng Git và lab note.
 
 **Quy tắc thêm tài liệu:** chọn đúng thư mục demo, architecture, development, testing, operations hoặc planning; thêm một mục vào bảng tương ứng và ghi LAB_NOTES. Trạng thái phiên bản dẫn về STATUS. File verification/audit có bằng chứng riêng được giữ; dữ liệu trùng hoặc hướng dẫn đã thay thế không để lẫn với hướng dẫn hiện hành.
-

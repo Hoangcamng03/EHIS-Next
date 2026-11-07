@@ -20,12 +20,24 @@ Phạm vi: diễn tập phần mềm bằng dữ liệu giả. Không phải ngh
 | Dọn tồn đọng | PASS75 expired+65 purge+450 counters+450 push; giữ1 active;1707ms local cho lượt dọn | Không phải số đo cloud hay ngưỡng tối đa |
 | Tải portable lượt1 | PASS1000 Auth giả;128 phiên,32 feed SDK,32 ca đồng thời/8 vùng/320 API,40 từ chối dự kiến,0 retry; p50/p95 lời mời932/1435ms | Check mã chạy trùng phần cuối workload. Không kết luận nhanh/chậm hơn p95 baseline925ms khác điều kiện |
 | Browser local | PASS QR→báo→ON muộn→nhận→A bàn giao B→đến/kết thúc; khôi phục báo cáo; hai tab chặn stale; admin dọn/lịch sử cả ca đóng; đăng xuất | Một viewport mỗi tab, không gọi là thử điện thoại. Bản đồ/OSRM có hiển thị một lượt, không bảo đảm dịch vụ luôn sẵn sàng |
-| Build cloud frontend | Lượt2 PASS trước hai chỉnh sửa UI cuối; phải build lại trước deploy | Lượt1 EPERM được giữ, không dùng artifact lỗi |
-| Cloud/backend/native mới | Chưa ghi đạt tại mốc lập tài liệu; sẽ bổ sung kết quả thật sau triển khai/build | APK0.4.13 đã có artifact; bàn giao cần web mới hoặc APK0.4.14 |
+| Build cloud frontend | Lượt3 PASS từ commitb014a7b, gồm các sửa UI cuối | Lượt1 EPERM được giữ, không dùng artifact lỗi |
+| Cloud/backend | PASS backend14 deploy/health+401, hai flow cloud giả, owner restore/roster/candidates/transfer/private access/history; thu quyền admin/referrer tạm và2 TNV fixture mỗi flow | Không thử tải lớn/điện thoại trên cloud; lượt deploy đầu thất bại do CLI đăng xuất, probe trước deploy chặn version13→14 |
+| Hosting | PASS hai site14 deploy và38 HTML/JS/CSS khớp bytes build | Browser local đã thao tác; không ghi thành browser cloud hoặc Android |
+| CI | [42390214618 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42390214618), đúng b014a7b | Tách CI khỏi nghiệm thu thiết bị |
+| Android | Build14/code12 cad7b4b8 đang IN_PROGRESS tại lần kiểm tra16:27:41UTC | Chưa có artifact14 để xác minh; installer hiện13/code11 đã verifier đạt, bàn giao dùng web14 trong lúc chờ |
 
 Raw log và ảnh local: `.local/improve-14`, không chứa dữ liệu y tế thật. Mỗi lần chạy có timestamp/exit code/hash log và dirty-source marker; không đổi failed thành pass. Các lỗi chuẩn bị được lưu: integration-1 bị timeout cổng trong vùng hạn chế; build-1 EPERM; setup UI gọi quá sớm khi Function chưa load; clipboard/selector CUA phải nhập/chọn lại. Invalid-report ảnh đầu là loading, ảnh resolved mới chứng minh màn lỗi.
 
-## 3. Nghiệm thu còn mở
+## 3. Đối chiếu hiệu suất có kiểm soát
+
+Giữ bản trước7ff328e (runtime13) và bản mới b014a7b (runtime14) trên cùng máy/thư viện, cùng Emulator, warmup và thứ tự baseline/current/current/baseline/baseline/current/current/baseline. Mỗi lượt96 ca đo+8 warmup; tuần tự6 và burst6,24 mẫu/nhóm/variant. Ngưỡng điều tra giữ nguyên: p95 <= max(baseline×1.20, baseline+75ms).
+
+- Lượt1 **RECHECK**: burst create148→242ms, alert145→232ms;14 chỉ số còn lại trong ngưỡng. Không xóa hoặc đổi lượt này thành PASS.
+- Lượt2 **PASS16/16 chỉ số**, không đổi mã hoặc ngưỡng: tuần tự create157→144ms, alert157→150ms; burst create151→149ms, alert151→146ms. Một số thao tác mới vẫn chậm hơn trong ngưỡng (private read144→176ms; finish137→195ms). Không nói mọi API nhanh hơn.
+- Nhận định: chênh lệch lượt1 không tái hiện ở lượt2, nhưng chưa chứng minh nguyên nhân hay ổn định tuyệt đối. Giữ cả hai bộ raw trong JSON; không kết luận SLA/cloud/điện thoại. Đây là kết quả đo có dao động, không phải tối ưu bằng cách bỏ phân quyền/audit.
+- Scale portable lượt2 sau khi dừng UI và check kết thúc:1000 Auth/128 phiên/32feed/32ca/320API, PASS; p50/p95 lời mời946/1485ms. Hai bài scale không được coi là paired baseline. Bài đối chiếu ở trên mới dùng hai mã chạy luân phiên.
+
+## 4. Nghiệm thu còn mở
 
 - Hai Android: cài đè/đúng version, GPS Wi-Fi/4G, mất mạng/khôi phục, chuông Im lặng/Rung/Home/khóa, quyền thông báo/pin, chạm/cuộn/cỡ chữ lớn. Chưa có kết quả thiết bị trong đợt này.
 - Bán kính và tuổi GPS vẫn là điều kiện phần mềm; không suy ra người đã tới hoặc có năng lực y tế. Chưa có đầu mối trực.

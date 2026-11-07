@@ -98,6 +98,9 @@ async function main() {
  const documentUrl=`https://firestore.googleapis.com/v1/projects/${project}/databases/(default)/documents/patients/${patient.localId}`;
  const own=await fetch(documentUrl,{headers:{Authorization:'Bearer '+patient.idToken}});assert.equal(own.status,200);assert.equal((await own.json()).fields.fullName.stringValue,'Bệnh nhân giả · thử cloud EHIS');
  assert.equal((await fetch(documentUrl,{headers:{Authorization:'Bearer '+volunteer.idToken}})).status,403);
+ // Ephemeral probe volunteers must not remain approved after a successful drill.
+ for(const user of [volunteer,targetVolunteer]) await call('setVolunteerSuspension',{uid:user.localId,suspended:true,reason:'Synthetic cloud probe complete; retire this temporary test volunteer.'},admin);
+ demo.syntheticVolunteersSuspended=2;
  demo.result='FLOW_PASSED_CLEANUP_PENDING';
  } finally {
   if(demo.syntheticReferrerRegistryCreated) await call('setVolunteerReferrer',{email:admin.email,fullName:'Synthetic test manager',phone:'0900000000',organisation:'Synthetic test unit',position:'Synthetic fixture only',verificationNote:'Software test complete; revoke temporary referrer access.',enabled:false},admin);
