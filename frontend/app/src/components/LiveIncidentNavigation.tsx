@@ -55,9 +55,11 @@ export function LiveIncidentNavigation({ destination, connected, autoPreview = f
     <ToggleRow accessibilityLabel="Cập nhật GPS khi mở chỉ đường" label="GPS trực tiếp khi mở bản đồ" value={tracking} disabled={!connected} onValueChange={setLive} />
     <Text accessibilityLiveRegion="polite" style={{ fontSize: 14, lineHeight: 20 }}>{tracking ? !live.foreground ? 'GPS tạm dừng khi app ở nền.' : live.fix ? `GPS ${fresh ? 'đang cập nhật' : 'đã cũ'} · ±${Math.round(live.fix.accuracy)}m · ${Math.max(0, Math.floor((now - live.fix.timestamp) / 1000))}s trước` : 'Đang lấy GPS…' : 'Vị trí đã lưu · Chưa theo dõi GPS trực tiếp.'}</Text>
     {tracking && !fresh && <Text style={{ color: '#9f2424', fontSize: 14 }}>Chờ GPS mới, đủ chính xác. Kiểm tra quyền vị trí hoặc ra nơi thoáng.</Text>}
+    {tracking && !fresh && !!origin && <Text style={{ fontSize: 14 }}>Điểm A đang là vị trí cũ; chưa dùng để tính tuyến mới.</Text>}
     <RouteMap origin={origin} destination={destination} route={visibleRoute} />
     {visibleRoute && <><Text accessibilityRole="header" style={{ fontSize: 18, fontWeight: '700', color: '#125b99' }}>{(visibleRoute.distance / 1000).toFixed(2)} km · ~{Math.max(1, Math.ceil(visibleRoute.duration / 60))} phút</Text><Text style={{ fontSize: 14 }}>Tuyến ô tô tham khảo · {Math.max(0, Math.floor((now - result!.at) / 1000))}s trước.</Text></>}
     {!!(error || (tracking && live.error)) && <Text accessibilityRole="alert" style={{ color: '#9f2424' }}>{error || live.error}</Text>}
+    {tracking && !!live.error && <Button variant="secondary" title="Thử lại GPS" disabled={!connected || !live.foreground} onPress={live.retry} />}
     <Button variant="secondary" loading={busy} title={busy ? 'Đang tính tuyến…' : 'Tính lại tuyến'} disabled={busy || !origin || !connected || (tracking && (!fresh || !live.foreground))} onPress={() => { setRouteEnabled(true); void preview(); }} />
     <InfoDisclosure title="Chặng đường và tùy chọn">
       <Text>A · TNV: {origin ? `${origin.latitude.toFixed(6)}, ${origin.longitude.toFixed(6)}` : 'Chưa có vị trí'}</Text>

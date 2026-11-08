@@ -1,5 +1,31 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const policy=import('../frontend/app/src/lib/live-location.ts');
+async function hookHarness(location) {
+ const locationPolicy=await policy;
+ const ts=require('../frontend/app/node_modules/typescript'),states=[],effects=[],timers=[];let slot=0;
+ const hooks={useState(initial){const i=slot++;states[i]=typeof initial==='function'?initial():initial;return [states[i],value=>{states[i]=typeof value==='function'?value(states[i]):value;}];},useEffect(effect){effects.push(effect);}};
+ const exports={};vm.runInNewContext(ts.transpileModule(fs.readFileSync('frontend/app/src/lib/use-live-location.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,{exports,require:name=>name==='react'?hooks:name==='react-native'?{AppState:{currentState:'active',addEventListener:()=>({remove(){}})}}:name==='expo-location'?location:locationPolicy,Date,setTimeout(fn){const timer={fn,cleared:false};timers.push(timer);return timer;},clearTimeout(timer){if(timer)timer.cleared=true;}});
+ const result=exports.useLiveLocation(true),cleanup=effects[1]();
+ for(let i=0;i<12;i++)await Promise.resolve();
+ return {states,timers,result,cleanup};
+}
+function locationAdapter(extra={}) {return {Accuracy:{High:4},requestForegroundPermissionsAsync:async()=>({status:'granted'}),hasServicesEnabledAsync:async()=>true,getLastKnownPositionAsync:async()=>null,watchPositionAsync:async()=>({remove(){}}),...extra};}
+test('foreground GPS accepts successive stationary fixes without waiting for movement',async()=>{
+ let emit,removed=0;const at=Date.now(),position={coords:{latitude:10.8,longitude:106.7,accuracy:12},timestamp:at};
+ const h=await hookHarness(locationAdapter({getLastKnownPositionAsync:async()=>({...position,timestamp:at-60000}),watchPositionAsync:async(options,callback)=>{emit=callback;if(options.distanceInterval===0)callback(position);return {remove(){removed++;}};}}));
+ assert.equal(h.states[1].timestamp,at);emit({...position,timestamp:at+1});assert.equal(h.states[1].timestamp,at+1);assert.equal(h.states[2],'');h.cleanup();assert.equal(removed,1);
+});
+test('first-fix timeout offers a retry; late subscription and callback cannot update a stopped watcher',async()=>{
+ let resolveWatch,emit,removed=0;
+ const h=await hookHarness(locationAdapter({watchPositionAsync:(_options,callback)=>{emit=callback;return new Promise(resolve=>resolveWatch=resolve);}}));
+ h.timers.find(t=>!t.cleared).fn();assert.match(h.states[2],/15 giây/);h.result.retry();assert.equal(h.states[3],1);h.cleanup();
+ resolveWatch({remove(){removed++;}});emit({coords:{latitude:10.8,longitude:106.7,accuracy:12},timestamp:Date.now()});await new Promise(resolve=>setImmediate(resolve));assert.equal(h.states[1],null);assert.equal(removed,1);
+});
+test('denied location permission does not start GPS requests or create a success fix',async()=>{
+ let started=0;
+ const h=await hookHarness(locationAdapter({requestForegroundPermissionsAsync:async()=>({status:'denied'}),watchPositionAsync:async()=>{started++;return {remove(){}};}}));
+ assert.equal(started,0);assert.equal(h.states[1],null);assert.match(h.states[2],/quyền vị trí/);h.cleanup();
+});
 test('reporter rejects weak/stale GPS before initial request and confirmed relocation',async()=>{
  const {confirmedPoint}=await import('../frontend/web/src/lib/location-fix.ts'),position={coords:{latitude:10.8,longitude:106.7,accuracy:12},timestamp:100000};
  assert.deepEqual(confirmedPoint(position,100000),{latitude:10.8,longitude:106.7});

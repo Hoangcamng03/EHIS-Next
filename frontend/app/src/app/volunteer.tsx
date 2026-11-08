@@ -102,6 +102,7 @@ function VolunteerDashboard({ user }: { user: User }) {
   const [approved, setApproved] = useState(false), [checked, setChecked] = useState(false), [application, setApplication] = useState<{ status?: string; [key: string]: unknown }>();
   const [applicationLoaded, setApplicationLoaded] = useState(false), [verificationVersion, setVerificationVersion] = useState(0);
   const [suspended, setSuspended] = useState(false);
+  const [connectionAttempt, setConnectionAttempt] = useState(0);
   const alerts = useMemo(() => approved && feed.key === feedKey ? feed.alerts : [], [approved, feed.key, feed.alerts, feedKey]);
   const connected = approved && feed.key === feedKey && feed.connected;
   const [available, setAvailable] = useState(false);
@@ -115,7 +116,7 @@ function VolunteerDashboard({ user }: { user: User }) {
     setActiveId(typeof snapshot.data()?.activeIncidentId === 'string' ? snapshot.data()!.activeIncidentId : null);
     setVerificationVersion(snapshot.data()?.verificationPolicyVersion || 0);
     setSuspended(snapshot.data()?.verificationStatus === 'suspended');
-  }, err => { setChecked(false); setAvailable(false); setError(readableError(err)); }), [user.uid]);
+  }, err => { setChecked(false); setApproved(false); setAvailable(false); setError(readableError(err)); }), [user.uid, connectionAttempt]);
   useEffect(() => onSnapshot(doc(firebaseClient().db, `volunteerApplications/${user.uid}`), snapshot => { setApplication(snapshot.data()); setApplicationLoaded(true); }, err => setError(readableError(err))), [user.uid]);
   useEffect(() => { const timer = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(timer); }, []);
   useEffect(() => {
@@ -153,7 +154,7 @@ function VolunteerDashboard({ user }: { user: User }) {
   }
   return <ScrollView contentContainerStyle={styles.page} keyboardShouldPersistTaps="always" keyboardDismissMode="on-drag">
     <Text style={styles.eyebrow}>EHIS · TÌNH NGUYỆN VIÊN</Text><Text style={styles.title}>{assigned.length ? 'Đang hỗ trợ' : 'Hỗ trợ cộng đồng'}</Text>
-    {!checked ? <Text>Đang xác nhận quyền với máy chủ…</Text> : !approved ? suspended ? <View style={styles.card}><Text style={styles.cardTitle}>Quyền nhận ca đang tạm dừng</Text><Text>Liên hệ quản trị hoặc người phụ trách đơn vị để được kiểm tra lại. Chưa thể bật sẵn sàng hay nhận ca.</Text></View> : applicationLoaded ? <VolunteerApplication key={String(application?.applicationRevision || 'new')} status={application?.status} initial={application} /> : <Text>Đang tải hồ sơ đăng ký…</Text> : <>
+    {!checked ? <View style={styles.card}><Text style={styles.cardTitle}>Chưa xác nhận được kết nối</Text><Text>Đang thử đồng bộ với máy chủ. Kiểm tra Wi-Fi hoặc dữ liệu di động; thông tin riêng và thao tác ca tạm ẩn.</Text><Button variant="secondary" title="Kiểm tra lại kết nối" onPress={() => setConnectionAttempt(value => value + 1)} /></View> : !approved ? suspended ? <View style={styles.card}><Text style={styles.cardTitle}>Quyền nhận ca đang tạm dừng</Text><Text>Liên hệ quản trị hoặc người phụ trách đơn vị để được kiểm tra lại. Chưa thể bật sẵn sàng hay nhận ca.</Text></View> : applicationLoaded ? <VolunteerApplication key={String(application?.applicationRevision || 'new')} status={application?.status} initial={application} /> : <Text>Đang tải hồ sơ đăng ký…</Text> : <>
       {verificationVersion !== 2 && <Text style={styles.note}>Tài khoản diễn tập cũ · Chưa có checklist xác minh của đơn vị theo quy trình mới.</Text>}
       {!assigned.length && <Text style={styles.intro}>Bật sẵn sàng để nhận yêu cầu gần bạn.</Text>}
       {!connected && <Text accessibilityRole="alert">Đang đồng bộ · Tạm khóa thao tác ca.</Text>}

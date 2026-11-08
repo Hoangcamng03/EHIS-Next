@@ -104,6 +104,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | Trang | Cách đọc |
 | --- | --- |
 | [LAB_NOTES](LAB_NOTES.md) | Mọi phiên thay đổi, cả việc chưa đạt; mục tài khoản ở đầu trang |
+| [ACCEPTANCE_ANDROID_2026_11_08](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md) | Hai Android thực, tải local/cloud, lỗi GPS và các điều kiện chưa nghiệm thu |
+| [ACCEPTANCE_ANDROID_2026_11_08.json](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.json) | Record/log hash/số đo thật; phân biệt unit mock, API và máy thật |
 | [PERFORMANCE_2026_10_26.json](testing/verification/PERFORMANCE_2026_10_26.json) | Số tổng hợp trước/sau tối ưu, hash source và giới hạn phép đo local |
 | [VERIFICATION_V0_4_7](testing/verification/VERIFICATION_V0_4_7.md) | Bằng chứng bản 0.4.7 đã bàn giao; thử điện thoại vẫn là lớp riêng |
 | [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md) | Đợt UI/tải lớn 27/10; trạng thái cloud/APK/máy thật tra STATUS |
