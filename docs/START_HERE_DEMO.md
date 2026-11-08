@@ -37,10 +37,12 @@ flowchart LR
   A --> B[Bổ sung quan sát và phone tùy chọn]
   B --> N
   N --> C[Một TNV nhận ca và xem thông tin được phép]
-  C --> M[Bản đồ rồi xác nhận đến và kết thúc]
+  C --> E[TNV xác nhận lên đường và giờ dự kiến]
+  E --> M[Bản đồ rồi xác nhận đến và kết thúc]
 ```
 
 - **Đã gửi** nghĩa là máy chủ đã nhận, chưa có nghĩa TNV đã nhận hoặc đã đến.
+- **Đang lên đường** do TNV xác nhận, không bảo đảm giờ đến. Khi người báo gửi bổ sung, app TNV hiện số bản mới; xác nhận app tải không đồng nghĩa con người đã đọc. [Giải thích tiến độ/câu trả lời](operations/REPORT_UPDATES_AND_ARRIVAL.md).
 - QR không chứa bệnh án hay vị trí trực tiếp. Điểm hỗ trợ lấy từ thiết bị người báo khi họ xác nhận đang cạnh bệnh nhân.
 - Người báo không xem hồ sơ y tế; chỉ TNV đúng ca, sau khi nhận và theo lựa chọn chia sẻ của Patient, mới được xem thông tin riêng.
 - Hai TNV tranh một ca: chỉ một người được nhận. Không dùng chung một tài khoản cho hai người để thử tranh ca.

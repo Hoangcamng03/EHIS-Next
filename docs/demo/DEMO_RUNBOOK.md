@@ -14,6 +14,12 @@
 4. Nhóm chưa có đầu mối trực được phép công khai. Khi không có TNV nhận/lỗi, báo trực tiếp người phụ trách diễn tập tại chỗ; không gọi thử số cá nhân hoặc dịch vụ cấp cứu thật.
 5. Nút **Thử lại thông báo đến hạn** chỉ dành cho admin theo dõi diễn tập; Emulator không gửi FCM thật. Chỉ ghi chuông/rung đạt sau khi quan sát trên điện thoại.
 
+### Tiến độ và bản trả lời từ 0.4.15
+
+Sau nhận ca, TNV nhập số phút rồi xác nhận **Đang lên đường**; người báo/Patient đối chiếu giờ dự kiến. Chọn đáp án chưa gửi không được làm đổi thông tin TNV. Người báo bấm Gửi lần hai, TNV phải thấy bản số2; người báo chỉ thấy xác nhận app tải2 sau khi app nhận đúng bản. Xác nhận tải không phải con người đã đọc. [Hướng dẫn chi tiết và phiếu nghiệm thu](../operations/REPORT_UPDATES_AND_ARRIVAL.md).
+
+TNV thử báo đường đi chậm; admin bấm **Tải ca đang xử lý** để thấy tiến độ mới. Đổi ETA không xóa mốc đầu. Nếu muốn thử trễ, chờ đúng thời gian thực, ghi giờ; không sửa đồng hồ rồi gọi đó là kết quả thực. Không tự bàn giao/kết thúc ca vì quá giờ.
+
 | Thành viên | Chỉ có hai điện thoại + laptop | Có thêm thiết bị báo tin |
 | --- | --- | --- |
 | A — điều phối/Patient | Laptop P1; chuẩn bị A1 trước buổi; hô chuyển bước | Như cột bên |
@@ -45,6 +51,7 @@ Nếu app hiện lựa chọn đối tượng: tài khoản đã cấp chọn **
 | 3 | C | Quét QR P1, xác nhận đang cạnh bệnh nhân, bấm Báo tình nguyện viên gần đây | Đang gửi → backend xác nhận → web mở bảng hỏi. Chưa ai được nói TNV đã nhận |
 | 4 | C | Chọn ba câu theo tình huống giả; không rõ thì chọn Không rõ; bỏ trống phone rồi gửi bổ sung | Web xác nhận đã ghi nhận bổ sung; không tạo ca mới |
 | 5 | B | Khi cảnh báo đỏ hiện, bấm Nhận ca | Chỉ sau xác nhận máy chủ mới xem chi tiết; C thấy TNV đã nhận, A thấy trạng thái thay đổi |
+| 5a | B/C | B nhập số phút dự kiến rồi xác nhận Đang lên đường. C thay một câu trả lời và bấm Gửi lần nữa | C/A thấy ETA do B xác nhận; B thấy bản tình trạng mới, C thấy app tải đúng số bản. Không nói đã đọc/đến nơi chỉ từ các nhãn này |
 | 6 | B/C | Xem bản đồ trong app. Nếu thử GPS, đi bộ an toàn và giữ màn chỉ đường mở. C chỉ cập nhật điểm khi đứng cạnh điểm mới và xác nhận | Ký hiệu A/B trên bản đồ lần lượt là vị trí TNV/điểm cần hỗ trợ, khác tên thành viên A/B; tọa độ điểm bệnh nhân không tự chạy theo người báo. Thời gian tuyến chỉ tham khảo |
 | 7 | B | Bấm Đã đến nơi khi đến điểm diễn tập | A/C thấy TNV xác nhận đã đến; đây là thao tác xác nhận của TNV |
 | 8 | B | Bấm Hoàn tất ca hỗ trợ và xác nhận | A/C thấy ca kết thúc; B không còn xem hồ sơ riêng/bản đồ của ca |

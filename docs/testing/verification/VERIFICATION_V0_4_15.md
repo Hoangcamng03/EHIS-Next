@@ -32,4 +32,10 @@ Browser đã quan sát cảnh báo **quá mốc ETA ban đầu bằng thời gia
 
 ## 4. Điều kiện bàn giao
 
+Ngày08/11: runtime source0eb17de đã lên main; backend15 deploy/health/project/401 PASS; luồng2 ca cloud giả PASS46.748s, gồm ETA/firstETA/receipt/bàn giao/reset/thu quyền fixture tạm. Hai Hosting15 deploy PASS,38 HTML/JS/CSS khớp build. [CI42447024274](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42447024274) SUCCESS gồm check/Android export/web build/integration/scale.
+
+[APK392b6d6b](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/392b6d6b-4e9f-4541-9956-fae90b954fbb) FINISHED,0.4.15/code13 đúng source0eb17de. Artifact verifier PASS08/11 05:01:16 UTC:102912725 bytes, package com.hoangcamng.ehisnext, đúng backend, tài nguyên âm báo/FCM, không có microphone permission. SHA256: `fa4a4df0bf0e11bfa9d8eb84f08357bc4babd538e8c4a53b31020283b93e1ff9`. Chưa kiểm chứng chữ ký/cài/thiết bị. Manifest trang tải chỉ đổi sau kết quả này; xác minh link online ghi trong JSON sau deploy cuối.
+
+Build-4/deployweb-2 PASS; artifacts-2 xác minh lại38 file. Trang cài online PASS05:04:01.837 UTC08/11, dẫn đúng APK15 đã xác minh và backend15. Không có OTA hoặc tự cài trên điện thoại. Commit tài liệu/manifest sau runtime không được coi là một APK khác.
+
 Cloud/backend/APK/CI chỉ được ghi đạt khi có kết quả thực trong JSON và STATUS. Link APK cũ được giữ cho tới khi APK15 build xong và kiểm tra artifact đạt. Chưa có phiếu thiết bị thật: không ghi font/GPS/chuông/nền hoặc khả năng đến đúng giờ đã đạt. Chưa tiếp nhận cấp cứu thật.
