@@ -2525,7 +2525,7 @@
     "No clinical or real-emergency readiness established"
   ],
   "deviceTrial": {
-    "recordedAt": "2026-11-08T10:41:08.069Z",
+    "recordedAt": "2026-11-08T11:12:15.862Z",
     "scope": "Owner-authorized real Galaxy S22+ USB connection, in-place install and basic UI control. Not full operational acceptance.",
     "hardware": {
       "checkedAt": "2026-11-08T10:14:27.0745590Z",
@@ -2612,7 +2612,8 @@
       },
       "localScreenshot": "s22-audio-fail-0415.png",
       "fixVersion": "0.4.16",
-      "fixDeviceResult": "NOT TESTED"
+      "fixDeviceResult": "PASS_ONE_DEVICE_TRIAL_ON_0.4.16",
+      "fixEvidenceReport": "VERIFICATION_V0_4_16.json"
     },
     "notificationPermissionAfterOwnerApproval": {
       "checkedAt": "2026-11-08T10:33:06.7434237Z",

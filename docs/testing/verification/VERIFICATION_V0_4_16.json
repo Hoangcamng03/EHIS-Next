@@ -1,6 +1,6 @@
 {
   "version": "0.4.16",
-  "generatedAt": "2026-11-08T10:46:17.023Z",
+  "generatedAt": "2026-11-08T11:12:15.947Z",
   "runtimeCommit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
   "scope": "Controlled synthetic-data drill. Source, cloud, APK artifact and actual phone results are separate.",
   "checkCounts": {
@@ -79,6 +79,54 @@
       ]
     },
     {
+      "id": "apkstatus-3",
+      "operation": "apkstatus",
+      "command": "node scripts/build-trial-android.cjs status",
+      "startedAt": "2026-11-08T10:47:21.073Z",
+      "endedAt": "2026-11-08T10:47:25.652Z",
+      "elapsedMs": 4578,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "87cd5a64901bf05dc2fc7f94b4380c2a838b5300",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstatus-3.log",
+      "logSha256": "ddbddd7cb67b78bc195816df6d46e8533eef34c3be6751b27b0e45ed104a1198",
+      "artifacts": [
+        "apkstatus-3-android-trial-build.json"
+      ]
+    },
+    {
+      "id": "apkverify-1",
+      "operation": "apkverify",
+      "command": "node scripts/verify-trial-apk.cjs",
+      "startedAt": "2026-11-08T10:47:45.089Z",
+      "endedAt": "2026-11-08T10:47:50.519Z",
+      "elapsedMs": 5429,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "87cd5a64901bf05dc2fc7f94b4380c2a838b5300",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkverify-1.log",
+      "logSha256": "51c38e4b8a6dcdb31c499bd493171c910ece2ff86634ffcb308c24b3353ab169",
+      "artifacts": [
+        "apkverify-1-android-trial-artifact.json"
+      ]
+    },
+    {
       "id": "artifacts-1",
       "operation": "artifacts",
       "command": "node scripts/verify-cloud-artifacts.cjs",
@@ -103,6 +151,30 @@
       ]
     },
     {
+      "id": "artifacts-2",
+      "operation": "artifacts",
+      "command": "node scripts/verify-cloud-artifacts.cjs",
+      "startedAt": "2026-11-08T11:09:27.980Z",
+      "endedAt": "2026-11-08T11:09:38.390Z",
+      "elapsedMs": 10408,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "87cd5a64901bf05dc2fc7f94b4380c2a838b5300",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "artifacts-2.log",
+      "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
+      "artifacts": [
+        "artifacts-2-cloud-artifact-proof.json"
+      ]
+    },
+    {
       "id": "build-1",
       "operation": "build",
       "command": "npm run cloud:build",
@@ -122,6 +194,28 @@
       "totalMemoryBytes": 25463480320,
       "log": "build-1.log",
       "logSha256": "c2fdbc0e3c755f611ab632f62301ae1db5e27669976baffd29f353580c055e4f",
+      "artifacts": []
+    },
+    {
+      "id": "build-2",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-08T11:03:53.596Z",
+      "endedAt": "2026-11-08T11:04:17.407Z",
+      "elapsedMs": 23810,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "87cd5a64901bf05dc2fc7f94b4380c2a838b5300",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-2.log",
+      "logSha256": "cbdd11fb01ae1559763e19700619ab7acbccb399faaf16f51f5decff3d8b0108",
       "artifacts": []
     },
     {
@@ -211,6 +305,28 @@
       "log": "deployweb-1.log",
       "logSha256": "ca8274888bfa23de30132f8d40fd3a41dcd09ea94060b041d693bff54f03a0e7",
       "artifacts": []
+    },
+    {
+      "id": "deployweb-2",
+      "operation": "deployweb",
+      "command": "npm run cloud:deploy-web",
+      "startedAt": "2026-11-08T11:06:05.823Z",
+      "endedAt": "2026-11-08T11:06:21.840Z",
+      "elapsedMs": 16015,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "87cd5a64901bf05dc2fc7f94b4380c2a838b5300",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deployweb-2.log",
+      "logSha256": "471b5c58b26812b445fa0fdc3253eceab0dd157687f03bcc4d48a14c61ef36a6",
+      "artifacts": []
     }
   ],
   "previousActualDeviceFailure": {
@@ -265,14 +381,34 @@
     "commit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
     "version": "0.4.16",
     "versionCode": 14,
-    "status": "IN_PROGRESS",
+    "status": "FINISHED",
     "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/c344677f-9663-446f-b720-a1ef4c1b6a5e",
     "startedAt": "2026-11-08T10:27:31.685Z",
-    "deviceVerified": false
+    "deviceVerified": false,
+    "apkUrl": "https://expo.dev/artifacts/eas/I4rVMe1xroxr-i8MaVKmBP3NEImFfg9ARfGXLWMVsGc.apk"
   },
-  "androidArtifact": null,
+  "androidArtifact": {
+    "id": "c344677f-9663-446f-b720-a1ef4c1b6a5e",
+    "commit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
+    "version": "0.4.16",
+    "versionCode": 14,
+    "status": "FINISHED",
+    "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/c344677f-9663-446f-b720-a1ef4c1b6a5e",
+    "startedAt": "2026-11-08T10:27:31.685Z",
+    "deviceVerified": false,
+    "apkUrl": "https://expo.dev/artifacts/eas/I4rVMe1xroxr-i8MaVKmBP3NEImFfg9ARfGXLWMVsGc.apk",
+    "bytes": 102720249,
+    "sha256": "066d2206cf2bb7659ddecb28d7da740a5b50ec09f75ca6d5bc2e3a38c3cdc820",
+    "artifactVerified": true,
+    "packageName": "com.hoangcamng.ehisnext",
+    "microphonePermission": false,
+    "vibrationPermission": true,
+    "embeddedTone": true,
+    "cloudTargetVerified": true,
+    "backgroundNotificationResourcesVerified": true
+  },
   "cloudArtifactProof": {
-    "checkedAt": "2026-11-08T10:37:41.071Z",
+    "checkedAt": "2026-11-08T11:09:38.326Z",
     "checked": 38,
     "sha256Match": true,
     "targets": [
@@ -280,15 +416,168 @@
       "https://ehis-next-20261021-hc03-app.web.app"
     ]
   },
-  "installation": null,
-  "nativeDeviceTrial": null,
-  "installPageProof": null,
+  "installation": {
+    "startedAt": "2026-11-08T10:48:10.3233934Z",
+    "endedAt": "2026-11-08T10:48:42.7703754Z",
+    "model": "SM-S906E",
+    "beforeVersion": "0.4.15",
+    "afterVersion": "0.4.16",
+    "afterCode": "14",
+    "apkSha256": "066d2206cf2bb7659ddecb28d7da740a5b50ec09f75ca6d5bc2e3a38c3cdc820",
+    "installExitCode": 0,
+    "installerOutput": "Performing Streamed Install\r\nSuccess",
+    "status": "PASS",
+    "ownerServerState": "Approved, OFF, no active incident checked immediately before install",
+    "operation": "adb install -r only; no uninstall, data clear, downgrade or permission auto-grant",
+    "limits": "Does not establish audio/UI/GPS acceptance"
+  },
+  "nativeDeviceTrial": {
+    "recordedAt": "2026-11-08T11:02:48.484Z",
+    "version": "0.4.16",
+    "model": "SM-S906E",
+    "androidVersion": "16",
+    "scope": "One owner-confirmed foreground test at current device audio settings; not full mobile acceptance",
+    "installation": {
+      "startedAt": "2026-11-08T10:48:10.3233934Z",
+      "endedAt": "2026-11-08T10:48:42.7703754Z",
+      "model": "SM-S906E",
+      "beforeVersion": "0.4.15",
+      "afterVersion": "0.4.16",
+      "afterCode": "14",
+      "apkSha256": "066d2206cf2bb7659ddecb28d7da740a5b50ec09f75ca6d5bc2e3a38c3cdc820",
+      "installExitCode": 0,
+      "installerOutput": "Performing Streamed Install\r\nSuccess",
+      "status": "PASS",
+      "ownerServerState": "Approved, OFF, no active incident checked immediately before install",
+      "operation": "adb install -r only; no uninstall, data clear, downgrade or permission auto-grant",
+      "limits": "Does not establish audio/UI/GPS acceptance"
+    },
+    "hardware": {
+      "checkedAt": "2026-11-08T11:01:19.7824858Z",
+      "connectedCount": 1,
+      "authorizedCount": 1,
+      "unauthorizedCount": 0,
+      "offlineCount": 0,
+      "devices": [
+        {
+          "androidVersion": "16",
+          "ehisVersion": "0.4.16",
+          "ehisVersionCode": "14",
+          "model": "SM-S906E",
+          "permissions": {
+            "VIBRATE": true,
+            "ACCESS_FINE_LOCATION": true,
+            "POST_NOTIFICATIONS": true,
+            "ACCESS_COARSE_LOCATION": true,
+            "RECORD_AUDIO": null
+          },
+          "sdk": "36"
+        }
+      ],
+      "scope": "Read-only hardware/app-version check; serial identifiers excluded; no app launch/install/log capture"
+    },
+    "nativeUiTap": {
+      "testButtonCount": 1,
+      "nativeButtonTapped": true,
+      "checkedAt": "2026-11-08T10:59:18.0463814Z",
+      "mode": "tap-test",
+      "tapAt": "2026-11-08T10:59:18.1677396Z",
+      "visibleAudioUi": [
+        {
+          "clickable": "false",
+          "text": "Đã đăng ký thông báo Android. Hãy thử chuông khi Home/khóa màn hình trên máy này.",
+          "bounds": "[92,308][988,422]",
+          "description": ""
+        },
+        {
+          "clickable": "false",
+          "text": "Ca mới chỉ tìm bạn trong 5 phút từ lần GPS gần nhất. Mở app để làm mới. Âm báo còn phụ thuộc cài đặt âm thanh và pin của Android.",
+          "bounds": "[92,625][988,796]",
+          "description": ""
+        },
+        {
+          "clickable": "false",
+          "text": "Âm thanh cảnh báo",
+          "bounds": "[92,931][988,999]",
+          "description": ""
+        },
+        {
+          "clickable": "false",
+          "text": "Chuông sẵn sàng · Kiểm tra âm lượng Media.",
+          "bounds": "[92,1033][988,1090]",
+          "description": ""
+        },
+        {
+          "clickable": "true",
+          "text": "",
+          "bounds": "[93,1124][987,1265]",
+          "description": "Thử chuông"
+        },
+        {
+          "clickable": "false",
+          "text": "Thử chuông",
+          "bounds": "[420,1161][660,1229]",
+          "description": ""
+        },
+        {
+          "clickable": "false",
+          "text": "Tùy chọn chuông và rung",
+          "bounds": "[104,1336][917,1396]",
+          "description": ""
+        }
+      ],
+      "scope": "Android UIAutomator of foreground EHIS only; no Windows UI APIs, credentials or other-app UI"
+    },
+    "diagnostics": {
+      "nativeErrorMarkers": [],
+      "scope": "EHIS-process warnings only stored locally; no raw logs/serial/user data printed; no audio settings changed",
+      "checkedAt": "2026-11-08T11:01:19.7089807Z",
+      "musicStreamMuted": false,
+      "knownAudioAliasError": false,
+      "ringerMode": null
+    },
+    "ownerResponse": "Có chuông và có rung",
+    "foregroundAudio": "PASS_ONE_DEVICE_TRIAL",
+    "haptics": "OWNER CONFIRMED",
+    "readyMessageObserved": true,
+    "knownAudioAliasErrorInCurrentProcess": false,
+    "screenshot": "s22-audio-ready-0416.png",
+    "roleSessionRetained": "Volunteer screen observed after in-place update without another sign-in",
+    "pending": [
+      "GPS accuracy/timings/navigation",
+      "Multiple incidents and one-active-case/ETA/receipt/handover on phone",
+      "Silent/ringer/DND/Media=0/Bluetooth",
+      "Long background, lock screen and force-stop cases",
+      "Large font and keyboard/touch matrix"
+    ],
+    "fullDeviceAcceptance": false
+  },
+  "installPageProof": {
+    "checkedAt": "2026-11-08T11:09:27.401Z",
+    "status": "PASS",
+    "installUrl": "https://ehis-next-20261021-hc03.web.app/install",
+    "androidVersion": "0.4.16",
+    "apkUrl": "https://expo.dev/artifacts/eas/I4rVMe1xroxr-i8MaVKmBP3NEImFfg9ARfGXLWMVsGc.apk",
+    "sameAsVerifiedArtifact": true,
+    "backendVersion": "0.4.16",
+    "deviceVerified": false
+  },
   "deviceAcceptance": "NOT COMPLETE",
   "limits": [
     "No clinical or real-emergency readiness established",
     "Do not infer source/build/FCM acceptance is physical-device receipt or audible sound",
-    "Foreground15 FAIL retained; candidate16 not passed until physical result recorded",
+    "Foreground15 FAIL retained; foreground16 passed one owner-confirmed S22+ trial, not all conditions",
     "One Home test notification is not long-background/lock/DND or incident dispatch acceptance",
     "No GPS timing/accuracy or whole-system mobile multi-case acceptance yet"
-  ]
+  ],
+  "finish": {
+    "androidTemporaryUiFileRemoved": true,
+    "appRegistrationKept": true,
+    "checkedAt": "2026-11-08T11:10:50.8037455Z",
+    "localTemporaryTokenCopyRemoved": true,
+    "ownerActiveIncident": false,
+    "ownerVolunteerAvailable": false,
+    "mirrorKeptForOwner": true,
+    "scope": "Cleaned only own test XML/token copy; no account, case, app data, permission or shared ADB server changed"
+  }
 }

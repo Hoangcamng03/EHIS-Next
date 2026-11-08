@@ -10,7 +10,7 @@ Một repository cho toàn bộ dự án Capstone bốn người: app Bệnh nh�
 
 **Tra cứu:** [Tất cả tài liệu](docs/README.md) · [Phiên bản/việc còn thiếu](docs/STATUS.md) · [Lab note](docs/LAB_NOTES.md).
 
-**Bản 0.4.15:** [Tiến độ TNV, ETA, câu trả lời có số bản và font](docs/operations/REPORT_UPDATES_AND_ARRIVAL.md) · [Bằng chứng kiểm thử/phát hành](docs/testing/verification/VERIFICATION_V0_4_15.md). Web/backend/APK đã cập nhật; nghiệm thu trên điện thoại thật còn chờ.
+**Bản 0.4.16:** [Sửa chuông Android sau kiểm tra S22+ thật](docs/testing/verification/VERIFICATION_V0_4_16.md). Đã cài đè và xác nhận tiếng/rung foreground trên S22+; các bài GPS/khóa/Im lặng/nhiều ca còn chờ. [Tiến độ TNV và câu trả lời](docs/operations/REPORT_UPDATES_AND_ARRIVAL.md) · [Bằng chứng15 và lỗi được giữ lại](docs/testing/verification/VERIFICATION_V0_4_15.md).
 
 **Cải thiện 0.4.13:** [GPS mới/cũ, ghi chú điểm hẹn và bảng theo dõi diễn tập](docs/testing/verification/VERIFICATION_V0_4_13.md). 67 test, 14 suites và 32 ca local đạt; tile map/thiết bị và các điều kiện ca thật vẫn mở. Tra STATUS để biết bản cloud/APK thực tế.
 

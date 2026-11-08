@@ -1,8 +1,8 @@
 {
   "android": {
-    "version": "0.4.15",
-    "apkUrl": "https://expo.dev/artifacts/eas/WaJg4V8bEWjjjSGTdZJDb1P5Lb0BBFR_euaelL9Yo80.apk",
-    "buildUrl": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/392b6d6b-4e9f-4541-9956-fae90b954fbb"
+    "version": "0.4.16",
+    "apkUrl": "https://expo.dev/artifacts/eas/I4rVMe1xroxr-i8MaVKmBP3NEImFfg9ARfGXLWMVsGc.apk",
+    "buildUrl": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/c344677f-9663-446f-b720-a1ef4c1b6a5e"
   },
   "ios": {
     "testFlightUrl": null

@@ -5,15 +5,15 @@ Cập nhật08/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu 
 
 ## 1. Bản đang bàn giao
 
-**Web/backend0.4.16 đã phát hành; APK16 đang build.** S22+ hiện cài15 và đã thử điều khiển UI qua USB. Một bài thông báo sau Home15 được chủ máy xác nhận thấy/nghe/rung; chuông foreground15 FAIL, các điều kiện máy khác chưa nghiệm thu. [Giải đáp tiến độ và cập nhật câu trả lời](operations/REPORT_UPDATES_AND_ARRIVAL.md). Có APK mới không có nghĩa mọi máy trong nhóm đã cập nhật.
+**Web/backend/APK0.4.16 đã phát hành ở lớp thử nghiệm.** S22+ đã cài đè16/code14; chủ máy xác nhận có tiếng và rung ở bài Thử chuông foreground. Một bài thông báo sau Home đã đạt trên15. [Bằng chứng16](testing/verification/VERIFICATION_V0_4_16.md) ghi rõ các bài chưa thử; không coi một máy là nghiệm thu mọi điều kiện hoặc mọi Android.
 
-**Phát hiện trên máy thật08/11:** chuông trong app15 không nạp được alias tài nguyên; bài này **Không đạt**, chưa nghiệm thu báo động. Bản sửa16 đang kiểm chứng/build, chưa có APK16 được xác nhận phát tiếng. Không dùng kết quả artifact/CI15 để ghi chuông Đạt.
+**Lỗi chuông15 được giữ là Không đạt.** Bản16 chuyển sang đúng tài nguyên Android, đã nạp và phát tiếng/rung trên S22+ tại cài đặt âm thanh hiện có. Chưa thử Im lặng/DND/Media=0/Bluetooth/khóa máy, GPS hoặc luồng nhiều ca trên máy; không dùng CI/artifact thay các bài này.
 
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
 | App web và web người báo/admin/referrer |0.4.16 đã deploy;38 HTML/JS/CSS khớp build; luồng ETA/report/font browser local đã thử ở15 | Chưa browser cloud16; một lượt tile/OSRM local không bảo đảm dịch vụ |
 | Backend |0.4.16 Vercel, đúng project/health/401; chỉ metadata đổi so với15; luồng2 ca cloud giả đã đạt ở15 | Chưa tải lớn cloud/worker liên tục/SLA; giữ Firebase Spark/Vercel Hobby/quyền hiện có |
-| Android |[APK0.4.15/code13](https://expo.dev/artifacts/eas/WaJg4V8bEWjjjSGTdZJDb1P5Lb0BBFR_euaelL9Yo80.apk), artifact đạt;08/11 cài đè0.4.7→15 thành công trên S22+ SM-S906E/Android16; mở Patient, cuộn, mở cài đặt thấy15 và đăng xuất thực | Chưa nghiệm thu đầy đủ font/phóng chữ/GPS/âm/rung/Home/khóa và luồng TNV. Chưa trích hash chứng chỉ ký; không gọi điều khiển UI là nghiệm thu toàn bộ |
+| Android |[APK0.4.16/code14](https://expo.dev/artifacts/eas/I4rVMe1xroxr-i8MaVKmBP3NEImFfg9ARfGXLWMVsGc.apk), artifact/URI thật đạt; cài đè15→16 trên S22+ SM-S906E/Android16; giữ phiên TNV, native UI báo Chuông sẵn sàng và chủ máy nghe/rung sau bấm thử | Một bài foreground16 và một Home15; chưa nghiệm thu đầy đủ font/GPS/Im lặng/DND/khóa/nhiều ca. Chưa trích hash chứng chỉ; không gọi là nghiệm thu toàn bộ |
 | Source/CI |main, runtime16 d7f34d4;74 test local; [CI42471477876 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42471477876), gồm Android export/web build/integration/scale | CI/source/build/deploy không thay nghiệm thu thiết bị hoặc y tế |
 | Tải/hiệu suất local (các lượt trước) |2 lượt portable, mỗi lượt1000 Auth giả/128 phiên/32feed/32ca/320API; paired2×96 ca đo+16 warmup tổng | Lượt paired1 RECHECK, lượt2 PASS không đổi mã/ngưỡng; không khẳng định mọi API nhanh hơn hoặc1000 người thao tác cùng lúc |
 | iOS native |Hoãn, chưa IPA/TestFlight; iPhone dùng app web | Chưa tài khoản/ký/nghiệm thu iOS native |
