@@ -5,17 +5,17 @@ Cập nhật08/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu 
 
 ## 1. Bản đang bàn giao
 
-**Web/backend/APK0.4.15 đã xác minh ở lớp phát hành.** S22+ đã cài đè và thử điều khiển UI qua USB; các bài chức năng/GPS/chuông/nền trên máy vẫn chờ. [Giải đáp tiến độ và cập nhật câu trả lời](operations/REPORT_UPDATES_AND_ARRIVAL.md). Có APK mới không có nghĩa mọi máy trong nhóm đã cập nhật.
+**Web/backend0.4.16 đã phát hành; APK16 đang build.** S22+ hiện cài15 và đã thử điều khiển UI qua USB. Một bài thông báo sau Home15 được chủ máy xác nhận thấy/nghe/rung; chuông foreground15 FAIL, các điều kiện máy khác chưa nghiệm thu. [Giải đáp tiến độ và cập nhật câu trả lời](operations/REPORT_UPDATES_AND_ARRIVAL.md). Có APK mới không có nghĩa mọi máy trong nhóm đã cập nhật.
 
 **Phát hiện trên máy thật08/11:** chuông trong app15 không nạp được alias tài nguyên; bài này **Không đạt**, chưa nghiệm thu báo động. Bản sửa16 đang kiểm chứng/build, chưa có APK16 được xác nhận phát tiếng. Không dùng kết quả artifact/CI15 để ghi chuông Đạt.
 
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
-| App web và web người báo/admin/referrer |0.4.15 đã deploy;38 HTML/JS/CSS khớp bytes build; browser local thao tác thật cho ETA, hai bản trả lời/receipt và font đạt | Chưa browser cloud/điện thoại; một lượt tile/OSRM local không bảo đảm dịch vụ |
-| Backend |0.4.15 Vercel, đúng project/health/401; luồng2 ca cloud giả đạt, gồm ETA/receipt/bàn giao/reset/thu quyền fixture tạm | Chưa tải lớn cloud/worker liên tục/SLA; giữ Firebase Spark/Vercel Hobby/quyền hiện có |
+| App web và web người báo/admin/referrer |0.4.16 đã deploy;38 HTML/JS/CSS khớp build; luồng ETA/report/font browser local đã thử ở15 | Chưa browser cloud16; một lượt tile/OSRM local không bảo đảm dịch vụ |
+| Backend |0.4.16 Vercel, đúng project/health/401; chỉ metadata đổi so với15; luồng2 ca cloud giả đã đạt ở15 | Chưa tải lớn cloud/worker liên tục/SLA; giữ Firebase Spark/Vercel Hobby/quyền hiện có |
 | Android |[APK0.4.15/code13](https://expo.dev/artifacts/eas/WaJg4V8bEWjjjSGTdZJDb1P5Lb0BBFR_euaelL9Yo80.apk), artifact đạt;08/11 cài đè0.4.7→15 thành công trên S22+ SM-S906E/Android16; mở Patient, cuộn, mở cài đặt thấy15 và đăng xuất thực | Chưa nghiệm thu đầy đủ font/phóng chữ/GPS/âm/rung/Home/khóa và luồng TNV. Chưa trích hash chứng chỉ ký; không gọi điều khiển UI là nghiệm thu toàn bộ |
-| Source/CI |main, runtime0eb17de;74 test/16 integration suites local; [CI42447024274 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42447024274), gồm Android export/web build/integration/scale | CI/source/build/deploy không thay nghiệm thu thiết bị hoặc y tế |
-| Tải/hiệu suất local |2 lượt portable, mỗi lượt1000 Auth giả/128 phiên/32feed/32ca/320API; paired2×96 ca đo+16 warmup tổng | Lượt paired1 RECHECK, lượt2 PASS không đổi mã/ngưỡng; không khẳng định mọi API nhanh hơn hoặc1000 người thao tác cùng lúc |
+| Source/CI |main, runtime16 d7f34d4;74 test local; [CI42471477876 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42471477876), gồm Android export/web build/integration/scale | CI/source/build/deploy không thay nghiệm thu thiết bị hoặc y tế |
+| Tải/hiệu suất local (các lượt trước) |2 lượt portable, mỗi lượt1000 Auth giả/128 phiên/32feed/32ca/320API; paired2×96 ca đo+16 warmup tổng | Lượt paired1 RECHECK, lượt2 PASS không đổi mã/ngưỡng; không khẳng định mọi API nhanh hơn hoặc1000 người thao tác cùng lúc |
 | iOS native |Hoãn, chưa IPA/TestFlight; iPhone dùng app web | Chưa tài khoản/ký/nghiệm thu iOS native |
 | Tài khoản demo |Bộ cloud25/10 nằm trong repo riêng tư; không đổi bộ ổn định trong đợt14 | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra trước buổi demo |
 

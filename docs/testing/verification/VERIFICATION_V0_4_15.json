@@ -2525,7 +2525,7 @@
     "No clinical or real-emergency readiness established"
   ],
   "deviceTrial": {
-    "recordedAt": "2026-11-08T10:25:23.744Z",
+    "recordedAt": "2026-11-08T10:41:08.069Z",
     "scope": "Owner-authorized real Galaxy S22+ USB connection, in-place install and basic UI control. Not full operational acceptance.",
     "hardware": {
       "checkedAt": "2026-11-08T10:14:27.0745590Z",
@@ -2613,6 +2613,53 @@
       "localScreenshot": "s22-audio-fail-0415.png",
       "fixVersion": "0.4.16",
       "fixDeviceResult": "NOT TESTED"
+    },
+    "notificationPermissionAfterOwnerApproval": {
+      "checkedAt": "2026-11-08T10:33:06.7434237Z",
+      "connectedCount": 1,
+      "authorizedCount": 1,
+      "unauthorizedCount": 0,
+      "offlineCount": 0,
+      "devices": [
+        {
+          "androidVersion": "16",
+          "sdk": "36",
+          "model": "SM-S906E",
+          "permissions": {
+            "ACCESS_FINE_LOCATION": true,
+            "RECORD_AUDIO": null,
+            "VIBRATE": true,
+            "POST_NOTIFICATIONS": true,
+            "ACCESS_COARSE_LOCATION": true
+          },
+          "ehisVersionCode": "13",
+          "ehisVersion": "0.4.15"
+        }
+      ],
+      "scope": "Read-only hardware/app-version check; serial identifiers excluded; no app launch/install/log capture"
+    },
+    "homeNotificationTrial": {
+      "startedAt": "2026-11-08T10:36:50.024Z",
+      "endedAt": "2026-11-08T10:36:50.392Z",
+      "status": "PASS_ONE_HOME_NOTIFICATION_TRIAL",
+      "acceptedByFcm": true,
+      "target": "One exact owner-controlled S22+ registration from synthetic V2",
+      "channelId": "ehis_emergency_v1",
+      "incidentCreated": false,
+      "clinicalDataIncluded": false,
+      "deviceDelivery": "OWNER CONFIRMED",
+      "audibleSound": "OWNER CONFIRMED",
+      "vibration": "OWNER CONFIRMED",
+      "ownerResponseRecordedAt": "2026-11-08T10:38:34.622Z",
+      "ownerResponse": "Thấy thông báo, có chuông và rung",
+      "homeAction": "Documented scrcpy Alt+H sent before FCM test",
+      "phoneVersion": "0.4.15/code13",
+      "limits": [
+        "One direct test notification, not incident dispatch/eligibility/navigation acceptance",
+        "Home trial only; lock screen, silent/ringer mode, DND and longer background delay not tested",
+        "No end-to-end notification latency measured; FCM response is not device delivery timing",
+        "Does not resolve the separate foreground audio resource failure in version15"
+      ]
     }
   }
 }

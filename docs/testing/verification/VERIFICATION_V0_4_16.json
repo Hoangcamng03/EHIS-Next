@@ -1,18 +1,107 @@
 {
   "version": "0.4.16",
-  "generatedAt": "2026-11-08T10:25:23.809Z",
-  "scope": "Controlled synthetic drill; source/build not phone acceptance",
-  "previousActualDeviceFailure": {
-    "checkedAt": "2026-11-08T10:23:39.534Z",
-    "apkVersion": "0.4.15",
-    "namedNotificationResource": [
-      "res/_X.wav"
-    ],
-    "metroAliasUsedByForegroundPlayer": [],
-    "deviceFailure": "FileNotFoundException /assets_emergencytone ENOENT",
-    "scope": "Actual APK resource table plus actual EHIS-process error; no simulated decode or audible result"
+  "generatedAt": "2026-11-08T10:46:17.023Z",
+  "runtimeCommit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
+  "scope": "Controlled synthetic-data drill. Source, cloud, APK artifact and actual phone results are separate.",
+  "checkCounts": {
+    "backend": 22,
+    "logic": 52
   },
   "records": [
+    {
+      "id": "apkstart-1",
+      "operation": "apkstart",
+      "command": "node scripts/build-trial-android.cjs start",
+      "startedAt": "2026-11-08T10:26:57.212Z",
+      "endedAt": "2026-11-08T10:27:31.745Z",
+      "elapsedMs": 34531,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstart-1.log",
+      "logSha256": "4ab3969b1fbe260b989013bbe6637ceb374fcf1183675e832acfb3782c052e34",
+      "artifacts": []
+    },
+    {
+      "id": "apkstatus-1",
+      "operation": "apkstatus",
+      "command": "node scripts/build-trial-android.cjs status",
+      "startedAt": "2026-11-08T10:31:17.019Z",
+      "endedAt": "2026-11-08T10:31:21.469Z",
+      "elapsedMs": 4449,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstatus-1.log",
+      "logSha256": "8ac9717bb9121d95038b027955d8fc0f408dac2b5fe4cf97b961afdfe8028f80",
+      "artifacts": [
+        "apkstatus-1-android-trial-build.json"
+      ]
+    },
+    {
+      "id": "apkstatus-2",
+      "operation": "apkstatus",
+      "command": "node scripts/build-trial-android.cjs status",
+      "startedAt": "2026-11-08T10:41:32.922Z",
+      "endedAt": "2026-11-08T10:41:39.907Z",
+      "elapsedMs": 6983,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstatus-2.log",
+      "logSha256": "8ac9717bb9121d95038b027955d8fc0f408dac2b5fe4cf97b961afdfe8028f80",
+      "artifacts": [
+        "apkstatus-2-android-trial-build.json"
+      ]
+    },
+    {
+      "id": "artifacts-1",
+      "operation": "artifacts",
+      "command": "node scripts/verify-cloud-artifacts.cjs",
+      "startedAt": "2026-11-08T10:37:29.523Z",
+      "endedAt": "2026-11-08T10:37:41.135Z",
+      "elapsedMs": 11610,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "artifacts-1.log",
+      "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
+      "artifacts": [
+        "artifacts-1-cloud-artifact-proof.json"
+      ]
+    },
     {
       "id": "build-1",
       "operation": "build",
@@ -56,7 +145,150 @@
       "log": "check-1.log",
       "logSha256": "17cd1ddc8c1b5a589baab4defab5213fa785ac488dd0a217b18a0da2250bf60d",
       "artifacts": []
+    },
+    {
+      "id": "cloudprobe-1",
+      "operation": "cloudprobe",
+      "command": "npm run cloud:probe",
+      "startedAt": "2026-11-08T10:29:26.445Z",
+      "endedAt": "2026-11-08T10:29:28.815Z",
+      "elapsedMs": 2369,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "cloudprobe-1.log",
+      "logSha256": "949fcf6a752fb5fbf916e9225a5f82343ef70acfd9dff70edb0654979e416599",
+      "artifacts": []
+    },
+    {
+      "id": "deploybackend-1",
+      "operation": "deploybackend",
+      "command": "node scripts/vercel.cjs deploy",
+      "startedAt": "2026-11-08T10:26:54.168Z",
+      "endedAt": "2026-11-08T10:27:25.240Z",
+      "elapsedMs": 31071,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deploybackend-1.log",
+      "logSha256": "d61aae28eab562fe20d8ff6af8b1042cf70a6f774fd52628217633822b35b738",
+      "artifacts": []
+    },
+    {
+      "id": "deployweb-1",
+      "operation": "deployweb",
+      "command": "npm run cloud:deploy-web",
+      "startedAt": "2026-11-08T10:31:24.366Z",
+      "endedAt": "2026-11-08T10:31:51.844Z",
+      "elapsedMs": 27476,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deployweb-1.log",
+      "logSha256": "ca8274888bfa23de30132f8d40fd3a41dcd09ea94060b041d693bff54f03a0e7",
+      "artifacts": []
     }
   ],
-  "deviceAcceptance": "NOT TESTED"
+  "previousActualDeviceFailure": {
+    "checkedAt": "2026-11-08T10:23:39.534Z",
+    "apkVersion": "0.4.15",
+    "namedNotificationResource": [
+      "res/_X.wav"
+    ],
+    "metroAliasUsedByForegroundPlayer": [],
+    "deviceFailure": "FileNotFoundException /assets_emergencytone ENOENT",
+    "scope": "Actual APK resource table plus actual EHIS-process error; no simulated decode or audible result"
+  },
+  "homeNotificationTrialOn15": {
+    "startedAt": "2026-11-08T10:36:50.024Z",
+    "endedAt": "2026-11-08T10:36:50.392Z",
+    "status": "PASS_ONE_HOME_NOTIFICATION_TRIAL",
+    "acceptedByFcm": true,
+    "target": "One exact owner-controlled S22+ registration from synthetic V2",
+    "channelId": "ehis_emergency_v1",
+    "incidentCreated": false,
+    "clinicalDataIncluded": false,
+    "deviceDelivery": "OWNER CONFIRMED",
+    "audibleSound": "OWNER CONFIRMED",
+    "vibration": "OWNER CONFIRMED",
+    "ownerResponseRecordedAt": "2026-11-08T10:38:34.622Z",
+    "ownerResponse": "Thấy thông báo, có chuông và rung",
+    "homeAction": "Documented scrcpy Alt+H sent before FCM test",
+    "phoneVersion": "0.4.15/code13",
+    "limits": [
+      "One direct test notification, not incident dispatch/eligibility/navigation acceptance",
+      "Home trial only; lock screen, silent/ringer mode, DND and longer background delay not tested",
+      "No end-to-end notification latency measured; FCM response is not device delivery timing",
+      "Does not resolve the separate foreground audio resource failure in version15"
+    ]
+  },
+  "ci": {
+    "checkedAt": "2026-11-08T10:38:52.066Z",
+    "commit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
+    "runs": [
+      {
+        "id": 42471477876,
+        "url": "https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42471477876",
+        "event": "push",
+        "status": "completed",
+        "conclusion": "success",
+        "headSha": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2"
+      }
+    ]
+  },
+  "androidBuild": {
+    "id": "c344677f-9663-446f-b720-a1ef4c1b6a5e",
+    "commit": "d7f34d4fb9c82be066df1dc428013df6c4bba5e2",
+    "version": "0.4.16",
+    "versionCode": 14,
+    "status": "IN_PROGRESS",
+    "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/c344677f-9663-446f-b720-a1ef4c1b6a5e",
+    "startedAt": "2026-11-08T10:27:31.685Z",
+    "deviceVerified": false
+  },
+  "androidArtifact": null,
+  "cloudArtifactProof": {
+    "checkedAt": "2026-11-08T10:37:41.071Z",
+    "checked": 38,
+    "sha256Match": true,
+    "targets": [
+      "https://ehis-next-20261021-hc03.web.app",
+      "https://ehis-next-20261021-hc03-app.web.app"
+    ]
+  },
+  "installation": null,
+  "nativeDeviceTrial": null,
+  "installPageProof": null,
+  "deviceAcceptance": "NOT COMPLETE",
+  "limits": [
+    "No clinical or real-emergency readiness established",
+    "Do not infer source/build/FCM acceptance is physical-device receipt or audible sound",
+    "Foreground15 FAIL retained; candidate16 not passed until physical result recorded",
+    "One Home test notification is not long-background/lock/DND or incident dispatch acceptance",
+    "No GPS timing/accuracy or whole-system mobile multi-case acceptance yet"
+  ]
 }
