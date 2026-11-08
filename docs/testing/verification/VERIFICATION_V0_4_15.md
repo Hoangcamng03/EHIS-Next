@@ -39,3 +39,12 @@ Ngày08/11: runtime source0eb17de đã lên main; backend15 deploy/health/projec
 Build-4/deployweb-2 PASS; artifacts-2 xác minh lại38 file. Trang cài online PASS05:04:01.837 UTC08/11, dẫn đúng APK15 đã xác minh và backend15. Không có OTA hoặc tự cài trên điện thoại. Commit tài liệu/manifest sau runtime không được coi là một APK khác.
 
 Cloud/backend/APK/CI chỉ được ghi đạt khi có kết quả thực trong JSON và STATUS. Link APK cũ được giữ cho tới khi APK15 build xong và kiểm tra artifact đạt. Chưa có phiếu thiết bị thật: không ghi font/GPS/chuông/nền hoặc khả năng đến đúng giờ đã đạt. Chưa tiếp nhận cấp cứu thật.
+
+## 5. Bổ sung thiết bị thật — Galaxy S22+,08/11
+
+- USB được chủ máy cấp quyền: SM-S906E, Android16/API36. Kiểm tra ban đầu cài0.4.7/code5; không phải15 dù web đã cập nhật.
+- Chủ máy xác nhận không còn ca đang xử lý/TNV OFF trước cập nhật. `adb install -r` đúng APK đã hash thành công09:58:42.915 UTC, đọc lại package0.4.15/code13. Không gỡ, xóa dữ liệu, hạ phiên bản hoặc tự cấp quyền.
+- Qua scrcpy5.0.1 kiểm tra đúng SHA256 nhà phát triển, Computer Use đã thao tác thực: mở Patient, cuộn đến cài đặt, mở mục tài khoản thấy0.4.15, đăng xuất về màn login. Chữ tiếng Việt hiện được ở điều kiện máy hiện tại; chưa thử phóng chữ/bàn phím đầy đủ. Phản chiếu không chuyển âm/clipboard; không quay video.
+- Sau cập nhật, phiên Patient còn giữ và có ca cũ từ28/10 trạng thái đã nhận. Không sửa hoặc giả hoàn tất ca đó. Việc này được ghi như quan sát, chưa suy ra là ca cấp cứu thật hay lỗi mới. Cần tài khoản TNV diễn tập riêng trước bài nhận ca.
+- Chờ chủ máy tự đăng nhập TNV/cấp quyền hệ điều hành. Chưa đánh dấu GPS, chuông/rung, Home/khóa, nhiều ca, ETA/receipt trên Android là Đạt. Chi tiết installation và các bài chờ có ở trường deviceTrial trong JSON; ảnh màn login trống giữ local, không public QR/bệnh án/serial.
+- Cập nhật tiếp: chủ máy đã đăng nhập TNV và OFF. Fine/coarse/VIBRATE đã được cấp, POST_NOTIFICATIONS chưa được cấp. UI thử chuông báo chưa chuẩn bị; chủ máy không nghe hoặc chưa xác định. Log tiến trình EHIS có FileNotFoundException /assets_emergencytone ENOENT. Đối chiếu APK15 thật: alias assets_emergencytone không tồn tại, raw emergency_tone có. **Foreground audio15 FAIL**, không thể suy chuông hoạt động từ tone bytes/FCM resources đã nhúng. Đang sửa16; chưa ghi bản sửa Đạt cho tới khi thử máy.

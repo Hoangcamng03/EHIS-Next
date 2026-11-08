@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import { setAudioModeAsync, useAudioPlayer, type AudioPlayer } from 'expo-audio';
 import * as Haptics from 'expo-haptics';
 import { signalDuration, type AlertSoundKind } from './emergency-audio';
@@ -10,7 +10,11 @@ function enablePlayerAudio(player: AudioPlayer) { player.muted = false; player.v
 
 // Foreground only. These modules require a new binary and device acceptance.
 export function useEmergencySignal() {
-  const player = useAudioPlayer(require('../../assets/emergency_tone.wav'));
+  // Use the notification plugin's verified named raw resource on Android.
+  // Metro's assets_emergencytone alias is absent in the affected release APK.
+  const player = useAudioPlayer(Platform.OS === 'android'
+    ? { uri: 'android.resource://com.hoangcamng.ehisnext/raw/emergency_tone' }
+    : require('../../assets/emergency_tone.wav'));
   const [state, setState] = useState({ ready: false, sounding: false, message: 'Thử chuông và giữ app mở.' });
   const [soundEnabled, setSoundEnabled] = useState(true), [vibrationEnabled, setVibrationEnabled] = useState(true);
   const [foreground, setForeground] = useState(AppState.currentState === 'active');

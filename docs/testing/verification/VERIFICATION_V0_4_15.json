@@ -2516,12 +2516,103 @@
     "deviceVerified": false
   },
   "limitations": [
-    "No physical Android installation, font scaling, GPS, background/lock-screen/ringing acceptance",
+    "Real S22+ in-place installation/basic UI control confirmed; full font scaling, GPS, audio and background acceptance still pending",
     "1000 Auth fixtures, 128 sessions, 32 SDK feeds and 32 cases are not 1000 concurrent people",
     "Local latency does not establish cloud SLA or superiority over baseline",
     "App load receipt does not prove a person read, understood or diagnosed",
     "Heartbeat is foreground connectivity, not GPS or movement; ETA is self-confirmed, not guaranteed",
     "Admin current progress requires explicit reload; local clock is not a background worker",
     "No clinical or real-emergency readiness established"
-  ]
+  ],
+  "deviceTrial": {
+    "recordedAt": "2026-11-08T10:25:23.744Z",
+    "scope": "Owner-authorized real Galaxy S22+ USB connection, in-place install and basic UI control. Not full operational acceptance.",
+    "hardware": {
+      "checkedAt": "2026-11-08T10:14:27.0745590Z",
+      "devices": [
+        {
+          "model": "SM-S906E",
+          "androidVersion": "16",
+          "ehisVersionCode": "13",
+          "ehisVersion": "0.4.15",
+          "permissions": {
+            "VIBRATE": true,
+            "POST_NOTIFICATIONS": false,
+            "RECORD_AUDIO": null,
+            "ACCESS_COARSE_LOCATION": true,
+            "ACCESS_FINE_LOCATION": true
+          },
+          "sdk": "36"
+        }
+      ]
+    },
+    "installation": {
+      "startedAt": "2026-11-08T09:58:08.9762645Z",
+      "endedAt": "2026-11-08T09:58:42.9156791Z",
+      "model": "SM-S906E",
+      "beforeVersion": "0.4.7",
+      "afterVersion": "0.4.15",
+      "afterCode": "13",
+      "apkSha256": "fa4a4df0bf0e11bfa9d8eb84f08357bc4babd538e8c4a53b31020283b93e1ff9",
+      "installExitCode": 0,
+      "installerOutput": "Performing Streamed Install\r\nSuccess",
+      "status": "PASS",
+      "operation": "adb install -r; no uninstall, data clear, downgrade or permission auto-grant",
+      "limits": "Installation only; UI/GPS/audio/background/user-session retention not yet tested"
+    },
+    "mirrorTool": {
+      "version": "5.0.1",
+      "zipSha256": "b12a2c4ee8be317422451fc7dcf8ee20a71b5ea7ef9ad73ddd825a25316227a5",
+      "matchesOfficialDocumentation": true,
+      "audioForwarding": false,
+      "clipboardSync": false
+    },
+    "observedUi": {
+      "patientScreenOpened": true,
+      "patientRoleRetainedAfterUpdate": true,
+      "oldAcceptedIncidentFromOctober28Visible": true,
+      "oldIncidentNotModified": true,
+      "scrollAndAccountDisclosureControlledViaWindowsMirror": true,
+      "version0415VisibleInSettings": true,
+      "logoutReachedBlankLogin": true,
+      "vietnameseVisibleAtCurrentDeviceSettings": true,
+      "localBlankLoginScreenshot": "s22-login-0415.png",
+      "ownerSignedInVolunteerOff": true
+    },
+    "pending": [
+      "Notification/location permissions must be confirmed by owner",
+      "Real GPS accuracy and location-loading timings",
+      "Foreground/background Home/lock/silent-mode sound and vibration",
+      "Multiple cases, late readiness, one active case per volunteer, ETA/report receipt and handover on phone",
+      "Font scaling 1x/1.3x/2x and keyboard/touch acceptance"
+    ],
+    "fullDeviceAcceptance": false,
+    "foregroundAudio": {
+      "status": "FAIL",
+      "ui": "Chưa chuẩn bị được chuông",
+      "ownerObservation": "Không nghe chuông hoặc chưa xác định",
+      "diagnostics": {
+        "musicStreamMuted": false,
+        "scope": "EHIS-process warnings only stored locally; no raw logs/serial/user data printed; no audio settings changed",
+        "checkedAt": "2026-11-08T10:19:11.9291529Z",
+        "nativeErrorMarkers": [
+          "FileNotFoundException"
+        ],
+        "ringerMode": null
+      },
+      "resourceAliasProof": {
+        "checkedAt": "2026-11-08T10:23:39.534Z",
+        "apkVersion": "0.4.15",
+        "namedNotificationResource": [
+          "res/_X.wav"
+        ],
+        "metroAliasUsedByForegroundPlayer": [],
+        "deviceFailure": "FileNotFoundException /assets_emergencytone ENOENT",
+        "scope": "Actual APK resource table plus actual EHIS-process error; no simulated decode or audible result"
+      },
+      "localScreenshot": "s22-audio-fail-0415.png",
+      "fixVersion": "0.4.16",
+      "fixDeviceResult": "NOT TESTED"
+    }
+  }
 }

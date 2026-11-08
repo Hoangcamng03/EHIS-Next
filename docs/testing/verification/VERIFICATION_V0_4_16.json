@@ -1,0 +1,62 @@
+{
+  "version": "0.4.16",
+  "generatedAt": "2026-11-08T10:25:23.809Z",
+  "scope": "Controlled synthetic drill; source/build not phone acceptance",
+  "previousActualDeviceFailure": {
+    "checkedAt": "2026-11-08T10:23:39.534Z",
+    "apkVersion": "0.4.15",
+    "namedNotificationResource": [
+      "res/_X.wav"
+    ],
+    "metroAliasUsedByForegroundPlayer": [],
+    "deviceFailure": "FileNotFoundException /assets_emergencytone ENOENT",
+    "scope": "Actual APK resource table plus actual EHIS-process error; no simulated decode or audible result"
+  },
+  "records": [
+    {
+      "id": "build-1",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-08T10:23:39.630Z",
+      "endedAt": "2026-11-08T10:24:11.919Z",
+      "elapsedMs": 32287,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bd177bbbb9cdfbe66e995df3504dc82f063e5844",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-1.log",
+      "logSha256": "c2fdbc0e3c755f611ab632f62301ae1db5e27669976baffd29f353580c055e4f",
+      "artifacts": []
+    },
+    {
+      "id": "check-1",
+      "operation": "check",
+      "command": "npm run check",
+      "startedAt": "2026-11-08T10:21:38.476Z",
+      "endedAt": "2026-11-08T10:22:29.310Z",
+      "elapsedMs": 50830,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "bd177bbbb9cdfbe66e995df3504dc82f063e5844",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "check-1.log",
+      "logSha256": "17cd1ddc8c1b5a589baab4defab5213fa785ac488dd0a217b18a0da2250bf60d",
+      "artifacts": []
+    }
+  ],
+  "deviceAcceptance": "NOT TESTED"
+}

@@ -41,6 +41,12 @@ async function main(){
   assert.ok(dex.some(data=>data.includes(Buffer.from('FirebaseMessagingService'))),'FCM native service bundled');
  }
  const bundle=zip.get('assets/index.android.bundle')();assert.ok(bundle.includes(Buffer.from('ehis-next-20261021-hc03')));assert.ok(bundle.includes(Buffer.from('https://ehis-next-api-hc03.vercel.app/api')));
+ if(Number(record.versionCode)>=14){
+  // A bundled WAV elsewhere does not prove the foreground player's URI resolves.
+  const foregroundUri=`android.resource://${native.attributes.package}/raw/emergency_tone`;
+  assert.ok(bundle.includes(Buffer.from(foregroundUri)),'Foreground audio must address the named raw resource, not an absent Metro alias');
+  assert.ok(rawResourceFiles(zip.get('resources.arsc')(),'emergency_tone').length>0,'Foreground URI must resolve in the actual APK resource table');
+ }
  const toneHash=hash(fs.readFileSync('frontend/app/assets/emergency_tone.wav'));const tone=[...zip].filter(([name])=>name.endsWith('.wav')).some(([,read])=>hash(read())===toneHash);assert.ok(tone,'Original alarm included in binary');
  const folder='.local/releases';fs.mkdirSync(folder,{recursive:true});fs.writeFileSync(path.join(folder,`EHIS-Next-v${record.version}.apk`),bytes);
  const result={...record,bytes:bytes.length,sha256:hash(bytes),artifactVerified:true,packageName:native.attributes.package,microphonePermission:false,vibrationPermission:true,embeddedTone:true,cloudTargetVerified:true,backgroundNotificationResourcesVerified:backgroundNotifications,deviceVerified:false};

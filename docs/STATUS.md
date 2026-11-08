@@ -5,13 +5,15 @@ Cập nhật08/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu 
 
 ## 1. Bản đang bàn giao
 
-**Web/backend/APK0.4.15 đã xác minh ở lớp phát hành.** [Giải đáp tiến độ và cập nhật câu trả lời](operations/REPORT_UPDATES_AND_ARRIVAL.md). Không hiểu đã có APK mới là app cài trên điện thoại đã cập nhật; chưa nghiệm thu máy thật.
+**Web/backend/APK0.4.15 đã xác minh ở lớp phát hành.** S22+ đã cài đè và thử điều khiển UI qua USB; các bài chức năng/GPS/chuông/nền trên máy vẫn chờ. [Giải đáp tiến độ và cập nhật câu trả lời](operations/REPORT_UPDATES_AND_ARRIVAL.md). Có APK mới không có nghĩa mọi máy trong nhóm đã cập nhật.
+
+**Phát hiện trên máy thật08/11:** chuông trong app15 không nạp được alias tài nguyên; bài này **Không đạt**, chưa nghiệm thu báo động. Bản sửa16 đang kiểm chứng/build, chưa có APK16 được xác nhận phát tiếng. Không dùng kết quả artifact/CI15 để ghi chuông Đạt.
 
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |
 | App web và web người báo/admin/referrer |0.4.15 đã deploy;38 HTML/JS/CSS khớp bytes build; browser local thao tác thật cho ETA, hai bản trả lời/receipt và font đạt | Chưa browser cloud/điện thoại; một lượt tile/OSRM local không bảo đảm dịch vụ |
 | Backend |0.4.15 Vercel, đúng project/health/401; luồng2 ca cloud giả đạt, gồm ETA/receipt/bàn giao/reset/thu quyền fixture tạm | Chưa tải lớn cloud/worker liên tục/SLA; giữ Firebase Spark/Vercel Hobby/quyền hiện có |
-| Android |[APK0.4.15/code13](https://expo.dev/artifacts/eas/WaJg4V8bEWjjjSGTdZJDb1P5Lb0BBFR_euaelL9Yo80.apk), build392b6d6b source0eb17de FINISHED; artifact verifier đạt,102912725 bytes; SHA256 trong báo cáo | Chưa nghiệm thu cài/chứng chỉ ký/font/GPS/âm/rung/Home/khóa trên máy thật. Chỉ cài khi không có ca active |
+| Android |[APK0.4.15/code13](https://expo.dev/artifacts/eas/WaJg4V8bEWjjjSGTdZJDb1P5Lb0BBFR_euaelL9Yo80.apk), artifact đạt;08/11 cài đè0.4.7→15 thành công trên S22+ SM-S906E/Android16; mở Patient, cuộn, mở cài đặt thấy15 và đăng xuất thực | Chưa nghiệm thu đầy đủ font/phóng chữ/GPS/âm/rung/Home/khóa và luồng TNV. Chưa trích hash chứng chỉ ký; không gọi điều khiển UI là nghiệm thu toàn bộ |
 | Source/CI |main, runtime0eb17de;74 test/16 integration suites local; [CI42447024274 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42447024274), gồm Android export/web build/integration/scale | CI/source/build/deploy không thay nghiệm thu thiết bị hoặc y tế |
 | Tải/hiệu suất local |2 lượt portable, mỗi lượt1000 Auth giả/128 phiên/32feed/32ca/320API; paired2×96 ca đo+16 warmup tổng | Lượt paired1 RECHECK, lượt2 PASS không đổi mã/ngưỡng; không khẳng định mọi API nhanh hơn hoặc1000 người thao tác cùng lúc |
 | iOS native |Hoãn, chưa IPA/TestFlight; iPhone dùng app web | Chưa tài khoản/ký/nghiệm thu iOS native |

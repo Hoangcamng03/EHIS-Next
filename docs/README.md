@@ -62,6 +62,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | Trang | Nội dung |
 | --- | --- |
 | [VERIFICATION_V0_4_15](testing/verification/VERIFICATION_V0_4_15.md) | Tiến độ TNV/ETA, bản trả lời và font; kết quả thực từng lớp |
+| [VERIFICATION_V0_4_16](testing/verification/VERIFICATION_V0_4_16.md) | Sửa chuông sau lỗi đường dẫn phát hiện trên S22+ thật; phân biệt artifact và nghe thực |
+| [VERIFICATION_V0_4_16.json](testing/verification/VERIFICATION_V0_4_16.json) | Log/hash/lượt build và kết quả thiết bị thực, giữ cả FAIL15 |
 | [VERIFICATION_V0_4_15.json](testing/verification/VERIFICATION_V0_4_15.json) | Số đo, timestamp và hash log; giữ cả lượt lỗi và giới hạn máy thật |
 | [VERIFICATION_V0_4_14.json](testing/verification/VERIFICATION_V0_4_14.json) | Số đo thực, thời điểm, hash log và trạng thái build/deploy; không chứa mật khẩu |
 | [VERIFICATION_V0_4_14](testing/verification/VERIFICATION_V0_4_14.md) | Bàn giao xác nhận, phục hồi báo cáo, bảo trì và số đo thực từng lớp |

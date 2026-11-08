@@ -25,7 +25,7 @@ export { getOperationsOverview, retryPendingNotifications, runMaintenanceNow } f
 
 // No identities, personal data, or secrets in a public health check.
 export const health = onRequest({ cors: true }, (_request, response) => {
-  response.json({ service: 'ehis-next', status: 'ok', version: '0.4.15', projectId: getApp().options.projectId || process.env.GCLOUD_PROJECT || null });
+  response.json({ service: 'ehis-next', status: 'ok', version: '0.4.16', projectId: getApp().options.projectId || process.env.GCLOUD_PROJECT || null });
 });
 
 export const getMyAccess = onCall('getMyAccess', async request => {

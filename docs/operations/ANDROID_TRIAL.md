@@ -2,7 +2,7 @@
 
 ## 1. Chọn đúng bản
 
-[STATUS](../STATUS.md) là nơi tra cứu phiên bản. Đợt 05/11: web/backend và APK 0.4.12/code 10 đã phát hành; artifact APK được kiểm tra, chưa nghiệm thu máy thật. [Báo cáo và phần còn mở](../testing/verification/VERIFICATION_V0_4_12.md). Luôn lấy bản mới từ [trang cài cố định](https://ehis-next-20261021-hc03.web.app/install), đối chiếu STATUS trước mỗi buổi; không dùng APK lịch sử chỉ vì thấy link trong báo cáo cũ.
+[STATUS](../STATUS.md) là nơi tra cứu phiên bản đang bàn giao và việc còn thiếu. Luôn lấy bản mới từ [trang cài cố định](https://ehis-next-20261021-hc03.web.app/install), đối chiếu STATUS trước mỗi buổi; không dùng APK lịch sử chỉ vì thấy link trong báo cáo cũ. File APK đã kiểm tra không đồng nghĩa đã cài hoặc nghiệm thu trên điện thoại.
 
 ## 2. Cài trên thiết bị
 
@@ -21,6 +21,19 @@ Chỉ dùng dữ liệu giả. Cho phép GPS khi cần; TNV bật sẵn sàng v�
 ## 4. Ghi kết quả và kết thúc
 
 Ghi model/Android, phiên bản, mạng/quyền, bước, thực tế và bằng chứng không có secret. Tách Đạt/Không đạt/Chưa thử/Bị chặn; web chạy được không thay cho APK đã cài. Cuối buổi đóng ca và kiểm tra TNV OFF.
+
+## 5. Phối hợp kiểm thử qua USB — Samsung Galaxy
+
+Kết nối vào máy tính đang làm dự án bằng cáp truyền dữ liệu. Không cần cài Android Studio chỉ để kết nối; dùng [Platform-Tools chính thức của Google](https://developer.android.com/tools/releases/platform-tools). Nhóm đã chuẩn bị bản portable trong thư mục local bị Git bỏ qua; không đổi PATH hoặc tự cài/gỡ EHIS khi chỉ kiểm tra kết nối.
+
+1. Trên điện thoại: Cài đặt → Thông tin điện thoại → Thông tin phần mềm → Số hiệu bản tạo; chạm7 lần. Chủ máy tự nhập PIN nếu được hỏi, không gửi PIN vào chat. [Hướng dẫn Samsung](https://www.samsung.com/uk/support/mobile-devices/how-do-i-turn-on-the-developer-options-menu-on-my-samsung-galaxy-device/).
+2. Quay lại Cài đặt → Tùy chọn nhà phát triển → Gỡ lỗi USB. Mở khóa màn hình, cắm cáp.
+3. Điện thoại có thể hỏi Cho phép gỡ lỗi USB; chủ máy kiểm tra đúng máy tính của mình rồi tự chấp thuận. Chỉ thấy thiết bị ở trạng thái `unauthorized` chưa có nghĩa kết nối kiểm thử được. [Cơ chế xác nhận Android](https://developer.android.com/studio/run/device).
+4. Sau khi được cấp quyền: kiểm tra model/Android và phiên bản package EHIS. Chỉ sau đó mới chọn bài thử. Nếu cần cài đè, kết thúc ca trước; không gỡ app hoặc xóa dữ liệu để che lỗi.
+5. Chỉ đọc log/ảnh của EHIS khi đang thử bằng dữ liệu giả; không thu toàn bộ log điện thoại, tài khoản cá nhân, số serial hay vị trí thật vào GitHub. Nghe chuông/cảm nhận rung/đối chiếu vị trí đứng cần người cầm máy xác nhận.
+6. Hết buổi: kiểm tra ca đã đóng, TNV OFF, rút cáp; chủ máy có thể tắt Gỡ lỗi USB/thu hồi quyền máy tính khi không còn dùng.
+
+Nếu không thấy hộp thoại: mở khóa, kiểm tra cáp/cổng dữ liệu và kết nối lại. Nếu Samsung báo chính sách bảo vệ chặn USB, ghi nguyên cảnh báo và xác định nguyên nhân trước; không tự tắt các cơ chế bảo vệ thiết bị.
 
 Người đóng gói xem [MOBILE_RELEASES](MOBILE_RELEASES.md); lịch sử APK cũ ở [ANDROID_TRIAL_HISTORY](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/ANDROID_TRIAL_HISTORY.md). Không phát hành hoặc đổi cloud khi chỉ đang chạy bài thử.
 
