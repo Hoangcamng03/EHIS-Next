@@ -5,13 +5,15 @@ Cập nhật08/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu 
 
 ## 1. Bản đang bàn giao
 
+Source backend sửa retry09/11: check83 và integration16suite local PASS (multi15/15,222Auth/201API); chưa deploy. CI `ba90a0a` trước sửa vẫn là FAIL, CI bản sửa/tải còn chờ. APK18 chỉ chứa sửa GPS/frontend đã build trước sửa backend, không tự cập nhật backend hay trang web.
+
 **Web/backend/APK0.4.16 đã phát hành ở lớp thử nghiệm.** S22+ đã cài đè16/code14; chủ máy xác nhận có tiếng và rung ở bài Thử chuông foreground. Một bài thông báo sau Home đã đạt trên15. [Bằng chứng16](testing/verification/VERIFICATION_V0_4_16.md) ghi rõ các bài chưa thử; không coi một máy là nghiệm thu mọi điều kiện hoặc mọi Android.
 
 **Kiểm thử hai Android bổ sung08/11:** bản16 đã nhận hai ca chờ, chặn nhận thêm khi bận, tải các bản tình trạng, báo chuông/rung khi khóa và mở đúng ca khi chạm thông báo; ETA trễ giữ nguyên người phụ trách. **GPS trực tiếp tại chỗ chưa đạt**: vẫn chờ điểm mới quá lâu. Offline chỉ thử một phần vì mạng laptop cũng bị ảnh hưởng. [Báo cáo thật, gồm FAIL/RECHECK](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md).
 
-**Kiểm tra09/11: APK0.4.17/code15 đã cài trên S22+, GPS vẫn chưa đạt.** Tắt/bật GPS trực tiếp vẫn chờ điểm mới; chưa xác minh được timeout/retry trên máy. Ứng viên18/code16 đang sửa bước khởi động quyền/giới hạn chờ, chưa build/cài/nghiệm thu. Cloud/trang tải chung vẫn16, không OTA. Lỗi chuông15 được giữ là Không đạt trong lịch sử; không suy kết quả16 sang mọi chế độ âm thanh hoặc mọi hãng.
+**Máy S22+ đã cài APK0.4.18/code16 ngày09/11.** GPS tại chỗ đã cập nhật0–1giây ở các ảnh cách nhau gần4phút, tính được tuyến tới điểm bệnh nhân giả lập; tắt/bật và Home/mở lại lấy fix mới. Report2 được app tự tải/ack. Người báo vòng này là API giả lập theo yêu cầu, không phải điện thoại thứ hai hay bệnh nhân thật. Chưa đi bộ/nghiệm thu toàn bộ. [Bằng chứng chi tiết](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md). Cloud/trang tải chung vẫn16, không OTA; GPS16/17 FAIL được giữ trong lịch sử.
 
-**Lỗi ưu tiên cao còn mở:** chủ máy báo app tự thoát khi xem C. Theo dõi ngắn chưa tái hiện, chưa có crash mới chứng minh nguyên nhân; không được ghi đã sửa. Bản17 là ứng viên kiểm thử, chưa phải bản nghiệm thu.
+**Lỗi ưu tiên cao còn mở:** tự về Home chưa tái hiện trong40mẫu/90giây18 nhưng chưa đóng lỗi. Bố cục/cuộn đổi trong thao tác từ xa, chủ máy xác nhận không chạm; lượt hoàn tất native18 chưa đạt, có bấm lệch Đã đến nơi trên ca giả lập (không phải đến thật), đã dọn qua API và TNV OFF/no active. CI18 `ba90a0a` FAIL ở8retry cùng yêu cầu do tranh khóa Firestore; bản sửa backend đang kiểm tra, chưa deploy. Chưa bàn giao18 như bản đã nghiệm thu.
 
 | Phần | Mốc đã xác minh | Còn thiếu |
 | --- | --- | --- |

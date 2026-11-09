@@ -6,6 +6,9 @@ import { distanceMeters, identifier, objectValue, parseBystanderReport, parseCre
 import { dispatchBounds } from './dispatchBounds';
 import { offerPendingIncidents } from './pendingDispatch';
 import { queuePush } from './pushJobs';
+import { IncidentCreateFlight, IncidentCreateBusy, IncidentCreateConflict } from './incidentCreateFlight';
+
+const incidentCreates = new IncidentCreateFlight();
 
 const makeId = (value: string) => createHash('sha256').update(value).digest('hex').slice(0, 40);
 function validate<T>(parser: (input: unknown) => T, input: unknown): T {
@@ -27,7 +30,7 @@ export const createIncident = onCall('createIncident', async request => {
   const incidentRef = db.doc(`incidents/${id}`);
   const receiptRef = db.doc(`reporters/${uid}/requestReceipts/${makeId(data.requestId)}`);
   const fingerprint = makeId(JSON.stringify(data));
-  return db.runTransaction(async tx => {
+  return incidentCreates.run(`${uid}:${data.requestId}`, fingerprint, () => db.runTransaction(async tx => {
     const receipt = await tx.get(receiptRef);
     if (receipt.exists) {
       if (receipt.data()!.fingerprint !== fingerprint) throw new HttpsError('invalid-argument', 'Request ID already used');
@@ -107,6 +110,10 @@ export const createIncident = onCall('createIncident', async request => {
       reportRevision: 0, answers: null,
     }); }
     return { incidentId: id, status: 'dispatching', invitedCount: selected.length };
+  })).catch(error => {
+    if (error instanceof IncidentCreateConflict) throw new HttpsError('invalid-argument', 'Request ID already used');
+    if (error instanceof IncidentCreateBusy) throw new HttpsError('resource-exhausted', 'Máy chủ đang bận. Thử lại với cùng yêu cầu.', { reason: 'create-busy' });
+    throw error;
   });
 });
 

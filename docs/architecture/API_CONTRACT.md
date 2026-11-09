@@ -90,6 +90,8 @@ Trả `{ incidentId, status, invitedCount }` sau transaction tạo incident, v�
 
 Cùng UID + requestId + payload trả cùng ca; dùng lại ID với payload khác trả invalid-argument. Thẻ đang có ca dispatching/accepted/arrived trả already-exists mà không lộ mã ca của phiên khác. Từ 0.4.7, query bbox/timestamp mới trước giới hạn, lọc Haversine trong 5km và mời tối đa 5 TNV gần nhất. Vùng truy vấn có hơn 1000 ứng viên trả resource-exhausted với details.reason=dispatch-capacity trước ghi incident/projection/pointer. Latitude hỗ trợ -85..85, longitude -180..180; query tách ở kinh tuyến 180. lastSeen <=5 phút, không quá tương lai 1 phút; offer 10 phút. API chặn quá hạn ngay; worker ngày không phải điều phối/escalation liên tục.
 
+Lưu ý source09/11: cùng UID+requestId+payload đang chạy được gộp trong một process để giảm tranh khóa. Không cache sau hoàn tất; Firestore receipt/transaction vẫn quyết định giữa các instance. Mỗi HTTP request vẫn qua Auth/budget; khác payload cùng ID trả invalid-argument. Hết256key đang xử lý trả resource-exhausted, details.reason=create-busy; retry giữ nguyên requestId/payload. Không phải cam kết giao đúng một lần; tra STATUS để phân biệt source và backend đã deploy.
+
 ### submitBystanderReport — callable
 
 Cần đúng Auth UID tạo incident. Input:

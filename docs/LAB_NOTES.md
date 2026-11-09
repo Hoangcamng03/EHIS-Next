@@ -5,7 +5,21 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
-## 2026-11-09 — tiếp tục S22+, GPS chưa đạt
+## 2026-11-09 — tiếp tục S22+, GPS18 tại chỗ đạt; chưa nghiệm thu toàn bộ
+
+### Bổ sung cuối vòng — APK18 đã cài
+
+- APK18/code16 build `c774063a-8f47-4a69-807b-51b59bb29b6a`, source `ba90a0a`, artifact102722361bytes/SHA256 `68c984c2039717a597706a4fb1c2a034cb7487d9d6ce05386a16476b21440d61`; quyền/âm báo/target PASS. Cài đè17→18 kết thúc15:17:22UTC, giữ phiên TNV. Không OTA/deploy cloud hoặc đổi trang tải chung16.
+- Người dùng yêu cầu tự giả lập người báo. Tạo phiên anonymous/API thật và ca E mới với điểm tổng hợp lệch khoảng11m từ GPS Sẵn sàng S22+, ba quan sát Chưa rõ rồi bản2. Đây không phải máy báo tin/GPS bệnh nhân/triệu chứng thật; không thay số đo GPS S22+.
+- Nhận ca native15:23:05UTC. GPS15:23:43 báo0s/±13m,15:27:27 báo1s/±13m,15:28:14 báo0s/±15m; route A–B xuất hiện. Đây là sai số máy báo, không phải so với mốc chuẩn. Tắt15:28:38/bật15:29:03, ảnh15:29:09 có fix0s/±47m. Home15:29:40→mở lại15:29:48, ảnh15:29:49 fix0s/±14m. PASS cho các bước tại chỗ, không khẳng định mọi môi trường/độ trễ phân phối. Report1→2 app tự ack; server15:27:43 xác nhận loaded2, không giả ack.
+- Observer15:24:31–15:26:00 có40mẫu,0mất process/focus,0đổi process; crash Java/native buffer riêng15:30 không có mục EHIS. Tự về Home vẫn OPEN;90giây không đủ kết luận đã sửa.
+- Vị trí cuộn đổi giữa ảnh/thao tác, người dùng xác nhận không ai chạm. Có lượt bấm từ xa lệch sang Đã đến nơi, server15:39 xác nhận arrived: ghi thao tác nhầm/bố cục OPEN, không coi đến thật/bài đến nơi đạt. Sau ba lượt chưa xác nhận hoàn tất, dừng bấm tọa độ đơn thuần; guard mới đối chiếu vùng chữ ngay trước bấm và đã từ chối khi đổi. Dọn đúng ca E qua API chuẩn15:39:42, private403;15:39:43 xác nhận OFF/no active. Lượt hoàn tất native này không PASS.
+- CI42632766067 của `ba90a0a` FAIL thật: integration RETRY-8-lost-ack-replays-one-incident bị500 INTERNAL/Firestore ABORTED transaction lock timeout;14/15multi-scenarios đạt,222Auth/197API. Check/export/build đạt, scale chưa chạy do integrationfail. Không xóa failure khi rerun.
+- Sửa backend source: gộp đúng UID+requestId+fingerprint đang xử lý trong cùng process, giới hạn256key, không cache sau hoàn tất. Mọi HTTP request vẫn qua auth/budget; Firestore receipt/transaction giữ quyền quyết định giữa các instance. Payload khác cùng ID bị chặn, lỗi giải phóng key. Unit26/26 gồm4bài mới PASS. Integration-2 đang chạy giữ nguyên8yêu cầu/ngưỡng; chưa deploy hoặc coi đã sửa cloud. Không sửa bố cục theo phỏng đoán.
+
+### Ghi nhận trước khi cài18 — giữ nguyên lịch sử
+
+- Chốt sửa retry local: integration-2 PASS đủ16suite trong352817ms; multi15/15,222Auth/201API, bài8retry không đổi vẫn PASS. Check-6 PASS83 (26backend+57logic),62415ms. Giữ CI cũ FAIL để đối chiếu; còn cần CI mới/tải sau sửa và backend cloud chưa nhận bản sửa.
 
 - APK17/code15 đã kiểm tra artifact và cài đè thành công 08/11 17:03:43UTC từ source `2ec7b09`; giữ đăng nhập, không xóa dữ liệu. CI42502290040 thành công. Cloud/trang tải chung vẫn16, không OTA.
 - GPS17 vẫn FAIL: đứng yên nhiều ảnh, tắt switch lúc13:56:51UTC09/11 xác nhận OFF, bật lại13:57:15 và chờ hơn40giây vẫn không fix/timeout/retry. Không coi distance0 là đã sửa thành công. UIAutomator không idle nên từ chối XML cũ; dùng ảnh mới và native input kiểm tra focus. Ảnh/vị trí/thông báo riêng giữ private.

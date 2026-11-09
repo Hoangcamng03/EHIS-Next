@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-09T14:10:10.571Z",
+  "generatedAt": "2026-11-09T15:49:15.882Z",
   "status": "IN_PROGRESS_NOT_FULLY_ACCEPTED",
   "scope": "Real test execution and real two-phone controlled drill using synthetic patient profiles. No walking, clinical readiness, fabricated device measurements or 1000 concurrent humans claimed.",
   "baselineCommit": "d5a46dc2863becb98451db64272be30ea317295f",
@@ -12,7 +12,7 @@
   "candidate": {
     "version": "0.4.18",
     "versionCode": 16,
-    "nativeVerification": "NOT_BUILT_OR_INSTALLED"
+    "nativeVerification": "PARTIAL: foreground stationary GPS, OFF/ON, Home/resume and report updates pass; full matrix not accepted"
   },
   "records": [
     {
@@ -417,6 +417,98 @@
       "totalMemoryBytes": 25463480320,
       "log": "build-4.log",
       "logSha256": "ddcd3630b5c75c0f5e4d3479f981b15298bd1b09260c5c34c5ef41de08836d9d",
+      "artifacts": []
+    },
+    {
+      "id": "apkstart-2",
+      "operation": "apkstart",
+      "command": "node scripts/build-trial-android.cjs start",
+      "startedAt": "2026-11-09T14:10:28.460Z",
+      "endedAt": "2026-11-09T14:11:08.811Z",
+      "elapsedMs": 40349,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "ba90a0aff6ee75b2102a9ccb9df8d0b652d7c470",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkstart-2.log",
+      "logSha256": "cfb7f5ebb235e4d1e8390456a8919c70d90175a1318c1ad00c613642aa80305f",
+      "artifacts": []
+    },
+    {
+      "id": "apkverify-2",
+      "operation": "apkverify",
+      "command": "node scripts/verify-trial-apk.cjs",
+      "startedAt": "2026-11-09T15:12:13.895Z",
+      "endedAt": "2026-11-09T15:12:21.722Z",
+      "elapsedMs": 7823,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "ba90a0aff6ee75b2102a9ccb9df8d0b652d7c470",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkverify-2.log",
+      "logSha256": "e5cab7d38f92867a5887beea2e05921431d6b51552fd514cf374db41f2663de0",
+      "artifacts": [
+        "apkverify-2-android-trial-artifact.json"
+      ]
+    },
+    {
+      "id": "integration-2",
+      "operation": "integration",
+      "command": "npm run test:integration",
+      "startedAt": "2026-11-09T15:41:19.680Z",
+      "endedAt": "2026-11-09T15:47:12.498Z",
+      "elapsedMs": 352817,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "ba90a0aff6ee75b2102a9ccb9df8d0b652d7c470",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "integration-2.log",
+      "logSha256": "99992b5bbb688424b355cfdff91ecf4b133218d4cc67daed35e912cffd33400e",
+      "artifacts": [
+        "integration-2-multi-acceptance.json"
+      ]
+    },
+    {
+      "id": "check-6",
+      "operation": "check",
+      "command": "npm run check",
+      "startedAt": "2026-11-09T15:47:38.410Z",
+      "endedAt": "2026-11-09T15:48:40.827Z",
+      "elapsedMs": 62415,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "ba90a0aff6ee75b2102a9ccb9df8d0b652d7c470",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "check-6.log",
+      "logSha256": "c5fea69d46a85c551cf91b747b0cc6c5d3af701facde5f17da32a9f63e35fbaf",
       "artifacts": []
     }
   ],
@@ -4042,6 +4134,176 @@
       "file": "screen-2026-11-08T16-31-40-393Z.private.png",
       "sha256": "17345a20470fed0c8ee6ce92fec0f17d43a04b38980d6cfb7b1772f2c7a6347e",
       "visibility": "PRIVATE: may contain actual location or contact details; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T13-41-08-247Z.private.png",
+      "sha256": "e05b1485d4dcfa0be9ebb54beeb6bd680b1e016559f5fbe4ff82aaa0d85e25f0",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T13-53-00-296Z.private.png",
+      "sha256": "0cbc56ab401a050b0af997e9d41d00c3e6b724c7fc8d6bea8993fa40ee9a8d43",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T13-54-15-706Z.private.png",
+      "sha256": "7af0467fd128fd27b5f28c9a3a8705ea63b4ba7524c34ffb89cce051b9f36b2f",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T13-54-38-653Z.private.png",
+      "sha256": "33893b64bd5073a738c11e84faadaf04318262a5931a40454534dbb861742f89",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T13-56-27-514Z.private.png",
+      "sha256": "4f287b797200f2d5498f079851c06a0182d86dd5980b9cb9bd6c249cffd42c95",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T13-56-52-236Z.private.png",
+      "sha256": "844ef376964a7d1faed2375ba9897fe7cda920363be877ef87b85e3859091f25",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T13-57-16-892Z.private.png",
+      "sha256": "13566dd29ce2a3cea2501ed53351ea9112f031877e7e6f4753be5d804eef0a21",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T13-57-58-081Z.private.png",
+      "sha256": "0b8f0cf5b06729441e6bba932b11b968180e06b59b8c2efe84ded23781b79543",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T14-01-31-941Z.private.png",
+      "sha256": "5e5ff942ba2522cde52145dad56092cd9f895525c65d1954aaa261f499cc37e2",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T14-08-24-278Z.private.png",
+      "sha256": "951d320dfc20ffdcc1fb9bb18a5fd2e1b91e3e605aacff042f604d0a6c6e2044",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T14-08-47-870Z.private.png",
+      "sha256": "1b53fe879212f0aef2da4969764ed0a7f806db2b05a03480220db3ba33678e38",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T14-09-10-090Z.private.png",
+      "sha256": "f680f9e4358eca5cfd92844de3df1bf842ca2cb33374528a1b8c39bf3badddbd",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T14-17-14-371Z.private.png",
+      "sha256": "8b572671a49b767aed9ca1fc340e8731fafc346bfb6251511e7c2f5409e5054a",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T14-18-18-707Z.private.png",
+      "sha256": "27da6357559945c2983b59648b504f155842d5c29fe0287c45307b3fec37fcaf",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-07-46-928Z.private.png",
+      "sha256": "154cbe96bee3f9847c45fe76cc12273507013e29598780d6429d8eb297cab8e0",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-09-24-158Z.private.png",
+      "sha256": "edf815034cc53ae804060e7a49ee191bc2f353dfc231858cde85b943f5d78bd6",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-10-27-162Z.private.png",
+      "sha256": "917caba50924db02ea3990b9307df2015edd0e77f1d35c0f962281c775419fe4",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-17-42-008Z.private.png",
+      "sha256": "98787ec28c26e44c378eb3a69d7f619df300ac150f381d66108df750b36e9bf0",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-20-40-449Z.private.png",
+      "sha256": "2b7831f76b03b134e15c6d579958c0d0e90767316ab8a6a475daded009c4eb89",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-21-16-632Z.private.png",
+      "sha256": "92c11b190908ac6d9e432594470f311a3ccdd279f72253ed06b81cc6dbfe93b5",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-22-41-844Z.private.png",
+      "sha256": "8160d49cf07067d3a7cff6fb35c813d19b002edd229ef59a722cfb55be2a2bd2",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-23-10-390Z.private.png",
+      "sha256": "0fd8e8401a2302c5ecf2d35a996bde3475855b9b964bcbb076d39f1fab15e161",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-23-43-823Z.private.png",
+      "sha256": "8fb75eb20e8638339274e55370e7fec50fb36e87b3e078a7a81e4dfcad8cb75a",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-25-15-937Z.private.png",
+      "sha256": "d32ee80860f45c95ed99d2542b9091aa101d2e9fd61106f464075896a218c2c5",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-27-27-656Z.private.png",
+      "sha256": "3575a26e95e8a74ac2299f246c348d5af7a1beda95d7f61016f9b7f60d2feb4d",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-28-14-853Z.private.png",
+      "sha256": "42bf02d188f96f82b747de51b943d67293dbee44e7efe62e1401d57a365f5cd2",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-28-46-466Z.private.png",
+      "sha256": "61d078878e869b6592018c6d393431b4bd012f63fe2abb4bb3083ec599b2f879",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-29-09-835Z.private.png",
+      "sha256": "c499ca31b4b6f969cf824db3ae1ac07ac9f13590c3b81b3697d9edec2a62807d",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-29-49-605Z.private.png",
+      "sha256": "3edf5a311d74c38b8d11e610ddfd88008e88950f236b6127febc0f39108ae308",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-30-28-870Z.private.png",
+      "sha256": "4ba7a67f72e4b2ea265c98cd211671e23bf8276a3919b58da31af4576a11fc1e",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-31-31-075Z.private.png",
+      "sha256": "bdc2019556fe609f874b3b5dcbc578741cc0aba742794272d57610ddea8e3f22",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-32-47-127Z.private.png",
+      "sha256": "3da5e491386170d03cb778d3b1f0deaaffa5cb24bb880f8d23d03ea63ea5daf0",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-33-19-599Z.private.png",
+      "sha256": "8831a18176f3e2a794483ca8ffa3ea87199e52caefc39771da92abb9d2066bb8",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
+    },
+    {
+      "file": "screen-2026-11-09T15-37-38-847Z.private.png",
+      "sha256": "0488d5c7d8093d8869579bd9e34b9ca600e9773138d965bcd9fe5364d4fb925c",
+      "visibility": "PRIVATE: actual location, account or notification may appear; image not published"
     }
   ],
   "phoneResults": [
@@ -4168,5 +4430,130 @@
     "endedAt": "2026-11-09T13:50:42.784Z",
     "setting": "0",
     "notProductFeature": true
+  },
+  "native18": {
+    "version": "0.4.18",
+    "versionCode": 16,
+    "artifact": {
+      "id": "c774063a-8f47-4a69-807b-51b59bb29b6a",
+      "commit": "ba90a0aff6ee75b2102a9ccb9df8d0b652d7c470",
+      "version": "0.4.18",
+      "versionCode": 16,
+      "status": "FINISHED",
+      "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/c774063a-8f47-4a69-807b-51b59bb29b6a",
+      "startedAt": "2026-11-09T14:11:08.724Z",
+      "deviceVerified": false,
+      "apkUrl": "https://expo.dev/artifacts/eas/guafnhsctT7v3jQrCR_nRjWQdY35E3L2O6SY3lkNvfc.apk",
+      "bytes": 102722361,
+      "sha256": "68c984c2039717a597706a4fb1c2a034cb7487d9d6ce05386a16476b21440d61",
+      "artifactVerified": true,
+      "packageName": "com.hoangcamng.ehisnext",
+      "microphonePermission": false,
+      "vibrationPermission": true,
+      "embeddedTone": true,
+      "cloudTargetVerified": true,
+      "backgroundNotificationResourcesVerified": true
+    },
+    "installation": {
+      "endedAt": "2026-11-09T15:17:22.9136762Z",
+      "status": "PASS",
+      "installerExit": 0,
+      "operation": "In-place adb install -r; no uninstall, clear data, downgrade or permission auto-grant",
+      "before": "0.4.17/code15",
+      "scope": "Installation only; GPS/audio/automatic-exit tests remain separate",
+      "after": "0.4.18/code16",
+      "startedAt": "2026-11-09T15:16:50.4143624Z",
+      "output": "Performing Streamed Install\r\nSuccess",
+      "sha256": "68c984c2039717a597706a4fb1c2a034cb7487d9d6ce05386a16476b21440d61"
+    },
+    "reporter": {
+      "at": "2026-11-09T15:22:21.588Z",
+      "status": "PASS_API_FIXTURE_CREATED",
+      "case": "E-new",
+      "invitedCount": 1,
+      "reportRevision": 1,
+      "scope": "User-authorized simulated reporter via real anonymous Auth and backend API. Synthetic destination offset about11m from last native readiness GPS; NOT actual bystander location, medical observations or measured GPS accuracy. Native acceptance/GPS not yet verified."
+    },
+    "reportUpdate": {
+      "at": "2026-11-09T15:25:20.912Z",
+      "status": "PASS_API_UPDATE",
+      "revision": 2,
+      "scope": "Synthetic observations sent by authorized simulated reporter; actual native receipt must be observed separately. No real symptoms claimed."
+    },
+    "nativeAcceptAt": "2026-11-09T15:23:05.149Z",
+    "actualGpsScreens": [
+      {
+        "at": "2026-11-09T15:23:43.823Z",
+        "ageSeconds": 0,
+        "reportedAccuracyMeters": 13
+      },
+      {
+        "at": "2026-11-09T15:27:27.656Z",
+        "ageSeconds": 1,
+        "reportedAccuracyMeters": 13
+      },
+      {
+        "at": "2026-11-09T15:28:14.853Z",
+        "ageSeconds": 0,
+        "reportedAccuracyMeters": 15
+      },
+      {
+        "at": "2026-11-09T15:29:09.835Z",
+        "ageSeconds": 0,
+        "reportedAccuracyMeters": 47,
+        "after": "Actual switch OFF15:28:38/ON15:29:03"
+      },
+      {
+        "at": "2026-11-09T15:29:49.605Z",
+        "ageSeconds": 0,
+        "reportedAccuracyMeters": 14,
+        "after": "Actual Home then reopen"
+      }
+    ],
+    "gpsScope": "Real native GPS readings, stationary; reported sensor accuracy is not ground-truth accuracy. Synthetic destination, no physical patient, travel or walking.",
+    "reportReceipt": {
+      "at": "2026-11-09T15:27:43.865Z",
+      "revision": 2,
+      "loadedRevision": 2,
+      "scope": "App automatically acknowledged actual load; no manual ACK API"
+    },
+    "homeResume": {
+      "startedAt": "2026-11-09T15:29:40.092Z",
+      "endedAt": "2026-11-09T15:29:48.600Z",
+      "ownWhileHome": false,
+      "resumedOwn": true,
+      "scope": "Actual Home then owned launcher only. No lock, PIN, other app screenshot, force-stop or fake location. GPS freshness requires screenshot separately."
+    },
+    "cleanup": {
+      "at": "2026-11-09T15:39:42.138Z",
+      "status": "PASS_API_CLEANUP_ONLY",
+      "scope": "Only exact own simulated E18 case completed through normal assigned-volunteer API; native completion not accepted because layout shifted. No physical arrival/care claimed. Private detail now403."
+    },
+    "uiIssue": {
+      "status": "OPEN",
+      "ownerSaysNoTouch": true,
+      "result": "Layout/scroll target changed between screenshots and remote taps; unintended arrived status occurred on synthetic case. NOT a physical arrival or PASS. Native completion not accepted; exact synthetic case cleaned via normal API. New screenshot-label guard refused changed target."
+    },
+    "ci": {
+      "at": "2026-11-09T15:35:16.816Z",
+      "sourceCommit": "ba90a0aff6ee75b2102a9ccb9df8d0b652d7c470",
+      "runs": [
+        {
+          "id": 42632766067,
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42632766067"
+        }
+      ]
+    },
+    "foregroundObservation": {
+      "first": "2026-11-09T15:24:31.4706760Z",
+      "last": "2026-11-09T15:26:00.5606803Z",
+      "samples": 40,
+      "focusLoss": 0,
+      "processLoss": 0,
+      "processChange": 0,
+      "doesNotCloseIntermittentExit": true
+    }
   }
 }

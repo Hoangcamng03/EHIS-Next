@@ -1,6 +1,23 @@
 # Kiểm thử EHIS kết hợp hai Android — 08/11/2026
 
-**Chưa nghiệm thu toàn bộ; bổ sung09/11.** S22+ SM-S906E/Android16 đã cài0.4.17/code15, GPS trực tiếp vẫn chưa đạt. Source18/code16 đang sửa bước khởi động, chưa có bằng chứng thiết bị cho18. Kết quả16 bên dưới giữ nguyên theo phiên bản. [Số liệu gốc](ACCEPTANCE_ANDROID_2026_11_08.json) · [Trạng thái phát hành](../../STATUS.md).
+**Chưa nghiệm thu toàn bộ; bổ sung09/11.** S22+ SM-S906E/Android16 đã cài0.4.18/code16. GPS đứng yên, tắt/bật, Home/mở lại và nhận bản tình trạng mới đã đạt ở lượt thử này. Lỗi bố cục, tự thoát gián đoạn và CI còn cần xử lý. Kết quả16/17 bên dưới giữ nguyên theo phiên bản. [Số liệu gốc](ACCEPTANCE_ANDROID_2026_11_08.json) · [Trạng thái phát hành](../../STATUS.md).
+
+## Kết quả mới nhất — APK18 trên S22+
+
+| Bài thật | Kết quả | Giới hạn |
+| --- | --- | --- |
+| Artifact và cài đè | PASS,18/code16; kết thúc15:17:22UTC09/11; giữ đăng nhập |102722361bytes; SHA256 `68c984c2039717a597706a4fb1c2a034cb7487d9d6ce05386a16476b21440d61`; build c774063a, sourceba90a0a; không OTA |
+| Người báo/điểm bệnh nhân | Giả lập được người dùng yêu cầu; Auth/API cloud thực | Điểm tổng hợp khoảng11m từ GPS Sẵn sàng, không coi là vị trí người báo thật hoặc độ chính xác GPS |
+| Nhận ca và GPS tại chỗ | PASS native; nhận15:23:05; ảnh15:23:43 GPS0s/±13m,15:27:27 GPS1s/±13m | Sai số do cảm biến báo; không đo so mốc chuẩn hoặc đi bộ |
+| Tuyến đường | PASS hiển thị marker A/B, polyline và thông tin tuyến | Tới đích giả lập gần, không đánh giá tuyến xa/giao thông/thời gian đến thực |
+| Tắt/bật GPS | PASS OFF15:28:38,ON15:29:03; ảnh15:29:09 GPS0s/±47m | Một lượt, không bao gồm từ chối quyền/tắt GPS hệ thống |
+| Home/mở lại | PASS Home15:29:40, mở15:29:48; ảnh15:29:49 GPS0s/±14m | Không khóa/PIN/Doze; không chứng minh chuông nền18 |
+| Tình trạng mới | PASS report1→2, loaded2 tự từ app, server15:27:43 | Quan sát giả lập, không phải triệu chứng thật; không giả APIack |
+| Theo dõi tự thoát |40mẫu15:24:31–15:26:00,0mất process/focus | Vẫn OPEN lỗi gián đoạn; không kết luận mọi điều kiện ổn |
+| Hoàn tất native | Chưa đạt: bố cục/cuộn đổi giữa ảnh/lượt bấm; chủ máy nói không ai chạm | Có bấm lệch Đã đến nơi trên ca giả lập; không tính arrivalPASS. Guard đối chiếu ảnh mới đã từ chối mục tiêu thay đổi. Dọn đúng ca qua API15:39:42, OFF/no active15:39:43 |
+| CI18 | FAIL thực ở integration RETRY-8,14/15multi-scenarios;222Auth/197API | Firestore ABORTED lock timeout; check/export/build đạt, scale chưa chạy. Source sửa gộp duplicate đang kiểm thử; không hạ bài test |
+
+Web/backend/trang tải chung vẫn16. Chỉ S22+ được cập nhật18 để kiểm thử. Raw screenshot/log giữ riêng tư; JSON công khai chứa hash và số liệu đã tách thông tin cá nhân.
 
 ## Bổ sung09/11 — APK17 và ứng viên18
 
