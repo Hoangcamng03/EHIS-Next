@@ -15,7 +15,7 @@ async function signup(label) {
   assert.equal(response.status, 200); return response.json();
 }
 async function main() {
-  assert.equal((await (await fetch(`${base}/health`)).json()).service, 'ehis-next');
+  const health=await (await fetch(`${base}/health`)).json();assert.equal(health.service,'ehis-next');assert.equal(health.version,require('../backend/package.json').version,'Health must match backend package');
   assert.equal((await call('savePatientProfile', {})).status, 401);
   const owner = await signup('patient');
   const other = await signup('other');

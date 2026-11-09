@@ -19,6 +19,12 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 ### Ghi nhận trước khi cài18 — giữ nguyên lịch sử
 
+- health-integration-2 PASS50178ms: hai suite thật xác minh health.version=backendpackage.version và quyền/Auth/HTTP. Sửa lại mô tả scripts/README từ12 thành16suite theo launcher thực. Backend cần redeploy để cloudprobe19 thực sự PASS; chưa gọi bản cloud đã nghiệm thu chỉ từ logREADY.
+
+- health-integration-1 FAIL ở whitelist launcher trước khi chạy Emulator; bổ sung đúng suitehealth ở firebase-local, giữ recordFAIL và chạy lại bằng ID mới. Không tính lượt chưa khởi chạy thành kiểm tra đã đạt.
+
+- CI19f9f015c SUCCESS42650746613. Backenddeploy-1 READY16:10UTC nhưng cloudprobe-2 FAIL vì health vẫn literal0.4.16 trong source; không coi deployREADY là runtime/versionPASS, không hạ probe. Sửa health lấy backend/package.json; thêm assertion ở hai smoke thật và lệnh test:health. Không đổi native/frontend nên APK19 đang build từf9 vẫn giữ đúng mã app; backend cần kiểm tra/redeploy riêng.
+
 - Source19 build-5 PASS47360ms sau check85. Đóng gói Next web và Expo app-web thực, chưa deploy hoặc kiểm chứng hộp thoại19 trên Android. Chỉ tạo APK thử sau các bước này; ghi phiên bản cài thật riêng với bản tải chung.
 
 - Chốt thêm số đo Functions-scale-2: alertp50=21165ms,p95=21866ms,max21895ms vượt15000ms;8giaiđoạn chức năng PASS nhưng lệnhFAIL/RECHECK. Không sửa ngưỡng hoặc gọi là backend cloud hiện tại. Source19 check-7 PASS85 (26backend+59logic),60321ms; build-5 đang chạy trước APK19. Runbook bổ sung bước xác nhận Đã đến nơi và không xác nhận nếu chưa di chuyển tới đích.

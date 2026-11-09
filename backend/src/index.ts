@@ -24,8 +24,9 @@ export { listVolunteerRoster, updateVolunteerRegion, setVolunteerSuspension } fr
 export { getOperationsOverview, retryPendingNotifications, runMaintenanceNow } from './operations';
 
 // No identities, personal data, or secrets in a public health check.
+const backendVersion = (require('../package.json') as { version: string }).version;
 export const health = onRequest({ cors: true }, (_request, response) => {
-  response.json({ service: 'ehis-next', status: 'ok', version: '0.4.16', projectId: getApp().options.projectId || process.env.GCLOUD_PROJECT || null });
+  response.json({ service: 'ehis-next', status: 'ok', version: backendVersion, projectId: getApp().options.projectId || process.env.GCLOUD_PROJECT || null });
 });
 
 export const getMyAccess = onCall('getMyAccess', async request => {

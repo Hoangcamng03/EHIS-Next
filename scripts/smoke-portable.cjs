@@ -10,6 +10,7 @@ async function main() {
   let ready=false;
   for(let i=0;i<40;i++) {try {if((await fetch(base+'/api/health')).ok) {ready=true;break;}}catch{} await new Promise(resolve=>setTimeout(resolve,250));}
   assert.equal(ready,true,'Portable backend startup');
+  const health=await (await fetch(base+'/api/health')).json();assert.equal(health.version,require('../backend/package.json').version,'Health must report the deployed package version');assert.equal(health.projectId,'demo-ehis-next');
   async function call(name,data,token) {return fetch(base+'/api/'+name,{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:JSON.stringify({data})});}
   assert.equal((await call('getMyAccess',{})).status,401);
   assert.equal((await call('getMyAccess',{},'invalid-token')).status,401);
