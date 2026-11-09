@@ -5,43 +5,36 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
-## 2026-11-09 — tiếp tục S22+, GPS18 tại chỗ đạt; chưa nghiệm thu toàn bộ
+## 2026-11-09 — S22+, GPS và chống gửi trùng
 
-### Bổ sung cuối vòng — APK18 đã cài
+### Trạng thái mới nhất
 
-- APK18/code16 build `c774063a-8f47-4a69-807b-51b59bb29b6a`, source `ba90a0a`, artifact102722361bytes/SHA256 `68c984c2039717a597706a4fb1c2a034cb7487d9d6ce05386a16476b21440d61`; quyền/âm báo/target PASS. Cài đè17→18 kết thúc15:17:22UTC, giữ phiên TNV. Không OTA/deploy cloud hoặc đổi trang tải chung16.
-- Người dùng yêu cầu tự giả lập người báo. Tạo phiên anonymous/API thật và ca E mới với điểm tổng hợp lệch khoảng11m từ GPS Sẵn sàng S22+, ba quan sát Chưa rõ rồi bản2. Đây không phải máy báo tin/GPS bệnh nhân/triệu chứng thật; không thay số đo GPS S22+.
-- Nhận ca native15:23:05UTC. GPS15:23:43 báo0s/±13m,15:27:27 báo1s/±13m,15:28:14 báo0s/±15m; route A–B xuất hiện. Đây là sai số máy báo, không phải so với mốc chuẩn. Tắt15:28:38/bật15:29:03, ảnh15:29:09 có fix0s/±47m. Home15:29:40→mở lại15:29:48, ảnh15:29:49 fix0s/±14m. PASS cho các bước tại chỗ, không khẳng định mọi môi trường/độ trễ phân phối. Report1→2 app tự ack; server15:27:43 xác nhận loaded2, không giả ack.
-- Observer15:24:31–15:26:00 có40mẫu,0mất process/focus,0đổi process; crash Java/native buffer riêng15:30 không có mục EHIS. Tự về Home vẫn OPEN;90giây không đủ kết luận đã sửa.
-- Vị trí cuộn đổi giữa ảnh/thao tác, người dùng xác nhận không ai chạm. Có lượt bấm từ xa lệch sang Đã đến nơi, server15:39 xác nhận arrived: ghi thao tác nhầm/bố cục OPEN, không coi đến thật/bài đến nơi đạt. Sau ba lượt chưa xác nhận hoàn tất, dừng bấm tọa độ đơn thuần; guard mới đối chiếu vùng chữ ngay trước bấm và đã từ chối khi đổi. Dọn đúng ca E qua API chuẩn15:39:42, private403;15:39:43 xác nhận OFF/no active. Lượt hoàn tất native này không PASS.
-- CI42632766067 của `ba90a0a` FAIL thật: integration RETRY-8-lost-ack-replays-one-incident bị500 INTERNAL/Firestore ABORTED transaction lock timeout;14/15multi-scenarios đạt,222Auth/197API. Check/export/build đạt, scale chưa chạy do integrationfail. Không xóa failure khi rerun.
-- Sửa backend source: gộp đúng UID+requestId+fingerprint đang xử lý trong cùng process, giới hạn256key, không cache sau hoàn tất. Mọi HTTP request vẫn qua auth/budget; Firestore receipt/transaction giữ quyền quyết định giữa các instance. Payload khác cùng ID bị chặn, lỗi giải phóng key. Unit26/26 gồm4bài mới PASS. Integration-2 đang chạy giữ nguyên8yêu cầu/ngưỡng; chưa deploy hoặc coi đã sửa cloud. Không sửa bố cục theo phỏng đoán.
+- S22+ đã cài APK18/code16, giữ đăng nhập. APK19/code17 đang chờ EAS miễn phí, chưa cài/nghiệm thu. Backend19 đã deploy và probe đúng project/version/401; web/trang tải chung vẫn16. Không OTA, không bật billing hoặc mở rộng IAM. Giờ kiểm thử dưới đây là UTC (Việt Nam cộng7giờ).
+- [Báo cáo đầy đủ](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md) và [số liệu gốc](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.json) giữ cả PASS/FAIL/RECHECK. Ảnh/log thô có vị trí, tài khoản hoặc thông báo chỉ giữ private; public chỉ có hash và số liệu đã loại thông tin riêng tư.
 
-### Ghi nhận trước khi cài18 — giữ nguyên lịch sử
+### 1. Điện thoại và luồng ca
 
-- health-integration-2 PASS50178ms: hai suite thật xác minh health.version=backendpackage.version và quyền/Auth/HTTP. Sửa lại mô tả scripts/README từ12 thành16suite theo launcher thực. Backend cần redeploy để cloudprobe19 thực sự PASS; chưa gọi bản cloud đã nghiệm thu chỉ từ logREADY.
+- APK17/code15 từ2ec7b09 cài đè thành công08/11 17:03:43; CI42502290040 PASS. GPS17 vẫn FAIL cả đứng yên và tắt/bật13:56:51/13:57:15ngày09/11, chờ hơn40giây không fix/timeout/retry. Không nới ngưỡng15giây/100m để ép đạt.
+- Sửa18: kiểm tra quyền đã cấp trước khi request, timeout phủ permission/services, trạng thái khởi động ngắn; giữ foreground-only. Hai unit mock mới PASS; check-4/5 PASS79, build-3 FAIL EPERM thư mục Next, rerun build-4 PASS34043ms. APK18 build c774063a từba90a0a,102722361bytes/SHA256 68c984c2039717a597706a4fb1c2a034cb7487d9d6ce05386a16476b21440d61; cài đè18 kết thúc15:17:22, không xóa dữ liệu/auto-grant quyền.
+- Người dùng yêu cầu tự giả lập người báo: anonymous/Auth/API cloud thật, đích tổng hợp lệch khoảng11m từ GPS Sẵn sàng S22+. Không coi là GPS bệnh nhân, triệu chứng thật hoặc điện thoại thứ hai. Nhận native15:23:05; GPS15:23:43 báo0s/±13m,15:27:27 báo1s/±13m; route A–B tải được. Đây là sai số cảm biến báo, chưa so mốc chuẩn hoặc đi bộ.
+- Tắt15:28:38/bật15:29:03: ảnh15:29:09 fix0s/±47m. Home15:29:40→mở lại15:29:48: ảnh15:29:49 fix0s/±14m. Report1→2 tự tải/ack, server15:27:43 loaded2, không giả APIack. PASS đúng các bước này. Observer15:24:31–15:26:00 có40mẫu không mất focus/process; crash Java/native buffer riêng15:30 không có mục EHIS. Báo tự về Home vẫn OPEN, không kết luận đã sửa từ90giây.
+- Bố cục/cuộn đổi giữa ảnh và lượt bấm; chủ máy xác nhận không ai chạm. Có bấm lệch Đã đến nơi, server15:39 xác nhận arrived trên ca giả lập: không tính arrivalPASS/đến thật. Sau ba lượt chưa xác nhận hoàn tất, dừng bấm tọa độ đơn thuần; guard mới so vùng chữ trước bấm đã từ chối mục tiêu thay đổi. Dọn đúng E giả lập bằng API chuẩn15:39:42, private403;15:39:43 OFF/no active. Hoàn tất native18 ở lượt này chưa đạt.
+- Nguồn19 đổi xác nhận sang Modal cố định, giữ footprint nút gốc; Đã đến nơi yêu cầu xác nhận riêng, có guard disabled/doubletap. Hai unit hành vi mới PASS; check-7 PASS85 (26backend+59logic),60321ms; build-5 PASS47360ms; runbook cập nhật. CI f9f015c PASS42650746613. Chưa có kết quả hộp thoại19 trên điện thoại khi ghi mục này; không khẳng định đã tìm được mọi nguyên nhân cuộn.
+- D thật trước đó cách S22+18,3km, chủ máy xác nhận ở nơi khác: không mời đúng bán kính5km, không sửa tọa độ ép đạt. A/D hủy bằng tài khoản bệnh nhân; C đóng bằng API dọn diễn tập. E đầu hoàn tất native14:09:09, guard14:09:19 OFF/no active (khác E giả lập18 về sau). P1 cũ không bị thay đổi. Giữ sáng USB tạm đã khôi phục7→0 lúc13:50:42, không đổi PIN/thời gian khóa.
 
-- health-integration-1 FAIL ở whitelist launcher trước khi chạy Emulator; bổ sung đúng suitehealth ở firebase-local, giữ recordFAIL và chạy lại bằng ID mới. Không tính lượt chưa khởi chạy thành kiểm tra đã đạt.
+### 2. Backend, CI và tải
 
-- CI19f9f015c SUCCESS42650746613. Backenddeploy-1 READY16:10UTC nhưng cloudprobe-2 FAIL vì health vẫn literal0.4.16 trong source; không coi deployREADY là runtime/versionPASS, không hạ probe. Sửa health lấy backend/package.json; thêm assertion ở hai smoke thật và lệnh test:health. Không đổi native/frontend nên APK19 đang build từf9 vẫn giữ đúng mã app; backend cần kiểm tra/redeploy riêng.
+- CI ba90a0a FAIL42632766067: RETRY-8 tranh khóa Firestore ABORTED,500 INTERNAL;14/15multi-scenarios đạt,222Auth/197API. Check/export/build trước đó đạt; scale bị bỏ qua sau lỗi. Không xóa failure khi chạy lại.
+- Sửa gộp đúng UID+requestId+fingerprint đang chạy trong một process, giới hạn256key, không cache sau hoàn tất. Mỗi HTTP request vẫn qua Auth/budget, Firestore receipt/transaction quyết định giữa các instance. Payload khác cùng ID bị chặn; lỗi giải phóng key. Không phải đảm bảo giao đúng một lần giữa mọi instance.
+- Unit backend26/26; check-6 PASS83/62415ms; integration-2 đủ16suite PASS352817ms, multi15/15 với222Auth/201API, bài8retry giữ nguyên. CI72a186a PASS42648750261.
+- Scale-2 portable PASS46603ms:1000Auth,128session,32SDKfeed,32ca/8vùng,320API,40từchối dự kiến,0retry; alertp50=763ms,p95=1240ms,max1274ms. Không phải1000điện thoại/tải cloud. Lượt cũ p95=933ms khác điều kiện, chưa có so sánh ghép cặp để nói mọi API nhanh hơn. Functions-scale-2 vẫn FAIL/RECHECK205281ms:8giaiđoạn chức năng đạt nhưng p95=21866ms>15000ms; giữ ngưỡng và failure, không deployFunctions.
+- Deploybackend-1 READY16:10 nhưng cloudprobe-2 FAIL: health còn literal0.4.16 dù gói mới đã deploy. Sửa lấy phiên bản từ backend/package.json; thêm assertions thật ở starter/portable và lệnh test:health. Health-integration-1 FAIL whitelist launcher trước Emulator; bổ sung suite đúng rồi health-integration-2 PASS50178ms. scripts/README sửa12→16suite. CI a9134eb PASS42654274756.
+- Deploybackend-2 PASS30887ms từa9134eb; cloudprobe-3 PASS2572ms đúng19/project/401. Cloud retry thật16:31:57–16:32:02:8/8request trùng thành công, chỉ1incident, payload khác bị400; thời gian từngrequest1145–3738ms. Ca giả lậpD ở vùng biệt lập không mời TNV, đã hủy qua tài khoản bệnh nhân. Đây là8request có giới hạn, không phải benchmark sức tải cloud hay ca y tế thật.
 
-- Source19 build-5 PASS47360ms sau check85. Đóng gói Next web và Expo app-web thực, chưa deploy hoặc kiểm chứng hộp thoại19 trên Android. Chỉ tạo APK thử sau các bước này; ghi phiên bản cài thật riêng với bản tải chung.
+### 3. Việc chưa nghiệm thu
 
-- Chốt thêm số đo Functions-scale-2: alertp50=21165ms,p95=21866ms,max21895ms vượt15000ms;8giaiđoạn chức năng PASS nhưng lệnhFAIL/RECHECK. Không sửa ngưỡng hoặc gọi là backend cloud hiện tại. Source19 check-7 PASS85 (26backend+59logic),60321ms; build-5 đang chạy trước APK19. Runbook bổ sung bước xác nhận Đã đến nơi và không xác nhận nếu chưa di chuyển tới đích.
-
-- CI bản sửa retry `72a186a` SUCCESS42648750261, không xóa CIba90FAIL. Scale-2 portable PASS46603ms:1000Auth/128session/32feed/32ca/8vùng/320API/40từchối/0retry; alertp50=763ms,p95=1240ms,max1274ms. Lượt cũ p95=933ms ở điều kiện khác; không dùng so sánh không ghép cặp để tuyên bố mọi API nhanh hơn. Functions-scale-2 vẫn RECHECK/lệnhFAIL205281ms dù8giaiđoạn chức năng đạt; giữ ngưỡng15giây, không deployFunctions.
-- Ứng viên19/code17 xử lý nguy cơ bấm nhầm: xác nhận trong Modal cố định, giữ nút gốc cùng kích thước; Đã đến nơi có bước xác nhận riêng. Guard chặn doubletap và disabled; hai unit hành vi thực thi qua harness PASS (không coi là testnative). Chưa chứng minh nguyên nhân duy nhất của cuộn18, chưa cài19/đạt19; đang check/build. Backendcloud vẫn16, source retry đã quaCI; không OTA.
-
-- Chốt sửa retry local: integration-2 PASS đủ16suite trong352817ms; multi15/15,222Auth/201API, bài8retry không đổi vẫn PASS. Check-6 PASS83 (26backend+57logic),62415ms. Giữ CI cũ FAIL để đối chiếu; còn cần CI mới/tải sau sửa và backend cloud chưa nhận bản sửa.
-
-- APK17/code15 đã kiểm tra artifact và cài đè thành công 08/11 17:03:43UTC từ source `2ec7b09`; giữ đăng nhập, không xóa dữ liệu. CI42502290040 thành công. Cloud/trang tải chung vẫn16, không OTA.
-- GPS17 vẫn FAIL: đứng yên nhiều ảnh, tắt switch lúc13:56:51UTC09/11 xác nhận OFF, bật lại13:57:15 và chờ hơn40giây vẫn không fix/timeout/retry. Không coi distance0 là đã sửa thành công. UIAutomator không idle nên từ chối XML cũ; dùng ảnh mới và native input kiểm tra focus. Ảnh/vị trí/thông báo riêng giữ private.
-- D thật cách S22+18,3km, chủ máy xác nhận ở nơi khác: không mời đúng guard5km, không sửa tọa độ ép đạt. D hủy qua tài khoản bệnh nhân diễn tập. C đã đóng bằng API dọn ca, không ghi là đi đến/điều trị. E đang accepted/gặp trở ngại; không tự đóng do quá giờ hoặc cài đè khi active.
-- Tự về Home vẫn OPEN: theo dõi90giây08/11 có40mẫu process/focus ổn không bác bỏ lỗi gián đoạn. Lịch sử Android09/11 LOW_MEMORY lúc20:42:40VN ở nền; log riêng20:53VN chưa có fatal. CookieManager about:blank chưa phải nguyên nhân crash. Capture mất focus không tự đồng nghĩa crash.
-- Giữ sáng USB tạm đã khôi phục stay-on7 về0 lúc13:50:42UTC09/11; không đổi PIN/thời gian khóa và không coi công cụ là tính năng app.
-- Ứng viên18/code16: kiểm tra quyền đã cấp trước khi yêu cầu; timeout15giây phủ cả permission/services; hiển thị bước kiểm tra ngắn. Giữ tuổi fix15giây/sai số100m, không thêm GPS nền/quyền. Sửa đường chờ không giới hạn trong mã; chưa chứng minh nguyên nhân duy nhất GPS17. Thêm2 unit mock không hỏi lại quyền và promise quyền treo/hủy an toàn. Check-4 PASS79 (22backend+57logic),71723ms, trước chỉnh stage/version cuối; cần check/build lại. Chưa có APK18 hoặc nghiệm thu GPS18.
-
-- Chốt kiểm tra source18: check-5 PASS79/49614ms; build-3 FAIL EPERM tạo thư mục Next, rerun đúng quyền build-4 PASS34043ms. Không sửa code để che lỗi hệ điều hành. E hoàn tất native14:09:09UTC qua nút+Xác nhận, không bấm Đã đến nơi; guard Firebase14:09:19 xác nhận approved/OFF/no active. Đủ điều kiện cài đè sau khi artifact18 được kiểm tra; chưa coi bản18 thành công trên thiết bị.
+- Chờ artifact/cài APK19 rồi thử Modal xác nhận, nhiều ca chờ/chặn bận và GPS lại. Tự về Home/bố cục còn mở đến khi có bằng chứng phù hợp; không ghi đạt thay người dùng.
+- Offline độc lập bị ảnh hưởng mạng laptop, đi bộ/độ chính xác so mốc chuẩn, DND/Im lặng/Media0/Bluetooth, Doze/nhiều hãng và iOS native chưa hoàn tất. Web/trang tải chung16 chưa cập nhật; giữ thử nghiệm có hướng dẫn, không tuyên bố sẵn sàng cấp cứu thật.
 
 ## 2026-11-08 — kiểm thử lại toàn luồng kết hợp hai Android (đang thực hiện)
 

@@ -1,35 +1,27 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
 
-Cập nhật08/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](testing/verification/VERIFICATION_V0_4_15.json).
+Cập nhật09/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](testing/verification/VERIFICATION_V0_4_15.json).
 
 ## 1. Bản đang bàn giao
 
-Source backend sửa retry09/11: check83 và integration16suite local PASS (multi15/15,222Auth/201API); CI72a186a SUCCESS42648750261; chưa deploy. Portable-scale PASS,p95=1240ms; Functions-scale vẫn RECHECK,p95=21866ms>15000ms. CIba90 trước sửa vẫn là FAIL. APK18 không tự cập nhật backend hay web.
+**Chỉ diễn tập có hướng dẫn; chưa nghiệm thu toàn bộ.** [Báo cáo08–09/11](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md) và [số liệu gốc](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.json) giữ cả thất bại và phần chưa thử.
 
-Ứng viên19/code17 bổ sung hộp thoại xác nhận cố định cho thao tác ca và xác nhận riêng Đã đến nơi: check85/build PASS, đang chuẩn bị APK; chưa cài/nghiệm thu19. Máy S22+ vẫn18 đến khi xác nhận cài đè thành công.
-
-**Web/backend/APK0.4.16 đã phát hành ở lớp thử nghiệm.** S22+ đã cài đè16/code14; chủ máy xác nhận có tiếng và rung ở bài Thử chuông foreground. Một bài thông báo sau Home đã đạt trên15. [Bằng chứng16](testing/verification/VERIFICATION_V0_4_16.md) ghi rõ các bài chưa thử; không coi một máy là nghiệm thu mọi điều kiện hoặc mọi Android.
-
-**Kiểm thử hai Android bổ sung08/11:** bản16 đã nhận hai ca chờ, chặn nhận thêm khi bận, tải các bản tình trạng, báo chuông/rung khi khóa và mở đúng ca khi chạm thông báo; ETA trễ giữ nguyên người phụ trách. **GPS trực tiếp tại chỗ chưa đạt**: vẫn chờ điểm mới quá lâu. Offline chỉ thử một phần vì mạng laptop cũng bị ảnh hưởng. [Báo cáo thật, gồm FAIL/RECHECK](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md).
-
-**Máy S22+ đã cài APK0.4.18/code16 ngày09/11.** GPS tại chỗ đã cập nhật0–1giây ở các ảnh cách nhau gần4phút, tính được tuyến tới điểm bệnh nhân giả lập; tắt/bật và Home/mở lại lấy fix mới. Report2 được app tự tải/ack. Người báo vòng này là API giả lập theo yêu cầu, không phải điện thoại thứ hai hay bệnh nhân thật. Chưa đi bộ/nghiệm thu toàn bộ. [Bằng chứng chi tiết](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md). Cloud/trang tải chung vẫn16, không OTA; GPS16/17 FAIL được giữ trong lịch sử.
-
-**Lỗi ưu tiên cao còn mở:** tự về Home chưa tái hiện trong40mẫu/90giây18 nhưng chưa đóng lỗi. Bố cục/cuộn đổi trong thao tác từ xa, chủ máy xác nhận không chạm; lượt hoàn tất native18 chưa đạt, có bấm lệch Đã đến nơi trên ca giả lập (không phải đến thật), đã dọn qua API và TNV OFF/no active. CI18 `ba90a0a` FAIL ở8retry cùng yêu cầu do tranh khóa Firestore; bản sửa backend đang kiểm tra, chưa deploy. Chưa bàn giao18 như bản đã nghiệm thu.
-
-| Phần | Mốc đã xác minh | Còn thiếu |
+| Phần | Đã xác minh | Còn thiếu |
 | --- | --- | --- |
-| App web và web người báo/admin/referrer |0.4.16 đã deploy;38 HTML/JS/CSS khớp build; luồng ETA/report/font browser local đã thử ở15 | Chưa browser cloud16; một lượt tile/OSRM local không bảo đảm dịch vụ |
-| Backend |0.4.16 Vercel, đúng project/health/401; chỉ metadata đổi so với15; luồng2 ca cloud giả đã đạt ở15 | Chưa tải lớn cloud/worker liên tục/SLA; giữ Firebase Spark/Vercel Hobby/quyền hiện có |
-| Android |[APK0.4.16/code14](https://expo.dev/artifacts/eas/I4rVMe1xroxr-i8MaVKmBP3NEImFfg9ARfGXLWMVsGc.apk) đã cài trên S22+/Android16; báo cáo08/11 có hai máy, nhiều ca, revision, ETA và khóa máy | GPS16 chưa đạt ở điều kiện thử;17 chưa nghiệm thu máy. Offline độc lập/đi bộ/Im lặng/DND/Media0/Bluetooth/nhiều hãng còn mở |
-| Source/CI |main, runtime16 d7f34d4;74 test local; [CI42471477876 SUCCESS](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/42471477876), gồm Android export/web build/integration/scale | CI/source/build/deploy không thay nghiệm thu thiết bị hoặc y tế |
-| Tải/hiệu suất local (các lượt trước) |2 lượt portable, mỗi lượt1000 Auth giả/128 phiên/32feed/32ca/320API; paired2×96 ca đo+16 warmup tổng | Lượt paired1 RECHECK, lượt2 PASS không đổi mã/ngưỡng; không khẳng định mọi API nhanh hơn hoặc1000 người thao tác cùng lúc |
-| iOS native |Hoãn, chưa IPA/TestFlight; iPhone dùng app web | Chưa tài khoản/ký/nghiệm thu iOS native |
-| Tài khoản demo |Bộ cloud25/10 nằm trong repo riêng tư; không đổi bộ ổn định trong đợt14 | Trạng thái có thể đổi khi nhóm tự thử; kiểm tra trước buổi demo |
+| App web/người báo/admin/referrer | Bản16 vẫn đang phát chung | Chưa cập nhật frontend19 hoặc đối chiếu artifact mới; lượt rebuild cũ FAIL được giữ |
+| Backend Vercel |19 từa9134eb đã deploy; health đúngversion/project/401;8request trùng thật tạo1ca, tất cả200, payload khác400; ca thử đã dọn | Chưa kiểm thử tải lớn cloud/worker liên tục/SLA; Spark/Hobby và quyền hiện có |
+| S22+/Android16 | APK18/code16 cài đè; GPS tại chỗ, route, OFF/ON, Home/resume, report2 tự tải/ack PASS ở lượt thử | Tự thoát gián đoạn còn OPEN; bố cục/bấm nhầm/hoàn tất native18 chưa đạt; chưa đi bộ/đoGPS chuẩn/offline độc lập/toàn bộ chế độ âm thanh |
+| APK19/code17 | Sourcef9f015c,85test/build/CI42650746613 PASS; sửa Modal xác nhận cố định và yêu cầu xác nhận Đã đến nơi; đang chờ EAS miễn phí | Chưa artifact/cài/thử máy; không ghi đã cập nhậtS22+ hoặc nghiệm thu19 |
+| Trang tải chung | [APK16/code14](https://expo.dev/artifacts/eas/I4rVMe1xroxr-i8MaVKmBP3NEImFfg9ARfGXLWMVsGc.apk) vẫn là bản phát chung | Chủ máy thử18 riêng; chưa quảng bá19 thành bản đã nghiệm thu, không OTA |
+| Source/CI backend | a9134eb,CI42654274756 SUCCESS, có health assertions thật;72a186a đã qua16suite local/CI | CIba90 trước sửa FAIL vẫn được giữ; không đồng nghĩa nghiệm thu thiết bị/y tế |
+| Tải local mới | Portable:1000Auth/128session/32feed/32ca/320API, p95cảnh báo1240ms,PASS | Không phải1000người dùng cloud; Functions local vẫn RECHECK,p95=21866ms>15000ms; chưa chứng minh mọi API nhanh hơn bản cũ |
+| iOS native | Hoãn; iPhone dùng app web | Chưa IPA/TestFlight/tài khoản/ký/nghiệm thu iOS |
+| Tài khoản demo | Bộ ổn định trong repo riêng tư; dữ liệu thử09/11 chỉ dùng hồ sơ giả | Kiểm tra trạng thái trước buổi; không công khai mật khẩu/QR/vị trí |
 
-[Mở app](https://ehis-next-20261021-hc03-app.web.app) · [Trang cài](https://ehis-next-20261021-hc03.web.app/install) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin) · [Tài khoản](demo/MANUAL_DEMO_ACCOUNTS.md).
+[Mở app](https://ehis-next-20261021-hc03-app.web.app) · [Trang cài](https://ehis-next-20261021-hc03.web.app/install) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin) · [Tài khoản](demo/MANUAL_DEMO_ACCOUNTS.md) · [Người giới thiệu](https://ehis-next-20261021-hc03.web.app/referrer).
 
-[Người quản lý giới thiệu TNV](https://ehis-next-20261021-hc03.web.app/referrer) · [Quy trình xác minh](operations/VOLUNTEER_VERIFICATION.md) · [Thông báo Android và phiếu máy thật](operations/ANDROID_BACKGROUND_ALERTS.md).
+GPS16/17 FAIL, chuông15 FAIL và CIba90 FAIL không bị đổi thành PASS bởi các lượt sau. Chuông/khóa đã được chủ máy xác nhận ở16; chưa suy sang mọi chế độ/phiên bản/hãng. GPS18 là số đọc cảm biến trên máy thật với đích giả lập, không phải độ chính xác so mốc chuẩn. [Thông báo Android](operations/ANDROID_BACKGROUND_ALERTS.md) · [Xác minh TNV](operations/VOLUNTEER_VERIFICATION.md).
 
 ## 2. Bằng chứng theo đúng lớp
 

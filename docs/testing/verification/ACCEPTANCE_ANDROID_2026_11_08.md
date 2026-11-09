@@ -2,7 +2,16 @@
 
 **Chưa nghiệm thu toàn bộ; bổ sung09/11.** S22+ SM-S906E/Android16 đã cài0.4.18/code16. GPS đứng yên, tắt/bật, Home/mở lại và nhận bản tình trạng mới đã đạt ở lượt thử này. Lỗi bố cục, tự thoát gián đoạn và CI còn cần xử lý. Kết quả16/17 bên dưới giữ nguyên theo phiên bản. [Số liệu gốc](ACCEPTANCE_ANDROID_2026_11_08.json) · [Trạng thái phát hành](../../STATUS.md).
 
-## Kết quả mới nhất — APK18 trên S22+
+## Bổ sung19 — backend đã kiểm tra; APK đang build
+
+- Source19 có85test và build web PASS, CI f9f015c SUCCESS42650746613. Đổi xác nhận sang Modal cố định và thêm xác nhận Đã đến nơi để giảm nguy cơ bấm nhầm; chưa coi hộp thoại19 đạt trên máy.
+- Sau sửa retry, integration local đủ16suite PASS352817ms; multi15/15 với222Auth/201API. CI72a186a SUCCESS42648750261, giữ CIba90FAIL.
+- Portable-scale mới PASS:1000Auth/128session/32SDKfeed/32ca/8vùng/320API/40từchối/0retry;p50=763ms,p95=1240ms,max1274ms. Không phải tải cloud/1000điện thoại; không có paired benchmark để nói mọi API nhanh hơn lượt cũ933ms. Functions-scale mới vẫn FAIL/RECHECK:p95=21866ms>15000ms dù8giaiđoạn chức năng đạt.
+- Deploy-1 READY nhưng cloudprobe-2 FAIL vì health literal16. Sửa lấy phiên bản từpackage; health-integration-1 FAIL whitelist launcher, lượt2 PASS50178ms. CIa9134eb SUCCESS42654274756; deploy-2 PASS30887ms,cloudprobe-3 PASS2572ms đúng19/project/401. Không bỏ qua probe để nói deployREADY là đúngversion.
+- Cloud thật16:31:57–16:32:02UTC:8/8request trùng thành công, chỉ1incident; payload khác bị400. Thời gian từngrequest đo được [2434,1145,3564,1146,2356,2806,3259,3738]ms. Dùng reporter/patient/vị trí giả lập biệt lập, không mời TNV; ca đã hủy bằng tài khoản bệnh nhân. Không coi8request là benchmark sức tải cloud.
+- EAS19/code17 build69de4982 từf9f015c đang xử lý, chưa cài. Máy S22+ vẫn18; backend19, web/trang tải chung16, không OTA. Các mốc16/17/18 bên dưới là lịch sử, không ghi đè thất bại.
+
+## Bằng chứng APK18 trên S22+
 
 | Bài thật | Kết quả | Giới hạn |
 | --- | --- | --- |
@@ -17,7 +26,7 @@
 | Hoàn tất native | Chưa đạt: bố cục/cuộn đổi giữa ảnh/lượt bấm; chủ máy nói không ai chạm | Có bấm lệch Đã đến nơi trên ca giả lập; không tính arrivalPASS. Guard đối chiếu ảnh mới đã từ chối mục tiêu thay đổi. Dọn đúng ca qua API15:39:42, OFF/no active15:39:43 |
 | CI18 | FAIL thực ở integration RETRY-8,14/15multi-scenarios;222Auth/197API | Firestore ABORTED lock timeout; check/export/build đạt, scale chưa chạy. Source sửa gộp duplicate đang kiểm thử; không hạ bài test |
 
-Web/backend/trang tải chung vẫn16. Chỉ S22+ được cập nhật18 để kiểm thử. Raw screenshot/log giữ riêng tư; JSON công khai chứa hash và số liệu đã tách thông tin cá nhân.
+Ở thời điểm kết thúc lượt APK18, web/backend/trang tải chung còn16; backend19 được triển khai ở mốc sau phía trên. Chỉ S22+ nhận18 để thử. Raw screenshot/log giữ riêng tư; JSON công khai chứa hash và số liệu đã tách thông tin cá nhân.
 
 ## Bổ sung09/11 — APK17 và ứng viên18
 
