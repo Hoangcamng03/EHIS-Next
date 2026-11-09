@@ -53,7 +53,7 @@ Nếu app hiện lựa chọn đối tượng: tài khoản đã cấp chọn **
 | 5 | B | Khi cảnh báo đỏ hiện, bấm Nhận ca | Chỉ sau xác nhận máy chủ mới xem chi tiết; C thấy TNV đã nhận, A thấy trạng thái thay đổi |
 | 5a | B/C | B nhập số phút dự kiến rồi xác nhận Đang lên đường. C thay một câu trả lời và bấm Gửi lần nữa | C/A thấy ETA do B xác nhận; B thấy bản tình trạng mới, C thấy app tải đúng số bản. Không nói đã đọc/đến nơi chỉ từ các nhãn này |
 | 6 | B/C | Xem bản đồ trong app. Nếu thử GPS, đi bộ an toàn và giữ màn chỉ đường mở. C chỉ cập nhật điểm khi đứng cạnh điểm mới và xác nhận | Ký hiệu A/B trên bản đồ lần lượt là vị trí TNV/điểm cần hỗ trợ, khác tên thành viên A/B; tọa độ điểm bệnh nhân không tự chạy theo người báo. Thời gian tuyến chỉ tham khảo |
-| 7 | B | Bấm Đã đến nơi khi đến điểm diễn tập | A/C thấy TNV xác nhận đã đến; đây là thao tác xác nhận của TNV |
+| 7 | B | Khi thực sự đến điểm diễn tập: bấm Đã đến nơi → đọc hộp thoại → Xác nhận (từ source19) | A/C thấy TNV xác nhận đã đến; chọn Quay lại không đổi trạng thái. Không bấm xác nhận nếu chỉ thử tại chỗ và chưa đến |
 | 8 | B | Bấm Hoàn tất ca hỗ trợ và xác nhận | A/C thấy ca kết thúc; B không còn xem hồ sơ riêng/bản đồ của ca |
 | 9 | B/D | Tắt sẵn sàng V1/V2, đối chiếu trạng thái đã cập nhật | Không còn ca giả dang dở hoặc TNV bị bỏ quên đang ON |
 

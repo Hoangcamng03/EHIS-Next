@@ -19,6 +19,13 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 ### Ghi nhận trước khi cài18 — giữ nguyên lịch sử
 
+- Source19 build-5 PASS47360ms sau check85. Đóng gói Next web và Expo app-web thực, chưa deploy hoặc kiểm chứng hộp thoại19 trên Android. Chỉ tạo APK thử sau các bước này; ghi phiên bản cài thật riêng với bản tải chung.
+
+- Chốt thêm số đo Functions-scale-2: alertp50=21165ms,p95=21866ms,max21895ms vượt15000ms;8giaiđoạn chức năng PASS nhưng lệnhFAIL/RECHECK. Không sửa ngưỡng hoặc gọi là backend cloud hiện tại. Source19 check-7 PASS85 (26backend+59logic),60321ms; build-5 đang chạy trước APK19. Runbook bổ sung bước xác nhận Đã đến nơi và không xác nhận nếu chưa di chuyển tới đích.
+
+- CI bản sửa retry `72a186a` SUCCESS42648750261, không xóa CIba90FAIL. Scale-2 portable PASS46603ms:1000Auth/128session/32feed/32ca/8vùng/320API/40từchối/0retry; alertp50=763ms,p95=1240ms,max1274ms. Lượt cũ p95=933ms ở điều kiện khác; không dùng so sánh không ghép cặp để tuyên bố mọi API nhanh hơn. Functions-scale-2 vẫn RECHECK/lệnhFAIL205281ms dù8giaiđoạn chức năng đạt; giữ ngưỡng15giây, không deployFunctions.
+- Ứng viên19/code17 xử lý nguy cơ bấm nhầm: xác nhận trong Modal cố định, giữ nút gốc cùng kích thước; Đã đến nơi có bước xác nhận riêng. Guard chặn doubletap và disabled; hai unit hành vi thực thi qua harness PASS (không coi là testnative). Chưa chứng minh nguyên nhân duy nhất của cuộn18, chưa cài19/đạt19; đang check/build. Backendcloud vẫn16, source retry đã quaCI; không OTA.
+
 - Chốt sửa retry local: integration-2 PASS đủ16suite trong352817ms; multi15/15,222Auth/201API, bài8retry không đổi vẫn PASS. Check-6 PASS83 (26backend+57logic),62415ms. Giữ CI cũ FAIL để đối chiếu; còn cần CI mới/tải sau sửa và backend cloud chưa nhận bản sửa.
 
 - APK17/code15 đã kiểm tra artifact và cài đè thành công 08/11 17:03:43UTC từ source `2ec7b09`; giữ đăng nhập, không xóa dữ liệu. CI42502290040 thành công. Cloud/trang tải chung vẫn16, không OTA.

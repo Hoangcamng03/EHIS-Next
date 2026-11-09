@@ -5,7 +5,9 @@ Cập nhật08/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu 
 
 ## 1. Bản đang bàn giao
 
-Source backend sửa retry09/11: check83 và integration16suite local PASS (multi15/15,222Auth/201API); chưa deploy. CI `ba90a0a` trước sửa vẫn là FAIL, CI bản sửa/tải còn chờ. APK18 chỉ chứa sửa GPS/frontend đã build trước sửa backend, không tự cập nhật backend hay trang web.
+Source backend sửa retry09/11: check83 và integration16suite local PASS (multi15/15,222Auth/201API); CI72a186a SUCCESS42648750261; chưa deploy. Portable-scale PASS,p95=1240ms; Functions-scale vẫn RECHECK,p95=21866ms>15000ms. CIba90 trước sửa vẫn là FAIL. APK18 không tự cập nhật backend hay web.
+
+Ứng viên19/code17 bổ sung hộp thoại xác nhận cố định cho thao tác ca và xác nhận riêng Đã đến nơi: check85/build PASS, đang chuẩn bị APK; chưa cài/nghiệm thu19. Máy S22+ vẫn18 đến khi xác nhận cài đè thành công.
 
 **Web/backend/APK0.4.16 đã phát hành ở lớp thử nghiệm.** S22+ đã cài đè16/code14; chủ máy xác nhận có tiếng và rung ở bài Thử chuông foreground. Một bài thông báo sau Home đã đạt trên15. [Bằng chứng16](testing/verification/VERIFICATION_V0_4_16.md) ghi rõ các bài chưa thử; không coi một máy là nghiệm thu mọi điều kiện hoặc mọi Android.
 
