@@ -7,6 +7,7 @@ export function useLiveLocation(enabled: boolean) {
   const [foreground, setForeground] = useState(AppState.currentState !== 'background' && AppState.currentState !== 'inactive');
   const [fix, setFix] = useState<LocationFix | null>(null), [error, setError] = useState('');
   const [attempt, setAttempt] = useState(0);
+  const [stage, setStage] = useState<'permission' | 'services' | 'watching'>('permission');
   useEffect(() => { const listener = AppState.addEventListener('change', value => setForeground(value === 'active')); return () => listener.remove(); }, []);
   useEffect(() => {
     if (!enabled || !foreground) return;
@@ -21,12 +22,18 @@ export function useLiveLocation(enabled: boolean) {
     }
     async function start() {
       setError('');
-      const permission = await Location.requestForegroundPermissionsAsync();
+      setStage('permission');
+      // Cover native permission/services startup too, not just the watcher.
+      firstFixTimer = setTimeout(() => { if (!cancelled && !received) setError('Chưa lấy được GPS mới sau 15 giây. Kiểm tra vị trí chính xác, ra nơi thoáng hoặc thử lại GPS.'); }, 15000);
+      let permission = await Location.getForegroundPermissionsAsync();
+      if (cancelled) return;
+      if (permission.status !== 'granted' && permission.canAskAgain) permission = await Location.requestForegroundPermissionsAsync();
       if (cancelled) return;
       if (permission.status !== 'granted') throw new Error('permission');
+      setStage('services');
       if (!await Location.hasServicesEnabledAsync()) throw new Error('services');
       if (cancelled) return;
-      firstFixTimer = setTimeout(() => { if (!cancelled && !received) setError('Chưa lấy được GPS mới sau 15 giây. Kiểm tra vị trí chính xác, ra nơi thoáng hoặc thử lại GPS.'); }, 15000);
+      setStage('watching');
       // Show a recent accurate fix immediately while the foreground watcher warms up.
       void Location.getLastKnownPositionAsync({ maxAge: 15000, requiredAccuracy: 100 }).then(value => {
         if (value) receive(value);
@@ -40,5 +47,5 @@ export function useLiveLocation(enabled: boolean) {
     void start().catch(() => { if (!cancelled) { clearTimeout(firstFixTimer); setError('Chưa bật được GPS. Kiểm tra quyền vị trí, bật định vị rồi thử lại GPS.'); } });
     return () => { cancelled = true; clearTimeout(firstFixTimer); subscription?.remove(); };
   }, [enabled, foreground, attempt]);
-  return { fix, error, foreground, retry: () => setAttempt(value => value + 1) };
+  return { fix, error, foreground, stage, retry: () => setAttempt(value => value + 1) };
 }

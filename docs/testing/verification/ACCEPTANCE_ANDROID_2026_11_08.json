@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-08T16:33:01.840Z",
+  "generatedAt": "2026-11-09T14:10:10.571Z",
   "status": "IN_PROGRESS_NOT_FULLY_ACCEPTED",
   "scope": "Real test execution and real two-phone controlled drill using synthetic patient profiles. No walking, clinical readiness, fabricated device measurements or 1000 concurrent humans claimed.",
   "baselineCommit": "d5a46dc2863becb98451db64272be30ea317295f",
@@ -10,9 +10,9 @@
     "android": "16"
   },
   "candidate": {
-    "version": "0.4.17",
-    "versionCode": 15,
-    "nativeVerification": "PENDING"
+    "version": "0.4.18",
+    "versionCode": 16,
+    "nativeVerification": "NOT_BUILT_OR_INSTALLED"
   },
   "records": [
     {
@@ -329,6 +329,94 @@
       "totalMemoryBytes": 25463480320,
       "log": "check-3.log",
       "logSha256": "9ff857aed07763fefbf3c702dea0cc75b637cac06a844dc903d95a55db258584",
+      "artifacts": []
+    },
+    {
+      "id": "check-4",
+      "operation": "check",
+      "command": "npm run check",
+      "startedAt": "2026-11-09T13:58:30.811Z",
+      "endedAt": "2026-11-09T13:59:42.537Z",
+      "elapsedMs": 71723,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "2ec7b09b21cb3e8797cefc02a92eef708a4f1e60",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "check-4.log",
+      "logSha256": "8a5a5f91af957ba5cf3d6f982047a1842ec3d5cec13ddcccbc0efb797b67e643",
+      "artifacts": []
+    },
+    {
+      "id": "check-5",
+      "operation": "check",
+      "command": "npm run check",
+      "startedAt": "2026-11-09T14:00:51.619Z",
+      "endedAt": "2026-11-09T14:01:41.235Z",
+      "elapsedMs": 49614,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "2ec7b09b21cb3e8797cefc02a92eef708a4f1e60",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "check-5.log",
+      "logSha256": "2860d202f22ddc02d77449e7bd540e0ceedbde18a5b03bdbbfce0f9a413d2a22",
+      "artifacts": []
+    },
+    {
+      "id": "build-3",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-09T14:01:01.890Z",
+      "endedAt": "2026-11-09T14:01:18.596Z",
+      "elapsedMs": 16705,
+      "exitCode": 1,
+      "signal": null,
+      "status": "FAIL",
+      "sourceCommit": "2ec7b09b21cb3e8797cefc02a92eef708a4f1e60",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-3.log",
+      "logSha256": "749e9a424838ab03dd10c8f2b44b20172009aece3326109e38567dd1c5eda202",
+      "artifacts": []
+    },
+    {
+      "id": "build-4",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-09T14:04:15.948Z",
+      "endedAt": "2026-11-09T14:04:49.992Z",
+      "elapsedMs": 34043,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "2ec7b09b21cb3e8797cefc02a92eef708a4f1e60",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-4.log",
+      "logSha256": "ddcd3630b5c75c0f5e4d3479f981b15298bd1b09260c5c34c5ef41de08836d9d",
       "artifacts": []
     }
   ],
@@ -4019,8 +4107,8 @@
     },
     {
       "id": "PHONE-13",
-      "status": "PASS_CLOSURE_PENDING",
-      "result": "C accepted through native input; API patientProfile=null, closed B private detail403. Native screenshot16:31:40.393Z shows no-shared-health-profile message. C closure pending."
+      "status": "PASS",
+      "result": "C accepted through native input; API patientProfile=null, closed B private detail403. Native screenshot16:31:40.393Z shows no-shared-health-profile message. C closure pending. Subsequent C closure was API drill cleanup, not physical arrival/care."
     },
     {
       "id": "PHONE-15",
@@ -4031,6 +4119,54 @@
       "id": "PHONE-14",
       "status": "NOT_TESTED",
       "result": "Physical walking/movement, ground-truth GPS accuracy, silent/ring mode matrix, DND, long background/Doze, multiple manufacturers, iOS native, screen-reader/large-font matrix."
+    },
+    {
+      "id": "PHONE-16",
+      "status": "PASS_RADIUS_GUARD",
+      "result": "Actual reporter D was about18.3km from S22+, owner confirmed different location; no offer within5km expected. D subsequently cancelled by own synthetic patient API. No relocated coordinates."
+    },
+    {
+      "id": "PHONE-17",
+      "status": "PASS_DRILL_COMPLETION",
+      "result": "Native E completion button and confirmation on2026-11-09T14:09:09Z; Firebase inactive guard14:09:19Z confirms approved/OFF/no active. No arrived action or medical care claimed."
     }
-  ]
+  ],
+  "native17": {
+    "version": "0.4.17",
+    "versionCode": 15,
+    "installation": {
+      "scope": "Installation only; GPS/audio/automatic-exit tests remain separate",
+      "sha256": "b832508172a57bf0d2fc4fd1660e54758892de1928306310c27cbbe542bf818a",
+      "status": "PASS",
+      "operation": "In-place adb install -r; no uninstall, clear data, downgrade or permission auto-grant",
+      "before": "0.4.16/code14",
+      "installerExit": 0,
+      "startedAt": "2026-11-08T17:03:10.6093173Z",
+      "endedAt": "2026-11-08T17:03:43.7675185Z",
+      "after": "0.4.17/code15",
+      "output": "Performing Streamed Install\r\nSuccess"
+    },
+    "gps": "FAIL: no usable fix or timeout/retry observed, including actual OFF/ON on 2026-11-09T13:56:51Z / 13:57:15Z and screenshot after 40 seconds.",
+    "ci": {
+      "run": 42502290040,
+      "status": "SUCCESS"
+    },
+    "foregroundWindow": {
+      "samples": 40,
+      "seconds": 90,
+      "processLoss": 0,
+      "focusLoss": 0,
+      "doesNotDisproveIntermittentExit": true
+    }
+  },
+  "exitInvestigation": {
+    "status": "OPEN",
+    "observation": "Package exit history contains LOW_MEMORY at2026-11-09 20:42:40 local, background importance400. No fatal in scoped20:53 launch window. Not established cause of reported foreground exit."
+  },
+  "temporaryAwake": {
+    "restored": true,
+    "endedAt": "2026-11-09T13:50:42.784Z",
+    "setting": "0",
+    "notProductFeature": true
+  }
 }

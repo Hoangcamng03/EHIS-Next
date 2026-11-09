@@ -9,7 +9,7 @@ Cập nhật08/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu 
 
 **Kiểm thử hai Android bổ sung08/11:** bản16 đã nhận hai ca chờ, chặn nhận thêm khi bận, tải các bản tình trạng, báo chuông/rung khi khóa và mở đúng ca khi chạm thông báo; ETA trễ giữ nguyên người phụ trách. **GPS trực tiếp tại chỗ chưa đạt**: vẫn chờ điểm mới quá lâu. Offline chỉ thử một phần vì mạng laptop cũng bị ảnh hưởng. [Báo cáo thật, gồm FAIL/RECHECK](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md).
 
-**Ứng viên source0.4.17/code15 đang chuẩn bị:** sửa cập nhật GPS khi đứng yên, timeout/thử lại GPS và thông báo chưa kết nối. Check77 và build đã đạt; chưa có bằng chứng APK17 đã cài hoặc GPS17 đã đạt trên S22+. Link tải vẫn16 cho tới khi artifact mới được kiểm chứng. Lỗi chuông15 vẫn được giữ là Không đạt trong lịch sử; không suy kết quả16 sang Im lặng/DND/Media0/Bluetooth/mọi hãng.
+**Kiểm tra09/11: APK0.4.17/code15 đã cài trên S22+, GPS vẫn chưa đạt.** Tắt/bật GPS trực tiếp vẫn chờ điểm mới; chưa xác minh được timeout/retry trên máy. Ứng viên18/code16 đang sửa bước khởi động quyền/giới hạn chờ, chưa build/cài/nghiệm thu. Cloud/trang tải chung vẫn16, không OTA. Lỗi chuông15 được giữ là Không đạt trong lịch sử; không suy kết quả16 sang mọi chế độ âm thanh hoặc mọi hãng.
 
 **Lỗi ưu tiên cao còn mở:** chủ máy báo app tự thoát khi xem C. Theo dõi ngắn chưa tái hiện, chưa có crash mới chứng minh nguyên nhân; không được ghi đã sửa. Bản17 là ứng viên kiểm thử, chưa phải bản nghiệm thu.
 

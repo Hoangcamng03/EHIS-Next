@@ -9,7 +9,7 @@ async function hookHarness(location) {
  for(let i=0;i<12;i++)await Promise.resolve();
  return {states,timers,result,cleanup};
 }
-function locationAdapter(extra={}) {return {Accuracy:{High:4},requestForegroundPermissionsAsync:async()=>({status:'granted'}),hasServicesEnabledAsync:async()=>true,getLastKnownPositionAsync:async()=>null,watchPositionAsync:async()=>({remove(){}}),...extra};}
+function locationAdapter(extra={}) {return {Accuracy:{High:4},getForegroundPermissionsAsync:async()=>({status:'granted'}),requestForegroundPermissionsAsync:async()=>({status:'granted'}),hasServicesEnabledAsync:async()=>true,getLastKnownPositionAsync:async()=>null,watchPositionAsync:async()=>({remove(){}}),...extra};}
 test('foreground GPS accepts successive stationary fixes without waiting for movement',async()=>{
  let emit,removed=0;const at=Date.now(),position={coords:{latitude:10.8,longitude:106.7,accuracy:12},timestamp:at};
  const h=await hookHarness(locationAdapter({getLastKnownPositionAsync:async()=>({...position,timestamp:at-60000}),watchPositionAsync:async(options,callback)=>{emit=callback;if(options.distanceInterval===0)callback(position);return {remove(){removed++;}};}}));
@@ -23,8 +23,16 @@ test('first-fix timeout offers a retry; late subscription and callback cannot up
 });
 test('denied location permission does not start GPS requests or create a success fix',async()=>{
  let started=0;
- const h=await hookHarness(locationAdapter({requestForegroundPermissionsAsync:async()=>({status:'denied'}),watchPositionAsync:async()=>{started++;return {remove(){}};}}));
+ const h=await hookHarness(locationAdapter({getForegroundPermissionsAsync:async()=>({status:'denied',canAskAgain:false}),watchPositionAsync:async()=>{started++;return {remove(){}};}}));
  assert.equal(started,0);assert.equal(h.states[1],null);assert.match(h.states[2],/quyền vị trí/);h.cleanup();
+});
+test('already granted GPS permission never requests a new permission dialog',async()=>{
+ let requests=0;const h=await hookHarness(locationAdapter({requestForegroundPermissionsAsync:async()=>{requests++;throw Error('Unexpected request');}}));
+ assert.equal(requests,0);h.cleanup();
+});
+test('native permission startup cannot leave the UI waiting without a timeout',async()=>{
+ let finish,started=0;const h=await hookHarness(locationAdapter({getForegroundPermissionsAsync:()=>new Promise(resolve=>finish=resolve),watchPositionAsync:async()=>{started++;return {remove(){}};}}));
+ h.timers.find(t=>!t.cleared).fn();assert.match(h.states[2],/15 giây/);h.cleanup();finish({status:'granted'});await new Promise(resolve=>setImmediate(resolve));assert.equal(started,0);assert.equal(h.states[1],null);
 });
 test('reporter rejects weak/stale GPS before initial request and confirmed relocation',async()=>{
  const {confirmedPoint}=await import('../frontend/web/src/lib/location-fix.ts'),position={coords:{latitude:10.8,longitude:106.7,accuracy:12},timestamp:100000};

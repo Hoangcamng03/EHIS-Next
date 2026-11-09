@@ -53,7 +53,7 @@ export function LiveIncidentNavigation({ destination, connected, autoPreview = f
   return <View style={{ gap: 10, padding: 12, backgroundColor: '#edf5fb', borderRadius: 12 }}>
     <Text style={{ fontSize: 18, fontWeight: '700' }}>Đường đến bệnh nhân</Text>
     <ToggleRow accessibilityLabel="Cập nhật GPS khi mở chỉ đường" label="GPS trực tiếp khi mở bản đồ" value={tracking} disabled={!connected} onValueChange={setLive} />
-    <Text accessibilityLiveRegion="polite" style={{ fontSize: 14, lineHeight: 20 }}>{tracking ? !live.foreground ? 'GPS tạm dừng khi app ở nền.' : live.fix ? `GPS ${fresh ? 'đang cập nhật' : 'đã cũ'} · ±${Math.round(live.fix.accuracy)}m · ${Math.max(0, Math.floor((now - live.fix.timestamp) / 1000))}s trước` : 'Đang lấy GPS…' : 'Vị trí đã lưu · Chưa theo dõi GPS trực tiếp.'}</Text>
+    <Text accessibilityLiveRegion="polite" style={{ fontSize: 14, lineHeight: 20 }}>{tracking ? !live.foreground ? 'GPS tạm dừng khi app ở nền.' : live.fix ? `GPS ${fresh ? 'đang cập nhật' : 'đã cũ'} · ±${Math.round(live.fix.accuracy)}m · ${Math.max(0, Math.floor((now - live.fix.timestamp) / 1000))}s trước` : live.stage === 'permission' ? 'Đang kiểm tra quyền vị trí…' : live.stage === 'services' ? 'Đang kiểm tra định vị trên máy…' : 'Đang lấy GPS…' : 'Vị trí đã lưu · Chưa theo dõi GPS trực tiếp.'}</Text>
     {tracking && !fresh && <Text style={{ color: '#9f2424', fontSize: 14 }}>Chờ GPS mới, đủ chính xác. Kiểm tra quyền vị trí hoặc ra nơi thoáng.</Text>}
     {tracking && !fresh && !!origin && <Text style={{ fontSize: 14 }}>Điểm A đang là vị trí cũ; chưa dùng để tính tuyến mới.</Text>}
     <RouteMap origin={origin} destination={destination} route={visibleRoute} />

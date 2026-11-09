@@ -1,6 +1,15 @@
 # Kiểm thử EHIS kết hợp hai Android — 08/11/2026
 
-**Chưa nghiệm thu toàn bộ.** Buổi thử phát hiện GPS trực tiếp trên S22+ chờ quá lâu khi đứng yên. Đã chuẩn bị sửa trong source 0.4.17/code15; chưa dùng kiểm tra phần mềm để tuyên bố sửa thành công trên điện thoại. Bản đang thử thực tế là 0.4.16/code14, S22+ SM-S906E/Android16. [Số liệu gốc](ACCEPTANCE_ANDROID_2026_11_08.json) · [Trạng thái phát hành](../../STATUS.md).
+**Chưa nghiệm thu toàn bộ; bổ sung09/11.** S22+ SM-S906E/Android16 đã cài0.4.17/code15, GPS trực tiếp vẫn chưa đạt. Source18/code16 đang sửa bước khởi động, chưa có bằng chứng thiết bị cho18. Kết quả16 bên dưới giữ nguyên theo phiên bản. [Số liệu gốc](ACCEPTANCE_ANDROID_2026_11_08.json) · [Trạng thái phát hành](../../STATUS.md).
+
+## Bổ sung09/11 — APK17 và ứng viên18
+
+- APK17 cài đè thành công08/11 17:03:43UTC, giữ đăng nhập; SHA256 `b832508172a57bf0d2fc4fd1660e54758892de1928306310c27cbbe542bf818a`. CI42502290040 đạt, không đồng nghĩa GPS đạt.
+- GPS17 **FAIL**: nhiều ảnh foreground chưa có fix; thao tác native tắt/bật13:56:51/13:57:15UTC09/11 và chờ hơn40giây vẫn chưa có timeout/retry. Đã xác nhận switch thực sự OFF rồi ON. Không nới ngưỡng100m/15giây.
+- D ở vị trí khác thực tế cách S22+ khoảng18,3km, chủ máy xác nhận: không mời đúng bán kính5km. D hủy bằng tài khoản bệnh nhân. C đóng bằng API dọn diễn tập. E hoàn tất bằng nút native + Xác nhận14:09:09UTC09/11; Firebase14:09:19 xác nhận TNV OFF/không active. Không đánh dấu đã đến nơi hay chữa trị.
+- Tự về Home **OPEN**:40mẫu trong90giây08/11 không mất process/focus; Android09/11 có LOW_MEMORY20:42:40VN ở nền. Chưa đủ chứng minh nguyên nhân lần tự thoát đang mở app. Log CookieManager about:blank không được quy thành crash.
+- Ứng viên18: kiểm tra quyền hiện có trước khi request, timeout phủ cả permission/services và trạng thái khởi động ngắn. Unit9/9; full check-5 **79/79** (22backend+57logic),49614ms. Build-3 **FAIL** EPERM tạo thư mục Next; chạy lại đúng quyền build-4 **PASS**34043ms, không sửa ngưỡng hoặc bỏ bài lỗi.
+- Web/backend/trang tải vẫn16, không OTA/deploy. APK18 chưa build/cài lúc ghi mục này. Mọi ảnh/log chứa dữ liệu vị trí giữ riêng tư. Giữ sáng USB tạm đã khôi phục0 lúc13:50:42UTC.
 
 ## 1. Điều kiện và cách ghi nhận
 

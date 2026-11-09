@@ -5,6 +5,17 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
+## 2026-11-09 — tiếp tục S22+, GPS chưa đạt
+
+- APK17/code15 đã kiểm tra artifact và cài đè thành công 08/11 17:03:43UTC từ source `2ec7b09`; giữ đăng nhập, không xóa dữ liệu. CI42502290040 thành công. Cloud/trang tải chung vẫn16, không OTA.
+- GPS17 vẫn FAIL: đứng yên nhiều ảnh, tắt switch lúc13:56:51UTC09/11 xác nhận OFF, bật lại13:57:15 và chờ hơn40giây vẫn không fix/timeout/retry. Không coi distance0 là đã sửa thành công. UIAutomator không idle nên từ chối XML cũ; dùng ảnh mới và native input kiểm tra focus. Ảnh/vị trí/thông báo riêng giữ private.
+- D thật cách S22+18,3km, chủ máy xác nhận ở nơi khác: không mời đúng guard5km, không sửa tọa độ ép đạt. D hủy qua tài khoản bệnh nhân diễn tập. C đã đóng bằng API dọn ca, không ghi là đi đến/điều trị. E đang accepted/gặp trở ngại; không tự đóng do quá giờ hoặc cài đè khi active.
+- Tự về Home vẫn OPEN: theo dõi90giây08/11 có40mẫu process/focus ổn không bác bỏ lỗi gián đoạn. Lịch sử Android09/11 LOW_MEMORY lúc20:42:40VN ở nền; log riêng20:53VN chưa có fatal. CookieManager about:blank chưa phải nguyên nhân crash. Capture mất focus không tự đồng nghĩa crash.
+- Giữ sáng USB tạm đã khôi phục stay-on7 về0 lúc13:50:42UTC09/11; không đổi PIN/thời gian khóa và không coi công cụ là tính năng app.
+- Ứng viên18/code16: kiểm tra quyền đã cấp trước khi yêu cầu; timeout15giây phủ cả permission/services; hiển thị bước kiểm tra ngắn. Giữ tuổi fix15giây/sai số100m, không thêm GPS nền/quyền. Sửa đường chờ không giới hạn trong mã; chưa chứng minh nguyên nhân duy nhất GPS17. Thêm2 unit mock không hỏi lại quyền và promise quyền treo/hủy an toàn. Check-4 PASS79 (22backend+57logic),71723ms, trước chỉnh stage/version cuối; cần check/build lại. Chưa có APK18 hoặc nghiệm thu GPS18.
+
+- Chốt kiểm tra source18: check-5 PASS79/49614ms; build-3 FAIL EPERM tạo thư mục Next, rerun đúng quyền build-4 PASS34043ms. Không sửa code để che lỗi hệ điều hành. E hoàn tất native14:09:09UTC qua nút+Xác nhận, không bấm Đã đến nơi; guard Firebase14:09:19 xác nhận approved/OFF/no active. Đủ điều kiện cài đè sau khi artifact18 được kiểm tra; chưa coi bản18 thành công trên thiết bị.
+
 ## 2026-11-08 — kiểm thử lại toàn luồng kết hợp hai Android (đang thực hiện)
 
 - Source đầu phiên `d5a46dc` sạch; APK S22+ 0.4.16/code14. Người dùng có máy thứ hai làm người báo qua web, chỉ thử tại chỗ. Bệnh án dùng dữ liệu giả; số đo và thao tác thực, không giả di chuyển hay kết quả nghe chuông. Chưa kết luận nghiệm thu toàn hệ thống.
