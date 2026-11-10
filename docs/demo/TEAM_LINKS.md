@@ -12,7 +12,7 @@ Gửi link trang này cho thành viên mới. Đọc từ mục 1 đến 4 để
 | --- | --- | --- |
 | 1 | [Bắt đầu từ đầu](../START_HERE_DEMO.md) | Các đối tượng, luồng hỗ trợ, chuẩn bị thiết bị và tài khoản |
 | 2 | [Trạng thái phiên bản](../STATUS.md) | Source, web và APK nào đã có; phần nào còn chưa nghiệm thu |
-| 3 | [Tài khoản demo](MANUAL_DEMO_ACCOUNTS.md) | P1/P2, V1/V2/V3 và A1 dùng làm gì; cách lấy mật khẩu riêng |
+| 3 | [Tài khoản demo](MANUAL_DEMO_ACCOUNTS.md) | Bộ mới10/11: P3–P6, V4–V6, R1; giữ A1 bộ cũ; cách lấy mật khẩu riêng |
 | 4 | [Kịch bản phối hợp bốn người](DEMO_RUNBOOK.md) | Ai bấm gì, đúng thứ tự nào, người khác phải thấy gì |
 | 5 | [Xử lý vướng mắc](DEMO_TROUBLESHOOTING.md) | Cách xử lý khi gặp lỗi đăng nhập, QR, GPS, chuông hoặc bản đồ |
 

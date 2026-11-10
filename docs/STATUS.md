@@ -17,7 +17,7 @@ Cập nhật10/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu 
 | Source/CI backend | a9134eb,CI42654274756 SUCCESS, có health assertions thật;72a186a đã qua16suite local/CI | CIba90 trước sửa FAIL vẫn được giữ; không đồng nghĩa nghiệm thu thiết bị/y tế |
 | Tải local mới | Portable:1000Auth/128session/32feed/32ca/320API, p95cảnh báo1240ms,PASS | Không phải1000người dùng cloud; Functions local vẫn RECHECK,p95=21866ms>15000ms; chưa chứng minh mọi API nhanh hơn bản cũ |
 | iOS native | Hoãn; iPhone dùng app web | Chưa IPA/TestFlight/tài khoản/ký/nghiệm thu iOS |
-| Tài khoản demo | Bộ ổn định trong repo riêng tư; dữ liệu thử09/11 chỉ dùng hồ sơ giả | Kiểm tra trạng thái trước buổi; không công khai mật khẩu/QR/vị trí |
+| Tài khoản demo | Bổ sung8tài khoản10/11:4Patient/2TNV duyệt diễn tập/1TNV chờ/1người giới thiệu giả lập;8/8login/API đã kiểm tra; repo riêng tư | Giữ A1/bộ cũ; kiểm tra trạng thái trước buổi; không công khai mật khẩu/QR/vị trí; không xác minh y tế thật |
 
 [Mở app](https://ehis-next-20261021-hc03-app.web.app) · [Trang cài](https://ehis-next-20261021-hc03.web.app/install) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin) · [Tài khoản](demo/MANUAL_DEMO_ACCOUNTS.md) · [Người giới thiệu](https://ehis-next-20261021-hc03.web.app/referrer).
 

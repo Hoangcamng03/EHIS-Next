@@ -5,6 +5,14 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
+## 2026-11-10 — cấp thêm8tài khoản cho nhóm chạy tay
+
+- Tạo mới P3–P6 (4Patient,2chia sẻ/2không chia sẻ), V4/V5 (TNV đã duyệt diễn tập), V6 (chờ checklist/duyệt), R1 (người giới thiệu GIẢ). Dùng A1 hiện có để duyệt cuối, không tạo admin mới/không cấp IAM. Không đổi/xóa tài khoản trước hoặc tạo ca/bật Sẵn sàng tự động.
+- Tất cả thông tin đơn vị/danh tính/kinh nghiệm/checklist là GIẢ. Chỉ tài khoản R1 mới được operator đặt emailVerified làm fixture; không xác minh hộp thư thật. R1 xác nhận checklist V4/V5 qua API chuẩn, A1 duyệt cuối qua API; không tự gán approval bằng Firestore hoặc tự cấp quyền từ client. V4/V5 OFF/no active; V6 chưa duyệt. Không coi là đã xác minh chuyên môn.
+- Kiểm tra thực06:33:13–06:33:39UTC (13:33 Việt Nam):8/8login Auth thật, accountPurpose đúng, không admin,4thẻ/consent và lịch sử trống,2TNV OFF/no active, V6 bật Sẵn sàng403, TNV đọc trực tiếp hồ sơ Patient403, R1 thấy đơn V6. Đây là kiểm tra Auth/API/Firestore, chưa thử UI/chuông/GPS trên từng máy cho bộ mới.
+- Lưu email/mật khẩu riêng/QR trong repo EHIS-Next-Team-Access, file accounts/DEMO_2026_11_10.md; kiểm tra repo vẫn private trước/sau, đọc lại file thành công. README riêng có mục đầu dẫn tới bộ mới. Không đưa credentials/QR/UID vào public. Public chỉ cập nhật hướng dẫn vai trò, STATUS, TEAM_LINKS, lab note và proof đã loại thông tin riêng tư. Không cần APK/deploy mới vì chỉ cấp dữ liệu/tài khoản.
+- Sửa hướng dẫn tài khoản còn nói0.4.7/0.4.8 thành tra0.4.19/STATUS, tách bộ25/10 thành lịch sử; bài mới chỉ xác nhận đến nơi khi thực sự có mặt. Thành viên chưa có quyền repo cần chủ dự án phân tài khoản hoặc mời riêng theo quyết định trước.
+
 ## 2026-11-10 — cập nhật link APK19 cho nhóm
 
 - Người dùng yêu cầu cung cấp bản tải/tài liệu và cập nhật bản tải mới nhất. HEAD artifact19 trả200,102722989byte khớp bản đã xác minh/cài S22+; không tạo APK mới, không OTA.
