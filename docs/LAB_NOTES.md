@@ -5,7 +5,20 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
-## 2026-11-10 — APK19 đã cài; dừng kiểm thử theo yêu cầu chủ máy
+## 2026-11-10 — APK19: cài máy, tạm dừng và tiếp tục kiểm thử
+
+### Tiếp tục10/11 — vòng APK19 tại chỗ hoàn thành (11:16 Việt Nam)
+
+- Kết nối USB trở lại03:55:39UTC. Bật Sẵn sàng native03:55:55; có một lần mất foreground ngay sau bấm, không có crash marker Java/native riêng lúc03:56:07. Chưa xác định nguyên nhân, không đổi lỗi tự thoát thành PASS.
+- Tạo3ca E/D/A mới qua Auth/API thật03:56:50, chỉ V2 đủ điều kiện ở vùng kiểm tra; người báo/triệu chứng/đích11/111/333m là giả lập, không phải3máy thật. Ảnh03:57:05 hiện3ca với khoảng cách11/111/334m. Nhận E trên APK19 lúc03:57:31.
+- Hai lần thử nhận thêm D/A thực tế bị400; xem riêng D/A bị403, assignment E không đổi. Gửi report2 lúc03:57:58; màn app hiện bản2 và server xác nhận loadedRevision2. Không tự gọi APIack; không lấy khoảng chờ công cụ/duyệt quyền làm latency hệ thống.
+- GPS thật tại chỗ: ảnh04:03:43 hiển thị fix1s/±35m,04:06:11 fix1s/±12m; map có A/B/polyline/ETA. Đích là giả lập, chưa đo đi bộ/độ chính xác so chuẩn. Hồ sơ E không chia sẻ được app ghi rõ, không hiện bệnh án.
+- Ba lượt bảo vệ vùng chữ từ chối bấm khi ảnh/nút thay đổi; UIAutomator FAIL không lấy được idle, không dùng XML cũ. Helper định vị lại chữ có lỗi cú pháp ở lượt kiểm tra đầu, sửa cú pháp nhưng vẫn từ chối match, không bấm. Xem lại thấy ảnh chụp ngay sau swipe có thể còn quán tính; thêm chờ1600ms trong helper chụp riêng (không sửa runtime app). Sau đó guard pixel gốc bấm đúng. Đây là bằng chứng hỗ trợ giả thuyết quán tính, chưa giải thích mọi lỗi bố cục trước đó.
+- Hộp thoại Đã đến nơi mở04:14:08, Quay lại04:14:29; server vẫn accepted, không giả đã đến. Hoàn tất mở04:15:04/Quay lại04:15:25, server vẫn accepted. Mở lại04:15:48/Xác nhận04:16:06 bằng native; server04:16:15 completed/no active. API chi tiết E sau đóng bị403. PASS đúng các thao tác này; không thử xác nhận arrival vì không đi bộ.
+- D/A còn chờ được hủy qua tài khoản bệnh nhân sở hữu04:16:16; guard04:16:17 OFF/no active; ảnh04:16:43 về giao diện Chưa sẵn sàng. Crash buffer riêng04:16:50 không marker Java/native, không chứng minh hết crash gián đoạn. Bằng chứng hash ảnh private và kết quả đưa vào báo cáo MD/JSON; không đăng ảnh chứa tọa độ/thông báo cá nhân.
+- Không đổi source runtime, không tạo APK mới/OTA/deploy frontend. APK19 vẫn là bản máy thử riêng; shared web/trang tải vẫn16. Còn thiếu: offline mạng độc lập, đi bộ GPS, nhiều máy/hãng/chế độ âm, nguyên nhân tự thoát; Functions p95RECHECK và dependency advisory giữ nguyên.
+
+
 
 - Tiếp tục theo yêu cầu sau khi dừng: kiểm tra USB lúc03:52:43 và03:53:40UTC đều có0thiết bị ADB; chụp màn hình bị guard từ chối, chưa có thao tác native/test ca mới. Windows PnP thấy SAMSUNG Mobile USB Composite Device nhưng chưa có ADB. Kiểm tra PnP lần đầu thiếu quyền CIM, lần chạy được cấp quyền đọc thiết bị thành công. Đã hướng dẫn chủ máy bật lại Gỡ lỗi USB/cho phép máy tính; chờ kết nối, không ghi PASS hoặc tạo ca để chờ hết hạn.
 - APK0.4.19/code17 đã cài đè trên S22+, hoàn thành09/11 17:13:04UTC (10/11 00:13 Việt Nam), giữ đăng nhập; SHA256 `bb85c5dc57a5aadff114fde10fd92ad46418c1926ef2b3e3aca4699bc7e65022`. Build69de4982, sourcef9f015c. Đây là cài máy thử riêng; web/trang tải chung vẫn16, không OTA.

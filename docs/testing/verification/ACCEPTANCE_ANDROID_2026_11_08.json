@@ -8449,5 +8449,228 @@
       ]
     },
     "note": "Earlier pending/build snapshots retained as history; this checkpoint supersedes their current-installation state. Synthetic reporters; actual device and cloud observations."
+  },
+  "resumedNative19Checkpoint20261110": {
+    "recordedAt": "2026-11-10T04:17:41.341Z",
+    "status": "SCOPED_NATIVE19_PASS_NOT_FULL_ACCEPTANCE",
+    "scope": "Actual S22+/Android16 APK0.4.19/code17 with real cloud calls. Three synthetic reporters, observations and destinations; no walking or real patients.",
+    "fixtures": {
+      "at": "2026-11-10T03:56:50.912Z",
+      "status": "CREATED_NOT_NATIVE_VERIFIED",
+      "cases": [
+        {
+          "alias": "E",
+          "prefix": "a392369ae1"
+        },
+        {
+          "alias": "D",
+          "prefix": "ffa4fc7a31"
+        },
+        {
+          "alias": "A",
+          "prefix": "8b8ef11c54"
+        }
+      ],
+      "scope": "Three simulated reporters/destinations at approximate11/111/333m offsets from last actual native readiness GPS; real Auth/API requests. Not measured physical distances, real symptoms or three phones. Only own V2 eligible at precheck."
+    },
+    "busyGuard": {
+      "at": "2026-11-10T03:57:58.061Z",
+      "status": "PASS",
+      "activeAlias": "E",
+      "deniedAliases": [
+        "D",
+        "A"
+      ],
+      "scope": "Two actual authenticated cloud accept attempts rejected400 and private reads403 while one case accepted by native input; assignment unchanged. Synthetic cases/distances."
+    },
+    "reportUpdate": {
+      "at": "2026-11-10T03:57:58.537Z",
+      "status": "API_SENT_NOT_NATIVE_VERIFIED",
+      "alias": "E",
+      "revision": 2,
+      "scope": "Synthetic observations through actual reporter API; native receipt still requires verification",
+      "nativeVerified": true,
+      "loadedRevision": 2,
+      "serverObservedAt": "2026-11-10T04:14:45.819Z",
+      "latency": "Not measured: tool/approval delays; do not infer end-to-end latency"
+    },
+    "gpsObservations": [
+      {
+        "at": "2026-11-10T04:03:43.409Z",
+        "ageSeconds": 1,
+        "sensorReportedAccuracyMeters": 35
+      },
+      {
+        "at": "2026-11-10T04:06:11.184Z",
+        "ageSeconds": 1,
+        "sensorReportedAccuracyMeters": 12
+      }
+    ],
+    "arrival": {
+      "openedAt": "2026-11-10T04:14:08.866Z",
+      "cancelledAt": "2026-11-10T04:14:29.390Z",
+      "serverStatusAfterCancel": "accepted",
+      "confirmed": false
+    },
+    "completion": {
+      "firstOpenedAt": "2026-11-10T04:15:04.203Z",
+      "cancelledAt": "2026-11-10T04:15:25.062Z",
+      "serverStatusAfterCancel": "accepted",
+      "confirmedAt": "2026-11-10T04:16:06.385Z",
+      "serverCompletedAtObservation": "2026-11-10T04:16:15.327Z",
+      "postClosePrivateRead": 403
+    },
+    "cleanup": {
+      "at": "2026-11-10T04:16:16.916Z",
+      "status": "PASS_CLEANUP_ONLY",
+      "actions": [
+        "D cancelled through own patient API",
+        "A cancelled through own patient API"
+      ],
+      "scope": "Only own unassigned synthetic19 cases cancelled. Active case completion must be verified separately."
+    },
+    "final": {
+      "available": false,
+      "activeIncident": false,
+      "verifiedAt": "2026-11-10T04:16:17.969Z",
+      "nativeOffScreenAt": "2026-11-10T04:16:43.261Z"
+    },
+    "automation": {
+      "staleTargetRefusals": 3,
+      "accessibilityDump": "FAIL could not get idle state; no stale XML used",
+      "helperSyntaxCheck": "First relocation-helper syntax check failed; corrected; relocation matching then refused, no tap",
+      "adjustment": "Wait1600ms after own swipe before screenshot; original exact-pixel guard subsequently passed. Momentum is a supported hypothesis, not proof all layout issues are fixed."
+    },
+    "open": [
+      "One foreground loss after readiness tap; no contemporaneous own Java/native crash markers; cause not established",
+      "Intermittent self-exit remains open",
+      "No independent offline test or walking GPS",
+      "No universal silent/DND or manufacturer coverage",
+      "Functions local performance RECHECK and dependency advisories retained; no large cloud capacity result"
+    ],
+    "actions": [
+      {
+        "at": "2026-11-10T03:55:55.883Z",
+        "reason": "readiness-on-resume19",
+        "targetPixelsMatched": true
+      },
+      {
+        "at": "2026-11-10T03:57:31.525Z",
+        "reason": "accept-E-resume19",
+        "targetPixelsMatched": true
+      },
+      {
+        "at": "2026-11-10T04:14:08.866Z",
+        "reason": "open-arrival19-after-scroll-settled",
+        "targetPixelsMatched": true
+      },
+      {
+        "at": "2026-11-10T04:14:29.390Z",
+        "reason": "cancel-arrival19",
+        "targetPixelsMatched": true
+      },
+      {
+        "at": "2026-11-10T04:15:04.203Z",
+        "reason": "open-completion19-first",
+        "targetPixelsMatched": true
+      },
+      {
+        "at": "2026-11-10T04:15:25.062Z",
+        "reason": "cancel-completion19",
+        "targetPixelsMatched": true
+      },
+      {
+        "at": "2026-11-10T04:15:48.141Z",
+        "reason": "open-completion19-final",
+        "targetPixelsMatched": true
+      },
+      {
+        "at": "2026-11-10T04:16:06.385Z",
+        "reason": "confirm-completion19",
+        "targetPixelsMatched": true
+      }
+    ],
+    "privateScreenshotHashes": [
+      {
+        "file": "screen-2026-11-10T03-55-39-782Z.private.png",
+        "sha256": "ed5ae0948a68a4c6137659ff6d11bf4aa77ebeb481def95aa373172a990fecf2"
+      },
+      {
+        "file": "screen-2026-11-10T03-56-27-498Z.private.png",
+        "sha256": "6e1880adfcc1664732c2cbf0144f1e34579a710a7cf95d652d31d463043f25f1"
+      },
+      {
+        "file": "screen-2026-11-10T03-57-05-863Z.private.png",
+        "sha256": "230e963cbc7cafa31a556dca561453bbe987ed4a7d56b3bca5166ebdcc8ee460"
+      },
+      {
+        "file": "screen-2026-11-10T03-57-32-413Z.private.png",
+        "sha256": "ac02666ac786ab71ea2afbeec3ed05b4fed9a1d7b6a0af345798f302d00dfa64"
+      },
+      {
+        "file": "screen-2026-11-10T04-02-59-080Z.private.png",
+        "sha256": "84d0ecd72ddff7b90844abd4a12f7f996876beaf015d8065bbdbb6abfe3cb8c3"
+      },
+      {
+        "file": "screen-2026-11-10T04-03-43-409Z.private.png",
+        "sha256": "24ad5a76b719a4bb614ca3d3d048a5cc047b29cc5478bd31b258c53e83f10164"
+      },
+      {
+        "file": "screen-2026-11-10T04-03-57-553Z.private.png",
+        "sha256": "63b53861ff41f7900861447d6dacd1c5010cbad0537db30068d83b7036de8e1e"
+      },
+      {
+        "file": "screen-2026-11-10T04-04-59-517Z.private.png",
+        "sha256": "201e45e3cc8da8ef9057f89c70a77ecbe512b94d1135786cdd611bd7b48ee939"
+      },
+      {
+        "file": "screen-2026-11-10T04-05-18-138Z.private.png",
+        "sha256": "ce7e6b26eb58896b7199f7473f3899a7243678182e1da9a8362960b8366f32a1"
+      },
+      {
+        "file": "screen-2026-11-10T04-06-11-184Z.private.png",
+        "sha256": "7ac2cd5549b8761270a8b440a3bfe7c52bd3e76728b5b1adacbe6e886c128d38"
+      },
+      {
+        "file": "screen-2026-11-10T04-06-25-954Z.private.png",
+        "sha256": "ac8adb0400f811b28681f0d3f495779b08040ae45163ccb8ba2562992d3bdfa9"
+      },
+      {
+        "file": "screen-2026-11-10T04-06-47-244Z.private.png",
+        "sha256": "7836f4aaa36ac228dbe80801e8d0c5073b4b75847ce3e25506e696bd31c7abcd"
+      },
+      {
+        "file": "screen-2026-11-10T04-13-51-445Z.private.png",
+        "sha256": "5c6e8dc6eeb0ab58eb9f581e0f2995a16202909f5abf3b6403e9e2dd8f860bf7"
+      },
+      {
+        "file": "screen-2026-11-10T04-14-09-695Z.private.png",
+        "sha256": "dc8ad686bf903c0eafe7da9098cae6702e0248f9e8d643afb69d262276dc1f48"
+      },
+      {
+        "file": "screen-2026-11-10T04-14-30-241Z.private.png",
+        "sha256": "693ded239e5085eac4ac6aaa07a01b25e52a9c24f591ce09fa4ee5b482bc6905"
+      },
+      {
+        "file": "screen-2026-11-10T04-15-05-037Z.private.png",
+        "sha256": "b9ce569fa84d4dd14358d0f7a54be600358170132416240bb5cb7df06c327458"
+      },
+      {
+        "file": "screen-2026-11-10T04-15-25-886Z.private.png",
+        "sha256": "337a64e1c68f88cb3330138536fedd1adfa53f4fd10706c997c979eac193d216"
+      },
+      {
+        "file": "screen-2026-11-10T04-15-48-992Z.private.png",
+        "sha256": "f3899bc4ad81b0eab7123823f08dedd2065ec8e3401485523ab7184300fbaff3"
+      },
+      {
+        "file": "screen-2026-11-10T04-16-07-182Z.private.png",
+        "sha256": "53954999ce23690a04ff3c298261c2b55833209dddfb960ae910e7631d7c0227"
+      },
+      {
+        "file": "screen-2026-11-10T04-16-43-261Z.private.png",
+        "sha256": "8864158f86f8f9f63f5189757b61d57c9be2da0ef5097c3bb62a5fb4a9a73dfd"
+      }
+    ]
   }
 }
