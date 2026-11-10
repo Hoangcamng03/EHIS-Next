@@ -7,6 +7,7 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 ## 2026-11-10 — APK19 đã cài; dừng kiểm thử theo yêu cầu chủ máy
 
+- Tiếp tục theo yêu cầu sau khi dừng: kiểm tra USB lúc03:52:43 và03:53:40UTC đều có0thiết bị ADB; chụp màn hình bị guard từ chối, chưa có thao tác native/test ca mới. Windows PnP thấy SAMSUNG Mobile USB Composite Device nhưng chưa có ADB. Kiểm tra PnP lần đầu thiếu quyền CIM, lần chạy được cấp quyền đọc thiết bị thành công. Đã hướng dẫn chủ máy bật lại Gỡ lỗi USB/cho phép máy tính; chờ kết nối, không ghi PASS hoặc tạo ca để chờ hết hạn.
 - APK0.4.19/code17 đã cài đè trên S22+, hoàn thành09/11 17:13:04UTC (10/11 00:13 Việt Nam), giữ đăng nhập; SHA256 `bb85c5dc57a5aadff114fde10fd92ad46418c1926ef2b3e3aca4699bc7e65022`. Build69de4982, sourcef9f015c. Đây là cài máy thử riêng; web/trang tải chung vẫn16, không OTA.
 - Ba người báo/tọa độ/tình trạng được giả lập theo yêu cầu; gửi qua Auth/API/Firestore thật. S22+ thực sự hiện ba ca chờ ở ảnh09/11 17:16:40UTC; chủ máy xác nhận có chuông và rung. Không coi là ba điện thoại thật, ca bệnh thật, hay bằng chứng chuông mọi chế độ.
 - Chủ máy yêu cầu dừng nếu phần còn lại không nhanh để chiều thử với nhóm. Kiểm tra10/11 03:49:31UTC: không có ca đang nhận; cả ba ca giả lập19 đã expired, không còn lời mời. Tắt Sẵn sàng qua API chuẩn03:50:06UTC; kiểm tra độc lập03:50:07UTC xác nhận OFF/no active. Không sửa thời gian hết hạn, không đóng ca người khác.
