@@ -4,7 +4,7 @@
 
 Gửi link trang này cho thành viên mới. Đọc từ mục 1 đến 4 để hiểu và chạy demo; các mục sau dùng khi cần kiểm thử, góp ý hoặc sửa code. Các link source đều dùng main. Không cần tài khoản Firebase/Vercel/Expo hoặc cài môi trường lập trình để tham gia demo cloud.
 
-> **Bản Android mới nhất cho nhóm:0.4.19/code17 (10/11/2026).** [Tải APK trực tiếp](https://expo.dev/artifacts/eas/ZA57VAvTHhh0GHwReDBPBzHRSSKFX860OrwGjCU8wUI.apk) · [Trang build](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/69de4982-ccbc-4b26-b945-0c4dc2c52267) · [Kết quả máy thật](../testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md). Đã thử trên S22+; chưa nghiệm thu mọi thiết bị/tình huống. Kết thúc ca, tắt Sẵn sàng trước khi cài đè; không gỡ app/xóa dữ liệu. Trang cài chung đang được cập nhật; kiểm tra nhãn0.4.19 trước khi tải.
+> **Bản Android mới nhất cho nhóm:0.4.19/code17 (10/11/2026).** [Tải APK trực tiếp](https://expo.dev/artifacts/eas/ZA57VAvTHhh0GHwReDBPBzHRSSKFX860OrwGjCU8wUI.apk) · [Trang build](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/69de4982-ccbc-4b26-b945-0c4dc2c52267) · [Kết quả máy thật](../testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md). Đã thử trên S22+; chưa nghiệm thu mọi thiết bị/tình huống. Kết thúc ca, tắt Sẵn sàng trước khi cài đè; không gỡ app/xóa dữ liệu. Trang cài chung đã cập nhật và kiểm tra nhãn/link0.4.19.
 
 ## 1. Bắt đầu theo thứ tự
 

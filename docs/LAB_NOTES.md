@@ -9,7 +9,8 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 - Người dùng yêu cầu cung cấp bản tải/tài liệu và cập nhật bản tải mới nhất. HEAD artifact19 trả200,102722989byte khớp bản đã xác minh/cài S22+; không tạo APK mới, không OTA.
 - Cập nhật releases.json sang APK19/code17, TEAM_LINKS có link cố định và báo cáo máy thật; sửa nhãn “0.4.12 mới nhất” thành lịch sử, thêm link cài đè trong hướng dẫn điện thoại.
-- Đang build/kiểm tra để đồng bộ trang cài cùng frontend19 trên Hosting với backend19 đã có; chưa ghi deploy thành công. Kết quả và các phần còn mở sẽ cập nhật sau.
+- Hoàn tất: build-download19 PASS40268ms; kiểm tra cấu trúc574link/64doc và UTF-8 PASS. Deploy-download19 PASS33683ms từb06ccca: cả web/app Hosting19 đồng bộ backend19; không đổi backend/Firestore/IAM/billing. Artifacts-download19 PASS10383ms, đủ38HTML/JS/CSS khớp byte với chính build vừa deploy. Giữ failure so rebuild cũ trong lịch sử.
+- HTTP /install kiểm tra10/11 04:42:55UTC:200, đúngnhãn0.4.19/đúnghref APK19, không cònhref APK16. Đây là kiểm tra HTTP/artifact, chưa có lượt browser đầy đủ sau deploy này. Kết quả native19 trước đó vẫn có phạm vi riêng; không đổi deviceVerified thành nghiệm thu toàn bộ. STATUS/TEAM_LINKS/phiếu MD+JSON đã đồng bộ.
 
 ## 2026-11-10 — APK19: cài máy, tạm dừng và tiếp tục kiểm thử
 

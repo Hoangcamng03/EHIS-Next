@@ -8672,5 +8672,76 @@
         "sha256": "8864158f86f8f9f63f5189757b61d57c9be2da0ef5097c3bb62a5fb4a9a73dfd"
       }
     ]
+  },
+  "downloadRelease20261110": {
+    "build": {
+      "id": "build-download19",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-10T04:27:33.384Z",
+      "endedAt": "2026-11-10T04:28:13.653Z",
+      "elapsedMs": 40268,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "19fc4c3f56abdd0b7c72178ae04ee1a779b91917",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-download19.log",
+      "logSha256": "a5060a0395eac7ca791eadaa9e2b22625092bf5a874d787244c40254b5a00e2a",
+      "artifacts": []
+    },
+    "deploy": {
+      "id": "deploy-download19",
+      "operation": "deployweb",
+      "command": "npm run cloud:deploy-web",
+      "startedAt": "2026-11-10T04:29:48.624Z",
+      "endedAt": "2026-11-10T04:30:22.308Z",
+      "elapsedMs": 33683,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "b06ccca0ec468ab9b1f3bcf89d6cc24efe0a42bc",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deploy-download19.log",
+      "logSha256": "070595d0fc797143ad51fb6dc3a4aa3f8dd9df81f0dc1cf3a96c4a643ae318ba",
+      "artifacts": []
+    },
+    "artifacts": {
+      "checkedAt": "2026-11-10T04:32:26.908Z",
+      "checked": 38,
+      "sha256Match": true,
+      "targets": [
+        "https://ehis-next-20261021-hc03.web.app",
+        "https://ehis-next-20261021-hc03-app.web.app"
+      ]
+    },
+    "install": {
+      "at": "2026-11-10T04:42:55.947Z",
+      "status": "PASS",
+      "url": "https://ehis-next-20261021-hc03.web.app/install",
+      "version": "0.4.19",
+      "apkUrl": "https://expo.dev/artifacts/eas/ZA57VAvTHhh0GHwReDBPBzHRSSKFX860OrwGjCU8wUI.apk",
+      "bytes": 102722989,
+      "checks": [
+        "HTTP200",
+        "exact verified19 APK href",
+        "19 version label",
+        "old16 APK URL absent"
+      ],
+      "scope": "HTTP HTML verification, not browser render or phone install"
+    },
+    "scope": "Both static Hosting sites19, verified APK19 offered for controlled team drills. No new APK/OTA/backend deployment; no post-deploy full browser regression. Earlier16-only status is historical."
   }
 }

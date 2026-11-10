@@ -5,15 +5,15 @@ Cập nhật10/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu 
 
 ## 1. Bản đang bàn giao
 
-**Chỉ diễn tập có hướng dẫn; chưa nghiệm thu toàn bộ.** [Báo cáo08–09/11](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md) và [số liệu gốc](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.json) giữ cả thất bại và phần chưa thử.
+**Chỉ diễn tập có hướng dẫn; chưa nghiệm thu toàn bộ.** [Báo cáo08–10/11](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md) và [số liệu gốc](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.json) giữ cả thất bại và phần chưa thử.
 
 | Phần | Đã xác minh | Còn thiếu |
 | --- | --- | --- |
-| App web/người báo/admin/referrer | Bản16 vẫn đang phát chung | Chưa cập nhật frontend19 hoặc đối chiếu artifact mới; lượt rebuild cũ FAIL được giữ |
+| App web/người báo/admin/referrer | Đã deploy19 từb06ccca ngày10/11;38đối chiếu HTML/JS/CSS khớp byte với build | Chưa chạy lại browser đầy đủ vai trò sau deploy này; failure rebuild cũ vẫn giữ |
 | Backend Vercel |19 từa9134eb đã deploy; health đúngversion/project/401;8request trùng thật tạo1ca, tất cả200, payload khác400; ca thử đã dọn | Chưa kiểm thử tải lớn cloud/worker liên tục/SLA; Spark/Hobby và quyền hiện có |
 | S22+/Android16 | Hiện APK19/code17; kết quả18: GPS tại chỗ, route, OFF/ON, Home/resume, report2 tự tải/ack PASS ở lượt thử | Tự thoát gián đoạn còn OPEN; bố cục/bấm nhầm/hoàn tất native18 chưa đạt; chưa đi bộ/đoGPS chuẩn/offline độc lập/toàn bộ chế độ âm thanh |
 | APK19/code17 | Đã cài S22+;3ca chờ, nhận E, chặn nhận D/A, bản2 tự tải/ack, GPS tại chỗ, hủy xác nhận arrival/hoàn tất và xác nhận hoàn tất native PASS. Kết thúc OFF/no active | Chưa nghiệm thu toàn bộ: tự thoát, offline độc lập, đi bộ GPS, nhiều máy/chế độ âm. Xem lab note10/11 |
-| Trang tải chung | [APK16/code14](https://expo.dev/artifacts/eas/I4rVMe1xroxr-i8MaVKmBP3NEImFfg9ARfGXLWMVsGc.apk) vẫn là bản phát chung | Chủ máy thử19 riêng; chưa quảng bá19 thành bản đã nghiệm thu, không OTA |
+| Trang tải chung | [APK0.4.19/code17](https://expo.dev/artifacts/eas/ZA57VAvTHhh0GHwReDBPBzHRSSKFX860OrwGjCU8wUI.apk); /install trả200, nhãn19 và đúnghref đã đối chiếu | Bản diễn tập cho nhóm; chưa nghiệm thu toàn bộ, không OTA |
 | Source/CI backend | a9134eb,CI42654274756 SUCCESS, có health assertions thật;72a186a đã qua16suite local/CI | CIba90 trước sửa FAIL vẫn được giữ; không đồng nghĩa nghiệm thu thiết bị/y tế |
 | Tải local mới | Portable:1000Auth/128session/32feed/32ca/320API, p95cảnh báo1240ms,PASS | Không phải1000người dùng cloud; Functions local vẫn RECHECK,p95=21866ms>15000ms; chưa chứng minh mọi API nhanh hơn bản cũ |
 | iOS native | Hoãn; iPhone dùng app web | Chưa IPA/TestFlight/tài khoản/ký/nghiệm thu iOS |

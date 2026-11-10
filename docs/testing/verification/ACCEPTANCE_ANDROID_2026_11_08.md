@@ -2,6 +2,11 @@
 
 **Chưa nghiệm thu toàn bộ; cập nhật10/11: vòng APK19 tại chỗ đã hoàn thành; còn thiếu các bài mở bên dưới.** S22+ SM-S906E/Android16 hiện cài0.4.19/code17; các kết quả GPS dưới đây thuộc18. GPS đứng yên, tắt/bật, Home/mở lại và nhận bản tình trạng mới đã đạt ở lượt thử này. Lỗi bố cục, tự thoát gián đoạn và CI còn cần xử lý. Kết quả16/17 bên dưới giữ nguyên theo phiên bản. [Số liệu gốc](ACCEPTANCE_ANDROID_2026_11_08.json) · [Trạng thái phát hành](../../STATUS.md).
 
+## Phát link cho nhóm10/11 — trạng thái mới nhất
+
+- Trang cài công khai đã trỏ APK0.4.19/code17; cả hai Hosting frontend19 deploy từb06ccca, backend vẫn19. Build40268ms, deploy33683ms PASS;38HTML/JS/CSS khớp byte với build. /install HTTP200, nhãn19 và đúngURL artifact. Không phát OTA/tạo APK khác.
+- Đây là bản diễn tập nhóm đã thử một phần trên S22+, chưa nghiệm thu toàn bộ; chưa chạy lại browser đầy đủ vai trò sau deploy này. Những dòng shared16 trong các mốc cũ bên dưới là lịch sử.
+
 ### Tiếp tục10/11 — vòng APK19 tại chỗ hoàn thành (11:16 Việt Nam)
 
 - Kết nối USB trở lại03:55:39UTC. Bật Sẵn sàng native03:55:55; có một lần mất foreground ngay sau bấm, không có crash marker Java/native riêng lúc03:56:07. Chưa xác định nguyên nhân, không đổi lỗi tự thoát thành PASS.
