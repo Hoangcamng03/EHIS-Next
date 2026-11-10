@@ -4,6 +4,8 @@
 
 Gửi link trang này cho thành viên mới. Đọc từ mục 1 đến 4 để hiểu và chạy demo; các mục sau dùng khi cần kiểm thử, góp ý hoặc sửa code. Các link source đều dùng main. Không cần tài khoản Firebase/Vercel/Expo hoặc cài môi trường lập trình để tham gia demo cloud.
 
+> **Bản Android mới nhất cho nhóm:0.4.19/code17 (10/11/2026).** [Tải APK trực tiếp](https://expo.dev/artifacts/eas/ZA57VAvTHhh0GHwReDBPBzHRSSKFX860OrwGjCU8wUI.apk) · [Trang build](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/69de4982-ccbc-4b26-b945-0c4dc2c52267) · [Kết quả máy thật](../testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md). Đã thử trên S22+; chưa nghiệm thu mọi thiết bị/tình huống. Kết thúc ca, tắt Sẵn sàng trước khi cài đè; không gỡ app/xóa dữ liệu. Trang cài chung đang được cập nhật; kiểm tra nhãn0.4.19 trước khi tải.
+
 ## 1. Bắt đầu theo thứ tự
 
 | Thứ tự | Mở trang | Bạn cần biết sau khi đọc |
@@ -74,12 +76,13 @@ Cuối buổi: D tổng hợp bài đạt/chưa đạt, người phụ trách v�
 
 | Trang | Dùng để xem |
 | --- | --- |
+| [Kiểm thử máy thật08–10/11](../testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md) | APK16–19, GPS/chuông/nhiều ca/hộp thoại; giữ kết quả chưa đạt |
 | [STATUS](../STATUS.md) | Đầu mối bản đã phát hành và việc còn thiếu |
 | [LAB_NOTES](../LAB_NOTES.md) | Lý do, phạm vi, kiểm chứng, việc chưa xong của từng phiên |
 | [GitHub Actions](https://github.com/Hoangcamng03/EHIS-Next/actions) | CI theo commit; tick xanh không chứng minh máy đã cài bản mới |
 | [Lịch sử main](https://github.com/Hoangcamng03/EHIS-Next/commits/main/) | Ai thay đổi gì và khi nào |
 | [Kiểm chứng UI 0.4.10](../testing/verification/VERIFICATION_V0_4_10.md) | Chữ/nút/công tắc gọn hơn, flow hai ca và map màn nhỏ; thử máy thật theo phiếu Android |
-| [Kiểm chứng 0.4.12 mới nhất](../testing/verification/VERIFICATION_V0_4_12.md) | Web/backend/APK0.4.12; 59 test, 13 suites, 32 ca và 704 mẫu thực; giữ các mục chưa đạt/chưa thử |
+| [Kiểm chứng 0.4.12 (lịch sử)](../testing/verification/VERIFICATION_V0_4_12.md) | Web/backend/APK0.4.12; 59 test, 13 suites, 32 ca và 704 mẫu thực; giữ các mục chưa đạt/chưa thử |
 | [Kiểm chứng 0.4.9](../testing/verification/VERIFICATION_V0_4_9.md) | Bản sửa GPS/chuông/nhiều ca/ON muộn, cloud/APK; còn nghiệm thu Samsung/Android |
 | [So sánh hiệu suất 26/10](../testing/PERFORMANCE_COMPARISON.md) | Số đo local trước/sau tối ưu; không dùng làm cam kết tốc độ cloud |
 | [Kế hoạch midterm/cuối kỳ](../planning/MIDTERM_DEMO.md) | Kịch bản trình thầy và phần phát triển tiếp |

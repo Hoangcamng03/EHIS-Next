@@ -1,5 +1,7 @@
 # Cài trên điện thoại — dành cho người sử dụng thử
 
+**Android mới nhất: [APK0.4.19/code17](https://expo.dev/artifacts/eas/ZA57VAvTHhh0GHwReDBPBzHRSSKFX860OrwGjCU8wUI.apk)**. Cài đè sau khi hoàn tất ca và tắt Sẵn sàng; giữ dữ liệu đăng nhập. [Bằng chứng S22+ và phần còn thiếu](../testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md).
+
 ## 1. Chọn cách mở
 
 | Thiết bị | Cách dùng của nhóm | Cần biết |

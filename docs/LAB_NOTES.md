@@ -5,6 +5,12 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
+## 2026-11-10 — cập nhật link APK19 cho nhóm
+
+- Người dùng yêu cầu cung cấp bản tải/tài liệu và cập nhật bản tải mới nhất. HEAD artifact19 trả200,102722989byte khớp bản đã xác minh/cài S22+; không tạo APK mới, không OTA.
+- Cập nhật releases.json sang APK19/code17, TEAM_LINKS có link cố định và báo cáo máy thật; sửa nhãn “0.4.12 mới nhất” thành lịch sử, thêm link cài đè trong hướng dẫn điện thoại.
+- Đang build/kiểm tra để đồng bộ trang cài cùng frontend19 trên Hosting với backend19 đã có; chưa ghi deploy thành công. Kết quả và các phần còn mở sẽ cập nhật sau.
+
 ## 2026-11-10 — APK19: cài máy, tạm dừng và tiếp tục kiểm thử
 
 ### Tiếp tục10/11 — vòng APK19 tại chỗ hoàn thành (11:16 Việt Nam)
