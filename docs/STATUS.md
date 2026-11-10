@@ -1,7 +1,7 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
 
-Cập nhật09/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](testing/verification/VERIFICATION_V0_4_15.json).
+Cập nhật10/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](testing/verification/VERIFICATION_V0_4_15.json).
 
 ## 1. Bản đang bàn giao
 
@@ -11,9 +11,9 @@ Cập nhật09/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu 
 | --- | --- | --- |
 | App web/người báo/admin/referrer | Bản16 vẫn đang phát chung | Chưa cập nhật frontend19 hoặc đối chiếu artifact mới; lượt rebuild cũ FAIL được giữ |
 | Backend Vercel |19 từa9134eb đã deploy; health đúngversion/project/401;8request trùng thật tạo1ca, tất cả200, payload khác400; ca thử đã dọn | Chưa kiểm thử tải lớn cloud/worker liên tục/SLA; Spark/Hobby và quyền hiện có |
-| S22+/Android16 | APK18/code16 cài đè; GPS tại chỗ, route, OFF/ON, Home/resume, report2 tự tải/ack PASS ở lượt thử | Tự thoát gián đoạn còn OPEN; bố cục/bấm nhầm/hoàn tất native18 chưa đạt; chưa đi bộ/đoGPS chuẩn/offline độc lập/toàn bộ chế độ âm thanh |
-| APK19/code17 | Sourcef9f015c,85test/build/CI42650746613 PASS; sửa Modal xác nhận cố định và yêu cầu xác nhận Đã đến nơi; đang chờ EAS miễn phí | Chưa artifact/cài/thử máy; không ghi đã cập nhậtS22+ hoặc nghiệm thu19 |
-| Trang tải chung | [APK16/code14](https://expo.dev/artifacts/eas/I4rVMe1xroxr-i8MaVKmBP3NEImFfg9ARfGXLWMVsGc.apk) vẫn là bản phát chung | Chủ máy thử18 riêng; chưa quảng bá19 thành bản đã nghiệm thu, không OTA |
+| S22+/Android16 | Hiện APK19/code17; kết quả18: GPS tại chỗ, route, OFF/ON, Home/resume, report2 tự tải/ack PASS ở lượt thử | Tự thoát gián đoạn còn OPEN; bố cục/bấm nhầm/hoàn tất native18 chưa đạt; chưa đi bộ/đoGPS chuẩn/offline độc lập/toàn bộ chế độ âm thanh |
+| APK19/code17 | Đã cài đè S22+, giữ đăng nhập; native hiện3ca giả lập; chủ máy xác nhận chuông/rung. Đã dừng10/11, OFF/no active | Chưa thử nhận ca, cập nhật, Modal19; chưa nghiệm thu toàn bộ. Xem lab note10/11 |
+| Trang tải chung | [APK16/code14](https://expo.dev/artifacts/eas/I4rVMe1xroxr-i8MaVKmBP3NEImFfg9ARfGXLWMVsGc.apk) vẫn là bản phát chung | Chủ máy thử19 riêng; chưa quảng bá19 thành bản đã nghiệm thu, không OTA |
 | Source/CI backend | a9134eb,CI42654274756 SUCCESS, có health assertions thật;72a186a đã qua16suite local/CI | CIba90 trước sửa FAIL vẫn được giữ; không đồng nghĩa nghiệm thu thiết bị/y tế |
 | Tải local mới | Portable:1000Auth/128session/32feed/32ca/320API, p95cảnh báo1240ms,PASS | Không phải1000người dùng cloud; Functions local vẫn RECHECK,p95=21866ms>15000ms; chưa chứng minh mọi API nhanh hơn bản cũ |
 | iOS native | Hoãn; iPhone dùng app web | Chưa IPA/TestFlight/tài khoản/ký/nghiệm thu iOS |

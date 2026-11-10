@@ -1,15 +1,22 @@
 # Kiểm thử EHIS kết hợp hai Android — 08/11/2026
 
-**Chưa nghiệm thu toàn bộ; bổ sung09/11.** S22+ SM-S906E/Android16 đã cài0.4.18/code16. GPS đứng yên, tắt/bật, Home/mở lại và nhận bản tình trạng mới đã đạt ở lượt thử này. Lỗi bố cục, tự thoát gián đoạn và CI còn cần xử lý. Kết quả16/17 bên dưới giữ nguyên theo phiên bản. [Số liệu gốc](ACCEPTANCE_ANDROID_2026_11_08.json) · [Trạng thái phát hành](../../STATUS.md).
+**Chưa nghiệm thu toàn bộ; cập nhật10/11: APK19 đã cài, vòng test đã dừng theo yêu cầu.** S22+ SM-S906E/Android16 hiện cài0.4.19/code17; các kết quả GPS dưới đây thuộc18. GPS đứng yên, tắt/bật, Home/mở lại và nhận bản tình trạng mới đã đạt ở lượt thử này. Lỗi bố cục, tự thoát gián đoạn và CI còn cần xử lý. Kết quả16/17 bên dưới giữ nguyên theo phiên bản. [Số liệu gốc](ACCEPTANCE_ANDROID_2026_11_08.json) · [Trạng thái phát hành](../../STATUS.md).
 
-## Bổ sung19 — backend đã kiểm tra; APK đang build
+## 2026-11-10 — APK19 đã cài; dừng kiểm thử theo yêu cầu chủ máy
+
+- APK0.4.19/code17 đã cài đè trên S22+, hoàn thành09/11 17:13:04UTC (10/11 00:13 Việt Nam), giữ đăng nhập; SHA256 `bb85c5dc57a5aadff114fde10fd92ad46418c1926ef2b3e3aca4699bc7e65022`. Build69de4982, sourcef9f015c. Đây là cài máy thử riêng; web/trang tải chung vẫn16, không OTA.
+- Ba người báo/tọa độ/tình trạng được giả lập theo yêu cầu; gửi qua Auth/API/Firestore thật. S22+ thực sự hiện ba ca chờ ở ảnh09/11 17:16:40UTC; chủ máy xác nhận có chuông và rung. Không coi là ba điện thoại thật, ca bệnh thật, hay bằng chứng chuông mọi chế độ.
+- Chủ máy yêu cầu dừng nếu phần còn lại không nhanh để chiều thử với nhóm. Kiểm tra10/11 03:49:31UTC: không có ca đang nhận; cả ba ca giả lập19 đã expired, không còn lời mời. Tắt Sẵn sàng qua API chuẩn03:50:06UTC; kiểm tra độc lập03:50:07UTC xác nhận OFF/no active. Không sửa thời gian hết hạn, không đóng ca người khác.
+- Chưa thử trên19: nhận ca/chặn ca thứ hai, cập nhật tình trạng, hủy/xác nhận Modal Đã đến nơi và Hoàn tất. Các kết quả bản trước giữ nguyên, không suy thành PASS19. Tự thoát/cuộn dịch chuyển còn OPEN; offline độc lập, đi bộ GPS và tải cloud còn thiếu. Đã dừng, không chạy nền tiếp; ước tính phần thử19 còn20–30phút khi kết nối máy sẵn sàng, chưa bao gồm sửa lỗi mới.
+
+## Bổ sung19 — bằng chứng trước khi cài máy (lịch sử)
 
 - Source19 có85test và build web PASS, CI f9f015c SUCCESS42650746613. Đổi xác nhận sang Modal cố định và thêm xác nhận Đã đến nơi để giảm nguy cơ bấm nhầm; chưa coi hộp thoại19 đạt trên máy.
 - Sau sửa retry, integration local đủ16suite PASS352817ms; multi15/15 với222Auth/201API. CI72a186a SUCCESS42648750261, giữ CIba90FAIL.
 - Portable-scale mới PASS:1000Auth/128session/32SDKfeed/32ca/8vùng/320API/40từchối/0retry;p50=763ms,p95=1240ms,max1274ms. Không phải tải cloud/1000điện thoại; không có paired benchmark để nói mọi API nhanh hơn lượt cũ933ms. Functions-scale mới vẫn FAIL/RECHECK:p95=21866ms>15000ms dù8giaiđoạn chức năng đạt.
 - Deploy-1 READY nhưng cloudprobe-2 FAIL vì health literal16. Sửa lấy phiên bản từpackage; health-integration-1 FAIL whitelist launcher, lượt2 PASS50178ms. CIa9134eb SUCCESS42654274756; deploy-2 PASS30887ms,cloudprobe-3 PASS2572ms đúng19/project/401. Không bỏ qua probe để nói deployREADY là đúngversion.
 - Cloud thật16:31:57–16:32:02UTC:8/8request trùng thành công, chỉ1incident; payload khác bị400. Thời gian từngrequest đo được [2434,1145,3564,1146,2356,2806,3259,3738]ms. Dùng reporter/patient/vị trí giả lập biệt lập, không mời TNV; ca đã hủy bằng tài khoản bệnh nhân. Không coi8request là benchmark sức tải cloud.
-- EAS19/code17 build69de4982 từf9f015c đang xử lý, chưa cài. Máy S22+ vẫn18; backend19, web/trang tải chung16, không OTA. Các mốc16/17/18 bên dưới là lịch sử, không ghi đè thất bại.
+- Tại mốc ghi trước khi cài: EAS19/code17 build69de4982 từf9f015c đang xử lý, máy vẫn18; trạng thái mới xem mục10/11 phía trên; backend19, web/trang tải chung16, không OTA. Các mốc16/17/18 bên dưới là lịch sử, không ghi đè thất bại.
 
 ## Bằng chứng APK18 trên S22+
 

@@ -61,12 +61,12 @@ Firestore là nơi lưu dữ liệu cloud; repo Git lưu code/cấu hình chứ 
 ## 5. Chuỗi vận hành từ đầu tới cuối
 
 1. Patient đăng nhập app, lưu hồ sơ qua API và cấp thẻ. QR chỉ chứa URL thẻ, không nhúng hồ sơ y tế.
-2. TNV gửi đơn; admin đăng nhập web và duyệt. TNV bật sẵn sàng, gửi vị trí và giữ màn hình mở trong bản thử.
+2. TNV gửi đơn → người quản lý đã được xác minh hoàn thành checklist → admin xét duyệt cuối. Sau khi được duyệt, TNV bật sẵn sàng và gửi vị trí. Giữ màn chỉ đường mở khi cần GPS liên tục; ca mới chỉ dùng GPS Sẵn sàng còn mới tối đa5phút. Tài khoản diễn tập cũ có banner riêng, không coi là đã xác minh chuyên môn.
 3. Người qua đường quét QR → web tạo phiên ẩn danh → xác nhận đang cạnh bệnh nhân → gửi yêu cầu/vị trí.
 4. Backend xác thực, kiểm tra thẻ, chọn TNV phù hợp và ghi ca/lời mời. Khi ack thành công, web sang bảng hỏi.
 5. Người báo trả lời ba câu, có thể bỏ phone. Backend cập nhật cùng ca; listener của TNV nhận revision mới.
 6. TNV nhận bằng transaction; đúng người phụ trách mới gọi được chi tiết riêng. Consent Patient quyết định phần hồ sơ chia sẻ.
-7. TNV xem tuyến trong EHIS, xác nhận đến nơi rồi kết thúc. Patient/người báo có projection trạng thái riêng.
+7. TNV xem tuyến trong EHIS; chỉ xác nhận đến nơi khi thực sự có mặt, rồi hoàn tất ca. Từ source19, hai thao tác cần hộp thoại xác nhận; Quay lại không đổi trạng thái. Patient/người báo có projection riêng. Tra STATUS để biết bản nguồn đã cài/deploy chưa.
 8. Đóng ca chấm dứt quyền xem chi tiết riêng. Cron hằng ngày dọn dữ liệu đủ hạn theo giới hạn đã ghi trong [CLOUD_TRIAL.md](../operations/CLOUD_TRIAL.md).
 
 ## 6. Local, cloud và bản đã cài là ba việc khác nhau

@@ -5,6 +5,13 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
+## 2026-11-10 — APK19 đã cài; dừng kiểm thử theo yêu cầu chủ máy
+
+- APK0.4.19/code17 đã cài đè trên S22+, hoàn thành09/11 17:13:04UTC (10/11 00:13 Việt Nam), giữ đăng nhập; SHA256 `bb85c5dc57a5aadff114fde10fd92ad46418c1926ef2b3e3aca4699bc7e65022`. Build69de4982, sourcef9f015c. Đây là cài máy thử riêng; web/trang tải chung vẫn16, không OTA.
+- Ba người báo/tọa độ/tình trạng được giả lập theo yêu cầu; gửi qua Auth/API/Firestore thật. S22+ thực sự hiện ba ca chờ ở ảnh09/11 17:16:40UTC; chủ máy xác nhận có chuông và rung. Không coi là ba điện thoại thật, ca bệnh thật, hay bằng chứng chuông mọi chế độ.
+- Chủ máy yêu cầu dừng nếu phần còn lại không nhanh để chiều thử với nhóm. Kiểm tra10/11 03:49:31UTC: không có ca đang nhận; cả ba ca giả lập19 đã expired, không còn lời mời. Tắt Sẵn sàng qua API chuẩn03:50:06UTC; kiểm tra độc lập03:50:07UTC xác nhận OFF/no active. Không sửa thời gian hết hạn, không đóng ca người khác.
+- Chưa thử trên19: nhận ca/chặn ca thứ hai, cập nhật tình trạng, hủy/xác nhận Modal Đã đến nơi và Hoàn tất. Các kết quả bản trước giữ nguyên, không suy thành PASS19. Tự thoát/cuộn dịch chuyển còn OPEN; offline độc lập, đi bộ GPS và tải cloud còn thiếu. Đã dừng, không chạy nền tiếp; ước tính phần thử19 còn20–30phút khi kết nối máy sẵn sàng, chưa bao gồm sửa lỗi mới.
+
 ## 2026-11-09 — S22+, GPS và chống gửi trùng
 
 ### Trạng thái mới nhất
@@ -31,7 +38,9 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 - Deploybackend-1 READY16:10 nhưng cloudprobe-2 FAIL: health còn literal0.4.16 dù gói mới đã deploy. Sửa lấy phiên bản từ backend/package.json; thêm assertions thật ở starter/portable và lệnh test:health. Health-integration-1 FAIL whitelist launcher trước Emulator; bổ sung suite đúng rồi health-integration-2 PASS50178ms. scripts/README sửa12→16suite. CI a9134eb PASS42654274756.
 - Deploybackend-2 PASS30887ms từa9134eb; cloudprobe-3 PASS2572ms đúng19/project/401. Cloud retry thật16:31:57–16:32:02:8/8request trùng thành công, chỉ1incident, payload khác bị400; thời gian từngrequest1145–3738ms. Ca giả lậpD ở vùng biệt lập không mời TNV, đã hủy qua tài khoản bệnh nhân. Đây là8request có giới hạn, không phải benchmark sức tải cloud hay ca y tế thật.
 
-### 3. Việc chưa nghiệm thu
+### 3. Tài liệu và việc chưa nghiệm thu
+
+- Bổ sung bản đồ file backend cho incidentCreateFlight/health và lệnh test:health; sửa luồng onboarding TNV trong REPO_MAP thành giới thiệu/checklist → duyệt cuối; ghi rõ xác nhận thao tác nguồn19 chưa tự đồng nghĩa đã cài. Không đổi nghiệp vụ qua sửa tài liệu này.
 
 - Chờ artifact/cài APK19 rồi thử Modal xác nhận, nhiều ca chờ/chặn bận và GPS lại. Tự về Home/bố cục còn mở đến khi có bằng chứng phù hợp; không ghi đạt thay người dùng.
 - Offline độc lập bị ảnh hưởng mạng laptop, đi bộ/độ chính xác so mốc chuẩn, DND/Im lặng/Media0/Bluetooth, Doze/nhiều hãng và iOS native chưa hoàn tất. Web/trang tải chung16 chưa cập nhật; giữ thử nghiệm có hướng dẫn, không tuyên bố sẵn sàng cấp cứu thật.

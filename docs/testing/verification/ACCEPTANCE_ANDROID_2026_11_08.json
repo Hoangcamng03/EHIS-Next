@@ -8408,5 +8408,46 @@
     },
     "installed": false,
     "phoneVerification": "PENDING: new native confirmation modal requires artifact/install/real device test"
+  },
+  "latestCheckpoint20261110": {
+    "installation": {
+      "sha256": "bb85c5dc57a5aadff114fde10fd92ad46418c1926ef2b3e3aca4699bc7e65022",
+      "startedAt": "2026-11-09T17:12:28.7820827Z",
+      "operation": "In-place adb install -r; no uninstall, clear data, downgrade or permission auto-grant",
+      "installerExit": 0,
+      "before": "0.4.18/code16",
+      "scope": "Installation only; confirmation/GPS/audio/automatic-exit tests remain separate",
+      "status": "PASS",
+      "output": "Performing Streamed Install\r\nSuccess",
+      "endedAt": "2026-11-09T17:13:04.6390738Z",
+      "after": "0.4.19/code17"
+    },
+    "paused": {
+      "at": "2026-11-10T03:50:06.225Z",
+      "status": "PAUSED_NOT_ACCEPTED",
+      "action": "V2 availability OFF through normal API; three own synthetic19 cases already expired, no assignment closed",
+      "ownerConfirmed": "APK19 alarm and vibration",
+      "remaining": [
+        "native acceptance and busy guard19",
+        "report update19",
+        "arrival/completion Modal19",
+        "intermittent self-exit",
+        "independent offline and walking GPS"
+      ]
+    },
+    "native19": {
+      "installed": true,
+      "multipleOffersObserved": 3,
+      "alarmAndVibration": "OWNER_CONFIRMED",
+      "acceptance": "INCOMPLETE",
+      "pending": [
+        "native acceptance and busy guard19",
+        "report update19",
+        "arrival/completion Modal19",
+        "intermittent self-exit",
+        "independent offline and walking GPS"
+      ]
+    },
+    "note": "Earlier pending/build snapshots retained as history; this checkpoint supersedes their current-installation state. Synthetic reporters; actual device and cloud observations."
   }
 }
