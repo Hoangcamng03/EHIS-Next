@@ -64,6 +64,8 @@ Cần tài khoản đăng ký, từ chối anonymous. Chỉ nhận `{ purpose: "
 
 ### savePatientProfile — callable
 
+Từ0.4.20: thêm `medicalConditions?: string[]` (tối đa20mục, mỗi mục1–100ký tự sau trim). Đây là bệnh nền/tiền sử tự khai, không phải chẩn đoán cấp cứu. Bỏ trường giữ dữ liệu cũ cho APK19 trở về trước; gửi `[]` xóa danh sách. Patient đọc hồ sơ của mình; `getVolunteerIncidentDetails.patientProfile.medicalConditions` chỉ trả cho TNV đang phụ trách khi có consent, hồ sơ cũ mặc định `[]`. Không đưa bệnh nền vào QR/offers/push/projection người báo.
+
 Cần tài khoản đã đăng ký; không chấp nhận anonymous. Đầu vào:
 
 ```json
@@ -117,7 +119,7 @@ Cần TNV approved, có lời mời của chính UID, ca dispatching chưa quá 
 
 ### getVolunteerIncidentDetails — callable
 
-Input `{ incidentId }`. Mỗi lần gọi kiểm tra đúng acceptedBy UID, approved và trạng thái accepted/arrived trong transaction. Trả `{ incidentId, phone, answers, revision, location, patientProfile }`; phone/answers null nếu chưa bổ sung. `patientProfile` null nếu card.shareProfile không true; nếu có consent thì chỉ trả fullName, allergies, emergencyContactPhone của hồ sơ tự khai. Không trả hồ sơ cho người báo/TNV chưa nhận/TNV khác/bị thu hồi xét duyệt hoặc ca đã đóng. Không ghi các giá trị này vào URL bản đồ.
+Input `{ incidentId }`. Mỗi lần gọi kiểm tra đúng acceptedBy UID, approved và trạng thái accepted/arrived trong transaction. Trả `{ incidentId, phone, answers, revision, location, patientProfile }`; phone/answers null nếu chưa bổ sung. `patientProfile` null nếu card.shareProfile không true; nếu có consent thì chỉ trả fullName, allergies, medicalConditions, emergencyContactPhone/name/relationship của hồ sơ tự khai. Không trả hồ sơ cho người báo/TNV chưa nhận/TNV khác/bị thu hồi xét duyệt hoặc ca đã đóng. Không ghi các giá trị này vào URL bản đồ.
 
 ### setVolunteerAvailability — callable
 

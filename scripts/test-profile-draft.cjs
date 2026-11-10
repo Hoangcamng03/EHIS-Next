@@ -11,3 +11,5 @@ test('contact name and relationship changes require saving before issuing a QR',
  assert.equal(profileMatchesSaved(profileDraft('QA Patient','','0900000000','QA Other','Mẹ'),saved),false);
  assert.equal(profileMatchesSaved(profileDraft('QA Patient','','0900000000','QA Contact','Chị'),saved),false);
 });
+
+test('condition edits must be saved before issuing a QR',async()=>{const {profileDraft,profileMatchesSaved}=await modulePromise;const saved=JSON.stringify(profileDraft('QA','','','','','Synthetic asthma'));assert.equal(profileMatchesSaved(profileDraft('QA','','','','','Synthetic asthma; Synthetic diabetes'),saved),false);assert.equal(profileMatchesSaved(profileDraft('QA','','','','',' Synthetic asthma '),saved),true);assert.deepEqual(profileDraft('QA','','','','','a\nb; c').medicalConditions,['a','b','c']);});

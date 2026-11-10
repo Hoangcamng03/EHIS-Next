@@ -23,6 +23,12 @@ async function main() {
   assert.equal((await call('savePatientProfile',{fullName:'Synthetic Portable',allergies:[],emergencyContactPhone:'',admin:true},user.idToken)).status,400);
   assert.equal((await call('savePatientProfile',{fullName:'Synthetic Portable',allergies:[],emergencyContactPhone:''},user.idToken)).status,200);
   assert.equal((await (await call('getMyAccess',{},user.idToken)).json()).result.accountPurpose,'patient','legacy profile fallback');
+  assert.equal((await call('savePatientProfile',{fullName:'Synthetic Portable',allergies:[],medicalConditions:['Synthetic asthma'],emergencyContactPhone:''},user.idToken)).status,200);
+  assert.equal((await call('savePatientProfile',{fullName:'Legacy edit',allergies:[],emergencyContactPhone:''},user.idToken)).status,200);
+  const profileUrl='http://127.0.0.1:8180/v1/projects/demo-ehis-next/databases/(default)/documents/patients/'+user.localId;
+  const profile=await(await fetch(profileUrl,{headers:{Authorization:'Bearer '+user.idToken}})).json();assert.equal(profile.fields.medicalConditions.arrayValue.values[0].stringValue,'Synthetic asthma','Legacy save preserves conditions');
+  assert.equal((await call('savePatientProfile',{fullName:'Synthetic Portable',allergies:[],medicalConditions:[],emergencyContactPhone:''},user.idToken)).status,200);
+  const cleared=await(await fetch(profileUrl,{headers:{Authorization:'Bearer '+user.idToken}})).json();assert.equal((cleared.fields.medicalConditions.arrayValue.values||[]).length,0,'Explicit empty array clears');
   for(const bad of [{purpose:'admin'},{purpose:['volunteer']},{purpose:'volunteer',admin:true},{purpose:'volunteer',uid:'another-user'}]) assert.equal((await call('setAccountPurpose',bad,user.idToken)).status,400);
   assert.equal((await call('setAccountPurpose',{purpose:'volunteer'},user.idToken)).status,200);
   assert.equal((await call('setAccountPurpose',{purpose:'volunteer'},user.idToken)).status,200,'idempotent retry');

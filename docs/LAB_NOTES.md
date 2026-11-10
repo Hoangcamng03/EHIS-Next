@@ -5,6 +5,12 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
+## 2026-11-10 — bệnh nền và bộ15tài khoản/10bộ đăng ký mới
+
+- Theo yêu cầu tạo5TNV,10Patient đa dạng và10bộ chưa đăng ký. Phát hiện hồ sơ chỉ có dị ứng/liên hệ, chủ dự án xác nhận bổ sung bệnh nền vào app/backend. Thêm medicalConditions tùy chọn,20mục/100ký tự, trim, từ chối kiểu sai. API cũ bỏ trường giữ dữ liệu qua merge; client mới gửi[] có thể xóa. Patient có ô mỗi bệnh một dòng; TNV đúng ca xem sau consent. Không đổi quyền QR/push/người báo.
+- Source0.4.20/code18; check PASS88bài (28backend+60logic), lint/typecheck/cấu trúc. Bổ sung tests validation, bản nháp thay bệnh phải lưu trước cấp QR, lifecycle consent/private access, HTTP legacy-save giữ bệnh nền và explicitclear. Integration/build/deploy và cấp dữ liệu đang thực hiện; chưa ghi APK20 đã có/cài. APK19 không có ô bệnh nền, cần web20 hoặc APK mới.
+- Bộ mới dự kiến P7–P16/V7–V11; NEW01–NEW10 chỉ email/password gợi ý, KHÔNG gọi signUp để giữ bài đăng ký trống. Chỉ dùng bệnh lý/kinh nghiệm/đơn vị/checklist GIẢ; R1/A1 hiện có, không cấp admin/IAM mới, TNV bàn giao OFF/no active và không tự tạo ca. Kết quả thực sẽ bổ sung sau.
+
 ## 2026-11-10 — cấp thêm8tài khoản cho nhóm chạy tay
 
 - Tạo mới P3–P6 (4Patient,2chia sẻ/2không chia sẻ), V4/V5 (TNV đã duyệt diễn tập), V6 (chờ checklist/duyệt), R1 (người giới thiệu GIẢ). Dùng A1 hiện có để duyệt cuối, không tạo admin mới/không cấp IAM. Không đổi/xóa tài khoản trước hoặc tạo ca/bật Sẵn sàng tự động.

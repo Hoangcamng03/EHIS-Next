@@ -23,6 +23,7 @@ function PatientDashboard({ uid }: { uid: string }) {
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
   const { width } = useWindowDimensions();
   const [fullName, setFullName] = useState(''), [allergies, setAllergies] = useState(''), [phone, setPhone] = useState('');
+  const [medicalConditions, setMedicalConditions] = useState('');
   const [contactName, setContactName] = useState(''), [contactRelationship, setContactRelationship] = useState('');
   const [loaded, setLoaded] = useState(false), [savedFingerprint, setSavedFingerprint] = useState<string | null>(null);
   const [profileFailed, setProfileFailed] = useState(false), [profileAttempt, setProfileAttempt] = useState(0);
@@ -43,8 +44,8 @@ function PatientDashboard({ uid }: { uid: string }) {
       if (cancelled) return;
       const value = snapshot.data();
       setFullName(value?.fullName || ''); setAllergies((value?.allergies || []).join(', ')); setPhone(value?.emergencyContactPhone || '');
-      setContactName(value?.emergencyContactName || ''); setContactRelationship(value?.emergencyContactRelationship || '');
-      setSavedFingerprint(snapshot.exists() ? JSON.stringify(profileDraft(value?.fullName || '', (value?.allergies || []).join(', '), value?.emergencyContactPhone || '', value?.emergencyContactName || '', value?.emergencyContactRelationship || '')) : null); setLoaded(true);
+      setMedicalConditions((value?.medicalConditions || []).join('\n')); setContactName(value?.emergencyContactName || ''); setContactRelationship(value?.emergencyContactRelationship || '');
+      setSavedFingerprint(snapshot.exists() ? JSON.stringify(profileDraft(value?.fullName || '', (value?.allergies || []).join(', '), value?.emergencyContactPhone || '', value?.emergencyContactName || '', value?.emergencyContactRelationship || '', (value?.medicalConditions || []).join('\n'))) : null); setLoaded(true);
     }).catch(err => { if (!cancelled) { setError(readableError(err)); setProfileFailed(true); } });
     return () => { cancelled = true; };
   }, [uid, profileAttempt]);
@@ -55,7 +56,7 @@ function PatientDashboard({ uid }: { uid: string }) {
     setHistory(snapshot.docs.map(item => ({ ...item.data(), id: item.id }) as History));
   }, err => setError(readableError(err))), [uid]);
   useEffect(() => { if (card?.active) scroll.current?.scrollTo({ y: 0, animated: false }); }, [card?.active, card?.cardId]);
-  const draft = profileDraft(fullName, allergies, phone, contactName, contactRelationship);
+  const draft = profileDraft(fullName, allergies, phone, contactName, contactRelationship, medicalConditions);
   const profileSaved = profileMatchesSaved(draft, savedFingerprint);
   const dirty = loaded && !profileSaved;
   async function act(action: 'save' | 'issue' | 'revoke') {
@@ -111,6 +112,7 @@ function PatientDashboard({ uid }: { uid: string }) {
       {profileFailed && <><Text accessibilityRole="alert" style={ui.error}>Chưa tải được hồ sơ. Tải lại trước khi chỉnh sửa để tránh ghi đè dữ liệu đã lưu.</Text><Button title="Tải lại hồ sơ" onPress={() => { setError(''); setProfileFailed(false); setProfileAttempt(value => value + 1); }} /></>}
       <Text style={ui.body}>Thông tin tự khai, chưa xác minh y tế.</Text>
       <Text>Họ và tên</Text><TextInput accessibilityLabel="Họ tên bệnh nhân" value={fullName} onChangeText={setFullName} maxLength={100} style={ui.input} editable={loaded && !busy} />
+      <Text>Bệnh nền / tiền sử đã khai báo</Text><TextInput accessibilityLabel="Bệnh nền và tiền sử" value={medicalConditions} onChangeText={setMedicalConditions} multiline maxLength={2020} placeholder="Mỗi bệnh một dòng; để trống nếu chưa khai báo" style={ui.input} editable={loaded && !busy} />
       <Text>Dị ứng · phân cách bằng dấu phẩy</Text><TextInput accessibilityLabel="Dị ứng" value={allergies} onChangeText={setAllergies} multiline maxLength={2000} placeholder="Để trống nếu chưa khai báo" style={ui.input} editable={loaded && !busy} />
       <Text style={ui.heading}>Liên hệ khẩn cấp · tùy chọn</Text><Text style={ui.caption}>Điền đủ tên, quan hệ và số điện thoại, hoặc để trống cả ba.</Text>
       <Text>Tên người liên hệ</Text><TextInput accessibilityLabel="Tên người liên hệ khẩn cấp" value={contactName} onChangeText={setContactName} maxLength={100} style={ui.input} editable={loaded && !busy} />

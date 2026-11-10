@@ -1,6 +1,7 @@
 export type PatientProfile = {
   fullName: string;
   allergies: string[];
+  medicalConditions?: string[];
   emergencyContactPhone: string;
   emergencyContactName?: string;
   emergencyContactRelationship?: string;
@@ -12,7 +13,7 @@ export function parsePatientProfile(input: unknown): PatientProfile {
     throw new Error('Profile must be an object');
   }
   const value = input as Record<string, unknown>;
-  const allowed = ['fullName', 'allergies', 'emergencyContactPhone', 'emergencyContactName', 'emergencyContactRelationship'];
+  const allowed = ['fullName', 'allergies', 'emergencyContactPhone', 'emergencyContactName', 'emergencyContactRelationship', 'medicalConditions'];
   if (Object.keys(value).some(key => !allowed.includes(key))) {
     throw new Error('Unexpected profile field');
   }
@@ -38,7 +39,13 @@ export function parsePatientProfile(input: unknown): PatientProfile {
     const empty = !value.emergencyContactPhone && !contact.emergencyContactName && !contact.emergencyContactRelationship;
     if (!complete && !empty) throw new Error('Điền đủ tên, quan hệ và số điện thoại liên hệ, hoặc để trống cả ba.');
   }
+  const conditions: Pick<PatientProfile, 'medicalConditions'> = {};
+  if ('medicalConditions' in value) {
+    if (!Array.isArray(value.medicalConditions) || value.medicalConditions.length > 20 || value.medicalConditions.some(item => typeof item !== 'string' || !item.trim() || item.trim().length > 100)) throw new Error('Medical conditions must contain at most 20 short text items');
+    conditions.medicalConditions = value.medicalConditions.map(item => item.trim());
+  }
   return {
+    ...conditions,
     fullName: value.fullName.trim(),
     allergies: (value.allergies as string[]).map(item => item.trim()),
     emergencyContactPhone: value.emergencyContactPhone,

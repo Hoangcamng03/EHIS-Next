@@ -293,7 +293,7 @@ export const getVolunteerIncidentDetails = onCall('getVolunteerIncidentDetails',
     tx.create(db.collection('auditLogs').doc(), { actorUid: uid, action: 'incident-private-read', incidentId: id, createdAt: FieldValue.serverTimestamp() });
     return { incidentId: id, assignmentAtMs: incident.data()!.acceptedAt?.toMillis?.() ?? null, phone: report.data()?.phone ?? null, answers: report.data()?.answers ?? null, meetingNote: report.data()?.meetingNote ?? '',
       revision: report.data()?.revision ?? 0, reportedAtMs: report.data()?.updatedAt?.toMillis?.() ?? null, location: location.data() ?? null, locationRevision: incident.data()!.locationRevision ?? 0,
-      patientProfile: profile ? { fullName: profile.fullName, allergies: profile.allergies ?? [], emergencyContactPhone: profile.emergencyContactPhone ?? null,
+      patientProfile: profile ? { fullName: profile.fullName, allergies: profile.allergies ?? [], medicalConditions: profile.medicalConditions ?? [], emergencyContactPhone: profile.emergencyContactPhone ?? null,
         emergencyContactName: profile.emergencyContactName ?? null, emergencyContactRelationship: profile.emergencyContactRelationship ?? null } : null };
   });
 });

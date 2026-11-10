@@ -31,7 +31,7 @@ async function main() {
   Object.assign(admin, await (await fetch(`${authBase}/accounts:signInWithPassword?key=demo-key`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: admin.email, password: admin.password, returnSecureToken: true }) })).json());
   assert.equal((await call('issuePatientCard', { shareProfile: true }, reporter)).status, 401);
   assert.equal((await call('issuePatientCard', { shareProfile: true }, patient)).status, 400);
-  await allowed('savePatientProfile', { fullName: 'Synthetic Patient Lifecycle', allergies: ['Synthetic allergy'], emergencyContactPhone: '0900000000' }, patient);
+  await allowed('savePatientProfile', { fullName: 'Synthetic Patient Lifecycle', allergies: ['Synthetic allergy'], medicalConditions: ['Synthetic asthma'], emergencyContactPhone: '0900000000' }, patient);
   assert.equal((await call('issuePatientCard', { shareProfile: true, patientId: other.localId }, patient)).status, 400);
   const cards = await Promise.all([allowed('issuePatientCard', { shareProfile: true }, patient), allowed('issuePatientCard', { shareProfile: true }, patient)]);
   assert.equal(cards[0].cardId, cards[1].cardId); const cardId = cards[0].cardId;
@@ -70,6 +70,7 @@ async function main() {
   const details = await allowed('getVolunteerIncidentDetails', { incidentId: id }, volunteer);
   assert.equal(details.phone, null); assert.equal(details.patientProfile.fullName, 'Synthetic Patient Lifecycle');
   assert.deepEqual(details.patientProfile.allergies, ['Synthetic allergy']);
+  assert.deepEqual(details.patientProfile.medicalConditions, ['Synthetic asthma']);
   assert.equal((await call('cancelPatientIncident', { incidentId: id }, patient)).status, 400);
   assert.equal((await call('markIncidentArrived', { incidentId: id }, other)).status, 403);
   await allowed('markIncidentArrived', { incidentId: id }, volunteer);

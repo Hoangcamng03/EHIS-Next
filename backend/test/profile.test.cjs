@@ -32,3 +32,6 @@ test('contact identity and relationship are validated together without breaking 
     { ...profile, emergencyContactPhone: '' }, { ...profile, emergencyContactRelationship: 'a'.repeat(61) },
     { ...profile, emergencyContactName: ['not a name'] }]) assert.throws(() => parsePatientProfile(bad));
 });
+
+test('conditions are optional for legacy clients and support explicit clear',()=>{assert.equal('medicalConditions' in parsePatientProfile(valid()),false);assert.deepEqual(parsePatientProfile({...valid(),medicalConditions:['  Synthetic asthma  ']}).medicalConditions,['Synthetic asthma']);assert.deepEqual(parsePatientProfile({...valid(),medicalConditions:[]}).medicalConditions,[]);});
+test('conditions reject malformed or oversized medical data',()=>{for(const medicalConditions of [null,'asthma',[{}],[''],[' '.repeat(3)],Array(21).fill('a'),['a'.repeat(101)]])assert.throws(()=>parsePatientProfile({...valid(),medicalConditions}));});
