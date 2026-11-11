@@ -1,0 +1,232 @@
+{
+  "recordedAt": "2026-11-11T16:05:04.217Z",
+  "sourceCommit": "b22d5ac9817f205d743c69622cc46c8db1318f98",
+  "scope": "Actual browser UI with local Firebase Auth/API/Firestore. Synthetic data and coordinates. Mobile web viewport 390x844, desktop 1280x900; not APK/device evidence.",
+  "checks": [
+    "Patient signup routes automatically; profile save and consent QR creation",
+    "Volunteer signup/application, pending referral then pending admin",
+    "Referral incomplete checklist disables recommendation; saved checklist persists after reload",
+    "Admin confirmation cancel and approve; app unlocks readiness without auto ON",
+    "Synthetic position readiness; bystander confirmation creates incident before questionnaire",
+    "All three answers required; optional phone empty accepted; report revision2 restored after reload and acknowledged by app",
+    "Accepted case private profile and route render",
+    "Going/ETA reflected on reporter; overdue did not close case",
+    "Cannot continue invites backup; explicit handover frees former owner",
+    "Arrival and completion confirmations; reporter terminal form removed; both volunteers OFF"
+  ],
+  "screenshots": [
+    {
+      "file": "01-login.jpg",
+      "label": "Đăng nhập",
+      "width": 390,
+      "height": 843,
+      "sha256": "981cecaf446860f20b1a0c72dbb116bc93251bd647584376da2b5d0894a60d98"
+    },
+    {
+      "file": "02-signup-role.jpg",
+      "label": "Chọn đối tượng",
+      "width": 390,
+      "height": 843,
+      "sha256": "1d0fcadbdff94561eb6f25d5d9a1e442873b8082d4eb9fe7fe5aff69b8c32b30"
+    },
+    {
+      "file": "03-signup-patient.jpg",
+      "label": "Đăng ký bệnh nhân",
+      "width": 390,
+      "height": 843,
+      "sha256": "bfc9f04fb29018724392de18e8e34e00d61884dbecbb0773ecabf03187dbd696"
+    },
+    {
+      "file": "04-patient-profile.jpg",
+      "label": "Hồ sơ bệnh nhân",
+      "width": 390,
+      "height": 843,
+      "sha256": "a67b3dc6ab20d6350e621db33a8cbf38b5abe42f26d2b5a3ee8a012867715b52"
+    },
+    {
+      "file": "05-patient-qr.jpg",
+      "label": "Thẻ QR",
+      "width": 390,
+      "height": 843,
+      "sha256": "7d9a4405ea20890f011a77229e3e1e6131c4ba56c1d44af4b09f1962cb27f737"
+    },
+    {
+      "file": "06-bystander-location.jpg",
+      "label": "Xác nhận vị trí giả",
+      "width": 375,
+      "height": 811,
+      "sha256": "8166333e627e9ca0571b98c72d67d7ed287856771c1151c5fc434d3cfe1177e2"
+    },
+    {
+      "file": "07-volunteer-application.jpg",
+      "label": "Hồ sơ TNV",
+      "width": 390,
+      "height": 843,
+      "sha256": "4840bde1d2939a9fcaee9f631175f406810020b1b7be5b64f083a8bac92e46e2"
+    },
+    {
+      "file": "08-wait-referrer.jpg",
+      "label": "Chờ người giới thiệu",
+      "width": 390,
+      "height": 843,
+      "sha256": "471713849ed10c0ac8cae6d6884869274874c201553c80e9b706a4a95fc319a3"
+    },
+    {
+      "file": "09-referrer-checklist-desktop.jpg",
+      "label": "Checklist người giới thiệu",
+      "width": 1265,
+      "height": 889,
+      "sha256": "e88e14fc819c3eab188d025b20ddcb74f902e8e06d3baef7703599f24dc2b28c"
+    },
+    {
+      "file": "10-admin-review-desktop.jpg",
+      "label": "Quản trị xét duyệt",
+      "width": 1265,
+      "height": 889,
+      "sha256": "261626aae32e9108b5892dcb6118527eb4a8c31e767d3dcef1e7524a5a86d2a8"
+    },
+    {
+      "file": "11-volunteer-ready.jpg",
+      "label": "TNV sẵn sàng",
+      "width": 390,
+      "height": 843,
+      "sha256": "2ff2ce134c895f2371ed87e9b2a43b4d8b75e983f48258cda2b8d04336bce087"
+    },
+    {
+      "file": "12-bystander-questions.jpg",
+      "label": "Bảng hỏi người báo",
+      "width": 375,
+      "height": 811,
+      "sha256": "2f5024d67b61d717e2d074d810b094d0f898a7e259bcbcda8cba0bd1376188d9"
+    },
+    {
+      "file": "13-volunteer-alert.jpg",
+      "label": "Cảnh báo ca mới",
+      "width": 390,
+      "height": 843,
+      "sha256": "d7e8003a36178abef014a4eb1a6794eebb7f95ff898c6f663c7dd92a8bc80af4"
+    },
+    {
+      "file": "14-accepted-progress.jpg",
+      "label": "Tiến độ lên đường",
+      "width": 390,
+      "height": 843,
+      "sha256": "dd3f61899c7921816ab6c0087d46d319218f163aacd3904f7741e17ab716de11"
+    },
+    {
+      "file": "15-medical-details.jpg",
+      "label": "Hồ sơ được chia sẻ",
+      "width": 390,
+      "height": 843,
+      "sha256": "7079b3e5ba55ad3d28bc1e14521f51c5d1c61908f4b3b409c97f697624e04e2b"
+    },
+    {
+      "file": "16-navigation.jpg",
+      "label": "Bản đồ và tuyến đường",
+      "width": 390,
+      "height": 843,
+      "sha256": "df8108199c8de9d5f4fc63f68f36e8719c41122c58a70efeb1eed0f94e8d659b"
+    },
+    {
+      "file": "17-handover-offer.jpg",
+      "label": "Lời mời bàn giao",
+      "width": 390,
+      "height": 843,
+      "sha256": "ff90f8fb85d57d959d97576b3ca6299b5d1130f8ca7bcdad328e3fa87ed6ae18"
+    },
+    {
+      "file": "18-complete-confirm.jpg",
+      "label": "Xác nhận hoàn tất",
+      "width": 390,
+      "height": 843,
+      "sha256": "dc43664966a53704987d5fbf8d1e28735bbd7c21be7704c8bdc0acc99426cbe7"
+    },
+    {
+      "file": "19-report-completed.jpg",
+      "label": "Người báo thấy kết thúc",
+      "width": 390,
+      "height": 843,
+      "sha256": "23c893bef50ed75cab9b3c0e44a79c7e9a8ece597b6c4ac8453911d315880d58"
+    },
+    {
+      "file": "20-former-volunteer-released.jpg",
+      "label": "Người cũ được giải phóng",
+      "width": 390,
+      "height": 843,
+      "sha256": "11cb7ea70402857e36783ba06041ba7ca65d3414922f4f24b925a4415f1a9548"
+    }
+  ],
+  "notTested": [
+    "Actual APK21/physical GPS/movement/audio/vibration/background/offline independent",
+    "Every external link popup destination: privacy/Mở trang từ QR popup not visibly captured in IAB",
+    "Real clinical effectiveness, 2FA or end-to-end encryption claims from supplied paper"
+  ],
+  "softwareCheck": {
+    "id": "flow-review-check",
+    "operation": "check",
+    "command": "npm run check",
+    "startedAt": "2026-11-11T14:57:46.721Z",
+    "endedAt": "2026-11-11T14:58:47.586Z",
+    "elapsedMs": 60864,
+    "exitCode": 0,
+    "signal": null,
+    "status": "PASS",
+    "sourceCommit": "b22d5ac9817f205d743c69622cc46c8db1318f98",
+    "sourceDirtyAtStart": false,
+    "node": "v24.21.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 25463480320,
+    "log": "flow-review-check.log",
+    "logSha256": "02b217a74b0338210408cd2123218a830260afcd191672beb3c580b0d097c90f",
+    "artifacts": []
+  },
+  "integration": {
+    "id": "flow-review-integration-2",
+    "operation": "integration",
+    "command": "npm run test:integration",
+    "startedAt": "2026-11-11T14:58:52.203Z",
+    "endedAt": "2026-11-11T15:04:22.410Z",
+    "elapsedMs": 330205,
+    "exitCode": 0,
+    "signal": null,
+    "status": "PASS",
+    "sourceCommit": "b22d5ac9817f205d743c69622cc46c8db1318f98",
+    "sourceDirtyAtStart": false,
+    "node": "v24.21.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 25463480320,
+    "log": "flow-review-integration-2.log",
+    "logSha256": "a8f30e4b619090b51bb6f2a968223277f780e9d01253f218f59729476b9a88ec",
+    "artifacts": [
+      "flow-review-integration-2-multi-acceptance.json"
+    ]
+  },
+  "failedEnvironmentAttempt": {
+    "id": "flow-review-integration",
+    "operation": "integration",
+    "command": "npm run test:integration",
+    "startedAt": "2026-11-11T14:57:56.917Z",
+    "endedAt": "2026-11-11T14:58:08.462Z",
+    "elapsedMs": 11543,
+    "exitCode": 1,
+    "signal": null,
+    "status": "FAIL",
+    "sourceCommit": "b22d5ac9817f205d743c69622cc46c8db1318f98",
+    "sourceDirtyAtStart": false,
+    "node": "v24.21.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 25463480320,
+    "log": "flow-review-integration.log",
+    "logSha256": "7b01624265e1c412a577d9afe9edfa6ed3d5ecd258c9801b56cae0a0c11c4ab0",
+    "artifacts": []
+  }
+}

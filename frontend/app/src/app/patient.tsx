@@ -95,7 +95,7 @@ function PatientDashboard({ uid }: { uid: string }) {
       </> : <>
         {!profileSaved && <Text style={ui.body}>Lưu hồ sơ để tạo QR.</Text>}
         <Text style={ui.body}>{card ? 'QR cũ đã vô hiệu hóa. Bạn có thể tạo mã mới.' : 'QR chứa liên kết thẻ, không chứa bệnh án.'}</Text>
-        <ToggleRow accessibilityLabel="Cho phép TNV được phân công xem hồ sơ" label="Chia sẻ tên, dị ứng và liên hệ với TNV nhận ca." value={share} onValueChange={setShare} disabled={busy} />
+        <ToggleRow accessibilityLabel="Cho phép TNV được phân công xem hồ sơ" label="Chia sẻ tên, bệnh nền, dị ứng và liên hệ với TNV nhận ca." value={share} onValueChange={setShare} disabled={busy} />
         <Button loading={operation === 'issue'} title={operation === 'issue' ? 'Đang tạo mã QR…' : 'Tạo mã QR'} disabled={busy || !connected || !profileSaved || !validBase} onPress={() => act('issue')} />
         {!validBase && <Text style={ui.error}>Cần cấu hình địa chỉ website cho QR trước khi phát hành.</Text>}
       </>}
