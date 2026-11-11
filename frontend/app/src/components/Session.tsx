@@ -1,10 +1,11 @@
+import { ExternalLink } from './ExternalLink';
 import { TextInput } from './AppTextInput';
 import { Text } from './AppText';
 import { disconnectNativePush } from '../lib/native-push';
 import { Button } from './ActionButton';
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { Redirect } from 'expo-router';
-import { Linking, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
 import { callable, firebaseClient, readableError, updateAvailability } from '../lib/firebase';
 import { ui } from '../lib/ui';
@@ -123,7 +124,7 @@ function AuthForm() {
       <Text>Email</Text><TextInput accessibilityLabel="Email" value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" autoComplete="email" style={ui.input} editable={!busy} />
       <Text>Mật khẩu{register ? ' · ít nhất 8 ký tự' : ''}</Text><TextInput accessibilityLabel="Mật khẩu" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" autoComplete={register ? 'new-password' : 'current-password'} style={ui.input} editable={!busy} />
       <Button variant="quiet" title={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'} onPress={() => setShowPassword(value => !value)} disabled={busy} color="#526f67" />
-      {register && <View style={{ gap: 10 }}><Button variant="quiet" title="Dữ liệu và quyền riêng tư" onPress={() => Linking.openURL(`${process.env.EXPO_PUBLIC_BYSTANDER_URL || 'https://ehis-next-20261021-hc03.web.app'}/privacy`)} color="#526f67" /><ToggleRow accessibilityLabel="Xác nhận đã đọc thông tin dữ liệu" label="Tôi đã đọc thông tin dữ liệu và quyền riêng tư." value={acknowledged} onValueChange={setAcknowledged} disabled={busy} /></View>}
+      {register && <View style={{ gap: 10 }}><ExternalLink variant="quiet" title="Dữ liệu và quyền riêng tư" href={`${process.env.EXPO_PUBLIC_BYSTANDER_URL || 'https://ehis-next-20261021-hc03.web.app'}/privacy`} color="#526f67" /><ToggleRow accessibilityLabel="Xác nhận đã đọc thông tin dữ liệu" label="Tôi đã đọc thông tin dữ liệu và quyền riêng tư." value={acknowledged} onValueChange={setAcknowledged} disabled={busy} /></View>}
       <Button loading={busy} title={busy ? 'Đang xử lý…' : register ? 'Tạo tài khoản' : 'Đăng nhập'} onPress={submit} disabled={busy || !email.trim() || !password || (register && (!purpose || !acknowledged))} />
       <Button variant="secondary" title={register ? 'Đã có tài khoản? Đăng nhập' : 'Chưa có tài khoản? Đăng ký'} onPress={() => changeMode(register ? 'login' : 'choose')} disabled={busy} color="#526f67" />
       {!register && <Button variant="secondary" title="Quên mật khẩu" onPress={resetPassword} disabled={busy} color="#526f67" />}

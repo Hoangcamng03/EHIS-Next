@@ -1,3 +1,4 @@
+import { ExternalLink } from '../components/ExternalLink';
 import { TextInput } from '../components/AppTextInput';
 import { TravelStatusText } from '../components/TravelStatusText';
 import type { TravelProgress } from '../lib/travel-progress';
@@ -6,7 +7,7 @@ import { Button } from '../components/ActionButton';
 import { ToggleRow } from '../components/ToggleRow';
 import { InfoDisclosure } from '../components/InfoDisclosure';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
-import { Linking, Platform, ScrollView, View, useWindowDimensions } from 'react-native';
+import { Platform, ScrollView, View, useWindowDimensions } from 'react-native';
 import { collection, doc, getDoc, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
 
 import QRCode from 'react-native-qrcode-svg';
@@ -89,7 +90,7 @@ function PatientDashboard({ uid }: { uid: string }) {
   const cardPanel = <View style={ui.card}><Text style={ui.heading}>Thẻ QR của bạn</Text>
       {card?.active ? <>
         <Text style={ui.success}>Mã QR đang hoạt động</Text>{dirty && <Text style={ui.error}>Có thay đổi chưa lưu. QR vẫn dùng hồ sơ đã lưu.</Text>}<Text style={ui.body}>{card.shareProfile ? 'Chia sẻ hồ sơ với TNV đã nhận ca.' : 'Không chia sẻ hồ sơ sức khỏe.'}</Text>
-        {!!cardUrl && <><View style={{ alignItems: 'center', padding: 12 }}><QRCode value={cardUrl} size={Math.min(210, Math.max(100, width - 150))} quietZone={12} /></View><InfoDisclosure title="Liên kết thẻ QR"><Text selectable accessibilityLabel="Đường dẫn thẻ EHIS" style={ui.caption}>{cardUrl}</Text></InfoDisclosure><Button variant="secondary" title="Mở trang từ QR" onPress={() => Linking.openURL(cardUrl).catch(() => setError('Chưa mở được trang thẻ.'))} /></>}
+        {!!cardUrl && <><View style={{ alignItems: 'center', padding: 12 }}><QRCode value={cardUrl} size={Math.min(210, Math.max(100, width - 150))} quietZone={12} /></View><InfoDisclosure title="Liên kết thẻ QR"><Text selectable accessibilityLabel="Đường dẫn thẻ EHIS" style={ui.caption}>{cardUrl}</Text></InfoDisclosure><ExternalLink variant="secondary" title="Mở trang từ QR" href={cardUrl} onError={() => setError('Chưa mở được trang thẻ.')} /></>}
         {!validBase && <Text style={ui.error}>Chưa thiết lập được địa chỉ trang báo hỗ trợ. Liên hệ nhóm phụ trách trước khi sử dụng QR.</Text>}
         {active ? <Text style={ui.body}>Thẻ đang có ca hỗ trợ. Cần kết thúc/hủy ca trước khi thu hồi.</Text> : <><InfoDisclosure title="Vô hiệu hóa QR"><ToggleRow accessibilityLabel="Xác nhận thu hồi thẻ" label="Tôi hiểu QR này sẽ ngừng hoạt động." value={confirmedRevoke} onValueChange={setConfirmedRevoke} disabled={busy} /><Button variant="secondary" title={operation === 'revoke' ? 'Đang vô hiệu hóa…' : 'Vô hiệu hóa QR'} color="#a12626" disabled={busy || !connected || !confirmedRevoke} onPress={() => act('revoke')} /></InfoDisclosure></>}
       </> : <>

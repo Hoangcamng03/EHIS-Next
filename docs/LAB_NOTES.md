@@ -7,6 +7,13 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 ## 2026-11-11 — tự mời nhận thay, làm rõ xác minh và QR tải app
 
+### UAT cloud với bộ hồ sơ hư cấu sát thực tế
+
+- Chủ dự án xác nhận dùng hồ sơ hư cấu trên Firebase thật và cho phép vị trí hiện tại cho ca thử; không đưa GPS thực/credentials lên GitHub. Tạo riêng6Patient (hen, đái tháo đường, động kinh, tăng huyết áp, mạch vành, không khai bệnh nền),2TNV duyệt fixture/1TNV chờ. Hai hồ sơ không chia sẻ; liên hệ toàn0không gọi. Dữ liệu trong .local/cloud-uat-final, không thay hồ sơ người thật.
+- Setup Auth/API thật đạt9tài khoản, pendingTNV readiness403. Cloud handover thật dùng UATV1/UATV2 và V7 sau guardOFF/noactive/noPush:2ca remote giả, chống lặp/nhận đồng thời400-200, thu quyền403, không ứng viên/ONmuộn đạt; readback cả3OFF/noactive. Chưa chứng minh chuông thiết bị.
+- Browser cloud: Patient đăng nhập tự định tuyến, xemQR/lưu thêm bệnh nền đạt. Nút Mở trang từ QR không mở đích trong IAB; sửa ExternalLink web dùng a href trực tiếp (native vẫn Linking), áp dụng cả privacy. Lệnh sửa đầu sai escape nên chưa chạy, chuyển script để áp dụng đúng; check88/lint/typecheck đạt. Chưa ghi sửa liên kết đã nghiệm thu cloud cho tới khi kiểm tra lại.
+- Trình duyệt PC không lấy được GPS: báo lỗi và không tạo ca; không giả kết quả GPS. Chủ dự án có điện thoại và đã nhận hướng dẫn gửi thẻ UATP1; đang chờ bài phối hợp. Chưa chốt bản cuối/bộảnh cuối; ảnh sơ bộ giữ private. Cảnh báo Leaflet CSS khi build cần đối chiếu marker/map, không suy thành lỗi hay PASS hình ảnh từ build.
+
 ### Làm gọn nhãn trên giao diện sử dụng
 
 - Theo yêu cầu bỏ các dòng thực hành/diễn tập/dữ liệu giả trên đăng nhập, đăng ký, Patient, trang chủ/cài app, mô tả người phụ trách và quản trị. Xác nhận đăng ký đổi thành đã đọc dữ liệu/quyền riêng tư; tài khoản thiếu checklist vẫn ghi đúng trạng thái. Không đổi quyền, điều phối, consent hoặc xóa dữ liệu.
