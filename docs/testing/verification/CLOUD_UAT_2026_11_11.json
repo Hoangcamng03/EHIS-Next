@@ -613,7 +613,54 @@
     "Reporter phone stages verified by user/backend, no direct phone screenshots captured; USB not connected"
   ],
   "release": {
-    "webSource": "8cbd76f with final privacy copy pending",
-    "apk": "0.4.21 existing; no new APK/OTA"
+    "webSource": "481e790",
+    "apk": "0.4.21 existing; no new APK/OTA",
+    "deployment": {
+      "id": "uat-privacy-deploy",
+      "operation": "deployweb",
+      "command": "npm run cloud:deploy-web",
+      "startedAt": "2026-11-11T16:46:40.084Z",
+      "endedAt": "2026-11-11T16:46:57.366Z",
+      "elapsedMs": 17280,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "481e7905eb0dbd76ddcf025b3c60d2bacda0cc3b",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "uat-privacy-deploy.log",
+      "logSha256": "a6ad67099d14422241901de68dd2883cd60dc4696762c44ce3315b6a1f6fba4c",
+      "artifacts": []
+    },
+    "artifactVerification": {
+      "id": "uat-privacy-artifacts",
+      "operation": "artifacts",
+      "command": "node scripts/verify-cloud-artifacts.cjs",
+      "startedAt": "2026-11-11T16:46:57.448Z",
+      "endedAt": "2026-11-11T16:47:07.635Z",
+      "elapsedMs": 10185,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "481e7905eb0dbd76ddcf025b3c60d2bacda0cc3b",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "uat-privacy-artifacts.log",
+      "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
+      "artifacts": [
+        "uat-privacy-artifacts-cloud-artifact-proof.json"
+      ]
+    },
+    "note": "Privacy screenshot captured before final wording addition; no claim of new native build"
   }
 }
