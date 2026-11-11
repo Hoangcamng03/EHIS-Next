@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-11-11T14:32:55.470Z",
+  "recordedAt": "2026-11-11T14:49:04.537Z",
   "version": "0.4.21",
   "androidVersionCode": 19,
   "scope": "Controlled synthetic software drills only. Source/local API checks are separate from deployment, artifact and actual-device results.",
@@ -382,7 +382,7 @@
     "qrTarget": "https://ehis-next-20261021-hc03.web.app/install",
     "qrGenerated": true,
     "phoneScanVerified": false,
-    "downloadPage21": "PENDING_DEPLOY",
+    "downloadPage21": "DEPLOYED_HTTP_AND_BROWSER_VERIFIED",
     "artifact": {
       "id": "52684caa-423a-43f2-8fde-7c8b9c2236f8",
       "commit": "f870ee3bd72a91c5ea1911546e123ab69fa0371f",
@@ -831,10 +831,121 @@
       "artifacts": [
         "apkverify-auto21-android-trial-artifact.json"
       ]
+    },
+    "build-download21": {
+      "id": "build-download21",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-11T14:33:08.812Z",
+      "endedAt": "2026-11-11T14:33:20.100Z",
+      "elapsedMs": 11286,
+      "exitCode": 1,
+      "signal": null,
+      "status": "FAIL",
+      "sourceCommit": "d62e3989d6a03af4462c930e6bc396886a6b5746",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-download21.log",
+      "logSha256": "2504de537ae6a4fd0ebd58e278ad5fb7f126c2d513e1ae81908ea47a2e47388b",
+      "artifacts": []
+    },
+    "build-download21-2": {
+      "id": "build-download21-2",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-11T14:46:02.520Z",
+      "endedAt": "2026-11-11T14:46:42.300Z",
+      "elapsedMs": 39779,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "d62e3989d6a03af4462c930e6bc396886a6b5746",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-download21-2.log",
+      "logSha256": "dfd97ea9c1f1d1185198095888eae033838b023c8240f9db62aba0ad7c03a784",
+      "artifacts": []
+    },
+    "deploy-download21": {
+      "id": "deploy-download21",
+      "operation": "deployweb",
+      "command": "npm run cloud:deploy-web",
+      "startedAt": "2026-11-11T14:46:54.705Z",
+      "endedAt": "2026-11-11T14:47:28.581Z",
+      "elapsedMs": 33874,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "d62e3989d6a03af4462c930e6bc396886a6b5746",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deploy-download21.log",
+      "logSha256": "bcbd62c923f4036ff395c36a3e2191447f0e30c585deec31a5515144d7b61b45",
+      "artifacts": []
+    },
+    "artifacts-download21": {
+      "id": "artifacts-download21",
+      "operation": "artifacts",
+      "command": "node scripts/verify-cloud-artifacts.cjs",
+      "startedAt": "2026-11-11T14:47:55.853Z",
+      "endedAt": "2026-11-11T14:48:06.839Z",
+      "elapsedMs": 10985,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "d62e3989d6a03af4462c930e6bc396886a6b5746",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "artifacts-download21.log",
+      "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
+      "artifacts": [
+        "artifacts-download21-cloud-artifact-proof.json"
+      ]
     }
   },
   "releaseFailures": [
     "Status/artifact network reads initially failed in restricted execution; escalated retries passed; originals retained",
-    "Release evidence writer initially referenced a missing array; corrected before writing report"
-  ]
+    "Release evidence writer initially referenced a missing array; corrected before writing report",
+    "First download-page build failed EPERM mkdir under restricted Windows execution; no partial deploy; escalated build PASS"
+  ],
+  "downloadProof": {
+    "at": "2026-11-11T14:48:10.705Z",
+    "status": "PASS",
+    "url": "https://ehis-next-20261021-hc03.web.app/install",
+    "version": "0.4.21",
+    "installHttp": 200,
+    "correctApkHref": true,
+    "oldApkHrefAbsent": true,
+    "qrRemoteHashMatches": true,
+    "apkHttp": 200,
+    "apkBytes": 102725961,
+    "phoneScanVerified": false
+  },
+  "browser": {
+    "at": "2026-11-11T14:49:04.538Z",
+    "scope": "Public pages only, no authenticated role UI acceptance",
+    "referrerIntroVisible": true,
+    "installVersion": "0.4.21",
+    "correctApkLinkVisible": true
+  }
 }
