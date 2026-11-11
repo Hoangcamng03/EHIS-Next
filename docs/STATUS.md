@@ -5,6 +5,8 @@ Cập nhật11/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu 
 
 ## 1. Bản đang bàn giao
 
+**UAT cloud mới11/11:** [Kết quả và ảnh](testing/verification/CLOUD_UAT_2026_11_11.md).9tài khoản hư cấu mới, ca người báo qua điện thoại→TNV web→bàn giao→hoàn tất/readback403 đạt; vị trí TNV là fixtureAPI, chưa nghiệm thu GPS di chuyển/native. Web đã có liên kết QR/privacy trực tiếp và khôi phục bản đồ; backend vẫn21/f870ee3, APK21 hiện có chưa chứa các sửa web mới. Không chốt bản cuối cấp cứu thật khi các mục máy thật còn mở.
+
 **Cloud và APK21 đã có**: [bàn giao tự động/duyệt TNV/QR](testing/verification/VERIFICATION_V0_4_21.md). APK21/code19 đã xác minh artifact; chưa nghiệm thu trên điện thoại. Trang tải/QR đã trỏ tới21; kiểm tra HTTP và trình duyệt đạt.
 
 **Chỉ diễn tập có hướng dẫn; chưa nghiệm thu toàn bộ.** [Báo cáo08–10/11](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md) và [số liệu gốc](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.json) giữ cả thất bại và phần chưa thử.

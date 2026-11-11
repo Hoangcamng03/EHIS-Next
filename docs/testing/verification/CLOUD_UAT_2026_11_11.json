@@ -1,0 +1,619 @@
+{
+  "recordedAt": "2026-11-11T16:43:49.585Z",
+  "scope": "Actual Firebase/Vercel/Hosting; fictitious clinical profiles. Patient reporter phone GPS authorized. Volunteer positions API fixtures; no physical volunteer GPS or native acceptance.",
+  "setup": {
+    "startedAt": "2026-11-11T16:21:22.542Z",
+    "project": "ehis-next-20261021-hc03",
+    "scope": "Actual cloud Auth/API; fictitious people and clinical scenarios. No medical verification.",
+    "calls": [
+      {
+        "name": "getMyAccess",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 2506
+      },
+      {
+        "name": "getMyAccess",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 537
+      },
+      {
+        "name": "setAccountPurpose",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 359
+      },
+      {
+        "name": "savePatientProfile",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 302
+      },
+      {
+        "name": "issuePatientCard",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 608
+      },
+      {
+        "name": "setAccountPurpose",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 328
+      },
+      {
+        "name": "savePatientProfile",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 354
+      },
+      {
+        "name": "issuePatientCard",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 299
+      },
+      {
+        "name": "setAccountPurpose",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 280
+      },
+      {
+        "name": "savePatientProfile",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 215
+      },
+      {
+        "name": "issuePatientCard",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 519
+      },
+      {
+        "name": "setAccountPurpose",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 235
+      },
+      {
+        "name": "savePatientProfile",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 238
+      },
+      {
+        "name": "issuePatientCard",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 839
+      },
+      {
+        "name": "setAccountPurpose",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 216
+      },
+      {
+        "name": "savePatientProfile",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 638
+      },
+      {
+        "name": "issuePatientCard",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 273
+      },
+      {
+        "name": "setAccountPurpose",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 245
+      },
+      {
+        "name": "savePatientProfile",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 244
+      },
+      {
+        "name": "issuePatientCard",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 257
+      },
+      {
+        "name": "setAccountPurpose",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 222
+      },
+      {
+        "name": "applyVolunteer",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 624
+      },
+      {
+        "name": "submitVolunteerReferral",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 779
+      },
+      {
+        "name": "reviewVolunteerApplication",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 561
+      },
+      {
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 419
+      },
+      {
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 486
+      },
+      {
+        "name": "setAccountPurpose",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 246
+      },
+      {
+        "name": "applyVolunteer",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 489
+      },
+      {
+        "name": "submitVolunteerReferral",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 520
+      },
+      {
+        "name": "reviewVolunteerApplication",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 767
+      },
+      {
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 279
+      },
+      {
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 214
+      },
+      {
+        "name": "setAccountPurpose",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 218
+      },
+      {
+        "name": "applyVolunteer",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 483
+      },
+      {
+        "name": "setVolunteerAvailability",
+        "status": 403,
+        "expected": 403,
+        "elapsedMs": 451
+      }
+    ],
+    "status": "PASS",
+    "registered": 9,
+    "patientProfiles": 6,
+    "approvedSyntheticVolunteers": 2,
+    "pendingVolunteers": 1,
+    "noIncidentsCreated": true,
+    "endedAt": "2026-11-11T16:21:48.351Z"
+  },
+  "cloudHandover": {
+    "startedAt": "2026-11-11T16:25:10.696Z",
+    "scope": "Bounded actual cloud Auth/API/Firestore calls with user-authorized synthetic reporter/destinations and existing synthetic volunteers. No physical GPS/travel/device ringing measured.",
+    "requests": [
+      {
+        "at": "2026-11-11T16:25:14.074Z",
+        "name": "setAccountPurpose",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 340
+      },
+      {
+        "at": "2026-11-11T16:25:14.413Z",
+        "name": "savePatientProfile",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 488
+      },
+      {
+        "at": "2026-11-11T16:25:14.902Z",
+        "name": "issuePatientCard",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 265
+      },
+      {
+        "at": "2026-11-11T16:25:15.167Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 314
+      },
+      {
+        "at": "2026-11-11T16:25:15.481Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 564
+      },
+      {
+        "at": "2026-11-11T16:25:16.045Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 380
+      },
+      {
+        "at": "2026-11-11T16:25:16.425Z",
+        "name": "createIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 329
+      },
+      {
+        "at": "2026-11-11T16:25:16.754Z",
+        "name": "acceptIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 287
+      },
+      {
+        "at": "2026-11-11T16:25:17.041Z",
+        "name": "getVolunteerIncidentDetails",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 306
+      },
+      {
+        "at": "2026-11-11T16:25:17.347Z",
+        "name": "updateIncidentProgress",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 857
+      },
+      {
+        "at": "2026-11-11T16:25:18.205Z",
+        "name": "updateIncidentProgress",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 261
+      },
+      {
+        "at": "2026-11-11T16:25:18.621Z",
+        "name": "getVolunteerIncidentDetails",
+        "status": 403,
+        "expected": 403,
+        "elapsedMs": 230
+      },
+      {
+        "at": "2026-11-11T16:25:18.940Z",
+        "name": "getVolunteerIncidentDetails",
+        "status": 403,
+        "expected": 403,
+        "elapsedMs": 248
+      },
+      {
+        "at": "2026-11-11T16:25:19.337Z",
+        "name": "acceptIncidentHandover",
+        "status": 200,
+        "expected": [
+          200,
+          400
+        ],
+        "elapsedMs": 279
+      },
+      {
+        "at": "2026-11-11T16:25:19.337Z",
+        "name": "acceptIncidentHandover",
+        "status": 400,
+        "expected": [
+          200,
+          400
+        ],
+        "elapsedMs": 401
+      },
+      {
+        "at": "2026-11-11T16:25:19.738Z",
+        "name": "getVolunteerIncidentDetails",
+        "status": 403,
+        "expected": 403,
+        "elapsedMs": 464
+      },
+      {
+        "at": "2026-11-11T16:25:20.245Z",
+        "name": "finishIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 283
+      },
+      {
+        "at": "2026-11-11T16:25:20.527Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 229
+      },
+      {
+        "at": "2026-11-11T16:25:20.756Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 212
+      },
+      {
+        "at": "2026-11-11T16:25:20.968Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 230
+      },
+      {
+        "at": "2026-11-11T16:25:21.199Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 290
+      },
+      {
+        "at": "2026-11-11T16:25:21.489Z",
+        "name": "createIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 321
+      },
+      {
+        "at": "2026-11-11T16:25:21.810Z",
+        "name": "acceptIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 269
+      },
+      {
+        "at": "2026-11-11T16:25:22.079Z",
+        "name": "getVolunteerIncidentDetails",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 320
+      },
+      {
+        "at": "2026-11-11T16:25:22.399Z",
+        "name": "updateIncidentProgress",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 273
+      },
+      {
+        "at": "2026-11-11T16:25:22.712Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 301
+      },
+      {
+        "at": "2026-11-11T16:25:23.071Z",
+        "name": "acceptIncidentHandover",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 257
+      },
+      {
+        "at": "2026-11-11T16:25:23.328Z",
+        "name": "finishIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 263
+      },
+      {
+        "at": "2026-11-11T16:25:23.740Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 227
+      },
+      {
+        "at": "2026-11-11T16:25:24.019Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 231
+      },
+      {
+        "at": "2026-11-11T16:25:24.307Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 222
+      }
+    ],
+    "status": "PASS",
+    "selectedAliases": [
+      "UATV1",
+      "UATV2",
+      "V7"
+    ],
+    "raceStatuses": [
+      400,
+      200
+    ],
+    "checks": [
+      "actual automatic invitations and push outbox to two peers",
+      "duplicate progress retry one proposal",
+      "unassigned private access403",
+      "two concurrent accept calls one winner",
+      "old owner released and private access403",
+      "zero candidates retains assignment",
+      "late ON receives automatic handover and explicitly accepts"
+    ],
+    "cleanup": {
+      "allSelectedOffNoActive": true,
+      "incidentCount": 2,
+      "notes": []
+    },
+    "endedAt": "2026-11-11T16:25:24.638Z"
+  },
+  "phone": {
+    "at": "2026-11-11T16:36:12.540Z",
+    "status": "PASS",
+    "environment": "ehis-next-20261021-hc03",
+    "reportSource": "User sent and updated through phone browser; backend readback verified",
+    "volunteerLocationSource": "API fixtures using authorized reporter point; not real volunteer GPS",
+    "reportRevision": 2,
+    "caseCompleted": true,
+    "handoverAccepted": true,
+    "bothVolunteersOffNoActive": true,
+    "closedCasePrivateAccess": [
+      403,
+      403
+    ],
+    "phoneUserConfirmedTerminalForm": true,
+    "phoneGpsAccuracyNotMeasured": true
+  },
+  "checks": {
+    "id": "uat-final-check",
+    "operation": "check",
+    "command": "npm run check",
+    "startedAt": "2026-11-11T16:32:12.539Z",
+    "endedAt": "2026-11-11T16:33:05.770Z",
+    "elapsedMs": 53229,
+    "exitCode": 0,
+    "signal": null,
+    "status": "PASS",
+    "sourceCommit": "222ec8a4594ef3d440f4951a5eacf14866bb831a",
+    "sourceDirtyAtStart": true,
+    "node": "v24.21.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 25463480320,
+    "log": "uat-final-check.log",
+    "logSha256": "bbb8c64db1604560a137bf0b13beb8855173a788698efce60263cc9783fdccaf",
+    "artifacts": []
+  },
+  "screenshots": [
+    {
+      "file": "01-cloud-login.jpg",
+      "width": 390,
+      "height": 843,
+      "sha256": "c92e293f3f6fc091e9b9fd87fe3fb0af3cb64f382f0f0dbd69811505869439df",
+      "public": true
+    },
+    {
+      "file": "02-cloud-patient-qr.jpg",
+      "width": 390,
+      "height": 843,
+      "sha256": "d112fc70c7357e78ba19285da83e4c544dbca6cfa059028b98aa64cca1f4923e",
+      "public": false
+    },
+    {
+      "file": "03-cloud-alert-phone-report.jpg",
+      "width": 390,
+      "height": 843,
+      "sha256": "23b5bdb167088d04e3f9a65095824e38cd6aeb60ea83f38be5456d2dbfa0a98b",
+      "public": true
+    },
+    {
+      "file": "04-cloud-accepted-progress.jpg",
+      "width": 390,
+      "height": 843,
+      "sha256": "d8aee45f2f2f8f8ff1149d7136e7533d30e4234ed640839cc9f75ef2d1ecd1ce",
+      "public": false
+    },
+    {
+      "file": "05-cloud-report-revision2.jpg",
+      "width": 390,
+      "height": 843,
+      "sha256": "6a715e10491933464c8ff822e7790cd5ad2fdd54ef18619053af2d7193c13dc4",
+      "public": true
+    },
+    {
+      "file": "06-cloud-handover.jpg",
+      "width": 390,
+      "height": 843,
+      "sha256": "3cf44ad72e427426a93f63b9a707301d48434e21d097ddd49dcc08e33b41521f",
+      "public": true
+    },
+    {
+      "file": "07-cloud-complete-confirm.jpg",
+      "width": 390,
+      "height": 843,
+      "sha256": "1dd3b90c507872e378c906a4f49c2e1539124a41ef0c03c4f83d25ad0b7bc840",
+      "public": false
+    },
+    {
+      "file": "08-cloud-qr-link-fixed.jpg",
+      "width": 375,
+      "height": 811,
+      "sha256": "2d31cae6ae35d77c5f07af39d3bbe40e903febc346073119f3e27d455d2c886a",
+      "public": true
+    },
+    {
+      "file": "09-cloud-volunteer-completed.jpg",
+      "width": 390,
+      "height": 843,
+      "sha256": "26a74100cfe9d24656005f843f6a48c71cf62095e6b829a1d99dd32aed84b21f",
+      "public": true
+    },
+    {
+      "file": "10-cloud-role-selection.jpg",
+      "width": 390,
+      "height": 843,
+      "sha256": "918c49ce5ffa9bef1e671aacf461a8402d1a97a6d66d542d5409b6072afc0a71",
+      "public": true
+    },
+    {
+      "file": "11-cloud-registration-form.jpg",
+      "width": 390,
+      "height": 843,
+      "sha256": "d9b51feea8ce97dd2def310d34ad016b23756acfcfc4b95bacbb58737c70d099",
+      "public": true
+    },
+    {
+      "file": "12-cloud-privacy-link-fixed.jpg",
+      "width": 375,
+      "height": 811,
+      "sha256": "0a89e769880e34e27a605f718b58fa622a329b5d2be851b6aba7da7840446969",
+      "public": true
+    }
+  ],
+  "open": [
+    "PC browser GPS unavailable; phone sent successfully but accuracy not measured",
+    "No current native APK21/hardware background delivery or movement acceptance",
+    "Old native self-exit and Functions performance RECHECK remain open",
+    "Map init recovery button added; explicit reload recovery observed, failure branch not exhaustively tested",
+    "No new full large-scale cloud load test; bounded cases only",
+    "Reporter phone stages verified by user/backend, no direct phone screenshots captured; USB not connected"
+  ],
+  "release": {
+    "webSource": "8cbd76f with final privacy copy pending",
+    "apk": "0.4.21 existing; no new APK/OTA"
+  }
+}
