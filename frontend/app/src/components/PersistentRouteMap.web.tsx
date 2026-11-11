@@ -9,6 +9,7 @@ export const PersistentRouteMap = memo(function PersistentRouteMap({ origin, des
   const container = useRef<HTMLDivElement>(null), latest = useRef<Data>({ origin, destination, route });
   const render = useRef<((data: Data) => void) | null>(null), [error, setError] = useState('');
   const retry = useRef<(() => void) | null>(null);
+  const [initializationFailed, setInitializationFailed] = useState(false);
   useEffect(() => { latest.current = { origin, destination, route }; render.current?.(latest.current); }, [origin, destination, route]);
   useEffect(() => {
     let cancelled = false, cleanup: (() => void) | undefined;
@@ -37,8 +38,8 @@ export const PersistentRouteMap = memo(function PersistentRouteMap({ origin, des
       render.current(latest.current);
       const resize = new ResizeObserver(() => map.invalidateSize()); resize.observe(container.current);
       cleanup = () => { render.current = null; retry.current = null; resize.disconnect(); map.remove(); };
-    }).catch(() => { if (!cancelled) setError('Chưa tải được bản đồ. Có thể mở Google Maps bên dưới.'); });
+    }).catch(() => { if (!cancelled) { setInitializationFailed(true); setError('Chưa khởi tạo được bản đồ. Hãy tải lại ứng dụng; ca đang xử lý sẽ được khôi phục từ máy chủ.'); } });
     return () => { cancelled = true; cleanup?.(); };
   }, []);
-  return <div style={{ width: '100%', minWidth: 0 }}><p style={{ fontSize: 12 }}>A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo</p><div ref={container} className="ehis-route-map" role="region" aria-label="Bản đồ tuyến đường TNV đến bệnh nhân" style={{ width: '100%', height: 350, border: '1px solid #b8cbc1', borderRadius: 12 }} />{!!error && <div><p role="status">{error}</p><button type="button" style={{ minHeight: 48, padding: 12, width: '100%' }} onClick={() => retry.current?.()}>Thử tải lại nền bản đồ</button></div>}</div>;
+  return <div style={{ width: '100%', minWidth: 0 }}><p style={{ fontSize: 12 }}>A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo</p><div ref={container} className="ehis-route-map" role="region" aria-label="Bản đồ tuyến đường TNV đến bệnh nhân" style={{ width: '100%', height: 350, border: '1px solid #b8cbc1', borderRadius: 12 }} />{!!error && <div><p role="status">{error}</p><button type="button" style={{ minHeight: 48, padding: 12, width: '100%' }} onClick={() => initializationFailed ? window.location.reload() : retry.current?.()}>{initializationFailed ? 'Tải lại ứng dụng để mở bản đồ' : 'Thử tải lại nền bản đồ'}</button></div>}</div>;
 });
