@@ -11,7 +11,7 @@ import { collection, doc, getDoc, limit, onSnapshot, orderBy, query } from 'fire
 
 import QRCode from 'react-native-qrcode-svg';
 import { AuthGate, AccountBar } from '../components/Session';
-import { callable as httpsCallable, firebaseClient, isLocalEmulator, isTrialMode, readableError } from '../lib/firebase';
+import { callable as httpsCallable, firebaseClient, isLocalEmulator, readableError } from '../lib/firebase';
 import { patientUi as ui, statusLabel } from '../lib/ui';
 import { ConfirmAction } from '../components/ConfirmAction';
 import { profileDraft, profileMatchesSaved } from '../lib/profile-draft';
@@ -103,8 +103,6 @@ function PatientDashboard({ uid }: { uid: string }) {
   return <ScrollView ref={scroll} contentContainerStyle={ui.page} keyboardShouldPersistTaps="always" keyboardDismissMode="on-drag">
     <Text style={ui.eyebrow}>EHIS · BỆNH NHÂN</Text><Text style={ui.title}>Thẻ sức khỏe</Text>
     {!connected && <Text accessibilityRole="alert" style={ui.error}>Đang chờ máy chủ. Thẻ và trạng thái lưu trên thiết bị có thể đã cũ.</Text>}
-    {isLocalEmulator && <View style={ui.notice}><Text>Thực hành trên máy tính · Chỉ dùng hồ sơ giả.</Text></View>}
-    {isTrialMode && !isLocalEmulator && <View style={ui.notice}><Text>Diễn tập có hướng dẫn · Chỉ dùng hồ sơ giả.</Text></View>}
     {feedback('incident')}
     {active && <View style={ui.card}><Text style={ui.heading}>Yêu cầu đang diễn ra</Text>{renderIncident(active)}</View>}
     {card?.active && cardPanel}

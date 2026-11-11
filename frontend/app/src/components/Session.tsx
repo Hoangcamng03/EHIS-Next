@@ -6,7 +6,7 @@ import { createContext, ReactNode, useContext, useEffect, useRef, useState } fro
 import { Redirect } from 'expo-router';
 import { Linking, ScrollView, View } from 'react-native';
 import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
-import { callable, firebaseClient, isLocalEmulator, readableError, updateAvailability } from '../lib/firebase';
+import { callable, firebaseClient, readableError, updateAvailability } from '../lib/firebase';
 import { ui } from '../lib/ui';
 import { accountPurposes, AccountPurpose } from '../lib/account-purpose';
 import { PurposeChoices } from './PurposeChoices';
@@ -94,7 +94,7 @@ function AuthForm() {
   async function submit() {
     if (register && !purpose) { setError('Chọn Bệnh nhân hoặc Tình nguyện viên trước khi tạo tài khoản.'); return; }
     if (register && password.length < 8) { setError('Dùng mật khẩu ít nhất 8 ký tự.'); return; }
-    if (register && !acknowledged) { setError('Đọc thông tin thử nghiệm và xác nhận trước khi tạo tài khoản.'); return; }
+    if (register && !acknowledged) { setError('Đọc thông tin dữ liệu và quyền riêng tư trước khi tạo tài khoản.'); return; }
     setBusy(true); setError(''); setMessage('');
     try {
       const auth = firebaseClient().auth;
@@ -111,7 +111,6 @@ function AuthForm() {
   return <ScrollView contentContainerStyle={ui.page} keyboardShouldPersistTaps="always" keyboardDismissMode="on-drag">
     <Text style={ui.eyebrow}>{mode === 'choose' ? 'EHIS · ĐĂNG KÝ · BƯỚC 1 / 2' : register ? 'EHIS · ĐĂNG KÝ · BƯỚC 2 / 2' : 'EHIS · THẺ SỨC KHỎE CÁ NHÂN'}</Text><Text style={ui.title}>{mode === 'choose' ? 'Bạn là ai?' : register && purpose ? `Đăng ký ${accountPurposes[purpose].title}` : 'Đăng nhập EHIS'}</Text>
     <Text style={ui.body}>{mode === 'choose' ? 'Chọn cách bạn muốn sử dụng EHIS.' : register ? 'Tạo tài khoản bằng email.' : 'Đăng nhập để mở thẻ QR hoặc nhận hỗ trợ.'}</Text>
-    <View style={ui.notice}><Text style={ui.caption}>{isLocalEmulator ? "Thực hành trên máy tính · Chỉ dùng dữ liệu giả." : "Diễn tập có hướng dẫn · Chỉ dùng dữ liệu giả."}</Text></View>
     {mode === 'choose' ? <>
       <PurposeChoices onChoose={value => { changeMode('register'); setPurpose(value); }} />
       <Button variant="secondary" title="Đã có tài khoản? Đăng nhập" onPress={() => changeMode('login')} color="#526f67" />
@@ -124,14 +123,14 @@ function AuthForm() {
       <Text>Email</Text><TextInput accessibilityLabel="Email" value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" autoComplete="email" style={ui.input} editable={!busy} />
       <Text>Mật khẩu{register ? ' · ít nhất 8 ký tự' : ''}</Text><TextInput accessibilityLabel="Mật khẩu" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} autoCapitalize="none" autoComplete={register ? 'new-password' : 'current-password'} style={ui.input} editable={!busy} />
       <Button variant="quiet" title={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'} onPress={() => setShowPassword(value => !value)} disabled={busy} color="#526f67" />
-      {register && <View style={{ gap: 10 }}><Button variant="quiet" title="Dữ liệu và quyền riêng tư" onPress={() => Linking.openURL(`${process.env.EXPO_PUBLIC_BYSTANDER_URL || 'https://ehis-next-20261021-hc03.web.app'}/privacy`)} color="#526f67" /><ToggleRow accessibilityLabel="Xác nhận đã đọc thông tin thử nghiệm" label="Tôi đã đọc thông tin dữ liệu và phạm vi diễn tập." value={acknowledged} onValueChange={setAcknowledged} disabled={busy} /></View>}
+      {register && <View style={{ gap: 10 }}><Button variant="quiet" title="Dữ liệu và quyền riêng tư" onPress={() => Linking.openURL(`${process.env.EXPO_PUBLIC_BYSTANDER_URL || 'https://ehis-next-20261021-hc03.web.app'}/privacy`)} color="#526f67" /><ToggleRow accessibilityLabel="Xác nhận đã đọc thông tin dữ liệu" label="Tôi đã đọc thông tin dữ liệu và quyền riêng tư." value={acknowledged} onValueChange={setAcknowledged} disabled={busy} /></View>}
       <Button loading={busy} title={busy ? 'Đang xử lý…' : register ? 'Tạo tài khoản' : 'Đăng nhập'} onPress={submit} disabled={busy || !email.trim() || !password || (register && (!purpose || !acknowledged))} />
       <Button variant="secondary" title={register ? 'Đã có tài khoản? Đăng nhập' : 'Chưa có tài khoản? Đăng ký'} onPress={() => changeMode(register ? 'login' : 'choose')} disabled={busy} color="#526f67" />
       {!register && <Button variant="secondary" title="Quên mật khẩu" onPress={resetPassword} disabled={busy} color="#526f67" />}
       {!!error && <Text accessibilityRole="alert" style={ui.error}>{error}</Text>}
       {!!message && <Text accessibilityRole="alert" style={ui.success}>{message}</Text>}
     </View>}
-    <InfoDisclosure title="Cách dùng EHIS"><Text style={ui.body}>Người qua đường quét QR để báo hỗ trợ trên web. TNV cần được duyệt trước khi nhận ca. Đây là đợt diễn tập, chưa tiếp nhận cấp cứu thật.</Text><InstallGuide /></InfoDisclosure>
+    <InfoDisclosure title="Cách dùng EHIS"><Text style={ui.body}>Người qua đường quét QR để báo hỗ trợ trên web. TNV cần được duyệt trước khi nhận ca.</Text><InstallGuide /></InfoDisclosure>
     <ReleaseStatus />
   </ScrollView>;
 }
