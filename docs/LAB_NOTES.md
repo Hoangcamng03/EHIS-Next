@@ -11,7 +11,7 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 - Theo yêu cầu bỏ các dòng thực hành/diễn tập/dữ liệu giả trên đăng nhập, đăng ký, Patient, trang chủ/cài app, mô tả người phụ trách và quản trị. Xác nhận đăng ký đổi thành đã đọc dữ liệu/quyền riêng tư; tài khoản thiếu checklist vẫn ghi đúng trạng thái. Không đổi quyền, điều phối, consent hoặc xóa dữ liệu.
 - Giữ nhãn vị trí giả trong công cụ chỉ local để không nhầm tọa độ mô phỏng với GPS; giữ các giới hạn có thật trong privacy, hồ sơ tự khai và chưa có TNV tiếp nhận. Đây là sửa câu chữ, không phải nghiệm thu vận hành cấp cứu thật; các lỗi/chứng cứ cũ còn nguyên.
-- Check PASS88/lint/typecheck; trình duyệt local390×844 xác minh đăng nhập không còn banner, ảnh private clean-login.jpg. Đang build/cập nhật web; chưa build APK mới, không OTA. Kết quả phát hành được bổ sung sau khi đối chiếu artifact.
+- Check PASS88/lint/typecheck; trình duyệt local390×844 xác minh đăng nhập không còn banner, ảnh private clean-login.jpg. Đã build cuối PASS36877ms, triển khai hai Hosting từ f587e97 PASS21504ms, đối chiếu38tệp HTML/JS/CSS PASS11623ms. Chưa build APK mới, không OTA; máy đã cài21 vẫn giữ câu chữ cũ.
 
 ### Kiểm tra flow và tài liệu HIC
 
