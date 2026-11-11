@@ -1,6 +1,6 @@
 {
   "name": "ehis-next",
-  "version": "0.4.20",
+  "version": "0.4.21",
   "private": true,
   "description": "Independent EHIS capstone starter for a four-person team",
   "scripts": {
@@ -28,6 +28,7 @@
     "check:repo": "node scripts/check-repository.cjs",
     "perf:emulator": "node scripts/benchmark-emulator.cjs",
     "perf:builds": "node scripts/benchmark-builds.cjs",
-    "test:scale": "npm run backend:build && node scripts/firebase-local.cjs test scale"
+    "test:scale": "npm run backend:build && node scripts/firebase-local.cjs test scale",
+    "test:handover": "npm run backend:build && node scripts/firebase-local.cjs test handover"
   }
 }

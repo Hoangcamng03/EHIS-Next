@@ -5,11 +5,17 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
+## 2026-11-11 — tự mời nhận thay, làm rõ xác minh và QR tải app
+
+- Người dùng báo Không thể tiếp tục chỉ ghi tiến độ, chưa tự gửi bàn giao; xác minh đúng gap giữa incidentProgress và handover quản trị. Source21 nối transaction tiến độ với tạo đề nghị tự động, nhóm5TNV gần nhất, push outbox, retry chống lặp, một người thắng, giữ ownership tới khi nhận thay. Catch-up nhận khi TNV ON muộn; không ứng viên/hết hạn hiển thị thật và có tìm lại. Không đóng ca tự động.
+- Rút gọn luồng hiểu được: TNV gửi → người giới thiệu4check → quản trị duyệt. Trang quản trị gom phần vận hành/thiết lập vào nhóm, tự tải đơn; người giới thiệu tự tải hồ sơ, giữ lại checklist/căn cứ đã lưu; app có bước đang chờ rõ ràng. Không bỏ kiểm tra backend hoặc gộp quyền các vai trò.
+- Lượt compile đầu FAIL vì optional value trong pushJobs, sửa guard. Lượt suite đầu FAIL do đường dẫn import Firebase Admin trong chính test; sửa dùng helper cố định project demo và sửa collection path được phát hiện khi rà. Không tính PASS từ lượt lỗi. Lượt check sau đó FAIL vì kiểu AlertRecord thiếu travelProgress; sửa typed feed, check cuối PASS88/27368ms. Suite bàn giao3bộ PASS111219ms, hồi quy17bộ PASS293773ms sau sửa tìm lại nhóm rỗng; build cuối PASS32513ms. Catalog mới ban đầu FAIL thiếu dòng primaryMD/JSON, bổ sung rồi check65doc/581link PASS. Chưa deploy21 hoặc ghi APK21 hoàn tất.
+
 ## 2026-11-10 — bệnh nền và bộ15tài khoản/10bộ đăng ký mới
 
 - Theo yêu cầu tạo5TNV,10Patient đa dạng và10bộ chưa đăng ký. Phát hiện hồ sơ chỉ có dị ứng/liên hệ, chủ dự án xác nhận bổ sung bệnh nền vào app/backend. Thêm medicalConditions tùy chọn,20mục/100ký tự, trim, từ chối kiểu sai. API cũ bỏ trường giữ dữ liệu qua merge; client mới gửi[] có thể xóa. Patient có ô mỗi bệnh một dòng; TNV đúng ca xem sau consent. Không đổi quyền QR/push/người báo.
-- Source0.4.20/code18; check PASS88bài (28backend+60logic), lint/typecheck/cấu trúc. Bổ sung tests validation, bản nháp thay bệnh phải lưu trước cấp QR, lifecycle consent/private access, HTTP legacy-save giữ bệnh nền và explicitclear. Integration/build/deploy và cấp dữ liệu đang thực hiện; chưa ghi APK20 đã có/cài. APK19 không có ô bệnh nền, cần web20 hoặc APK mới.
-- Bộ mới dự kiến P7–P16/V7–V11; NEW01–NEW10 chỉ email/password gợi ý, KHÔNG gọi signUp để giữ bài đăng ký trống. Chỉ dùng bệnh lý/kinh nghiệm/đơn vị/checklist GIẢ; R1/A1 hiện có, không cấp admin/IAM mới, TNV bàn giao OFF/no active và không tự tạo ca. Kết quả thực sẽ bổ sung sau.
+- Source0.4.20/code18; check PASS88bài (28backend+60logic), lint/typecheck/cấu trúc. Bổ sung tests validation, bản nháp thay bệnh phải lưu trước cấp QR, lifecycle consent/private access, HTTP legacy-save giữ bệnh nền và explicitclear. Integration20 đủ16suite PASS280411ms, build30679ms; deploy backend31111ms/probe2507ms, deploy Hosting19896ms từ586a652. Chưa ghi APK20 đã cài. APK19 không có ô bệnh nền, cần web20 hoặc APK mới.
+- Bộ mới dự kiến P7–P16/V7–V11; NEW01–NEW10 chỉ email/password gợi ý, KHÔNG gọi signUp để giữ bài đăng ký trống. Chỉ dùng bệnh lý/kinh nghiệm/đơn vị/checklist GIẢ; R1/A1 hiện có, không cấp admin/IAM mới, TNV bàn giao OFF/no active và không tự tạo ca. Kết quả thực10/11 06:48:10–06:49:00UTC: tạo/kiểm tra15/15login và lưu đúng10medicalConditions;5TNV OFF/no active. Auth lookup thật xác nhận10emailNEW chưa tồn tại; KHÔNG gọi signUp/login cho bộNEW. Bảng riêng accounts/BULK_2026_11_10.md và mục đầu README đã ghi, giữ private; không đổi các bộ cũ. Trạng thái NEW có thể thay đổi khi nhóm dùng về sau.
 
 ## 2026-11-10 — cấp thêm8tài khoản cho nhóm chạy tay
 

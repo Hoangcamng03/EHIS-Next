@@ -24,17 +24,19 @@ export function VolunteerApplication({ status, initial }: { status?: string; ini
     try { await callable(firebaseClient().functions, 'applyVolunteer', { timeout: 15000 })({ ...form, phone: form.phone.replace(/[\s().-]/g, ''), clinicalMonths: Number(form.clinicalMonths) }); setSent(true); setEditing(false); }
     catch (err) { setError(readableError(err)); } finally { setBusy(false); }
   }
+  const referral = initial?.referral as { decision?: string } | null | undefined;
   return <View style={ui.card}><Text style={ui.heading}>Đăng ký tình nguyện viên</Text>
-    <Text style={ui.body}>Người quản lý tại đơn vị xác nhận hồ sơ, sau đó quản trị duyệt quyền nhận ca.</Text>
-    {(status === 'pending' || sent) && <><Text style={ui.success}>Đã gửi · Chờ xác minh và duyệt.</Text><Button variant="secondary" title={editing ? 'Ẩn biểu mẫu' : 'Sửa và gửi lại hồ sơ'} onPress={() => setEditing(value => !value)} disabled={busy} /></>}
+    <Text style={ui.body}>3 bước: Bạn gửi hồ sơ → Người giới thiệu xác nhận → Quản trị mở quyền nhận ca. Chỉ khai hồ sơ một lần.</Text>
+    {(status === 'pending' || sent) && <><Text style={ui.success}>{referral?.decision === "recommended" ? "Bước 3/3 · Người giới thiệu đã xác nhận, chờ quản trị duyệt." : referral?.decision === "not_recommended" ? "Cần bổ sung · Xem lại thông tin với người giới thiệu." : "Bước 2/3 · Đã gửi, chờ người giới thiệu xác nhận."}</Text><Button variant="secondary" title={editing ? 'Ẩn biểu mẫu' : 'Sửa và gửi lại hồ sơ'} onPress={() => setEditing(value => !value)} disabled={busy} /></>}
     {editing && <>
       {!!status && status !== 'pending' && <Text>{statusLabel[status] || status}. Bạn có thể gửi lại.</Text>}
+      <Text style={ui.heading}>1. Thông tin của bạn</Text>
       {field('fullName', 'Họ và tên', 100)}{field('phone', 'Số điện thoại', 40, 'phone-pad')}
-      <Text style={ui.heading}>Đào tạo và kinh nghiệm</Text>
+      <Text style={ui.heading}>2. Đào tạo và kinh nghiệm</Text>
       {Object.entries(levels).map(([key, label]) => <Button key={key} variant={form.trainingLevel === key ? 'primary' : 'secondary'} title={`${form.trainingLevel === key ? '✓ ' : ''}${label}`} disabled={busy} onPress={() => setForm(previous => ({ ...previous, trainingLevel: key, clinicalMonths: key === 'first_aid' ? '0' : previous.clinicalMonths }))} />)}
       {form.trainingLevel !== 'first_aid' && field('clinicalMonths', 'Số tháng thực hành lâm sàng', 3, 'number-pad')}
       {field('experience', 'Khóa đào tạo / nơi thực hành', 500)}
-      <Text style={ui.heading}>Khu vực hoạt động</Text>
+      <Text style={ui.heading}>3. Đơn vị và người giới thiệu</Text>
       {field('homeAddress', 'Khu vực cư trú (phường/xã, tỉnh/thành)', 200)}{field('workAddress', 'Đơn vị học tập / làm việc và địa chỉ', 200)}{field('serviceArea', 'Khu vực có thể hỗ trợ', 100)}
       {field('referrerEmail', 'Email người quản lý giới thiệu', 254, 'email-address')}
       <InfoDisclosure title="Ai là người giới thiệu?"><Text>Trưởng khoa hoặc người quản lý TNV tại đơn vị, có tài khoản đã được quản trị EHIS xác minh. Người này tự điền checklist bằng tài khoản riêng.</Text><Text>Địa chỉ dùng quản lý khu vực; ca gần bạn được tìm bằng GPS hiện tại.</Text></InfoDisclosure>

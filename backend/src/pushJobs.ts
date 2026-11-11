@@ -1,3 +1,4 @@
+import { handoverTargets } from './handoverPolicy';
 import { createHash, randomUUID } from 'node:crypto';
 import { getApp } from 'firebase-admin/app';
 import { getFirestore, Timestamp, type Transaction, type Firestore } from 'firebase-admin/firestore';
@@ -53,7 +54,7 @@ export async function flushPushJobs() {
     const [incident, volunteer, alert, device] = await db.getAll(db.doc(`incidents/${job.incidentId}`), db.doc(`volunteers/${job.uid}`), db.doc(`volunteers/${job.uid}/alerts/${job.incidentId}`), db.doc(`pushDevices/${job.uid}`));
     const value = incident.data(), person = volunteer.data(), offer = alert.data();
     const offered = value?.status === 'dispatching' && !value.acceptedBy && offer?.status === 'offered' && person?.isAvailable === true && !person.activeIncidentId && Date.now() - (person.lastSeenAt?.toMillis?.() || 0) <= 300000;
-    const handoverOffered = ['accepted', 'arrived'].includes(value?.status) && value?.handover?.targetUid === job.uid && value.handover.id === job.handoverId && value.handover.expiresAt.toMillis() > Date.now() && offer?.status === 'offered' && offer.handoverId === job.handoverId && person?.isAvailable === true && !person.activeIncidentId && Date.now() - (person.lastSeenAt?.toMillis?.() || 0) <= 300000;
+    const handoverOffered = ['accepted', 'arrived'].includes(value?.status) && !!value?.handover && handoverTargets(value.handover).includes(job.uid) && value.handover.id === job.handoverId && value.handover.expiresAt.toMillis() > Date.now() && offer?.status === 'offered' && offer.handoverId === job.handoverId && person?.isAvailable === true && !person.activeIncidentId && Date.now() - (person.lastSeenAt?.toMillis?.() || 0) <= 300000;
     const assigned = ['accepted', 'arrived'].includes(value?.status) && value?.acceptedBy === job.uid && person?.activeIncidentId === job.incidentId;
     if (person?.verificationStatus !== 'approved' || (!offered && !handoverOffered && !assigned) || (job.kind === 'request' && !offered && !handoverOffered)) { await finish('obsolete'); return 'obsolete'; }
     const devices = (device.data()?.devices || []) as { token: string; updatedAt: number }[];

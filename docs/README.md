@@ -59,8 +59,11 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 
 ## 5. Kiểm thử và sửa lỗi
 
+
 | Trang | Nội dung |
 | --- | --- |
+| [VERIFICATION_V0_4_21](testing/verification/VERIFICATION_V0_4_21.md) | Bàn giao tự động, xác minh3bước, QR và tài khoản; trạng thái từng lớp |
+| [VERIFICATION_V0_4_21.json](testing/verification/VERIFICATION_V0_4_21.json) | Số liệu thật, hash log và phần chưa nghiệm thu21 |
 | [VERIFICATION_V0_4_15](testing/verification/VERIFICATION_V0_4_15.md) | Tiến độ TNV/ETA, bản trả lời và font; kết quả thực từng lớp |
 | [VERIFICATION_V0_4_16](testing/verification/VERIFICATION_V0_4_16.md) | Sửa chuông sau lỗi đường dẫn phát hiện trên S22+ thật; phân biệt artifact và nghe thực |
 | [VERIFICATION_V0_4_16.json](testing/verification/VERIFICATION_V0_4_16.json) | Log/hash/lượt build và kết quả thiết bị thực, giữ cả FAIL15 |

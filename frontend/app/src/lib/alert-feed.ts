@@ -1,4 +1,5 @@
-export type AlertRecord = { incidentId: string; status: string; reportRevision: number; locationRevision?: number; distanceMeters: number; answers: { responsiveness: string; breathing: string; bleeding: string } | null; offerExpiresAt?: { toMillis(): number } };
+import type { TravelProgress } from './travel-progress';
+export type AlertRecord = { travelProgress?: TravelProgress | null; incidentId: string; status: string; reportRevision: number; locationRevision?: number; distanceMeters: number; answers: { responsiveness: string; breathing: string; bleeding: string } | null; offerExpiresAt?: { toMillis(): number } };
 const terminal = (status: string) => ['closed', 'completed', 'cancelled', 'expired'].includes(status);
 export function mergeAlertFeed(recent: AlertRecord[], activeId: string | null, pinned: AlertRecord | null, pending: AlertRecord[] = []) {
   const values = new Map(recent.map(alert => [alert.incidentId, alert]));

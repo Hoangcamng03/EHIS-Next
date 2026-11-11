@@ -16,6 +16,8 @@ async function main() {
   suites.all.push('scripts/smoke-verification.cjs', 'scripts/smoke-push.cjs', 'scripts/smoke-roster-observations.cjs');
   suites.all.push('scripts/smoke-operations.cjs');
   suites.all.push('scripts/smoke-improvements.cjs', 'scripts/smoke-progress.cjs');
+  suites.all.push('scripts/smoke-automatic-handover.cjs');
+  suites.handover = ['scripts/smoke-automatic-handover.cjs', 'scripts/smoke-improvements.cjs', 'scripts/smoke-progress.cjs'];
   suites.verification = ['scripts/smoke-verification.cjs', 'scripts/smoke-push.cjs'];
   const suite=process.argv[2]||'all';if(!suites[suite])throw Error('Unknown test suite');
   for (const script of suites[suite]) execFileSync(process.execPath, [script], { stdio: 'inherit' });

@@ -2,6 +2,12 @@
 
 [Danh mục tài liệu](../README.md) · [Bắt đầu từ đầu](../START_HERE_DEMO.md) · [Trạng thái phiên bản](../STATUS.md)
 
+## Bộ mở rộng10/11 — 15tài khoản và10bộ đăng ký trống
+
+**[Mở bảng riêng P7–P16/V7–V11/NEW01–NEW10](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/accounts/BULK_2026_11_10.md)**.15tài khoản đã kiểm tra đăng nhập thật;10Patient có medicalConditions/dị ứng giả đa dạng, P8/P11/P14 không chia sẻ.5TNV được duyệt diễn tập quaR1/A1, đềuOFF/no active khi cấp. NEW01–NEW10 chỉ là email/password gợi ý, đã kiểm tra0email tồn tại lúc10/11 06:49UTC; dùng màn Đăng ký, không đăng nhập. Khi nhóm sử dụng, trạng thái này sẽ thay đổi; không reset tài khoản đã dùng.5bộ dự kiến Patient,5bộ TNV. Không tạo ca tự động khi cấp.
+
+Hồ sơ bệnh nền có từ web/source20; APK19 chưa có ô này. Tra [STATUS](../STATUS.md)/trang cài để biết APK mới hoàn tất chưa. Tất cả bệnh lý/kinh nghiệm/checklist là GIẢ; không dùng làm chứng nhận năng lực.
+
 ## Bộ bổ sung10/11/2026 — ưu tiên dùng cho lượt mới
 
 **[Mở email, mật khẩu và QR của8tài khoản mới trong repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/accounts/DEMO_2026_11_10.md)**. Nếu hiện404, đăng nhập GitHub có quyền repo hoặc nhờ chủ dự án phân tài khoản qua kênh riêng. Không đưa mật khẩu/QR vào slide/Issue public.

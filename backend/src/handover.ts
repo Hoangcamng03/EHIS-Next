@@ -1,3 +1,4 @@
+import { handoverTargets } from './handoverPolicy';
 import { createHash } from 'node:crypto';
 import { FieldPath, FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
@@ -28,10 +29,10 @@ export const listHandoverHistory = guardedCall('listHandoverHistory', async requ
   let query = db.collection(`incidents/${incidentId}/handoverRequests`).orderBy(FieldPath.documentId());
   if (data.after !== undefined) query = query.startAfter(id(data.after));
   const page = await query.limit(26).get(), docs = page.docs.slice(0, 25);
-  const uids = [...new Set(docs.flatMap(d => [d.data().fromUid as string, d.data().targetUid as string]))];
+  const uids = [...new Set(docs.flatMap(d => [d.data().fromUid as string, ...handoverTargets(d.data()), ...(d.data().acceptedBy ? [d.data().acceptedBy as string] : [])]))];
   const people = uids.length ? await db.getAll(...uids.map(uid => db.doc(`volunteers/${uid}`))) : [];
   const names = new Map(people.map(p => [p.id, p.data()?.fullName || 'TNV diễn tập']));
-  return { history: docs.map(d => { const v = d.data(); return { id: d.id, fromName: names.get(v.fromUid), targetName: names.get(v.targetUid), reason: v.reason,
+  return { history: docs.map(d => { const v = d.data(); return { id: d.id, fromName: names.get(v.fromUid), targetName: names.get(v.acceptedBy || v.targetUid) || (v.mode === 'automatic' ? `${handoverTargets(v).length} TNV được mời tự động` : 'Chưa có người nhận'), reason: v.reason,
     status: v.status === 'pending' && v.expiresAt.toMillis() <= Date.now() ? 'expired' : v.status,
     requestedAtMs: v.requestedAt?.toMillis?.() ?? null, acceptedAtMs: v.acceptedAt?.toMillis?.() ?? null, cancelledAtMs: v.cancelledAt?.toMillis?.() ?? null }; }), next: page.size > 25 ? docs.at(-1)!.id : null };
 });
@@ -73,7 +74,7 @@ export const proposeIncidentHandover = guardedCall('proposeIncidentHandover', as
     const expiresAt = Timestamp.fromMillis(now + 300000), sequence = Number(c!.handoverSequence || 0) + 1;
     if (c!.handover) {
       tx.update(ref.collection('handoverRequests').doc(c!.handover.id), { status: 'expired' });
-      if (c!.handover.targetUid !== targetUid) tx.set(db.doc(`volunteers/${c!.handover.targetUid}/alerts/${incidentId}`), { status: 'closed' }, { merge: true });
+      for (const priorUid of handoverTargets(c!.handover)) if (priorUid !== targetUid) tx.set(db.doc(`volunteers/${priorUid}/alerts/${incidentId}`), { status: 'closed' }, { merge: true });
     }
     tx.create(record, { fromUid: c!.acceptedBy, targetUid, reason, fingerprint, status: 'pending', expiresAt, requestedBy: request.auth!.uid, requestedAt: Timestamp.fromMillis(now) });
     tx.update(ref, { handover: { id: handoverId, fromUid: c!.acceptedBy, targetUid, expiresAt }, handoverSequence: sequence, invitedVolunteerIds: recipients });
@@ -91,13 +92,13 @@ export const acceptIncidentHandover = guardedCall('acceptIncidentHandover', asyn
     const ref = db.doc(`incidents/${incidentId}`), record = ref.collection('handoverRequests').doc(handoverId);
     const [incident, proposal, target, alert] = await tx.getAll(ref, record, db.doc(`volunteers/${uid}`), db.doc(`volunteers/${uid}/alerts/${incidentId}`));
     const c = incident.data(), p = proposal.data(), v = target.data();
-    if (!p || p.targetUid !== uid || !v || v.verificationStatus !== 'approved') throw new HttpsError('permission-denied', 'Không có quyền nhận bàn giao.');
+    if (!p || !handoverTargets(p).includes(uid) || !v || v.verificationStatus !== 'approved') throw new HttpsError('permission-denied', 'Không có quyền nhận bàn giao.');
     if (p.status === 'accepted' && c?.acceptedBy === uid && live(c) && v.activeIncidentId === incidentId) return { incidentId, status: c!.status };
     const old = c?.acceptedBy ? await tx.get(db.doc(`volunteers/${c.acceptedBy}`)) : null;
     const [location, report] = await tx.getAll(ref.collection('private').doc('location'), ref.collection('private').doc('reporter'));
-    if (!live(c) || p.status !== 'pending' || c!.handover?.id !== handoverId || c!.handover.targetUid !== uid || c!.acceptedBy !== p.fromUid || p.expiresAt.toMillis() <= Date.now() || old?.data()?.activeIncidentId !== incidentId || alert.data()?.handoverId !== handoverId || alert.data()?.status !== 'offered') throw new HttpsError('failed-precondition', 'Đề nghị đã đóng, thay đổi hoặc hết hạn.');
+    if (!live(c) || p.status !== 'pending' || c!.handover?.id !== handoverId || !handoverTargets(c!.handover).includes(uid) || c!.acceptedBy !== p.fromUid || p.expiresAt.toMillis() <= Date.now() || old?.data()?.activeIncidentId !== incidentId || alert.data()?.handoverId !== handoverId || alert.data()?.status !== 'offered') throw new HttpsError('failed-precondition', 'Đề nghị đã đóng, thay đổi hoặc hết hạn.');
     if (!volunteerReadiness(v, Date.now()).readyForDispatch || !location.exists || !v.location || distanceMeters(location.data() as { latitude: number; longitude: number }, v.location) > 5000) throw new HttpsError('failed-precondition', 'Bạn đang bận, GPS cũ hoặc ngoài 5 km.');
-    tx.update(record, { status: 'accepted', acceptedAt: FieldValue.serverTimestamp() });
+    tx.update(record, { status: 'accepted', acceptedBy: uid, acceptedAt: FieldValue.serverTimestamp() });
     tx.update(ref, { travelProgress: null, volunteerLoadedRevision: 0, acceptedBy: uid, status: 'accepted', acceptedAt: FieldValue.serverTimestamp(), handover: FieldValue.delete() });
     tx.update(db.doc(`volunteers/${p.fromUid}`), { activeIncidentId: null, isAvailable: false });
     tx.update(db.doc(`volunteers/${uid}`), { activeIncidentId: incidentId, isAvailable: false });
@@ -117,7 +118,13 @@ export const cancelIncidentHandover = guardedCall('cancelIncidentHandover', asyn
     if (p?.status === 'cancelled') return { cancelled: true };
     if (!p || p.status !== 'pending' || !live(c) || c!.handover?.id !== handoverId) throw new HttpsError('failed-precondition', 'Đề nghị đã thay đổi; tải lại trước khi hủy.');
     tx.update(record, { status: 'cancelled', cancelledBy: request.auth!.uid, cancelledAt: FieldValue.serverTimestamp() }); tx.update(ref, { handover: FieldValue.delete() });
-    tx.set(db.doc(`volunteers/${p.targetUid}/alerts/${incidentId}`), { status: 'closed' }, { merge: true });
+    if (c!.handover.mode === 'automatic') {
+      const progress = { ...c!.travelProgress, handoverStatus: 'cancelled', handoverInvitedCount: 0, handoverExpiresAtMs: null };
+      tx.update(ref, { travelProgress: progress });
+      tx.set(db.doc('volunteers/'+c!.acceptedBy+'/alerts/'+incidentId), { travelProgress: progress }, { merge:true });
+      for (const path of ['reporters/'+c!.reporterUid+'/incidentStatuses/'+incidentId,'patients/'+c!.patientId+'/incidentStatuses/'+incidentId]) tx.set(db.doc(path), {travelProgress:progress,handoverPending:false},{merge:true});
+    }
+    for (const target of handoverTargets(p)) tx.set(db.doc(`volunteers/${target}/alerts/${incidentId}`), { status: 'closed' }, { merge: true });
     tx.set(db.doc(`reporters/${c!.reporterUid}/incidentStatuses/${incidentId}`), { handoverPending: false }, { merge: true });
     tx.create(db.collection('auditLogs').doc(), { action: 'handover-cancelled', actorUid: request.auth!.uid, incidentId, handoverId, createdAt: FieldValue.serverTimestamp() }); return { cancelled: true };
   });

@@ -4,6 +4,14 @@
 
 Từ 0.4.12: `/admin` → **Danh sách TNV theo đơn vị và khu vực** → nhập đúng tên đã lưu (hoặc để trống) → **Tải danh sách TNV**. Mỗi trang 50 người, có nút tải tiếp. Mở **Liên hệ và quản lý vùng** để sửa vùng hoặc tạm dừng/khôi phục quyền kèm lý do. TNV đang có ca không được tạm dừng bằng thao tác này; cần người phụ trách xử lý bàn giao trước. Khôi phục giữ OFF để TNV tự xác nhận sẵn sàng. Vùng chỉ quản lý/lọc; điều phối vẫn dùng GPS gần nhất trong 5 km, bao gồm ranh giới. Nếu người giới thiệu đổi đơn vị, cần checklist xác nhận mới trước khi duyệt; không dùng xác nhận cũ cho đơn vị mới.
 
+## Đọc nhanh: chỉ có3bước, không duyệt từng ca
+
+1. **TNV** gửi hồ sơ một lần, điền email người quản lý đơn vị. App hiện đang chờ ai.
+2. **Người giới thiệu** vào /referrer: hồ sơ được tải tự động; kiểm tra4mục và gửi xác nhận. Checklist/căn cứ đã lưu vẫn được hiển thị khi mở lại.
+3. **Quản trị** vào /admin: đơn tải tự động; xem xác nhận rồi duyệt quyền nhận ca. Quyền người giới thiệu chỉ thiết lập một lần, không làm lại cho mỗi TNV/ca.
+
+Đăng ký TNV không có nghĩa đã được phép nhận ca; người giới thiệu xác nhận thông tin, quản trị cấp quyền. Các ca hỗ trợ không chờ quản trị bấm duyệt. Chi tiết dưới đây chỉ dùng cho người vận hành thiết lập lần đầu.
+
 ## 1. Chuẩn bị người giới thiệu
 
 1. Chọn người quản lý TNV có chức vụ tại đơn vị: trưởng khoa hoặc người được tổ chức giao nhiệm vụ. Nhóm kỹ thuật không tự xác nhận năng lực y tế.

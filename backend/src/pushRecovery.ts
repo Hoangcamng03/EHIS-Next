@@ -1,3 +1,4 @@
+import { handoverTargets } from './handoverPolicy';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { pushJobId, queuePush } from './pushJobs';
 // Catch up only valid offers/assignment for this device, never replay closed cases or ring other devices.
@@ -16,7 +17,7 @@ export async function recoverDeviceInvitations(uid: string, deviceKey: string) {
       const fresh = typeof v.lastSeenAt?.toMillis === 'function' && now - v.lastSeenAt.toMillis() <= 300000 && v.lastSeenAt.toMillis() <= now + 60000;
       const offered = c.status === 'dispatching' && !c.acceptedBy && c.offerExpiresAt?.toMillis?.() > now && v.isAvailable === true && !v.activeIncidentId && fresh && c.invitedVolunteerIds?.includes(uid) && offers.docs.some(a => a.id === item.id);
       const handover = c.handover, handoverOffer = offers.docs.find(a => a.id === item.id)?.data();
-      const pendingHandover = ['accepted', 'arrived'].includes(c.status) && handover?.targetUid === uid && handover.expiresAt.toMillis() > now && handoverOffer?.handoverId === handover.id && v.isAvailable === true && !v.activeIncidentId && fresh;
+      const pendingHandover = ['accepted', 'arrived'].includes(c.status) && handoverTargets(handover).includes(uid) && handover.expiresAt.toMillis() > now && handoverOffer?.handoverId === handover.id && v.isAvailable === true && !v.activeIncidentId && fresh;
       if (!assigned && !offered && !pendingHandover) return [];
       const kind = assigned ? 'update' : 'request', expiry = assigned ? Timestamp.fromMillis(now + 120000) : pendingHandover ? handover.expiresAt : c.offerExpiresAt, revision = pendingHandover ? Number(c.handoverSequence || 0) : 0;
       return [{ id: item.id, kind, expiry, revision, handoverId: pendingHandover ? handover.id as string : undefined, ref: db.doc(`pushJobs/${pushJobId(uid, item.id, kind, revision, deviceKey)}`) }];

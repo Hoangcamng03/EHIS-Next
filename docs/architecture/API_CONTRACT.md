@@ -209,3 +209,9 @@ Hướng dẫn người dùng: [Bàn giao và kiểm tra vận hành](../operati
 - Không thêm client write/Rules/index/IAM/billing. Dữ liệu tiến độ events/audit vẫn là metadata chưa có chính sách retention production; không dùng ca thật.
 
 [Hướng dẫn gửi/nhận và giờ đến](../operations/REPORT_UPDATES_AND_ARRIVAL.md). Bản cũ chưa có xác nhận tải không được coi là TNV chưa đọc; chỉ hiện Chưa có xác nhận.
+
+## 0.4.21 — Không thể tiếp tục và bàn giao tự động
+
+`updateIncidentProgress` với `action: blocked, obstacle: cannot_continue` tạo đề nghị tự động trong cùng transaction với tiến độ: giữ người cũ cho tới khi người mới nhận, mời tối đa5TNV approved/sẵn sàng/GPS≤5phút/trong5km/không bận/không phải Patient. Lời mời5phút, cùng updateId không tạo thêm đề nghị. Không có ứng viên thì ghi trạng thái chờ rõ ràng, không đóng ca. TNV bật Sẵn sàng muộn được kiểm tra các handover còn hạn, tối đa100ca/20người một đề nghị/40người đã mời mỗi ca. Hết hạn phải bấm tìm lại; chưa có worker điều phối liên tục.
+
+`handover.targetUids` bổ sung nhóm nhận, tương thích `targetUid` đơn của quản trị. `acceptIncidentHandover` vẫn transaction kiểm tra thành viên/GPS/quyền/assignment; hai người tranh chỉ một thắng. Người cũ được giải phóng và mất quyền riêng, mọi lời mời còn lại đóng, reporter/Patient cập nhật. Outbox push không chứa bệnh án; FCM acceptance không chứng minh máy đã reo. `going` bị chặn khi đang chờ đề nghị tự động; quản trị có thể hủy đề nghị trước khi TNV tiếp tục. Không tự giải phóng ca chỉ vì ETA trễ.

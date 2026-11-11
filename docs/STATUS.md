@@ -1,16 +1,18 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
 
-Cập nhật10/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](testing/verification/VERIFICATION_V0_4_15.json).
+Cập nhật11/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](testing/verification/VERIFICATION_V0_4_15.json).
 
 ## 1. Bản đang bàn giao
+
+**Nguồn21 đang chuẩn bị phát hành**: [bàn giao tự động/duyệt TNV/QR](testing/verification/VERIFICATION_V0_4_21.md). Cloud hiện20, trang tải vẫn19; chưa ghi APK21 đã có/cài.
 
 **Chỉ diễn tập có hướng dẫn; chưa nghiệm thu toàn bộ.** [Báo cáo08–10/11](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md) và [số liệu gốc](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.json) giữ cả thất bại và phần chưa thử.
 
 | Phần | Đã xác minh | Còn thiếu |
 | --- | --- | --- |
-| App web/người báo/admin/referrer | Đã deploy19 từb06ccca ngày10/11;38đối chiếu HTML/JS/CSS khớp byte với build | Chưa chạy lại browser đầy đủ vai trò sau deploy này; failure rebuild cũ vẫn giữ |
-| Backend Vercel |19 từa9134eb đã deploy; health đúngversion/project/401;8request trùng thật tạo1ca, tất cả200, payload khác400; ca thử đã dọn | Chưa kiểm thử tải lớn cloud/worker liên tục/SLA; Spark/Hobby và quyền hiện có |
+| App web/người báo/admin/referrer | Đã deploy20 từ586a652 ngày10/11, có trường bệnh nền; source21 đã qua check/build, đang chuẩn bị | Chưa chạy lại browser đầy đủ vai trò sau deploy này; failure rebuild cũ vẫn giữ |
+| Backend Vercel |20 từ586a652 đã deploy/probe đúngversion/project/401;21 chưa deploy | Chưa kiểm thử tải lớn cloud/worker liên tục/SLA; Spark/Hobby và quyền hiện có |
 | S22+/Android16 | Hiện APK19/code17; kết quả18: GPS tại chỗ, route, OFF/ON, Home/resume, report2 tự tải/ack PASS ở lượt thử | Tự thoát gián đoạn còn OPEN; bố cục/bấm nhầm/hoàn tất native18 chưa đạt; chưa đi bộ/đoGPS chuẩn/offline độc lập/toàn bộ chế độ âm thanh |
 | APK19/code17 | Đã cài S22+;3ca chờ, nhận E, chặn nhận D/A, bản2 tự tải/ack, GPS tại chỗ, hủy xác nhận arrival/hoàn tất và xác nhận hoàn tất native PASS. Kết thúc OFF/no active | Chưa nghiệm thu toàn bộ: tự thoát, offline độc lập, đi bộ GPS, nhiều máy/chế độ âm. Xem lab note10/11 |
 | Trang tải chung | [APK0.4.19/code17](https://expo.dev/artifacts/eas/ZA57VAvTHhh0GHwReDBPBzHRSSKFX860OrwGjCU8wUI.apk); /install trả200, nhãn19 và đúnghref đã đối chiếu | Bản diễn tập cho nhóm; chưa nghiệm thu toàn bộ, không OTA |

@@ -26,6 +26,12 @@ export function AdminDashboard() {
     });
     return () => { cancelled = true; unsubscribe(); };
   }, []);
+  useEffect(() => {
+    if (!user || !admin) return;
+    let cancelled = false; const uid = user.uid, client = adminClient();
+    httpsCallable<Record<string, never>, { applications: Application[] }>(client.functions, 'listVolunteerApplications', { timeout: 15000 })({}).then(result => { if (!cancelled && client.auth.currentUser?.uid === uid) { setItems(result.data.applications); setLoaded(true); } }).catch(() => { if (!cancelled) setError('Chưa tải được đơn. Bấm Tải lại đơn chờ duyệt.'); });
+    return () => { cancelled = true; };
+  }, [user, admin]);
   async function load() {
     const result = await httpsCallable<Record<string, never>, { applications: Application[] }>(adminClient().functions, 'listVolunteerApplications', { timeout: 15000 })({});
     setItems(result.data.applications); setLoaded(true); setReview(null);
@@ -50,11 +56,11 @@ export function AdminDashboard() {
       <button className="primary" disabled={busy}>Đăng nhập quản trị</button>
     </form> : <><p>{user.email}</p><button className="secondary" disabled={busy} onClick={() => act('logout')}>Đăng xuất quản trị</button>
       {ready && !admin && <p role="alert" className="error">Tài khoản này không có quyền quản trị. Chọn vai trò hoặc đăng ký tài khoản không tự cấp quyền.</p>}
-      {admin && <><OperationsOverview /><HandoverDesk /><ReferrerRegistry /><VolunteerRoster /><button className="primary" disabled={busy} onClick={() => act('load')}>Tải đơn chờ duyệt</button><p className="hint">Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp theo.</p>
+      {admin && <><section className="report-panel"><h2>Duyệt TNV: ai làm bước nào?</h2><ol><li>Quản trị cấp quyền cho người quản lý đơn vị một lần.</li><li>TNV gửi hồ sơ; người giới thiệu kiểm tra 4 mục tại trang Người giới thiệu.</li><li>Quản trị xem hồ sơ đã xác nhận và bấm Duyệt để mở quyền nhận ca.</li></ol><p>Người giới thiệu xác nhận thông tin; quản trị cấp quyền sử dụng. Không có bước duyệt lại từng ca hỗ trợ.</p><a href="/referrer">Mở trang người giới thiệu</a></section><details className="report-panel"><summary>Ca đang hoạt động và bàn giao</summary><OperationsOverview /><HandoverDesk /></details><details className="report-panel"><summary>Thiết lập người giới thiệu — chỉ làm một lần mỗi người</summary><ReferrerRegistry /></details><details className="report-panel"><summary>Danh sách TNV đã duyệt và khu vực</summary><VolunteerRoster /></details><button className="primary" disabled={busy} onClick={() => act('load')}>Tải lại đơn chờ duyệt</button><p className="hint">Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp theo.</p>
         {!items.length && <p>{loaded ? 'Hiện không có đơn chờ duyệt.' : 'Bấm Tải đơn chờ duyệt để xem danh sách.'}</p>}
         {items.map(item => <section className="report-panel" key={item.uid}><h2>{item.fullName}</h2><p>Liên hệ: {item.phone}</p><p>Kinh nghiệm tự khai: {item.experience}</p>
           <p>Phân loại tự khai: {levels[item.trainingLevel] || 'Hồ sơ cũ cần gửi lại'} · {item.clinicalMonths ?? 0} tháng</p><p>Cư trú: {item.homeAddress || 'Chưa có'}</p><p>Đơn vị: {item.workAddress || 'Chưa có'} · Khu vực: {item.serviceArea || 'Chưa có'}</p><p>Người giới thiệu: {item.referrerEmail || 'Chưa có'}</p>
-          {item.referral ? <div><p>Kết quả: {item.referral.decision === 'recommended' ? 'Đề nghị duyệt' : 'Chưa đủ điều kiện'} · {item.referral.position}, {item.referral.organisation}</p><p>Đã kiểm tra: {levels[item.referral.confirmedLevel]} · {item.referral.confirmedClinicalMonths} tháng</p><p>Căn cứ: {item.referral.evidence}</p></div> : <p className="hint">Chưa đủ checklist của người quản lý. Hồ sơ cũ cần TNV gửi lại theo mẫu mới.</p>}
+          {item.referral ? <div><p>Kết quả: {item.referral.decision === 'recommended' ? 'Đề nghị duyệt' : 'Chưa đủ điều kiện'} · {item.referral.position}, {item.referral.organisation}</p><p>Đã kiểm tra: {levels[item.referral.confirmedLevel]} · {item.referral.confirmedClinicalMonths} tháng</p><p>Căn cứ: {item.referral.evidence}</p></div> : <p className="hint">Bước 2/3: chờ người giới thiệu xác nhận. Quản trị chưa thể duyệt ở bước này.</p>}
           {review?.uid === item.uid ? <div className="review-confirm"><p>{review.decision === 'approved' ? 'Cho phép tài khoản này bật sẵn sàng và nhận ca? Xác nhận bạn đã kiểm tra điều kiện tham gia buổi thử.' : 'Từ chối đơn này? Người đăng ký có thể bổ sung và gửi lại.'}</p><button className="primary" disabled={busy} onClick={() => act(review.decision, item.uid)}>{busy ? 'Đang lưu…' : review.decision === 'approved' ? 'Xác nhận duyệt đơn' : 'Xác nhận từ chối đơn'}</button><button className="secondary" disabled={busy} onClick={() => setReview(null)}>Quay lại xem đơn</button></div> : <><button className="primary" disabled={busy || item.policyVersion !== 2 || item.referral?.decision !== 'recommended'} onClick={() => setReview({ uid: item.uid, decision: 'approved' })}>Duyệt đơn</button><button className="secondary" disabled={busy || !item.applicationRevision} onClick={() => setReview({ uid: item.uid, decision: 'rejected' })}>Từ chối đơn</button></>}
         </section>)}
       </>}

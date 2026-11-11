@@ -1,0 +1,438 @@
+{
+  "recordedAt": "2026-11-11T07:16:14.723Z",
+  "version": "0.4.21",
+  "androidVersionCode": 19,
+  "scope": "Controlled synthetic software drills only. Source/local API checks are separate from deployment, artifact and actual-device results.",
+  "checks": {
+    "id": "check-auto21-final",
+    "operation": "check",
+    "command": "npm run check",
+    "startedAt": "2026-11-11T07:08:01.595Z",
+    "endedAt": "2026-11-11T07:08:28.963Z",
+    "elapsedMs": 27368,
+    "exitCode": 0,
+    "signal": null,
+    "status": "PASS",
+    "sourceCommit": "586a65217ca62605f0963a3f7e3457fab3fd692b",
+    "sourceDirtyAtStart": true,
+    "node": "v24.21.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 25463480320,
+    "log": "check-auto21-final.log",
+    "logSha256": "7c1ab52f7ac0e6c404e0a7265b5cfcdb46101272c058b29b18cfbbd1f999c6a7",
+    "artifacts": []
+  },
+  "integrationBeforeFinalEmptyRetry": {
+    "id": "integration-auto21",
+    "operation": "integration",
+    "command": "npm run test:integration",
+    "startedAt": "2026-11-11T06:47:49.052Z",
+    "endedAt": "2026-11-11T06:52:46.076Z",
+    "elapsedMs": 297024,
+    "exitCode": 0,
+    "signal": null,
+    "status": "PASS",
+    "sourceCommit": "586a65217ca62605f0963a3f7e3457fab3fd692b",
+    "sourceDirtyAtStart": true,
+    "node": "v24.21.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 25463480320,
+    "log": "integration-auto21.log",
+    "logSha256": "4cbc0cb69c3461de9c89c2614f624378697c32458d7015331c5118051fa90fed",
+    "artifacts": [
+      "integration-auto21-multi-acceptance.json"
+    ]
+  },
+  "targeted": {
+    "id": "handover-auto21-2",
+    "operation": "handover",
+    "command": "npm run test:handover",
+    "startedAt": "2026-11-11T06:21:24.904Z",
+    "endedAt": "2026-11-11T06:23:16.125Z",
+    "elapsedMs": 111219,
+    "exitCode": 0,
+    "signal": null,
+    "status": "PASS",
+    "sourceCommit": "586a65217ca62605f0963a3f7e3457fab3fd692b",
+    "sourceDirtyAtStart": true,
+    "node": "v24.21.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 25463480320,
+    "log": "handover-auto21-2.log",
+    "logSha256": "3c9af0f83a654add510b1979a0da65910a165bde34163017983f38307d7a5e55",
+    "artifacts": []
+  },
+  "build": {
+    "id": "build-auto21-final",
+    "operation": "build",
+    "command": "npm run cloud:build",
+    "startedAt": "2026-11-11T07:13:00.809Z",
+    "endedAt": "2026-11-11T07:13:33.323Z",
+    "elapsedMs": 32513,
+    "exitCode": 0,
+    "signal": null,
+    "status": "PASS",
+    "sourceCommit": "586a65217ca62605f0963a3f7e3457fab3fd692b",
+    "sourceDirtyAtStart": true,
+    "node": "v24.21.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 25463480320,
+    "log": "build-auto21-final.log",
+    "logSha256": "b6c564f2e4cff5413f21cbf852eafd8fd260c5c80aebfcfca0e2509bfaf18d6c",
+    "artifacts": []
+  },
+  "prior20": {
+    "integration": {
+      "id": "integration-conditions20",
+      "operation": "integration",
+      "command": "npm run test:integration",
+      "startedAt": "2026-11-10T06:41:38.439Z",
+      "endedAt": "2026-11-10T06:46:18.851Z",
+      "elapsedMs": 280411,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "60392b104f431ab72d0bff6b2d0caa55b4b4903d",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "integration-conditions20.log",
+      "logSha256": "c870d4cf1e2e7a32e20d8511e6ec58ad1a380cb08e603e161b680242805d6ed2",
+      "artifacts": [
+        "integration-conditions20-multi-acceptance.json"
+      ]
+    },
+    "build": {
+      "id": "build-conditions20",
+      "operation": "build",
+      "command": "npm run cloud:build",
+      "startedAt": "2026-11-10T06:43:24.660Z",
+      "endedAt": "2026-11-10T06:43:55.340Z",
+      "elapsedMs": 30679,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "60392b104f431ab72d0bff6b2d0caa55b4b4903d",
+      "sourceDirtyAtStart": true,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "build-conditions20.log",
+      "logSha256": "b761dd84bc42e9abb7fc4159caeafd29ade8c72e1bfb6418c3142418daed5420",
+      "artifacts": []
+    },
+    "backend": {
+      "id": "deploybackend-conditions20",
+      "operation": "deploybackend",
+      "command": "node scripts/vercel.cjs deploy",
+      "startedAt": "2026-11-10T06:47:03.619Z",
+      "endedAt": "2026-11-10T06:47:34.732Z",
+      "elapsedMs": 31111,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "586a65217ca62605f0963a3f7e3457fab3fd692b",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deploybackend-conditions20.log",
+      "logSha256": "7ee14cb1483d46c32a77721c16f2cf7ce5a3bcf381f2cce25dd6bb2bb5726644",
+      "artifacts": []
+    },
+    "hosting": {
+      "id": "deployweb-conditions20",
+      "operation": "deployweb",
+      "command": "npm run cloud:deploy-web",
+      "startedAt": "2026-11-10T06:48:29.407Z",
+      "endedAt": "2026-11-10T06:48:49.304Z",
+      "elapsedMs": 19896,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "586a65217ca62605f0963a3f7e3457fab3fd692b",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deployweb-conditions20.log",
+      "logSha256": "a03b6915d002743991ab277e4647656efd2d0fa694a2568d4942d4c4bf6d906c",
+      "artifacts": []
+    },
+    "probe": {
+      "id": "cloudprobe-conditions20",
+      "operation": "cloudprobe",
+      "command": "npm run cloud:probe",
+      "startedAt": "2026-11-10T06:48:07.940Z",
+      "endedAt": "2026-11-10T06:48:10.448Z",
+      "elapsedMs": 2507,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "586a65217ca62605f0963a3f7e3457fab3fd692b",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "cloudprobe-conditions20.log",
+      "logSha256": "583e87681f8b7a2689e6ffcf9e177179a6a1553dbfdd2257555748ab91eb8a8e",
+      "artifacts": []
+    }
+  },
+  "accountBatch": {
+    "project": "ehis-next-20261021-hc03",
+    "createdAt": "2026-11-10T06:48:10.559Z",
+    "verifiedAt": "2026-11-10T06:49:00.686Z",
+    "registeredAccounts": 15,
+    "roles": {
+      "patients": 10,
+      "approvedDrillVolunteers": 5,
+      "newAdmins": 0,
+      "newReferrers": 0
+    },
+    "registrationCandidates": 10,
+    "registrationCandidatesExistInAuth": 0,
+    "registeredLoginPass": 15,
+    "verified": [
+      {
+        "alias": "P7",
+        "kind": "patient",
+        "login": "PASS",
+        "shareProfile": true,
+        "conditions": [
+          "Hen phế quản (giả lập)"
+        ],
+        "adminDenied": true
+      },
+      {
+        "alias": "P8",
+        "kind": "patient",
+        "login": "PASS",
+        "shareProfile": false,
+        "conditions": [
+          "Đái tháo đường típ2 (giả lập)"
+        ],
+        "adminDenied": true
+      },
+      {
+        "alias": "P9",
+        "kind": "patient",
+        "login": "PASS",
+        "shareProfile": true,
+        "conditions": [
+          "Tăng huyết áp (giả lập)"
+        ],
+        "adminDenied": true
+      },
+      {
+        "alias": "P10",
+        "kind": "patient",
+        "login": "PASS",
+        "shareProfile": true,
+        "conditions": [
+          "Bệnh mạch vành (giả lập)"
+        ],
+        "adminDenied": true
+      },
+      {
+        "alias": "P11",
+        "kind": "patient",
+        "login": "PASS",
+        "shareProfile": false,
+        "conditions": [
+          "Động kinh (giả lập)"
+        ],
+        "adminDenied": true
+      },
+      {
+        "alias": "P12",
+        "kind": "patient",
+        "login": "PASS",
+        "shareProfile": true,
+        "conditions": [
+          "Bệnh thận mạn (giả lập)"
+        ],
+        "adminDenied": true
+      },
+      {
+        "alias": "P13",
+        "kind": "patient",
+        "login": "PASS",
+        "shareProfile": true,
+        "conditions": [
+          "Bệnh phổi tắc nghẽn mạn tính (giả lập)"
+        ],
+        "adminDenied": true
+      },
+      {
+        "alias": "P14",
+        "kind": "patient",
+        "login": "PASS",
+        "shareProfile": false,
+        "conditions": [
+          "Tiền sử đột quỵ (giả lập)"
+        ],
+        "adminDenied": true
+      },
+      {
+        "alias": "P15",
+        "kind": "patient",
+        "login": "PASS",
+        "shareProfile": true,
+        "conditions": [
+          "Suy tim (giả lập)"
+        ],
+        "adminDenied": true
+      },
+      {
+        "alias": "P16",
+        "kind": "patient",
+        "login": "PASS",
+        "shareProfile": true,
+        "conditions": [
+          "Suy giáp (giả lập)"
+        ],
+        "adminDenied": true
+      },
+      {
+        "alias": "V7",
+        "kind": "volunteer",
+        "login": "PASS",
+        "shareProfile": null,
+        "conditions": null,
+        "adminDenied": true
+      },
+      {
+        "alias": "V8",
+        "kind": "volunteer",
+        "login": "PASS",
+        "shareProfile": null,
+        "conditions": null,
+        "adminDenied": true
+      },
+      {
+        "alias": "V9",
+        "kind": "volunteer",
+        "login": "PASS",
+        "shareProfile": null,
+        "conditions": null,
+        "adminDenied": true
+      },
+      {
+        "alias": "V10",
+        "kind": "volunteer",
+        "login": "PASS",
+        "shareProfile": null,
+        "conditions": null,
+        "adminDenied": true
+      },
+      {
+        "alias": "V11",
+        "kind": "volunteer",
+        "login": "PASS",
+        "shareProfile": null,
+        "conditions": null,
+        "adminDenied": true
+      }
+    ],
+    "noNewIncidents": true,
+    "readySwitchesOff": true,
+    "oldAccountsChanged": false,
+    "scope": "Real Auth/API/Firestore checks; synthetic clinical data and referral evidence. Registration candidates intentionally not created."
+  },
+  "failures": [
+    "Initial backend compile: optional value in pushJobs; fixed guard",
+    "Initial automatic test: MODULE_NOT_FOUND from direct Firebase package path; fixed helper import; invalid collection path found during review before rerun",
+    "Initial check21: AlertRecord lacked travelProgress type; fixed typed feed",
+    "Catalog check initially lacked primary table rows for new21 MD/JSON; corrected and repository check PASS"
+  ],
+  "release": {
+    "backend21": "NOT_DEPLOYED",
+    "hosting21": "NOT_DEPLOYED",
+    "apk21": "NOT_STARTED",
+    "native21": "NOT_VERIFIED",
+    "qrTarget": "https://ehis-next-20261021-hc03.web.app/install",
+    "qrGenerated": true,
+    "phoneScanVerified": false
+  },
+  "open": [
+    "Intermittent native self-exit remains open",
+    "Independent offline and walking GPS not accepted",
+    "Cross-device/background FCM delivery for automatic handover not yet measured",
+    "Functions local performance RECHECK and dependency advisories retained"
+  ],
+  "finalIntegration": {
+    "id": "integration-auto21-final",
+    "operation": "integration",
+    "command": "npm run test:integration",
+    "startedAt": "2026-11-11T07:11:07.472Z",
+    "endedAt": "2026-11-11T07:16:01.247Z",
+    "elapsedMs": 293773,
+    "exitCode": 0,
+    "signal": null,
+    "status": "PASS",
+    "sourceCommit": "586a65217ca62605f0963a3f7e3457fab3fd692b",
+    "sourceDirtyAtStart": true,
+    "node": "v24.21.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 25463480320,
+    "log": "integration-auto21-final.log",
+    "logSha256": "c851c8cabad48e6c8fda9ae33112c57770da94fe46e399b5c9de8050b11c4047",
+    "artifacts": [
+      "integration-auto21-final-multi-acceptance.json"
+    ]
+  },
+  "finalBuild": {
+    "id": "build-auto21-final",
+    "operation": "build",
+    "command": "npm run cloud:build",
+    "startedAt": "2026-11-11T07:13:00.809Z",
+    "endedAt": "2026-11-11T07:13:33.323Z",
+    "elapsedMs": 32513,
+    "exitCode": 0,
+    "signal": null,
+    "status": "PASS",
+    "sourceCommit": "586a65217ca62605f0963a3f7e3457fab3fd692b",
+    "sourceDirtyAtStart": true,
+    "node": "v24.21.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 25463480320,
+    "log": "build-auto21-final.log",
+    "logSha256": "b6c564f2e4cff5413f21cbf852eafd8fd260c5c80aebfcfca0e2509bfaf18d6c",
+    "artifacts": []
+  }
+}

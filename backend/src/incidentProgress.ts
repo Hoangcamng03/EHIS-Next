@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { FieldValue, getFirestore } from 'firebase-admin/firestore';
 import { HttpsError } from 'firebase-functions/v2/https';
+import { planAutomaticHandover } from './automaticHandover';
 import { guardedCall } from './guards';
 import { identifier, objectValue } from './reportValidation';
 function parse(value: unknown, keys: string[]) { try { return objectValue(value, keys); } catch { throw new HttpsError('invalid-argument', 'Dữ liệu tiến độ chưa hợp lệ.'); } }
@@ -24,14 +25,17 @@ export const updateIncidentProgress = guardedCall('updateIncidentProgress', asyn
     if (prior.exists) { if (prior.data()!.fingerprint !== fingerprint) throw new HttpsError('invalid-argument', 'Mã cập nhật đã dùng cho nội dung khác.'); return { progress: c.travelProgress ?? null, duplicate: true }; }
     if (data.action !== 'heartbeat' && Number(data.expectedProgressRevision) !== Number(c.travelProgress?.revision || 0)) throw new HttpsError('failed-precondition', 'Tiến độ đã đổi ở thiết bị khác. Kiểm tra bản mới rồi xác nhận lại.');
     const now = Date.now();
+    if (data.action !== 'heartbeat' && !(data.action === 'blocked' && data.obstacle === 'cannot_continue') && c.handover?.mode === 'automatic' && c.handover.expiresAt?.toMillis() > now) throw new HttpsError('failed-precondition', 'Đang chờ bàn giao. Nhờ quản trị hủy đề nghị nếu bạn muốn tiếp tục.');
     if (data.action === 'heartbeat' && !c.travelProgress) throw new HttpsError('failed-precondition', 'Hãy xác nhận tiến độ trước.');
     // Bound stationary writes even if a client erroneously fires each render.
     if (data.action === 'heartbeat' && now - c.travelProgress.checkInAtMs < 60000) return { progress: c.travelProgress, throttled: true };
+    const replacement = data.action === 'blocked' && data.obstacle === 'cannot_continue' ? await planAutomaticHandover(tx, db, c, incidentId, uid, updateId, now) : null;
     const progress = data.action === 'heartbeat' ? { ...c.travelProgress, checkInAtMs: now } : {
-      state: data.action, etaAtMs: data.action === 'going' ? now + Number(data.etaMinutes) * 60000 : null,
+      ...(replacement?.summary || {}), state: data.action, etaAtMs: data.action === 'going' ? now + Number(data.etaMinutes) * 60000 : null,
       firstEtaAtMs: c.travelProgress?.firstEtaAtMs ?? (data.action === 'going' ? now + Number(data.etaMinutes) * 60000 : null),
       obstacle: data.action === 'blocked' ? data.obstacle : null, revision: Number(c.travelProgress?.revision || 0) + 1, updatedAtMs: now, checkInAtMs: now,
     };
+    replacement?.write();
     tx.update(ref, { travelProgress: progress });
     tx.set(db.doc(`volunteers/${uid}/alerts/${incidentId}`), { travelProgress: progress }, { merge: true });
     for (const path of [`reporters/${c.reporterUid}/incidentStatuses/${incidentId}`, `patients/${c.patientId}/incidentStatuses/${incidentId}`]) tx.set(db.doc(path), { travelProgress: progress }, { merge: true });

@@ -2,6 +2,14 @@
 
 Áp dụng từ mã 0.4.14. Xem [STATUS](../STATUS.md) để biết bản nào đã được triển khai, chưa suy ra từ tài liệu này rằng điện thoại đã cập nhật. Chỉ diễn tập với dữ liệu giả.
 
+## Từ0.4.21: TNV tự yêu cầu người nhận thay
+
+- Trong ca đang di chuyển, bấm **Không thể tiếp tục · tìm người thay** và xác nhận. Hệ thống ghi trở ngại và mời tối đa5TNV gần nhất đủ điều kiện trong cùng transaction; không cần quản trị tạo đề nghị bằng tay.
+- TNV khác nhận cảnh báo/lời mời **Nhận bàn giao**. Chỉ một người xác nhận thành công; lúc đó ca tự chuyển, người cũ được giải phóng và mất quyền riêng.
+- Khi không có TNV phù hợp, app ghi rõ chưa có người nhận thay. TNV bật Sẵn sàng muộn có thể được mời trong thời hạn5phút. Hết hạn hoặc chưa có ứng viên thì tìm lại; không tự đóng ca hoặc hứa đã có người đến.
+- Giới hạn diễn tập: GPS≤5phút, trong5km, chỉ TNV approved/sẵn sàng/không bận;5lời mời đầu, tối đa20người một lượt/40người mỗi ca. Chưa có điều phối nền liên tục.
+- Quản trị chỉ can thiệp khi cần, theo cách thủ công bên dưới. Cần hủy đề nghị đang chờ trước khi người cũ xác nhận tiếp tục để tránh hai luồng xử lý song song.
+
 ## 1. Khi TNV không thể tiếp tục
 
 1. Quản trị liên hệ TNV hiện tại, xác minh tình huống và đầu mối buổi thử. Không tự suy ra TNV bỏ ca từ việc GPS cũ hoặc mất mạng.
