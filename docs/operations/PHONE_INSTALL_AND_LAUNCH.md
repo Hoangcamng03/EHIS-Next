@@ -1,6 +1,6 @@
 # Cài trên điện thoại — dành cho người sử dụng thử
 
-**Android mới nhất: [APK0.4.19/code17](https://expo.dev/artifacts/eas/ZA57VAvTHhh0GHwReDBPBzHRSSKFX860OrwGjCU8wUI.apk)**. Cài đè sau khi hoàn tất ca và tắt Sẵn sàng; giữ dữ liệu đăng nhập. [Bằng chứng S22+ và phần còn thiếu](../testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md).
+**Android mới nhất: [APK 0.4.21/code19](https://expo.dev/artifacts/eas/uwcKeQiNQrGIoESYhgcQxChZpNcNnsRY83OHxhBR34U.apk)**. Cài đè sau khi hoàn tất ca và tắt Sẵn sàng; giữ dữ liệu đăng nhập. [Bằng chứng21 và phần còn thiếu](../testing/verification/VERIFICATION_V0_4_21.md). Artifact đã kiểm tra, chưa nghiệm thu21 trên máy thật. [QR tải app](../assets/install/ehis-download-qr.png).
 
 ## 1. Chọn cách mở
 

@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-11-11T07:16:14.723Z",
+  "recordedAt": "2026-11-11T14:32:55.470Z",
   "version": "0.4.21",
   "androidVersionCode": 19,
   "scope": "Controlled synthetic software drills only. Source/local API checks are separate from deployment, artifact and actual-device results.",
@@ -375,13 +375,34 @@
     "Catalog check initially lacked primary table rows for new21 MD/JSON; corrected and repository check PASS"
   ],
   "release": {
-    "backend21": "NOT_DEPLOYED",
-    "hosting21": "NOT_DEPLOYED",
-    "apk21": "NOT_STARTED",
+    "backend21": "DEPLOYED_PROBED",
+    "hosting21": "DEPLOYED_BYTES_VERIFIED",
+    "apk21": "FINISHED_ARTIFACT_VERIFIED",
     "native21": "NOT_VERIFIED",
     "qrTarget": "https://ehis-next-20261021-hc03.web.app/install",
     "qrGenerated": true,
-    "phoneScanVerified": false
+    "phoneScanVerified": false,
+    "downloadPage21": "PENDING_DEPLOY",
+    "artifact": {
+      "id": "52684caa-423a-43f2-8fde-7c8b9c2236f8",
+      "commit": "f870ee3bd72a91c5ea1911546e123ab69fa0371f",
+      "version": "0.4.21",
+      "versionCode": 19,
+      "status": "FINISHED",
+      "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/52684caa-423a-43f2-8fde-7c8b9c2236f8",
+      "startedAt": "2026-11-11T08:13:44.823Z",
+      "deviceVerified": false,
+      "apkUrl": "https://expo.dev/artifacts/eas/uwcKeQiNQrGIoESYhgcQxChZpNcNnsRY83OHxhBR34U.apk",
+      "bytes": 102725961,
+      "sha256": "61dde0e5a89392610a318802f1e5f5765162f591f2b3d5bc82ba483e147bec3a",
+      "artifactVerified": true,
+      "packageName": "com.hoangcamng.ehisnext",
+      "microphonePermission": false,
+      "vibrationPermission": true,
+      "embeddedTone": true,
+      "cloudTargetVerified": true,
+      "backgroundNotificationResourcesVerified": true
+    }
   },
   "open": [
     "Intermittent native self-exit remains open",
@@ -434,5 +455,386 @@
     "log": "build-auto21-final.log",
     "logSha256": "b6c564f2e4cff5413f21cbf852eafd8fd260c5c80aebfcfca0e2509bfaf18d6c",
     "artifacts": []
-  }
+  },
+  "cloudHandover": {
+    "startedAt": "2026-11-11T08:18:52.015Z",
+    "scope": "Bounded actual cloud Auth/API/Firestore calls with user-authorized synthetic reporter/destinations and existing synthetic volunteers. No physical GPS/travel/device ringing measured.",
+    "requests": [
+      {
+        "at": "2026-11-11T08:18:55.710Z",
+        "name": "setAccountPurpose",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 1011
+      },
+      {
+        "at": "2026-11-11T08:18:56.721Z",
+        "name": "savePatientProfile",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 438
+      },
+      {
+        "at": "2026-11-11T08:18:57.159Z",
+        "name": "issuePatientCard",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 309
+      },
+      {
+        "at": "2026-11-11T08:18:57.468Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 379
+      },
+      {
+        "at": "2026-11-11T08:18:57.847Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 515
+      },
+      {
+        "at": "2026-11-11T08:18:58.362Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 285
+      },
+      {
+        "at": "2026-11-11T08:18:58.648Z",
+        "name": "createIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 573
+      },
+      {
+        "at": "2026-11-11T08:18:59.221Z",
+        "name": "acceptIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 464
+      },
+      {
+        "at": "2026-11-11T08:18:59.685Z",
+        "name": "getVolunteerIncidentDetails",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 269
+      },
+      {
+        "at": "2026-11-11T08:18:59.954Z",
+        "name": "updateIncidentProgress",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 269
+      },
+      {
+        "at": "2026-11-11T08:19:00.223Z",
+        "name": "updateIncidentProgress",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 236
+      },
+      {
+        "at": "2026-11-11T08:19:00.580Z",
+        "name": "getVolunteerIncidentDetails",
+        "status": 403,
+        "expected": 403,
+        "elapsedMs": 425
+      },
+      {
+        "at": "2026-11-11T08:19:01.071Z",
+        "name": "getVolunteerIncidentDetails",
+        "status": 403,
+        "expected": 403,
+        "elapsedMs": 192
+      },
+      {
+        "at": "2026-11-11T08:19:01.380Z",
+        "name": "acceptIncidentHandover",
+        "status": 200,
+        "expected": [
+          200,
+          400
+        ],
+        "elapsedMs": 282
+      },
+      {
+        "at": "2026-11-11T08:19:01.380Z",
+        "name": "acceptIncidentHandover",
+        "status": 400,
+        "expected": [
+          200,
+          400
+        ],
+        "elapsedMs": 490
+      },
+      {
+        "at": "2026-11-11T08:19:01.870Z",
+        "name": "getVolunteerIncidentDetails",
+        "status": 403,
+        "expected": 403,
+        "elapsedMs": 170
+      },
+      {
+        "at": "2026-11-11T08:19:02.090Z",
+        "name": "finishIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 207
+      },
+      {
+        "at": "2026-11-11T08:19:02.297Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 205
+      },
+      {
+        "at": "2026-11-11T08:19:02.502Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 2217
+      },
+      {
+        "at": "2026-11-11T08:19:04.718Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 492
+      },
+      {
+        "at": "2026-11-11T08:19:05.210Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 328
+      },
+      {
+        "at": "2026-11-11T08:19:05.538Z",
+        "name": "createIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 375
+      },
+      {
+        "at": "2026-11-11T08:19:05.913Z",
+        "name": "acceptIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 238
+      },
+      {
+        "at": "2026-11-11T08:19:06.151Z",
+        "name": "getVolunteerIncidentDetails",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 385
+      },
+      {
+        "at": "2026-11-11T08:19:06.536Z",
+        "name": "updateIncidentProgress",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 319
+      },
+      {
+        "at": "2026-11-11T08:19:06.896Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 265
+      },
+      {
+        "at": "2026-11-11T08:19:07.218Z",
+        "name": "acceptIncidentHandover",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 310
+      },
+      {
+        "at": "2026-11-11T08:19:07.527Z",
+        "name": "finishIncident",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 251
+      },
+      {
+        "at": "2026-11-11T08:19:07.930Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 210
+      },
+      {
+        "at": "2026-11-11T08:19:08.191Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 199
+      },
+      {
+        "at": "2026-11-11T08:19:08.442Z",
+        "name": "setVolunteerAvailability",
+        "status": 200,
+        "expected": 200,
+        "elapsedMs": 192
+      }
+    ],
+    "status": "PASS",
+    "selectedAliases": [
+      "V7",
+      "V8",
+      "V9"
+    ],
+    "raceStatuses": [
+      200,
+      400
+    ],
+    "checks": [
+      "actual automatic invitations and push outbox to two peers",
+      "duplicate progress retry one proposal",
+      "unassigned private access403",
+      "two concurrent accept calls one winner",
+      "old owner released and private access403",
+      "zero candidates retains assignment",
+      "late ON receives automatic handover and explicitly accepts"
+    ],
+    "cleanup": {
+      "allSelectedOffNoActive": true,
+      "incidentCount": 2,
+      "notes": []
+    },
+    "endedAt": "2026-11-11T08:19:08.717Z"
+  },
+  "qrDecode": {
+    "at": "2026-11-11T08:22:08.727Z",
+    "status": "PASS",
+    "decoder": "jsqr1.4.0",
+    "decodedUrl": "https://ehis-next-20261021-hc03.web.app/install",
+    "phoneScanVerified": false
+  },
+  "releaseEvidence": {
+    "deploybackend-auto21": {
+      "id": "deploybackend-auto21",
+      "operation": "deploybackend",
+      "command": "node scripts/vercel.cjs deploy",
+      "startedAt": "2026-11-11T08:13:12.504Z",
+      "endedAt": "2026-11-11T08:13:49.508Z",
+      "elapsedMs": 37003,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "f870ee3bd72a91c5ea1911546e123ab69fa0371f",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deploybackend-auto21.log",
+      "logSha256": "619b81610a52a1e222096607de01e3ad10a367aa15c29548ac4aa718bfcaabc4",
+      "artifacts": []
+    },
+    "cloudprobe-auto21": {
+      "id": "cloudprobe-auto21",
+      "operation": "cloudprobe",
+      "command": "npm run cloud:probe",
+      "startedAt": "2026-11-11T08:18:49.253Z",
+      "endedAt": "2026-11-11T08:18:51.334Z",
+      "elapsedMs": 2079,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "f870ee3bd72a91c5ea1911546e123ab69fa0371f",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "cloudprobe-auto21.log",
+      "logSha256": "a286445f6541dd8e467f021e4e2b9b6806ec423675b0544a27a5e929bf722ed2",
+      "artifacts": []
+    },
+    "deployweb-auto21": {
+      "id": "deployweb-auto21",
+      "operation": "deployweb",
+      "command": "npm run cloud:deploy-web",
+      "startedAt": "2026-11-11T08:20:21.945Z",
+      "endedAt": "2026-11-11T08:20:40.564Z",
+      "elapsedMs": 18618,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "f870ee3bd72a91c5ea1911546e123ab69fa0371f",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "deployweb-auto21.log",
+      "logSha256": "dc637c083b4b110c1a0d1f5eb92756b90f3341392e3a5ac0d756ab1dc8862685",
+      "artifacts": []
+    },
+    "artifacts-auto21-2": {
+      "id": "artifacts-auto21-2",
+      "operation": "artifacts",
+      "command": "node scripts/verify-cloud-artifacts.cjs",
+      "startedAt": "2026-11-11T14:30:50.382Z",
+      "endedAt": "2026-11-11T14:31:01.549Z",
+      "elapsedMs": 11166,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "f870ee3bd72a91c5ea1911546e123ab69fa0371f",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "artifacts-auto21-2.log",
+      "logSha256": "ca3f70b9be1f686491ce8e7bf25fd08fafa5d1e11094d4394d3ffa8b99235802",
+      "artifacts": [
+        "artifacts-auto21-2-cloud-artifact-proof.json"
+      ]
+    },
+    "apkverify-auto21": {
+      "id": "apkverify-auto21",
+      "operation": "apkverify",
+      "command": "node scripts/verify-trial-apk.cjs",
+      "startedAt": "2026-11-11T14:31:17.592Z",
+      "endedAt": "2026-11-11T14:31:24.370Z",
+      "elapsedMs": 6776,
+      "exitCode": 0,
+      "signal": null,
+      "status": "PASS",
+      "sourceCommit": "f870ee3bd72a91c5ea1911546e123ab69fa0371f",
+      "sourceDirtyAtStart": false,
+      "node": "v24.21.0",
+      "platform": "win32",
+      "architecture": "x64",
+      "cpu": "12th Gen Intel(R) Core(TM) i5-12450HX",
+      "logicalCpus": 12,
+      "totalMemoryBytes": 25463480320,
+      "log": "apkverify-auto21.log",
+      "logSha256": "4d18db78030ae6aa3bc3f7c92aa484f3089cc98b4d1794b57c1ad346c1253e2a",
+      "artifacts": [
+        "apkverify-auto21-android-trial-artifact.json"
+      ]
+    }
+  },
+  "releaseFailures": [
+    "Status/artifact network reads initially failed in restricted execution; escalated retries passed; originals retained",
+    "Release evidence writer initially referenced a missing array; corrected before writing report"
+  ]
 }

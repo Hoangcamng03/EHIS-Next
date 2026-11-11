@@ -13,8 +13,9 @@ Chỉ diễn tập có kiểm soát, chưa nghiệm thu cấp cứu thật. [STA
 
 - Check cuối PASS88bài/lint/typecheck;17suite hồi quy lượt trước PASS297024ms. Lượt17suite cuối PASS293773ms, gồm tìm lại nhóm rỗng/cancel5lời mời; không suy PASS từ lượt trước. Build cuối PASS32513ms. JSON lưu hash/timestamp/exit thực và các failure đã sửa.
 - BộP7–P16/V7–V11 đã tạo và kiểm tra15/15login thật10/11,5TNV OFF/no active lúc cấp.10bộNEW chưa tồn tại Auth ở thời điểm kiểm tra, không gọi signUp; trạng thái thay đổi khi nhóm tự dùng. [Bảng riêng](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/accounts/BULK_2026_11_10.md). Không công khai credentials/QR Patient.
-- Backend/web20 đã deploy từ586a652; backend/web/APK21 chưa ghi đã phát. QR chỉ mã hóa URL công khai /install, không chứa thẻ bệnh nhân. Trang tải cònAPK19 cho tới khi APK21 FINISHED và artifact được xác minh.
+- Backend và hai web21 đã triển khai từ f870ee3; health/401 đúng, 38 HTML/JS/CSS khớp byte bản build. Cloud thật chạy hai ca với dữ liệu/vị trí giả: gửi lời mời, chống lặp, hai người nhận đồng thời chỉ một thắng, thu quyền người cũ, không ứng viên và ON muộn đều PASS. V7–V9 đã trả về OFF/no active. Đây không phải kiểm thử chuông/GPS thiết bị.
+- [APK 0.4.21/code19](https://expo.dev/artifacts/eas/uwcKeQiNQrGIoESYhgcQxChZpNcNnsRY83OHxhBR34U.apk) FINISHED, artifact xác minh 102725961 byte; SHA-256 61dde0e5a89392610a318802f1e5f5765162f591f2b3d5bc82ba483e147bec3a. Chưa cài/nghiệm thu21 trên điện thoại. QR mã hóa /install, đã giải mã độc lập khớp URL; đang cập nhật trang tải sang21.
 
 ## Phần còn thiếu
 
-APK21/điện thoại/chuông bàn giao mới chưa nghiệm thu; tự thoát gián đoạn, offline độc lập, đi bộ GPS và p95Functions RECHECK còn mở. Không đổi ngưỡng hoặc gộp build/API với kiểm thử thiết bị.
+Điện thoại21/chuông bàn giao mới chưa nghiệm thu; tự thoát gián đoạn, offline độc lập, đi bộ GPS và p95Functions RECHECK còn mở. Không đổi ngưỡng hoặc gộp build/API với kiểm thử thiết bị.
