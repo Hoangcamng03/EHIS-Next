@@ -10,7 +10,7 @@ Các tình huống chưa được đo lại trong lượt này: nhiều thiết 
 
 ## Ảnh 1 Hồ sơ sức khỏe cá nhân
 
-![Hồ sơ sức khỏe cá nhân](../../assets/presentation-2026-11-12/01-patient-profile.jpg)
+![Hồ sơ sức khỏe cá nhân](../assets/presentation-2026-11-12/01-patient-profile.jpg)
 
 - **Nguồn:** 12/11/2026 — chụp mới.
 - **Thao tác:** Mở Patient sau khi đổi tên hiển thị.
@@ -19,7 +19,7 @@ Các tình huống chưa được đo lại trong lượt này: nhiều thiết 
 
 ## Ảnh 2 Xác nhận đang cạnh bệnh nhân
 
-![Xác nhận đang cạnh bệnh nhân](../../assets/presentation-2026-11-12/02-location-confirmation-required.jpg)
+![Xác nhận đang cạnh bệnh nhân](../assets/presentation-2026-11-12/02-location-confirmation-required.jpg)
 
 - **Nguồn:** 12/11/2026 — chụp mới.
 - **Thao tác:** Chưa đánh dấu xác nhận vị trí.
@@ -28,7 +28,7 @@ Các tình huống chưa được đo lại trong lượt này: nhiều thiết 
 
 ## Ảnh 3 Không lấy được vị trí
 
-![Không lấy được vị trí](../../assets/presentation-2026-11-12/03-gps-unavailable.jpg)
+![Không lấy được vị trí](../assets/presentation-2026-11-12/03-gps-unavailable.jpg)
 
 - **Nguồn:** 12/11/2026 — chụp mới.
 - **Thao tác:** Xác nhận rồi thử gửi trên trình duyệt PC.
@@ -37,7 +37,7 @@ Các tình huống chưa được đo lại trong lượt này: nhiều thiết 
 
 ## Ảnh 4 TNV nhận cảnh báo
 
-![TNV nhận cảnh báo](../../assets/presentation-2026-11-12/04-alert.jpg)
+![TNV nhận cảnh báo](../assets/presentation-2026-11-12/04-alert.jpg)
 
 - **Nguồn:** 11/11/2026 — ảnh cloud đã kiểm chứng.
 - **Thao tác:** Người báo gửi tình trạng và hệ thống mời TNV.
@@ -46,7 +46,7 @@ Các tình huống chưa được đo lại trong lượt này: nhiều thiết 
 
 ## Ảnh 5 Tình trạng được cập nhật
 
-![Tình trạng được cập nhật](../../assets/presentation-2026-11-12/05-update.jpg)
+![Tình trạng được cập nhật](../assets/presentation-2026-11-12/05-update.jpg)
 
 - **Nguồn:** 11/11/2026 — ảnh cloud đã kiểm chứng.
 - **Thao tác:** Người báo đổi câu trả lời và gửi bản tiếp theo.
@@ -55,7 +55,7 @@ Các tình huống chưa được đo lại trong lượt này: nhiều thiết 
 
 ## Ảnh 6 TNV không thể tiếp tục
 
-![TNV không thể tiếp tục](../../assets/presentation-2026-11-12/06-handover.jpg)
+![TNV không thể tiếp tục](../assets/presentation-2026-11-12/06-handover.jpg)
 
 - **Nguồn:** 11/11/2026 — ảnh cloud; API chạy lại12/11 đạt.
 - **Thao tác:** Người phụ trách đề nghị tìm người thay.
@@ -64,7 +64,7 @@ Các tình huống chưa được đo lại trong lượt này: nhiều thiết 
 
 ## Ảnh 7 TNV kết thúc ca
 
-![TNV kết thúc ca](../../assets/presentation-2026-11-12/07-completed.jpg)
+![TNV kết thúc ca](../assets/presentation-2026-11-12/07-completed.jpg)
 
 - **Nguồn:** 11/11/2026 — ảnh cloud đã kiểm chứng.
 - **Thao tác:** Hoàn tất ca bằng xác nhận trên app.
@@ -73,7 +73,7 @@ Các tình huống chưa được đo lại trong lượt này: nhiều thiết 
 
 ## Ảnh 8 Chọn vai trò trước đăng ký
 
-![Chọn vai trò trước đăng ký](../../assets/presentation-2026-11-12/08-role.jpg)
+![Chọn vai trò trước đăng ký](../assets/presentation-2026-11-12/08-role.jpg)
 
 - **Nguồn:** 11/11/2026 — ảnh cloud giao diện.
 - **Thao tác:** Mở Đăng ký.
@@ -82,10 +82,11 @@ Các tình huống chưa được đo lại trong lượt này: nhiều thiết 
 
 ## Ảnh 9 Điều kiện đăng ký
 
-![Điều kiện đăng ký](../../assets/presentation-2026-11-12/09-registration.jpg)
+![Điều kiện đăng ký](../assets/presentation-2026-11-12/09-registration.jpg)
 
 - **Nguồn:** 11/11/2026 — ảnh cloud giao diện.
 - **Thao tác:** Mở form; chưa nhập và chưa xác nhận dữ liệu.
 - **Quan sát:** Nút Tạo tài khoản đang khóa.
 - **Lời nói gợi ý:** “Người dùng biết vai trò, yêu cầu mật khẩu và chính sách dữ liệu trước đăng ký.”
+
 

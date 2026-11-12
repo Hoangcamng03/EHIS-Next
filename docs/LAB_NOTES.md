@@ -594,3 +594,4 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 - Việc cần tiếp tục khi build xong: status → verify-trial-apk → cập nhật đúng URL artifact/version mới trong releases.json → cloud:build/deploy-web → verify-cloud-artifacts → STATUS/lab note → nhóm cài đè và nghiệm thu máy. Chưa tự chạy các bước này sau khi phiên làm việc kết thúc. Không OTA/iOS/billing/cấp cứu thật. Các server local do phiên thử mở đã dừng; giữ phiên cloud của người dùng.
 
 - UAT cloud chốt chứng cứ: web privacy cuối từ481e790 deploy17280ms; artifact38tệp PASS. Bộảnh chụp trước sửa một câu privacy cuối; không sửa ảnh để giả hiện trạng. Chưa chốt bản vận hành chính thức hoặc APK mới.
+- Check link ảnh đầu FAIL do đường dẫn từ docs/demo bị lùi thừa một cấp; sửa ../assets, chạy lại trước chốt bàn giao.
