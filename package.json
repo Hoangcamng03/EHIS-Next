@@ -20,7 +20,7 @@
     "test:health": "npm run backend:build && node scripts/firebase-local.cjs test health",
     "test:multi": "npm run backend:build && node scripts/firebase-local.cjs test multi",
     "emulators": "npm run backend:build && node scripts/firebase-local.cjs start",
-    "check": "npm run check:repo && npm --prefix frontend/app run typecheck && npm --prefix frontend/app run lint && npm --prefix frontend/web run lint && npm --prefix frontend/web run typecheck && npm --prefix backend run build && npm --prefix backend test && node --test scripts/test-confirm-action.cjs scripts/test-navigation.cjs scripts/test-emergency-alerts.cjs scripts/test-palette.cjs scripts/test-native-signal.cjs scripts/test-report-status.cjs scripts/test-build-environment.cjs scripts/test-live-location.cjs scripts/test-alert-feed.cjs scripts/test-profile-draft.cjs scripts/test-location-request.cjs scripts/test-android-resources.cjs scripts/test-observations.cjs scripts/test-availability.cjs scripts/test-duty-contact.cjs scripts/test-availability-sync.cjs scripts/test-travel-progress.cjs scripts/test-text-encoding.cjs",
+    "check": "node scripts/check.cjs",
     "release:preview": "node scripts/release-preview.cjs",
     "app:web": "npm --prefix frontend/app run web -- --port 8082",
     "app": "npm --prefix frontend/app start",
@@ -29,6 +29,9 @@
     "perf:emulator": "node scripts/benchmark-emulator.cjs",
     "perf:builds": "node scripts/benchmark-builds.cjs",
     "test:scale": "npm run backend:build && node scripts/firebase-local.cjs test scale",
-    "test:handover": "npm run backend:build && node scripts/firebase-local.cjs test handover"
+    "test:handover": "npm run backend:build && node scripts/firebase-local.cjs test handover",
+    "test:rules": "npm run backend:build && node scripts/firebase-local.cjs test rules",
+    "test:ui": "npm run backend:build && node scripts/firebase-local.cjs test ui",
+    "format": "node frontend/web/node_modules/prettier/bin/prettier.cjs --write"
   }
 }

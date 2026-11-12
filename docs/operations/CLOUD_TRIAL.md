@@ -45,9 +45,9 @@ Người quản trị đăng ký bằng tài khoản của mình trên app. Ch�
 
 - Lời mời có hạn 10 phút; backend kiểm tra trước khi nhận hoặc gửi bổ sung, không dựa vào giao diện. Hết hạn giải phóng thẻ khi tạo lại yêu cầu; bảo trì nền cũng xử lý ca hết hạn.
 - Vercel Hobby dùng cron hằng ngày, không có lịch 2 phút. Thông tin riêng của ca được đặt hạn dọn sau 24 giờ, chưa cam kết xóa trong 24–48 giờ. Từ mã 0.4.14, dọn nhiều trang theo ngân sách trước mỗi trang khoảng35 giây, tối đa50 trang/nhóm và có khóa chống chạy trùng. Admin xem kết quả/tồn đọng và chạy lại thủ công; giữ ca đang xử lý. Xem [quy trình vận hành](HANDOVER_AND_MAINTENANCE.md).
-- Giới hạn server theo phút: 120 thao tác/tài khoản, 30 lần tạo yêu cầu/tài khoản, 600 thao tác/IP đã băm. Không phải chống bot toàn diện; tài khoản ẩn danh mới có thể vượt giới hạn tài khoản. App Check chưa được bật nếu chưa cấu hình provider; không mô tả hệ thống đã chống lạm dụng hoàn toàn.
+- Giới hạn server theo phút: 120 thao tác/tài khoản, 30 lần tạo yêu cầu/tài khoản, 600 thao tác/IP đã băm. Không phải chống bot toàn diện; tài khoản ẩn danh mới có thể vượt giới hạn tài khoản. Từ source 12/11, còn có giới hạn 6 yêu cầu mới/thẻ/giờ để giảm việc đổi tài khoản ẩn danh né giới hạn. App Check chưa được bật cưỡng chế nếu chưa cấu hình provider và hỗ trợ mọi client; không mô tả hệ thống đã chống lạm dụng hoàn toàn.
 - Quota miễn phí có thể làm dịch vụ tạm ngừng khi hết hạn mức; không có cam kết cấp cứu hoặc đảm bảo luôn có người tiếp nhận.
-- Không có push/GPS nền, dẫn đường liên tục hoặc NFC trên thiết bị. Giữ màn hình TNV mở trong bài thử. Web/app cloud vẫn cần Internet.
+- Android có cơ chế thông báo FCM khi Home/khóa; các chế độ âm thanh và bản APK mới vẫn cần nghiệm thu máy thật. GPS chỉ foreground: quá 5 phút không được chọn cho ca mới. Chưa có GPS nền hoặc NFC được nghiệm thu. Web vẫn cần mở để nhận cảnh báo và cả web/app đều cần Internet.
 
 ## Nghiệm thu trước khi mời nhóm thử
 

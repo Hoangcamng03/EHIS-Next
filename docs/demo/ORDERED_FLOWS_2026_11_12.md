@@ -1,5 +1,7 @@
 # EHIS — bộ ảnh theo vai trò và từng trường hợp
 
+**Ảnh lịch sử trước đợt tinh chỉnh UI cuối12/11.** [Ảnh giao diện mới, kết quả kiểm thử và bảng cải thiện](../testing/verification/PRODUCT_REVIEW_2026_11_12.md). Không dùng bộ này để nói bố cục cũ vẫn là bố cục hiện hành.
+
 [Danh mục tài liệu](../README.md) · [Bằng chứng và hash ảnh](../testing/verification/ORDERED_FLOWS_2026_11_12.json) · [Thư mục ảnh](../assets/ordered-flow-2026-11-12/)
 
 53 ảnh chụp giao diện thật trong môi trường local, ngày 12/11/2026. Hồ sơ và tọa độ chủ động dùng cho kịch bản; tên hiển thị bình thường. Đây là bằng chứng thao tác phần mềm, không chứng minh di chuyển, âm thanh/FCM nền Android hay khả năng vận hành cấp cứu thực tế.

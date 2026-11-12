@@ -1,0 +1,7 @@
+**/node_modules/**
+**/.local/**
+**/.next*/**
+backend/lib/**
+**/package-lock.json
+docs/assets/**
+sources/**

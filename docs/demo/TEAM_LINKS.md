@@ -4,6 +4,8 @@
 
 Gửi link trang này cho thành viên mới. Đọc từ mục 1 đến 4 để hiểu và chạy demo; các mục sau dùng khi cần kiểm thử, góp ý hoặc sửa code. Các link source đều dùng main. Không cần tài khoản Firebase/Vercel/Expo hoặc cài môi trường lập trình để tham gia demo cloud.
 
+[Cải thiện mới và ảnh UI12/11](../testing/verification/PRODUCT_REVIEW_2026_11_12.md): đọc mục đã sửa, kết quả local và những phần chưa bật trên tài khoản miễn phí. Ảnh của các bộ trước giữ làm lịch sử, không đại diện bố cục mới.
+
 [Ảnh theo thứ tự thao tác](ORDERED_FLOWS_2026_11_12.md): đăng ký từng vai trò, duyệt người giới thiệu/TNV và bốn trường hợp hỗ trợ. Mỗi ảnh có thao tác, quan sát và câu dẫn cho presentation. Bộ đầy đủ chạy local; bằng chứng cloud đối chiếu riêng trong tài liệu.
 
 [Bộ dữ liệu và UAT cloud mới11/11](../testing/verification/CLOUD_UAT_2026_11_11.md) · [Tài khoản UAT riêng](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/accounts/UAT_CLOUD_2026_11_11.md). Ảnh mới dùng hồ sơ hư cấu trên Firebase thật; tra phần chưa thử trước khi báo cáo nghiệm thu.

@@ -1,0 +1,28 @@
+name: EHIS maintenance
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7,17,27,37,47,57 * * * *'
+permissions:
+  contents: read
+concurrency:
+  group: ehis-maintenance
+  cancel-in-progress: false
+jobs:
+  maintain:
+    if: vars.EHIS_MAINTENANCE_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Run authenticated maintenance
+        env:
+          BACKEND_URL: ${{ vars.EHIS_BACKEND_URL }}
+          CRON_SECRET: ${{ secrets.EHIS_CRON_SECRET }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$BACKEND_URL" =~ ^https://[a-zA-Z0-9.-]+\.vercel\.app$ ]]
+          test "${#CRON_SECRET}" -ge 32
+          curl --fail --silent --show-error --max-time 70 \
+            --header "Authorization: Bearer $CRON_SECRET" \
+            "$BACKEND_URL/internal/maintenance"

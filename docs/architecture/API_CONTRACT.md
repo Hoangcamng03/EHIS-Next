@@ -1,5 +1,12 @@
 # API contract v0.4
 
+## Bổ sung ngày 12/11/2026
+
+- `createIncident`: tối đa 6 yêu cầu mới/thẻ trong cửa sổ trượt 60 phút; kiểm tra/ghi cùng transaction của ca và card. Retry ID cũ hoặc trở lại ca đang mở của chính phiên không tính thêm lượt. Hết lượt trả HTTP429, `details.reason = card-request-budget`. Không bỏ giới hạn tài khoản/IP hiện có. Sáu mốc thời gian là dữ liệu backend-only trên card.
+- Budget IP: Vercel chỉ dùng header ingress `x-vercel-forwarded-for` hợp lệ; local/Functions dùng địa chỉ kết nối. Header thiếu/sai không được thay bằng IP proxy dùng chung. Test IP khác nhau dùng địa chỉ tài liệu, chưa nghiệm thu hai mạng cloud.
+- API quản trị ngoài custom claim trong token còn đối chiếu Auth hiện hành (`admin=true`, chưa khóa). Token admin cũ bị chặn sau khi bỏ claim; cần đăng nhập lại để giao diện nhận quyền mới. Runtime dùng quyền đọc Auth đã được cấp, không bổ sung quyền tạo/sửa tài khoản.
+- Server portable tự lấy danh sách export callable; không xuất scheduler/health thành callable. App Check web có điểm cấu hình key nhưng chưa bật cưỡng chế cho toàn bộ client native/web.
+
 Chỉ các API ở mục Đã viết tồn tại. Không gọi API ở backlog như thể đã có.
 
 ## Thay đổi 0.4.13 — diễn tập có người theo dõi

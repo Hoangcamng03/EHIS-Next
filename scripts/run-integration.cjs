@@ -4,22 +4,67 @@ async function main() {
   let ready = false;
   while (Date.now() < deadline) {
     try {
-      const response = await fetch('http://127.0.0.1:5101/demo-ehis-next/asia-southeast1/health', { signal: AbortSignal.timeout(3000) });
-      if (response.ok && (await response.json()).service === 'ehis-next') { ready = true; break; }
-    } catch { /* A listening emulator port does not yet imply loaded Functions. */ }
-    await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await fetch('http://127.0.0.1:5101/demo-ehis-next/asia-southeast1/health', {
+        signal: AbortSignal.timeout(3000),
+      });
+      if (response.ok && (await response.json()).service === 'ehis-next') {
+        ready = true;
+        break;
+      }
+    } catch {
+      /* A listening emulator port does not yet imply loaded Functions. */
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
-  if (!ready) throw new Error('Functions chưa sẵn sàng sau 90 giây. Kiểm tra log discovery, Java và port trước khi chạy lại.');
-  const suites={all:['scripts/smoke-starter.cjs', 'scripts/smoke-reports.cjs', 'scripts/smoke-lifecycle.cjs', 'scripts/smoke-maintenance.cjs', 'scripts/smoke-portable.cjs', 'scripts/smoke-location-updates.cjs', 'scripts/smoke-multi-incident.cjs', 'scripts/smoke-active-alert.cjs', 'scripts/smoke-budget-queue.cjs', 'scripts/smoke-pending-dispatch.cjs'],active:['scripts/smoke-active-alert.cjs'],multi:['scripts/smoke-multi-incident.cjs']};
+  if (!ready)
+    throw new Error(
+      'Functions chưa sẵn sàng sau 90 giây. Kiểm tra log discovery, Java và port trước khi chạy lại.',
+    );
+  const suites = {
+    all: [
+      'scripts/smoke-starter.cjs',
+      'scripts/smoke-reports.cjs',
+      'scripts/smoke-lifecycle.cjs',
+      'scripts/smoke-maintenance.cjs',
+      'scripts/smoke-portable.cjs',
+      'scripts/smoke-location-updates.cjs',
+      'scripts/smoke-multi-incident.cjs',
+      'scripts/smoke-active-alert.cjs',
+      'scripts/smoke-budget-queue.cjs',
+      'scripts/smoke-pending-dispatch.cjs',
+    ],
+    active: ['scripts/smoke-active-alert.cjs'],
+    multi: ['scripts/smoke-multi-incident.cjs'],
+  };
   suites.scale = ['scripts/smoke-scale.cjs'];
   suites.health = ['scripts/smoke-starter.cjs', 'scripts/smoke-portable.cjs'];
-  suites.all.push('scripts/smoke-verification.cjs', 'scripts/smoke-push.cjs', 'scripts/smoke-roster-observations.cjs');
+  suites.all.push(
+    'scripts/smoke-verification.cjs',
+    'scripts/smoke-push.cjs',
+    'scripts/smoke-roster-observations.cjs',
+  );
   suites.all.push('scripts/smoke-operations.cjs');
   suites.all.push('scripts/smoke-improvements.cjs', 'scripts/smoke-progress.cjs');
   suites.all.push('scripts/smoke-automatic-handover.cjs');
-  suites.handover = ['scripts/smoke-automatic-handover.cjs', 'scripts/smoke-improvements.cjs', 'scripts/smoke-progress.cjs'];
+  suites.all.push(
+    'scripts/smoke-card-budget.cjs',
+    'scripts/smoke-admin-revocation.cjs',
+    'scripts/rules-unit.cjs',
+  );
+  suites.rules = ['scripts/rules-unit.cjs'];
+  suites.ui = ['scripts/run-ui-tests.cjs'];
+  suites.handover = [
+    'scripts/smoke-automatic-handover.cjs',
+    'scripts/smoke-improvements.cjs',
+    'scripts/smoke-progress.cjs',
+  ];
   suites.verification = ['scripts/smoke-verification.cjs', 'scripts/smoke-push.cjs'];
-  const suite=process.argv[2]||'all';if(!suites[suite])throw Error('Unknown test suite');
-  for (const script of suites[suite]) execFileSync(process.execPath, [script], { stdio: 'inherit' });
+  const suite = process.argv[2] || 'all';
+  if (!suites[suite]) throw Error('Unknown test suite');
+  for (const script of suites[suite])
+    execFileSync(process.execPath, [script], { stdio: 'inherit' });
 }
-main().catch(error => { console.error(error.message); process.exitCode = 1; });
+main().catch((error) => {
+  console.error(error.message);
+  process.exitCode = 1;
+});

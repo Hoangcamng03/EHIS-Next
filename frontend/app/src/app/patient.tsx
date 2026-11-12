@@ -12,117 +12,493 @@ import { collection, doc, getDoc, limit, onSnapshot, orderBy, query } from 'fire
 
 import QRCode from 'react-native-qrcode-svg';
 import { AuthGate, AccountBar } from '../components/Session';
-import { callable as httpsCallable, firebaseClient, isLocalEmulator, readableError } from '../lib/firebase';
+import {
+  callable as httpsCallable,
+  firebaseClient,
+  isLocalEmulator,
+  readableError,
+} from '../lib/firebase';
 import { patientUi as ui, statusLabel } from '../lib/ui';
 import { ConfirmAction } from '../components/ConfirmAction';
 import { profileDraft, profileMatchesSaved } from '../lib/profile-draft';
 
 type Card = { cardId: string; active: boolean; shareProfile: boolean };
-type History = { travelProgress?: TravelProgress | null; acceptedAt?: { toMillis(): number }; id: string; status: string; createdAt?: { toDate(): Date }; invitedCount?: number };
-export default function PatientScreen() { return <AuthGate purpose="patient">{user => <PatientDashboard key={user.uid} uid={user.uid} />}</AuthGate>; }
+type History = {
+  travelProgress?: TravelProgress | null;
+  acceptedAt?: { toMillis(): number };
+  id: string;
+  status: string;
+  createdAt?: { toDate(): Date };
+  invitedCount?: number;
+};
+export default function PatientScreen() {
+  return (
+    <AuthGate purpose="patient">
+      {(user) => <PatientDashboard key={user.uid} uid={user.uid} />}
+    </AuthGate>
+  );
+}
 function PatientDashboard({ uid }: { uid: string }) {
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
   const { width } = useWindowDimensions();
-  const [fullName, setFullName] = useState(''), [allergies, setAllergies] = useState(''), [phone, setPhone] = useState('');
+  const [fullName, setFullName] = useState(''),
+    [allergies, setAllergies] = useState(''),
+    [phone, setPhone] = useState('');
   const [medicalConditions, setMedicalConditions] = useState('');
-  const [contactName, setContactName] = useState(''), [contactRelationship, setContactRelationship] = useState('');
-  const [loaded, setLoaded] = useState(false), [savedFingerprint, setSavedFingerprint] = useState<string | null>(null);
-  const [profileFailed, setProfileFailed] = useState(false), [profileAttempt, setProfileAttempt] = useState(0);
+  const [contactName, setContactName] = useState(''),
+    [contactRelationship, setContactRelationship] = useState('');
+  const [loaded, setLoaded] = useState(false),
+    [savedFingerprint, setSavedFingerprint] = useState<string | null>(null);
+  const [profileFailed, setProfileFailed] = useState(false),
+    [profileAttempt, setProfileAttempt] = useState(0);
   const [historyOpen, setHistoryOpen] = useState(false);
-  const [card, setCard] = useState<Card>(), [history, setHistory] = useState<History[]>([]);
-  const [share, setShare] = useState(false), [confirmedRevoke, setConfirmedRevoke] = useState(false);
+  const [card, setCard] = useState<Card>(),
+    [history, setHistory] = useState<History[]>([]);
+  const [share, setShare] = useState(false),
+    [confirmedRevoke, setConfirmedRevoke] = useState(false);
   const [operation, setOperation] = useState<string | null>(null);
   const [feedbackTarget, setFeedbackTarget] = useState('profile');
-  const [connected, setConnected] = useState(false), [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState('');
+  const [connected, setConnected] = useState(false),
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState(''),
+    [message, setMessage] = useState('');
   const configuredUrl = process.env.EXPO_PUBLIC_BYSTANDER_URL;
-  const base = configuredUrl || (isLocalEmulator && Platform.OS === 'web' ? 'http://localhost:3100' : '');
+  const base =
+    configuredUrl || (isLocalEmulator && Platform.OS === 'web' ? 'http://localhost:3100' : '');
   let validBase = false;
-  try { const url = new URL(base); validBase = !url.username && !url.password && !url.search && !url.hash && (url.protocol === 'https:' || (isLocalEmulator && url.protocol === 'http:')); } catch { /* Display setup message instead of a broken QR. */ }
-  const cardUrl = validBase && card?.active ? `${base.replace(/\/+$/, '')}/card?id=${encodeURIComponent(card.cardId)}` : '';
+  try {
+    const url = new URL(base);
+    validBase =
+      !url.username &&
+      !url.password &&
+      !url.search &&
+      !url.hash &&
+      (url.protocol === 'https:' || (isLocalEmulator && url.protocol === 'http:'));
+  } catch {
+    /* Display setup message instead of a broken QR. */
+  }
+  const cardUrl =
+    validBase && card?.active
+      ? `${base.replace(/\/+$/, '')}/card?id=${encodeURIComponent(card.cardId)}`
+      : '';
   useEffect(() => {
     let cancelled = false;
-    getDoc(doc(firebaseClient().db, `patients/${uid}`)).then(snapshot => {
-      if (cancelled) return;
-      const value = snapshot.data();
-      setFullName(value?.fullName || ''); setAllergies((value?.allergies || []).join(', ')); setPhone(value?.emergencyContactPhone || '');
-      setMedicalConditions((value?.medicalConditions || []).join('\n')); setContactName(value?.emergencyContactName || ''); setContactRelationship(value?.emergencyContactRelationship || '');
-      setSavedFingerprint(snapshot.exists() ? JSON.stringify(profileDraft(value?.fullName || '', (value?.allergies || []).join(', '), value?.emergencyContactPhone || '', value?.emergencyContactName || '', value?.emergencyContactRelationship || '', (value?.medicalConditions || []).join('\n'))) : null); setLoaded(true);
-    }).catch(err => { if (!cancelled) { setError(readableError(err)); setProfileFailed(true); } });
-    return () => { cancelled = true; };
+    getDoc(doc(firebaseClient().db, `patients/${uid}`))
+      .then((snapshot) => {
+        if (cancelled) return;
+        const value = snapshot.data();
+        setFullName(value?.fullName || '');
+        setAllergies((value?.allergies || []).join(', '));
+        setPhone(value?.emergencyContactPhone || '');
+        setMedicalConditions((value?.medicalConditions || []).join('\n'));
+        setContactName(value?.emergencyContactName || '');
+        setContactRelationship(value?.emergencyContactRelationship || '');
+        setSavedFingerprint(
+          snapshot.exists()
+            ? JSON.stringify(
+                profileDraft(
+                  value?.fullName || '',
+                  (value?.allergies || []).join(', '),
+                  value?.emergencyContactPhone || '',
+                  value?.emergencyContactName || '',
+                  value?.emergencyContactRelationship || '',
+                  (value?.medicalConditions || []).join('\n'),
+                ),
+              )
+            : null,
+        );
+        setLoaded(true);
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setError(readableError(err));
+          setProfileFailed(true);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [uid, profileAttempt]);
-  useEffect(() => onSnapshot(doc(firebaseClient().db, `patientCards/${uid}`), { includeMetadataChanges: true }, snapshot => {
-    setConnected(!snapshot.metadata.fromCache); setCard(snapshot.exists() ? snapshot.data() as Card : undefined);
-  }, err => { setConnected(false); setError(readableError(err)); }), [uid]);
-  useEffect(() => onSnapshot(query(collection(firebaseClient().db, `patients/${uid}/incidentStatuses`), orderBy('createdAt', 'desc'), limit(30)), snapshot => {
-    setHistory(snapshot.docs.map(item => ({ ...item.data(), id: item.id }) as History));
-  }, err => setError(readableError(err))), [uid]);
-  useEffect(() => { if (card?.active) scroll.current?.scrollTo({ y: 0, animated: false }); }, [card?.active, card?.cardId]);
-  const draft = profileDraft(fullName, allergies, phone, contactName, contactRelationship, medicalConditions);
+  useEffect(
+    () =>
+      onSnapshot(
+        doc(firebaseClient().db, `patientCards/${uid}`),
+        { includeMetadataChanges: true },
+        (snapshot) => {
+          setConnected(!snapshot.metadata.fromCache);
+          setCard(snapshot.exists() ? (snapshot.data() as Card) : undefined);
+        },
+        (err) => {
+          setConnected(false);
+          setError(readableError(err));
+        },
+      ),
+    [uid],
+  );
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(firebaseClient().db, `patients/${uid}/incidentStatuses`),
+          orderBy('createdAt', 'desc'),
+          limit(30),
+        ),
+        (snapshot) => {
+          setHistory(snapshot.docs.map((item) => ({ ...item.data(), id: item.id }) as History));
+        },
+        (err) => setError(readableError(err)),
+      ),
+    [uid],
+  );
+  useEffect(() => {
+    if (card?.active) scroll.current?.scrollTo({ y: 0, animated: false });
+  }, [card?.active, card?.cardId]);
+  const draft = profileDraft(
+    fullName,
+    allergies,
+    phone,
+    contactName,
+    contactRelationship,
+    medicalConditions,
+  );
   const profileSaved = profileMatchesSaved(draft, savedFingerprint);
   const dirty = loaded && !profileSaved;
   async function act(action: 'save' | 'issue' | 'revoke') {
-    if (action === 'save' && [contactName.trim(), contactRelationship.trim(), phone.trim()].some(Boolean) && ![contactName.trim(), contactRelationship.trim(), phone.trim()].every(Boolean)) { setError('Điền đủ tên, quan hệ và số người liên hệ, hoặc để trống cả ba.'); setFeedbackTarget('profile'); return; }
-    if (action === 'issue' && !profileSaved) { setError('Lưu thay đổi hồ sơ trước khi tạo mã QR.'); return; }
-    setOperation(action); setFeedbackTarget(action === 'save' ? 'profile' : 'card');
-    setBusy(true); setError(''); setMessage('');
+    if (
+      action === 'save' &&
+      [contactName.trim(), contactRelationship.trim(), phone.trim()].some(Boolean) &&
+      ![contactName.trim(), contactRelationship.trim(), phone.trim()].every(Boolean)
+    ) {
+      setError('Điền đủ tên, quan hệ và số người liên hệ, hoặc để trống cả ba.');
+      setFeedbackTarget('profile');
+      return;
+    }
+    if (action === 'issue' && !profileSaved) {
+      setError('Lưu thay đổi hồ sơ trước khi tạo mã QR.');
+      return;
+    }
+    setOperation(action);
+    setFeedbackTarget(action === 'save' ? 'profile' : 'card');
+    setBusy(true);
+    setError('');
+    setMessage('');
     try {
       if (action === 'save') {
-        await httpsCallable(firebaseClient().functions, 'savePatientProfile', { timeout: 15000 })(draft);
-        setSavedFingerprint(JSON.stringify(draft)); setMessage('Đã lưu.');
+        await httpsCallable(firebaseClient().functions, 'savePatientProfile', { timeout: 15000 })(
+          draft,
+        );
+        setSavedFingerprint(JSON.stringify(draft));
+        setMessage('Đã lưu.');
       } else if (action === 'issue') {
-        await httpsCallable(firebaseClient().functions, 'issuePatientCard', { timeout: 15000 })({ shareProfile: share });
+        await httpsCallable(firebaseClient().functions, 'issuePatientCard', { timeout: 15000 })({
+          shareProfile: share,
+        });
         setMessage('Đã tạo QR.');
       } else {
-        await httpsCallable(firebaseClient().functions, 'revokePatientCard', { timeout: 15000 })({ cardId: card?.cardId });
-        setConfirmedRevoke(false); setMessage('Đã thu hồi thẻ. QR cũ không tạo được yêu cầu mới.');
+        await httpsCallable(firebaseClient().functions, 'revokePatientCard', { timeout: 15000 })({
+          cardId: card?.cardId,
+        });
+        setConfirmedRevoke(false);
+        setMessage('Đã thu hồi thẻ. QR cũ không tạo được yêu cầu mới.');
       }
-    } catch (err) { setError(readableError(err)); } finally { setBusy(false); setOperation(null); }
+    } catch (err) {
+      setError(readableError(err));
+    } finally {
+      setBusy(false);
+      setOperation(null);
+    }
   }
   async function cancel(id: string) {
-    setOperation('cancel'); setFeedbackTarget('incident');
-    setBusy(true); setError(''); setMessage('');
-    try { await httpsCallable(firebaseClient().functions, 'cancelPatientIncident', { timeout: 15000 })({ incidentId: id }); setMessage('Đã hủy yêu cầu chưa có TNV nhận.'); }
-    catch (err) { setError(readableError(err)); } finally { setBusy(false); setOperation(null); }
+    setOperation('cancel');
+    setFeedbackTarget('incident');
+    setBusy(true);
+    setError('');
+    setMessage('');
+    try {
+      await httpsCallable(firebaseClient().functions, 'cancelPatientIncident', { timeout: 15000 })({
+        incidentId: id,
+      });
+      setMessage('Đã hủy yêu cầu chưa có TNV nhận.');
+    } catch (err) {
+      setError(readableError(err));
+    } finally {
+      setBusy(false);
+      setOperation(null);
+    }
   }
-  const active = history.find(item => ['dispatching', 'accepted', 'arrived'].includes(item.status));
-  const feedback = (target: string) => feedbackTarget === target ? <>{!!error && <Text accessibilityRole="alert" style={ui.error}>{error}</Text>}{!!message && <Text accessibilityRole="alert" style={ui.success}>{message}</Text>}</> : null;
-  const renderIncident = (item: History) => <View key={item.id} style={{ gap: 6, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#dce8e0' }}><Text style={{ fontWeight: '700' }}>{statusLabel[item.status] || item.status}</Text><Text style={ui.body}>Ca {item.id.slice(0, 10)} · {item.createdAt?.toDate().toLocaleString('vi-VN') || ''}</Text>{item.status === 'accepted' && <TravelStatusText progress={item.travelProgress} acceptedAtMs={item.acceptedAt?.toMillis()} connected={connected} />}{item.status === 'dispatching' && <Text style={ui.body}>{item.invitedCount ? 'Đã gửi lời mời; chưa đồng nghĩa đã có người nhận.' : 'Chưa có TNV phù hợp. Không chờ EHIS nếu cần dịch vụ cấp cứu.'}</Text>}{item.status === 'dispatching' && <ConfirmAction title="Hủy yêu cầu" explanation="Bạn muốn hủy yêu cầu này? Chỉ hủy nếu đã gửi nhầm hoặc không còn cần hỗ trợ qua EHIS." disabled={busy || !connected} onConfirm={() => cancel(item.id)} />}</View>;
-  const cardPanel = <View style={ui.card}><Text style={ui.heading}>Thẻ QR của bạn</Text>
-      {card?.active ? <>
-        <Text style={ui.success}>Mã QR đang hoạt động</Text>{dirty && <Text style={ui.error}>Có thay đổi chưa lưu. QR vẫn dùng hồ sơ đã lưu.</Text>}<Text style={ui.body}>{card.shareProfile ? 'Chia sẻ hồ sơ với TNV đã nhận ca.' : 'Không chia sẻ hồ sơ sức khỏe.'}</Text>
-        {!!cardUrl && <><View style={{ alignItems: 'center', padding: 12 }}><QRCode value={cardUrl} size={Math.min(210, Math.max(100, width - 150))} quietZone={12} /></View><InfoDisclosure title="Liên kết thẻ QR"><Text selectable accessibilityLabel="Đường dẫn thẻ EHIS" style={ui.caption}>{cardUrl}</Text></InfoDisclosure><ExternalLink variant="secondary" title="Mở trang từ QR" href={cardUrl} onError={() => setError('Chưa mở được trang thẻ.')} /></>}
-        {!validBase && <Text style={ui.error}>Chưa thiết lập được địa chỉ trang báo hỗ trợ. Liên hệ nhóm phụ trách trước khi sử dụng QR.</Text>}
-        {active ? <Text style={ui.body}>Thẻ đang có ca hỗ trợ. Cần kết thúc/hủy ca trước khi thu hồi.</Text> : <><InfoDisclosure title="Vô hiệu hóa QR"><ToggleRow accessibilityLabel="Xác nhận thu hồi thẻ" label="Tôi hiểu QR này sẽ ngừng hoạt động." value={confirmedRevoke} onValueChange={setConfirmedRevoke} disabled={busy} /><Button variant="secondary" title={operation === 'revoke' ? 'Đang vô hiệu hóa…' : 'Vô hiệu hóa QR'} color="#a12626" disabled={busy || !connected || !confirmedRevoke} onPress={() => act('revoke')} /></InfoDisclosure></>}
-      </> : <>
-        {!profileSaved && <Text style={ui.body}>Lưu hồ sơ để tạo QR.</Text>}
-        <Text style={ui.body}>{card ? 'QR cũ đã vô hiệu hóa. Bạn có thể tạo mã mới.' : 'QR chứa liên kết thẻ, không chứa bệnh án.'}</Text>
-        <ToggleRow accessibilityLabel="Cho phép TNV được phân công xem hồ sơ" label="Chia sẻ tên, bệnh nền, dị ứng và liên hệ với TNV nhận ca." value={share} onValueChange={setShare} disabled={busy} />
-        <Button loading={operation === 'issue'} title={operation === 'issue' ? 'Đang tạo mã QR…' : 'Tạo mã QR'} disabled={busy || !connected || !profileSaved || !validBase} onPress={() => act('issue')} />
-        {!validBase && <Text style={ui.error}>Cần cấu hình địa chỉ website cho QR trước khi phát hành.</Text>}
-      </>}
-    {feedback('card')}</View>;
-  return <ScrollView ref={scroll} contentContainerStyle={ui.page} keyboardShouldPersistTaps="always" keyboardDismissMode="on-drag">
-    <Text style={ui.eyebrow}>EHIS · BỆNH NHÂN</Text><Text style={ui.title}>Thẻ sức khỏe</Text>
-    {!connected && <Text accessibilityRole="alert" style={ui.error}>Đang chờ máy chủ. Thẻ và trạng thái lưu trên thiết bị có thể đã cũ.</Text>}
-    {feedback('incident')}
-    {active && <View style={ui.card}><Text style={ui.heading}>Yêu cầu đang diễn ra</Text>{renderIncident(active)}</View>}
-    {card?.active && cardPanel}
-    <View style={ui.card}><Text style={ui.heading}>Thông tin sức khỏe</Text>
-      {profileFailed && <><Text accessibilityRole="alert" style={ui.error}>Chưa tải được hồ sơ. Tải lại trước khi chỉnh sửa để tránh ghi đè dữ liệu đã lưu.</Text><Button title="Tải lại hồ sơ" onPress={() => { setError(''); setProfileFailed(false); setProfileAttempt(value => value + 1); }} /></>}
-      <Text style={ui.body}>Thông tin tự khai, chưa xác minh y tế.</Text>
-      <Text>Họ và tên</Text><TextInput accessibilityLabel="Họ tên bệnh nhân" value={fullName} onChangeText={setFullName} maxLength={100} style={ui.input} editable={loaded && !busy} />
-      <Text>Bệnh nền / tiền sử đã khai báo</Text><TextInput accessibilityLabel="Bệnh nền và tiền sử" value={medicalConditions} onChangeText={setMedicalConditions} multiline maxLength={2020} placeholder="Mỗi bệnh một dòng; để trống nếu chưa khai báo" style={ui.input} editable={loaded && !busy} />
-      <Text>Dị ứng · phân cách bằng dấu phẩy</Text><TextInput accessibilityLabel="Dị ứng" value={allergies} onChangeText={setAllergies} multiline maxLength={2000} placeholder="Để trống nếu chưa khai báo" style={ui.input} editable={loaded && !busy} />
-      <Text style={ui.heading}>Liên hệ khẩn cấp · tùy chọn</Text><Text style={ui.caption}>Điền đủ tên, quan hệ và số điện thoại, hoặc để trống cả ba.</Text>
-      <Text>Tên người liên hệ</Text><TextInput accessibilityLabel="Tên người liên hệ khẩn cấp" value={contactName} onChangeText={setContactName} maxLength={100} style={ui.input} editable={loaded && !busy} />
-      <Text>Quan hệ với bạn</Text><TextInput accessibilityLabel="Quan hệ người liên hệ khẩn cấp" placeholder="Ví dụ: mẹ, anh trai, bạn" value={contactRelationship} onChangeText={setContactRelationship} maxLength={60} style={ui.input} editable={loaded && !busy} />
-      <Text>Số điện thoại</Text><TextInput accessibilityLabel="Số liên hệ khẩn cấp" value={phone} onChangeText={setPhone} keyboardType="phone-pad" maxLength={40} style={ui.input} editable={loaded && !busy} />
-      {loaded && <Text accessibilityLiveRegion="polite" style={profileSaved ? ui.success : ui.body}>{profileSaved ? 'Đã lưu hồ sơ.' : 'Có thay đổi chưa lưu.'}</Text>}
-      <Button loading={operation === 'save'} title={operation === 'save' ? 'Đang lưu hồ sơ…' : 'Lưu hồ sơ'} disabled={!loaded || busy || !connected || !fullName.trim() || profileSaved} onPress={() => act('save')} />{feedback('profile')}
+  const active = history.find((item) =>
+    ['dispatching', 'accepted', 'arrived'].includes(item.status),
+  );
+  const feedback = (target: string) =>
+    feedbackTarget === target ? (
+      <>
+        {!!error && (
+          <Text accessibilityRole="alert" style={ui.error}>
+            {error}
+          </Text>
+        )}
+        {!!message && (
+          <Text accessibilityRole="alert" style={ui.success}>
+            {message}
+          </Text>
+        )}
+      </>
+    ) : null;
+  const renderIncident = (item: History) => (
+    <View
+      key={item.id}
+      style={{ gap: 6, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#dce8e0' }}
+    >
+      <Text style={{ fontWeight: '700' }}>{statusLabel[item.status] || item.status}</Text>
+      <Text style={ui.body}>
+        Ca {item.id.slice(0, 10)} · {item.createdAt?.toDate().toLocaleString('vi-VN') || ''}
+      </Text>
+      {item.status === 'accepted' && (
+        <TravelStatusText
+          progress={item.travelProgress}
+          acceptedAtMs={item.acceptedAt?.toMillis()}
+          connected={connected}
+        />
+      )}
+      {item.status === 'dispatching' && (
+        <Text style={ui.body}>
+          {item.invitedCount
+            ? 'Đã gửi lời mời; chưa đồng nghĩa đã có người nhận.'
+            : 'Chưa có TNV phù hợp. Không chờ EHIS nếu cần dịch vụ cấp cứu.'}
+        </Text>
+      )}
+      {item.status === 'dispatching' && (
+        <ConfirmAction
+          title="Hủy yêu cầu"
+          explanation="Bạn muốn hủy yêu cầu này? Chỉ hủy nếu đã gửi nhầm hoặc không còn cần hỗ trợ qua EHIS."
+          disabled={busy || !connected}
+          onConfirm={() => cancel(item.id)}
+        />
+      )}
     </View>
-    {!card?.active && cardPanel}
+  );
+  const cardPanel = (
+    <View style={ui.card}>
+      <Text style={ui.heading}>Thẻ QR của bạn</Text>
+      {card?.active ? (
+        <>
+          <Text style={ui.success}>Mã QR đang hoạt động</Text>
+          {dirty && <Text style={ui.error}>Có thay đổi chưa lưu. QR vẫn dùng hồ sơ đã lưu.</Text>}
+          <Text style={ui.body}>
+            {card.shareProfile
+              ? 'Chia sẻ hồ sơ với TNV đã nhận ca.'
+              : 'Không chia sẻ hồ sơ sức khỏe.'}
+          </Text>
+          {!!cardUrl && (
+            <>
+              <View style={{ alignItems: 'center', padding: 12 }}>
+                <QRCode
+                  value={cardUrl}
+                  size={Math.min(210, Math.max(100, width - 150))}
+                  quietZone={12}
+                />
+              </View>
+              <InfoDisclosure title="Liên kết thẻ QR">
+                <Text selectable accessibilityLabel="Đường dẫn thẻ EHIS" style={ui.caption}>
+                  {cardUrl}
+                </Text>
+              </InfoDisclosure>
+              <ExternalLink
+                variant="secondary"
+                title="Mở trang từ QR"
+                href={cardUrl}
+                onError={() => setError('Chưa mở được trang thẻ.')}
+              />
+            </>
+          )}
+          {!validBase && (
+            <Text style={ui.error}>
+              Chưa thiết lập được địa chỉ trang báo hỗ trợ. Liên hệ nhóm phụ trách trước khi sử dụng
+              QR.
+            </Text>
+          )}
+          {active ? (
+            <Text style={ui.body}>
+              Thẻ đang có ca hỗ trợ. Cần kết thúc/hủy ca trước khi thu hồi.
+            </Text>
+          ) : (
+            <>
+              <InfoDisclosure title="Vô hiệu hóa QR">
+                <ToggleRow
+                  accessibilityLabel="Xác nhận thu hồi thẻ"
+                  label="Tôi hiểu QR này sẽ ngừng hoạt động."
+                  value={confirmedRevoke}
+                  onValueChange={setConfirmedRevoke}
+                  disabled={busy}
+                />
+                <Button
+                  variant="secondary"
+                  title={operation === 'revoke' ? 'Đang vô hiệu hóa…' : 'Vô hiệu hóa QR'}
+                  color="#a12626"
+                  disabled={busy || !connected || !confirmedRevoke}
+                  onPress={() => act('revoke')}
+                />
+              </InfoDisclosure>
+            </>
+          )}
+        </>
+      ) : (
+        <>
+          {!profileSaved && <Text style={ui.body}>Lưu hồ sơ để tạo QR.</Text>}
+          <Text style={ui.body}>
+            {card
+              ? 'QR cũ đã vô hiệu hóa. Bạn có thể tạo mã mới.'
+              : 'QR chứa liên kết thẻ, không chứa bệnh án.'}
+          </Text>
+          <ToggleRow
+            accessibilityLabel="Cho phép TNV được phân công xem hồ sơ"
+            label="Chia sẻ tên, bệnh nền, dị ứng và liên hệ với TNV nhận ca."
+            value={share}
+            onValueChange={setShare}
+            disabled={busy}
+          />
+          <Button
+            loading={operation === 'issue'}
+            title={operation === 'issue' ? 'Đang tạo mã QR…' : 'Tạo mã QR'}
+            disabled={busy || !connected || !profileSaved || !validBase}
+            onPress={() => act('issue')}
+          />
+          {!validBase && (
+            <Text style={ui.error}>Cần cấu hình địa chỉ website cho QR trước khi phát hành.</Text>
+          )}
+        </>
+      )}
+      {feedback('card')}
+    </View>
+  );
+  return (
+    <ScrollView
+      ref={scroll}
+      contentContainerStyle={ui.page}
+      keyboardShouldPersistTaps="always"
+      keyboardDismissMode="on-drag"
+    >
+      <Text style={ui.eyebrow}>EHIS · Bệnh nhân</Text>
+      <Text style={ui.title}>Thẻ sức khỏe</Text>
+      {!connected && (
+        <Text accessibilityRole="alert" style={ui.error}>
+          Đang chờ máy chủ. Thẻ và trạng thái lưu trên thiết bị có thể đã cũ.
+        </Text>
+      )}
+      {feedback('incident')}
+      {active && (
+        <View style={ui.card}>
+          <Text style={ui.heading}>Yêu cầu đang diễn ra</Text>
+          {renderIncident(active)}
+        </View>
+      )}
+      {card?.active && cardPanel}
+      <View style={ui.card}>
+        <Text style={ui.heading}>Thông tin sức khỏe</Text>
+        {profileFailed && (
+          <>
+            <Text accessibilityRole="alert" style={ui.error}>
+              Chưa tải được hồ sơ. Tải lại trước khi chỉnh sửa để tránh ghi đè dữ liệu đã lưu.
+            </Text>
+            <Button
+              title="Tải lại hồ sơ"
+              onPress={() => {
+                setError('');
+                setProfileFailed(false);
+                setProfileAttempt((value) => value + 1);
+              }}
+            />
+          </>
+        )}
+        <Text style={ui.body}>Thông tin tự khai, chưa xác minh y tế.</Text>
+        <Text>Họ và tên</Text>
+        <TextInput
+          accessibilityLabel="Họ tên bệnh nhân"
+          value={fullName}
+          onChangeText={setFullName}
+          maxLength={100}
+          style={ui.input}
+          editable={loaded && !busy}
+        />
+        <Text>Bệnh nền / tiền sử đã khai báo</Text>
+        <TextInput
+          accessibilityLabel="Bệnh nền và tiền sử"
+          value={medicalConditions}
+          onChangeText={setMedicalConditions}
+          multiline
+          maxLength={2020}
+          placeholder="Mỗi bệnh một dòng; để trống nếu chưa khai báo"
+          style={ui.input}
+          editable={loaded && !busy}
+        />
+        <Text>Dị ứng · phân cách bằng dấu phẩy</Text>
+        <TextInput
+          accessibilityLabel="Dị ứng"
+          value={allergies}
+          onChangeText={setAllergies}
+          multiline
+          maxLength={2000}
+          placeholder="Để trống nếu chưa khai báo"
+          style={ui.input}
+          editable={loaded && !busy}
+        />
+        <Text style={ui.heading}>Liên hệ khẩn cấp · tùy chọn</Text>
+        <Text style={ui.caption}>Điền đủ tên, quan hệ và số điện thoại, hoặc để trống cả ba.</Text>
+        <Text>Tên người liên hệ</Text>
+        <TextInput
+          accessibilityLabel="Tên người liên hệ khẩn cấp"
+          value={contactName}
+          onChangeText={setContactName}
+          maxLength={100}
+          style={ui.input}
+          editable={loaded && !busy}
+        />
+        <Text>Quan hệ với bạn</Text>
+        <TextInput
+          accessibilityLabel="Quan hệ người liên hệ khẩn cấp"
+          placeholder="Ví dụ: mẹ, anh trai, bạn"
+          value={contactRelationship}
+          onChangeText={setContactRelationship}
+          maxLength={60}
+          style={ui.input}
+          editable={loaded && !busy}
+        />
+        <Text>Số điện thoại</Text>
+        <TextInput
+          accessibilityLabel="Số liên hệ khẩn cấp"
+          value={phone}
+          onChangeText={setPhone}
+          keyboardType="phone-pad"
+          maxLength={40}
+          style={ui.input}
+          editable={loaded && !busy}
+        />
+        {loaded && (
+          <Text accessibilityLiveRegion="polite" style={profileSaved ? ui.success : ui.body}>
+            {profileSaved ? 'Đã lưu hồ sơ.' : 'Có thay đổi chưa lưu.'}
+          </Text>
+        )}
+        <Button
+          loading={operation === 'save'}
+          title={operation === 'save' ? 'Đang lưu hồ sơ…' : 'Lưu hồ sơ'}
+          disabled={!loaded || busy || !connected || !fullName.trim() || profileSaved}
+          onPress={() => act('save')}
+        />
+        {feedback('profile')}
+      </View>
+      {!card?.active && cardPanel}
 
-    {history.some(item => item.id !== active?.id) && <View style={ui.card}><Button variant="secondary" title={historyOpen ? 'Ẩn lịch sử hỗ trợ' : 'Xem lịch sử hỗ trợ'} onPress={() => setHistoryOpen(value => !value)} />{historyOpen && history.filter(item => item.id !== active?.id).map(renderIncident)}</View>}
-    <AccountBar />
-  </ScrollView>;
+      {history.some((item) => item.id !== active?.id) && (
+        <View style={ui.card}>
+          <Button
+            variant="secondary"
+            title={historyOpen ? 'Ẩn lịch sử hỗ trợ' : 'Xem lịch sử hỗ trợ'}
+            onPress={() => setHistoryOpen((value) => !value)}
+          />
+          {historyOpen && history.filter((item) => item.id !== active?.id).map(renderIncident)}
+        </View>
+      )}
+      <AccountBar />
+    </ScrollView>
+  );
 }

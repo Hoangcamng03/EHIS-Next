@@ -1,5 +1,7 @@
 # Kiến trúc đích và phạm vi hiện tại
 
+**Cập nhật 12/11/2026:** công cụ nhập tọa độ đã được gỡ khỏi giao diện app/web, kể cả local. Chuẩn bị điểm cho kiểm thử qua API hoặc quyền geolocation của trình duyệt kiểm thử; không trình bày điểm đó là GPS thật. Giới hạn theo thẻ, IP ingress và quyền admin hiện hành xem API_CONTRACT. App Check cưỡng chế và worker liên tục vẫn chưa nghiệm thu.
+
 ## Luồng đích
 
 Patient đăng ký/đăng nhập → lưu hồ sơ → cấp cardId → QR → người báo mở web → phiên anonymous + xác nhận vị trí → createIncident → backend tạo ca/lời mời và xác nhận → web chuyển bảng hỏi → submitBystanderReport (phone tùy chọn, ba câu trả lời bắt buộc) → cùng ca cập nhật thêm cho TNV. Không chờ TNV nhận mới mở bảng hỏi. TNV đăng ký ứng tuyển → admin xét duyệt → bật sẵn sàng → lời mời → accept bằng transaction → cấp thông tin liên hệ/vị trí cho đúng TNV phụ trách → hồ sơ tự khai nếu Patient đồng ý → tuyến đường trong app → arrived → completed. Patient và người báo nhận projection trạng thái riêng. NFC chưa triển khai trên thiết bị. Xem [flow nghiệm thu hiện hành](../testing/ACCEPTANCE_FLOW.md) để chạy đầy đủ.
@@ -44,7 +46,7 @@ Dispatch 0.4.7: Firestore lọc bbox quanh bán kính 5km, approved + isAvailabl
 
 Leaflet hiển thị bản đồ, OSRM trả tuyến đường/ETA cho bản thử. GPS người báo cần được xác nhận; không mặc định là vị trí bệnh nhân. Không đưa khóa bí mật nhà cung cấp vào client.
 
-Hiện tại vị trí TNV dùng bản đồ OSM; sau accept, màn hình tuyến đường dùng Leaflet web / WebView Android-iOS, hai marker và polyline từ OSRM khi người dùng bấm xem. Quãng đường/thời gian OSRM được tách khỏi khoảng cách Haversine lúc dispatch. Từ 0.4.6, TNV bật GPS foreground trên màn chỉ đường; hiển thị độ mới/sai số, giữ map và giới hạn tính lại tuyến. Người báo có thể xác nhận đổi điểm sau nhận ca; xem LIVE_GPS_0_4_6.md. Google Maps URLs hỗ trợ xem tuyến từ điểm đã lưu hoặc dẫn đường từ vị trí do Google xác định. Không đưa phone, UID, cardId hoặc incidentId vào URL bản đồ/routing. Cần Internet dù backend chạy Emulator. Local demo cho nhập tọa độ riêng từng bên (vĩ độ -85..85, kinh độ -180..180); heartbeat dùng tọa độ đã áp dụng, không dùng nội dung đang gõ dở. Bán kính dispatch 5km và phân quyền vị trí bệnh nhân giữ nguyên. Xem NAVIGATION.md về nguồn dữ liệu, giới hạn và phát hành.
+Hiện tại vị trí TNV dùng bản đồ OSM; sau accept, màn hình tuyến đường dùng Leaflet web / WebView Android-iOS, hai marker và polyline từ OSRM khi người dùng bấm xem. Quãng đường/thời gian OSRM được tách khỏi khoảng cách Haversine lúc dispatch. Từ 0.4.6, TNV bật GPS foreground trên màn chỉ đường; hiển thị độ mới/sai số, giữ map và giới hạn tính lại tuyến. Người báo có thể xác nhận đổi điểm sau nhận ca; xem LIVE_GPS_0_4_6.md. Google Maps URLs hỗ trợ xem tuyến từ điểm đã lưu hoặc dẫn đường từ vị trí do Google xác định. Không đưa phone, UID, cardId hoặc incidentId vào URL bản đồ/routing. Cần Internet dù backend chạy Emulator. Local cũng chỉ hiện GPS thiết bị trên giao diện. Bộ kiểm thử có thể cấp tọa độ qua API hoặc geolocation có kiểm soát; ghi nguồn trong bằng chứng riêng. Bán kính dispatch 5km và phân quyền vị trí bệnh nhân giữ nguyên. Xem NAVIGATION.md về nguồn dữ liệu, giới hạn và phát hành.
 
 ## Bản sửa TNV 0.4.9
 
