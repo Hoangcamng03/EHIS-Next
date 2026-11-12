@@ -9,6 +9,8 @@ Cập nhật 12/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu
 
 ## 1. Bản đang bàn giao
 
+**Android mới nhất: 0.4.22 / code 20.** [APK](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk) · [Bằng chứng](testing/verification/VERIFICATION_V0_4_22.md). EAS FINISHED, artifact tải về đã kiểm tra đúng source/package/version/cloud/tài nguyên chuông. Chưa cài hoặc nghiệm thu 0.4.22 trên điện thoại; không OTA. Các mục APK 21/19 bên dưới là lịch sử.
+
 **UAT cloud mới11/11:** [Kết quả và ảnh](testing/verification/CLOUD_UAT_2026_11_11.md).9tài khoản hư cấu mới, ca người báo qua điện thoại→TNV web→bàn giao→hoàn tất/readback403 đạt; vị trí TNV là fixtureAPI, chưa nghiệm thu GPS di chuyển/native. Web đã có liên kết QR/privacy trực tiếp và khôi phục bản đồ; backend vẫn21/f870ee3, APK21 hiện có chưa chứa các sửa web mới. Không chốt bản cuối cấp cứu thật khi các mục máy thật còn mở.
 
 **Cloud và APK21 đã có**: [bàn giao tự động/duyệt TNV/QR](testing/verification/VERIFICATION_V0_4_21.md). APK21/code19 đã xác minh artifact; chưa nghiệm thu trên điện thoại. Trang tải/QR đã trỏ tới21; kiểm tra HTTP và trình duyệt đạt.
@@ -17,11 +19,11 @@ Cập nhật 12/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu
 
 | Phần | Đã xác minh | Còn thiếu |
 | --- | --- | --- |
-| App web/người báo/admin/referrer | Đã deploy21 từ f870ee3 ngày11/11; 38 HTML/JS/CSS khớp byte build, có bệnh nền và luồng xác minh rõ hơn | Chưa chạy lại browser đầy đủ vai trò sau deploy này; failure rebuild cũ vẫn giữ |
-| Backend Vercel |21 từ f870ee3 đã deploy/probe đúng version/project/401; cloud bàn giao hai ca giả PASS | Chưa kiểm thử tải lớn cloud/worker liên tục/SLA; Spark/Hobby và quyền hiện có |
+| App web/người báo/admin/referrer | Ngày 13/11: app web 0.4.22, web người báo/admin 0.4.21; bỏ câu “Nguy kịch? Gọi 115 trước.”, 35 tệp cloud khớp build từ 9ea5028 | Chưa chạy lại toàn luồng cloud có đăng nhập hoặc điện thoại sau bản vá; việc cập nhật link APK được ghi riêng trong lab note |
+| Backend Vercel | 0.4.21 từ 05a0e16 đã deploy/probe đúng version/project; 36 callable không auth trả 401 | Chưa kiểm thử tải lớn cloud/worker liên tục/SLA; Spark/Hobby và quyền hiện có |
 | S22+/Android16 | Lần kiểm tra gần nhất APK19/code17; kết quả18: GPS tại chỗ, route, OFF/ON, Home/resume, report2 tự tải/ack PASS ở lượt thử | Tự thoát gián đoạn còn OPEN; bố cục/bấm nhầm/hoàn tất native18 chưa đạt; chưa đi bộ/đoGPS chuẩn/offline độc lập/toàn bộ chế độ âm thanh |
 | APK19/code17 | Đã cài S22+;3ca chờ, nhận E, chặn nhận D/A, bản2 tự tải/ack, GPS tại chỗ, hủy xác nhận arrival/hoàn tất và xác nhận hoàn tất native PASS. Kết thúc OFF/no active | Chưa nghiệm thu toàn bộ: tự thoát, offline độc lập, đi bộ GPS, nhiều máy/chế độ âm. Xem lab note10/11 |
-| Trang tải chung | [APK0.4.21/code19](https://expo.dev/artifacts/eas/uwcKeQiNQrGIoESYhgcQxChZpNcNnsRY83OHxhBR34U.apk); /install200, nhãn/link21 đúng trên HTTP/browser, QR đã giải mã và đối chiếu remote | Chưa nghiệm thu21 trên máy thật; không OTA |
+| Trang tải chung | [APK 0.4.22 / code 20](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk); file thực đã kiểm tra. QR giữ trang /install cố định | Cần đối chiếu lab note triển khai link mới; chưa nghiệm thu 0.4.22 trên máy thật; không OTA |
 | Source/CI backend | a9134eb,CI42654274756 SUCCESS, có health assertions thật;72a186a đã qua16suite local/CI | CIba90 trước sửa FAIL vẫn được giữ; không đồng nghĩa nghiệm thu thiết bị/y tế |
 | Tải local mới | Portable:1000Auth/128session/32feed/32ca/320API, p95cảnh báo1240ms,PASS | Không phải1000người dùng cloud; Functions local vẫn RECHECK,p95=21866ms>15000ms; chưa chứng minh mọi API nhanh hơn bản cũ |
 | iOS native | Hoãn; iPhone dùng app web | Chưa IPA/TestFlight/tài khoản/ký/nghiệm thu iOS |

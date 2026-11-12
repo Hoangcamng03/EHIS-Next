@@ -1,16 +1,22 @@
-# Android 0.4.22 — đóng gói thay đổi đã duyệt
+# Android 0.4.22 — thay đổi đã duyệt
 
-Chủ dự án yêu cầu cập nhật app và cung cấp link tải mới ngày 12/11/2026. Native 0.4.22 / code 20 chứa thay đổi UI đã kiểm tra trong [báo cáo cải thiện](PRODUCT_REVIEW_2026_11_12.md); API/backend tiếp tục 0.4.21, cùng project và hợp đồng.
+Ngày 13/11/2026. APK Android 0.4.22 / code 20 chứa thay đổi giao diện đã duyệt trong [báo cáo cải thiện](PRODUCT_REVIEW_2026_11_12.md). Backend/API vẫn 0.4.21; không đổi dữ liệu, quyền hoặc billing.
 
-## Phạm vi
+## Tải và cài
 
-- APK Android preview cài độc lập, package com.hoangcamng.ehisnext; không đổi tài khoản, dữ liệu hoặc cấu hình ký.
-- Chạy kiểm tra source và export Android trước build. Chỉ công bố link sau EAS FINISHED, đối chiếu commit/version/code và kiểm tra artifact.
-- Không phát OTA, không phát hành iOS/cửa hàng. Tính năng người báo chạy trên web đã cập nhật; app Android chứa khu vực Patient/Volunteer.
-- Điện thoại chưa được coi đã cập nhật hoặc nghiệm thu chỉ vì có APK; cần hoàn tất ca, tắt Sẵn sàng rồi cài đè và xác nhận phiên bản.
+- [Tải APK 0.4.22](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk) · [Build EAS](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/3d7867f6-1285-4bff-825d-379e7fe61fab) · [Trang cài cố định](https://ehis-next-20261021-hc03.web.app/install).
+- Hoàn tất ca đang xử lý, tắt Sẵn sàng rồi cài đè. Không gỡ ứng dụng/xóa dữ liệu. Kiểm tra phiên bản trong Thông tin ứng dụng.
+- Package giữ com.hoangcamng.ehisnext, sử dụng cấu hình ký EAS hiện có. Không cần Expo Go; gửi/nhận dữ liệu cần Internet.
 
-## Trạng thái chuẩn bị
+## Bằng chứng đã đạt
 
-Export Android bằng cấu hình cloud đã đạt; bundle Hermes 5,3 MB tạo thành công. Preflight đạt 31 bài backend và 62 bài client cùng lint/typecheck. Build đã gửi, trạng thái đọc lại IN_QUEUE; [trang tiến độ EAS](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/3d7867f6-1285-4bff-825d-379e7fe61fab). Source 8ba06d1; native fingerprint 60aa05fcc8324d4a8fffcc46722dfd8e59928430.
+| Lớp kiểm tra | Kết quả |
+| --- | --- |
+| Android export với cấu hình cloud | PASS; Hermes bundle 5,3 MB |
+| Preflight | PASS; 31 bài backend, 62 bài client, lint/typecheck |
+| EAS | FINISHED; source 8ba06d19c58433a742846e6be6c769afd2629e41, version/code đúng |
+| APK thực tải về | PASS; 102727729 byte, package/version/code, cloud target, tài nguyên chuông, quyền thông báo/rung, không quyền microphone |
+| SHA-256 | e9864909a003bda8687607c329360aae337e44051f450490664e474ca5cb6496 |
+| Điện thoại 0.4.22 | CHƯA THỬ; chưa xác nhận cài đè, chuông, GPS hoặc luồng native |
 
-Chưa có link tải 0.4.22 được xác minh. Trang cài vẫn giữ bản đã xác minh trước cho đến khi APK mới được kiểm tra. Không OTA.
+[Số liệu gốc](VERIFICATION_V0_4_22.json). Chưa coi build hoặc artifact đạt là nghiệm thu thiết bị. Các mục tự thoát gián đoạn/GPS di chuyển/offline và nghiệm thu trước còn mở. Không OTA hoặc iOS/cửa hàng trong đợt này. Việc trang tải đã cập nhật phải đối chiếu STATUS và lab note sau triển khai Hosting.
