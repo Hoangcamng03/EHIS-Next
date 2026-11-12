@@ -67,7 +67,7 @@ export function LiveIncidentNavigation({ destination, connected, autoPreview = f
       {visibleRoute?.steps.map((step, index) => <Text key={index}>{index + 1}. {step.instruction} · {Math.round(step.distance)} m</Text>)}
       <DirectionsLink title="Xem trên Google Maps" disabled={!origin || !connected} url={googleDirections(destination, origin ?? undefined)} />
       <DirectionsLink title="Dẫn đường Google Maps" disabled={!connected} url={googleDirections(destination)} />
-      <Text>GPS chỉ chạy khi app mở. Tọa độ tính tuyến gửi tới OSRM, bản đồ dùng OpenStreetMap; không gửi hồ sơ hay số điện thoại. Chưa có giao thông trực tiếp hoặc dẫn đường giọng nói. Người báo phải xác nhận khi đổi điểm bệnh nhân. {isLocalEmulator ? 'Điểm diễn tập có thể là tọa độ giả.' : ''}</Text>
+      <Text>GPS chỉ chạy khi app mở. Tọa độ tính tuyến gửi tới OSRM, bản đồ dùng OpenStreetMap; không gửi hồ sơ hay số điện thoại. Chưa có giao thông trực tiếp hoặc dẫn đường giọng nói. Người báo phải xác nhận khi đổi điểm bệnh nhân.</Text>
     </InfoDisclosure>
   </View>;
 }

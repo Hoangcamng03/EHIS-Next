@@ -5,6 +5,16 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
+## 2026-11-12 — ảnh theo vai trò và loại bỏ công cụ kiểm thử khỏi UI
+
+- Chủ dự án chọn bộ ảnh đầy đủ local, đối chiếu cloud đã có. Đã chụp 53 ảnh thật,8nhóm: Patient, người giới thiệu, admin, TNV; một ca, cập nhật bản2, ba ca đồng thời, không thể tiếp tục/bàn giao. Tên hiển thị bình thường, dữ liệu/tọa độ chủ động, project demo-ehis-next; không sửa sources hay dữ liệu cloud.
+- Patient/TNV chính/người giới thiệu đăng ký UI. Admin chuẩn bị riêng, xác minh email bằng Auth fixture local, chưa thử hộp thư thật. TNV thay/hai Patient phụ chuẩn bị API. Ba ca tạo API đồng thời; UI thấy111/222/334m. Một ca/TNV: nút thứ hai khóa và API400. Bàn giao có lời mời/người thay xác nhận rồi người cũ mới giải phóng. Readback sáu ca:4completed/2cancelled, reportRevision2, handover accepted, hai TNV OFF/noactive.
+- Lỗi chuẩn bị report dùng difficult thay difficulty trả400; cả3ca đã được tạo, không tạo lại hoặc sửa lịch sử. Giữ ca đầu reportRevision0, hai ca còn lại1; sửa đầu vào cho lần sau. Đọc backend đầu bị hạn chế kết nối, chạy lại quyền local đã có kết quả. Một ảnh mở thẻ cao211px được chụp lại đúng khung và ghi thời điểm mới.
+- Chủ dự án phát hiện vẫn có nhãn chạy thử trên UI local. Bỏ toàn bộ công cụ nhập tọa độ và nhãn liên quan khỏi RequestHelp/VolunteerAvailability; không đổi nhãn tọa độ giả thành GPS thật. Xóa hai component web chỉ phục vụ công cụ đó sau khi kiểm tra không còn bên dùng. GPS thật, kiểm tra quyền/vị trí và điều phối vẫn giữ. Tọa độ phục vụ kiểm thử chỉ qua công cụ/API ngoài UI. Các ảnh có nhãn cũ chưa được coi là bộ bàn giao cuối; cần chụp lại sau sửa. Tài liệu kiểm chứng vẫn ghi đúng dữ liệu/môi trường.
+- Thêm hướng dẫn/câu dẫn và JSON hash ảnh; lần check đầu phát hiện thiếu mục trong danh mục, đã bổ sung trước khi kiểm tra lại. Chưa deploy cloud/build APK/OTA. Không coi xác nhận đến nơi local là di chuyển thật; nghiệm thu native/GPS/mất mạng/hiệu suất chưa hoàn tất vẫn mở.
+- Đã chụp lại13ảnh có nội dung cũ; toàn bộ8ảnh bàn giao dùng cùng ca mới, không trộn ca. Ảnh cũ giữ ngoài bộ public. Readback sau lượt mới:7ca đóng (5completed/2cancelled),2TNV OFF/noactive. Ảnh mở thẻ/xác nhận ở cạnh bệnh nhân chỉ kiểm tra giao diện, chưa chứng minh gửi GPS thật sau thay đổi. Quét source app/web không còn nhãn chạy thử/diễn tập/vị trí giả. Không đổi chức năng Kiểm tra chuông hoặc nội dung đào tạo lâm sàng thành thông tin khác.
+- Kiểm tra đầy đủ: lint/typecheck app/web, build backend,28test backend và60test scripts đạt. Build web/app cloud-target lần đầu bị Windows EPERM khi tạo thư mục; chạy lại với quyền ghi đã export thành công. Cảnh báo Leaflet CSS asset có từ trước vẫn ghi nhận, không suy thành lỗi mới hoặc nghiệm thu bản đồ native. Bộ ảnh kiểm tra trực quan theo8nhóm; gallery giữ ảnh gốc và JSONhash/kích thước/thời điểm.
+
 ## 2026-11-11 — tự mời nhận thay, làm rõ xác minh và QR tải app
 
 ### 2026-11-12 bộ ảnh tình huống và tên hiển thị

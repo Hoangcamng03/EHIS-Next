@@ -4,6 +4,8 @@
 
 Gửi link trang này cho thành viên mới. Đọc từ mục 1 đến 4 để hiểu và chạy demo; các mục sau dùng khi cần kiểm thử, góp ý hoặc sửa code. Các link source đều dùng main. Không cần tài khoản Firebase/Vercel/Expo hoặc cài môi trường lập trình để tham gia demo cloud.
 
+[Ảnh theo thứ tự thao tác](ORDERED_FLOWS_2026_11_12.md): đăng ký từng vai trò, duyệt người giới thiệu/TNV và bốn trường hợp hỗ trợ. Mỗi ảnh có thao tác, quan sát và câu dẫn cho presentation. Bộ đầy đủ chạy local; bằng chứng cloud đối chiếu riêng trong tài liệu.
+
 [Bộ dữ liệu và UAT cloud mới11/11](../testing/verification/CLOUD_UAT_2026_11_11.md) · [Tài khoản UAT riêng](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/accounts/UAT_CLOUD_2026_11_11.md). Ảnh mới dùng hồ sơ hư cấu trên Firebase thật; tra phần chưa thử trước khi báo cáo nghiệm thu.
 
 > **Bản Android mới nhất cho nhóm: 0.4.21/code19 (11/11/2026).** [Tải APK trực tiếp](https://expo.dev/artifacts/eas/uwcKeQiNQrGIoESYhgcQxChZpNcNnsRY83OHxhBR34U.apk) · [Trang build](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/52684caa-423a-43f2-8fde-7c8b9c2236f8) · [Bằng chứng và phần chưa thử](../testing/verification/VERIFICATION_V0_4_21.md). APK đã xác minh tệp; chưa nghiệm thu21 trên S22+. Kết thúc ca, tắt Sẵn sàng trước khi cài đè; không gỡ app/xóa dữ liệu. [QR tải app](../assets/install/ehis-download-qr.png) dẫn tới trang cài chung.

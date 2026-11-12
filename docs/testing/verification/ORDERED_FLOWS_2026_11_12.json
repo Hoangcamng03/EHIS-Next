@@ -1,0 +1,649 @@
+{
+  "scope": "53 ảnh chụp giao diện thật trong môi trường local, ngày 12/11/2026. Hồ sơ và tọa độ chủ động dùng cho kịch bản; tên hiển thị bình thường. Đây là bằng chứng thao tác phần mềm, không chứng minh di chuyển, âm thanh/FCM nền Android hay khả năng vận hành cấp cứu thực tế.",
+  "readback": {
+    "at": "2026-11-12T09:21:44.289Z",
+    "environment": "demo-ehis-next local Auth/Firestore emulators",
+    "cases": [
+      {
+        "status": "completed",
+        "reportRevision": 1
+      },
+      {
+        "status": "completed",
+        "reportRevision": 2
+      },
+      {
+        "status": "completed",
+        "reportRevision": 0
+      },
+      {
+        "status": "cancelled",
+        "reportRevision": 1
+      },
+      {
+        "status": "cancelled",
+        "reportRevision": 1
+      },
+      {
+        "status": "completed",
+        "reportRevision": 0
+      },
+      {
+        "status": "completed",
+        "reportRevision": 0
+      }
+    ],
+    "acceptedHandover": true,
+    "volunteersOffAndUnassigned": 2,
+    "busySecondAcceptanceHttp": 400
+  },
+  "caveats": [
+    "Tài khoản quản trị do người vận hành chuẩn bị; không có chức năng tự đăng ký quản trị.",
+    "Patient, TNV chính và người giới thiệu đăng ký qua UI. Bước xác minh email người giới thiệu được đặt bằng Auth emulator; chưa thử mở email/hộp thư thật.",
+    "TNV thứ hai và hai bệnh nhân bổ sung được chuẩn bị qua Auth/API local, không có bộ ảnh đăng ký UI riêng cho họ.",
+    "Ba ca đồng thời được tạo qua API thật với ba điểm cách TNV khoảng 111/222/334 m; UI được chụp sau đó. Đây không phải bài đo giới hạn tải hay GPS thật.",
+    "Lần chuẩn bị ba ca có một report bị HTTP400 do enum difficult sai (đúng là difficulty). Không tạo lại ca hoặc sửa lịch sử: cả ba ca đã tồn tại; ca đầu giữ reportRevision=0, hai ca còn lại=1. Đã sửa giá trị đầu vào cho các lần sau.",
+    "Đã bấm xác nhận đến nơi trong ca local để kiểm tra chuyển trạng thái; không có người thực sự di chuyển tới điểm.",
+    "Nút “Không thể tiếp tục” gửi lời mời cho người thay; người cũ chỉ được giải phóng sau khi người mới xác nhận. Không tự bỏ ca.",
+    "Có thử đọc backend ban đầu không kết nối trong môi trường hạn chế; chạy lại với quyền kết nối local đã trả kết quả. Không thay trạng thái dữ liệu để làm đẹp kết quả.",
+    "Sau góp ý về nội dung chạy thử: đã bỏ công cụ tọa độ và nhãn kiểm thử khỏi UI app/web, xóa component chỉ phục vụ công cụ đó. 13 ảnh bị ảnh hưởng được chụp lại; toàn bộ nhóm bàn giao chụp lại trên một ca mới. Ảnh cũ lưu riêng ngoài bộ bàn giao, không chỉnh sửa pixel để che nhãn. Các ảnh không bị ảnh hưởng giữ thời điểm gốc. Chưa triển khai cloud hoặc phát hành APK/OTA trong đợt này."
+  ],
+  "screenshots": [
+    {
+      "group": "01-patient",
+      "file": "01-start.jpg",
+      "title": "Mở ứng dụng",
+      "action": "Mở app",
+      "result": "Chưa đăng nhập",
+      "at": "2026-11-12T08:55:50.745Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "9da66ae7c905305f2b41161e5c76dc6661fce87fb29554565ee3320ededf64d4"
+    },
+    {
+      "group": "01-patient",
+      "file": "02-role.jpg",
+      "title": "Chọn vai trò",
+      "action": "Chọn Đăng ký",
+      "result": "Hiện hai đối tượng",
+      "at": "2026-11-12T08:55:51.071Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "918c49ce5ffa9bef1e671aacf461a8402d1a97a6d66d542d5409b6072afc0a71"
+    },
+    {
+      "group": "01-patient",
+      "file": "03-register.jpg",
+      "title": "Nhập tài khoản bệnh nhân",
+      "action": "Điền email/mật khẩu và xác nhận dữ liệu",
+      "result": "Nút tạo tài khoản mở",
+      "at": "2026-11-12T08:56:00.063Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "c1e509085e92b04e4e311ac1ba9a6fc34cec4ba5fda94aef881b7c6b9d77e764"
+    },
+    {
+      "group": "01-patient",
+      "file": "04-profile.jpg",
+      "title": "Nhập hồ sơ",
+      "action": "Điền bệnh nền, dị ứng và liên hệ",
+      "result": "Thông tin chưa lưu",
+      "at": "2026-11-12T08:56:13.666Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "8103a4216e36f096af5a130fc72d6dd766cf3edca3f1ea6c42f9e83206325222"
+    },
+    {
+      "group": "01-patient",
+      "file": "05-consent.jpg",
+      "title": "Chọn chia sẻ",
+      "action": "Bật chia sẻ cho TNV nhận ca",
+      "result": "Hồ sơ được chia sẻ theo consent",
+      "at": "2026-11-12T08:56:21.081Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "91ea64697f35091b6e92634c7a185bffa7a955bea05bbd7ce2b27e579b4b7708"
+    },
+    {
+      "group": "01-patient",
+      "file": "06-qr.jpg",
+      "title": "QR được tạo",
+      "action": "Bấm tạo mã QR",
+      "result": "Mã QR hoạt động",
+      "at": "2026-11-12T08:56:28.213Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "6c33fd6358e84ea220a1fabf4d41fb73a48f75e1fa15262a3608f511bdfdc81f"
+    },
+    {
+      "group": "02-referrer",
+      "file": "01-register.jpg",
+      "title": "Đăng ký người giới thiệu",
+      "action": "Điền email/mật khẩu",
+      "result": "Nút tạo tài khoản mở",
+      "at": "2026-11-12T08:56:49.923Z",
+      "width": 1280,
+      "height": 900,
+      "sha256": "3bef45e49fff94a3d50cd851c2f78366462eb717d0820cd07dce82c007beeec2"
+    },
+    {
+      "group": "02-referrer",
+      "file": "02-wait-verification.jpg",
+      "title": "Chờ xác minh người giới thiệu",
+      "action": "Tạo tài khoản xong",
+      "result": "Chưa có quyền giới thiệu; cần xác minh email và quản trị",
+      "at": "2026-11-12T08:56:55.729Z",
+      "width": 1280,
+      "height": 900,
+      "sha256": "981217ece43d5ac16d1247063fd35b52129403abc67627267d17d530360e8d2f"
+    },
+    {
+      "group": "02-referrer",
+      "file": "03-checklist.jpg",
+      "title": "Đối chiếu bốn điều kiện",
+      "action": "Xác nhận danh tính, đơn vị, đào tạo, phạm vi",
+      "result": "Đủ checklist để đề nghị duyệt",
+      "at": "2026-11-12T08:58:37.775Z",
+      "width": 1265,
+      "height": 889,
+      "sha256": "1404928c35a9969cd516406daf9ec7aa92fe13e2a739bfc43e028cdbbd2ea5f0"
+    },
+    {
+      "group": "03-admin",
+      "file": "01-login.jpg",
+      "title": "Đăng nhập quản trị",
+      "action": "Dùng tài khoản được cấp",
+      "result": "Quản trị không tự đăng ký từ app",
+      "at": "2026-11-12T08:57:17.535Z",
+      "width": 1024,
+      "height": 720,
+      "sha256": "2e525e00ad5e711ecc961d50a9f6a98cfedea5f4133e930c7d82386e34c051ae"
+    },
+    {
+      "group": "03-admin",
+      "file": "02-referrer-details.jpg",
+      "title": "Xác minh người giới thiệu",
+      "action": "Điền đơn vị, chức vụ và căn cứ",
+      "result": "Quản trị xác nhận trước cấp quyền",
+      "at": "2026-11-12T08:57:37.572Z",
+      "width": 1265,
+      "height": 889,
+      "sha256": "5a1ef30518b4ce359a8f8a051db8a8d4e1581a82578635245a4bbd8a97ddccdd"
+    },
+    {
+      "group": "03-admin",
+      "file": "03-referrer-approved.jpg",
+      "title": "Người giới thiệu đã có quyền",
+      "action": "Xác nhận cấp quyền",
+      "result": "Backend thông báo thành công",
+      "at": "2026-11-12T08:57:46.799Z",
+      "width": 1265,
+      "height": 889,
+      "sha256": "f79cac509ca3835ac9a2c318311efe8c3ff4676c3149443fbe9e4d0b72715e22"
+    },
+    {
+      "group": "03-admin",
+      "file": "04-review-volunteer.jpg",
+      "title": "Quản trị xem đơn đã xác nhận",
+      "action": "Tải đơn chờ",
+      "result": "Hiện checklist/căn cứ từ người giới thiệu",
+      "at": "2026-11-12T08:58:49.272Z",
+      "width": 1265,
+      "height": 889,
+      "sha256": "b1dbc84e6081a11717e2681bf88b9f539bc2fcb946626c6a2d70c50b45614ea9"
+    },
+    {
+      "group": "03-admin",
+      "file": "05-confirm-approval.jpg",
+      "title": "Xác nhận mở quyền nhận ca",
+      "action": "Bấm Duyệt đơn",
+      "result": "Cần xác nhận cuối",
+      "at": "2026-11-12T08:58:55.190Z",
+      "width": 1265,
+      "height": 889,
+      "sha256": "262675bbd20bd401017b9914182440ac93ab54222a36e3339af45185763c5166"
+    },
+    {
+      "group": "04-volunteer",
+      "file": "01-select-role.jpg",
+      "title": "Chọn TNV",
+      "action": "Mở đăng ký",
+      "result": "Chọn tình nguyện viên",
+      "at": "2026-11-12T08:57:56.470Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "918c49ce5ffa9bef1e671aacf461a8402d1a97a6d66d542d5409b6072afc0a71"
+    },
+    {
+      "group": "04-volunteer",
+      "file": "02-register.jpg",
+      "title": "Tạo tài khoản TNV",
+      "action": "Nhập email, mật khẩu và xác nhận dữ liệu",
+      "result": "Sẵn sàng tạo tài khoản",
+      "at": "2026-11-12T08:58:07.474Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "885120e858c081f41bff46922acca9cacfaa221f2f6f4b04f5803ddd6bec034f"
+    },
+    {
+      "group": "04-volunteer",
+      "file": "03-application-top.jpg",
+      "title": "Thông tin ứng tuyển",
+      "action": "Điền danh tính và đào tạo",
+      "result": "Chưa gửi",
+      "at": "2026-11-12T08:58:21.441Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "b60bd0383c84af0bb7cc4d6e55b618b555b1b05bdaa8e747d4aff83928ba9cd6"
+    },
+    {
+      "group": "04-volunteer",
+      "file": "04-application-manager.jpg",
+      "title": "Chỉ định người giới thiệu",
+      "action": "Điền đơn vị và email quản lý",
+      "result": "Người quản lý sẽ đối chiếu hồ sơ",
+      "at": "2026-11-12T08:58:21.482Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "949864790ff43f60569d56b90005efc5604038c19566f47a37bc297986d8cfdd"
+    },
+    {
+      "group": "04-volunteer",
+      "file": "05-wait-referrer.jpg",
+      "title": "TNV chờ người giới thiệu",
+      "action": "Gửi hồ sơ",
+      "result": "Chưa được nhận ca",
+      "at": "2026-11-12T08:58:30.737Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "471713849ed10c0ac8cae6d6884869274874c201553c80e9b706a4a95fc319a3"
+    },
+    {
+      "group": "04-volunteer",
+      "file": "06-wait-admin.jpg",
+      "title": "TNV chờ quản trị",
+      "action": "Người giới thiệu đã xác nhận",
+      "result": "Chờ mở quyền nhận ca",
+      "at": "2026-11-12T08:58:43.995Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "dc212a4070b05961ce4966ba7989778b2b6546eb0a5721ef8c190ec4467ecc0d"
+    },
+    {
+      "group": "04-volunteer",
+      "file": "07-approved.jpg",
+      "title": "TNV được duyệt",
+      "action": "Mở lại TNV đã duyệt sau chỉnh sửa giao diện",
+      "result": "Tài khoản được duyệt, đang tắt Sẵn sàng; ảnh chụp lại sau các ca",
+      "at": "2026-11-12T09:18:51.863Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 390,
+      "height": 843,
+      "sha256": "f7600a71ad9d0a1f16476759454b65dc01aeba9778ff282c56e099dc953a6e2d"
+    },
+    {
+      "group": "05-single-case",
+      "file": "01-ready.jpg",
+      "title": "TNV sẵn sàng trước ca",
+      "action": "Chuẩn bị trạng thái Sẵn sàng qua API local sau sửa UI",
+      "result": "Hiển thị Sẵn sàng, không còn mục nhập tọa độ",
+      "at": "2026-11-12T09:19:48.127Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 390,
+      "height": 843,
+      "sha256": "cd36ec460c5e810c60dac176e08776a9c84817640ca70597e6e43f7f785b6f81"
+    },
+    {
+      "group": "05-single-case",
+      "file": "02-scan.jpg",
+      "title": "Người qua đường mở QR",
+      "action": "Mở lại thẻ sau khi chỉnh giao diện",
+      "result": "Trang báo hỗ trợ không còn công cụ tọa độ",
+      "at": "2026-11-12T09:18:51.895Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 375,
+      "height": 811,
+      "sha256": "509e82947b3ffb7f1e8777ba5c248d6187aa36336b557ceebf2c4105eeae96be"
+    },
+    {
+      "group": "05-single-case",
+      "file": "03-confirm-location.jpg",
+      "title": "Xác nhận điểm bệnh nhân",
+      "action": "Đánh dấu đang ở cạnh bệnh nhân",
+      "result": "Nút báo hỗ trợ mở; chưa gửi GPS hoặc tạo ca từ bước này",
+      "at": "2026-11-12T09:18:52.347Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 375,
+      "height": 811,
+      "sha256": "c6c2be75472427aeb0e3d0cd6f65443458494d8f75ba17faeb791d58895f65e6"
+    },
+    {
+      "group": "05-single-case",
+      "file": "04-server-ack.jpg",
+      "title": "Máy chủ đã nhận yêu cầu",
+      "action": "Gửi báo hỗ trợ",
+      "result": "Đã tạo một lời mời; bảng hỏi mở",
+      "at": "2026-11-12T09:03:30.050Z",
+      "width": 375,
+      "height": 811,
+      "sha256": "017f8a9f4df9500f8a7eace836eebb3b2f06e2ea1ec81c0f6c76c4c237e2e495"
+    },
+    {
+      "group": "05-single-case",
+      "file": "05-questionnaire-top.jpg",
+      "title": "Chọn quan sát",
+      "action": "Chọn phản ứng và nhịp thở",
+      "result": "Ghi điều nhìn thấy, không đoán bệnh",
+      "at": "2026-11-12T09:03:30.295Z",
+      "width": 375,
+      "height": 811,
+      "sha256": "491049db3dcb510d9d76f6c9cde7e91bec0232991ffe1c06f8ab61746653e639"
+    },
+    {
+      "group": "05-single-case",
+      "file": "06-questionnaire-bottom.jpg",
+      "title": "Chọn chảy máu và gửi",
+      "action": "Không nhập số điện thoại",
+      "result": "Ba câu trả lời vẫn gửi được",
+      "at": "2026-11-12T09:03:30.356Z",
+      "width": 375,
+      "height": 811,
+      "sha256": "7c801ec00c3e32dec4445f349bd034ca41bf351f3b5e978b62c33ed462c0a450"
+    },
+    {
+      "group": "05-single-case",
+      "file": "07-alert.jpg",
+      "title": "TNV nhận lời mời",
+      "action": "Một yêu cầu được gửi",
+      "result": "Hiện triệu chứng và khoảng cách",
+      "at": "2026-11-12T09:03:41.756Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "143b657d8b08ed392842b82f691dd7d0a2879a762142f25738941cc84ab05cf1"
+    },
+    {
+      "group": "05-single-case",
+      "file": "08-accepted.jpg",
+      "title": "Nhận ca thành công",
+      "action": "Bấm Nhận ca",
+      "result": "Ca thuộc một TNV",
+      "at": "2026-11-12T09:04:02.493Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "c80de5055055bcb87cf207c81993674851df0d57f15af85349a17233354c4ad8"
+    },
+    {
+      "group": "05-single-case",
+      "file": "09-departure.jpg",
+      "title": "Xác nhận lên đường",
+      "action": "Nhập thời gian dự kiến 5 phút",
+      "result": "TNV đã xác nhận tiến độ",
+      "at": "2026-11-12T09:04:02.846Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "3b7a78e777fc0d981f198352fa6c30daa1738f23d5d0c744bc7d3c4ddfcbc4b4"
+    },
+    {
+      "group": "05-single-case",
+      "file": "10-medical.jpg",
+      "title": "Hồ sơ sau khi nhận",
+      "action": "Cuộn tới thông tin bệnh nhân",
+      "result": "Tên, bệnh nền, dị ứng và liên hệ đúng",
+      "at": "2026-11-12T09:04:02.918Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "6b9d47c430d872ecb80b5326987a91a5cb462a2ee5aa8717dde39ac93d6b9c9c"
+    },
+    {
+      "group": "05-single-case",
+      "file": "11-map.jpg",
+      "title": "Bản đồ trong app",
+      "action": "Xem đường đến bệnh nhân",
+      "result": "Hai điểm và tuyến ô tô tham khảo",
+      "at": "2026-11-12T09:04:02.964Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "e7f1df35472c456395550aaac8623599fd9fa3a78a9dda7f3ca00da6318359f8"
+    },
+    {
+      "group": "05-single-case",
+      "file": "12-arrival-confirm.jpg",
+      "title": "Xác nhận đến nơi",
+      "action": "Bấm Đã đến nơi",
+      "result": "Hiện hộp xác nhận; chỉ là thao tác trong ca local",
+      "at": "2026-11-12T09:04:08.733Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "f189e5ed3e9610ac25c5a84fe07777bd03c0559fa6a45e69e0ef04e7672902ee"
+    },
+    {
+      "group": "05-single-case",
+      "file": "13-complete-confirm.jpg",
+      "title": "Hoàn tất ca",
+      "action": "Bấm Hoàn tất",
+      "result": "Cần xác nhận để đóng thông tin riêng",
+      "at": "2026-11-12T09:04:15.110Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "0718cb94dea38c8c64c8d9414560da22699bfec80fb65674b0c3bd01589ad797"
+    },
+    {
+      "group": "05-single-case",
+      "file": "14-reporter-ended.jpg",
+      "title": "Người báo thấy ca kết thúc",
+      "action": "TNV xác nhận hoàn tất",
+      "result": "Bảng hỏi bị đóng, không nhận thêm cập nhật",
+      "at": "2026-11-12T09:04:15.454Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "a9d6a1bb74ab69b0e006a7fd5c3c015cc2f91b8307846cb1b443ca5bbcd6f0f2"
+    },
+    {
+      "group": "06-condition-update",
+      "file": "01-new-request.jpg",
+      "title": "Bắt đầu ca cập nhật",
+      "action": "Mở lại trang trước yêu cầu",
+      "result": "Trang trước khi gửi, không có công cụ kiểm thử",
+      "at": "2026-11-12T09:18:52.380Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 375,
+      "height": 811,
+      "sha256": "c6c2be75472427aeb0e3d0cd6f65443458494d8f75ba17faeb791d58895f65e6"
+    },
+    {
+      "group": "06-condition-update",
+      "file": "02-before.jpg",
+      "title": "Bản tình trạng số 1",
+      "action": "Người báo gửi lần đầu",
+      "result": "TNV thấy thở đều",
+      "at": "2026-11-12T09:05:08.518Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "367f1f57bc651d698a2a4aa204e2eb10b63aba6686ba2244814a0d8e89dda06f"
+    },
+    {
+      "group": "06-condition-update",
+      "file": "03-change.jpg",
+      "title": "Người báo thay đổi quan sát",
+      "action": "Đổi sang khó thở và thấy máu",
+      "result": "Cần bấm gửi để TNV nhận bản mới",
+      "at": "2026-11-12T09:05:08.802Z",
+      "width": 375,
+      "height": 811,
+      "sha256": "f7d8d701e9796ed56daaf8292ce3704cc47a43fb5910b0e558382a2fc7a21cda"
+    },
+    {
+      "group": "06-condition-update",
+      "file": "04-new-version.jpg",
+      "title": "TNV tự nhận bản số2",
+      "action": "Người báo gửi lần2",
+      "result": "Khó thở và chảy máu cập nhật cùng ca",
+      "at": "2026-11-12T09:05:23.121Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "73a0659ed94659b9d5d6a75aa846cd24fb1b2f539371ad8ca1f8c383880d08e9"
+    },
+    {
+      "group": "06-condition-update",
+      "file": "05-loaded-ack.jpg",
+      "title": "Người báo thấy xác nhận tải",
+      "action": "Đợi app TNV tải",
+      "result": "Phân biệt đã lưu với đã tải",
+      "at": "2026-11-12T09:05:23.246Z",
+      "width": 375,
+      "height": 811,
+      "sha256": "1a4a2875c0217d0c135de0777ae5b9a589e26aff4e4cc3017f9736aa2b3f0c04"
+    },
+    {
+      "group": "07-multiple-cases",
+      "file": "01-three-alerts.jpg",
+      "title": "Ba bệnh nhân báo đồng thời",
+      "action": "API local gửi3ca thật",
+      "result": "Hiện3lời mời với111/222/334m",
+      "at": "2026-11-12T09:07:08.351Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "888edc6e26a2b279ed8ee95a833bfae0018805aa71b0120d291fc026ec2fdab0"
+    },
+    {
+      "group": "07-multiple-cases",
+      "file": "02-list.jpg",
+      "title": "Danh sách nhiều ca",
+      "action": "Đóng cửa sổ nổi",
+      "result": "Cả3ca vẫn còn, khoảng cách riêng",
+      "at": "2026-11-12T09:07:08.691Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "88b4e092c18c9dc6806d00055a8ab39175a85a5f060ed412d3a0515ec976bde8"
+    },
+    {
+      "group": "07-multiple-cases",
+      "file": "03-select.jpg",
+      "title": "Chuyển ca đang xem",
+      "action": "Chọn ca111m",
+      "result": "Có thể xem từng ca trước khi nhận",
+      "at": "2026-11-12T09:07:37.394Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "4c801ac7c74adc8c05d1b94b3dd58ec246e2803276c9c5a5b5cde60293d2f482"
+    },
+    {
+      "group": "07-multiple-cases",
+      "file": "04-one-active.jpg",
+      "title": "Đang nhận một ca",
+      "action": "Nhận ca111m",
+      "result": "Còn2ca chờ; phải hoàn tất ca hiện tại",
+      "at": "2026-11-12T09:07:44.000Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "45dad8a3245c600086ff5279cae3017c3e6eaa9a03236908cc541f0be714583c"
+    },
+    {
+      "group": "07-multiple-cases",
+      "file": "05-block-second.jpg",
+      "title": "Không nhận thêm khi đang bận",
+      "action": "Mở ca thứ hai",
+      "result": "Nút Nhận ca bị khóa",
+      "at": "2026-11-12T09:07:48.861Z",
+      "width": 390,
+      "height": 843,
+      "sha256": "b591d5fe3ee50f420b6f18318c90d7327b319f81c34440648d9626281528d8b1"
+    },
+    {
+      "group": "08-cannot-continue",
+      "file": "01-original-offer.jpg",
+      "title": "Ca riêng cho bài bàn giao",
+      "action": "Tạo ca mới qua API local sau chỉnh sửa giao diện",
+      "result": "TNV đầu nhận lời mời; toàn bộ nhóm bàn giao chụp lại trên ca mới",
+      "at": "2026-11-12T09:20:26.327Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 390,
+      "height": 843,
+      "sha256": "650a028ae9dcc811bb13eb4f1dace019b38b0e901ec1acf4503a8b3310290cc8"
+    },
+    {
+      "group": "08-cannot-continue",
+      "file": "02-request-handover.jpg",
+      "title": "Xin người thay ca",
+      "action": "TNV chọn Không thể tiếp tục",
+      "result": "Hiện xác nhận trước khi phát lời mời bàn giao",
+      "at": "2026-11-12T09:20:31.978Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 390,
+      "height": 843,
+      "sha256": "d2c38be9963b5b2317fe0bfd0ffd7dd9fb1725a04fcdfb185cd152dd4aa98c3c"
+    },
+    {
+      "group": "08-cannot-continue",
+      "file": "03-wait-replacement.jpg",
+      "title": "Đang tìm người thay",
+      "action": "Xác nhận không thể tiếp tục",
+      "result": "Chưa bỏ ca trước khi có TNV khác nhận",
+      "at": "2026-11-12T09:20:37.312Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 390,
+      "height": 843,
+      "sha256": "916d45f46eeee4a6896fddbccc64ef9c9d35701615dab90160bd0332997d17b1"
+    },
+    {
+      "group": "08-cannot-continue",
+      "file": "04-replacement-offer.jpg",
+      "title": "TNV khác nhận lời mời",
+      "action": "Mở tài khoản TNV thứ hai",
+      "result": "Có nút Xác nhận nhận bàn giao và khoảng cách",
+      "at": "2026-11-12T09:20:37.373Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 390,
+      "height": 843,
+      "sha256": "942dc9a0c1039f1925c2f26c66762a0e85d26af0f366c5f9b6c0c0de5ec8bea9"
+    },
+    {
+      "group": "08-cannot-continue",
+      "file": "05-new-owner.jpg",
+      "title": "Người thay đã nhận ca",
+      "action": "TNV thứ hai xác nhận nhận bàn giao",
+      "result": "Mở chi tiết ca và hồ sơ được chia sẻ",
+      "at": "2026-11-12T09:20:45.755Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 390,
+      "height": 843,
+      "sha256": "f938448c08c6c8d4f17147810905eca769a386b7c3a500c76003183986f576cf"
+    },
+    {
+      "group": "08-cannot-continue",
+      "file": "06-original-released.jpg",
+      "title": "Người cũ được giải phóng",
+      "action": "Hệ thống cập nhật sau bàn giao",
+      "result": "TNV đầu không còn phụ trách ca",
+      "at": "2026-11-12T09:20:45.808Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 390,
+      "height": 843,
+      "sha256": "866d7bd9063cb1707a1a2f683f284ecde270c79661b3e3aa0b26a3cf48bd929c"
+    },
+    {
+      "group": "08-cannot-continue",
+      "file": "07-complete-replacement.jpg",
+      "title": "Người nhận thay kết thúc ca",
+      "action": "Chọn Hoàn tất ca hỗ trợ",
+      "result": "Yêu cầu xác nhận đóng ca",
+      "at": "2026-11-12T09:20:46.162Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 390,
+      "height": 843,
+      "sha256": "985a5eb38d1a37397e932f8a2a823af4cc469b97ffa2b3d57f10bb827d9c924d"
+    },
+    {
+      "group": "08-cannot-continue",
+      "file": "08-ended.jpg",
+      "title": "Ca bàn giao đã kết thúc",
+      "action": "Người nhận thay xác nhận hoàn tất",
+      "result": "Không còn ca đang phụ trách, Sẵn sàng tắt",
+      "at": "2026-11-12T09:20:46.482Z",
+      "recapturedAfterUiCleanup": true,
+      "width": 390,
+      "height": 843,
+      "sha256": "705948853af958a7a75a847997fa9a5b80e166d971b62817f2b0e259ce30968d"
+    }
+  ]
+}

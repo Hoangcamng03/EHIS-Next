@@ -14,7 +14,7 @@
 | `/privacy` | Mô tả dữ liệu và giới hạn | [src/app/privacy/page.tsx](src/app/privacy/page.tsx) |
 
 - [PublicRoute.tsx](src/components/PublicRoute.tsx): đọc/kiểm tra ID từ query trước khi hiện trang nghiệp vụ.
-- [DemoLocation.tsx](src/components/DemoLocation.tsx): tọa độ giả cho buổi chạy thử.
+- Trang người báo và app chỉ dùng GPS thiết bị; công cụ chuẩn bị tọa độ phục vụ kiểm thử nằm ngoài giao diện người dùng.
 - [firebase-client.ts](src/lib/firebase-client.ts): cấu hình Firebase, phiên người báo/quản trị riêng và gọi API cloud/local.
 - [globals.css](src/app/globals.css), [layout.tsx](src/app/layout.tsx): giao diện chung và metadata.
 - [next.config.ts](next.config.ts): chế độ static export và chuyển URL cũ; cấu hình Hosting cuối cùng nằm ở `../firebase.json`.

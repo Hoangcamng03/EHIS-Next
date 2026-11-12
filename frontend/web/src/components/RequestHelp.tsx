@@ -4,7 +4,6 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { callable as httpsCallable, firebaseClient, readableError, reporterSession } from '@/lib/firebase-client';
-import { DemoLocation, parseDemoLocation } from './DemoLocation';
 import { DutyContact } from './DutyContact';
 import { useOnline } from '@/lib/use-online';
 import { confirmedPoint } from '@/lib/location-fix';
@@ -17,11 +16,7 @@ export function RequestHelp({ cardId }: { cardId: string }) {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [confirmed, setConfirmed] = useState(false);
-  const [syntheticLocation, setSyntheticLocation] = useState(false);
-  const [latitude, setLatitude] = useState('10.779');
-  const [longitude, setLongitude] = useState('106.699');
   const pendingRequest = useRef<PendingRequest | null>(null);
-  const localDemo = process.env.NEXT_PUBLIC_USE_EMULATORS === 'true' && process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID === 'demo-ehis-next';
   async function send() {
     if (busy || !online) return;
     setBusy(true); setError(''); setMessage('Đang chuẩn bị yêu cầu…');
@@ -38,9 +33,7 @@ export function RequestHelp({ cardId }: { cardId: string }) {
       if (pendingRequest.current) pending = pendingRequest.current;
       else {
         setMessage('Đang lấy vị trí bạn đã xác nhận…');
-        const demoPoint = parseDemoLocation(latitude, longitude);
-        if (localDemo && syntheticLocation && !demoPoint) throw new Error('demo-location');
-        const location = localDemo && syntheticLocation ? demoPoint! : await new Promise<{ latitude: number; longitude: number }>((resolve, reject) => {
+        const location = await new Promise<{ latitude: number; longitude: number }>((resolve, reject) => {
           if (!navigator.geolocation) return reject(new Error('location'));
           navigator.geolocation.getCurrentPosition(position => { try { resolve(confirmedPoint(position, Date.now())); } catch (error) { reject(error); } }, () => reject(new Error('location')), { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
         });
@@ -61,7 +54,7 @@ export function RequestHelp({ cardId }: { cardId: string }) {
       try { sessionStorage.removeItem(key); } catch { /* Backend ownership/card lock also prevents duplicates after acknowledgement. */ }
       router.push(`/report?id=${encodeURIComponent(result.data.incidentId)}`);
     } catch (err) {
-      setError(err instanceof Error && err.message === 'demo-location' ? 'Tọa độ giả chưa hợp lệ. Vĩ độ từ -85 đến 85, kinh độ từ -180 đến 180.' : err instanceof Error && err.message === 'location' ? 'Chưa lấy được vị trí. Cho phép quyền vị trí và thử lại tại nơi có bệnh nhân.' : readableError(err));
+      setError(err instanceof Error && err.message === 'location' ? 'Chưa lấy được vị trí. Cho phép quyền vị trí và thử lại tại nơi có bệnh nhân.' : readableError(err));
       setMessage(''); setBusy(false);
     }
   }
@@ -74,8 +67,6 @@ export function RequestHelp({ cardId }: { cardId: string }) {
     <section className="report-panel"><h2>Bạn đang ở cạnh bệnh nhân?</h2>
       <p>Chỉ gửi khi đang ở cạnh bệnh nhân. Vị trí điện thoại sẽ là điểm cần hỗ trợ.</p>
       <label className="confirm"><input type="checkbox" checked={confirmed} onChange={e => setConfirmed(e.target.checked)} disabled={busy} />Tôi đang ở cùng vị trí với bệnh nhân.</label>
-      {localDemo && <label className="confirm"><input type="checkbox" checked={syntheticLocation} onChange={e => setSyntheticLocation(e.target.checked)} disabled={busy} />BUỔI CHẠY THỬ: dùng vị trí giả thay cho GPS.</label>}
-      {localDemo && syntheticLocation && <DemoLocation latitude={latitude} longitude={longitude} onLatitude={setLatitude} onLongitude={setLongitude} disabled={busy} />}
       <button className="primary emergency-action" onClick={send} disabled={busy || !confirmed || !online}>{busy ? 'Đang gửi…' : 'Báo tình nguyện viên gần đây'}</button>
       <p className="hint">Chưa cần nhập số điện thoại hay trả lời câu hỏi ở bước này.</p>
       {message && <p role="status">{message}</p>}{error && <p className="error" role="alert">{error}</p>}

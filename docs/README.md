@@ -66,6 +66,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [FLOW_REVIEW_2026_11_11](testing/verification/FLOW_REVIEW_2026_11_11.md) | Flow từng giai đoạn,20ảnh thật mobile web/desktop và đối chiếu tài liệu HIC |
 | [CLOUD_UAT_2026_11_11](testing/verification/CLOUD_UAT_2026_11_11.md) | Hồ sơ hư cấu trên Firebase thật, phối hợp điện thoại và ảnh cloud mới |
 | [Ảnh và ghi chú thuyết trình12/11](demo/PRESENTATION_SCENARIOS_2026_11_12.md) |9ảnh, thao tác/quan sát/lời nói gợi ý và ngày kiểm chứng |
+| [Ảnh theo thứ tự vai trò và trường hợp](demo/ORDERED_FLOWS_2026_11_12.md) | Đăng ký/duyệt, một ca, cập nhật, nhiều ca, bàn giao; chú thích từng bước |
+| [Bằng chứng bộ ảnh theo flow](testing/verification/ORDERED_FLOWS_2026_11_12.json) | Kích thước, thời điểm, SHA256 từng ảnh và đọc lại backend local |
 | [Bằng chứng tình huống12/11](testing/verification/PRESENTATION_SCENARIOS_2026_11_12.json) | API cloud chạy lại, đổi tên hiển thị và hash ảnh |
 | [CLOUD_UAT_2026_11_11.json](testing/verification/CLOUD_UAT_2026_11_11.json) | Số liệu setup/API/ca điện thoại, phạm vi và việc còn mở |
 | [FLOW_REVIEW_2026_11_11.json](testing/verification/FLOW_REVIEW_2026_11_11.json) | Kết quả thực, kích thước/hash ảnh, phạm vi và phần chưa thử |
