@@ -7,6 +7,13 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 ## 2026-11-11 — tự mời nhận thay, làm rõ xác minh và QR tải app
 
+### 2026-11-12 bộ ảnh tình huống và tên hiển thị
+
+- Theo yêu cầu, đổi9hồ sơ UAT sang tên bình thường; liên hệ cũng dùng tên bình thường. Hồ sơ vẫn hư cấu, giữ provenance trong tài liệu. Không đổi quyền duyệt/trạng thái ca. Lượt đầu thiếu volunteers doc của UATV3 vì chưa duyệt; xác định đúng volunteerApplications, sửa rồi đọc lại đủ9. Hai lệnh sửa script lỗi escape được giữ trong lịch sử; không ghi đạt trước readback.
+- Chạy lại cloud2ca: duplicate/race400-200/private403/no-candidate/ONmuộn PASS, cả3TNV OFF/noactive. Dùng UATV1/UATV2/V7 sau guard; không có thiết bị push. Không đo chuông/GPS/native.
+- Chụp mới12/11 hồ sơ đã đổi tên, chưa xác nhận vị trí và GPS không có trên PC; không tạo ca khi GPS lỗi. Có một lỗi selector stale sau trang loading, đọc lại state rồi chụp đúng. Thêm6ảnh cloud đã kiểm chứng11/11, ghi rõ ngày cũ, không giả thành lượt mới. Tổng9ảnh có thao tác/quan sát/lời thuyết trình; không có QR hoạt động hoặc GPS thực trong bộ public.
+- Skill browser ở đường dẫn cũ không tồn tại; dùng CUA được cung cấp và đọc tài liệu API thực. Không deploy/build app cho thay đổi dữ liệu/tài liệu. Các ảnh lịch sử vẫn lưu nguyên, không sửa thành tên mới để giả lịch sử. Các mục chưa nghiệm thu APK/hiệu suất giữ mở.
+
 ### UAT cloud với bộ hồ sơ hư cấu sát thực tế
 
 - Chủ dự án xác nhận dùng hồ sơ hư cấu trên Firebase thật và cho phép vị trí hiện tại cho ca thử; không đưa GPS thực/credentials lên GitHub. Tạo riêng6Patient (hen, đái tháo đường, động kinh, tăng huyết áp, mạch vành, không khai bệnh nền),2TNV duyệt fixture/1TNV chờ. Hai hồ sơ không chia sẻ; liên hệ toàn0không gọi. Dữ liệu trong .local/cloud-uat-final, không thay hồ sơ người thật.
