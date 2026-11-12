@@ -10,6 +10,7 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 - Theo yêu cầu chủ dự án, bỏ câu “Nguy kịch? Gọi 115 trước.” khỏi banner chung trên web người báo. Giữ nút gọi hiện có và thông tin phạm vi hỗ trợ cộng đồng. Không thay đổi luồng gửi ca hoặc điều phối.
 - APK 0.4.22 đã gửi trước thay đổi này và đang build; component này chỉ thuộc web, không cần gửi lại APK. Cần build và triển khai Hosting để thay đổi hiển thị trên cloud.
 - Lint và build Next/Expo web với cấu hình cloud đạt. Chưa ghi triển khai thành công cho tới khi Hosting được kiểm tra.
+- Đã triển khai hai site Hosting từ source 9ea5028; health/project/backend 401 đạt, đối chiếu 35 tệp HTML/JS/CSS trên cloud khớp byte với build. Không tạo ca hoặc gọi số cấp cứu để kiểm tra. APK mới vẫn đang build, trang tải chưa đổi sang APK chưa hoàn tất.
 
 ## 2026-11-12 — ảnh theo vai trò và loại bỏ công cụ kiểm thử khỏi UI
 
