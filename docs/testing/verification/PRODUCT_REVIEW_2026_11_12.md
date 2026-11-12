@@ -80,7 +80,7 @@ Kết quả thực chạy, lỗi kiểm thử và trạng thái phát hành đư
 | PASS | Integration |20 script toàn luồng, có từ chối ca thứ 7 cùng thẻ và token admin cũ |
 | PASS | UI |6 / 6; trang người báo 390/1280 px không có vi phạm axe trong phạm vi WCAG A/AA đã chạy |
 | PASS | Tải portable local |1.000 tài khoản Auth; 128 tài khoản có phiên; 32 feed và 32 ca đồng thời, 8 vùng; p95 feed 943 ms |
-| CHƯA THỬ | Cloud/APK/thiết bị sau đợt sửa |Không coi bản build hay CI là bằng chứng điện thoại đã cập nhật |
+| CHƯA THỬ | Toàn luồng cloud có đăng nhập/máy thật sau đợt sửa | Chưa nhận là đã nghiệm thu lại phần này |
 
 Số đo tải không phải 1.000 người đồng thời hoặc cam kết cloud. Kết quả Functions cũ 21.866 ms thực chất là 21 866 ms (21,866 giây), không phải 21 ms; chưa đóng RECHECK bằng bài portable này.
 
@@ -111,3 +111,15 @@ Số đo tải không phải 1.000 người đồng thời hoặc cam kết clou
 ### Hình 6 · Đã nhận ca · bản đồ và Đã đến nơi trước tiến độ/hồ sơ
 
 ![Đã nhận ca · bản đồ và Đã đến nơi trước tiến độ/hồ sơ](../../assets/product-review-2026-11-12/volunteer-active.png)
+
+## 7. Đã cập nhật trực tuyến
+
+- Source triển khai: commit 05a0e16, phiên bản API vẫn 0.4.21; dùng commit để phân biệt bản vá web/backend với APK 21 cũ.
+- Backend Vercel READY; health đúng project/version. Kiểm tra 36 callable không đăng nhập đều HTTP401, endpoint bảo trì thiếu secret HTTP401. Không tạo người dùng, GPS hoặc ca cloud mới cho bài này.
+- Hai Firebase Hosting đã phát hành; 35 tệp HTML/JS/CSS đang phục vụ khớp byte bản build. Đã mở trang người báo trên cloud: banner 115 và nút báo chỉ mở sau xác nhận ở cạnh bệnh nhân. Chưa bấm gửi hoặc gọi 115.
+- Không phát hành APK/OTA; điện thoại đã cài APK 21 chưa có thay đổi bố cục mới. Hoàn tất ca rồi mở lại trang web để tải bản mới; không ép tải lại giữa ca.
+- GitHub chưa trả workflow run cho commit tại lúc kiểm tra; không dùng kiểm thử local để tự ghi CI PASS.
+
+### Hình 7 · Người báo trên cloud sau triển khai
+
+![Trang người báo cloud, chưa gửi yêu cầu](../../assets/product-review-2026-11-12/cloud-reporter.png)

@@ -9,6 +9,8 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 ### Đối chiếu góp ý UI, backend và giới hạn miễn phí
 
+- Phát hành sau kiểm tra: commit 05a0e16 đã lên main; Vercel deployment bjiwpygnq READY, hai Hosting đã cập nhật. Health/đúng project và 36 callable không auth 401, bảo trì 401 đạt; 35 tệp web khớp byte build; ảnh cloud chỉ mở trang, không GPS/ca/gọi 115. Chưa chạy lại cloud có đăng nhập hoặc máy thật, APK/OTA không đổi. GitHub connector chưa trả run cho commit nên không ghi CI PASS. Lượt deploy/push đầu lỗi DNS, chạy lại có quyền mạng mới thành công.
+
 - UI: thêm đường gọi 115 cho người báo theo yêu cầu mới; không gọi số để kiểm thử. Đổi countdown sang phút:giây, khoảng cách làm tròn/mã ca phụ, giờ cập nhật và nhãn quan sát. Đỏ cho khẩn cấp, xám cho không thể tiếp tục; bỏ viền đỏ lồng. Sửa form/header theo vai trò, ô tick, gợi ý nút khóa, liên kết gạch chân và phiên bản trong Thông tin ứng dụng. Làm nổi Sẵn sàng, giảm trọng lượng tiện ích; đường đi/đến nơi trước tiến độ, hồ sơ thu gọn. Tăng nhãn nhỏ, viền và focus.
 - Rà ảnh phát hiện nút tiến độ còn xuất hiện khi chi tiết chưa tải: khóa nút đến nơi/hoàn tất tới khi chi tiết sẵn sàng, ảnh đợi phần bản đồ. Giới hạn hiển thị countdown theo 10 phút/5 phút để không ló 10:01 do nhịp giờ client. Bỏ nốt tên fallback diễn tập do backend trả về; giữ cảnh báo có thật và quan sát chưa phải chẩn đoán.
 - Backend: IP ingress Vercel có kiểm tra định dạng, local không tin header forwarded; không trust proxy toàn cục. Giới hạn 6 yêu cầu mới/thẻ/giờ, atomic cùng ca/card, retry không tốn lượt. API tự lấy export callable. Thao tác quản trị đối chiếu Auth hiện hành để chặn token cũ sau thu quyền, không thêm IAM. Chưa kiểm tra cloud từ hai mạng thật.

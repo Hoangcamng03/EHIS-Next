@@ -5,6 +5,8 @@ Cập nhật 12/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu
 
 **Cải thiện source ngày 12/11:** [Đối chiếu góp ý, phần đã sửa và giới hạn miễn phí](testing/verification/PRODUCT_REVIEW_2026_11_12.md). UI gọi 115/định dạng cảnh báo/form/focus; IP ingress, giới hạn theo thẻ, quyền admin hiện hành và các bộ kiểm thử mới. Phát hành cloud/APK phải tra bằng chứng riêng; không coi source mới là máy đã cập nhật.
 
+**Web/backend 12/11 từ commit 05a0e16 đã triển khai:** Vercel READY/health đúng project; 36 API không auth trả 401, bảo trì 401; 35 tệp Hosting khớp build. Trang người báo cloud đã kiểm tra chỉ đọc. [Bằng chứng đợt mới](testing/verification/PRODUCT_REVIEW_2026_11_12.json). APK/OTA không đổi; chưa chạy lại toàn luồng cloud có đăng nhập hoặc điện thoại sau bản vá này. Các số liệu 11/11 bên dưới là lịch sử.
+
 ## 1. Bản đang bàn giao
 
 **UAT cloud mới11/11:** [Kết quả và ảnh](testing/verification/CLOUD_UAT_2026_11_11.md).9tài khoản hư cấu mới, ca người báo qua điện thoại→TNV web→bàn giao→hoàn tất/readback403 đạt; vị trí TNV là fixtureAPI, chưa nghiệm thu GPS di chuyển/native. Web đã có liên kết QR/privacy trực tiếp và khôi phục bản đồ; backend vẫn21/f870ee3, APK21 hiện có chưa chứa các sửa web mới. Không chốt bản cuối cấp cứu thật khi các mục máy thật còn mở.

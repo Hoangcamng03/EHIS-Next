@@ -1810,7 +1810,8 @@
     "App Check attestation/enforcement and native integration",
     "Scheduled GitHub maintenance activation/delivery; variables and secret not configured",
     "Old Functions emulator performance RECHECK; scale run here uses portable HTTP",
-    "Clinical/legal readiness and staffed operations"
+    "Clinical/legal readiness and staffed operations",
+    "Maximum cloud concurrency and authenticated full cloud flow after this deployment"
   ],
   "securityRulesAssessment": {
     "score": 4,
@@ -1872,6 +1873,14 @@
       "source": "Playwright Chromium local, controlled geolocation, synthetic profiles",
       "at": "2026-11-12T14:26:40.226Z",
       "sha256": "0bb0847a9c919c8ea5d6a58351c25e72501b4ffe52738d2298c98667e537fd59"
+    },
+    {
+      "figure": 7,
+      "file": "cloud-reporter.png",
+      "caption": "Người báo trên cloud sau triển khai; chưa gửi ca hoặc lấy GPS",
+      "source": "IAB read-only cloud page; no phone call or dispatch",
+      "at": "2026-11-12T15:40:50.955Z",
+      "sha256": "abc551bf75d9cb7a8672f07bf5a60b9924b676d153f3d38a22bc1e10612b901d"
     }
   ],
   "sourceHashes": {
@@ -1885,5 +1894,179 @@
     "frontend/app/src/components/Session.tsx": "dedf9b0469acc64e6efb9b9a8620642713c0975b1242f0e5df3f2b53a0abb2c2",
     "frontend/web/src/components/RequestHelp.tsx": "56c4d82b1df51337f98183abc4a1dbd550190c3ac636707038ecd16d32100d8c",
     "frontend/web/src/components/EmergencyCall.tsx": "8e592aa79d30fd1364669058e185a00aa12d8f9cd372def4baaacf60b66aae32"
+  },
+  "release": {
+    "sourceCommit": "05a0e16ed411e8917dc02aaff8f1c6e540638730",
+    "backendDeployment": "https://ehis-next-api-hc03-bjiwpygnq-ehis-capstone.vercel.app",
+    "backendProduction": "https://ehis-next-api-hc03.vercel.app",
+    "hosting": {
+      "checkedAt": "2026-11-12T15:41:43.845Z",
+      "checked": 35,
+      "sha256Match": true,
+      "targets": [
+        "https://ehis-next-20261021-hc03.web.app",
+        "https://ehis-next-20261021-hc03-app.web.app"
+      ]
+    },
+    "runtime": {
+      "at": "2026-11-12T15:44:33.564Z",
+      "health": {
+        "service": "ehis-next",
+        "status": "ok",
+        "version": "0.4.21",
+        "projectId": "ehis-next-20261021-hc03"
+      },
+      "callables": [
+        {
+          "operation": "createIncident",
+          "status": 401
+        },
+        {
+          "operation": "submitBystanderReport",
+          "status": 401
+        },
+        {
+          "operation": "updateIncidentLocation",
+          "status": 401
+        },
+        {
+          "operation": "acceptIncident",
+          "status": 401
+        },
+        {
+          "operation": "getVolunteerIncidentDetails",
+          "status": 401
+        },
+        {
+          "operation": "getBystanderReport",
+          "status": 401
+        },
+        {
+          "operation": "setVolunteerAvailability",
+          "status": 401
+        },
+        {
+          "operation": "finishIncident",
+          "status": 401
+        },
+        {
+          "operation": "updateIncidentProgress",
+          "status": 401
+        },
+        {
+          "operation": "acknowledgeIncidentReport",
+          "status": 401
+        },
+        {
+          "operation": "listHandoverHistory",
+          "status": 401
+        },
+        {
+          "operation": "listHandoverCases",
+          "status": 401
+        },
+        {
+          "operation": "listHandoverCandidates",
+          "status": 401
+        },
+        {
+          "operation": "proposeIncidentHandover",
+          "status": 401
+        },
+        {
+          "operation": "acceptIncidentHandover",
+          "status": 401
+        },
+        {
+          "operation": "cancelIncidentHandover",
+          "status": 401
+        },
+        {
+          "operation": "issuePatientCard",
+          "status": 401
+        },
+        {
+          "operation": "revokePatientCard",
+          "status": 401
+        },
+        {
+          "operation": "applyVolunteer",
+          "status": 401
+        },
+        {
+          "operation": "listVolunteerApplications",
+          "status": 401
+        },
+        {
+          "operation": "reviewVolunteerApplication",
+          "status": 401
+        },
+        {
+          "operation": "markIncidentArrived",
+          "status": 401
+        },
+        {
+          "operation": "cancelPatientIncident",
+          "status": 401
+        },
+        {
+          "operation": "setVolunteerReferrer",
+          "status": 401
+        },
+        {
+          "operation": "listReferrerApplications",
+          "status": 401
+        },
+        {
+          "operation": "submitVolunteerReferral",
+          "status": 401
+        },
+        {
+          "operation": "registerVolunteerDevice",
+          "status": 401
+        },
+        {
+          "operation": "listVolunteerRoster",
+          "status": 401
+        },
+        {
+          "operation": "updateVolunteerRegion",
+          "status": 401
+        },
+        {
+          "operation": "setVolunteerSuspension",
+          "status": 401
+        },
+        {
+          "operation": "getOperationsOverview",
+          "status": 401
+        },
+        {
+          "operation": "retryPendingNotifications",
+          "status": 401
+        },
+        {
+          "operation": "runMaintenanceNow",
+          "status": 401
+        },
+        {
+          "operation": "getMyAccess",
+          "status": 401
+        },
+        {
+          "operation": "savePatientProfile",
+          "status": 401
+        },
+        {
+          "operation": "setAccountPurpose",
+          "status": 401
+        }
+      ],
+      "maintenanceWithoutSecret": 401,
+      "scope": "Read-only HTTP/protocol check; no authenticated operations, records, GPS or dispatch created."
+    },
+    "apkUpdated": false,
+    "otaPublished": false,
+    "ci": "GitHub connector returned no workflow runs for source commit at time checked; do not claim CI success."
   }
 }
