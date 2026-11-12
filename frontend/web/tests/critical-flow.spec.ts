@@ -11,6 +11,9 @@ const fixtures = JSON.parse(
 );
 const app = 'http://localhost:8082',
   web = 'http://localhost:3100';
+const nativeVersion = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../../app/app.json'), 'utf8'),
+).expo.version;
 const shots = path.resolve(__dirname, '../../../.local/product-review-20261112/screens');
 fs.mkdirSync(shots, { recursive: true });
 for (const width of [390, 1280])
@@ -56,7 +59,7 @@ for (const role of ['Bệnh nhân', 'Tình nguyện viên'])
         role === 'Bệnh nhân' ? 'patient-registration.png' : 'volunteer-registration.png',
       ),
     });
-    await expect(page.getByText('EHIS 0.4.21', { exact: true })).toHaveCount(0);
+    await expect(page.getByText(`EHIS ${nativeVersion}`, { exact: true })).toHaveCount(0);
   });
 test('new patient signup routes directly to patient without choosing role again', async ({
   page,

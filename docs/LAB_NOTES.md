@@ -7,6 +7,11 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 ## 2026-11-12 — ảnh theo vai trò và loại bỏ công cụ kiểm thử khỏi UI
 
+### APK0.4.22 theo yêu cầu chủ dự án
+
+- Chủ dự án yêu cầu đưa các thay đổi đã duyệt vào app và có link tải mới. Chuẩn bị Android0.4.22/code20, giữ package/project/cấu hình ký; không cần Expo Go. Backend/API vẫn0.4.21, không thay dữ liệu/IAM/billing.
+- EAS xác nhận bản FINISHED gần nhất0.4.21/code19. Bổ sung cờ apk-only cho release helper để dùng quy trình kiểm tra/fingerprint hiện có nhưng không tự phát OTA hoặc web ngoài bước APK. Trang tải chỉ đổi sau artifact mới được xác minh; chưa coi điện thoại đã cài.
+
 ### Đối chiếu góp ý UI, backend và giới hạn miễn phí
 
 - Phát hành sau kiểm tra: commit 05a0e16 đã lên main; Vercel deployment bjiwpygnq READY, hai Hosting đã cập nhật. Health/đúng project và 36 callable không auth 401, bảo trì 401 đạt; 35 tệp web khớp byte build; ảnh cloud chỉ mở trang, không GPS/ca/gọi 115. Chưa chạy lại cloud có đăng nhập hoặc máy thật, APK/OTA không đổi. GitHub connector chưa trả run cho commit nên không ghi CI PASS. Lượt deploy/push đầu lỗi DNS, chạy lại có quyền mạng mới thành công.

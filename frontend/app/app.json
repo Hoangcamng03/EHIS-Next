@@ -3,7 +3,7 @@
     "name": "EHIS Next",
     "slug": "ehis-next",
     "scheme": "ehis-next",
-    "version": "0.4.21",
+    "version": "0.4.22",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -29,7 +29,7 @@
       "runtimeVersion": {
         "policy": "fingerprint"
       },
-      "versionCode": 19
+      "versionCode": 20
     },
     "web": {
       "favicon": "./assets/favicon.png",

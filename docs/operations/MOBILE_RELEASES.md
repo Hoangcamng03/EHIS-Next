@@ -6,6 +6,8 @@ Xem [STATUS](../STATUS.md) và [LAB_NOTES](../LAB_NOTES.md) để lấy mốc đ
 
 Được phép chuẩn bị/build APK preview sau kiểm chứng code/web cho diễn tập Android miễn phí. Chưa tự OTA, submit cửa hàng, iOS native, bật billing hoặc mở tiếp nhận ca thật. Không dùng release:preview như bước mặc định: helper đó có thể publish OTA, vượt phạm vi đợt này.
 
+Cập nhật12/11: chủ dự án đã yêu cầu APK mới sau khi duyệt sửa web. Dùng `npm run release:preview -- --native --apk-only --message "Android0.4.22: UI và quy trình đã duyệt"`. Cờ apk-only bắt buộc native và dừng ngay sau gửi build; không gọi OTA/web. Dùng build-trial-android status và verify-trial-apk để theo dõi/xác minh trước khi cập nhật trang tải.
+
 ## 2. Trước khi gửi bản build
 
 - Đúng project trial ehis-next-20261021-hc03, cấu hình cloud và môi trường preview; không dùng Emulator hoặc project cũ.

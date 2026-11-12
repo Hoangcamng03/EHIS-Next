@@ -63,6 +63,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | Trang | Nội dung |
 | --- | --- |
 | [VERIFICATION_V0_4_21](testing/verification/VERIFICATION_V0_4_21.md) | Bàn giao tự động, xác minh3bước, QR và tài khoản; trạng thái từng lớp |
+| [VERIFICATION_V0_4_22](testing/verification/VERIFICATION_V0_4_22.md) | APK mới cho thay đổi giao diện đã duyệt; trạng thái build/artifact/thiết bị tách riêng |
 | [Đối chiếu góp ý và cải thiện12/11](testing/verification/PRODUCT_REVIEW_2026_11_12.md) | UI, bảo mật, kiểm thử; phần làm được miễn phí và điều kiện còn thiếu |
 | [Bằng chứng cải thiện12/11](testing/verification/PRODUCT_REVIEW_2026_11_12.json) | Số liệu chạy local, lỗi giữ lại, hash source/ảnh và các mục chưa kiểm chứng |
 | [FLOW_REVIEW_2026_11_11](testing/verification/FLOW_REVIEW_2026_11_11.md) | Flow từng giai đoạn,20ảnh thật mobile web/desktop và đối chiếu tài liệu HIC |
