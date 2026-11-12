@@ -7,11 +7,13 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 
 ## 2026-11-12 — ảnh theo vai trò và loại bỏ công cụ kiểm thử khỏi UI
 
-### APK0.4.22 theo yêu cầu chủ dự án
+### APK 0.4.22 theo yêu cầu chủ dự án
 
 - Chủ dự án yêu cầu đưa các thay đổi đã duyệt vào app và có link tải mới. Chuẩn bị Android0.4.22/code20, giữ package/project/cấu hình ký; không cần Expo Go. Backend/API vẫn0.4.21, không thay dữ liệu/IAM/billing.
 - EAS xác nhận bản FINISHED gần nhất0.4.21/code19. Bổ sung cờ apk-only cho release helper để dùng quy trình kiểm tra/fingerprint hiện có nhưng không tự phát OTA hoặc web ngoài bước APK. Trang tải chỉ đổi sau artifact mới được xác minh; chưa coi điện thoại đã cài.
 - Export Android cloud đạt; release preflight31+62test/lint/typecheck đạt. Lượt đầu GraphQL không kết nối trong môi trường hạn chế, chạy lại với quyền mạng thành công. EAS dùng keystore từ cấu hình hiện có, nhận source8ba06d1 và tạo build3d7867f6-1285-4bff-825d-379e7fe61fab; đọc lại IN_QUEUE, chưa có artifact được xác minh. Không gắn APK21 dưới tên22 và không phát OTA.
+
+- Trang cài bổ sung hướng dẫn hoàn tất ca, tắt Sẵn sàng, cài đè và kiểm tra phiên bản. Kiểm tra repo đạt: 71 tài liệu, 75 mục danh mục, 734 liên kết tương đối. Build web đầu bị Windows EPERM tại thư mục xuất; chạy lại với quyền ghi thành công cả Next và Expo web. Cảnh báo CSS Leaflet có sẵn vẫn ghi nhận. Expo hiện còn IN_QUEUE; chưa thay link APK hoặc tuyên bố máy đã cập nhật.
 
 ### Đối chiếu góp ý UI, backend và giới hạn miễn phí
 
