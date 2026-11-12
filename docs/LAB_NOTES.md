@@ -5,6 +5,12 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
+## 2026-11-13 — rút gọn nội dung liên hệ cấp cứu
+
+- Theo yêu cầu chủ dự án, bỏ câu “Nguy kịch? Gọi 115 trước.” khỏi banner chung trên web người báo. Giữ nút gọi hiện có và thông tin phạm vi hỗ trợ cộng đồng. Không thay đổi luồng gửi ca hoặc điều phối.
+- APK 0.4.22 đã gửi trước thay đổi này và đang build; component này chỉ thuộc web, không cần gửi lại APK. Cần build và triển khai Hosting để thay đổi hiển thị trên cloud.
+- Lint và build Next/Expo web với cấu hình cloud đạt. Chưa ghi triển khai thành công cho tới khi Hosting được kiểm tra.
+
 ## 2026-11-12 — ảnh theo vai trò và loại bỏ công cụ kiểm thử khỏi UI
 
 ### APK 0.4.22 theo yêu cầu chủ dự án
