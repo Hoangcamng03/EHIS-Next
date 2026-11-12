@@ -24,11 +24,33 @@
     "clientTests": 62,
     "lintAndTypecheck": "PASS"
   },
-  "hostingPublished": false,
+  "hostingPublished": true,
   "otaPublished": false,
   "limitations": [
     "Not installed or accepted on a phone in this release session",
     "No new iOS native release",
     "Existing open GPS movement/crash/offline acceptance items remain open"
-  ]
+  ],
+  "hostingSourceCommit": "6a42e3c",
+  "hostedArtifactChecks": 35,
+  "publicProof": {
+    "checkedAt": "2026-11-12T17:43:47.106Z",
+    "installChecks": [
+      {
+        "url": "https://ehis-next-20261021-hc03.web.app/install",
+        "status": 200,
+        "version": "0.4.22",
+        "apkUrlMatches": true
+      },
+      {
+        "url": "https://ehis-next-20261021-hc03.firebaseapp.com/install",
+        "status": 200,
+        "version": "0.4.22",
+        "apkUrlMatches": true
+      }
+    ],
+    "removedSentenceAbsentInExport": true,
+    "scannedFiles": 24,
+    "deviceVerified": false
+  }
 }

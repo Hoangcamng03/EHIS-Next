@@ -17,6 +17,7 @@ Ngày 13/11/2026. APK Android 0.4.22 / code 20 chứa thay đổi giao diện đ
 | EAS | FINISHED; source 8ba06d19c58433a742846e6be6c769afd2629e41, version/code đúng |
 | APK thực tải về | PASS; 102727729 byte, package/version/code, cloud target, tài nguyên chuông, quyền thông báo/rung, không quyền microphone |
 | SHA-256 | e9864909a003bda8687607c329360aae337e44051f450490664e474ca5cb6496 |
+| Hosting và link tải | PASS; 35 tệp khớp build, /install trên web.app và firebaseapp.com trả 200 với đúng link APK 0.4.22 |
 | Điện thoại 0.4.22 | CHƯA THỬ; chưa xác nhận cài đè, chuông, GPS hoặc luồng native |
 
-[Số liệu gốc](VERIFICATION_V0_4_22.json). Chưa coi build hoặc artifact đạt là nghiệm thu thiết bị. Các mục tự thoát gián đoạn/GPS di chuyển/offline và nghiệm thu trước còn mở. Không OTA hoặc iOS/cửa hàng trong đợt này. Việc trang tải đã cập nhật phải đối chiếu STATUS và lab note sau triển khai Hosting.
+[Số liệu gốc](VERIFICATION_V0_4_22.json). Chưa coi build hoặc artifact đạt là nghiệm thu thiết bị. Các mục tự thoát gián đoạn/GPS di chuyển/offline và nghiệm thu trước còn mở. Không OTA hoặc iOS/cửa hàng trong đợt này. Trang tải đã cập nhật; QR hiện có vẫn dẫn đến /install. Câu “Nguy kịch? Gọi 115 trước.” đã bỏ khỏi web theo yêu cầu mới; 24 tệp HTML/JS export không còn câu này, các tệp phục vụ đã đối chiếu khớp build.

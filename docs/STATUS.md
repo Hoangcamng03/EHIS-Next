@@ -1,7 +1,7 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
 
-Cập nhật 12/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](testing/verification/VERIFICATION_V0_4_15.json).
+Cập nhật 13/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](testing/verification/VERIFICATION_V0_4_15.json).
 
 **Cải thiện source ngày 12/11:** [Đối chiếu góp ý, phần đã sửa và giới hạn miễn phí](testing/verification/PRODUCT_REVIEW_2026_11_12.md). UI gọi 115/định dạng cảnh báo/form/focus; IP ingress, giới hạn theo thẻ, quyền admin hiện hành và các bộ kiểm thử mới. Phát hành cloud/APK phải tra bằng chứng riêng; không coi source mới là máy đã cập nhật.
 
@@ -23,7 +23,7 @@ Cập nhật 12/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu
 | Backend Vercel | 0.4.21 từ 05a0e16 đã deploy/probe đúng version/project; 36 callable không auth trả 401 | Chưa kiểm thử tải lớn cloud/worker liên tục/SLA; Spark/Hobby và quyền hiện có |
 | S22+/Android16 | Lần kiểm tra gần nhất APK19/code17; kết quả18: GPS tại chỗ, route, OFF/ON, Home/resume, report2 tự tải/ack PASS ở lượt thử | Tự thoát gián đoạn còn OPEN; bố cục/bấm nhầm/hoàn tất native18 chưa đạt; chưa đi bộ/đoGPS chuẩn/offline độc lập/toàn bộ chế độ âm thanh |
 | APK19/code17 | Đã cài S22+;3ca chờ, nhận E, chặn nhận D/A, bản2 tự tải/ack, GPS tại chỗ, hủy xác nhận arrival/hoàn tất và xác nhận hoàn tất native PASS. Kết thúc OFF/no active | Chưa nghiệm thu toàn bộ: tự thoát, offline độc lập, đi bộ GPS, nhiều máy/chế độ âm. Xem lab note10/11 |
-| Trang tải chung | [APK 0.4.22 / code 20](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk); file thực đã kiểm tra. QR giữ trang /install cố định | Cần đối chiếu lab note triển khai link mới; chưa nghiệm thu 0.4.22 trên máy thật; không OTA |
+| Trang tải chung | [APK 0.4.22 / code 20](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk); file thực đã kiểm tra. QR giữ trang /install cố định | /install 200 trên cả hai tên miền, nhãn/link 0.4.22 đúng; chưa nghiệm thu 0.4.22 trên máy thật; không OTA |
 | Source/CI backend | a9134eb,CI42654274756 SUCCESS, có health assertions thật;72a186a đã qua16suite local/CI | CIba90 trước sửa FAIL vẫn được giữ; không đồng nghĩa nghiệm thu thiết bị/y tế |
 | Tải local mới | Portable:1000Auth/128session/32feed/32ca/320API, p95cảnh báo1240ms,PASS | Không phải1000người dùng cloud; Functions local vẫn RECHECK,p95=21866ms>15000ms; chưa chứng minh mọi API nhanh hơn bản cũ |
 | iOS native | Hoãn; iPhone dùng app web | Chưa IPA/TestFlight/tài khoản/ký/nghiệm thu iOS |

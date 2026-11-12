@@ -17,7 +17,7 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 - Build 3d7867f6-1285-4bff-825d-379e7fe61fab FINISHED; source/version/code được EAS đối chiếu. Tải APK thực: 102727729 byte, SHA-256 e9864909a003bda8687607c329360aae337e44051f450490664e474ca5cb6496. Kiểm tra package, cloud target, quyền rung/thông báo và tài nguyên chuông đạt. Không coi là thử trên máy thật.
 - Cập nhật metadata trang tải, link nhóm, STATUS và bằng chứng MD/JSON. Thêm hướng dẫn hoàn tất ca/tắt Sẵn sàng/cài đè/kiểm tra phiên bản. Link/QR cố định giữ nguyên; chưa ghi đã quét QR trên máy ở đợt này. Không OTA, iOS, billing hoặc dữ liệu.
 - ADB đầu không khởi động được trong môi trường hạn chế; chạy lại có quyền kết nối thấy danh sách thiết bị trống. Không cài hoặc nghiệm thu trên máy. Lệnh sửa tài liệu bằng chuỗi shell lỗi quoting, đã sửa qua patch.
-- Hosting cần build/triển khai và kiểm tra riêng trước khi công bố trang tải mới.
+- Đã build và triển khai hai site Hosting từ commit 6a42e3c. Health/project/401 đạt; 35 tệp HTML/JS/CSS khớp byte với build. /install trên web.app và firebaseapp.com trả 200, nhãn 0.4.22 và link đúng artifact đã kiểm tra. QR giữ URL cố định, không tuyên bố đã quét bằng điện thoại. Câu yêu cầu bỏ không còn trong 24 tệp HTML/JS export. Không OTA; không điện thoại kết nối để cài/nghiệm thu.
 - Kiểm tra danh mục đầu phát hiện JSON mới chưa có mục riêng, đã bổ sung; không bỏ kiểm tra để cho qua. EAS chờ hơn một giờ trước khi build, FINISHED lúc 00:40 ngày 13/11 (UTC+7).
 
 ## 2026-11-12 — ảnh theo vai trò và loại bỏ công cụ kiểm thử khỏi UI
