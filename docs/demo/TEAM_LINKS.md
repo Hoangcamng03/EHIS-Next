@@ -6,11 +6,11 @@ Gửi link trang này cho thành viên mới. Đọc từ mục 1 đến 4 để
 
 [Cải thiện mới và ảnh UI12/11](../testing/verification/PRODUCT_REVIEW_2026_11_12.md): đọc mục đã sửa, kết quả local và những phần chưa bật trên tài khoản miễn phí. Ảnh của các bộ trước giữ làm lịch sử, không đại diện bố cục mới.
 
-[Ảnh theo thứ tự thao tác](ORDERED_FLOWS_2026_11_12.md): đăng ký từng vai trò, duyệt người giới thiệu/TNV và bốn trường hợp hỗ trợ. Mỗi ảnh có thao tác, quan sát và câu dẫn cho presentation. Bộ đầy đủ chạy local; bằng chứng cloud đối chiếu riêng trong tài liệu.
+[Ảnh flow lịch sử trước tinh chỉnh UI](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/demo/ORDERED_FLOWS_2026_11_12.md): đăng ký từng vai trò, duyệt người giới thiệu/TNV và bốn trường hợp hỗ trợ. Mỗi ảnh có thao tác, quan sát và câu dẫn cho presentation. Bộ đầy đủ chạy local; bằng chứng cloud đối chiếu riêng trong tài liệu.
 
 [Bộ dữ liệu và UAT cloud mới11/11](../testing/verification/CLOUD_UAT_2026_11_11.md) · [Tài khoản UAT riêng](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/accounts/UAT_CLOUD_2026_11_11.md). Ảnh mới dùng hồ sơ hư cấu trên Firebase thật; tra phần chưa thử trước khi báo cáo nghiệm thu.
 
-> **Bản Android mới nhất cho nhóm: 0.4.22 / code 20 (13/11/2026).** [Tải APK trực tiếp](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk) · [Trang build](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/3d7867f6-1285-4bff-825d-379e7fe61fab) · [Bằng chứng và phần chưa thử](../testing/verification/VERIFICATION_V0_4_22.md). APK đã xác minh tệp; chưa nghiệm thu 0.4.22 trên điện thoại. Hoàn tất ca, tắt Sẵn sàng trước khi cài đè; không gỡ app/xóa dữ liệu. [QR tải app](../assets/install/ehis-download-qr.png) dẫn tới trang cài chung.
+> **Bản Android mới nhất cho nhóm: 0.4.22 / code 20 (13/11/2026).** [Tải APK trực tiếp](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk) · [Trang build](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/3d7867f6-1285-4bff-825d-379e7fe61fab) · [Bằng chứng và phần chưa thử](../testing/verification/VERIFICATION_V0_4_22.md). APK đã xác minh tệp; chưa nghiệm thu 0.4.22 trên điện thoại. Hoàn tất ca, tắt Sẵn sàng trước khi cài đè; không gỡ app/xóa dữ liệu. [QR tải app](../../frontend/web/public/ehis-download-qr.png) trỏ thẳng tới APK 0.4.22 đã xác minh; trang cài chung luôn có bản đang bàn giao.
 
 ## 1. Bắt đầu theo thứ tự
 
@@ -87,9 +87,9 @@ Cuối buổi: D tổng hợp bài đạt/chưa đạt, người phụ trách v�
 | [LAB_NOTES](../LAB_NOTES.md) | Lý do, phạm vi, kiểm chứng, việc chưa xong của từng phiên |
 | [GitHub Actions](https://github.com/Hoangcamng03/EHIS-Next/actions) | CI theo commit; tick xanh không chứng minh máy đã cài bản mới |
 | [Lịch sử main](https://github.com/Hoangcamng03/EHIS-Next/commits/main/) | Ai thay đổi gì và khi nào |
-| [Kiểm chứng UI 0.4.10](../testing/verification/VERIFICATION_V0_4_10.md) | Chữ/nút/công tắc gọn hơn, flow hai ca và map màn nhỏ; thử máy thật theo phiếu Android |
-| [Kiểm chứng 0.4.12 (lịch sử)](../testing/verification/VERIFICATION_V0_4_12.md) | Web/backend/APK0.4.12; 59 test, 13 suites, 32 ca và 704 mẫu thực; giữ các mục chưa đạt/chưa thử |
-| [Kiểm chứng 0.4.9](../testing/verification/VERIFICATION_V0_4_9.md) | Bản sửa GPS/chuông/nhiều ca/ON muộn, cloud/APK; còn nghiệm thu Samsung/Android |
+| [Kiểm chứng UI 0.4.10](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_10.md) | Chữ/nút/công tắc gọn hơn, flow hai ca và map màn nhỏ; thử máy thật theo phiếu Android |
+| [Kiểm chứng 0.4.12 (lịch sử)](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_12.md) | Web/backend/APK0.4.12; 59 test, 13 suites, 32 ca và 704 mẫu thực; giữ các mục chưa đạt/chưa thử |
+| [Kiểm chứng 0.4.9](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_9.md) | Bản sửa GPS/chuông/nhiều ca/ON muộn, cloud/APK; còn nghiệm thu Samsung/Android |
 | [So sánh hiệu suất 26/10](../testing/PERFORMANCE_COMPARISON.md) | Số đo local trước/sau tối ưu; không dùng làm cam kết tốc độ cloud |
 | [Kế hoạch midterm/cuối kỳ](../planning/MIDTERM_DEMO.md) | Kịch bản trình thầy và phần phát triển tiếp |
 

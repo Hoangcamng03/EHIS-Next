@@ -50,6 +50,8 @@ async function main(){
  const toneHash=hash(fs.readFileSync('frontend/app/assets/emergency_tone.wav'));const tone=[...zip].filter(([name])=>name.endsWith('.wav')).some(([,read])=>hash(read())===toneHash);assert.ok(tone,'Original alarm included in binary');
  const folder='.local/releases';fs.mkdirSync(folder,{recursive:true});fs.writeFileSync(path.join(folder,`EHIS-Next-v${record.version}.apk`),bytes);
  const result={...record,bytes:bytes.length,sha256:hash(bytes),artifactVerified:true,packageName:native.attributes.package,microphonePermission:false,vibrationPermission:true,embeddedTone:true,cloudTargetVerified:true,backgroundNotificationResourcesVerified:backgroundNotifications,deviceVerified:false};
- fs.writeFileSync('.local/android-trial-artifact.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
+ fs.writeFileSync('.local/android-trial-artifact.json',JSON.stringify(result,null,2)+'\n');
+ await require('./publish-android-download.cjs').publishAndroidDownload(result);
+ console.log(JSON.stringify(result,null,2));
 }
 main().catch(error=>{console.error(error.message);process.exitCode=1;});

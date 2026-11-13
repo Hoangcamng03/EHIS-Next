@@ -4,7 +4,7 @@ Thứ tự hiện hành: kiểm chứng code/web → APK preview Android cho di�
 
 ## 1. Mở đúng phần
 
-Mốc bàn giao 25/10 là **0.4.7**; source 0.4.8 còn local/chưa phát hành. Đối chiếu [STATUS](../STATUS.md) ở các lần tiếp theo. Bản 0.4.7: xem [kết quả theo flow](verification/VERIFICATION_V0_4_7.md) và [kịch bản hai Android](ACCEPTANCE_FLOW.md). Các mốc phát hành thực ghi tại LAB_NOTES. Lịch sử **0.4.4**: [màu, lỗi đã sửa, bằng chứng và checklist nghiệm thu](verification/VERIFICATION_V0_4_4.md). Tải lại trang rồi kiểm tra số phiên bản; Patient xanh dương, TNV xanh lá, người báo cam, quản trị tím, yêu cầu khẩn đỏ.
+Mốc bàn giao 25/10 là **0.4.7**; source 0.4.8 còn local/chưa phát hành. Đối chiếu [STATUS](../STATUS.md) ở các lần tiếp theo. Bản 0.4.7: xem [kết quả theo flow](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_7.md) và [kịch bản hai Android](ACCEPTANCE_FLOW.md). Các mốc phát hành thực ghi tại LAB_NOTES. Lịch sử **0.4.4**: [màu, lỗi đã sửa, bằng chứng và checklist nghiệm thu](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_4.md). Tải lại trang rồi kiểm tra số phiên bản; Patient xanh dương, TNV xanh lá, người báo cam, quản trị tím, yêu cầu khẩn đỏ.
 
 - App Patient/Volunteer: https://ehis-next-20261021-hc03-app.web.app . Một app, tự mở khu vực theo đối tượng tài khoản.
 - Website người quét: https://ehis-next-20261021-hc03.web.app . Người quét đi vào đường dẫn QR của thẻ; trang chính giải thích và dẫn sang app.

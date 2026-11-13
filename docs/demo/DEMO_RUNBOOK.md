@@ -92,4 +92,4 @@ Tắt V1/V2 → P1/P2 dùng hai thẻ khác nhau gửi ca → V1 bật sẵn sà
 
 Đăng nhập/đăng ký → đúng vai trò → hồ sơ/QR → sẵn sàng/thử chuông → hai ca → chọn/nhận → map/zoom → Đã đến nơi → Hoàn tất ca hỗ trợ. Nút chờ máy chủ không bấm lặp; Quay lại trong xác nhận không hoàn tất ca. Các mục Cách dùng EHIS, Vị trí và tìm ca, Tùy chọn chuông và rung, Chặng đường và tùy chọn có dấu + để mở nội dung phụ.
 
-Trên điện thoại, thử bấm chữ của công tắc, mép trong nút và thao tác khi bàn phím còn mở. Thử thêm cỡ chữ hệ thống lớn; ghi theo [Android](../operations/ANDROID_TRIAL.md) và [bằng chứng UI](../testing/verification/VERIFICATION_V0_4_10.md). Chưa có phiếu thiết bị thì vẫn Chưa thử.
+Trên điện thoại, thử bấm chữ của công tắc, mép trong nút và thao tác khi bàn phím còn mở. Thử thêm cỡ chữ hệ thống lớn; ghi theo [Android](../operations/ANDROID_TRIAL.md) và [bằng chứng UI](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_10.md). Chưa có phiếu thiết bị thì vẫn Chưa thử.

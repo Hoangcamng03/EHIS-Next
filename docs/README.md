@@ -50,6 +50,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | --- | --- |
 | [LOCAL_DEVELOPMENT](development/LOCAL_DEVELOPMENT.md) | Cài/chạy local và Emulator bằng dữ liệu giả |
 | [REPOSITORY_MIGRATION](development/REPOSITORY_MIGRATION.md) | Đường dẫn trước/sau, chuyển máy đang sửa code, EAS/Vercel và quay lui |
+| [REPOSITORY_CLEANUP](development/REPOSITORY_CLEANUP.md) | Phần đã dọn, cấu trúc chuẩn, quy tắc ảnh và QR; xem lịch sử ở snapshot Git |
 | [TEAM](development/TEAM.md) | Chia việc phát triển cho bốn thành viên và tiêu chí bàn giao |
 | [CONTRIBUTING](../CONTRIBUTING.md) | Làm việc chung, nhánh Git, review và xử lý khi sửa cùng file |
 | [Mobile README](../frontend/app/README.md) | App Patient/Volunteer |
@@ -62,31 +63,12 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 
 | Trang | Nội dung |
 | --- | --- |
-| [VERIFICATION_V0_4_21](testing/verification/VERIFICATION_V0_4_21.md) | Bàn giao tự động, xác minh3bước, QR và tài khoản; trạng thái từng lớp |
 | [VERIFICATION_V0_4_22](testing/verification/VERIFICATION_V0_4_22.md) | APK mới cho thay đổi giao diện đã duyệt; trạng thái build/artifact/thiết bị tách riêng |
 | [VERIFICATION_V0_4_22.json](testing/verification/VERIFICATION_V0_4_22.json) | Bằng chứng tải APK thật, phiên bản và SHA-256; chưa nghiệm thu thiết bị |
 | [Đối chiếu góp ý và cải thiện12/11](testing/verification/PRODUCT_REVIEW_2026_11_12.md) | UI, bảo mật, kiểm thử; phần làm được miễn phí và điều kiện còn thiếu |
 | [Bằng chứng cải thiện12/11](testing/verification/PRODUCT_REVIEW_2026_11_12.json) | Số liệu chạy local, lỗi giữ lại, hash source/ảnh và các mục chưa kiểm chứng |
-| [FLOW_REVIEW_2026_11_11](testing/verification/FLOW_REVIEW_2026_11_11.md) | Flow từng giai đoạn,20ảnh thật mobile web/desktop và đối chiếu tài liệu HIC |
 | [CLOUD_UAT_2026_11_11](testing/verification/CLOUD_UAT_2026_11_11.md) | Hồ sơ hư cấu trên Firebase thật, phối hợp điện thoại và ảnh cloud mới |
-| [Ảnh và ghi chú thuyết trình12/11](demo/PRESENTATION_SCENARIOS_2026_11_12.md) |9ảnh, thao tác/quan sát/lời nói gợi ý và ngày kiểm chứng |
-| [Ảnh theo thứ tự vai trò và trường hợp](demo/ORDERED_FLOWS_2026_11_12.md) | Đăng ký/duyệt, một ca, cập nhật, nhiều ca, bàn giao; chú thích từng bước |
-| [Bằng chứng bộ ảnh theo flow](testing/verification/ORDERED_FLOWS_2026_11_12.json) | Kích thước, thời điểm, SHA256 từng ảnh và đọc lại backend local |
-| [Bằng chứng tình huống12/11](testing/verification/PRESENTATION_SCENARIOS_2026_11_12.json) | API cloud chạy lại, đổi tên hiển thị và hash ảnh |
 | [CLOUD_UAT_2026_11_11.json](testing/verification/CLOUD_UAT_2026_11_11.json) | Số liệu setup/API/ca điện thoại, phạm vi và việc còn mở |
-| [FLOW_REVIEW_2026_11_11.json](testing/verification/FLOW_REVIEW_2026_11_11.json) | Kết quả thực, kích thước/hash ảnh, phạm vi và phần chưa thử |
-| [VERIFICATION_V0_4_21.json](testing/verification/VERIFICATION_V0_4_21.json) | Số liệu thật, hash log và phần chưa nghiệm thu21 |
-| [VERIFICATION_V0_4_15](testing/verification/VERIFICATION_V0_4_15.md) | Tiến độ TNV/ETA, bản trả lời và font; kết quả thực từng lớp |
-| [VERIFICATION_V0_4_16](testing/verification/VERIFICATION_V0_4_16.md) | Sửa chuông sau lỗi đường dẫn phát hiện trên S22+ thật; phân biệt artifact và nghe thực |
-| [VERIFICATION_V0_4_16.json](testing/verification/VERIFICATION_V0_4_16.json) | Log/hash/lượt build và kết quả thiết bị thực, giữ cả FAIL15 |
-| [VERIFICATION_V0_4_15.json](testing/verification/VERIFICATION_V0_4_15.json) | Số đo, timestamp và hash log; giữ cả lượt lỗi và giới hạn máy thật |
-| [VERIFICATION_V0_4_14.json](testing/verification/VERIFICATION_V0_4_14.json) | Số đo thực, thời điểm, hash log và trạng thái build/deploy; không chứa mật khẩu |
-| [VERIFICATION_V0_4_14](testing/verification/VERIFICATION_V0_4_14.md) | Bàn giao xác nhận, phục hồi báo cáo, bảo trì và số đo thực từng lớp |
-| [PRODUCT_REVIEW_2026_11_07](testing/verification/PRODUCT_REVIEW_2026_11_07.md) | Rà toàn diện UI/flow/quyền/vận hành; backlog theo ưu tiên, APK mới được xác minh và giới hạn kiểm tra |
-| [VERIFICATION_V0_4_13](testing/verification/VERIFICATION_V0_4_13.md) | Vòng cải thiện GPS/điểm hẹn/theo dõi diễn tập; kết quả từng lớp và giới hạn còn mở |
-| [VERIFICATION_V0_4_13.json](testing/verification/VERIFICATION_V0_4_13.json) | Timestamp, mã nguồn, hash log, 320 API và 32 mẫu lời mời local; không phải số đo cloud/điện thoại |
-| [ACCEPTANCE_2026_11_04](testing/verification/ACCEPTANCE_2026_11_04.md) | Vòng thực chạy 04/11: 56 test, 12 suites, bốn lượt tải, browser/cloud/APK; giữ các mục chưa đạt và phiếu điện thoại còn thiếu |
-| [ACCEPTANCE_2026_11_04.json](testing/verification/ACCEPTANCE_2026_11_04.json) | Số đo thật, từng lượt, mẫu API/lời mời, audit, timestamp và hash log; CSV 550 mẫu dẫn từ báo cáo |
 | [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md) | Flow F01–F13, phiếu Android A01–A13, điều kiện nghiệm thu |
 | [PERFORMANCE_COMPARISON](testing/PERFORMANCE_COMPARISON.md) | Phương pháp và kết quả so sánh bản trước/sau cấu trúc, API/realtime/build |
 | [TEST_SCENARIOS](testing/TEST_SCENARIOS.md) | Tình huống nhiều tài khoản/vị trí, đồng thời và các nhánh lỗi |
@@ -119,32 +101,13 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | Trang | Cách đọc |
 | --- | --- |
 | [LAB_NOTES](LAB_NOTES.md) | Mọi phiên thay đổi, cả việc chưa đạt; mục tài khoản ở đầu trang |
+| [Ảnh hiện hành](assets/README.md) | Bốn ảnh giao diện cuối, nguồn QR duy nhất và đường dẫn ảnh lịch sử |
 | [ACCEPTANCE_ANDROID_2026_11_08](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md) | Hai Android thực, tải local/cloud, lỗi GPS và các điều kiện chưa nghiệm thu |
 | [ACCEPTANCE_ANDROID_2026_11_08.json](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.json) | Record/log hash/số đo thật; phân biệt unit mock, API và máy thật |
 | [PERFORMANCE_2026_10_26.json](testing/verification/PERFORMANCE_2026_10_26.json) | Số tổng hợp trước/sau tối ưu, hash source và giới hạn phép đo local |
-| [VERIFICATION_V0_4_7](testing/verification/VERIFICATION_V0_4_7.md) | Bằng chứng bản 0.4.7 đã bàn giao; thử điện thoại vẫn là lớp riêng |
-| [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md) | Đợt UI/tải lớn 27/10; trạng thái cloud/APK/máy thật tra STATUS |
-| [FIX_2026_10_27_0_4_9.json](testing/verification/FIX_2026_10_27_0_4_9.json) | Kết quả hồi quy, 32 ca bật muộn và tải local 0.4.9 |
-| [VERIFICATION_V0_4_9](testing/verification/VERIFICATION_V0_4_9.md) | Sửa GPS, chuông, nhiều ca chờ và TNV bật muộn; nghiệm thu máy riêng |
-| [VERIFICATION_V0_4_10](testing/verification/VERIFICATION_V0_4_10.md) | Chữ gọn, nút/công tắc dễ thao tác; flow hai ca, đăng ký và map trên màn nhỏ |
-| [VERIFICATION_V0_4_11](testing/verification/VERIFICATION_V0_4_11.md) | Xác minh hai bước, liên hệ khẩn cấp, FCM và kết quả tải lớn cả FAIL/PASS; máy thật chờ nghiệm thu |
-| [VERIFICATION_V0_4_12](testing/verification/VERIFICATION_V0_4_12.md) | Sửa vùng quản lý, quan sát trực quan, token recovery; 59 test/13 suites, tải 32 ca và giới hạn còn mở |
-| [VERIFICATION_V0_4_12.json](testing/verification/VERIFICATION_V0_4_12.json) | Record thực, 704 mẫu CSV dẫn từ báo cáo, audit và tải Functions chưa đạt; trạng thái phát hành tách riêng |
-| [MIDTERM_2026_10_27.json](testing/verification/MIDTERM_2026_10_27.json) | Số liệu hai lớp gọi tải lớn, hash source và dependency 0.4.8 |
 
-### 8.2. Bằng chứng các mốc cũ — dùng để đối chiếu
+### 8.2. Lịch sử ngoài cây hiện tại
 
-| Trang | Phạm vi lịch sử |
-| --- | --- |
-| [VERIFICATION_V0_4_4](testing/verification/VERIFICATION_V0_4_4.md) | Màu theo vai trò và kiểm chứng 0.4.4 |
-| [VERIFICATION_V0_4_2](testing/verification/VERIFICATION_V0_4_2.md) | Định tuyến đối tượng và kiểm chứng 0.4.2 |
-| [VERIFICATION_V0_4](testing/verification/VERIFICATION_V0_4.md) | Kiểm chứng mốc 0.4 |
-| [VERIFICATION_V0_3](testing/verification/VERIFICATION_V0_3.md) | Kiểm chứng local 0.3 |
-| [COMPLETE_FLOW cũ](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/COMPLETE_FLOW.md) | Flow local cũ; nghiệm thu mới dùng nhóm 5 |
-| [TRIAL_CHECKLIST cũ](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/TRIAL_CHECKLIST.md) | Checklist local cũ; không thay phiếu Android hiện hành |
+Các bộ ảnh cũ, bản sao và báo cáo phiên bản đã thay thế nằm trong [snapshot trước dọn](https://github.com/Hoangcamng03/EHIS-Next/tree/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs). Xem phạm vi và quy tắc ở [báo cáo dọn repository](development/REPOSITORY_CLEANUP.md). Không thêm bản sao toàn file để giữ lịch sử.
 
-### 8.3. Nội dung đã bỏ khỏi cây hiện tại
-
-Bốn bản sao *_HISTORY, COMPLETE_FLOW và TRIAL_CHECKLIST cũ đã bỏ vì trùng lặp hoặc thay bằng flow nghiệm thu hiện hành. Nội dung vẫn có trong [snapshot trước sắp xếp](https://github.com/Hoangcamng03/EHIS-Next/tree/f921d33/docs), dùng để truy vết. Không thêm bản sao toàn file chỉ để lưu lịch sử; dùng Git và lab note.
-
-**Quy tắc thêm tài liệu:** chọn đúng thư mục demo, architecture, development, testing, operations hoặc planning; thêm một mục vào bảng tương ứng và ghi LAB_NOTES. Trạng thái phiên bản dẫn về STATUS. File verification/audit có bằng chứng riêng được giữ; dữ liệu trùng hoặc hướng dẫn đã thay thế không để lẫn với hướng dẫn hiện hành.
+**Thêm tài liệu:** chọn đúng thư mục theo công việc, thêm một mục vào danh mục và ghi lab note. Hướng dẫn hiện hành dẫn về STATUS; ảnh và báo cáo đã bị thay thế dùng Git để truy vết.

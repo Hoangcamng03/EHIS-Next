@@ -2,7 +2,7 @@
 
 Nhãn giao diện 0.4.10: **Thử chuông**, **Nhận ca**, **Đóng · Xem danh sách ca**, **Đã đến nơi**. Các nhãn dài ở phần lịch sử dưới đây mô tả bản cũ; quyền/logic nhận ca vẫn do backend xác nhận. GPS foreground hiện hành xem [LIVE_GPS](LIVE_GPS_0_4_6.md), phiên bản xem [STATUS](../STATUS.md).
 
-Cập nhật theo source 0.4.9; phiên bản đã phát hành tra [STATUS](../STATUS.md). Kiểm chứng mới ở [VERIFICATION_V0_4_9](../testing/verification/VERIFICATION_V0_4_9.md); chưa xác nhận phần cứng Samsung/Android từ kiểm tra browser.
+Cập nhật theo source 0.4.9; phiên bản đã phát hành tra [STATUS](../STATUS.md). Kiểm chứng mới ở [VERIFICATION_V0_4_9](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_9.md); chưa xác nhận phần cứng Samsung/Android từ kiểm tra browser.
 
 ## Luồng để nhóm hiểu và chạy thử
 
@@ -70,11 +70,11 @@ Source bản cuối: `b161a09a7d3de5695d97800396d1a359949a4d61`. Hosting đã ph
 
 Ảnh dưới đây chỉ có tình huống, tọa độ và tài khoản giả; không có mật khẩu/token. Bộ ảnh theo bước đầy đủ ở `.local/volunteer-alarm-proof/`, Git bỏ qua.
 
-![Cảnh báo khi có lời mời mới](../assets/volunteer-alerts-043/new-request.jpg)
+![Cảnh báo khi có lời mời mới](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/assets/volunteer-alerts-043/new-request.jpg)
 
-![Tuyến đường trong EHIS sau nhận ca](../assets/volunteer-alerts-043/accepted-route.jpg)
+![Tuyến đường trong EHIS sau nhận ca](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/assets/volunteer-alerts-043/accepted-route.jpg)
 
-![Tuyến được giữ khi có thông tin bổ sung sau nhận](../assets/volunteer-alerts-043/route-after-update.jpg)
+![Tuyến được giữ khi có thông tin bổ sung sau nhận](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/assets/volunteer-alerts-043/route-after-update.jpg)
 
 ## Nhiều ca và TNV bật muộn — từ 0.4.9
 

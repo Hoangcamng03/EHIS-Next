@@ -1,7 +1,7 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
 
-Cập nhật 13/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](testing/verification/VERIFICATION_V0_4_15.json).
+Cập nhật 13/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.json).
 
 **Cải thiện source ngày 12/11:** [Đối chiếu góp ý, phần đã sửa và giới hạn miễn phí](testing/verification/PRODUCT_REVIEW_2026_11_12.md). UI gọi 115/định dạng cảnh báo/form/focus; IP ingress, giới hạn theo thẻ, quyền admin hiện hành và các bộ kiểm thử mới. Phát hành cloud/APK phải tra bằng chứng riêng; không coi source mới là máy đã cập nhật.
 
@@ -13,7 +13,6 @@ Cập nhật 13/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu
 
 **UAT cloud mới11/11:** [Kết quả và ảnh](testing/verification/CLOUD_UAT_2026_11_11.md).9tài khoản hư cấu mới, ca người báo qua điện thoại→TNV web→bàn giao→hoàn tất/readback403 đạt; vị trí TNV là fixtureAPI, chưa nghiệm thu GPS di chuyển/native. Web đã có liên kết QR/privacy trực tiếp và khôi phục bản đồ; backend vẫn21/f870ee3, APK21 hiện có chưa chứa các sửa web mới. Không chốt bản cuối cấp cứu thật khi các mục máy thật còn mở.
 
-**Cloud và APK21 đã có**: [bàn giao tự động/duyệt TNV/QR](testing/verification/VERIFICATION_V0_4_21.md). APK21/code19 đã xác minh artifact; chưa nghiệm thu trên điện thoại. Trang tải/QR đã trỏ tới21; kiểm tra HTTP và trình duyệt đạt.
 
 **Chỉ diễn tập có hướng dẫn; chưa nghiệm thu toàn bộ.** [Báo cáo08–10/11](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md) và [số liệu gốc](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.json) giữ cả thất bại và phần chưa thử.
 
@@ -23,9 +22,9 @@ Cập nhật 13/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu
 | Backend Vercel | 0.4.21 từ 05a0e16 đã deploy/probe đúng version/project; 36 callable không auth trả 401 | Chưa kiểm thử tải lớn cloud/worker liên tục/SLA; Spark/Hobby và quyền hiện có |
 | S22+/Android16 | Lần kiểm tra gần nhất APK19/code17; kết quả18: GPS tại chỗ, route, OFF/ON, Home/resume, report2 tự tải/ack PASS ở lượt thử | Tự thoát gián đoạn còn OPEN; bố cục/bấm nhầm/hoàn tất native18 chưa đạt; chưa đi bộ/đoGPS chuẩn/offline độc lập/toàn bộ chế độ âm thanh |
 | APK19/code17 | Đã cài S22+;3ca chờ, nhận E, chặn nhận D/A, bản2 tự tải/ack, GPS tại chỗ, hủy xác nhận arrival/hoàn tất và xác nhận hoàn tất native PASS. Kết thúc OFF/no active | Chưa nghiệm thu toàn bộ: tự thoát, offline độc lập, đi bộ GPS, nhiều máy/chế độ âm. Xem lab note10/11 |
-| Trang tải chung | [APK 0.4.22 / code 20](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk); file thực đã kiểm tra. QR giữ trang /install cố định | /install 200 trên cả hai tên miền, nhãn/link 0.4.22 đúng; chưa nghiệm thu 0.4.22 trên máy thật; không OTA |
+| Trang tải chung | [APK 0.4.22 / code 20](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk); file thực đã kiểm tra. QR mới trỏ trực tiếp APK 0.4.22; trang /install là đầu mối phiên bản | /install 200 trên cả hai tên miền, nhãn/link 0.4.22 đúng; chưa nghiệm thu 0.4.22 trên máy thật; không OTA |
 | Source/CI backend | a9134eb,CI42654274756 SUCCESS, có health assertions thật;72a186a đã qua16suite local/CI | CIba90 trước sửa FAIL vẫn được giữ; không đồng nghĩa nghiệm thu thiết bị/y tế |
-| Tải local mới | Portable:1000Auth/128session/32feed/32ca/320API, p95cảnh báo1240ms,PASS | Không phải1000người dùng cloud; Functions local vẫn RECHECK,p95=21866ms>15000ms; chưa chứng minh mọi API nhanh hơn bản cũ |
+| Tải local mới | Portable:1000Auth/128session/32feed/32ca/320API, p95 cảnh báo 943 ms,PASS | Không phải1000người dùng cloud; Functions local vẫn RECHECK,p95=21866ms>15000ms; chưa chứng minh mọi API nhanh hơn bản cũ |
 | iOS native | Hoãn; iPhone dùng app web | Chưa IPA/TestFlight/tài khoản/ký/nghiệm thu iOS |
 | Tài khoản demo | Bổ sung8tài khoản10/11:4Patient/2TNV duyệt diễn tập/1TNV chờ/1người giới thiệu giả lập;8/8login/API đã kiểm tra; repo riêng tư | Giữ A1/bộ cũ; kiểm tra trạng thái trước buổi; không công khai mật khẩu/QR/vị trí; không xác minh y tế thật |
 
@@ -35,11 +34,11 @@ GPS16/17 FAIL, chuông15 FAIL và CIba90 FAIL không bị đổi thành PASS b�
 
 ## 2. Bằng chứng theo đúng lớp
 
-- Bản 0.4.7: [VERIFICATION_V0_4_7](testing/verification/VERIFICATION_V0_4_7.md). Logic/Emulator/browser/cloud/artifact được ghi riêng; không thay thế thử điện thoại.
-- Bản đối chiếu 0.4.8 ngày 27/10: [VERIFICATION_V0_4_8](testing/verification/VERIFICATION_V0_4_8.md). 40 unit/logic, chín integration, bài 1.000 Auth/32 ca và browser đủ vai trò; chưa thay phiếu máy thật. Kết quả sau vá dependency/CI/phát hành ở lab note và bảng trên.
-- Bản sửa 0.4.9: [VERIFICATION_V0_4_9](testing/verification/VERIFICATION_V0_4_9.md), [JSON](testing/verification/FIX_2026_10_27_0_4_9.json). TNV ON muộn, nhiều ca tách history, GPS cache/watch và audio tải muộn; cloud/APK đạt lớp phát hành, máy thật vẫn chờ.
-- Bản UI 0.4.10: [VERIFICATION_V0_4_10](testing/verification/VERIFICATION_V0_4_10.md). Chữ gọn, nút/công tắc cả hàng, disclosure, map 48px; đăng ký và hai ca trước ON đã kiểm tra local.
-- Bản 0.4.11: [VERIFICATION_V0_4_11](testing/verification/VERIFICATION_V0_4_11.md). Người giới thiệu/checklist/duyệt hai bước, liên hệ Patient, câu hỏi người báo và thông báo Android; ghi rõ tải FAIL/PASS và giới hạn chuông nền.
+- Bản 0.4.7: [VERIFICATION_V0_4_7](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_7.md). Logic/Emulator/browser/cloud/artifact được ghi riêng; không thay thế thử điện thoại.
+- Bản đối chiếu 0.4.8 ngày 27/10: [VERIFICATION_V0_4_8](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_8.md). 40 unit/logic, chín integration, bài 1.000 Auth/32 ca và browser đủ vai trò; chưa thay phiếu máy thật. Kết quả sau vá dependency/CI/phát hành ở lab note và bảng trên.
+- Bản sửa 0.4.9: [VERIFICATION_V0_4_9](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_9.md), [JSON](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/FIX_2026_10_27_0_4_9.json). TNV ON muộn, nhiều ca tách history, GPS cache/watch và audio tải muộn; cloud/APK đạt lớp phát hành, máy thật vẫn chờ.
+- Bản UI 0.4.10: [VERIFICATION_V0_4_10](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_10.md). Chữ gọn, nút/công tắc cả hàng, disclosure, map 48px; đăng ký và hai ca trước ON đã kiểm tra local.
+- Bản 0.4.11: [VERIFICATION_V0_4_11](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_11.md). Người giới thiệu/checklist/duyệt hai bước, liên hệ Patient, câu hỏi người báo và thông báo Android; ghi rõ tải FAIL/PASS và giới hạn chuông nền.
 - Phiếu người thử: [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md), A01–A13. Chưa có kết quả nhóm gửi về thì vẫn Chưa thử.
 - [So sánh hiệu suất 26/10](testing/PERFORMANCE_COMPARISON.md): baseline cùng tính năng trước sắp xếp; 192 ca đo qua hai lượt, build/payload và luồng browser. Kết quả local không thay SLA cloud hoặc thử Android thật.
 

@@ -1,5 +1,7 @@
 # EHIS Next
 
+- From 2026-11-13: every Android release handoff includes its verified APK link and a QR for that same artifact. Keep the QR source only in frontend/web/public; verify-trial-apk.cjs updates it with releases.json via publish-android-download.cjs. Do not publish a QR/link for an unfinished build. Keep current screenshots only; historical evidence stays accessible at immutable Git snapshots, without rewriting history or changing test results.
+
 - This is a new implementation. Never copy the old project's credentials, ownership identifiers, patient data, or permissive security rules.
 - Read README.md and docs/architecture/ARCHITECTURE.md before changing behavior.
 - Keep mobile, web, and Functions changes in their own modules. API and schema changes require updating docs/architecture/API_CONTRACT.md.

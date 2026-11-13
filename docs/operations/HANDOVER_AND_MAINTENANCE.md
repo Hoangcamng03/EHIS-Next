@@ -41,7 +41,7 @@ Lịch sử nằm trong từng ca ở bảng quản trị. Với ca đã kết t
 
 ## 4. Điều chưa được bảo đảm
 
-Chưa xác minh chuông Home/khóa, Samsung im lặng, GPS/pin hoặc cài đè trên máy thật trong phiên này. Dịch vụ bản đồ/push miễn phí không có cam kết điều phối cấp cứu. Cần hoàn thành phiếu [Android](ANDROID_TRIAL.md), có chuyên môn y tế/đầu mối vận hành và giải quyết các mục còn mở trong [review](../testing/verification/PRODUCT_REVIEW_2026_11_07.md) trước khi xét ca thật.
+Chưa xác minh chuông Home/khóa, Samsung im lặng, GPS/pin hoặc cài đè trên máy thật trong phiên này. Dịch vụ bản đồ/push miễn phí không có cam kết điều phối cấp cứu. Cần hoàn thành phiếu [Android](ANDROID_TRIAL.md), có chuyên môn y tế/đầu mối vận hành và giải quyết các mục còn mở trong [review](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/PRODUCT_REVIEW_2026_11_07.md) trước khi xét ca thật.
 
 
 ## 5. Bài nghiệm thu nhóm với hai Android

@@ -35,7 +35,7 @@ Kết nối vào máy tính đang làm dự án bằng cáp truyền dữ liệu
 
 Nếu không thấy hộp thoại: mở khóa, kiểm tra cáp/cổng dữ liệu và kết nối lại. Nếu Samsung báo chính sách bảo vệ chặn USB, ghi nguyên cảnh báo và xác định nguyên nhân trước; không tự tắt các cơ chế bảo vệ thiết bị.
 
-Lượt S22+08/11 đã kết nối/điều khiển thật, cài đè16 và xác nhận chuông foreground có tiếng/rung. [Ảnh, lỗi15 được giữ và các bài chưa thử](../testing/verification/VERIFICATION_V0_4_16.md). Khi cửa sổ phản chiếu chậm, không dùng ảnh cũ để chọn nút hoặc đo app lag: đọc trạng thái/bounds hiện tại của chính EHIS bằng công cụ kiểm thử Android; không thao tác app khác hoặc màn mật khẩu/quyền hệ thống. USB chỉ phục vụ kiểm thử/điều khiển; APK đã cài chạy độc lập, gửi/nhận dữ liệu vẫn cần Internet.
+Lượt S22+08/11 đã kết nối/điều khiển thật, cài đè16 và xác nhận chuông foreground có tiếng/rung. [Ảnh, lỗi15 được giữ và các bài chưa thử](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_16.md). Khi cửa sổ phản chiếu chậm, không dùng ảnh cũ để chọn nút hoặc đo app lag: đọc trạng thái/bounds hiện tại của chính EHIS bằng công cụ kiểm thử Android; không thao tác app khác hoặc màn mật khẩu/quyền hệ thống. USB chỉ phục vụ kiểm thử/điều khiển; APK đã cài chạy độc lập, gửi/nhận dữ liệu vẫn cần Internet.
 
 Người đóng gói xem [MOBILE_RELEASES](MOBILE_RELEASES.md); lịch sử APK cũ ở [ANDROID_TRIAL_HISTORY](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/ANDROID_TRIAL_HISTORY.md). Không phát hành hoặc đổi cloud khi chỉ đang chạy bài thử.
 

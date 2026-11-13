@@ -2068,5 +2068,6 @@
     "apkUpdated": false,
     "otaPublished": false,
     "ci": "GitHub connector returned no workflow runs for source commit at time checked; do not claim CI success."
-  }
+  },
+  "historicalAssetSnapshot": "https://github.com/Hoangcamng03/EHIS-Next/tree/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/assets"
 }

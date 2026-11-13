@@ -59,9 +59,11 @@ Sau `npm run cloud:build` và `npm run cloud:deploy-web`, chạy `node scripts/v
 
 ## 6. Build APK thử và kiểm tra artifact
 
+Từ 13/11, `verify-trial-apk.cjs` tự gọi `publish-android-download.cjs` sau khi artifact đạt: đối chiếu SHA-256 file APK local, tạo QR PNG/SVG trong `frontend/web/public` và cập nhật link/version trong releases.json. Luôn build/deploy web rồi kiểm tra link/ảnh QR remote trước khi gửi nhóm. Mỗi bản bàn giao phải có cả link tải và QR; không phát hành APK chỉ vì dọn tài liệu.
+
 `node scripts/build-trial-android.cjs start` gửi build preview từ source sạch; `status` đọc tiến độ và xác minh source/version khi FINISHED. `node scripts/verify-trial-apk.cjs` tải/kiểm tra manifest, quyền, target cloud, WAV và SHA-256; không thay nghiệm thu thiết bị hoặc kiểm tra chứng chỉ ký. Không tự phát OTA/submit store. [Quy trình](../docs/operations/PHONE_INSTALL_AND_LAUNCH.md).
 
-Từ 04/11, verifier tra tên `raw/emergency_tone` trong `resources.arsc` và bắt buộc file được ánh xạ trùng bytes âm gốc. Không dựa tên ZIP cố định vì AAPT có thể rút gọn đường dẫn. `npm run check` có bốn kiểm tra định dạng/dữ liệu hỏng cho phần này. Harness scale/multi lưu thêm từng mẫu `operation/ms/status`; file kết quả có thể ghi đè nên chép ngay sang thư mục từng lượt trước lần chạy tiếp. [Dữ liệu thực và giới hạn vòng 04/11](../docs/testing/verification/ACCEPTANCE_2026_11_04.md).
+Từ 04/11, verifier tra tên `raw/emergency_tone` trong `resources.arsc` và bắt buộc file được ánh xạ trùng bytes âm gốc. Không dựa tên ZIP cố định vì AAPT có thể rút gọn đường dẫn. `npm run check` có bốn kiểm tra định dạng/dữ liệu hỏng cho phần này. Harness scale/multi lưu thêm từng mẫu `operation/ms/status`; file kết quả có thể ghi đè nên chép ngay sang thư mục từng lượt trước lần chạy tiếp. [Dữ liệu thực và giới hạn vòng 04/11](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/ACCEPTANCE_2026_11_04.md).
 
 ## 7. Kiểm tra cấu trúc và liên kết
 

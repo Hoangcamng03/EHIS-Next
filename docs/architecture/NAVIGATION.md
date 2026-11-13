@@ -1,4 +1,4 @@
-**Nghiệm thu hiện tại:** [0.4.7: nhiều ca/vùng, ca active không mất sau 30 thông báo](../testing/verification/VERIFICATION_V0_4_7.md) · [GPS/mạng trên hai Android](../testing/ACCEPTANCE_FLOW.md).
+**Nghiệm thu hiện tại:** [0.4.7: nhiều ca/vùng, ca active không mất sau 30 thông báo](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_7.md) · [GPS/mạng trên hai Android](../testing/ACCEPTANCE_FLOW.md).
 
 Nhãn giao diện 0.4.10: **Thử chuông**, **Nhận ca**, **Đóng · Xem danh sách ca**, **Đã đến nơi**. Các nhãn dài ở phần lịch sử dưới đây mô tả bản cũ; quyền/logic nhận ca vẫn do backend xác nhận. GPS foreground hiện hành xem [LIVE_GPS](LIVE_GPS_0_4_6.md), phiên bản xem [STATUS](../STATUS.md).
 

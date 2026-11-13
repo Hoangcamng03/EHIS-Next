@@ -2,7 +2,7 @@
 
 ## 1. Xác định phiên bản và phạm vi
 
-Xem [STATUS](../STATUS.md) và [LAB_NOTES](../LAB_NOTES.md) để lấy mốc đang bàn giao; không suy ra phiên bản từ lịch sử build. Đợt 05/11, [0.4.12/code 10 có APK đã xác minh artifact và cloud cùng phiên bản](../testing/verification/VERIFICATION_V0_4_12.md). Nghiệm thu điện thoại vẫn chờ nhóm; không suy ra máy đã cập nhật từ source hoặc link tải.
+Xem [STATUS](../STATUS.md) và [LAB_NOTES](../LAB_NOTES.md) để lấy mốc đang bàn giao; không suy ra phiên bản từ lịch sử build. Đợt 05/11, [0.4.12/code 10 có APK đã xác minh artifact và cloud cùng phiên bản](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_12.md). Nghiệm thu điện thoại vẫn chờ nhóm; không suy ra máy đã cập nhật từ source hoặc link tải.
 
 Được phép chuẩn bị/build APK preview sau kiểm chứng code/web cho diễn tập Android miễn phí. Chưa tự OTA, submit cửa hàng, iOS native, bật billing hoặc mở tiếp nhận ca thật. Không dùng release:preview như bước mặc định: helper đó có thể publish OTA, vượt phạm vi đợt này.
 
@@ -31,11 +31,11 @@ Script kiểm tra source/version và gửi build preview; không tự cài lên 
 node scripts/verify-trial-apk.cjs
 ```
 
-Verifier kiểm tra cấu trúc, package/version, cấu hình cloud, WAV/quyền và SHA-256; không phải nghiệm thu chữ ký/Play Protect/phần cứng. Chưa FINISHED thì chỉ cung cấp link tiến độ, không gắn APK cũ dưới tên mới.
+Verifier kiểm tra cấu trúc, package/version, cấu hình cloud, WAV/quyền và SHA-256; sau khi đạt, tự cập nhật link tải và QR qua `publish-android-download.cjs`. Một nguồn QR duy nhất ở `frontend/web/public` (PNG/SVG), mã trỏ thẳng đến APK vừa xác minh. Không phải nghiệm thu chữ ký/Play Protect/phần cứng hoặc quét QR trên máy. Chưa FINISHED thì chỉ cung cấp link tiến độ, không gắn APK cũ dưới tên mới.
 
 ## 4. Phát hành web và trang tải
 
-Thay frontend/web/src/config/releases.json sau khi có artifact được xác minh; không ghi URL chưa tồn tại. Build lại đúng artifact cloud, deploy theo [CLOUD_TRIAL](CLOUD_TRIAL.md) và đối chiếu bằng scripts/verify-cloud-artifacts.cjs. Backend/index/Rules chỉ triển khai khi có thay đổi tương ứng đã kiểm tra, không thay quyền/billing như bước mặc định.
+Link trong `frontend/web/src/config/releases.json` và QR phải cùng được verifier cập nhật từ artifact đã xác minh; không sửa URL bằng tay rồi quên QR. Build lại đúng artifact cloud, deploy theo [CLOUD_TRIAL](CLOUD_TRIAL.md) và đối chiếu bằng scripts/verify-cloud-artifacts.cjs. Kiểm tra ảnh QR remote khớp SHA-256 trong cấu hình. Mỗi lần gửi bản mới cho nhóm phải kèm link tải và QR. Backend/index/Rules chỉ triển khai khi có thay đổi tương ứng đã kiểm tra, không thay quyền/billing như bước mặc định.
 
 Ghi commit, link build/APK, versionCode, hash, frontend/web/backend, kiểm tra và phần chưa đạt vào lab note. Cập nhật STATUS một lần theo bằng chứng, các trang khác dẫn về đó. Thao tác sửa tài liệu đơn thuần không cần build APK/deploy lại.
 

@@ -10,7 +10,7 @@ Cập nhật 27/10/2026. Mục tiêu chủ dự án: thầy xem tiến độ kho
 - [App Bệnh nhân/Tình nguyện viên](https://ehis-next-20261021-hc03-app.web.app).
 - Website người qua đường mở từ QR; quản trị ở `/admin` trên website người báo.
 - Tài khoản dùng chung: repo riêng tư được dẫn ở đầu [LAB_NOTES](../LAB_NOTES.md). Không đưa mật khẩu lên slide, video hoặc GitHub public. Các tài khoản Emulator không đăng nhập được cloud/APK.
-- Phiên bản nguồn đợt này: 0.4.8/code 6. Mốc đã deploy/build/kiểm chứng xem [VERIFICATION_V0_4_8](../testing/verification/VERIFICATION_V0_4_8.md); không coi đổi source là máy đã cập nhật.
+- Phiên bản nguồn đợt này: 0.4.8/code 6. Mốc đã deploy/build/kiểm chứng xem [VERIFICATION_V0_4_8](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_8.md); không coi đổi source là máy đã cập nhật.
 
 ## 2. Kịch bản diễn tập đề xuất 7–10 phút
 

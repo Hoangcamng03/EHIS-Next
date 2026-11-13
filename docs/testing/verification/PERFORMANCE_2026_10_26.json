@@ -876,5 +876,6 @@
     "No physical Android GPS, audio, vibration or background delivery proof",
     "No new deployment, billing, APK or OTA",
     "Small local samples; gate is an investigation threshold, not statistical equivalence"
-  ]
+  ],
+  "historicalAssetSnapshot": "https://github.com/Hoangcamng03/EHIS-Next/tree/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/assets"
 }

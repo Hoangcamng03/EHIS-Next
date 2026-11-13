@@ -90,27 +90,27 @@ Số đo tải không phải 1.000 người đồng thời hoặc cam kết clou
 
 ### Hình 1 · Người báo · khung điện thoại 390 × 844
 
-![Người báo · khung điện thoại 390 × 844](../../assets/product-review-2026-11-12/reporter-390.png)
+![Người báo · khung điện thoại 390 × 844](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/assets/product-review-2026-11-12/reporter-390.png)
 
 ### Hình 2 · Người báo · desktop 1280 × 844
 
-![Người báo · desktop 1280 × 844](../../assets/product-review-2026-11-12/reporter-1280.png)
+![Người báo · desktop 1280 × 844](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/assets/product-review-2026-11-12/reporter-1280.png)
 
 ### Hình 3 · Đăng ký Bệnh nhân · màu vai trò, ô tick và liên kết
 
-![Đăng ký Bệnh nhân · màu vai trò, ô tick và liên kết](../../assets/product-review-2026-11-12/patient-registration.png)
+![Đăng ký Bệnh nhân · màu vai trò, ô tick và liên kết](../../assets/current/patient-registration.png)
 
 ### Hình 4 · Đăng ký Tình nguyện viên · màu vai trò
 
-![Đăng ký Tình nguyện viên · màu vai trò](../../assets/product-review-2026-11-12/volunteer-registration.png)
+![Đăng ký Tình nguyện viên · màu vai trò](../../assets/current/volunteer-registration.png)
 
 ### Hình 5 · Lời mời khẩn · khoảng cách, phút:giây và quan sát
 
-![Lời mời khẩn · khoảng cách, phút:giây và quan sát](../../assets/product-review-2026-11-12/volunteer-alert.png)
+![Lời mời khẩn · khoảng cách, phút:giây và quan sát](../../assets/current/volunteer-alert.png)
 
 ### Hình 6 · Đã nhận ca · bản đồ và Đã đến nơi trước tiến độ/hồ sơ
 
-![Đã nhận ca · bản đồ và Đã đến nơi trước tiến độ/hồ sơ](../../assets/product-review-2026-11-12/volunteer-active.png)
+![Đã nhận ca · bản đồ và Đã đến nơi trước tiến độ/hồ sơ](../../assets/current/volunteer-active.png)
 
 ## 7. Đã cập nhật trực tuyến
 
@@ -122,4 +122,4 @@ Số đo tải không phải 1.000 người đồng thời hoặc cam kết clou
 
 ### Hình 7 · Người báo trên cloud sau triển khai
 
-![Trang người báo cloud, chưa gửi yêu cầu](../../assets/product-review-2026-11-12/cloud-reporter.png)
+![Trang người báo cloud, chưa gửi yêu cầu](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/assets/product-review-2026-11-12/cloud-reporter.png)

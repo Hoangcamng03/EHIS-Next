@@ -8836,5 +8836,6 @@
     "scope": "Actual Auth/API/Firestore checks; all identity, clinical experience and referral evidence synthetic; no real medical verification, phone UI or hardware acceptance.",
     "privateCredentialsUrl": "https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/accounts/DEMO_2026_11_10.md",
     "privatePublicationVerified": true
-  }
+  },
+  "historicalAssetSnapshot": "https://github.com/Hoangcamng03/EHIS-Next/tree/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/assets"
 }
