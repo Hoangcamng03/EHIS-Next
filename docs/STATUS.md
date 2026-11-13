@@ -1,7 +1,7 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
 
-Cập nhật 13/11/2026. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.json).
+Cập nhật 13/11/2026. [Cây source đã dọn và kết quả kiểm tra](development/REPOSITORY_CLEANUP.md). QR mới đã triển khai cùng trang tải: 36 tệp web + 4 lượt QR khớp build. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.json).
 
 **Cải thiện source ngày 12/11:** [Đối chiếu góp ý, phần đã sửa và giới hạn miễn phí](testing/verification/PRODUCT_REVIEW_2026_11_12.md). UI gọi 115/định dạng cảnh báo/form/focus; IP ingress, giới hạn theo thẻ, quyền admin hiện hành và các bộ kiểm thử mới. Phát hành cloud/APK phải tra bằng chứng riêng; không coi source mới là máy đã cập nhật.
 

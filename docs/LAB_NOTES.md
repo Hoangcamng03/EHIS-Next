@@ -14,6 +14,7 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 - Một patch README sai dấu chấm và patch thay nguyên STATUS bị từ chối trước khi ghi; đã sửa bằng thay đổi nhỏ, không bỏ kiểm tra. Build/test/triển khai của phiên này cần ghi kết quả riêng sau khi chạy; chưa tuyên bố điện thoại đã cài hoặc quét QR.
 - Đã chạy `npm run check`: liên kết/module PASS (53 Markdown, 46 mục danh mục, 412 liên kết tương đối), typecheck/lint app/web, backend build, 31 bài backend và 62 bài client PASS. Dựng Next/Expo web cấu hình cloud PASS, cảnh báo CSS Leaflet/Node có sẵn vẫn ghi nhận. Không có thay đổi source trong app/backend.
 - Đọc lại EAS FINISHED và tải APK thật lần nữa: 102 727 729 byte, SHA-256 e9864909a003bda8687607c329360aae337e44051f450490664e474ca5cb6496; verifier đạt và tự tạo QR/link thành công. Kiểm tra cloud mở rộng để so QR PNG/SVG trên hai tên miền với file chuẩn; chưa ghi deploy đạt trước khi chạy.
+- Đã push main 3c7c028 và triển khai hai site Hosting. Health đúng project/backend và API không auth 401 đạt. Sau triển khai: 36 tệp HTML/JS/CSS + 4 lượt QR (PNG/SVG trên web.app và firebaseapp.com) khớp byte; QR target bằng APK URL và hash metadata khớp. Không đo hiệu suất mới hoặc ghi đã quét/cài trên máy thật. Cây hiện tại khoảng 339 tệp / 3,4 MB, docs 51 tệp; toàn bộ lịch sử Git không bị viết lại.
 
 ## 2026-11-13 — rút gọn nội dung liên hệ cấp cứu
 

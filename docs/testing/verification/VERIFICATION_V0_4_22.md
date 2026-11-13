@@ -21,3 +21,7 @@ Ngày 13/11/2026. APK Android 0.4.22 / code 20 chứa thay đổi giao diện đ
 | Điện thoại 0.4.22 | CHƯA THỬ; chưa xác nhận cài đè, chuông, GPS hoặc luồng native |
 
 [Số liệu gốc](VERIFICATION_V0_4_22.json). Chưa coi build hoặc artifact đạt là nghiệm thu thiết bị. Các mục tự thoát gián đoạn/GPS di chuyển/offline và nghiệm thu trước còn mở. Không OTA hoặc iOS/cửa hàng trong đợt này. Trang tải đã cập nhật; Từ 13/11, QR hiện hành trỏ thẳng APK 0.4.22; trang /install vẫn là đầu mối tải bản đang bàn giao. Câu “Nguy kịch? Gọi 115 trước.” đã bỏ khỏi web theo yêu cầu mới; 24 tệp HTML/JS export không còn câu này, các tệp phục vụ đã đối chiếu khớp build.
+
+## QR tải app cập nhật ngày 13/11
+
+[Lưu QR PNG](../../../frontend/web/public/ehis-download-qr.png) · [QR SVG để in](../../../frontend/web/public/ehis-download-qr.svg). Link và QR được verifier cập nhật cùng nhau, từ APK có hash đã kiểm tra. Hosting từ 3c7c028: 36 tệp HTML/JS/CSS và bốn lượt QR (hai định dạng, hai tên miền) khớp byte. Chưa xác nhận quét QR/cài app bằng điện thoại thật trong phiên này. Không tạo APK trùng vì source app vẫn khớp binary 0.4.22.

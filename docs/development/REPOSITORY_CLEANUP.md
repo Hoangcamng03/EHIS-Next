@@ -27,6 +27,8 @@ Ngày 13/11/2026. Cây source chuẩn nằm trên `main`:
 
 ## Quy tắc từ đợt này
 
+Kiểm tra sau dọn: lint/typecheck/build và 31 bài backend + 62 bài client đạt; dựng cloud đạt. Đã push `main` và triển khai Hosting từ 3c7c028; 36 tệp HTML/JS/CSS và bốn lượt QR PNG/SVG trên hai tên miền khớp byte. APK 0.4.22 tải lại đúng SHA-256; chưa nghiệm thu quét QR/cài đặt trên máy thật trong phiên này.
+
 1. Sửa trực tiếp file chuẩn trên nhánh làm việc; không thêm `copy`, `final2`, `backup` vào cây source. Dùng commit để quay lại.
 2. Ảnh hiện hành ghi đè theo tên chức năng; ảnh không còn đúng giao diện phải rời cây hiện tại. Giữ nguồn gốc/ngày/môi trường trong báo cáo.
 3. APK thay đổi mới cần version/code và build mới. Dọn tài liệu hoặc thay trang tải không tạo APK trùng.

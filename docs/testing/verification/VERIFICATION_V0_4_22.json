@@ -53,5 +53,20 @@
     "scannedFiles": 24,
     "deviceVerified": false
   },
-  "historicalAssetSnapshot": "https://github.com/Hoangcamng03/EHIS-Next/tree/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/assets"
+  "historicalAssetSnapshot": "https://github.com/Hoangcamng03/EHIS-Next/tree/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/assets",
+  "qrPublication": {
+    "checkedAt": "2026-11-13T13:57:11.216Z",
+    "checked": 36,
+    "qrChecks": 4,
+    "qrVersion": "0.4.22",
+    "qrTarget": "https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk",
+    "sha256Match": true,
+    "targets": [
+      "https://ehis-next-20261021-hc03.web.app",
+      "https://ehis-next-20261021-hc03-app.web.app"
+    ],
+    "sourceCommit": "3c7c0281bbfb555e522d74e75d9c425362a9d5bc",
+    "qrSha256": "fb3b007f68237cc5f6fab259355e81fb92db37c289b70223af3be16ed5a4fab7",
+    "phoneScanVerified": false
+  }
 }
