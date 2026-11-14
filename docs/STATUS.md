@@ -30,7 +30,7 @@ Cập nhật 14/11/2026. [Cây source đã dọn và kết quả kiểm tra](dev
 | iOS native | Hoãn; iPhone dùng app web | Chưa IPA/TestFlight/tài khoản/ký/nghiệm thu iOS |
 | Tài khoản demo | Bổ sung8tài khoản10/11:4Patient/2TNV duyệt diễn tập/1TNV chờ/1người giới thiệu giả lập;8/8login/API đã kiểm tra; repo riêng tư | Giữ A1/bộ cũ; kiểm tra trạng thái trước buổi; không công khai mật khẩu/QR/vị trí; không xác minh y tế thật |
 
-[Mở app](https://ehis-next-20261021-hc03-app.web.app) · [Trang cài](https://ehis-next-20261021-hc03.web.app/install) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin) · [Tài khoản](demo/MANUAL_DEMO_ACCOUNTS.md) · [Người giới thiệu](https://ehis-next-20261021-hc03.web.app/referrer).
+[Mở app](https://ehis-next-20261021-hc03-app.web.app) · [Trang cài](https://ehis-next-20261021-hc03.web.app/install) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin) · [Tài khoản](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md) · [Người giới thiệu](https://ehis-next-20261021-hc03.web.app/referrer).
 
 GPS16/17 FAIL, chuông15 FAIL và CIba90 FAIL không bị đổi thành PASS bởi các lượt sau. Chuông/khóa đã được chủ máy xác nhận ở16; chưa suy sang mọi chế độ/phiên bản/hãng. GPS18 là số đọc cảm biến trên máy thật với đích giả lập, không phải độ chính xác so mốc chuẩn. [Thông báo Android](operations/ANDROID_BACKGROUND_ALERTS.md) · [Xác minh TNV](operations/VOLUNTEER_VERIFICATION.md).
 

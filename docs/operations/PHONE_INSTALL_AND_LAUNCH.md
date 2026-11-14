@@ -18,7 +18,7 @@ Internet; tài khoản được phân; Patient có QR; TNV đã duyệt, cho ph�
 
 ## 3. Chạy và nghiệm thu
 
-[Bắt đầu từ đầu](../START_HERE_DEMO.md) → [phối hợp bốn người](../demo/DEMO_RUNBOOK.md) → [nghiệm thu Android](ANDROID_TRIAL.md). Gặp lỗi cài/GPS/đăng nhập xem [DEMO_TROUBLESHOOTING](../demo/DEMO_TROUBLESHOOTING.md); không tắt bảo vệ để vượt chặn.
+[Bắt đầu từ đầu](../START_HERE_DEMO.md) → [phối hợp bốn người](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md) → [nghiệm thu Android](ANDROID_TRIAL.md). Gặp lỗi cài/GPS/đăng nhập xem [DEMO_TROUBLESHOOTING](../demo/DEMO_TROUBLESHOOTING.md); không tắt bảo vệ để vượt chặn.
 
 ## 4. Mức sẵn sàng
 

@@ -23,7 +23,7 @@ Tra [STATUS](STATUS.md) trước khi bắt đầu: ghi riêng source, web/backen
 | Một app, hai khu vực | Bệnh nhân và TNV | [App web](https://ehis-next-20261021-hc03-app.web.app) hoặc [trang cài APK Android](https://ehis-next-20261021-hc03.web.app/install) |
 | Web báo hỗ trợ | Người qua đường | Quét QR của Patient hoặc mở link QR trong bảng riêng tư; không đăng nhập |
 | Web quản trị | Người phụ trách duyệt TNV | [Trang quản trị](https://ehis-next-20261021-hc03.web.app/admin) |
-| Bảng đăng nhập | Chủ dự án và người được cấp quyền | [Repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md), mục đầu ngày 25/10/2026 |
+| Bảng đăng nhập | Chủ dự án và người được cấp quyền | [Repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md), bảng tài khoản và kiểm thử duy nhất |
 
 ### 2.2. Luồng hoạt động
 
@@ -70,7 +70,7 @@ Trạng thái được đối chiếu trong bảng riêng; sau khi nhóm duyệt
 
 **Nếu thành viên gặp 404 ở repo mật khẩu:** hiện repo chỉ chủ dự án có quyền. Chủ dự án có thể trực tiếp phân/điền tài khoản trong buổi thử; nếu muốn thành viên tự xem, chủ repo tự mời đúng GitHub username qua Settings → Collaborators → Add people, rồi thành viên chấp nhận lời mời. Repo cá nhân cấp quyền collaborator có cả quyền sửa nội dung; chủ dự án cần chọn người phù hợp. Không bật public hoặc dùng chung tài khoản GitHub của chủ repo. Đây là hướng dẫn, chưa tự mời ai. [Nguồn GitHub về lời mời](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository), [phạm vi quyền collaborator](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/permission-levels-for-a-personal-account-repository).
 
-Email `.test` là giả, không nhận thư Quên mật khẩu/xác minh. Tài khoản local/Emulator không dùng được trên cloud/APK. [Chi tiết bộ tài khoản](demo/MANUAL_DEMO_ACCOUNTS.md).
+Email `.test` là giả, không nhận thư Quên mật khẩu/xác minh. Tài khoản local/Emulator không dùng được trên cloud/APK. [Chi tiết bộ tài khoản](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md).
 
 ### 3.2. Kiểm tra thiết bị trước buổi thử
 
@@ -80,13 +80,13 @@ Email `.test` là giả, không nhận thư Quên mật khẩu/xác minh. Tài k
 - Các bên đứng gần nhau trong khu thử, ngồi đủ xa để nghe thiết bị nào reo. Người báo phải đứng cạnh bệnh nhân giả; không lái xe khi thao tác.
 - Chỉ dữ liệu giả, không đưa mật khẩu, số liên lạc thật hay vị trí chính xác vào ảnh/slide public. Một người quan sát và ghi kết quả, không phải cả bốn người cùng bấm.
 
-**Checkpoint:** mọi người mở đúng địa chỉ, được phân đúng tài khoản, biết ai ra hiệu gửi/nhận/kết thúc và mở được [runbook](demo/DEMO_RUNBOOK.md).
+**Checkpoint:** mọi người mở đúng địa chỉ, được phân đúng tài khoản, biết ai ra hiệu gửi/nhận/kết thúc và mở được [runbook](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md).
 
 <a id="chay-demo"></a>
 
 ## 4. Phân vai và chạy một vòng hoàn chỉnh
 
-1. Mở [DEMO_RUNBOOK](demo/DEMO_RUNBOOK.md), phân rõ người đóng Patient, người báo, TNV và người quan sát. Nếu chỉ hai Android, dùng cách bố trí laptop đã ghi trong runbook.
+1. Mở [quy trình và trường hợp kiểm thử](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md), phân rõ người đóng Patient, người báo, TNV và người quan sát. Nếu chỉ hai Android, dùng cách bố trí laptop đã ghi trong runbook.
 2. Kiểm tra Patient có QR; TNV đúng tài khoản, được duyệt, thử chuông và bật sẵn sàng **trước khi người báo gửi**.
 3. Người báo quét QR, xác nhận đang cạnh bệnh nhân giả và gửi. Chỉ chuyển sang bảng hỏi sau khi backend xác nhận; phone là tùy chọn.
 4. TNV nhận cảnh báo, bấm nhận ca, xem bản đồ/thông tin được phép, xác nhận đến và kết thúc theo đúng nút của bản đang dùng.

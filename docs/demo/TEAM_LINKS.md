@@ -20,8 +20,8 @@ Gửi link trang này cho thành viên mới. Đọc từ mục 1 đến 4 để
 | --- | --- | --- |
 | 1 | [Bắt đầu từ đầu](../START_HERE_DEMO.md) | Các đối tượng, luồng hỗ trợ, chuẩn bị thiết bị và tài khoản |
 | 2 | [Trạng thái phiên bản](../STATUS.md) | Source, web và APK nào đã có; phần nào còn chưa nghiệm thu |
-| 3 | [Tài khoản demo](MANUAL_DEMO_ACCOUNTS.md) | Một bảng riêng duy nhất, phân nhóm theo quyền hiện hành và có kịch bản kiểm thử |
-| 4 | [Kịch bản phối hợp bốn người](DEMO_RUNBOOK.md) | Ai bấm gì, đúng thứ tự nào, người khác phải thấy gì |
+| 3 | [Tài khoản demo](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md) | Một bảng riêng duy nhất, phân nhóm theo quyền hiện hành và có kịch bản kiểm thử |
+| 4 | [Kịch bản phối hợp bốn người](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md) | Ai bấm gì, đúng thứ tự nào, người khác phải thấy gì |
 | 5 | [Xử lý vướng mắc](DEMO_TROUBLESHOOTING.md) | Cách xử lý khi gặp lỗi đăng nhập, QR, GPS, chuông hoặc bản đồ |
 
 Checkpoint: mỗi người nói được vai trò mình, mở đúng màn hình và biết khi nào được bấm gửi/nhận/kết thúc. Chưa cần đọc toàn bộ tài liệu kỹ thuật.
@@ -49,7 +49,7 @@ Nếu bảng riêng tư hiện 404: chủ dự án phân tài khoản qua kênh 
 | C — người báo | Android 2, camera/trình duyệt | Quét QR, xác nhận vị trí, gửi và trả lời bảng hỏi; không cần đăng nhập EHIS |
 | D — quan sát | Phiếu ghi / laptop | Ghi bản app, thời gian, kết quả, lỗi; vòng V2 làm riêng nếu chưa có thiết bị thứ ba |
 
-Hai TNV cùng lúc cần hai phiên độc lập và thêm nơi báo tin. Không dùng hai tab cùng app trong cùng hồ sơ trình duyệt làm hai người độc lập vì phiên cloud có thể dùng chung. Chi tiết bố trí và phương án thiếu GPS trong [runbook](DEMO_RUNBOOK.md).
+Hai TNV cùng lúc cần hai phiên độc lập và thêm nơi báo tin. Không dùng hai tab cùng app trong cùng hồ sơ trình duyệt làm hai người độc lập vì phiên cloud có thể dùng chung. Chi tiết bố trí và phương án thiếu GPS trong [runbook](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md).
 
 ## 4. Buổi demo đầu tiên
 
@@ -60,7 +60,7 @@ Hai TNV cùng lúc cần hai phiên độc lập và thêm nơi báo tin. Không
 5. **Tiếp nhận:** B nhận ca, xem hồ sơ theo quyền chia sẻ và tuyến trong app; xác nhận đến nơi rồi kết thúc.
 6. **Đối chiếu:** A/C thấy trạng thái ca đã kết thúc, B không còn xem thông tin riêng của ca. Tắt sẵn sàng, ghi kết quả; không xóa Firestore để đặt lại demo.
 
-Tập một vòng theo [runbook](DEMO_RUNBOOK.md) trước, rồi mới thêm tình huống tranh ca/mất mạng. Không dùng hồ sơ thật. GPS/chuông/rung phải kiểm tra từng máy; giữ màn TNV mở phía trước, chưa coi nhận nền/khóa máy là đã đạt. Bản cloud cần Internet. Nếu mạng lỗi khi trình, dùng video đã ghi và nói rõ đó là bản ghi.
+Tập một vòng theo [runbook](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md) trước, rồi mới thêm tình huống tranh ca/mất mạng. Không dùng hồ sơ thật. GPS/chuông/rung phải kiểm tra từng máy; giữ màn TNV mở phía trước, chưa coi nhận nền/khóa máy là đã đạt. Bản cloud cần Internet. Nếu mạng lỗi khi trình, dùng video đã ghi và nói rõ đó là bản ghi.
 
 ## 5. Kiểm thử, xem xét và góp ý
 

@@ -2,7 +2,7 @@
 
 [Danh mục tài liệu](../README.md) · [Bắt đầu từ đầu](../START_HERE_DEMO.md) · [Trạng thái phiên bản](../STATUS.md)
 
-**Phối hợp buổi demo:** đọc [bắt đầu](../START_HERE_DEMO.md) rồi [runbook bốn người](../demo/DEMO_RUNBOOK.md). Bảng dưới chia việc phát triển; vai trong runbook chia thao tác buổi thử.
+**Phối hợp buổi demo:** đọc [bắt đầu](../START_HERE_DEMO.md) rồi [runbook bốn người](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). Bảng dưới chia việc phát triển; vai trong runbook chia thao tác buổi thử.
 
 ## Tiếp quản bản thử v0.4
 

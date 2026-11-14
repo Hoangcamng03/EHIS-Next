@@ -2,7 +2,7 @@
 
 [Danh mục tài liệu](../README.md) · [Bắt đầu từ đầu](../START_HERE_DEMO.md) · [Trạng thái phiên bản](../STATUS.md)
 
-[Bắt đầu](../START_HERE_DEMO.md) · [Runbook](DEMO_RUNBOOK.md). Làm theo dòng khớp hiện tượng; nếu chưa được, giữ bằng chứng và nhờ người phụ trách, không liên tục bấm gửi/nhận.
+[Bắt đầu](../START_HERE_DEMO.md) · [Runbook](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). Làm theo dòng khớp hiện tượng; nếu chưa được, giữ bằng chứng và nhờ người phụ trách, không liên tục bấm gửi/nhận.
 
 | Hiện tượng | Kiểm tra và cách xử lý | Đã giải quyết khi |
 | --- | --- | --- |

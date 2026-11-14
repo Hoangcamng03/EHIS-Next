@@ -1,6 +1,7 @@
 # EHIS Next
 
 - From 2026-11-14: team credentials, current approval groups, the manual walkthrough and test scenarios live only in the private EHIS-Next-Team-Access README.md. Public guides link to that one page; do not create dated account batches or duplicate password/role tables. Verify current access before labeling accounts approved/pending; record unexecuted manual cases as untested.
+- Owner follow-up 2026-11-14: remove obsolete account pages entirely, including redirect-only stubs; public guides link directly to the canonical private README. Preserve accounts and Git history, not duplicate lookup pages.
 
 - From 2026-11-13: every Android release handoff includes its verified APK link and a QR for that same artifact. Keep the QR source only in frontend/web/public; verify-trial-apk.cjs updates it with releases.json via publish-android-download.cjs. Do not publish a QR/link for an unfinished build. Keep current screenshots only; historical evidence stays accessible at immutable Git snapshots, without rewriting history or changing test results.
 

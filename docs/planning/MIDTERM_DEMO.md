@@ -2,7 +2,7 @@
 
 Cập nhật 27/10/2026. Mục tiêu chủ dự án: thầy xem tiến độ khoảng tuần 26/10–01/11; midterm khoảng giữa tháng 11, chưa chốt ngày/thời lượng. Đây là trình diễn phần mềm có kiểm soát với hồ sơ và tình huống giả, không tiếp nhận cấp cứu thật.
 
-**Tài liệu buổi thử cho người mới:** [trang chung](../demo/TEAM_LINKS.md) → [bắt đầu](../START_HERE_DEMO.md) → [runbook](../demo/DEMO_RUNBOOK.md) → [xử lý lỗi](../demo/DEMO_TROUBLESHOOTING.md). Source mục tiêu 0.4.8/code 6; bản đã phát hành tra [STATUS](../STATUS.md). Bản hướng dẫn không phải xác nhận nghiệm thu thiết bị.
+**Tài liệu buổi thử cho người mới:** [trang chung](../demo/TEAM_LINKS.md) → [bắt đầu](../START_HERE_DEMO.md) → [runbook](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md) → [xử lý lỗi](../demo/DEMO_TROUBLESHOOTING.md). Source mục tiêu 0.4.8/code 6; bản đã phát hành tra [STATUS](../STATUS.md). Bản hướng dẫn không phải xác nhận nghiệm thu thiết bị.
 
 ## 1. Mở đúng nơi
 

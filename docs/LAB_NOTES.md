@@ -7,6 +7,13 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
 
+## 2026-11-14 — xóa các trang tài khoản trùng và trang trung gian
+
+- Theo yêu cầu mới, xóa hẳn ba file accounts/BULK_2026_11_10.md, accounts/DEMO_2026_11_10.md và accounts/UAT_CLOUD_2026_11_11.md khỏi nhánh hiện hành của repo riêng; không giữ trang chuyển hướng. README duy nhất giữ nguyên 53 mục và 22 trường hợp. Đọc lại README khớp nội dung; ba đường dẫn cũ không còn file. Private commit README f7c217d4; repo vẫn riêng tư.
+- Xóa hai trang public trung gian MANUAL_DEMO_ACCOUNTS và DEMO_RUNBOOK. Các liên kết ở README, danh mục, hướng dẫn thành viên, cài đặt và kế hoạch trỏ thẳng đến README riêng; không tạo thêm nơi chứa tài khoản. Cập nhật liên kết tra cứu trong một record JSON; không đổi số đo hoặc kết quả kiểm thử lịch sử.
+- Không xóa tài khoản Firebase, thay mật khẩu/quyền, sửa dữ liệu ca hoặc viết lại lịch sử Git. Thay đổi chỉ ở tài liệu nên không build/deploy app hoặc phát hành QR/APK khác. Cần lưu kết quả kiểm tra liên kết và push main ở cuối phiên.
+- Kiểm tra sau dọn đạt: 51 Markdown, 44 mục danh mục, 376 liên kết tương đối và đường dẫn module/build; diff không có lỗi khoảng trắng. Đối chiếu 53 mật khẩu với 336 tệp public không thấy giá trị nào; không in bí mật. Repo tài khoản xác nhận vẫn private, bảng chuẩn đọc lại đúng, đủ 53 mục và 22 bài; ba trang bộ cũ đã xóa. Các thay đổi public được bàn giao trên main, không có nhánh hướng dẫn song song.
+
 ## 2026-11-14 — một bảng tài khoản và kiểm thử; bỏ toàn bộ banner 115
 
 - Chủ dự án yêu cầu gom nơi tra tài khoản và đặt quy trình/trường hợp kiểm thử cùng chỗ. Nguồn duy nhất là README gốc của repo PRIVATE EHIS-Next-Team-Access; public chỉ dẫn về đó. Bảng chia TNV đã duyệt, chưa duyệt, admin, bệnh nhân, người giới thiệu; bộ thông tin đăng ký gợi ý tách riêng. Ba file bộ cũ chỉ còn liên kết chuyển về README, không chứa bảng/mật khẩu lặp.
@@ -213,7 +220,7 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 ## TÀI KHOẢN CHẠY THỬ — MỤC BÀN GIAO
 
 > [!IMPORTANT]
-> **Bộ mới cấp ngày 25/10/2026:** P1/P2, V1/V2 đã duyệt để diễn tập, V3 chờ duyệt và A1 quản trị. Email + mật khẩu + QR nằm ở mục đầu [repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). [Hướng dẫn tự demo](demo/MANUAL_DEMO_ACCOUNTS.md). Đã xác minh đăng nhập/quyền; TNV OFF, chưa có ca. Bảng email 22/10 bên dưới là bộ trước, được giữ nguyên.
+> **Bộ mới cấp ngày 25/10/2026:** P1/P2, V1/V2 đã duyệt để diễn tập, V3 chờ duyệt và A1 quản trị. Email + mật khẩu + QR nằm ở mục đầu [repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). [Hướng dẫn tự demo](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). Đã xác minh đăng nhập/quyền; TNV OFF, chưa có ca. Bảng email 22/10 bên dưới là bộ trước, được giữ nguyên.
 
 > [!IMPORTANT]
 > **TÀI KHOẢN + MẬT KHẨU: [mở repo riêng tư EHIS-Next-Team-Access](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md).** Đăng nhập GitHub bằng tài khoản được cấp quyền. Repo hiện chỉ dành cho chủ dự án; chủ dự án sẽ tự thêm thành viên sau. Link hiện 404 nếu chưa có quyền hoặc đăng nhập sai tài khoản.

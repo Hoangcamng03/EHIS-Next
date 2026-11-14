@@ -6,7 +6,7 @@ Một repository cho toàn bộ dự án Capstone bốn người: app Bệnh nh�
 
 **Gửi cho cả nhóm: [Trang link chung — bắt đầu, demo và góp ý](docs/demo/TEAM_LINKS.md).** Có thứ tự đọc, link mở app/cài Android, tài khoản riêng, phân vai và nơi ghi lỗi/góp ý.
 
-**Chạy demo:** [Bắt đầu từ đây](docs/START_HERE_DEMO.md) → [phân vai và thao tác](docs/demo/DEMO_RUNBOOK.md) → [xử lý vướng mắc](docs/demo/DEMO_TROUBLESHOOTING.md).
+**Chạy demo:** [Bắt đầu từ đây](docs/START_HERE_DEMO.md) → [phân vai và thao tác](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md) → [xử lý vướng mắc](docs/demo/DEMO_TROUBLESHOOTING.md).
 
 **Tra cứu:** [Tất cả tài liệu](docs/README.md) · [Phiên bản/việc còn thiếu](docs/STATUS.md) · [Lab note](docs/LAB_NOTES.md).
 
@@ -52,7 +52,7 @@ Patient và TNV là hai khu vực trong **một app**. App web xuất từ front
 | Người báo | Quét QR Patient; [trang giới thiệu](https://ehis-next-20261021-hc03.web.app) |
 | Quản trị | [Mở /admin](https://ehis-next-20261021-hc03.web.app/admin) |
 | Android | [Trang cài APK](https://ehis-next-20261021-hc03.web.app/install) |
-| Tài khoản demo | [Hướng dẫn tài khoản](docs/demo/MANUAL_DEMO_ACCOUNTS.md); mật khẩu chỉ ở repo riêng tư |
+| Tài khoản demo | [Hướng dẫn tài khoản](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md); mật khẩu chỉ ở repo riêng tư |
 
 **Tra STATUS để biết bản cloud/APK thực đã bàn giao.** Lấy APK từ trang cài cố định ở trên, kiểm tra phiên bản trong app trước mỗi buổi và chỉ cập nhật khi không có ca đang xử lý. Push source không tự cập nhật điện thoại; chỉ ghi máy đã cập nhật sau khi người thử xác nhận cài đúng bản.
 
