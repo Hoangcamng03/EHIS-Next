@@ -2,8 +2,21 @@
 
 Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu hình, triển khai, tài khoản, tài liệu và việc thử chưa đạt. Gom chỉnh sửa nhỏ cùng mục tiêu vào một mục; không lưu mật khẩu, token hoặc hồ sơ sức khỏe. Các mục chưa kiểm chứng được ghi rõ; không coi build thành công là thử nghiệm thiết bị.
 
+> **Tài khoản + quy trình + trường hợp kiểm thử: chỉ tra [README của repo riêng](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md).** Các mục bên dưới là nhật ký lịch sử, không phải danh sách tài khoản hiện hành.
+
 > [!IMPORTANT]
 > **Quy định từ 2026-10-22:** mỗi thay đổi phải có lab note cùng đợt bàn giao. Ghi: lý do → phần đã đổi → kiểm tra/kết quả → bản phát hành hoặc không áp dụng → còn thiếu/bước tiếp theo. AI và thành viên đều áp dụng; xem [quy trình sửa lỗi](testing/BUG_FIX_WORKFLOW.md) và [vai trò các nền tảng](architecture/PLATFORM_ROLES.md).
+
+## 2026-11-14 — một bảng tài khoản và kiểm thử; bỏ toàn bộ banner 115
+
+- Chủ dự án yêu cầu gom nơi tra tài khoản và đặt quy trình/trường hợp kiểm thử cùng chỗ. Nguồn duy nhất là README gốc của repo PRIVATE EHIS-Next-Team-Access; public chỉ dẫn về đó. Bảng chia TNV đã duyệt, chưa duyệt, admin, bệnh nhân, người giới thiệu; bộ thông tin đăng ký gợi ý tách riêng. Ba file bộ cũ chỉ còn liên kết chuyển về README, không chứa bảng/mật khẩu lặp.
+- Đối chiếu 14/11 lúc 23:31 giờ Việt Nam: 43/43 tài khoản đã cấp đăng nhập Auth thật và getMyAccess HTTP 200. Quyền hiện hành: 16 TNV đã duyệt, 2 chưa duyệt, 2 admin, 22 bệnh nhân, 1 người giới thiệu. Một số tài khoản cũ đã đổi đối tượng so với tài liệu lúc cấp; V3/V6 hiện đã duyệt. Không reset, duyệt/hạ quyền hoặc đổi mật khẩu/hồ sơ/ca. Mười bộ đăng ký gợi ý không gọi signup/login và chưa kiểm tra lại email trống, ghi đúng giới hạn đó.
+- Phiên Firebase CLI operator hết hạn nên bước tra bằng operator không hoàn tất; không đổi IAM hoặc yêu cầu token mới. Kiểm tra bằng thông tin tài khoản đã cấp để đọc quyền của chính họ. Lượt đầu kết nối hạn chế thất bại 43 lượt, chạy lại có quyền mạng đạt 43/43; không ghi lượt lỗi thành đạt. Mật khẩu chỉ lưu ở repo riêng tư và file local bị Git bỏ qua.
+- README riêng có điều hướng đầu trang đến tài khoản, quy trình, 22 tình huống T01–T22 và bảng ghi kết quả. Bài đăng nhập/quyền đã kiểm tra riêng; không gán PASS cho các kịch bản manual, GPS/chuông/nền. Giữ cả tài khoản legacy/local trong mục thu gọn. Cập nhật các hướng dẫn public để không lặp danh sách hoặc chỉ sai V3 còn chờ duyệt; bỏ bảng email tra cứu cũ khỏi lab note, lịch sử Git vẫn giữ.
+- Theo ảnh và yêu cầu mới: gỡ toàn bộ component EmergencyCall khỏi web quét thẻ/bảng hỏi/trạng thái kết thúc, xóa component và CSS không còn dùng; cập nhật test giao diện kiểm tra không có liên kết tel:115. Không thay backend/API hoặc native; APK vẫn 0.4.22.
+- Kiểm tra bước đầu: web lint/typecheck và backend build đạt. Test UI local đầu bị TIMEOUT hub cổng 4400; chạy lại với quyền kết nối cục bộ, chưa ghi đạt cho tới khi có kết quả. Một lệnh sửa bằng chuỗi shell lỗi quoting trước khi ghi, đã thay bằng patch. Bảng private có 13 hàng tình huống lệch cột đã căn lại, giữ đủ 53 mục và 22 tình huống. Quét 338 tệp public hiện có đối chiếu 53 mật khẩu không thấy mật khẩu nào; không in giá trị khi kiểm tra.
+- Lượt UI sau đạt 6/6 trong 51,9 giây trên local demo-ehis-next: người báo ở 390/1280 px không còn banner/liên kết tel:115, hai form vai trò, đăng ký tự vào Patient và luồng gửi/nhận/cập nhật/hoàn tất. Kiểm tra cả trang đang báo và trang kết thúc ca không có nút 115; hai trang người báo qua axe không có vi phạm trong phạm vi bài. Emulator/server do bài thử mở đã dừng. Không suy kết quả này thành 22 bài manual hoặc nghiệm thu phần cứng đã đạt.
+- README riêng đọc lại khớp nội dung, giữ 53 mục (43 tài khoản đăng nhập được + 10 bộ gợi ý đăng ký), điều hướng đầu trang đến tài khoản/quy trình/trường hợp/kết quả. Private commit cuối cecbd762; repo vẫn private, ba link bộ cũ chỉ còn hướng về bảng duy nhất. Kiểm tra liên kết public đạt 53 Markdown/46 mục/400 liên kết tương đối. Cần build/deploy và đối chiếu cloud riêng trước khi nói banner đã bỏ trên bản đang chạy.
 
 ## 2026-11-13 — dọn repository và đồng bộ QR tải APK
 
@@ -199,24 +212,20 @@ Ghi **mọi phiên có thay đổi** và kết quả quan sát: code, UI, cấu 
 ## TÀI KHOẢN CHẠY THỬ — MỤC BÀN GIAO
 
 > [!IMPORTANT]
-> **Bộ mới cấp ngày 25/10/2026:** P1/P2, V1/V2 đã duyệt để diễn tập, V3 chờ duyệt và A1 quản trị. Email + mật khẩu + QR nằm ở mục đầu [repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access). [Hướng dẫn tự demo](demo/MANUAL_DEMO_ACCOUNTS.md). Đã xác minh đăng nhập/quyền; TNV OFF, chưa có ca. Bảng email 22/10 bên dưới là bộ trước, được giữ nguyên.
+> **Bộ mới cấp ngày 25/10/2026:** P1/P2, V1/V2 đã duyệt để diễn tập, V3 chờ duyệt và A1 quản trị. Email + mật khẩu + QR nằm ở mục đầu [repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). [Hướng dẫn tự demo](demo/MANUAL_DEMO_ACCOUNTS.md). Đã xác minh đăng nhập/quyền; TNV OFF, chưa có ca. Bảng email 22/10 bên dưới là bộ trước, được giữ nguyên.
 
 > [!IMPORTANT]
-> **TÀI KHOẢN + MẬT KHẨU: [mở repo riêng tư EHIS-Next-Team-Access](https://github.com/Hoangcamng03/EHIS-Next-Team-Access).** Đăng nhập GitHub bằng tài khoản được cấp quyền. Repo hiện chỉ dành cho chủ dự án; chủ dự án sẽ tự thêm thành viên sau. Link hiện 404 nếu chưa có quyền hoặc đăng nhập sai tài khoản.
+> **TÀI KHOẢN + MẬT KHẨU: [mở repo riêng tư EHIS-Next-Team-Access](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md).** Đăng nhập GitHub bằng tài khoản được cấp quyền. Repo hiện chỉ dành cho chủ dự án; chủ dự án sẽ tự thêm thành viên sau. Link hiện 404 nếu chưa có quyền hoặc đăng nhập sai tài khoản.
 >
 > **Dùng tài khoản CLOUD dưới đây cho APK và app web HTTPS.** Đã xác minh đăng nhập/quyền ngày 2026-10-22. Mật khẩu nằm trong README của repo riêng tư; bản sao local là `.local/LAB_NOTES_PRIVATE_ACCOUNTS.md`. Không đăng mật khẩu vào repo public này.
 
-| Đối tượng | Email đăng nhập | Cách dùng |
-|---|---|---|
-| Bệnh nhân (Patient) | `ehis-trial-patient-55d75d60@example.test` | Đã có hồ sơ giả và QR |
-| Tình nguyện viên (Volunteer) | `ehis-trial-volunteer-6f4ed08b@example.test` | Đã được duyệt; bật sẵn sàng để thử |
-| Quản trị (Admin) | `ehis-trial-admin-bf2d0ccb@example.test` | Chỉ nhóm quản trị; đăng nhập web /admin |
+Thông tin tài khoản đã được gom về [bảng riêng duy nhất](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md); danh sách cũ giữ trong lịch sử Git.
 
 - App: https://ehis-next-20261021-hc03-app.web.app; quản trị: https://ehis-next-20261021-hc03.web.app/admin.
 - Bản web 0.4.2 tự mở đúng khu vực theo lựa chọn tài khoản; tài khoản cũ suy ra từ hồ sơ hiện có hoặc hoàn tất lựa chọn một lần. APK 0.4.1 cũ vẫn theo luồng trước. Dùng hai thiết bị/hồ sơ trình duyệt riêng để thử đồng thời; các tab cùng origin dùng chung phiên cloud.
 - Người quét QR **không cần tài khoản đăng nhập**; Firebase tạo phiên ẩn danh để theo dõi yêu cầu.
 - Tài khoản Emulator trong `.local/complete-demo.json` và `.local/report-demo.json` chỉ dùng cho local, không đăng nhập được vào APK cloud. Đã gom thông tin vào file nội bộ; chưa xác minh lại Emulator trong lần cập nhật này.
-- Tài khoản sinh ngẫu nhiên trong integration/probe không được coi là tài khoản bàn giao ổn định. Khi thêm tài khoản thử dùng chung, cập nhật danh sách này và file mật khẩu nội bộ; không ghi token hoặc khóa service account.
+- Tài khoản sinh ngẫu nhiên trong integration/probe không được coi là tài khoản bàn giao ổn định. Khi thêm tài khoản dùng chung, ghi thay đổi ở lab note và chỉ cập nhật bảng tài khoản riêng duy nhất; không ghi token hoặc khóa service account.
 
 ## 2026-11-08 — Sửa chuông Android0.4.16 và thử foreground trên S22+ thật
 

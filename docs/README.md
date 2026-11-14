@@ -24,8 +24,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 
 | Trang | Nội dung |
 | --- | --- |
-| [MANUAL_DEMO_ACCOUNTS](demo/MANUAL_DEMO_ACCOUNTS.md) | P1/P2, V1/V2/V3, A1 và link bảng mật khẩu riêng tư |
-| [DEMO_RUNBOOK](demo/DEMO_RUNBOOK.md) | Phân vai bốn người, hai Android/laptop, từng thao tác và kết quả cần thấy |
+| [MANUAL_DEMO_ACCOUNTS](demo/MANUAL_DEMO_ACCOUNTS.md) | Dẫn về bảng tài khoản và quy trình kiểm thử duy nhất trong repo riêng tư |
+| [DEMO_RUNBOOK](demo/DEMO_RUNBOOK.md) | Dẫn về quy trình và 22 trường hợp ở cùng trang tài khoản; chuẩn bị thiết bị |
 | [DEMO_TROUBLESHOOTING](demo/DEMO_TROUBLESHOOTING.md) | Tìm theo triệu chứng: đăng nhập, QR, GPS, chuông, nhận ca, bản đồ, cài đặt |
 
 ## 3. Kiến trúc, dữ liệu và tính năng

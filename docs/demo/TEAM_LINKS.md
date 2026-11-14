@@ -2,13 +2,15 @@
 
 [Về dự án](../../README.md) · [Tất cả tài liệu](../README.md) · [Phiên bản hiện hành](../STATUS.md)
 
+**[TÀI KHOẢN + QUY TRÌNH + TRƯỜNG HỢP KIỂM THỬ — MỘT TRANG DUY NHẤT](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md)**
+
 Gửi link trang này cho thành viên mới. Đọc từ mục 1 đến 4 để hiểu và chạy demo; các mục sau dùng khi cần kiểm thử, góp ý hoặc sửa code. Các link source đều dùng main. Không cần tài khoản Firebase/Vercel/Expo hoặc cài môi trường lập trình để tham gia demo cloud.
 
 [Cải thiện mới và ảnh UI12/11](../testing/verification/PRODUCT_REVIEW_2026_11_12.md): đọc mục đã sửa, kết quả local và những phần chưa bật trên tài khoản miễn phí. Ảnh của các bộ trước giữ làm lịch sử, không đại diện bố cục mới.
 
 [Ảnh flow lịch sử trước tinh chỉnh UI](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/demo/ORDERED_FLOWS_2026_11_12.md): đăng ký từng vai trò, duyệt người giới thiệu/TNV và bốn trường hợp hỗ trợ. Mỗi ảnh có thao tác, quan sát và câu dẫn cho presentation. Bộ đầy đủ chạy local; bằng chứng cloud đối chiếu riêng trong tài liệu.
 
-[Bộ dữ liệu và UAT cloud mới11/11](../testing/verification/CLOUD_UAT_2026_11_11.md) · [Tài khoản UAT riêng](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/accounts/UAT_CLOUD_2026_11_11.md). Ảnh mới dùng hồ sơ hư cấu trên Firebase thật; tra phần chưa thử trước khi báo cáo nghiệm thu.
+[Bộ dữ liệu và UAT cloud mới11/11](../testing/verification/CLOUD_UAT_2026_11_11.md) · [Tài khoản UAT riêng](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). Ảnh mới dùng hồ sơ hư cấu trên Firebase thật; tra phần chưa thử trước khi báo cáo nghiệm thu.
 
 > **Bản Android mới nhất cho nhóm: 0.4.22 / code 20 (13/11/2026).** [Tải APK trực tiếp](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk) · [Trang build](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/3d7867f6-1285-4bff-825d-379e7fe61fab) · [Bằng chứng và phần chưa thử](../testing/verification/VERIFICATION_V0_4_22.md). APK đã xác minh tệp; chưa nghiệm thu 0.4.22 trên điện thoại. Hoàn tất ca, tắt Sẵn sàng trước khi cài đè; không gỡ app/xóa dữ liệu. [QR tải app](../../frontend/web/public/ehis-download-qr.png) trỏ thẳng tới APK 0.4.22 đã xác minh; trang cài chung luôn có bản đang bàn giao.
 
@@ -18,7 +20,7 @@ Gửi link trang này cho thành viên mới. Đọc từ mục 1 đến 4 để
 | --- | --- | --- |
 | 1 | [Bắt đầu từ đầu](../START_HERE_DEMO.md) | Các đối tượng, luồng hỗ trợ, chuẩn bị thiết bị và tài khoản |
 | 2 | [Trạng thái phiên bản](../STATUS.md) | Source, web và APK nào đã có; phần nào còn chưa nghiệm thu |
-| 3 | [Tài khoản demo](MANUAL_DEMO_ACCOUNTS.md) | Bộ mới10/11: P3–P6, V4–V6, R1; giữ A1 bộ cũ; cách lấy mật khẩu riêng |
+| 3 | [Tài khoản demo](MANUAL_DEMO_ACCOUNTS.md) | Một bảng riêng duy nhất, phân nhóm theo quyền hiện hành và có kịch bản kiểm thử |
 | 4 | [Kịch bản phối hợp bốn người](DEMO_RUNBOOK.md) | Ai bấm gì, đúng thứ tự nào, người khác phải thấy gì |
 | 5 | [Xử lý vướng mắc](DEMO_TROUBLESHOOTING.md) | Cách xử lý khi gặp lỗi đăng nhập, QR, GPS, chuông hoặc bản đồ |
 
@@ -34,7 +36,7 @@ Checkpoint: mỗi người nói được vai trò mình, mở đúng màn hình 
 | [Web quản trị](https://ehis-next-20261021-hc03.web.app/admin) | A1 / người được cấp quyền admin | Duyệt TNV khi chạy bài ứng tuyển; chọn vai trò không tự cấp quyền |
 | [Người giới thiệu](https://ehis-next-20261021-hc03.web.app/referrer) | Người quản lý đơn vị đã được EHIS xác minh | Đăng nhập tài khoản riêng, kiểm tra checklist của TNV được giao; [đọc quy trình](../operations/VOLUNTEER_VERIFICATION.md) |
 | [Cách dùng trên điện thoại](../operations/PHONE_INSTALL_AND_LAUNCH.md) | Android, iPhone/iPad | iPhone hiện dùng web, có thể thêm biểu tượng lên màn hình chính; chưa IPA/TestFlight |
-| [Bảng tài khoản riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access) | Chủ dự án và thành viên được cấp quyền | Chứa email/mật khẩu/QR thử; không đưa vào slide, Issue hoặc ảnh public |
+| [Bảng tài khoản riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md) | Chủ dự án và thành viên được cấp quyền | Chứa email/mật khẩu/QR thử; không đưa vào slide, Issue hoặc ảnh public |
 
 Nếu bảng riêng tư hiện 404: chủ dự án phân tài khoản qua kênh riêng hoặc tự cấp quyền phù hợp. Không dùng chung tài khoản GitHub của chủ repo. Tài khoản GitHub đọc tài liệu và tài khoản EHIS đăng nhập app là hai loại khác nhau. Tài khoản thử có thể đã đổi trạng thái sau buổi trước; cần kiểm tra lại.
 

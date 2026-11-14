@@ -17,13 +17,11 @@ const nativeVersion = JSON.parse(
 const shots = path.resolve(__dirname, '../../../.local/product-review-20261112/screens');
 fs.mkdirSync(shots, { recursive: true });
 for (const width of [390, 1280])
-  test(`reporter access and emergency call at ${width}px`, async ({ page }) => {
+  test(`reporter access without call banner at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
     await page.goto(`${web}/card?id=${fixtures.cardId}`);
-    await expect(page.getByRole('link', { name: 'Gọi 115', exact: true })).toHaveAttribute(
-      'href',
-      'tel:115',
-    );
+    await expect(page.locator('a[href="tel:115"]')).toHaveCount(0);
+    await expect(page.getByRole('note', { name: 'Liên hệ cấp cứu' })).toHaveCount(0);
     await expect(page.getByText(/chạy thử|diễn tập|vị trí giả/i)).toHaveCount(0);
     const send = page.getByRole('button', { name: 'Báo tình nguyện viên gần đây', exact: true });
     await expect(send).toBeDisabled();
@@ -105,6 +103,7 @@ test('reporter GPS request, volunteer acceptance, report update and completion',
     await r.getByRole('checkbox').check();
     await r.getByRole('button', { name: 'Báo tình nguyện viên gần đây', exact: true }).click();
     await expect(r).toHaveURL(/\/report\?id=/);
+    await expect(r.locator('a[href="tel:115"]')).toHaveCount(0);
     await r.getByRole('radio', { name: /Có phản ứng/ }).check();
     await r.getByRole('radio', { name: /Có vẻ thở đều/ }).check();
     await r.locator('input[name="bleeding"][value="none_seen"]').check();
@@ -123,6 +122,7 @@ test('reporter GPS request, volunteer acceptance, report update and completion',
     await expect(
       r.getByRole('heading', { name: 'Yêu cầu đã kết thúc', exact: true }),
     ).toBeVisible();
+    await expect(r.locator('a[href="tel:115"]')).toHaveCount(0);
     await expect(ready).toHaveAttribute('aria-checked', 'false');
   } finally {
     await volunteerContext.close();

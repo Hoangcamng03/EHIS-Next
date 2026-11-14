@@ -10,7 +10,6 @@ import {
   reporterSession,
 } from '@/lib/firebase-client';
 import { DutyContact } from './DutyContact';
-import { EmergencyCall } from './EmergencyCall';
 import { useOnline } from '@/lib/use-online';
 import { confirmedPoint } from '@/lib/location-fix';
 
@@ -115,7 +114,6 @@ export function RequestHelp({ cardId }: { cardId: string }) {
   }
   return (
     <main className="report-page role-reporter">
-      <EmergencyCall />
       <div className="report-brand">
         EHIS <span>Người báo tin</span>
       </div>

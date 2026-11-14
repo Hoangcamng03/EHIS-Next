@@ -1,95 +1,11 @@
-# EHIS — bốn người phối hợp chạy demo
+# Quy trình phối hợp — tài khoản và kịch bản ở cùng một trang
 
-[Danh mục tài liệu](../README.md) · [Bắt đầu từ đầu](../START_HERE_DEMO.md) · [Trạng thái phiên bản](../STATUS.md)
+**[Mở tài khoản + quy trình + 22 trường hợp kiểm thử](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md)**
 
-[Bắt đầu](../START_HERE_DEMO.md) · [Tài khoản](MANUAL_DEMO_ACCOUNTS.md) · [Khi có lỗi](DEMO_TROUBLESHOOTING.md). Tên nút theo source 0.4.10; tra STATUS để biết bản web/APK đang bàn giao. Điền tên thật của bốn thành viên trước buổi tập. Bản 0.4.7 còn dùng tên Kết thúc phiên hỗ trợ; 0.4.8 dùng Hoàn tất ca hỗ trợ.
+Đọc mục 8 để chạy một ca từ đầu đến cuối và đăng ký/duyệt TNV. Mục 9 liệt kê T01–T22, kết quả mong đợi và chỗ ghi Đạt/Không đạt/Chưa thử/Bị chặn. Các tài khoản cần dùng nằm ngay phía trên trong cùng trang.
 
-## 1. Chia vai theo thiết bị thực có
+Chuẩn bị hai điện thoại Android và một laptop cho vòng một TNV; bài hai TNV cần thêm phiên/thiết bị có định vị phù hợp. Mỗi người dùng một tài khoản và hồ sơ trình duyệt riêng. Chốt người điều phối trước buổi, ghi phiên bản và thiết bị, rồi làm từng bài theo thứ tự.
 
-### Bổ sung cho 0.4.13
+Không chép bảng tài khoản hoặc tạo kịch bản theo ngày ở trang khác. Sau khi duyệt tài khoản, cập nhật nhóm ngay trong bảng riêng. Không tự reset quyền hoặc dữ liệu để lặp bài. Cuối buổi hoàn tất ca của nhóm rồi tắt Sẵn sàng.
 
-1. Người phụ trách mở `/admin` → **Cập nhật tình trạng ca** trước/sau mỗi lượt để kiểm tra ca chờ, quá hạn và lượt gửi lỗi. Các số chỉ cập nhật khi bấm; không hiểu “FCM chấp nhận” là máy đã reo.
-2. TNV kiểm tra trạng thái xanh và thời điểm GPS. Nếu màu vàng **CẦN LÀM MỚI VỊ TRÍ**, bấm làm mới hoặc tắt sẵn sàng; GPS cũ quá năm phút không được chọn cho ca mới.
-3. Người báo có thể thêm cổng/tầng/phòng trong bảng hỏi. Bỏ phone vẫn gửi được. TNV chỉ thấy ghi chú sau nhận ca; ghi chú không tự thay điểm trên map.
-4. Nhóm chưa có đầu mối trực được phép công khai. Khi không có TNV nhận/lỗi, báo trực tiếp người phụ trách diễn tập tại chỗ; không gọi thử số cá nhân hoặc dịch vụ cấp cứu thật.
-5. Nút **Thử lại thông báo đến hạn** chỉ dành cho admin theo dõi diễn tập; Emulator không gửi FCM thật. Chỉ ghi chuông/rung đạt sau khi quan sát trên điện thoại.
-
-### Tiến độ và bản trả lời từ 0.4.15
-
-Sau nhận ca, TNV nhập số phút rồi xác nhận **Đang lên đường**; người báo/Patient đối chiếu giờ dự kiến. Chọn đáp án chưa gửi không được làm đổi thông tin TNV. Người báo bấm Gửi lần hai, TNV phải thấy bản số2; người báo chỉ thấy xác nhận app tải2 sau khi app nhận đúng bản. Xác nhận tải không phải con người đã đọc. [Hướng dẫn chi tiết và phiếu nghiệm thu](../operations/REPORT_UPDATES_AND_ARRIVAL.md).
-
-TNV thử báo đường đi chậm; admin bấm **Tải ca đang xử lý** để thấy tiến độ mới. Đổi ETA không xóa mốc đầu. Nếu muốn thử trễ, chờ đúng thời gian thực, ghi giờ; không sửa đồng hồ rồi gọi đó là kết quả thực. Không tự bàn giao/kết thúc ca vì quá giờ.
-
-| Thành viên | Chỉ có hai điện thoại + laptop | Có thêm thiết bị báo tin |
-| --- | --- | --- |
-| A — điều phối/Patient | Laptop P1; chuẩn bị A1 trước buổi; hô chuyển bước | Như cột bên |
-| B — TNV chính | Android 1 dùng V1 | Android 1 dùng V1 |
-| C — người báo | Android 2 quét QR và dùng web, không đăng nhập EHIS | Điện thoại 3 báo tin; Android 2 dành cho V2 |
-| D — quan sát/TNV2 | Ghi thời gian, kết quả và ảnh; chuyển sang bài V2 ở vòng riêng | Android 2 dùng V2 để thử tranh ca |
-
-Với hai điện thoại, chạy luồng một TNV trước là đủ cho vòng chính. Bài tranh ca hai TNV phải có thêm một nơi báo tin: điện thoại thứ ba hoặc laptop nếu định vị đủ tốt. Laptop không có GPS đủ tốt có thể bị chặn gửi; không cố biến điểm sai thành điểm hợp lệ. Nếu thiếu điều kiện thì ghi bài tranh ca trên thiết bị là Chưa thử; dùng bằng chứng Emulator đã có và nói rõ phạm vi.
-
-Patient trên app web và người báo trên web QR có địa chỉ khác nhau, có thể dùng laptop cho cả hai nếu định vị đạt. Hai tài khoản V1/V2 không được mở bằng hai tab app cùng hồ sơ trình duyệt vì dùng chung phiên; dùng hai điện thoại hoặc hai hồ sơ trình duyệt.
-
-## 2. Kiểm tra trước khi trình
-
-| Ai | Làm gì | Đạt khi |
-| --- | --- | --- |
-| A | Mở app HTTPS, kiểm tra phiên bản và P1; lấy QR mới nhất | Thấy thẻ đang hoạt động, đúng P1 |
-| B/D | Đăng nhập V1/V2, bật sẵn sàng, cho phép GPS và thử chuông | Máy chủ xác nhận sẵn sàng; có thể nghe chuông thử trên đúng máy |
-| C | Chuẩn bị camera/trình duyệt; thử tại nơi có bệnh nhân giả | Trang QR mở được; định vị được phép |
-| D | Ghi máy/mạng/phiên bản, phân ai nhận trước ở vòng chính | Có phiếu ghi và người quan sát |
-
-Nếu app hiện lựa chọn đối tượng: tài khoản đã cấp chọn **Đã có tài khoản? Đăng nhập**, không tạo tài khoản trùng. Sau đăng nhập hệ thống tự mở Patient/TNV theo đối tượng đã lưu. V3 không phải tài khoản thay thế V1/V2 khi cần nhận ca vì V3 còn chờ duyệt.
-
-## 3. Vòng chính — làm đúng thứ tự
-
-| Bước | Người bấm | Thao tác | Những người còn lại phải thấy |
-| --- | --- | --- | --- |
-| 1 | A | P1 mở phần Thẻ EHIS và đưa QR lên màn hình. Hồ sơ/QR đã chuẩn bị, không cần thu hồi/tạo lại mỗi lần | C thấy QR rõ. Nếu vừa sửa hồ sơ, bấm Lưu hồ sơ và chờ xác nhận trước |
-| 2 | B | Bật sẵn sàng V1, thử chuông, giữ màn mở | D xác nhận V1 sẵn sàng trước khi C gửi |
-| 3 | C | Quét QR P1, xác nhận đang cạnh bệnh nhân, bấm Báo tình nguyện viên gần đây | Đang gửi → backend xác nhận → web mở bảng hỏi. Chưa ai được nói TNV đã nhận |
-| 4 | C | Chọn ba câu theo tình huống giả; không rõ thì chọn Không rõ; bỏ trống phone rồi gửi bổ sung | Web xác nhận đã ghi nhận bổ sung; không tạo ca mới |
-| 5 | B | Khi cảnh báo đỏ hiện, bấm Nhận ca | Chỉ sau xác nhận máy chủ mới xem chi tiết; C thấy TNV đã nhận, A thấy trạng thái thay đổi |
-| 5a | B/C | B nhập số phút dự kiến rồi xác nhận Đang lên đường. C thay một câu trả lời và bấm Gửi lần nữa | C/A thấy ETA do B xác nhận; B thấy bản tình trạng mới, C thấy app tải đúng số bản. Không nói đã đọc/đến nơi chỉ từ các nhãn này |
-| 6 | B/C | Xem bản đồ trong app. Nếu thử GPS, đi bộ an toàn và giữ màn chỉ đường mở. C chỉ cập nhật điểm khi đứng cạnh điểm mới và xác nhận | Ký hiệu A/B trên bản đồ lần lượt là vị trí TNV/điểm cần hỗ trợ, khác tên thành viên A/B; tọa độ điểm bệnh nhân không tự chạy theo người báo. Thời gian tuyến chỉ tham khảo |
-| 7 | B | Khi thực sự đến điểm diễn tập: bấm Đã đến nơi → đọc hộp thoại → Xác nhận (từ source19) | A/C thấy TNV xác nhận đã đến; chọn Quay lại không đổi trạng thái. Không bấm xác nhận nếu chỉ thử tại chỗ và chưa đến |
-| 8 | B | Bấm Hoàn tất ca hỗ trợ và xác nhận | A/C thấy ca kết thúc; B không còn xem hồ sơ riêng/bản đồ của ca |
-| 9 | B/D | Tắt sẵn sàng V1/V2, đối chiếu trạng thái đã cập nhật | Không còn ca giả dang dở hoặc TNV bị bỏ quên đang ON |
-
-QR P1 bật chia sẻ hồ sơ. Nếu dùng P2, đúng người nhận vẫn thấy điểm và báo cáo nhưng **không được thấy hồ sơ sức khỏe**; đó là kết quả mong đợi. Không sửa lựa chọn chia sẻ để cố cho test qua.
-
-Vòng chính nên bật TNV trước bước gửi. Từ 0.4.9, TNV bật sau vẫn được tìm ca chưa nhận, còn hạn, gần và đủ điều kiện; bài bổ sung kiểm tra riêng tình huống này. Đóng popup chỉ là đã xem/dừng chuông, không phải nhận ca. Nếu gửi nhầm, chỉ hủy ca chưa có TNV nhận; không cố hủy ca đã được phân công.
-
-## 4. Vòng mở rộng — mỗi lần một tình huống
-
-| Bài | Chuẩn bị | Kết quả mong đợi |
-| --- | --- | --- |
-| Hai TNV tranh ca | V1/V2 cùng sẵn sàng trước gửi, hai người bấm nhận gần đồng thời | Một người thắng; người còn lại bị từ chối/đóng lời mời, không có thông tin riêng |
-| Hai Patient | Có P1/P2 trên phiên khác nhau, lần lượt thử rồi mới gửi gần đồng thời | Không trộn hồ sơ/điểm; một TNV không nhận hai ca active |
-| Không chia sẻ | QR P2 | Không hiển thị hồ sơ ngay cả sau nhận |
-| Chờ duyệt | V3 thử trước; A1 chỉ mở /admin | V3 chưa bật được sẵn sàng. A1 duyệt khi muốn; sau duyệt V3 không còn pending |
-| Mất mạng/đổi mạng | Chỉ thử sau vòng chính, quan sát một máy một lần | Không báo thành công giả; nối lại theo cùng ca, không bấm gửi hàng loạt |
-| Không TNV/hết hạn | Các TNV tắt trước gửi, hoặc không ai nhận | Web thể hiện chưa có người nhận; không nói đã điều phối cứu hộ |
-
-Chọn thêm từ [A01–A13](../testing/ACCEPTANCE_FLOW.md). Không vừa thử lỗi mạng/GPS, vừa trình vòng chính lần đầu. Tài khoản/hồ sơ chung là dữ liệu thử nhưng không xóa ca của người khác; thống nhất ai đang dùng P1/P2 trước khi bắt đầu.
-
-## 5. Phiếu ghi đơn giản
-
-Mỗi dòng ghi: ngày/người thử; bản app; máy/mạng; mã bài; bước; mong đợi; thực tế; Đạt/Không đạt/Chưa thử/Bị chặn; ảnh/Issue; người thử lại. Ghi ca rút gọn để phân biệt, không ghi mật khẩu hoặc bệnh án thật.
-
-Một người dùng cùng đồng hồ/video đo gửi→ack, ack→cảnh báo và nhận→ack. Hai đồng hồ chưa đồng bộ không dùng để trừ thời gian. Nếu lỗi quyền, sai bệnh nhân/điểm hoặc báo thành công giả: dừng phần bị ảnh hưởng, ghi bằng chứng và tạo Issue theo [BUG_FIX_WORKFLOW](../testing/BUG_FIX_WORKFLOW.md).
-
-## 6. Trình thầy/lớp
-
-Tập một vòng 7–10 phút, chuẩn bị video/ảnh có phiên bản, xóa/ẩn dữ liệu nhạy cảm trước khi chia sẻ. Dùng video đã ghi khi mạng lỗi và nói rõ là bằng chứng diễn tập, không giả vờ ca live đã thành công. Nêu giới hạn: cần Internet, chưa xác minh tiếp nhận nền/khóa máy và chưa vận hành cấp cứu thật. Kế hoạch tuần thầy xem, midterm và cuối kỳ: [MIDTERM_DEMO](../planning/MIDTERM_DEMO.md).
-
-## Vòng bổ sung sau sửa 0.4.9
-
-Tắt V1/V2 → P1/P2 dùng hai thẻ khác nhau gửi ca → V1 bật sẵn sàng trong 5km khi ca còn hạn → xác nhận thấy cả hai và chuyển được trong popup → V1 nhận một ca, V2 bật muộn và nhận ca còn lại. Một thẻ chỉ có một ca active để chống trùng. Trên Samsung, thử chuông khi Bình thường/Rung/Im lặng với Media >0; ghi riêng Media=0, DND, Bluetooth, nền/khóa máy. Không ghi đạt nếu chỉ thấy popup.
-
-## 7. Vòng kiểm tra giao diện 0.4.10
-
-Đăng nhập/đăng ký → đúng vai trò → hồ sơ/QR → sẵn sàng/thử chuông → hai ca → chọn/nhận → map/zoom → Đã đến nơi → Hoàn tất ca hỗ trợ. Nút chờ máy chủ không bấm lặp; Quay lại trong xác nhận không hoàn tất ca. Các mục Cách dùng EHIS, Vị trí và tìm ca, Tùy chọn chuông và rung, Chặng đường và tùy chọn có dấu + để mở nội dung phụ.
-
-Trên điện thoại, thử bấm chữ của công tắc, mép trong nút và thao tác khi bàn phím còn mở. Thử thêm cỡ chữ hệ thống lớn; ghi theo [Android](../operations/ANDROID_TRIAL.md) và [bằng chứng UI](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_10.md). Chưa có phiếu thiết bị thì vẫn Chưa thử.
+[Trang chung](TEAM_LINKS.md) · [Xử lý lỗi](DEMO_TROUBLESHOOTING.md) · [Phiếu nghiệm thu kỹ thuật](../testing/ACCEPTANCE_FLOW.md).

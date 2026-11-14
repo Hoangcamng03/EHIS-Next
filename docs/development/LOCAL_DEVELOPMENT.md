@@ -55,7 +55,7 @@ Khi Emulator sẵn sàng, mở terminal khác ở root:
 npm run trial:prepare
 ```
 
-Tài khoản giả local được lưu trong `.local/complete-demo.json`. Các tài khoản cloud bàn giao được liệt kê riêng ở [LAB_NOTES.md](../LAB_NOTES.md); mật khẩu có trong [repo GitHub riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access), không nằm trong repo public. Không dùng script operator cloud để seed Emulator.
+Tài khoản giả local được lưu trong `.local/complete-demo.json`. Các tài khoản cloud bàn giao được liệt kê riêng ở [LAB_NOTES.md](../LAB_NOTES.md); mật khẩu có trong [repo GitHub riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md), không nằm trong repo public. Không dùng script operator cloud để seed Emulator.
 
 Script tạo bốn tài khoản GIẢ: patient, volunteer, admin và referrer. Email đã được đánh dấu xác minh trong Emulator để thử phần mềm; điều này không phải xác minh chức vụ thật. Người giới thiệu chưa có quyền cho đến khi admin cấp trong giao diện.
 

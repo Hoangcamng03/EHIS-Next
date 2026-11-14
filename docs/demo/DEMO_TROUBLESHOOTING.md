@@ -10,7 +10,7 @@
 | Không đăng nhập được | Dùng đúng bộ CLOUD mới; copy đủ email/mật khẩu, không thêm dấu cách. Không dùng tài khoản QA local/Emulator. Kiểm tra Internet | Đăng nhập được và mở đúng Patient/TNV |
 | Không nhận được thư Quên mật khẩu | Các email .test không có hộp thư thật. Dùng mật khẩu được cấp; nhờ chủ dự án xử lý nếu mất | Dùng lại được tài khoản, không khẳng định tính năng email đã được thử |
 | App mở khu vực khác dự kiến | Kiểm tra đang dùng P1/P2 hay V1/V2. Hai tab cùng app/origin chia sẻ phiên cloud; dùng thiết bị/hồ sơ riêng | Mỗi người đúng tài khoản, không dùng A1 trong app Patient/TNV |
-| Đăng ký xong chưa nhận ca được | TNV cần nộp đơn và được duyệt. V3 cố ý đang pending, A1 chỉ duyệt khi nhóm muốn thử | Trạng thái duyệt đúng; V1/V2 không cần đăng ký lại |
+| Đăng ký xong chưa nhận ca được | TNV cần nộp đơn và được duyệt. Chọn tài khoản chờ duyệt trong bảng riêng; không dựa trạng thái V3 ở tài liệu cũ | Trạng thái duyệt đúng; V1/V2 không cần đăng ký lại |
 | APK bị Android chặn | Xác minh tải từ trang cài nhóm, ghi nguyên cảnh báo. Dùng web để thử UI trong lúc xử lý; không tắt Play Protect | Cài được mới ghi đạt APK; dùng web chưa chứng minh APK đã chạy |
 | Điện thoại không mở được localhost | localhost là thiết bị hiện tại, không phải laptop của bạn. Dùng URL HTTPS cloud trong trang bắt đầu | App/QR mở đúng website cloud |
 | Không lấy được vị trí | Kiểm tra quyền vị trí của app/trình duyệt và dịch vụ định vị. Đứng nơi thoáng, thử lại. Người báo phải cạnh bệnh nhân giả; laptop có thể không lấy vị trí đủ chính xác | Web chấp nhận điểm thật vừa xác nhận; không tự nhập tọa độ giả vào bản cloud |

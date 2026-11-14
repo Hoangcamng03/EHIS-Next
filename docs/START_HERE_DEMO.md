@@ -23,7 +23,7 @@ Tra [STATUS](STATUS.md) trước khi bắt đầu: ghi riêng source, web/backen
 | Một app, hai khu vực | Bệnh nhân và TNV | [App web](https://ehis-next-20261021-hc03-app.web.app) hoặc [trang cài APK Android](https://ehis-next-20261021-hc03.web.app/install) |
 | Web báo hỗ trợ | Người qua đường | Quét QR của Patient hoặc mở link QR trong bảng riêng tư; không đăng nhập |
 | Web quản trị | Người phụ trách duyệt TNV | [Trang quản trị](https://ehis-next-20261021-hc03.web.app/admin) |
-| Bảng đăng nhập | Chủ dự án và người được cấp quyền | [Repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access), mục đầu ngày 25/10/2026 |
+| Bảng đăng nhập | Chủ dự án và người được cấp quyền | [Repo riêng tư](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md), mục đầu ngày 25/10/2026 |
 
 ### 2.2. Luồng hoạt động
 
@@ -64,15 +64,9 @@ Người demo chỉ cần app/web và tài khoản được cấp, không cần 
 
 ### 3.1. Lấy đúng tài khoản
 
-| Mã | Vai trò | Chuẩn bị sẵn để làm gì |
-| --- | --- | --- |
-| P1 | Patient 01 | QR có chia sẻ hồ sơ giả |
-| P2 | Patient 02 | QR không chia sẻ hồ sơ; thử quyền riêng tư |
-| V1, V2 | Hai TNV | Đã duyệt cho diễn tập, tắt sẵn sàng khi bàn giao |
-| V3 | TNV chờ duyệt | Thử ứng tuyển và quản trị |
-| A1 | Quản trị | Duyệt V3 ở web /admin; không dùng A1 trong app Patient/TNV |
+**[Mở bảng tài khoản, quy trình và trường hợp kiểm thử duy nhất](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md)**. Chọn đúng nhóm bệnh nhân, TNV đã duyệt, TNV chờ duyệt, quản trị hoặc người giới thiệu trong bảng đó.
 
-Trạng thái trong bảng là khi cấp tài khoản; kiểm tra lại trong app nếu nhóm đã dùng thử trước đó. Email/mật khẩu và hai link QR nằm trong repo riêng tư; không có ở trang public này. Tài khoản GitHub để đọc tài liệu khác tài khoản EHIS để đăng nhập app.
+Trạng thái được đối chiếu trong bảng riêng; sau khi nhóm duyệt tài khoản hoặc thay dữ liệu, cập nhật ngay tại đó. Email/mật khẩu nằm trong repo riêng tư, không có ở trang public này. Tài khoản GitHub để đọc tài liệu khác tài khoản EHIS để đăng nhập app.
 
 **Nếu thành viên gặp 404 ở repo mật khẩu:** hiện repo chỉ chủ dự án có quyền. Chủ dự án có thể trực tiếp phân/điền tài khoản trong buổi thử; nếu muốn thành viên tự xem, chủ repo tự mời đúng GitHub username qua Settings → Collaborators → Add people, rồi thành viên chấp nhận lời mời. Repo cá nhân cấp quyền collaborator có cả quyền sửa nội dung; chủ dự án cần chọn người phù hợp. Không bật public hoặc dùng chung tài khoản GitHub của chủ repo. Đây là hướng dẫn, chưa tự mời ai. [Nguồn GitHub về lời mời](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository), [phạm vi quyền collaborator](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/permission-levels-for-a-personal-account-repository).
 

@@ -16,7 +16,6 @@ import { UpdatePatientLocation } from './UpdatePatientLocation';
 import { TravelStatus } from './TravelStatus';
 import type { TravelProgress } from '@/lib/travel-progress';
 import { DutyContact } from './DutyContact';
-import { EmergencyCall } from './EmergencyCall';
 
 import { questions, chooseAnswer, selectedAnswer, type Answers } from '@/lib/observations';
 import { ObservationIcon } from './ObservationIcon';
@@ -209,7 +208,6 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
   if (!status)
     return (
       <main className="report-page role-reporter">
-        <EmergencyCall />
         <div className="report-brand">EHIS · Người báo tin</div>
         <h1>{error ? 'Chưa mở được yêu cầu' : 'Đang kiểm tra yêu cầu…'}</h1>
         {error ? (
@@ -242,7 +240,6 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
     );
   return (
     <main className="report-page role-reporter">
-      <EmergencyCall />
       <div className="report-brand">
         EHIS <span>Người báo tin</span>
       </div>

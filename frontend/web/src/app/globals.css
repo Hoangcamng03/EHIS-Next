@@ -464,39 +464,6 @@ body .leaflet-container {
   font-family: inherit;
 }
 
-.sos-banner {
-  position: sticky;
-  top: 0;
-  z-index: 500;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: space-between;
-  background: #fff0f0;
-  color: #7c1720;
-  border: 2px solid #b4232b;
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 20px;
-  font-size: 16px;
-  line-height: 1.4;
-}
-.sos-banner span {
-  flex: 1;
-}
-.role-reporter .sos-call {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  padding: 0 16px;
-  background: #b4232b;
-  color: #fff;
-  border-radius: 12px;
-  font-weight: 700;
-  text-decoration: none;
-}
 .danger-action {
   color: #46545e;
   border-color: #46545e;
@@ -509,15 +476,4 @@ a:focus-visible,
 .choice:focus-within {
   outline: 3px solid var(--role-primary, #0b6358);
   outline-offset: 3px;
-}
-@media (max-width: 400px) {
-  .sos-banner {
-    flex-wrap: wrap;
-  }
-  .sos-banner span {
-    flex-basis: 100%;
-  }
-  .sos-call {
-    width: 100%;
-  }
 }
