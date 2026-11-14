@@ -1,13 +1,15 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
 
-Cập nhật 13/11/2026. [Cây source đã dọn và kết quả kiểm tra](development/REPOSITORY_CLEANUP.md). QR mới đã triển khai cùng trang tải: 36 tệp web + 4 lượt QR khớp build. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.json).
+Cập nhật 14/11/2026. [Cây source đã dọn và kết quả kiểm tra](development/REPOSITORY_CLEANUP.md). QR mới đã triển khai cùng trang tải: 36 tệp web + 4 lượt QR khớp build. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.json).
 
 **Cải thiện source ngày 12/11:** [Đối chiếu góp ý, phần đã sửa và giới hạn miễn phí](testing/verification/PRODUCT_REVIEW_2026_11_12.md). UI gọi 115/định dạng cảnh báo/form/focus; IP ingress, giới hạn theo thẻ, quyền admin hiện hành và các bộ kiểm thử mới. Phát hành cloud/APK phải tra bằng chứng riêng; không coi source mới là máy đã cập nhật.
 
 **Web/backend 12/11 từ commit 05a0e16 đã triển khai:** Vercel READY/health đúng project; 36 API không auth trả 401, bảo trì 401; 35 tệp Hosting khớp build. Trang người báo cloud đã kiểm tra chỉ đọc. [Bằng chứng đợt mới](testing/verification/PRODUCT_REVIEW_2026_11_12.json). APK/OTA không đổi; chưa chạy lại toàn luồng cloud có đăng nhập hoặc điện thoại sau bản vá này. Các số liệu 11/11 bên dưới là lịch sử.
 
 ## 1. Bản đang bàn giao
+
+**14/11:** Web người báo đã bỏ toàn bộ khung/nút 115; 6/6 bài UI local đạt, 36 tệp web + 4 lượt QR trên cloud khớp build. Tài khoản, trạng thái duyệt, quy trình và 22 tình huống manual chỉ tra tại [README riêng duy nhất](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). Không tạo APK mới cho thay đổi chỉ thuộc web/tài liệu.
 
 **Android mới nhất: 0.4.22 / code 20.** [APK](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk) · [Bằng chứng](testing/verification/VERIFICATION_V0_4_22.md). EAS FINISHED, artifact tải về đã kiểm tra đúng source/package/version/cloud/tài nguyên chuông. Chưa cài hoặc nghiệm thu 0.4.22 trên điện thoại; không OTA. Các mục APK 21/19 bên dưới là lịch sử.
 
