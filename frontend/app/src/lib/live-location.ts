@@ -7,7 +7,7 @@ export function metersBetween(a: Point, b: Point) {
 }
 export function usableFix(fix: LocationFix, now: number) {
   return Number.isFinite(fix.point.latitude) && Math.abs(fix.point.latitude) <= 85 && Number.isFinite(fix.point.longitude) && Math.abs(fix.point.longitude) <= 180 &&
-    Number.isFinite(fix.accuracy) && fix.accuracy >= 0 && fix.accuracy <= 100 && Number.isFinite(fix.timestamp) && now - fix.timestamp <= 15000 && fix.timestamp <= now + 5000;
+    Number.isFinite(fix.accuracy) && fix.accuracy >= 0 && fix.accuracy <= 30 && Number.isFinite(fix.timestamp) && now - fix.timestamp <= 10000 && fix.timestamp <= now + 5000;
 }
 export type RouteAttempt = { origin: Point; destination: Point; at: number };
 export function shouldRefreshRoute(last: RouteAttempt | null, origin: Point, destination: Point, now: number) {

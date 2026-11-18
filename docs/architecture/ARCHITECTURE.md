@@ -10,7 +10,7 @@ Backend là nơi cấp quyền và đổi trạng thái; route hoặc vai trò c
 
 ## Collection và quyền (Emulator hoặc cloud riêng)
 
-Từ 0.4.11, hồ sơ TNV mới đi qua **người quản lý đơn vị đã được admin xác minh → checklist riêng → admin duyệt cuối**. Phân loại/số tháng lâm sàng là thông tin được đối chiếu, không phải giấy phép hành nghề. Địa chỉ hỗ trợ quản lý vùng; điều phối vẫn theo GPS hiện tại. Chi tiết: [quy trình xác minh](../operations/VOLUNTEER_VERIFICATION.md).
+Mã nguồn hiện hành 18/11/2026 dùng **TNV gửi hồ sơ → admin đối chiếu checklist/kỹ năng và duyệt trực tiếp**. Quy trình qua người giới thiệu ở 0.4.11–0.4.22 là lịch sử. Phân loại/số tháng lâm sàng là thông tin được đối chiếu, không phải giấy phép hành nghề. Địa chỉ hỗ trợ quản lý vùng; điều phối vẫn theo GPS hiện tại. Chi tiết: [quy trình xác minh](../operations/VOLUNTEER_VERIFICATION.md).
 
 | Collection | Nội dung | Quyền |
 |---|---|---|
@@ -59,3 +59,9 @@ Ghi lời mời và push job cùng transaction → Vercel `waitUntil` → FCM HT
 ## Bàn giao và bảo trì từ mã 0.4.14
 
 Admin gửi đề nghị, TNV mới xác nhận rồi transaction mới đổi người phụ trách; ca không tự kết thúc do thời gian. Báo cáo người gửi có khôi phục theo owner/revision. Maintenance dọn nhiều trang có khóa/kết quả để kiểm tra tồn đọng. [Quy trình và giới hạn](../operations/HANDOVER_AND_MAINTENANCE.md); [API](API_CONTRACT.md#phục-hồi-và-bàn-giao-0414).
+
+## Bản điều chỉnh 18/11/2026
+
+Mã nguồn mới chuyển sang TNV gửi hồ sơ → admin trực tiếp xác minh → sẵn sàng. Loại bỏ người giới thiệu khỏi luồng hiện hành; các mô tả v2 ở trên là lịch sử. Kỹ năng tự khai tách khỏi kỹ năng admin xác minh. Điều phối giai đoạn đầu theo khoảng cách; quan sát bổ sung giúp mời thêm người phù hợp, không ngăn TNV ở gần nhận. Xem [quy trình hiện hành](../operations/VOLUNTEER_VERIFICATION.md).
+
+Người báo có thể ở xa, nhập mô tả địa chỉ và đặt ghim bệnh nhân. Điểm đã xác nhận tách khỏi GPS người báo. Địa chỉ không tự chuyển thành tọa độ. Lịch sử từng ca có snapshot riêng khi chủ thẻ đồng ý, chi tiết giữ 30 ngày sau đóng, không dùng hồ sơ hiện tại để dựng lại tiền sử cũ. Phần liên hệ/vị trí vẫn dọn riêng sau 24 giờ. Source local chưa đồng nghĩa cloud/APK đã cập nhật.

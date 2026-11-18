@@ -23,7 +23,7 @@ for (const width of [390, 1280])
     await expect(page.locator('a[href="tel:115"]')).toHaveCount(0);
     await expect(page.getByRole('note', { name: 'Liên hệ cấp cứu' })).toHaveCount(0);
     await expect(page.getByText(/chạy thử|diễn tập|vị trí giả/i)).toHaveCount(0);
-    const send = page.getByRole('button', { name: 'Báo tình nguyện viên gần đây', exact: true });
+    const send = page.getByRole('button', { name: 'Gửi yêu cầu hỗ trợ', exact: true });
     await expect(send).toBeDisabled();
     await page.getByRole('checkbox').check();
     await expect(send).toBeEnabled();
@@ -62,6 +62,11 @@ for (const role of ['Bệnh nhân', 'Tình nguyện viên'])
 test('new patient signup routes directly to patient without choosing role again', async ({
   page,
 }) => {
+  const renderWarnings: string[] = [];
+  page.on('console', (message) => {
+    if (/non-boolean attribute|Unexpected text node/.test(message.text()))
+      renderWarnings.push(message.text());
+  });
   await page.goto(app);
   await page.getByRole('button', { name: 'Chưa có tài khoản? Đăng ký', exact: true }).click();
   await page.getByRole('button', { name: 'Chọn Bệnh nhân', exact: true }).click();
@@ -74,7 +79,41 @@ test('new patient signup routes directly to patient without choosing role again'
     .check();
   await page.getByRole('button', { name: 'Tạo tài khoản', exact: true }).click();
   await expect(page).toHaveURL(/\/patient$/);
-  await expect(page.getByText('Thẻ sức khỏe', { exact: true })).toBeVisible();
+  await expect(page.getByText('Thẻ sức khỏe của bạn', { exact: true })).toBeVisible();
+  await page.getByRole('tab', { name: 'Hồ sơ', exact: true }).click();
+  const initialTab = await page
+    .getByRole('tab', { name: 'Thẻ của tôi', exact: true })
+    .boundingBox();
+  expect(initialTab!.y).toBeGreaterThan(724);
+  await page.getByRole('textbox', { name: 'Họ tên bệnh nhân', exact: true }).fill('Lê Lan Phương');
+  await page
+    .getByRole('textbox', { name: 'Bệnh nền và tiền sử', exact: true })
+    .fill('Hen phế quản');
+  await page.getByRole('button', { name: 'Lưu hồ sơ', exact: true }).click();
+  await expect(page.getByText('Đã lưu hồ sơ.', { exact: true }).first()).toBeVisible();
+  const afterScrollTab = await page
+    .getByRole('tab', { name: 'Thẻ của tôi', exact: true })
+    .boundingBox();
+  expect(Math.abs(afterScrollTab!.y - initialTab!.y)).toBeLessThan(2);
+  await page.getByRole('tab', { name: 'Thẻ của tôi', exact: true }).click();
+  await page.getByRole('checkbox', { name: /Cho phép lưu tóm tắt ca trong 30 ngày/ }).check();
+  await page.getByRole('button', { name: 'Tạo mã QR', exact: true }).click();
+  await expect(page.getByText('Mã QR đang hoạt động', { exact: true })).toBeVisible();
+  await page.screenshot({ path: path.join(shots, 'patient-card.png') });
+  await page.getByRole('button', { name: 'Phóng to mã QR', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Đóng mã QR', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Đóng mã QR', exact: true }).click();
+  const sharing = page.getByRole('switch', { name: 'Chia sẻ hồ sơ khi được hỗ trợ', exact: true });
+  await expect(sharing).toHaveAttribute('aria-checked', 'false');
+  await sharing.click();
+  await page.getByRole('button', { name: 'Quay lại', exact: true }).click();
+  await expect(sharing).toHaveAttribute('aria-checked', 'false');
+  await sharing.click();
+  await page.getByRole('button', { name: 'Xác nhận chia sẻ', exact: true }).click();
+  await expect(sharing).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('button', { name: 'Quay lại', exact: true })).toBeHidden();
+  await page.screenshot({ path: path.join(shots, 'patient-card.png') });
+  expect(renderWarnings).toEqual([]);
 });
 test('reporter GPS request, volunteer acceptance, report update and completion', async ({
   browser,
@@ -99,9 +138,13 @@ test('reporter GPS request, volunteer acceptance, report update and completion',
     const ready = v.getByRole('switch', { name: 'Sẵn sàng nhận yêu cầu hỗ trợ', exact: true });
     await ready.click();
     await expect(ready).toHaveAttribute('aria-checked', 'true');
+    await v.getByRole('button', { name: 'Hướng dẫn', exact: true }).click();
+    await expect(v.getByText('Hướng dẫn nhận ca', { exact: true })).toBeVisible();
+    await v.getByRole('button', { name: 'Đóng', exact: true }).click();
+    await v.screenshot({ path: path.join(shots, 'volunteer-ready.png') });
     await r.goto(`${web}/card?id=${fixtures.cardId}`);
     await r.getByRole('checkbox').check();
-    await r.getByRole('button', { name: 'Báo tình nguyện viên gần đây', exact: true }).click();
+    await r.getByRole('button', { name: 'Gửi yêu cầu hỗ trợ', exact: true }).click();
     await expect(r).toHaveURL(/\/report\?id=/);
     await expect(r.locator('a[href="tel:115"]')).toHaveCount(0);
     await r.getByRole('radio', { name: /Có phản ứng/ }).check();
@@ -113,7 +156,18 @@ test('reporter GPS request, volunteer acceptance, report update and completion',
     await v.getByRole('button', { name: 'Nhận ca', exact: true }).click();
     await expect(v.getByRole('button', { name: 'Đã đến nơi', exact: true })).toBeVisible();
     await expect(v.getByText('Đường đến bệnh nhân', { exact: true })).toBeVisible();
+    // Wait for the actual route request to settle; do not replace tiles/route
+    // with fabricated images or geometry when the external service fails.
+    await expect(v.getByText('Đang tính tuyến…', { exact: true })).toHaveCount(0, {
+      timeout: 22000,
+    });
+    await expect
+      .poll(() => v.locator('.leaflet-tile-loaded').count(), { timeout: 15000 })
+      .toBeGreaterThan(0);
     await v.screenshot({ path: path.join(shots, 'volunteer-active.png') });
+    await r.evaluate(() => window.scrollTo(0, 0));
+    await r.screenshot({ path: path.join(shots, 'reporter-followup.png') });
+    await r.screenshot({ path: path.join(shots, 'reporter-followup-full.png'), fullPage: true });
     await r.getByRole('radio', { name: /Có vẻ khó thở/ }).check();
     await r.getByRole('button', { name: /Gửi thông tin/ }).click();
     await expect(v.getByText('Cập nhật lần 2', { exact: false }).first()).toBeVisible();

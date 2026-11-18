@@ -4,6 +4,7 @@ import { guardedCall } from './guards';
 import { identifier } from './reportValidation';
 import { verificationInput } from './volunteerVerification';
 import { volunteerReadiness } from './readiness';
+import { parseSpecialties } from './specialties';
 function administrator(auth: CallableRequest<unknown>['auth']) {
   if (auth?.token.admin !== true)
     throw new HttpsError('permission-denied', 'Chỉ quản trị được quản lý danh sách TNV.');
@@ -53,6 +54,7 @@ export const listVolunteerRoster = guardedCall('listVolunteerRoster', async (req
         serviceArea: v.serviceArea || '',
         trainingLevel: v.trainingLevel || null,
         clinicalMonths: v.clinicalMonths ?? null,
+        verifiedSpecialties: v.verifiedSpecialties ?? [],
         verificationStatus: v.verificationStatus,
         verificationPolicyVersion: v.verificationPolicyVersion ?? null,
         isAvailable: v.isAvailable === true,
@@ -65,7 +67,25 @@ export const listVolunteerRoster = guardedCall('listVolunteerRoster', async (req
 });
 export const updateVolunteerRegion = guardedCall('updateVolunteerRegion', async (request) => {
   administrator(request.auth);
-  const data = verificationInput(request.data, ['uid', 'serviceArea']);
+  const data = verificationInput(request.data, [
+    'uid',
+    'serviceArea',
+    'specialties',
+    'skillEvidence',
+    'skillsConfirmed',
+  ]);
+  const specialties = data.specialties !== undefined ? parseSpecialties(data.specialties) : null;
+  if (
+    specialties &&
+    (data.skillsConfirmed !== true ||
+      typeof data.skillEvidence !== 'string' ||
+      data.skillEvidence.trim().length < 10 ||
+      data.skillEvidence.length > 500)
+  )
+    throw new HttpsError(
+      'invalid-argument',
+      'Xác nhận đã đối chiếu kỹ năng và ghi căn cứ tối thiểu 10 ký tự.',
+    );
   let uid: string;
   try {
     uid = identifier(data.uid);
@@ -82,8 +102,21 @@ export const updateVolunteerRegion = guardedCall('updateVolunteerRegion', async 
       !['approved', 'suspended'].includes(snapshot.data()?.verificationStatus)
     )
       throw new HttpsError('failed-precondition', 'TNV chưa có hồ sơ được duyệt.');
+    if (specialties && snapshot.data()?.activeIncidentId)
+      throw new HttpsError(
+        'failed-precondition',
+        'Chỉ đổi phạm vi kỹ năng khi TNV không có ca đang xử lý.',
+      );
     tx.update(ref, {
       serviceArea,
+      ...(specialties
+        ? {
+            verifiedSpecialties: specialties,
+            skillEvidence: String(data.skillEvidence).trim(),
+            capabilitiesReviewedBy: request.auth!.uid,
+            capabilitiesReviewedAt: FieldValue.serverTimestamp(),
+          }
+        : {}),
       regionReviewedBy: request.auth!.uid,
       regionReviewedAt: FieldValue.serverTimestamp(),
     });

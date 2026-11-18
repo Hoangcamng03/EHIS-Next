@@ -7,29 +7,82 @@ export type ObservationAnswers = {
 };
 
 export function objectValue(input: unknown, keys: string[]): Record<string, unknown> {
-  if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Invalid object');
+  if (!input || typeof input !== 'object' || Array.isArray(input))
+    throw new Error('Invalid object');
   const data = input as Record<string, unknown>;
-  if (Object.keys(data).some(key => !keys.includes(key))) throw new Error('Unexpected field');
+  if (Object.keys(data).some((key) => !keys.includes(key))) throw new Error('Unexpected field');
   return data;
 }
 export function identifier(value: unknown): string {
-  if (typeof value !== 'string' || !/^[A-Za-z0-9_-]{8,100}$/.test(value)) throw new Error('Invalid identifier');
+  if (typeof value !== 'string' || !/^[A-Za-z0-9_-]{8,100}$/.test(value))
+    throw new Error('Invalid identifier');
   return value;
 }
 export function parseCreateIncident(input: unknown) {
-  const data = objectValue(input, ['cardId', 'requestId', 'location']);
+  const data = objectValue(input, [
+    'cardId',
+    'requestId',
+    'location',
+    'locationSource',
+    'patientAddress',
+    'destinationConfirmed',
+  ]);
   const location = objectValue(data.location, ['latitude', 'longitude']);
   const { latitude, longitude } = location;
-  if (typeof latitude !== 'number' || !Number.isFinite(latitude) || Math.abs(latitude) > 85 ||
-      typeof longitude !== 'number' || !Number.isFinite(longitude) || Math.abs(longitude) > 180) {
+  if (
+    typeof latitude !== 'number' ||
+    !Number.isFinite(latitude) ||
+    Math.abs(latitude) > 85 ||
+    typeof longitude !== 'number' ||
+    !Number.isFinite(longitude) ||
+    Math.abs(longitude) > 180
+  ) {
     throw new Error('Invalid location');
   }
-  return { cardId: identifier(data.cardId), requestId: identifier(data.requestId), location: { latitude, longitude } };
+  const source = data.locationSource ?? 'reporter_gps';
+  if (!['reporter_gps', 'patient_pin'].includes(String(source)))
+    throw new Error('Invalid location source');
+  if (
+    source === 'patient_pin' &&
+    (data.destinationConfirmed !== true ||
+      typeof data.patientAddress !== 'string' ||
+      data.patientAddress.trim().length < 5 ||
+      data.patientAddress.length > 240)
+  )
+    throw new Error('Confirm patient destination and address');
+  return {
+    cardId: identifier(data.cardId),
+    requestId: identifier(data.requestId),
+    location: { latitude, longitude },
+    ...(data.locationSource !== undefined
+      ? { locationSource: source as 'reporter_gps' | 'patient_pin' }
+      : {}),
+    ...(source === 'patient_pin'
+      ? { patientAddress: String(data.patientAddress).trim(), destinationConfirmed: true }
+      : {}),
+  };
 }
 export function parseBystanderReport(input: unknown) {
-  const data = objectValue(input, ['incidentId', 'submissionId', 'phone', 'answers', 'meetingNote', 'expectedRevision']);
-  if (data.expectedRevision !== undefined && (!Number.isInteger(data.expectedRevision) || Number(data.expectedRevision) < 0)) throw new Error('Invalid expected revision');
-  const answers = objectValue(data.answers, ['responsiveness', 'breathing', 'bleeding', 'breathingDetail', 'bleedingDetail']);
+  const data = objectValue(input, [
+    'incidentId',
+    'submissionId',
+    'phone',
+    'answers',
+    'meetingNote',
+    'expectedRevision',
+  ]);
+  if (
+    data.expectedRevision !== undefined &&
+    (!Number.isInteger(data.expectedRevision) || Number(data.expectedRevision) < 0)
+  )
+    throw new Error('Invalid expected revision');
+  const answers = objectValue(data.answers, [
+    'responsiveness',
+    'breathing',
+    'bleeding',
+    'breathingDetail',
+    'bleedingDetail',
+  ]);
   const allowed: Record<string, string[]> = {
     responsiveness: ['responsive', 'unresponsive', 'unknown'],
     breathing: ['normal', 'abnormal', 'unknown'],
@@ -41,8 +94,17 @@ export function parseBystanderReport(input: unknown) {
     }
   }
   // Optional detail preserves compatibility with the original three categories.
-  if (answers.breathingDetail !== undefined && (answers.breathing !== 'abnormal' || !['difficulty', 'gasping', 'not_seen'].includes(String(answers.breathingDetail)))) throw new Error('Invalid breathing detail');
-  if (answers.bleedingDetail !== undefined && (answers.bleeding !== 'visible' || !['small', 'heavy'].includes(String(answers.bleedingDetail)))) throw new Error('Invalid bleeding detail');
+  if (
+    answers.breathingDetail !== undefined &&
+    (answers.breathing !== 'abnormal' ||
+      !['difficulty', 'gasping', 'not_seen'].includes(String(answers.breathingDetail)))
+  )
+    throw new Error('Invalid breathing detail');
+  if (
+    answers.bleedingDetail !== undefined &&
+    (answers.bleeding !== 'visible' || !['small', 'heavy'].includes(String(answers.bleedingDetail)))
+  )
+    throw new Error('Invalid bleeding detail');
   let phone: string | null = null;
   if (data.phone !== undefined && data.phone !== null && data.phone !== '') {
     if (typeof data.phone !== 'string' || data.phone.length > 40) throw new Error('Invalid phone');
@@ -51,20 +113,34 @@ export function parseBystanderReport(input: unknown) {
     phone = normalized;
   }
   return {
-    incidentId: identifier(data.incidentId), submissionId: identifier(data.submissionId), phone,
+    incidentId: identifier(data.incidentId),
+    submissionId: identifier(data.submissionId),
+    phone,
     answers: answers as ObservationAnswers,
-    ...(data.expectedRevision !== undefined ? { expectedRevision: Number(data.expectedRevision) } : {}),
+    ...(data.expectedRevision !== undefined
+      ? { expectedRevision: Number(data.expectedRevision) }
+      : {}),
     ...(data.meetingNote !== undefined ? { meetingNote: meetingNote(data.meetingNote) } : {}),
   };
 }
 export function meetingNote(value: unknown): string {
-  if (typeof value !== 'string' || value.length > 240 || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(value)) throw new Error('Invalid meeting note');
+  if (
+    typeof value !== 'string' ||
+    value.length > 240 ||
+    /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(value)
+  )
+    throw new Error('Invalid meeting note');
   return value.trim();
 }
-export function distanceMeters(a: { latitude: number; longitude: number }, b: { latitude: number; longitude: number }) {
+export function distanceMeters(
+  a: { latitude: number; longitude: number },
+  b: { latitude: number; longitude: number },
+) {
   const rad = Math.PI / 180;
   const deltaLat = (b.latitude - a.latitude) * rad;
   const deltaLon = (b.longitude - a.longitude) * rad;
-  const h = Math.sin(deltaLat / 2) ** 2 + Math.cos(a.latitude * rad) * Math.cos(b.latitude * rad) * Math.sin(deltaLon / 2) ** 2;
+  const h =
+    Math.sin(deltaLat / 2) ** 2 +
+    Math.cos(a.latitude * rad) * Math.cos(b.latitude * rad) * Math.sin(deltaLon / 2) ** 2;
   return 6371000 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(Math.max(0, 1 - h)));
 }

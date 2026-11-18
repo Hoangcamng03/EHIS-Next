@@ -53,6 +53,13 @@ async function main() {
   );
   suites.rules = ['scripts/rules-unit.cjs'];
   suites.ui = ['scripts/run-ui-tests.cjs'];
+  suites.product = [
+    'scripts/smoke-lifecycle.cjs',
+    'scripts/smoke-verification.cjs',
+    'scripts/smoke-automatic-handover.cjs',
+    'scripts/rules-unit.cjs',
+    'scripts/run-ui-tests.cjs',
+  ];
   suites.handover = [
     'scripts/smoke-automatic-handover.cjs',
     'scripts/smoke-improvements.cjs',

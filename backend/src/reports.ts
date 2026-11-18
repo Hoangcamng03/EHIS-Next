@@ -1,3 +1,4 @@
+import { specialtyOffers } from './specialtyDispatch';
 import { guardedCall as onCall } from './guards';
 import { createHash } from 'node:crypto';
 import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
@@ -190,6 +191,7 @@ export const createIncident = onCall('createIncident', async (request) => {
             status: 'expired',
             closedAt: createdAt,
             purgeAfter: Timestamp.fromMillis(now + 86400000),
+            historyPurgeAfter: Timestamp.fromMillis(now + 30 * 86400000),
           });
           tx.update(db.doc(`reporters/${expired.reporterUid}/incidentStatuses/${expired.id}`), {
             status: 'expired',
@@ -210,12 +212,22 @@ export const createIncident = onCall('createIncident', async (request) => {
           patientId: patient.id,
           status: 'dispatching',
           acceptedBy: null,
+          participantUids: [],
           invitedVolunteerIds,
           createdAt,
           offerExpiresAt,
           reportRevision: 0,
           requestFingerprint: fingerprint,
         });
+        if (card.data()?.shareHistory === true)
+          tx.create(incidentRef.collection('private').doc('history'), {
+            consented: true,
+            fullName: patient.data()!.fullName,
+            medicalConditions: patient.data()!.medicalConditions ?? [],
+            allergies: patient.data()!.allergies ?? [],
+            answers: null,
+            capturedAt: createdAt,
+          });
         tx.create(receiptRef, { incidentId: id, fingerprint });
         tx.create(db.doc(`patients/${patient.id}/incidentStatuses/${id}`), {
           status: 'dispatching',
@@ -223,6 +235,11 @@ export const createIncident = onCall('createIncident', async (request) => {
           invitedCount: selected.length,
         });
         tx.create(incidentRef.collection('private').doc('location'), data.location);
+        tx.create(incidentRef.collection('private').doc('destination'), {
+          source: data.locationSource ?? 'reporter_gps',
+          address: data.patientAddress ?? '',
+          confirmedAt: createdAt,
+        });
         tx.set(cardRef, { activeIncidentId: id, recentRequestTimesMs }, { merge: true });
         tx.create(db.doc(`reporters/${uid}/incidentStatuses/${id}`), {
           status: 'dispatching',
@@ -291,6 +308,14 @@ export const submitBystanderReport = onCall('submitBystanderReport', async (requ
         'Thông tin đã được cập nhật ở nơi khác. Tải lại trước khi gửi.',
         { reason: 'report-conflict' },
       );
+    const historySnapshot = await tx.get(ref.collection('private').doc('history'));
+    const additions = await specialtyOffers(
+      tx,
+      db,
+      incident.data()!,
+      data.incidentId,
+      data.answers,
+    );
     const revision = Number(incident.data()!.reportRevision ?? 0) + 1;
     const updatedAt = FieldValue.serverTimestamp();
     // Merge preserves the optional meeting note when an older APK submits the original payload.
@@ -313,7 +338,37 @@ export const submitBystanderReport = onCall('submitBystanderReport', async (requ
         ],
       },
     );
-    tx.update(ref, { reportRevision: revision });
+    const invited = [
+      ...new Set([...incident.data()!.invitedVolunteerIds, ...additions.people.map((p) => p.uid)]),
+    ];
+    tx.update(ref, {
+      reportRevision: revision,
+      suggestedSpecialties: additions.needs,
+      invitedVolunteerIds: invited,
+    });
+    for (const person of additions.people) {
+      tx.create(db.doc(`volunteers/${person.uid}/alerts/${data.incidentId}`), {
+        incidentId: data.incidentId,
+        status: 'offered',
+        createdAt: incident.data()!.createdAt,
+        offerExpiresAt: incident.data()!.offerExpiresAt,
+        distanceMeters: Math.round(person.distance),
+        reportRevision: revision,
+        answers: data.answers,
+      });
+    }
+    if (additions.people.length) {
+      tx.set(
+        db.doc(`patients/${incident.data()!.patientId}/incidentStatuses/${data.incidentId}`),
+        { invitedCount: invited.length },
+        { merge: true },
+      );
+      tx.update(db.doc(`reporters/${uid}/incidentStatuses/${data.incidentId}`), {
+        invitedCount: invited.length,
+      });
+    }
+    if (historySnapshot.data()?.consented === true)
+      tx.update(ref.collection('private').doc('history'), { answers: data.answers });
     tx.create(event, { revision, fingerprint, createdAt: updatedAt });
     tx.update(db.doc(`reporters/${uid}/incidentStatuses/${data.incidentId}`), {
       reportRevision: revision,
@@ -331,14 +386,16 @@ export const submitBystanderReport = onCall('submitBystanderReport', async (requ
             ...(pending ? [pending.targetUid as string] : []),
           ]),
         ]
-      : incident.data()!.invitedVolunteerIds;
+      : invited.filter(
+          (recipient: string) => !(incident.data()!.declinedVolunteerIds || []).includes(recipient),
+        );
     for (const volunteerUid of recipients) {
       queuePush(
         tx,
         db,
         volunteerUid,
         data.incidentId,
-        'update',
+        additions.people.some((person) => person.uid === volunteerUid) ? 'request' : 'update',
         revision,
         pending?.targetUid === volunteerUid
           ? pending.expiresAt
@@ -359,6 +416,47 @@ export const submitBystanderReport = onCall('submitBystanderReport', async (requ
       );
     }
     return { received: true, revision };
+  });
+});
+
+export const declineIncident = onCall('declineIncident', async (request) => {
+  const uid = requiredUid(request.auth),
+    id = validate(incidentInput, request.data),
+    db = getFirestore();
+  return db.runTransaction(async (tx) => {
+    const ref = db.doc(`incidents/${id}`),
+      alertRef = db.doc(`volunteers/${uid}/alerts/${id}`);
+    const [incident, alert, volunteer] = await tx.getAll(
+      ref,
+      alertRef,
+      db.doc(`volunteers/${uid}`),
+    );
+    if (
+      volunteer.data()?.verificationStatus !== 'approved' ||
+      !alert.exists ||
+      !incident.data()?.invitedVolunteerIds?.includes(uid)
+    )
+      throw new HttpsError('permission-denied', 'Không có lời mời của bạn.');
+    if (alert.data()?.status === 'declined') return { declined: true };
+    if (
+      incident.data()?.acceptedBy === uid ||
+      incident.data()?.status !== 'dispatching' ||
+      alert.data()?.status !== 'offered' ||
+      alert.data()?.offerKind === 'handover'
+    )
+      throw new HttpsError(
+        'failed-precondition',
+        'Lời mời đã thay đổi; không thể từ chối ca đang phụ trách.',
+      );
+    tx.update(alertRef, { status: 'declined', declinedAt: FieldValue.serverTimestamp() });
+    tx.update(ref, { declinedVolunteerIds: FieldValue.arrayUnion(uid) });
+    tx.create(db.collection('auditLogs').doc(), {
+      actorUid: uid,
+      action: 'incident-invitation-declined',
+      incidentId: id,
+      createdAt: FieldValue.serverTimestamp(),
+    });
+    return { declined: true };
   });
 });
 
@@ -398,6 +496,7 @@ export const acceptIncident = onCall('acceptIncident', async (request) => {
       volunteerLoadedRevision: 0,
       status: 'accepted',
       acceptedBy: uid,
+      participantUids: FieldValue.arrayUnion(uid),
       acceptedAt: FieldValue.serverTimestamp(),
     });
     tx.create(db.collection('auditLogs').doc(), {
@@ -407,6 +506,9 @@ export const acceptIncident = onCall('acceptIncident', async (request) => {
       createdAt: FieldValue.serverTimestamp(),
     });
     tx.update(volunteerRef, { activeIncidentId: id, isAvailable: false });
+    tx.set(db.doc(`volunteers/${uid}/caseHistory/${id}`), {
+      createdAt: incident.data()!.createdAt,
+    });
     tx.update(db.doc(`reporters/${incident.data()!.reporterUid}/incidentStatuses/${id}`), {
       status: 'accepted',
       volunteerLoadedRevision: 0,
@@ -431,17 +533,35 @@ export const acceptIncident = onCall('acceptIncident', async (request) => {
 export const updateIncidentLocation = onCall('updateIncidentLocation', async (request) => {
   const uid = requiredUid(request.auth);
   const data = validate((input) => {
-    const value = objectValue(input, ['incidentId', 'updateId', 'location']);
-    const point = parseCreateIncident({
+    const value = objectValue(input, [
+      'incidentId',
+      'updateId',
+      'location',
+      'locationSource',
+      'patientAddress',
+      'destinationConfirmed',
+    ]);
+    const parsed = parseCreateIncident({
       cardId: 'location-only',
       requestId: 'location-only',
       location: value.location,
-    }).location;
+      ...(value.locationSource !== undefined
+        ? {
+            locationSource: value.locationSource,
+            patientAddress: value.patientAddress,
+            destinationConfirmed: value.destinationConfirmed,
+          }
+        : {}),
+    });
+    const point = parsed.location;
     if (Math.abs(point.latitude) > 85) throw new Error('Location outside supported map range');
     return {
       incidentId: identifier(value.incidentId),
       updateId: identifier(value.updateId),
       location: point,
+      ...(parsed.locationSource
+        ? { locationSource: parsed.locationSource, patientAddress: parsed.patientAddress ?? '' }
+        : {}),
     };
   }, request.data);
   const db = getFirestore(),
@@ -472,6 +592,12 @@ export const updateIncidentLocation = onCall('updateIncidentLocation', async (re
       locationRevision = Number(value.locationRevision || 0) + 1,
       at = FieldValue.serverTimestamp();
     tx.set(ref.collection('private').doc('location'), data.location);
+    if (data.locationSource)
+      tx.set(ref.collection('private').doc('destination'), {
+        source: data.locationSource,
+        address: data.patientAddress,
+        confirmedAt: at,
+      });
     tx.set(ref.collection('private').doc('reporter'), { revision }, { merge: true });
     tx.update(ref, { reportRevision: revision, locationRevision, locationUpdatedAt: at });
     tx.create(event, { revision, locationRevision, fingerprint, createdAt: at });
@@ -597,6 +723,7 @@ export const finishIncident = onCall('finishIncident', async (request) => {
       status: data.outcome,
       closedAt: FieldValue.serverTimestamp(),
       purgeAfter: Timestamp.fromMillis(Date.now() + 86400000),
+      historyPurgeAfter: Timestamp.fromMillis(Date.now() + 30 * 86400000),
       closedBy: uid,
       travelProgress: null,
       handover: FieldValue.delete(),
@@ -648,6 +775,7 @@ export const getVolunteerIncidentDetails = onCall(
           ? await tx.get(db.doc(`patients/${incident.data()!.patientId}`))
           : null;
       const profile = patient?.data();
+      const destination = await tx.get(db.doc(`incidents/${id}/private/destination`));
       tx.create(db.collection('auditLogs').doc(), {
         actorUid: uid,
         action: 'incident-private-read',
@@ -663,6 +791,7 @@ export const getVolunteerIncidentDetails = onCall(
         revision: report.data()?.revision ?? 0,
         reportedAtMs: report.data()?.updatedAt?.toMillis?.() ?? null,
         location: location.data() ?? null,
+        destination: destination.data() ?? { source: 'reporter_gps', address: '' },
         locationRevision: incident.data()!.locationRevision ?? 0,
         patientProfile: profile
           ? {

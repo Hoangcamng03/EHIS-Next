@@ -1,47 +1,28 @@
-# Xác minh TNV qua người quản lý đơn vị
+# Xác minh TNV trực tiếp bởi admin
 
-Áp dụng cho hồ sơ mới từ source 0.4.11. Xem [trạng thái phát hành](../STATUS.md) trước khi thao tác trên cloud. Các tài khoản và checklist giả trong test chỉ kiểm tra phần mềm, không chứng nhận chuyên môn.
+Áp dụng cho mã nguồn cập nhật ngày 18/11/2026. Tra [STATUS](../STATUS.md) để phân biệt source local, cloud và APK đã phát hành.
 
-Từ 0.4.12: `/admin` → **Danh sách TNV theo đơn vị và khu vực** → nhập đúng tên đã lưu (hoặc để trống) → **Tải danh sách TNV**. Mỗi trang 50 người, có nút tải tiếp. Mở **Liên hệ và quản lý vùng** để sửa vùng hoặc tạm dừng/khôi phục quyền kèm lý do. TNV đang có ca không được tạm dừng bằng thao tác này; cần người phụ trách xử lý bàn giao trước. Khôi phục giữ OFF để TNV tự xác nhận sẵn sàng. Vùng chỉ quản lý/lọc; điều phối vẫn dùng GPS gần nhất trong 5 km, bao gồm ranh giới. Nếu người giới thiệu đổi đơn vị, cần checklist xác nhận mới trước khi duyệt; không dùng xác nhận cũ cho đơn vị mới.
+## Luồng ngắn
 
-## Đọc nhanh: chỉ có3bước, không duyệt từng ca
+1. TNV đăng ký tài khoản → nhập danh tính, đào tạo, số tháng lâm sàng, đơn vị và khu vực → chọn nhóm kỹ năng → gửi hồ sơ.
+2. Admin vào `/admin` → tải đơn → đối chiếu bốn mục: danh tính, đơn vị, đào tạo/kỹ năng và phạm vi hỗ trợ.
+3. Admin ghi mức đào tạo, số tháng, kỹ năng đã kiểm tra và căn cứ → Duyệt đơn → Xác nhận duyệt đơn.
+4. TNV mở lại app → bật Sẵn sàng → cho phép GPS/thông báo. Duyệt hồ sơ không tự bật sẵn sàng.
 
-1. **TNV** gửi hồ sơ một lần, điền email người quản lý đơn vị. App hiện đang chờ ai.
-2. **Người giới thiệu** vào /referrer: hồ sơ được tải tự động; kiểm tra4mục và gửi xác nhận. Checklist/căn cứ đã lưu vẫn được hiển thị khi mở lại.
-3. **Quản trị** vào /admin: đơn tải tự động; xem xác nhận rồi duyệt quyền nhận ca. Quyền người giới thiệu chỉ thiết lập một lần, không làm lại cho mỗi TNV/ca.
+Không cần người giới thiệu. Trang `/referrer` chỉ thông báo chuyển quy trình; hồ sơ cũ đang chờ cũng do admin xét trực tiếp. Dữ liệu xác minh cũ được giữ để truy vết, không tự chuyển kỹ năng tự khai thành kỹ năng đã xác minh.
 
-Đăng ký TNV không có nghĩa đã được phép nhận ca; người giới thiệu xác nhận thông tin, quản trị cấp quyền. Các ca hỗ trợ không chờ quản trị bấm duyệt. Chi tiết dưới đây chỉ dùng cho người vận hành thiết lập lần đầu.
+## Phân loại và phân vùng
 
-## 1. Chuẩn bị người giới thiệu
+- Nhóm kỹ năng: sơ cứu cơ bản, hồi sinh tim phổi, hỗ trợ hô hấp, chảy máu/chấn thương. Đây là phạm vi đào tạo được admin đối chiếu, không phải giấy phép hoặc chẩn đoán.
+- Khi mới báo chưa có quan sát: mời tối đa năm TNV đủ điều kiện gần nhất trong 5 km, GPS không quá năm phút; một TNV chỉ phụ trách một ca.
+- Khi có quan sát mới và ca chưa ai nhận: có thể mời bổ sung tối đa ba người có kỹ năng phù hợp, tổng người được mời không quá 20. Không rút lời mời của người gần, không chờ phân loại rồi mới tạo ca.
+- Khi tìm người nhận bàn giao: ưu tiên kỹ năng phù hợp trước, rồi khoảng cách; vẫn giữ TNV gần làm dự phòng. Không tự chuyển quyền khi chưa có người nhận thay xác nhận.
+- Khu vực cư trú/đơn vị dùng quản lý và lọc danh sách. Điều phối vẫn theo vị trí bệnh nhân đã xác nhận và GPS TNV, gồm cả người ở gần ranh giới.
 
-1. Chọn người quản lý TNV có chức vụ tại đơn vị: trưởng khoa hoặc người được tổ chức giao nhiệm vụ. Nhóm kỹ thuật không tự xác nhận năng lực y tế.
-2. Người này vào `/referrer`, tạo tài khoản và tự xác minh email qua hộp thư của mình. Không chia sẻ tài khoản quản trị.
-3. Quản trị kiểm tra danh tính, chức vụ và phạm vi quản lý qua kênh chính thức của đơn vị. Ghi căn cứ và ngày kiểm tra, không nhập hồ sơ bệnh án.
-4. Trong `/admin` → **Quản lý người giới thiệu tại đơn vị**, điền tài khoản, tổ chức, chức vụ, số liên hệ và căn cứ; xác nhận rồi cấp quyền. Chỉ có tài khoản/email chưa đủ chống mạo danh.
+## Admin quản lý sau duyệt
 
-## 2. TNV nộp hồ sơ
+Trong danh sách TNV, xem nhóm kỹ năng đã xác minh, vùng, độ mới GPS và trạng thái bận. Có thể sửa vùng, tạm dừng hoặc khôi phục quyền kèm lý do. Không khóa để bỏ ca đang xử lý; phải kết thúc hoặc bàn giao có xác nhận. Khôi phục giữ OFF.
 
-- Họ tên, điện thoại, khóa đào tạo/nơi thực hành.
-- Ba nhóm: đào tạo sơ cứu; sinh viên có thực hành lâm sàng; nhân sự có thực hành lâm sàng. Số tháng là kinh nghiệm được kiểm tra, không phải giấy phép hành nghề hay quyền thực hiện thủ thuật.
-- Khu vực cư trú chỉ cần phường/xã và tỉnh/thành; đơn vị học tập/làm việc, địa chỉ và khu vực có thể hỗ trợ. Tránh thu số nhà nếu không cần.
-- Email người quản lý đã được xác minh. Người quản lý không thể tự giới thiệu chính mình.
-- Sửa và gửi lại thay toàn bộ đơn, tăng phiên bản và xóa checklist cũ. Nếu đơn cũ chưa đủ trường, nhập lại theo mẫu mới.
+## Điều kiện cần kiểm tra
 
-## 3. Người quản lý xác nhận
-
-Tại `/referrer`, đăng nhập → **Tải hồ sơ được giao** → đối chiếu bốn mục: danh tính, thuộc đơn vị, đào tạo/kinh nghiệm, phạm vi hỗ trợ. Ghi mức đào tạo và số tháng đã kiểm tra, căn cứ và giới hạn. Chỉ đề nghị duyệt khi đủ bốn mục; chưa đạt thì ghi lý do. Không được sửa đơn do TNV tự khai hoặc xem đơn chỉ định người khác.
-
-## 4. Quản trị duyệt sau cùng
-
-Tải đơn chờ → đối chiếu thông tin tự khai với xác nhận → duyệt/từ chối. Backend chặn duyệt nếu thiếu checklist, người giới thiệu bị thu quyền hoặc đơn vừa đổi phiên bản. Duyệt không tự bật sẵn sàng. Đăng ký/chọn vai trò không cấp quyền.
-
-## 5. Thu hồi và hồ sơ cũ
-
-- Thu hồi quyền giới thiệu ngăn xác nhận và duyệt mới từ người đó. Không tự rút quyền của tất cả TNV đã được duyệt trước đó; quản trị cần rà từng trường hợp và xử lý ca đang hoạt động.
-- V1/V2 diễn tập đã có trước quy trình này không được tự gắn nhãn đã xác minh y khoa. Giữ dữ liệu thử để demo; phải rà soát, xác minh và chuyển đổi trước pilot có người thật. Không dùng tài khoản dùng chung tiếp nhận ca thật.
-- Tên bệnh nhân chỉ hiện sau nhận ca nếu có consent. Đối chiếu trực tiếp khi đến nơi; tên trùng không chứng minh là cùng bệnh nhân. Chưa có tính năng tự đối chiếu bệnh nhân cũ.
-- Địa chỉ/khu vực dùng quản lý hồ sơ; chọn ca vẫn dùng GPS hiện tại trong 5km, mới tối đa 5 phút. Chưa tự tạo ranh giới tổ chức hay ưu tiên lâm sàng.
-
-## 6. Tiêu chí đạt của phần mềm
-
-Người dùng thường không tự cấp quyền; người quản lý khác không xem/xác nhận đơn; checklist thiếu không duyệt được; sửa đơn vô hiệu checklist; thu quyền chặn duyệt; chỉ admin duyệt cuối. Kết quả chạy thực tế nằm trong [lab note](../LAB_NOTES.md), không điền PASS chỉ từ checklist tài liệu.
+Người dùng thường không duyệt được; checklist/căn cứ thiếu phải bị chặn; kỹ năng không hợp lệ bị chặn; đơn vừa sửa phải tải lại; thu quyền admin chặn cả token cũ. Xem kết quả thực chạy trong [LAB_NOTES](../LAB_NOTES.md). Checklist này không tự chứng minh kiểm thử đạt hay năng lực y tế đã được kiểm chứng.

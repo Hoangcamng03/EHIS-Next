@@ -2,11 +2,11 @@ import { textFamily } from '../lib/typography';
 import { useState } from 'react';
 
 // A native browser checkbox provides label taps, Space, focus and one ARIA target.
-export function ToggleRow({ label, value, disabled = false, onValueChange, accessibilityLabel = label }: {
-  label: string; value: boolean; disabled?: boolean; onValueChange(value: boolean): void; accessibilityLabel?: string;
+export function ToggleRow({ label, value, disabled = false, onValueChange, accessibilityLabel = label, right = false }: {
+  label: string; value: boolean; disabled?: boolean; onValueChange(value: boolean): void; accessibilityLabel?: string; right?: boolean;
 }) {
   const [focused, setFocused] = useState(false);
-  return <label style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 12, minHeight: 48, padding: '8px 4px', boxSizing: 'border-box', borderRadius: 8,
+  return <label style={{ position: 'relative', display: 'flex', flexDirection: right ? 'row-reverse' : 'row', alignItems: 'center', gap: 12, minHeight: 48, padding: '8px 4px', boxSizing: 'border-box', borderRadius: 8,
     cursor: disabled ? 'default' : 'pointer', opacity: disabled ? 0.6 : 1, outline: focused ? '2px solid #096951' : 'none', outlineOffset: 2 }}>
     <input type="checkbox" role="switch" aria-label={accessibilityLabel} aria-checked={value} disabled={disabled} checked={value}
       onChange={event => onValueChange(event.currentTarget.checked)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}

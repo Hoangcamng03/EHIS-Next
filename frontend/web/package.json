@@ -1,6 +1,6 @@
 {
   "name": "ehis-next-web",
-  "version": "0.4.21",
+  "version": "0.4.23",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,7 +12,7 @@
   "dependencies": {
     "firebase": "^12.19.0",
     "leaflet": "^1.9.4",
-    "next": "16.4.2",
+    "next": "16.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
@@ -25,7 +25,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.4.2",
+    "eslint-config-next": "16.4.6",
     "prettier": "^3.10.1",
     "typescript": "^5"
   },

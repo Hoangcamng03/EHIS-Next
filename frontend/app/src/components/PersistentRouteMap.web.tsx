@@ -121,13 +121,13 @@ export const PersistentRouteMap = memo(function PersistentRouteMap({
   }, []);
   return (
     <div style={{ width: '100%', minWidth: 0 }}>
-      <p style={{ fontSize: 13 }}>A: TNV · B: Bệnh nhân · Tuyến ô tô tham khảo</p>
+      <p style={{ fontSize: 13, margin: '4px 0 8px' }}>A: Bạn · B: Bệnh nhân</p>
       <div
         ref={container}
         className="ehis-route-map"
         role="region"
         aria-label="Bản đồ tuyến đường TNV đến bệnh nhân"
-        style={{ width: '100%', height: 350, border: '1px solid #b8cbc1', borderRadius: 12 }}
+        style={{ width: '100%', height: 250, border: '1px solid #b8cbc1', borderRadius: 12 }}
       />
       {!!error && (
         <div>

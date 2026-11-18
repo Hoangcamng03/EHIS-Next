@@ -250,14 +250,14 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
           cần cấp cứu.
         </p>
       )}
-      <p className="step">{terminal ? 'Trạng thái yêu cầu' : 'Bước 2 / 2'}</p>
+
       <h1>{terminal ? 'Yêu cầu đã kết thúc' : 'Bổ sung tình trạng'}</h1>
       {!!actionError && (
         <p className="error" role="alert">
           {actionError}
         </p>
       )}
-      {!!success && (
+      {!!success && !status.reportSubmitted && (
         <p className="success" role="status">
           {success}
         </p>
@@ -274,11 +274,20 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
           role="status"
         >
           <strong>{progress.title}</strong>
-          <p>{progress.detail}</p>
+          {progress.waiting || terminal ? (
+            <p>{progress.detail}</p>
+          ) : (
+            <p className="hint">
+              {status.status === 'arrived'
+                ? 'Tình nguyện viên đã xác nhận đến nơi.'
+                : status.travelProgress
+                  ? 'Xem tiến độ cập nhật bên dưới.'
+                  : 'Chưa xác nhận lên đường.'}
+            </p>
+          )}
           {progress.waiting && progress.delayed && (
             <p>Yêu cầu đang chờ. Đừng chờ ứng dụng nếu cần cấp cứu ngay.</p>
           )}
-          {status?.reportSubmitted && <p>Đã ghi nhận bản bổ sung số {status.reportRevision}.</p>}
         </div>
       )}
       <DutyContact
@@ -294,7 +303,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
       />
       {!terminal && ['accepted', 'arrived'].includes(status.status) && (
         <>
-          {status.status === 'accepted' && (
+          {status.status === 'accepted' && status.travelProgress && (
             <TravelStatus
               progress={status.travelProgress}
               acceptedAtMs={status.acceptedAt?.toMillis()}
@@ -304,8 +313,8 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
           {status.reportRevision > 0 && (
             <p className="hint" role="status">
               {Number(status.volunteerLoadedRevision || 0) >= status.reportRevision
-                ? `App TNV đã xác nhận tải bản số ${status.volunteerLoadedRevision}. Xác nhận tải không đồng nghĩa đã đọc hoặc đánh giá y khoa.`
-                : `Máy chủ đã lưu bản số ${status.reportRevision}. Chưa có xác nhận tải bản mới từ app TNV; app cũ có thể không gửi xác nhận.`}
+                ? `Tình nguyện viên đã tải cập nhật lần ${status.reportRevision}.`
+                : `Đã lưu cập nhật lần ${status.reportRevision}; chờ tình nguyện viên tải.`}
             </p>
           )}
         </>
@@ -315,12 +324,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
           Đang đề nghị bàn giao. TNV hiện tại vẫn phụ trách cho đến khi người mới xác nhận.
         </p>
       )}
-      {!terminal && (
-        <p className="report-intro">Chọn điều bạn thấy. Chưa chắc thì chọn “Chưa rõ”.</p>
-      )}
-      {status && ['accepted', 'arrived'].includes(status.status) && (
-        <UpdatePatientLocation key={incidentId} incidentId={incidentId} enabled={canSend} />
-      )}
+
       {status?.status === 'dispatching' && (
         <p className="hint">
           Nếu điểm bệnh nhân ban đầu sai hoặc đã di chuyển: hủy yêu cầu chưa được nhận, rồi mở thẻ
@@ -355,7 +359,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
           <p className="observation-progress" role="status">
             Đã chọn {questions.filter((q) => answers[q.key]).length}/3 câu · Có thể chọn Chưa rõ
           </p>
-          {questions.map((question, index) => (
+          {questions.map((question) => (
             <fieldset
               className="observation-question"
               key={question.key}
@@ -365,12 +369,11 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
                 <span className="observation-heading">
                   <ObservationIcon kind={question.icon} />
                   <span>
-                    <small>CÂU {index + 1} / 3</small>
                     <strong>{question.title}</strong>
                   </span>
                 </span>
               </legend>
-              <p className="hint">{question.hint}</p>
+
               <div className="choices">
                 {question.choices.map((choice) => (
                   <label
@@ -398,15 +401,30 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
                     />
                     <span>
                       <strong>{choice.label}</strong>
-                      <small>{choice.hint}</small>
                     </span>
                   </label>
                 ))}
               </div>
             </fieldset>
           ))}
+          <details className="choice-help">
+            <summary>Cách quan sát và chọn câu trả lời</summary>
+            {questions.map((question) => (
+              <section key={question.key}>
+                <strong>{question.title}</strong>
+                <p>{question.hint}</p>
+                {question.choices.map((choice) => (
+                  <p key={choice.value}>
+                    <strong>{choice.label}: </strong>
+                    {choice.hint}
+                  </p>
+                ))}
+              </section>
+            ))}
+            <p>Đã tải không có nghĩa đã đọc hoặc đánh giá y khoa.</p>
+          </details>
           <label className="phone-label optional-phone" htmlFor="phone">
-            Số điện thoại để TNV liên hệ <span>Không bắt buộc</span>
+            Số điện thoại <span>Không bắt buộc</span>
           </label>
           <input
             id="phone"
@@ -425,26 +443,29 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
             }}
           />
           <p className="hint">Chỉ TNV được phân công ca mới có thể xem số bạn cung cấp.</p>
-          <label htmlFor="meeting-note">Mốc tìm bệnh nhân · không bắt buộc</label>
-          <textarea
-            id="meeting-note"
-            maxLength={240}
-            rows={2}
-            value={meetingNote}
-            disabled={busy || !canSend || !reportReady || outdated}
-            placeholder="Ví dụ: cổng B, tầng 2, cạnh cầu thang. Không nhập bệnh án."
-            onChange={(e) => {
-              edited.current = true;
-              setDirty(true);
-              setMeetingNote(e.target.value);
-              setMeetingNoteEdited(true);
-              setSuccess('');
-            }}
-          />
-          <p className="hint">
-            {meetingNote.length}/240 ký tự · Không sửa ô này sẽ giữ ghi chú đã gửi. Chỉ TNV nhận ca
-            được xem; không tự đổi GPS.
-          </p>
+          <details className="choice-help">
+            <summary>Bổ sung mốc tìm bệnh nhân</summary>{' '}
+            <label htmlFor="meeting-note">Mốc tìm bệnh nhân · không bắt buộc</label>
+            <textarea
+              id="meeting-note"
+              maxLength={240}
+              rows={2}
+              value={meetingNote}
+              disabled={busy || !canSend || !reportReady || outdated}
+              placeholder="Ví dụ: cổng B, tầng 2, cạnh cầu thang. Không nhập bệnh án."
+              onChange={(e) => {
+                edited.current = true;
+                setDirty(true);
+                setMeetingNote(e.target.value);
+                setMeetingNoteEdited(true);
+                setSuccess('');
+              }}
+            />
+            <p className="hint">
+              {meetingNote.length}/240 ký tự · Không sửa ô này sẽ giữ ghi chú đã gửi. Chỉ TNV nhận
+              ca được xem; không tự đổi GPS.
+            </p>
+          </details>
           <button
             className="primary"
             type="submit"
@@ -459,10 +480,12 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
             {busy ? 'Đang gửi…' : 'Gửi thông tin bổ sung'}
           </button>
           <p className="hint">
-            Bỏ trống số điện thoại vẫn gửi được. Ba câu hỏi đều cần chọn một đáp án. Có thay đổi thì
-            chọn lại và gửi thêm; các lần gửi cập nhật cùng ca, không tạo ca mới.
+            Chọn lại và gửi khi có thay đổi. Thông tin cập nhật trong cùng yêu cầu.
           </p>
         </form>
+      )}
+      {status && ['accepted', 'arrived'].includes(status.status) && (
+        <UpdatePatientLocation key={incidentId} incidentId={incidentId} enabled={canSend} />
       )}
       {status?.status === 'dispatching' && !terminal && (
         <section className="report-panel">

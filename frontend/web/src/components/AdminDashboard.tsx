@@ -1,71 +1,234 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { browserSessionPersistence, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
+import {
+  browserSessionPersistence,
+  onAuthStateChanged,
+  setPersistence,
+  signInWithEmailAndPassword,
+  signOut,
+  User,
+} from 'firebase/auth';
 
 import { callable as httpsCallable, adminClient } from '@/lib/firebase-client';
-import { ReferrerRegistry } from './ReferrerRegistry';
+import { AdminApplicationReview } from './AdminApplicationReview';
 import { VolunteerRoster } from './VolunteerRoster';
 import { OperationsOverview } from './OperationsOverview';
 import { HandoverDesk } from './HandoverDesk';
-import { levels, type Application } from './ReferrerDashboard';
+import { type Application } from '@/lib/volunteer-application';
 
 export function AdminDashboard() {
-  const [user, setUser] = useState<User | null>(null), [admin, setAdmin] = useState(false), [ready, setReady] = useState(false);
-  const [email, setEmail] = useState(''), [password, setPassword] = useState(''), [error, setError] = useState(''), [message, setMessage] = useState('');
-  const [busy, setBusy] = useState(false), [items, setItems] = useState<Application[]>([]);
+  const [user, setUser] = useState<User | null>(null),
+    [admin, setAdmin] = useState(false),
+    [ready, setReady] = useState(false);
+  const [email, setEmail] = useState(''),
+    [password, setPassword] = useState(''),
+    [error, setError] = useState(''),
+    [message, setMessage] = useState('');
+  const [busy, setBusy] = useState(false),
+    [items, setItems] = useState<Application[]>([]);
   const [loaded, setLoaded] = useState(false);
-  const [review, setReview] = useState<{ uid: string; decision: 'approved' | 'rejected' } | null>(null);
+
   useEffect(() => {
     let cancelled = false;
     const client = adminClient();
-    const unsubscribe = onAuthStateChanged(client.auth, value => {
-      setUser(value); setAdmin(false); setReady(!value); setItems([]); setLoaded(false); setReview(null); setError('');
-      if (value) httpsCallable<Record<string, never>, { isAdmin: boolean }>(client.functions, 'getMyAccess', { timeout: 15000 })({}).then(result => {
-        if (!cancelled && client.auth.currentUser?.uid === value.uid) { setAdmin(result.data.isAdmin); setReady(true); }
-      }).catch(() => { if (!cancelled) { setError('Chưa xác minh được quyền quản trị. Kiểm tra kết nối.'); setReady(true); } });
+    const unsubscribe = onAuthStateChanged(client.auth, (value) => {
+      setUser(value);
+      setAdmin(false);
+      setReady(!value);
+      setItems([]);
+      setLoaded(false);
+      setError('');
+      if (value)
+        httpsCallable<Record<string, never>, { isAdmin: boolean }>(
+          client.functions,
+          'getMyAccess',
+          { timeout: 15000 },
+        )({})
+          .then((result) => {
+            if (!cancelled && client.auth.currentUser?.uid === value.uid) {
+              setAdmin(result.data.isAdmin);
+              setReady(true);
+            }
+          })
+          .catch(() => {
+            if (!cancelled) {
+              setError('Chưa xác minh được quyền quản trị. Kiểm tra kết nối.');
+              setReady(true);
+            }
+          });
     });
-    return () => { cancelled = true; unsubscribe(); };
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
   }, []);
   useEffect(() => {
     if (!user || !admin) return;
-    let cancelled = false; const uid = user.uid, client = adminClient();
-    httpsCallable<Record<string, never>, { applications: Application[] }>(client.functions, 'listVolunteerApplications', { timeout: 15000 })({}).then(result => { if (!cancelled && client.auth.currentUser?.uid === uid) { setItems(result.data.applications); setLoaded(true); } }).catch(() => { if (!cancelled) setError('Chưa tải được đơn. Bấm Tải lại đơn chờ duyệt.'); });
-    return () => { cancelled = true; };
+    let cancelled = false;
+    const uid = user.uid,
+      client = adminClient();
+    httpsCallable<Record<string, never>, { applications: Application[] }>(
+      client.functions,
+      'listVolunteerApplications',
+      { timeout: 15000 },
+    )({})
+      .then((result) => {
+        if (!cancelled && client.auth.currentUser?.uid === uid) {
+          setItems(result.data.applications);
+          setLoaded(true);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setError('Chưa tải được đơn. Bấm Tải lại đơn chờ duyệt.');
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [user, admin]);
   async function load() {
-    const result = await httpsCallable<Record<string, never>, { applications: Application[] }>(adminClient().functions, 'listVolunteerApplications', { timeout: 15000 })({});
-    setItems(result.data.applications); setLoaded(true); setReview(null);
+    const result = await httpsCallable<Record<string, never>, { applications: Application[] }>(
+      adminClient().functions,
+      'listVolunteerApplications',
+      { timeout: 15000 },
+    )({});
+    setItems(result.data.applications);
+    setLoaded(true);
   }
-  async function act(operation: 'login' | 'logout' | 'load' | 'approved' | 'rejected', uid?: string) {
-    setBusy(true); setError(''); setMessage('');
+  async function act(operation: 'login' | 'logout' | 'load') {
+    setBusy(true);
+    setError('');
+    setMessage('');
     try {
       const client = adminClient();
-      if (operation === 'login') { await setPersistence(client.auth, browserSessionPersistence); await signInWithEmailAndPassword(client.auth, email.trim(), password); setPassword(''); }
-      else if (operation === 'logout') await signOut(client.auth);
+      if (operation === 'login') {
+        await setPersistence(client.auth, browserSessionPersistence);
+        await signInWithEmailAndPassword(client.auth, email.trim(), password);
+        setPassword('');
+      } else if (operation === 'logout') await signOut(client.auth);
       else if (operation === 'load') await load();
-      else { await httpsCallable(client.functions, 'reviewVolunteerApplication', { timeout: 15000 })({ uid, decision: operation, applicationRevision: items.find(item => item.uid === uid)?.applicationRevision }); setMessage(operation === 'approved' ? 'Đã duyệt TNV. Người đăng ký có thể bật sẵn sàng.' : 'Đã từ chối đơn. Người đăng ký có thể bổ sung và gửi lại.'); await load(); }
-    } catch { setError('Thao tác chưa hoàn tất. Kiểm tra tài khoản, quyền quản trị và kết nối rồi thử lại.'); }
-    finally { setBusy(false); }
+    } catch {
+      setError(
+        'Thao tác chưa hoàn tất. Kiểm tra tài khoản, quyền quản trị và kết nối rồi thử lại.',
+      );
+    } finally {
+      setBusy(false);
+    }
   }
-  return <main className="report-page role-admin"><div className="report-brand">EHIS · QUẢN TRỊ</div><h1>Quản lý hỗ trợ</h1>
-    <p className="report-intro">Theo dõi ca hỗ trợ, quản lý đơn vị và duyệt TNV. Chỉ cấp quyền sau khi đối chiếu điều kiện tham gia; duyệt trong app không thay thế xác minh năng lực thực tế.</p>
-    {!ready && <p role="status">Đang kiểm tra quyền quản trị…</p>}
-    {!user ? <form className="report-panel" onSubmit={event => { event.preventDefault(); act('login'); }}>
-      <label className="phone-label">Email quản trị<input type="email" value={email} onChange={event => setEmail(event.target.value)} required disabled={busy} autoComplete="username" /></label>
-      <label className="phone-label">Mật khẩu<input type="password" value={password} onChange={event => setPassword(event.target.value)} required disabled={busy} autoComplete="current-password" /></label>
-      <button className="primary" disabled={busy}>Đăng nhập quản trị</button>
-    </form> : <><p>{user.email}</p><button className="secondary" disabled={busy} onClick={() => act('logout')}>Đăng xuất quản trị</button>
-      {ready && !admin && <p role="alert" className="error">Tài khoản này không có quyền quản trị. Chọn vai trò hoặc đăng ký tài khoản không tự cấp quyền.</p>}
-      {admin && <><section className="report-panel"><h2>Duyệt TNV: ai làm bước nào?</h2><ol><li>Quản trị cấp quyền cho người quản lý đơn vị một lần.</li><li>TNV gửi hồ sơ; người giới thiệu kiểm tra 4 mục tại trang Người giới thiệu.</li><li>Quản trị xem hồ sơ đã xác nhận và bấm Duyệt để mở quyền nhận ca.</li></ol><p>Người giới thiệu xác nhận thông tin; quản trị cấp quyền sử dụng. Không có bước duyệt lại từng ca hỗ trợ.</p><a href="/referrer">Mở trang người giới thiệu</a></section><details className="report-panel"><summary>Ca đang hoạt động và bàn giao</summary><OperationsOverview /><HandoverDesk /></details><details className="report-panel"><summary>Thiết lập người giới thiệu — chỉ làm một lần mỗi người</summary><ReferrerRegistry /></details><details className="report-panel"><summary>Danh sách TNV đã duyệt và khu vực</summary><VolunteerRoster /></details><button className="primary" disabled={busy} onClick={() => act('load')}>Tải lại đơn chờ duyệt</button><p className="hint">Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp theo.</p>
-        {!items.length && <p>{loaded ? 'Hiện không có đơn chờ duyệt.' : 'Bấm Tải đơn chờ duyệt để xem danh sách.'}</p>}
-        {items.map(item => <section className="report-panel" key={item.uid}><h2>{item.fullName}</h2><p>Liên hệ: {item.phone}</p><p>Kinh nghiệm tự khai: {item.experience}</p>
-          <p>Phân loại tự khai: {levels[item.trainingLevel] || 'Hồ sơ cũ cần gửi lại'} · {item.clinicalMonths ?? 0} tháng</p><p>Cư trú: {item.homeAddress || 'Chưa có'}</p><p>Đơn vị: {item.workAddress || 'Chưa có'} · Khu vực: {item.serviceArea || 'Chưa có'}</p><p>Người giới thiệu: {item.referrerEmail || 'Chưa có'}</p>
-          {item.referral ? <div><p>Kết quả: {item.referral.decision === 'recommended' ? 'Đề nghị duyệt' : 'Chưa đủ điều kiện'} · {item.referral.position}, {item.referral.organisation}</p><p>Đã kiểm tra: {levels[item.referral.confirmedLevel]} · {item.referral.confirmedClinicalMonths} tháng</p><p>Căn cứ: {item.referral.evidence}</p></div> : <p className="hint">Bước 2/3: chờ người giới thiệu xác nhận. Quản trị chưa thể duyệt ở bước này.</p>}
-          {review?.uid === item.uid ? <div className="review-confirm"><p>{review.decision === 'approved' ? 'Cho phép tài khoản này bật sẵn sàng và nhận ca? Xác nhận bạn đã kiểm tra điều kiện nhận ca.' : 'Từ chối đơn này? Người đăng ký có thể bổ sung và gửi lại.'}</p><button className="primary" disabled={busy} onClick={() => act(review.decision, item.uid)}>{busy ? 'Đang lưu…' : review.decision === 'approved' ? 'Xác nhận duyệt đơn' : 'Xác nhận từ chối đơn'}</button><button className="secondary" disabled={busy} onClick={() => setReview(null)}>Quay lại xem đơn</button></div> : <><button className="primary" disabled={busy || item.policyVersion !== 2 || item.referral?.decision !== 'recommended'} onClick={() => setReview({ uid: item.uid, decision: 'approved' })}>Duyệt đơn</button><button className="secondary" disabled={busy || !item.applicationRevision} onClick={() => setReview({ uid: item.uid, decision: 'rejected' })}>Từ chối đơn</button></>}
-        </section>)}
-      </>}
-    </>}
-    {!!error && <p role="alert" className="error">{error}</p>}{!!message && <p role="status" className="success">{message}</p>}
-    <p className="hint">Chỉ tài khoản quản trị được nhóm phụ trách cấp mới được duyệt TNV. Đăng ký hoặc chọn đối tượng không tự cấp quyền quản trị.</p>
-  </main>;
+  return (
+    <main className="report-page role-admin">
+      <div className="report-brand">EHIS · QUẢN TRỊ</div>
+      <h1>Quản lý hỗ trợ</h1>
+      <p className="report-intro">
+        Theo dõi ca hỗ trợ, duyệt kỹ năng và quản lý TNV theo khu vực. Chỉ cấp quyền sau khi đối
+        chiếu điều kiện tham gia; duyệt trong app không thay thế xác minh năng lực thực tế.
+      </p>
+      {!ready && <p role="status">Đang kiểm tra quyền quản trị…</p>}
+      {!user ? (
+        <form
+          className="report-panel"
+          onSubmit={(event) => {
+            event.preventDefault();
+            act('login');
+          }}
+        >
+          <label className="phone-label">
+            Email quản trị
+            <input
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
+              disabled={busy}
+              autoComplete="username"
+            />
+          </label>
+          <label className="phone-label">
+            Mật khẩu
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+              disabled={busy}
+              autoComplete="current-password"
+            />
+          </label>
+          <button className="primary" disabled={busy}>
+            Đăng nhập quản trị
+          </button>
+        </form>
+      ) : (
+        <>
+          <p>{user.email}</p>
+          <button className="secondary" disabled={busy} onClick={() => act('logout')}>
+            Đăng xuất quản trị
+          </button>
+          {ready && !admin && (
+            <p role="alert" className="error">
+              Tài khoản này không có quyền quản trị. Chọn vai trò hoặc đăng ký tài khoản không tự
+              cấp quyền.
+            </p>
+          )}
+          {admin && (
+            <>
+              <section className="report-panel">
+                <h2>Duyệt tình nguyện viên</h2>
+                <p>
+                  TNV gửi hồ sơ → Admin đối chiếu danh tính, đào tạo và kỹ năng → Xác nhận cấp
+                  quyền. Không cần người giới thiệu.
+                </p>
+              </section>
+              <details className="report-panel">
+                <summary>Ca đang hoạt động và bàn giao</summary>
+                <OperationsOverview />
+                <HandoverDesk />
+              </details>
+              <details className="report-panel">
+                <summary>Danh sách TNV đã duyệt và khu vực</summary>
+                <VolunteerRoster />
+              </details>
+              <button className="primary" disabled={busy} onClick={() => act('load')}>
+                Tải lại đơn chờ duyệt
+              </button>
+              <p className="hint">
+                Hiển thị tối đa 50 đơn chờ duyệt mỗi lần. Sau xử lý, tải lại để xem các đơn tiếp
+                theo.
+              </p>
+              {!items.length && (
+                <p>
+                  {loaded
+                    ? 'Hiện không có đơn chờ duyệt.'
+                    : 'Bấm Tải đơn chờ duyệt để xem danh sách.'}
+                </p>
+              )}
+              {items.map((item) => (
+                <AdminApplicationReview
+                  key={`${item.uid}:${item.applicationRevision}`}
+                  item={item}
+                  saved={async () => {
+                    await load();
+                    setMessage('Đã cập nhật kết quả duyệt hồ sơ.');
+                  }}
+                />
+              ))}
+            </>
+          )}
+        </>
+      )}
+      {!!error && (
+        <p role="alert" className="error">
+          {error}
+        </p>
+      )}
+      {!!message && (
+        <p role="status" className="success">
+          {message}
+        </p>
+      )}
+      <p className="hint">
+        Chỉ tài khoản quản trị được nhóm phụ trách cấp mới được duyệt TNV. Đăng ký hoặc chọn đối
+        tượng không tự cấp quyền quản trị.
+      </p>
+    </main>
+  );
 }

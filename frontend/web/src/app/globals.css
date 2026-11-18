@@ -3,6 +3,175 @@
   --ink: #123c37;
   --muted: #526f67;
 }
+.landing {
+  max-width: 1200px;
+  padding: 0 28px;
+  margin: auto;
+}
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid #c9d9d2;
+}
+.site-wordmark {
+  color: #103d5d;
+  font-size: 32px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.site-nav nav {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 15px;
+}
+.landing-hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 70px;
+  padding: 64px 0;
+  align-items: center;
+}
+.landing-hero h1 {
+  color: #123c52;
+  font-size: clamp(40px, 6vw, 72px);
+}
+.landing-hero em {
+  color: #086d59;
+  font-style: normal;
+}
+.landing-hero .intro {
+  font-size: 19px;
+}
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+.hero-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+}
+.connection-visual {
+  padding: 28px;
+  background: #eaf1f5;
+  border-radius: 28px;
+}
+.connection-node {
+  border-radius: 16px;
+  padding: 18px 24px;
+  background: white;
+  border: 1px solid #b6cad4;
+}
+.connection-node span {
+  font-size: 13px;
+  font-weight: 700;
+  display: block;
+}
+.connection-node strong {
+  display: block;
+  font-size: 20px;
+  margin-top: 4px;
+}
+.connection-node p {
+  margin: 6px 0;
+  font-size: 15px;
+}
+.patient-node {
+  border-top: 4px solid #1756a9;
+}
+.reporter-node {
+  border-top: 4px solid #95500a;
+}
+.volunteer-node {
+  border-top: 4px solid #086d59;
+}
+.connection-line {
+  text-align: center;
+  color: #526f67;
+  line-height: 1.2;
+  font-size: 24px;
+}
+.qr-symbol {
+  font-size: 64px;
+  line-height: 1;
+  color: #1756a9;
+}
+.landing-section {
+  padding: 40px 0;
+  border-top: 1px solid #c9d9d2;
+  scroll-margin-top: 24px;
+}
+.landing-section h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  color: #123c52;
+}
+.landing-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 28px;
+}
+.landing-steps p {
+  font-size: 16px;
+  color: #36574e;
+}
+.step-number {
+  color: #1756a9;
+  font-weight: 800;
+  font-size: 26px;
+}
+.faq details {
+  padding: 18px 0;
+  border-bottom: 1px solid #c9d9d2;
+}
+.faq summary {
+  cursor: pointer;
+  min-height: 32px;
+  font-weight: 700;
+}
+.faq p {
+  max-width: 850px;
+  font-size: 17px;
+}
+.location-choice {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0;
+}
+@media (max-width: 700px) {
+  .landing {
+    padding: 0 18px;
+  }
+  .site-nav {
+    align-items: flex-start;
+  }
+  .site-nav nav {
+    gap: 12px;
+    font-size: 14px;
+  }
+  .landing-hero {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 36px 0;
+  }
+  .landing-steps {
+    grid-template-columns: 1fr 1fr;
+  }
+  .connection-visual {
+    padding: 18px;
+  }
+}
 * {
   box-sizing: border-box;
 }
@@ -430,6 +599,47 @@ input {
   font-weight: 700;
   margin: 0;
 }
+/* Compact reporter screens share the same amber identity as the phone app. */
+.report-page.role-reporter {
+  padding: 0 16px 32px;
+  border-top: 0;
+  font-size: 15px;
+}
+.role-reporter .report-brand {
+  margin: 0 -16px 18px;
+  padding: 10px 16px;
+  min-height: 48px;
+  background: var(--role-primary);
+  color: white;
+  border: 0;
+  gap: 10px;
+}
+.role-reporter .report-brand span { color: white; font-size: 14px; }
+.role-reporter h1 { font-size: 26px; letter-spacing: 0; margin: 12px 0 8px; }
+.role-reporter .step { margin-top: 16px; }
+.role-reporter .report-intro { font-size: 15px; line-height: 1.5; }
+.role-reporter .report-panel { padding: 14px; border-radius: 12px; margin-top: 16px; }
+.role-reporter .report-panel h2 { font-size: 18px; }
+.role-reporter .primary, .role-reporter .secondary {
+  min-height: 48px; font-size: 16px; padding: 10px 12px; margin-top: 12px;
+}
+.role-reporter .status-banner { padding: 12px; line-height: 1.45; }
+.role-reporter .hint { font-size: 13px; line-height: 1.5; }
+.role-reporter .confirm { padding: 10px 0; min-height: 48px; }
+.role-reporter .observation-question { margin-top: 14px; padding: 0 0 12px; }
+.role-reporter legend { margin-bottom: 8px; }
+.role-reporter .observation-heading { gap: 8px; }
+.role-reporter .observation-heading strong { font-size: 15px; }
+.role-reporter .observation-heading svg { flex-basis: 24px; width: 24px; height: 24px; }
+.role-reporter .choices { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.role-reporter .choice { padding: 8px; min-height: 48px; gap: 7px; border-color: #85725f; font-size: 13px; }
+.role-reporter .choice input { width: 16px; height: 16px; }
+.role-reporter .choice.selected { background: #fff0d8; border-color: var(--role-primary); }
+.choice-help { margin-top: 6px; color: #56616b; font-size: 13px; }
+.choice-help summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; text-decoration: underline; }
+.role-reporter .optional-phone { margin-top: 16px; }
+.role-reporter input[type='tel'], .role-reporter textarea { padding: 10px; font-size: 16px; }
+@media (max-width: 340px) { .role-reporter .choices { grid-template-columns: 1fr; } }
 button,
 input,
 a {

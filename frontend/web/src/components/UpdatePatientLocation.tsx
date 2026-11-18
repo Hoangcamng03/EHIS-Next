@@ -1,37 +1,188 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { callable, firebaseClient, readableError } from '@/lib/firebase-client';
+import { PatientPointPicker } from './PatientPointPicker';
+import { accuratePosition } from '@/lib/accurate-position';
 import { confirmedPoint } from '@/lib/location-fix';
 
-type Candidate = { location: { latitude: number; longitude: number }; accuracy: number; timestamp: number; updateId: string };
-export function UpdatePatientLocation({ incidentId, enabled }: { incidentId: string; enabled: boolean }) {
-  const [candidate, setCandidate] = useState<Candidate | null>(null), [confirmed, setConfirmed] = useState(false);
-  const [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState('');
+type Candidate = {
+  location: { latitude: number; longitude: number };
+  accuracy: number;
+  timestamp: number;
+  updateId: string;
+};
+export function UpdatePatientLocation({
+  incidentId,
+  enabled,
+}: {
+  incidentId: string;
+  enabled: boolean;
+}) {
+  const [candidate, setCandidate] = useState<Candidate | null>(null),
+    [confirmed, setConfirmed] = useState(false);
+  const [busy, setBusy] = useState(false),
+    [error, setError] = useState(''),
+    [message, setMessage] = useState('');
+  const [remote, setRemote] = useState(false),
+    [address, setAddress] = useState('');
   const epoch = useRef(0);
-  useEffect(() => () => { epoch.current++; }, []);
+  const locationAbort = useRef<AbortController | null>(null);
+  useEffect(
+    () => () => {
+      epoch.current++;
+      locationAbort.current?.abort();
+    },
+    [],
+  );
   async function locate() {
-    const id = ++epoch.current; setBusy(true); setError(''); setMessage(''); setCandidate(null); setConfirmed(false);
+    const id = ++epoch.current;
+    setBusy(true);
+    setError('');
+    setMessage('');
+    setCandidate(null);
+    setConfirmed(false);
     try {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }));
+      locationAbort.current?.abort();
+      const position = await accuratePosition(
+        (locationAbort.current = new AbortController()).signal,
+      );
       if (id !== epoch.current) return;
       const location = confirmedPoint(position, Date.now());
-      setCandidate({ location, accuracy: position.coords.accuracy, timestamp: position.timestamp, updateId: crypto.randomUUID() });
-    } catch { if (id === epoch.current) setError('Chưa có vị trí đủ chính xác. Cho phép vị trí, ra nơi thoáng và thử lại. Điểm cũ chưa thay đổi.'); }
-    finally { if (id === epoch.current) setBusy(false); }
+      setCandidate({
+        location,
+        accuracy: position.coords.accuracy,
+        timestamp: position.timestamp,
+        updateId: crypto.randomUUID(),
+      });
+    } catch {
+      if (id === epoch.current)
+        setError(
+          'Chưa có vị trí đủ chính xác. Cho phép vị trí, ra nơi thoáng và thử lại. Điểm cũ chưa thay đổi.',
+        );
+    } finally {
+      if (id === epoch.current) setBusy(false);
+    }
   }
   async function send() {
-    if (!candidate || !confirmed || busy || !enabled) return;
-    if (Date.now() - candidate.timestamp > 60000) { setError('Điểm vừa lấy đã quá 1 phút. Lấy lại GPS trước khi xác nhận.'); return; }
-    setBusy(true); setError('');
+    if (!candidate || !confirmed || busy || !enabled || (remote && address.trim().length < 5))
+      return;
+    if (Date.now() - candidate.timestamp > 60000) {
+      setError('Điểm vừa lấy đã quá 1 phút. Lấy lại GPS trước khi xác nhận.');
+      return;
+    }
+    setBusy(true);
+    setError('');
     try {
-      await callable(firebaseClient().functions, 'updateIncidentLocation', { timeout: 20000 })({ incidentId, updateId: candidate.updateId, location: candidate.location });
-      setMessage('Máy chủ đã cập nhật điểm bệnh nhân và báo lại TNV phụ trách.'); setCandidate(null); setConfirmed(false);
-    } catch (err) { setError(readableError(err)); }
-    finally { setBusy(false); }
+      await callable(firebaseClient().functions, 'updateIncidentLocation', { timeout: 20000 })({
+        incidentId,
+        updateId: candidate.updateId,
+        location: candidate.location,
+        locationSource: remote ? 'patient_pin' : 'reporter_gps',
+        ...(remote ? { patientAddress: address.trim(), destinationConfirmed: true } : {}),
+      });
+      setMessage('Máy chủ đã cập nhật điểm bệnh nhân và báo lại TNV phụ trách.');
+      setCandidate(null);
+      setConfirmed(false);
+    } catch (err) {
+      setError(readableError(err));
+    } finally {
+      setBusy(false);
+    }
   }
-  return <details className="report-panel"><summary style={{ minHeight: 56, cursor: 'pointer', fontWeight: 700 }}>Bệnh nhân đã đổi vị trí? Cập nhật điểm</summary><p>Chỉ cập nhật khi bạn đang đứng cạnh bệnh nhân tại điểm mới. Điện thoại của bạn di chuyển không tự làm thay đổi điểm đến.</p>
-    <button className="secondary" type="button" disabled={!enabled || busy} onClick={locate}>{busy ? 'Đang xử lý vị trí…' : 'Lấy GPS để xác nhận điểm mới'}</button>
-    {candidate && <><p>Điểm mới: {candidate.location.latitude.toFixed(6)}, {candidate.location.longitude.toFixed(6)} · sai số ước tính ±{Math.round(candidate.accuracy)} m.</p><label className="confirm"><input type="checkbox" checked={confirmed} onChange={event => setConfirmed(event.target.checked)} disabled={busy || !enabled} />Tôi đang ở cạnh bệnh nhân và xác nhận dùng điểm mới này.</label><button className="primary" type="button" disabled={!enabled || busy || !confirmed} onClick={send}>Xác nhận đổi điểm và báo TNV</button></>}
-    {!!error && <p role="alert" className="error">{error}</p>}{!!message && <p role="status" className="success">{message}</p>}
-  </details>;
+  return (
+    <details className="report-panel">
+      <summary style={{ minHeight: 56, cursor: 'pointer', fontWeight: 700 }}>
+        Bệnh nhân đã đổi vị trí? Cập nhật điểm
+      </summary>
+      <p>
+        Xác nhận điểm bệnh nhân với người tại chỗ. Điện thoại người báo di chuyển không tự đổi điểm
+        đến.
+      </p>
+      <label className="confirm">
+        <input
+          type="checkbox"
+          checked={remote}
+          disabled={busy || !enabled}
+          onChange={(e) => {
+            epoch.current++;
+            setRemote(e.target.checked);
+            setCandidate(null);
+            setConfirmed(false);
+          }}
+        />
+        Tôi ở xa, chọn điểm do người tại chỗ cung cấp
+      </label>
+      {remote ? (
+        <>
+          <label>
+            Địa chỉ bệnh nhân
+            <input
+              value={address}
+              disabled={busy || !enabled}
+              maxLength={240}
+              onChange={(e) => {
+                setAddress(e.target.value);
+                setConfirmed(false);
+              }}
+            />
+          </label>
+          <PatientPointPicker
+            value={candidate?.location ?? null}
+            disabled={busy || !enabled}
+            onChange={(location) => {
+              setCandidate({
+                location,
+                accuracy: 0,
+                timestamp: Date.now(),
+                updateId: crypto.randomUUID(),
+              });
+              setConfirmed(false);
+            }}
+          />
+        </>
+      ) : (
+        <button className="secondary" type="button" disabled={!enabled || busy} onClick={locate}>
+          {busy ? 'Đang xử lý vị trí…' : 'Lấy GPS để xác nhận điểm mới'}
+        </button>
+      )}
+      {candidate && (
+        <>
+          <p>
+            Điểm mới: {candidate.location.latitude.toFixed(6)},{' '}
+            {candidate.location.longitude.toFixed(6)}
+            {!remote && <> · sai số ước tính ±{Math.round(candidate.accuracy)} m</>}.
+          </p>
+          <label className="confirm">
+            <input
+              type="checkbox"
+              checked={confirmed}
+              onChange={(event) => setConfirmed(event.target.checked)}
+              disabled={busy || !enabled}
+            />
+            {remote
+              ? 'Tôi đã kiểm tra địa chỉ và ghim bệnh nhân với người tại chỗ.'
+              : 'Tôi đang ở cạnh bệnh nhân và xác nhận dùng điểm mới này.'}
+          </label>
+          <button
+            className="primary"
+            type="button"
+            disabled={!enabled || busy || !confirmed || (remote && address.trim().length < 5)}
+            onClick={send}
+          >
+            Xác nhận đổi điểm và báo TNV
+          </button>
+        </>
+      )}
+      {!!error && (
+        <p role="alert" className="error">
+          {error}
+        </p>
+      )}
+      {!!message && (
+        <p role="status" className="success">
+          {message}
+        </p>
+      )}
+    </details>
+  );
 }

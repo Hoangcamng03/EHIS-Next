@@ -46,7 +46,6 @@ function initializeClient(name = '[DEFAULT]') {
 const scope = globalThis as typeof globalThis & {
   ehisFirebase?: ReturnType<typeof initializeClient>;
   ehisAdminFirebase?: ReturnType<typeof initializeClient>;
-  ehisReferrerFirebase?: ReturnType<typeof initializeClient>;
 };
 export function firebaseClient() {
   return (scope.ehisFirebase ??= initializeClient());
@@ -54,9 +53,6 @@ export function firebaseClient() {
 // Separate Auth identity so admin sign-in never replaces an anonymous reporter session.
 export function adminClient() {
   return (scope.ehisAdminFirebase ??= initializeClient('ehis-admin'));
-}
-export function referrerClient() {
-  return (scope.ehisReferrerFirebase ??= initializeClient('ehis-referrer'));
 }
 export function callable<Request = unknown, Response = unknown>(
   functions: Functions,

@@ -33,14 +33,14 @@ function AppStack() {
           },
         }}
       >
-        <Stack.Screen name="index" options={{ title: 'EHIS Next' }} />
+        <Stack.Screen name="index" options={{ title: 'EHIS' }} />
         <Stack.Screen
           name="patient"
-          options={{ title: ready && purpose === 'patient' ? 'Bệnh nhân' : 'EHIS Next' }}
+          options={{ title: 'EHIS', headerShown: !ready || purpose !== 'patient', statusBarStyle: 'light' }}
         />
         <Stack.Screen
           name="volunteer"
-          options={{ title: ready && purpose === 'volunteer' ? 'Tình nguyện viên' : 'EHIS Next' }}
+          options={{ title: 'EHIS', headerShown: !ready || purpose !== 'volunteer', statusBarStyle: 'light' }}
         />
       </Stack>
     </RoleTheme.Provider>

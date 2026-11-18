@@ -1,6 +1,6 @@
 {
   "name": "ehis-next",
-  "version": "0.4.21",
+  "version": "0.4.23",
   "private": true,
   "description": "Independent EHIS capstone starter for a four-person team",
   "scripts": {
@@ -32,6 +32,7 @@
     "test:handover": "npm run backend:build && node scripts/firebase-local.cjs test handover",
     "test:rules": "npm run backend:build && node scripts/firebase-local.cjs test rules",
     "test:ui": "npm run backend:build && node scripts/firebase-local.cjs test ui",
-    "format": "node frontend/web/node_modules/prettier/bin/prettier.cjs --write"
+    "format": "node frontend/web/node_modules/prettier/bin/prettier.cjs --write",
+    "test:product": "npm run backend:build && node scripts/firebase-local.cjs test product"
   }
 }

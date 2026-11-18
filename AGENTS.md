@@ -1,5 +1,10 @@
 # EHIS Next
 
+- Owner decisions 2026-11-18 supersede the earlier referrer workflow: admin directly verifies applications and skills; no referrer approval step. Prefer matching verified support skills while retaining nearby eligible volunteers as fallback. Do not infer a diagnosis from bystander observations.
+- Remote reporters may supply an explicitly confirmed patient pin and address; never substitute their own GPS or a default map center. Preserve destination provenance and safe retries.
+- Incident health-history snapshots require a separate opt-in at card creation; existing cards default to no history consent. Limit clinical summaries to the patient and actual participating volunteers for 30 days after closure, excluding contact numbers and coordinates. Keep private location/reporter cleanup separate at 24 hours and enforce the history deadline in the API even before cleanup runs.
+- Run `npm run test:product` for the revised approval, remote-reporting, history and UI flow; it uses isolated local emulators. Keep deployment/native/device evidence separate from these checks.
+
 - From 2026-11-14: team credentials, current approval groups, the manual walkthrough and test scenarios live only in the private EHIS-Next-Team-Access README.md. Public guides link to that one page; do not create dated account batches or duplicate password/role tables. Verify current access before labeling accounts approved/pending; record unexecuted manual cases as untested.
 - Owner follow-up 2026-11-14: remove obsolete account pages entirely, including redirect-only stubs; public guides link directly to the canonical private README. Preserve accounts and Git history, not duplicate lookup pages.
 

@@ -1,5 +1,7 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
+**Source local ngày 18/11:** giao diện sáu màn theo mẫu mới, ba tab đáy theo vai trò, bản đồ lên trước trong ca đã nhận, chia sẻ hồ sơ có xác nhận và từ chối lời mời thực. GPS mới yêu cầu sai số thiết bị báo ≤30 m, tuổi ≤10 giây; chưa đo sai số vật lý trên Android. Đây là thay đổi source đang chờ duyệt web, chưa triển khai cloud/APK. Xem [Lab notes](LAB_NOTES.md) để phân biệt kiểm tra local và bản đang phát hành.
+
 
 Cập nhật 14/11/2026. [Cây source đã dọn và kết quả kiểm tra](development/REPOSITORY_CLEANUP.md). QR mới đã triển khai cùng trang tải: 36 tệp web + 4 lượt QR khớp build. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.json).
 
@@ -59,3 +61,7 @@ Nhóm chưa có đầu mối trực; không tự điền số cá nhân/115. FCM
 Ghi bằng chứng ở lab note trước, cập nhật bảng phần 1 theo kết quả thực; chưa thử thì không đổi thành Đạt. Hướng dẫn thao tác ở trang cài/demo/phát hành; không chép lịch sử dài vào trang trạng thái này.
 
 [Lịch sử trạng thái trước lần tổ chức](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/STATUS_HISTORY.md).
+
+## Đang phát triển · 18/11/2026
+
+Duyệt TNV một tầng bởi admin, kỹ năng đã xác minh, báo từ xa bằng ghim bệnh nhân, lịch sử theo ca có đồng ý 30 ngày và trang giới thiệu mới. Đây là source local; APK/cloud đang bàn giao phía trên chưa được thay trong phiên này. Kết quả kiểm tra cập nhật trong LAB_NOTES. Không coi giao diện mới hoặc build đạt là nghiệm thu thiết bị hay vận hành y tế.

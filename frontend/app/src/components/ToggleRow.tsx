@@ -9,6 +9,7 @@ export function ToggleRow({
   onValueChange,
   accessibilityLabel = label,
   emphasized = false,
+  right = false,
 }: {
   label: string;
   value: boolean;
@@ -16,6 +17,7 @@ export function ToggleRow({
   onValueChange(value: boolean): void;
   accessibilityLabel?: string;
   emphasized?: boolean;
+  right?: boolean;
 }) {
   return (
     <Pressable
@@ -31,7 +33,7 @@ export function ToggleRow({
       unstable_pressDelay={0}
       android_ripple={{ color: '#c6dfd4' }}
       style={({ pressed }) => ({
-        flexDirection: 'row',
+        flexDirection: right ? 'row-reverse' : 'row',
         alignItems: 'center',
         gap: 12,
         minHeight: emphasized ? 64 : 48,

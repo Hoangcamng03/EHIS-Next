@@ -35,12 +35,12 @@ export function useLiveLocation(enabled: boolean) {
       if (cancelled) return;
       setStage('watching');
       // Show a recent accurate fix immediately while the foreground watcher warms up.
-      void Location.getLastKnownPositionAsync({ maxAge: 15000, requiredAccuracy: 100 }).then(value => {
+      void Location.getLastKnownPositionAsync({ maxAge: 10000, requiredAccuracy: 30 }).then(value => {
         if (value) receive(value);
       }).catch(() => undefined);
       // A stationary volunteer still needs a fresh timestamp. A distance filter can
       // suppress updates until movement and leave every cached fix older than 15s.
-      const result = await Location.watchPositionAsync({ accuracy: Location.Accuracy.High, timeInterval: 3000, distanceInterval: 0 }, receive,
+      const result = await Location.watchPositionAsync({ accuracy: Location.Accuracy.BestForNavigation, timeInterval: 2000, distanceInterval: 0 }, receive,
         () => { if (!cancelled) setError('GPS bị gián đoạn. Kiểm tra quyền vị trí rồi thử lại GPS.'); });
       if (cancelled) result.remove(); else subscription = result;
     }

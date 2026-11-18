@@ -343,6 +343,7 @@ export const acceptIncidentHandover = guardedCall('acceptIncidentHandover', asyn
     tx.update(ref, {
       travelProgress: null,
       volunteerLoadedRevision: 0,
+      participantUids: FieldValue.arrayUnion(p.fromUid, uid),
       acceptedBy: uid,
       status: 'accepted',
       acceptedAt: FieldValue.serverTimestamp(),
@@ -350,6 +351,10 @@ export const acceptIncidentHandover = guardedCall('acceptIncidentHandover', asyn
     });
     tx.update(db.doc(`volunteers/${p.fromUid}`), { activeIncidentId: null, isAvailable: false });
     tx.update(db.doc(`volunteers/${uid}`), { activeIncidentId: incidentId, isAvailable: false });
+    for (const participant of [p.fromUid, uid])
+      tx.set(db.doc(`volunteers/${participant}/caseHistory/${incidentId}`), {
+        createdAt: c!.createdAt,
+      });
     for (const recipient of c!.invitedVolunteerIds as string[])
       tx.set(
         db.doc(`volunteers/${recipient}/alerts/${incidentId}`),

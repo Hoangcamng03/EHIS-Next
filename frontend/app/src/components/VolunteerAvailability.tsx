@@ -21,7 +21,7 @@ type Volunteer = {
   location?: MapPoint;
   lastSeenAt?: { toMillis(): number };
 };
-export async function currentLocation(askPermission: boolean, signal?: AbortSignal) {
+export async function currentLocationFix(askPermission: boolean, signal?: AbortSignal) {
   const permission = askPermission
     ? await Location.requestForegroundPermissionsAsync()
     : await Location.getForegroundPermissionsAsync();
@@ -36,21 +36,28 @@ export async function currentLocation(askPermission: boolean, signal?: AbortSign
     {
       last: async () => {
         const value = await Location.getLastKnownPositionAsync({
-          maxAge: 15000,
-          requiredAccuracy: 100,
+          maxAge: 10000,
+          requiredAccuracy: 30,
         });
         return value ? fix(value) : null;
       },
       watch: (receive, fail) =>
         Location.watchPositionAsync(
-          { accuracy: Location.Accuracy.High, timeInterval: 1000, distanceInterval: 0 },
+          {
+            accuracy: Location.Accuracy.BestForNavigation,
+            timeInterval: 1000,
+            distanceInterval: 0,
+          },
           (value) => receive(fix(value)),
           fail,
         ),
     },
     signal,
   );
-  return result.point;
+  return result;
+}
+export async function currentLocation(askPermission: boolean, signal?: AbortSignal) {
+  return (await currentLocationFix(askPermission, signal)).point;
 }
 export function VolunteerAvailability({
   uid,
@@ -74,6 +81,7 @@ export function VolunteerAvailability({
   const availabilityWrite = useRef<Promise<unknown> | null>(null);
   const lastSent = useRef<{ point: MapPoint; at: number } | null>(null);
   const [phase, setPhase] = useState('');
+  const [latestFix, setLatestFix] = useState<LocationFix | null>(null);
   useEffect(
     () => () => {
       epoch.current += 1;
@@ -110,8 +118,10 @@ export function VolunteerAvailability({
       const abort = new AbortController();
       locationRequest.current = abort;
       if (askPermission) setPhase('Đang lấy vị trí · tối đa 12 giây…');
-      const location = await currentLocation(askPermission, abort.signal);
+      const fix = await currentLocationFix(askPermission, abort.signal);
+      const location = fix.point;
       if (startedAt !== epoch.current || firebaseClient().auth.currentUser?.uid !== uid) return;
+      setLatestFix(fix);
       if (!shouldSyncAvailability(lastSent.current, location, Date.now(), force || askPermission))
         return;
       if (askPermission) setPhase('Đang tìm ca gần bạn…');
@@ -215,39 +225,32 @@ export function VolunteerAvailability({
     <View
       style={{
         gap: 10,
-        padding: 16,
+        padding: 12,
         backgroundColor: state.ready ? '#d9f3e2' : state.kind === 'stale' ? '#fff3d1' : '#edf1f3',
         borderRadius: 14,
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: state.ready ? '#167447' : state.kind === 'stale' ? '#8b6100' : '#879a9c',
       }}
     >
-      <Text accessibilityRole="header" style={{ fontWeight: '700', fontSize: 18 }}>
-        {!verifiedFromServer
-          ? 'Đang xác nhận với máy chủ…'
-          : !approved
-            ? 'Tài khoản chưa được duyệt'
-            : volunteer?.activeIncidentId
-              ? '● Đang phụ trách ca'
-              : paused
-                ? '● Tạm mất đồng bộ'
-                : state.kind === 'stale'
-                  ? '● Cần làm mới vị trí'
-                  : state.ready
-                    ? '● Đang sẵn sàng'
-                    : '○ Chưa sẵn sàng'}
-      </Text>
       <ToggleRow
-        emphasized
+        right
         accessibilityLabel="Sẵn sàng nhận yêu cầu hỗ trợ"
         label={
           busy
             ? phase || 'Đang xác nhận…'
-            : volunteer?.activeIncidentId
-              ? 'Hoàn tất ca để nhận ca mới'
-              : state.kind === 'stale'
-                ? 'Làm mới GPS để nhận ca mới'
-                : 'Sẵn sàng nhận ca gần bạn'
+            : !verifiedFromServer
+              ? 'Đang đồng bộ…'
+              : !approved
+                ? 'Chờ duyệt tài khoản'
+                : volunteer?.activeIncidentId
+                  ? 'Đang phụ trách ca'
+                  : paused
+                    ? 'Tạm mất đồng bộ'
+                    : state.kind === 'stale'
+                      ? 'Cần làm mới vị trí'
+                      : state.ready
+                        ? '● Đang sẵn sàng'
+                        : '○ Chưa sẵn sàng'
         }
         value={state.ready}
         disabled={paused || busy || !approved || !!volunteer?.activeIncidentId}
@@ -256,6 +259,14 @@ export function VolunteerAvailability({
           else void disable();
         }}
       />
+      <Text style={{ fontSize: 13, color: '#405e54' }}>
+        {state.ready ? 'Nhận yêu cầu gần bạn' : 'Bật khi bạn có thể đến hỗ trợ'}
+      </Text>
+      {latestFix && (
+        <Text style={{ fontSize: 13 }}>
+          GPS · sai số thiết bị báo ±{Math.round(latestFix.accuracy)} m
+        </Text>
+      )}
       {volunteer?.isAvailable && !volunteer.activeIncidentId && approved && (
         <Text accessibilityRole={state.kind === 'stale' ? 'alert' : undefined}>
           {state.ageSeconds === null
@@ -278,29 +289,30 @@ export function VolunteerAvailability({
           đứng yên. Tìm ca trong 5km, kể cả ca báo trước còn hạn. Điểm cũ quá 5 phút không được chọn
           cho ca mới.
         </Text>
-      </InfoDisclosure>
-      {volunteer?.isAvailable && (
-        <Button
-          variant="quiet"
-          loading={busy}
-          title={busy ? 'Đang cập nhật…' : 'Làm mới vị trí'}
-          onPress={enable}
-          disabled={paused || busy || !approved || !!volunteer?.activeIncidentId}
-        />
-      )}
-      {verifiedFromServer && volunteer?.location && (
-        <>
+
+        {volunteer?.isAvailable && (
           <Button
             variant="quiet"
-            title={showLocation ? 'Ẩn bản đồ vị trí của tôi' : 'Xem vị trí tôi đã gửi'}
-            onPress={() => setShowLocation((value) => !value)}
-            color="#526f67"
+            loading={busy}
+            title={busy ? 'Đang cập nhật…' : 'Làm mới vị trí'}
+            onPress={enable}
+            disabled={paused || busy || !approved || !!volunteer?.activeIncidentId}
           />
-          {showLocation && (
-            <LocationMap point={volunteer.location} title="Vị trí TNV đã gửi lên máy chủ" />
-          )}
-        </>
-      )}
+        )}
+        {verifiedFromServer && volunteer?.location && (
+          <>
+            <Button
+              variant="quiet"
+              title={showLocation ? 'Ẩn bản đồ vị trí của tôi' : 'Xem vị trí tôi đã gửi'}
+              onPress={() => setShowLocation((value) => !value)}
+              color="#526f67"
+            />
+            {showLocation && (
+              <LocationMap point={volunteer.location} title="Vị trí TNV đã gửi lên máy chủ" />
+            )}
+          </>
+        )}
+      </InfoDisclosure>
       {!!error && (
         <Text accessibilityRole="alert" style={{ color: '#9f2424' }}>
           {error}

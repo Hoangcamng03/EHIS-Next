@@ -44,6 +44,7 @@ async function main() {
         'handover',
         'rules',
         'ui',
+        'product',
       ].includes(suite)
     )
       throw new Error('Unknown test suite');

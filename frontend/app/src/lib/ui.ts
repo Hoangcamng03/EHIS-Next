@@ -40,11 +40,11 @@ export const ui = StyleSheet.create({
 });
 export const patientUi = {
   ...ui,
-  page: [ui.page, { backgroundColor: palette.patient.background }],
+  page: [ui.page, { backgroundColor: palette.patient.background, padding: 12, gap: 10 }],
   eyebrow: [ui.eyebrow, { color: palette.patient.primary }],
-  title: [ui.title, { color: palette.patient.ink }],
+  title: [ui.title, { color: palette.patient.ink, fontSize: 22, lineHeight: 28 }],
   heading: [ui.heading, { color: palette.patient.ink }],
-  card: [ui.card, { borderColor: palette.patient.border }],
+  card: [ui.card, { borderColor: palette.patient.border, padding: 12, gap: 8, borderRadius: 12 }],
 };
 export const statusLabel: Record<string, string> = {
   dispatching: 'Đang tìm tình nguyện viên',
