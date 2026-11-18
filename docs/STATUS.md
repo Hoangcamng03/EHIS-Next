@@ -1,6 +1,6 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
-**Source local ngày 18/11:** giao diện sáu màn theo mẫu mới, ba tab đáy theo vai trò, bản đồ lên trước trong ca đã nhận, chia sẻ hồ sơ có xác nhận và từ chối lời mời thực. GPS mới yêu cầu sai số thiết bị báo ≤30 m, tuổi ≤10 giây; chưa đo sai số vật lý trên Android. Đây là thay đổi source đang chờ duyệt web, chưa triển khai cloud/APK. Xem [Lab notes](LAB_NOTES.md) để phân biệt kiểm tra local và bản đang phát hành.
+**Cập nhật 19/11/2026 — Android 0.4.23/code21:** APK FINISHED, đã xác minh file thật; link/QR cùng artifact. Backend Vercel 0.4.23 và web/app web đã triển khai. Trang tải/QR mới đã đối chiếu đạt 37 tệp HTML/JS/CSS và 4 lượt QR khớp byte; tra [bằng chứng hiện hành](testing/verification/VERIFICATION_V0_4_23.md). APK23 chưa cài/nghiệm thu trên máy thật; không OTA. GPS mới dùng sai số thiết bị báo ≤30 m/tuổi ≤10 giây, không phải cam kết sai số vật lý. Các số liệu 14/11 trở về trước bên dưới là lịch sử.
 
 
 Cập nhật 14/11/2026. [Cây source đã dọn và kết quả kiểm tra](development/REPOSITORY_CLEANUP.md). QR mới đã triển khai cùng trang tải: 36 tệp web + 4 lượt QR khớp build. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.json).
@@ -13,7 +13,7 @@ Cập nhật 14/11/2026. [Cây source đã dọn và kết quả kiểm tra](dev
 
 **14/11:** Web người báo đã bỏ toàn bộ khung/nút 115; 6/6 bài UI local đạt, 36 tệp web + 4 lượt QR trên cloud khớp build. Tài khoản, trạng thái duyệt, quy trình và 22 tình huống manual chỉ tra tại [README riêng duy nhất](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). Không tạo APK mới cho thay đổi chỉ thuộc web/tài liệu.
 
-**Android mới nhất: 0.4.22 / code 20.** [APK](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk) · [Bằng chứng](testing/verification/VERIFICATION_V0_4_22.md). EAS FINISHED, artifact tải về đã kiểm tra đúng source/package/version/cloud/tài nguyên chuông. Chưa cài hoặc nghiệm thu 0.4.22 trên điện thoại; không OTA. Các mục APK 21/19 bên dưới là lịch sử.
+**Android mới nhất: 0.4.23 / code 21.** [APK](https://expo.dev/artifacts/eas/x5jIiZ7-dRt8eMQF5M4Kc_sVOH-E3YSLa_Xq02s6_90.apk) · [Bằng chứng](testing/verification/VERIFICATION_V0_4_23.md). Chứa giao diện sáu màn và các API/luồng mới; đã kiểm tra artifact, chưa nghiệm thu điện thoại. 0.4.22 và các bản bên dưới là lịch sử.
 
 **UAT cloud mới11/11:** [Kết quả và ảnh](testing/verification/CLOUD_UAT_2026_11_11.md).9tài khoản hư cấu mới, ca người báo qua điện thoại→TNV web→bàn giao→hoàn tất/readback403 đạt; vị trí TNV là fixtureAPI, chưa nghiệm thu GPS di chuyển/native. Web đã có liên kết QR/privacy trực tiếp và khôi phục bản đồ; backend vẫn21/f870ee3, APK21 hiện có chưa chứa các sửa web mới. Không chốt bản cuối cấp cứu thật khi các mục máy thật còn mở.
 
@@ -26,7 +26,7 @@ Cập nhật 14/11/2026. [Cây source đã dọn và kết quả kiểm tra](dev
 | Backend Vercel | 0.4.21 từ 05a0e16 đã deploy/probe đúng version/project; 36 callable không auth trả 401 | Chưa kiểm thử tải lớn cloud/worker liên tục/SLA; Spark/Hobby và quyền hiện có |
 | S22+/Android16 | Lần kiểm tra gần nhất APK19/code17; kết quả18: GPS tại chỗ, route, OFF/ON, Home/resume, report2 tự tải/ack PASS ở lượt thử | Tự thoát gián đoạn còn OPEN; bố cục/bấm nhầm/hoàn tất native18 chưa đạt; chưa đi bộ/đoGPS chuẩn/offline độc lập/toàn bộ chế độ âm thanh |
 | APK19/code17 | Đã cài S22+;3ca chờ, nhận E, chặn nhận D/A, bản2 tự tải/ack, GPS tại chỗ, hủy xác nhận arrival/hoàn tất và xác nhận hoàn tất native PASS. Kết thúc OFF/no active | Chưa nghiệm thu toàn bộ: tự thoát, offline độc lập, đi bộ GPS, nhiều máy/chế độ âm. Xem lab note10/11 |
-| Trang tải chung | [APK 0.4.22 / code 20](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk); file thực đã kiểm tra. QR mới trỏ trực tiếp APK 0.4.22; trang /install là đầu mối phiên bản | /install 200 trên cả hai tên miền, nhãn/link 0.4.22 đúng; chưa nghiệm thu 0.4.22 trên máy thật; không OTA |
+| Trang tải chung (19/11) | [APK 0.4.23 / code 21](https://expo.dev/artifacts/eas/x5jIiZ7-dRt8eMQF5M4Kc_sVOH-E3YSLa_Xq02s6_90.apk); manifest/bundle/chuông đã kiểm. QR trỏ chính file này; 37 tệp cloud và 4 QR khớp build | Chưa cài/nghiệm thu APK23 trên máy thật; không OTA |
 | Source/CI backend | a9134eb,CI42654274756 SUCCESS, có health assertions thật;72a186a đã qua16suite local/CI | CIba90 trước sửa FAIL vẫn được giữ; không đồng nghĩa nghiệm thu thiết bị/y tế |
 | Tải local mới | Portable:1000Auth/128session/32feed/32ca/320API, p95 cảnh báo 943 ms,PASS | Không phải1000người dùng cloud; Functions local vẫn RECHECK,p95=21866ms>15000ms; chưa chứng minh mọi API nhanh hơn bản cũ |
 | iOS native | Hoãn; iPhone dùng app web | Chưa IPA/TestFlight/tài khoản/ký/nghiệm thu iOS |

@@ -12,7 +12,7 @@ Gửi link trang này cho thành viên mới. Đọc từ mục 1 đến 4 để
 
 [Bộ dữ liệu và UAT cloud mới11/11](../testing/verification/CLOUD_UAT_2026_11_11.md) · [Tài khoản UAT riêng](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). Ảnh mới dùng hồ sơ hư cấu trên Firebase thật; tra phần chưa thử trước khi báo cáo nghiệm thu.
 
-> **Bản Android mới nhất cho nhóm: 0.4.22 / code 20 (13/11/2026).** [Tải APK trực tiếp](https://expo.dev/artifacts/eas/B_yFAptjy1mzBuchHzK-JnV8OyfWyB2k6_1SELMkADw.apk) · [Trang build](https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/3d7867f6-1285-4bff-825d-379e7fe61fab) · [Bằng chứng và phần chưa thử](../testing/verification/VERIFICATION_V0_4_22.md). APK đã xác minh tệp; chưa nghiệm thu 0.4.22 trên điện thoại. Hoàn tất ca, tắt Sẵn sàng trước khi cài đè; không gỡ app/xóa dữ liệu. [QR tải app](../../frontend/web/public/ehis-download-qr.png) trỏ thẳng tới APK 0.4.22 đã xác minh; trang cài chung luôn có bản đang bàn giao.
+> **Bản Android mới nhất: 0.4.23 / code 21 (19/11/2026).** [Tải APK](https://expo.dev/artifacts/eas/x5jIiZ7-dRt8eMQF5M4Kc_sVOH-E3YSLa_Xq02s6_90.apk) · [QR tải](../../frontend/web/public/ehis-download-qr.png) · [Bằng chứng và phần chưa thử](../testing/verification/VERIFICATION_V0_4_23.md). Đã xác minh tệp APK; chưa nghiệm thu trên điện thoại. Hoàn tất ca và tắt Sẵn sàng trước khi cài đè; không gỡ app/xóa dữ liệu. iPhone dùng bản web, không cài APK.
 
 ## 1. Bắt đầu theo thứ tự
 

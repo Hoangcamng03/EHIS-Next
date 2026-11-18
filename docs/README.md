@@ -61,8 +61,10 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 
 | Trang | Nội dung |
 | --- | --- |
-| [VERIFICATION_V0_4_22](testing/verification/VERIFICATION_V0_4_22.md) | APK mới cho thay đổi giao diện đã duyệt; trạng thái build/artifact/thiết bị tách riêng |
-| [VERIFICATION_V0_4_22.json](testing/verification/VERIFICATION_V0_4_22.json) | Bằng chứng tải APK thật, phiên bản và SHA-256; chưa nghiệm thu thiết bị |
+| [VERIFICATION_V0_4_23](testing/verification/VERIFICATION_V0_4_23.md) | APK 0.4.23: giao diện sáu màn, QR tải và giới hạn nghiệm thu máy thật |
+| [VERIFICATION_V0_4_23.json](testing/verification/VERIFICATION_V0_4_23.json) | Bằng chứng APK, phiên bản, SHA-256, backend và Hosting |
+| [VERIFICATION_V0_4_22](testing/verification/VERIFICATION_V0_4_22.md) | Lịch sử APK 0.4.22; không phải bản tải hiện hành |
+| [VERIFICATION_V0_4_22.json](testing/verification/VERIFICATION_V0_4_22.json) | Số liệu artifact lịch sử 0.4.22, giữ nguyên kết quả cũ |
 | [Đối chiếu góp ý và cải thiện12/11](testing/verification/PRODUCT_REVIEW_2026_11_12.md) | UI, bảo mật, kiểm thử; phần làm được miễn phí và điều kiện còn thiếu |
 | [Bằng chứng cải thiện12/11](testing/verification/PRODUCT_REVIEW_2026_11_12.json) | Số liệu chạy local, lỗi giữ lại, hash source/ảnh và các mục chưa kiểm chứng |
 | [CLOUD_UAT_2026_11_11](testing/verification/CLOUD_UAT_2026_11_11.md) | Hồ sơ hư cấu trên Firebase thật, phối hợp điện thoại và ảnh cloud mới |

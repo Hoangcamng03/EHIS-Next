@@ -1,5 +1,13 @@
 # EHIS — Lab notes
 
+## 2026-11-19 — hoàn tất APK 0.4.23 và QR tải tương ứng
+
+- Tiếp tục yêu cầu cung cấp QR sau khi chủ dự án bảo “làm tiếp”. EAS build `8869bcbe-27f9-42d1-9119-cd05d8e3eaf1` FINISHED, source b33e875, 0.4.23/code21. Đã tải APK 102,746,613 byte và kiểm package/version/cloud/quyền/tài nguyên chuông; SHA-256 trong bằng chứng. Không cài máy thật, không OTA, không tuyên bố thử GPS/chuông/rung đạt.
+- Backend 0.4.23 đã deploy Vercel READY (`dpl_DFY7sQEkYJoq4cz6do5uQ9MJzyvs`), health đúng project; 39 API từ chối không auth và maintenance 401. Hosting app/web đã cập nhật source mới, đang thay link/QR rồi đối chiếu artifact. Không thay billing, IAM hay tạo khóa.
+- Bộ kiểm tra trước phát hành chạy lại: lint/typecheck/build, 34 unit backend và 64 client đạt. UI bản cuối ở phiên trước 9/9 trong 35,2 giây; không coi là kết quả native. QR PNG/SVG được tạo từ đúng APK đã xác minh bằng script hiện hành; chưa quét bằng điện thoại trong phiên.
+- Push main lần đầu bị từ chối do remote có commit 9103070 chỉ dọn lab note cũ. Đã fetch/đối chiếu, merge giữ lịch sử và push main thành công, không force push hoặc ghi đè code của nhóm. Một lệnh quét secret bị PowerShell lỗi quoting, đã chuyển sang helper tệp và quét 76 tệp thay đổi không thấy mẫu private key/token; không in giá trị bí mật. Không tự cài thêm thư viện quét QR khi môi trường không có sẵn bộ giải mã.
+- Hoàn tất Hosting 0.4.23 và trang tải: đối chiếu 37 tệp HTML/JS/CSS, 4 lượt QR PNG/SVG trên hai tên miền đều khớp byte; link/QR đúng APK23. Catalog tài liệu ban đầu báo thiếu hai mục lịch sử22 khi thay bằng23; đã giữ lại mục22 có nhãn lịch sử và thêm23 là bản hiện hành, check repo đạt (52 Markdown/46 mục/381 link). Không chỉnh số liệu cũ. Trang tải/QR và hướng dẫn nhóm đã đồng bộ; tài khoản/mật khẩu vẫn chỉ ở README riêng. Chưa quét/cài/nghiệm thu điện thoại trong phiên.
+
 ## 2026-11-18 — yêu cầu QR bản Android chứa giao diện mới
 
 - Chủ dự án yêu cầu QR cho bản vừa cập nhật sau khi xem bản web/ảnh sáu màn. Thực hiện build Android preview APK mới, không OTA và không đưa lên cửa hàng. Không dùng lại QR 0.4.22 để gọi là bản mới.

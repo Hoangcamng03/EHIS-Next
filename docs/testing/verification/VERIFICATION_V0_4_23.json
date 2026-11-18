@@ -1,0 +1,219 @@
+{
+  "id": "8869bcbe-27f9-42d1-9119-cd05d8e3eaf1",
+  "commit": "b33e87511dcf92092c65fd5898570129c0201516",
+  "version": "0.4.23",
+  "versionCode": 21,
+  "status": "FINISHED",
+  "url": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/8869bcbe-27f9-42d1-9119-cd05d8e3eaf1",
+  "startedAt": "2026-11-18T16:37:30.685Z",
+  "deviceVerified": false,
+  "apkUrl": "https://expo.dev/artifacts/eas/x5jIiZ7-dRt8eMQF5M4Kc_sVOH-E3YSLa_Xq02s6_90.apk",
+  "bytes": 102746613,
+  "sha256": "5f86e91a1c6658960e4f1fa42bc77d75f7e0039a600d4d9f478fdd36d7265bf6",
+  "artifactVerified": true,
+  "packageName": "com.hoangcamng.ehisnext",
+  "microphonePermission": false,
+  "vibrationPermission": true,
+  "embeddedTone": true,
+  "cloudTargetVerified": true,
+  "backgroundNotificationResourcesVerified": true,
+  "verifiedAt": "2026-11-18T19:30:16.782Z",
+  "backend": {
+    "checkedAt": "2026-11-18T16:41:10.137Z",
+    "scope": "Read-only deployment health and unauthenticated denial; not signed-in flow or device acceptance",
+    "health": {
+      "service": "ehis-next",
+      "status": "ok",
+      "version": "0.4.23",
+      "projectId": "ehis-next-20261021-hc03"
+    },
+    "unauthenticated": [
+      {
+        "operation": "acceptIncident",
+        "status": 401
+      },
+      {
+        "operation": "acceptIncidentHandover",
+        "status": 401
+      },
+      {
+        "operation": "acknowledgeIncidentReport",
+        "status": 401
+      },
+      {
+        "operation": "applyVolunteer",
+        "status": 401
+      },
+      {
+        "operation": "cancelIncidentHandover",
+        "status": 401
+      },
+      {
+        "operation": "cancelPatientIncident",
+        "status": 401
+      },
+      {
+        "operation": "createIncident",
+        "status": 401
+      },
+      {
+        "operation": "declineIncident",
+        "status": 401
+      },
+      {
+        "operation": "finishIncident",
+        "status": 401
+      },
+      {
+        "operation": "getBystanderReport",
+        "status": 401
+      },
+      {
+        "operation": "getCaseHistory",
+        "status": 401
+      },
+      {
+        "operation": "getMyAccess",
+        "status": 401
+      },
+      {
+        "operation": "getOperationsOverview",
+        "status": 401
+      },
+      {
+        "operation": "getVolunteerIncidentDetails",
+        "status": 401
+      },
+      {
+        "operation": "issuePatientCard",
+        "status": 401
+      },
+      {
+        "operation": "listHandoverCandidates",
+        "status": 401
+      },
+      {
+        "operation": "listHandoverCases",
+        "status": 401
+      },
+      {
+        "operation": "listHandoverHistory",
+        "status": 401
+      },
+      {
+        "operation": "listReferrerApplications",
+        "status": 401
+      },
+      {
+        "operation": "listVolunteerApplications",
+        "status": 401
+      },
+      {
+        "operation": "listVolunteerRoster",
+        "status": 401
+      },
+      {
+        "operation": "markIncidentArrived",
+        "status": 401
+      },
+      {
+        "operation": "proposeIncidentHandover",
+        "status": 401
+      },
+      {
+        "operation": "registerVolunteerDevice",
+        "status": 401
+      },
+      {
+        "operation": "retryPendingNotifications",
+        "status": 401
+      },
+      {
+        "operation": "reviewVolunteerApplication",
+        "status": 401
+      },
+      {
+        "operation": "revokePatientCard",
+        "status": 401
+      },
+      {
+        "operation": "runMaintenanceNow",
+        "status": 401
+      },
+      {
+        "operation": "savePatientProfile",
+        "status": 401
+      },
+      {
+        "operation": "setAccountPurpose",
+        "status": 401
+      },
+      {
+        "operation": "setVolunteerAvailability",
+        "status": 401
+      },
+      {
+        "operation": "setVolunteerReferrer",
+        "status": 401
+      },
+      {
+        "operation": "setVolunteerSuspension",
+        "status": 401
+      },
+      {
+        "operation": "submitBystanderReport",
+        "status": 401
+      },
+      {
+        "operation": "submitVolunteerReferral",
+        "status": 401
+      },
+      {
+        "operation": "updateIncidentLocation",
+        "status": 401
+      },
+      {
+        "operation": "updateIncidentProgress",
+        "status": 401
+      },
+      {
+        "operation": "updatePatientCardConsent",
+        "status": 401
+      },
+      {
+        "operation": "updateVolunteerRegion",
+        "status": 401
+      }
+    ],
+    "maintenanceStatus": 401
+  },
+  "checks": {
+    "backendUnit": 34,
+    "clientUnit": 64,
+    "ui": {
+      "passed": 9,
+      "seconds": 35.2,
+      "environment": "local emulator and mobile web"
+    },
+    "apkFile": "PASS"
+  },
+  "hostingPublished": true,
+  "otaPublished": false,
+  "limitations": [
+    "Not installed or accepted on a physical phone during this release",
+    "No measured physical GPS accuracy, walking navigation, foreground/background alarm acceptance for APK23",
+    "Unauthenticated cloud probes do not verify signed-in end-to-end operation"
+  ],
+  "hostingArtifactProof": {
+    "checkedAt": "2026-11-18T19:29:40.117Z",
+    "checked": 37,
+    "qrChecks": 4,
+    "qrVersion": "0.4.23",
+    "qrTarget": "https://expo.dev/artifacts/eas/x5jIiZ7-dRt8eMQF5M4Kc_sVOH-E3YSLa_Xq02s6_90.apk",
+    "sha256Match": true,
+    "targets": [
+      "https://ehis-next-20261021-hc03.web.app",
+      "https://ehis-next-20261021-hc03-app.web.app"
+    ]
+  }
+}
