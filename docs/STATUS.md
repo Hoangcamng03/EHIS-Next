@@ -1,5 +1,7 @@
 # Trạng thái EHIS — tra cứu phiên bản tại đây
 
+**Rà soát source 24/11/2026 — chưa phát hành:** sửa lỗi chia sẻ, lối tắt liên hệ, GPS/gửi lại an toàn, đổi điểm khi bàn giao/đã đến và lỗi bản đồ web. [Kết quả và phần còn thiếu](testing/verification/SYSTEM_REVIEW_2026_11_24.md). Chưa có điện thoại trong phiên; cloud/APK/OTA chưa đổi. APK 0.4.23 bên dưới vẫn là bản công bố trước sửa.
+
 **Cập nhật 19/11/2026 — Android 0.4.23/code21:** APK FINISHED, đã xác minh file thật; link/QR cùng artifact. Backend Vercel 0.4.23 và web/app web đã triển khai. Trang tải/QR mới đã đối chiếu đạt 37 tệp HTML/JS/CSS và 4 lượt QR khớp byte; tra [bằng chứng hiện hành](testing/verification/VERIFICATION_V0_4_23.md). APK23 chưa cài/nghiệm thu trên máy thật; không OTA. GPS mới dùng sai số thiết bị báo ≤30 m/tuổi ≤10 giây, không phải cam kết sai số vật lý. Các số liệu 14/11 trở về trước bên dưới là lịch sử.
 
 

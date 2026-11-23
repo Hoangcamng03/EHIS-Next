@@ -62,6 +62,8 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | Trang | Nội dung |
 | --- | --- |
 | [VERIFICATION_V0_4_23](testing/verification/VERIFICATION_V0_4_23.md) | APK 0.4.23: giao diện sáu màn, QR tải và giới hạn nghiệm thu máy thật |
+| [SYSTEM_REVIEW_2026_11_24](testing/verification/SYSTEM_REVIEW_2026_11_24.md) | Lỗi đã sửa, kết quả trước/sau và giới hạn nghiệm thu phần mềm |
+| [SYSTEM_REVIEW_2026_11_24.json](testing/verification/SYSTEM_REVIEW_2026_11_24.json) | Số đo tải local và dấu kiểm tra bằng chứng |
 | [VERIFICATION_V0_4_23.json](testing/verification/VERIFICATION_V0_4_23.json) | Bằng chứng APK, phiên bản, SHA-256, backend và Hosting |
 | [VERIFICATION_V0_4_22](testing/verification/VERIFICATION_V0_4_22.md) | Lịch sử APK 0.4.22; không phải bản tải hiện hành |
 | [VERIFICATION_V0_4_22.json](testing/verification/VERIFICATION_V0_4_22.json) | Số liệu artifact lịch sử 0.4.22, giữ nguyên kết quả cũ |

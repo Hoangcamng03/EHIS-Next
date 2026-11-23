@@ -46,6 +46,26 @@ export default function PatientScreen() {
 }
 function PatientDashboard({ uid }: { uid: string }) {
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
+  const contactAnchor = useRef({
+    requested: false,
+    form: null as number | null,
+    heading: null as number | null,
+  });
+  function scrollToContact() {
+    const anchor = contactAnchor.current;
+    if (anchor.requested && anchor.form !== null && anchor.heading !== null) {
+      scroll.current?.scrollTo({
+        y: Math.max(0, anchor.form + anchor.heading - 12),
+        animated: false,
+      });
+      anchor.requested = false;
+    }
+  }
+  function openProfile(contact = false) {
+    contactAnchor.current = { requested: contact, form: null, heading: null };
+    setTab('profile');
+    if (!contact) scroll.current?.scrollTo({ y: 0, animated: false });
+  }
   const { width } = useWindowDimensions();
   const [fullName, setFullName] = useState(''),
     [allergies, setAllergies] = useState(''),
@@ -60,6 +80,7 @@ function PatientDashboard({ uid }: { uid: string }) {
   const [shareHistory, setShareHistory] = useState(false);
   const [expandedQr, setExpandedQr] = useState(false);
   const [pendingConsent, setPendingConsent] = useState<boolean | null>(null);
+  const [consentError, setConsentError] = useState('');
   const [tab, setTab] = useState<'card' | 'profile' | 'history' | 'account'>('card');
   const [card, setCard] = useState<Card>(),
     [history, setHistory] = useState<History[]>([]);
@@ -388,7 +409,12 @@ function PatientDashboard({ uid }: { uid: string }) {
   );
   return (
     <View style={{ flex: 1, backgroundColor: '#eef5ff' }}>
-      <ScreenHeader onAccount={() => setTab('account')} />
+      <ScreenHeader
+        onAccount={() => {
+          setTab('account');
+          scroll.current?.scrollTo({ y: 0, animated: false });
+        }}
+      />
       <ScrollView
         style={{ flex: 1 }}
         ref={scroll}
@@ -425,12 +451,12 @@ function PatientDashboard({ uid }: { uid: string }) {
                 <ActionRow
                   title="Thông tin sức khỏe"
                   icon="activity"
-                  onPress={() => setTab('profile')}
+                  onPress={() => openProfile()}
                 />
                 <ActionRow
                   title="Liên hệ khẩn cấp"
                   icon="people"
-                  onPress={() => setTab('profile')}
+                  onPress={() => openProfile(true)}
                 />
                 <View style={{ paddingHorizontal: 10 }}>
                   <ToggleRow
@@ -438,7 +464,10 @@ function PatientDashboard({ uid }: { uid: string }) {
                     accessibilityLabel="Chia sẻ hồ sơ khi được hỗ trợ"
                     value={card.shareProfile}
                     disabled={busy || !connected || !!active}
-                    onValueChange={setPendingConsent}
+                    onValueChange={(value) => {
+                      setConsentError('');
+                      setPendingConsent(value);
+                    }}
                     right
                   />
                 </View>
@@ -450,7 +479,9 @@ function PatientDashboard({ uid }: { uid: string }) {
           visible={pendingConsent !== null}
           transparent
           animationType="fade"
-          onRequestClose={() => setPendingConsent(null)}
+          onRequestClose={() => {
+            if (!busy) setPendingConsent(null);
+          }}
         >
           <View
             style={{
@@ -472,11 +503,13 @@ function PatientDashboard({ uid }: { uid: string }) {
                 30 ngày giữ riêng.
               </Text>
               <Button
-                title="Xác nhận chia sẻ"
-                disabled={busy}
+                title={pendingConsent ? 'Xác nhận chia sẻ' : 'Xác nhận dừng chia sẻ'}
+                loading={busy}
+                disabled={busy || !connected}
                 onPress={async () => {
+                  if (busy || !connected || pendingConsent === null) return;
                   setBusy(true);
-                  setError('');
+                  setConsentError('');
                   setFeedbackTarget('card');
                   try {
                     await httpsCallable(
@@ -485,12 +518,22 @@ function PatientDashboard({ uid }: { uid: string }) {
                     )({ shareProfile: pendingConsent });
                     setPendingConsent(null);
                   } catch (err) {
-                    setError(readableError(err));
+                    setConsentError(readableError(err));
                   } finally {
                     setBusy(false);
                   }
                 }}
               />
+              {!!consentError && (
+                <Text accessibilityRole="alert" style={ui.error}>
+                  {consentError}
+                </Text>
+              )}
+              {!connected && (
+                <Text accessibilityRole="alert" style={ui.error}>
+                  Chờ kết nối máy chủ. Chưa thể thay đổi chia sẻ.
+                </Text>
+              )}
               <Button
                 title="Quay lại"
                 variant="secondary"
@@ -501,7 +544,13 @@ function PatientDashboard({ uid }: { uid: string }) {
           </View>
         </Modal>
         {tab === 'profile' && (
-          <View style={ui.card}>
+          <View
+            style={ui.card}
+            onLayout={(event) => {
+              contactAnchor.current.form = event.nativeEvent.layout.y;
+              scrollToContact();
+            }}
+          >
             <Text style={ui.heading}>Thông tin sức khỏe</Text>
             <ActionRow title="Lịch sử hỗ trợ" icon="activity" onPress={() => setTab('history')} />
             {profileFailed && (
@@ -551,7 +600,15 @@ function PatientDashboard({ uid }: { uid: string }) {
               style={ui.input}
               editable={loaded && !busy}
             />
-            <Text style={ui.heading}>Liên hệ khẩn cấp · tùy chọn</Text>
+            <Text
+              style={ui.heading}
+              onLayout={(event) => {
+                contactAnchor.current.heading = event.nativeEvent.layout.y;
+                scrollToContact();
+              }}
+            >
+              Liên hệ khẩn cấp · tùy chọn
+            </Text>
             <Text style={ui.caption}>
               Điền đủ tên, quan hệ và số điện thoại, hoặc để trống cả ba.
             </Text>

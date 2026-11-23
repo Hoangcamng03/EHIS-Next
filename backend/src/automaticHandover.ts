@@ -20,8 +20,17 @@ export async function planAutomaticHandover(
   uid: string,
   handoverId: string,
   now: number,
+  options: {
+    destination?: { latitude: number; longitude: number };
+    renew?: boolean;
+    requestedBy?: string;
+  } = {},
 ) {
-  if (c.handover?.expiresAt?.toMillis() > now && handoverTargets(c.handover).length > 0)
+  if (
+    !options.renew &&
+    c.handover?.expiresAt?.toMillis() > now &&
+    handoverTargets(c.handover).length > 0
+  )
     return {
       summary: {
         handoverInvitedCount: handoverTargets(c.handover).length,
@@ -35,7 +44,8 @@ export async function planAutomaticHandover(
     ref.collection('private').doc('location'),
     ref.collection('private').doc('reporter'),
   );
-  const point = location.data() as { latitude: number; longitude: number } | undefined;
+  const point =
+    options.destination ?? (location.data() as { latitude: number; longitude: number } | undefined);
   const pages = point
     ? await Promise.all(
         dispatchBounds(point).map((w) =>
@@ -116,8 +126,10 @@ export async function planAutomaticHandover(
       tx.create(ref.collection('handoverRequests').doc(handoverId), {
         ...proposal,
         status: 'pending',
-        reason: 'TNV phụ trách xác nhận không thể tiếp tục; tự tìm người nhận thay.',
-        requestedBy: uid,
+        reason: options.renew
+          ? 'Điểm bệnh nhân thay đổi; tìm lại người thay theo yêu cầu bàn giao hiện có.'
+          : 'TNV phụ trách xác nhận không thể tiếp tục; tự tìm người nhận thay.',
+        requestedBy: options.requestedBy ?? uid,
         requestedAt: Timestamp.fromMillis(now),
       });
       tx.update(ref, {
@@ -158,7 +170,7 @@ export async function planAutomaticHandover(
         tx.set(db.doc(p), { handoverPending: true }, { merge: true });
       tx.create(db.collection('auditLogs').doc(), {
         action: 'automatic-handover-requested',
-        actorUid: uid,
+        actorUid: options.requestedBy ?? uid,
         incidentId,
         handoverId,
         invitedCount: selected.length,

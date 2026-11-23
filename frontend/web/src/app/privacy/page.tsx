@@ -48,7 +48,8 @@ export default function PrivacyPage() {
           Hệ thống lưu GPS khi bạn ở cạnh bệnh nhân hoặc điểm ghim và địa chỉ bệnh nhân do bạn xác
           nhận khi báo từ xa và ba câu trả lời quan sát. Số điện thoại và ghi chú mốc tìm bệnh nhân
           là tùy chọn; chỉ TNV đã nhận ca được xem qua ứng dụng. Không ghi thông tin bệnh án hoặc
-          người khác vào ghi chú.
+          người khác vào ghi chú. Khi xác nhận đổi điểm bằng GPS, hệ thống lưu thêm thời điểm lấy vị
+          trí và sai số thiết bị báo cùng điểm đến; các dữ liệu này được dọn cùng vị trí của ca.
         </p>
         <p>
           Dữ liệu lưu trên Firebase của dự án EHIS Next, tách khỏi dự án cũ. Không nhập hồ sơ hoặc

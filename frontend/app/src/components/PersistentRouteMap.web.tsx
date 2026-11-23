@@ -26,7 +26,14 @@ export const PersistentRouteMap = memo(function PersistentRouteMap({
     import('leaflet')
       .then((L) => {
         if (cancelled || !container.current) return;
-        const map = L.map(container.current, { scrollWheelZoom: false });
+        // Destination changes can unmount this map while Leaflet's zoom-end
+        // timer is pending. Avoid animated transitions in the live case view.
+        const map = L.map(container.current, {
+          scrollWheelZoom: false,
+          zoomAnimation: false,
+          markerZoomAnimation: false,
+          fadeAnimation: false,
+        });
         const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution:
@@ -71,6 +78,7 @@ export const PersistentRouteMap = memo(function PersistentRouteMap({
             .bindTooltip(tooltip);
         }
         render.current = (data) => {
+          if (cancelled) return;
           const nextTarget = `${data.destination.latitude},${data.destination.longitude}`,
             bounds: [number, number][] = [[data.destination.latitude, data.destination.longitude]];
           if (b) b.setLatLng(bounds[0]);
@@ -92,17 +100,24 @@ export const PersistentRouteMap = memo(function PersistentRouteMap({
             line = undefined;
           }
           if (!target || target !== nextTarget || (!hadRoute && data.route))
-            map.fitBounds(L.latLngBounds(bounds), { padding: [35, 45], maxZoom: 17 });
+            map.fitBounds(L.latLngBounds(bounds), {
+              padding: [35, 45],
+              maxZoom: 17,
+              animate: false,
+            });
           target = nextTarget;
           hadRoute = !!data.route;
         };
         render.current(latest.current);
-        const resize = new ResizeObserver(() => map.invalidateSize());
+        const resize = new ResizeObserver(() => {
+          if (!cancelled) map.invalidateSize({ animate: false });
+        });
         resize.observe(container.current);
         cleanup = () => {
           render.current = null;
           retry.current = null;
           resize.disconnect();
+          map.stop();
           map.remove();
         };
       })

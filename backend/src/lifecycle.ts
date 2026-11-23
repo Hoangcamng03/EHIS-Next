@@ -297,7 +297,20 @@ export const reviewVolunteerApplication = onCall('reviewVolunteerApplication', a
 
 export const markIncidentArrived = onCall('markIncidentArrived', async (request) => {
   const uid = registered(request.auth);
-  const id = input(() => identifier(objectValue(request.data, ['incidentId']).incidentId));
+  const data = input(() => {
+    const value = objectValue(request.data, ['incidentId', 'expectedLocationRevision']);
+    if (
+      value.expectedLocationRevision !== undefined &&
+      (!Number.isSafeInteger(value.expectedLocationRevision) ||
+        Number(value.expectedLocationRevision) < 0)
+    )
+      throw Error();
+    return {
+      id: identifier(value.incidentId),
+      expectedLocationRevision: value.expectedLocationRevision,
+    };
+  });
+  const id = data.id;
   const db = getFirestore();
   return db.runTransaction(async (tx) => {
     const ref = db.doc(`incidents/${id}`),
@@ -306,6 +319,14 @@ export const markIncidentArrived = onCall('markIncidentArrived', async (request)
     const value = incident.data();
     if (!value || value.acceptedBy !== uid || volunteer.data()?.verificationStatus !== 'approved')
       throw new HttpsError('permission-denied', 'Chỉ TNV phụ trách được xác nhận.');
+    if (
+      data.expectedLocationRevision !== undefined &&
+      data.expectedLocationRevision !== Number(value.locationRevision || 0)
+    )
+      throw new HttpsError(
+        'failed-precondition',
+        'Điểm bệnh nhân vừa thay đổi. Xem điểm mới trước khi xác nhận đã đến.',
+      );
     if (value.status === 'arrived') return { status: 'arrived' };
     if (value.status !== 'accepted')
       throw new HttpsError('failed-precondition', 'Ca không ở trạng thái đang di chuyển.');

@@ -1,0 +1,483 @@
+{
+  "reviewDateLocal": "2026-11-24",
+  "timezone": "Asia/Saigon",
+  "generatedAt": "2026-11-23T18:13:48.059Z",
+  "baselineCommit": "d704ce1",
+  "environment": "LOCAL ONLY, demo-ehis-next; fictional accounts and configured coordinates",
+  "hashScope": "SHA-256 of working-tree bytes before commit; Git line-ending normalization may change bytes. Raw logs remain local.",
+  "release": {
+    "cloudDeployed": false,
+    "apkBuilt": false,
+    "otaPublished": false,
+    "physicalDeviceTested": false,
+    "publishedAndroid": "0.4.23/code21"
+  },
+  "checks": {
+    "backendUnit": {
+      "passed": 34
+    },
+    "clientUnit": {
+      "passed": 64
+    },
+    "integration": {
+      "programsPassed": 21,
+      "rulesCases": 11
+    },
+    "relocation": {
+      "status": "PASS",
+      "startedAt": "2026-11-23T18:08:31.290Z",
+      "endedAt": "2026-11-23T18:08:45.491Z",
+      "environment": "LOCAL EMULATOR ONLY; fictional accounts/coordinates",
+      "checks": [
+        "destination change replaces automatic proposal and closes old invitation",
+        "assignment preserved until a new volunteer accepts",
+        "new invitation has revised location and distance; private data still assignment-only",
+        "lost acknowledgement cannot create a second proposal",
+        "arrival at old destination does not imply arrival at new point; stale confirmation is refused",
+        "new stale or coarse GPS is refused; an actual 11-second lost-ack retry reads the existing event",
+        "manual proposal invalidated after destination change, with owner retained and both projections cleared"
+      ]
+    },
+    "ui": {
+      "startTime": "2026-11-23T17:59:19.023Z",
+      "duration": 40290.617,
+      "expected": 12,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "build": {
+      "status": "PASS",
+      "scope": "Next static export, Expo web export, Android Hermes JS bundle; not APK/device"
+    },
+    "scale": {
+      "scope": "LOCAL EMULATOR ONLY; not cloud, phone or SLA",
+      "projectId": "demo-ehis-next",
+      "transport": "portable HTTP wrapper used by Vercel, loopback 5203",
+      "startedAt": "2026-11-23T17:51:07.441Z",
+      "endedAt": "2026-11-23T17:51:22.985Z",
+      "authenticatedAccounts": 1000,
+      "concurrentIncidents": 32,
+      "regions": 8,
+      "readyVolunteers": 64,
+      "backgroundOfflinePending": 872,
+      "accountsWithSession": 128,
+      "liveVolunteerClients": 32,
+      "apiCalls": 320,
+      "expectedDenials": 40,
+      "automaticRetries": 0,
+      "stages": [
+        {
+          "name": "1000 Auth accounts; 8 zones; 32 patients/reporters and 64 ready volunteers",
+          "status": "PASS",
+          "ms": 8046
+        },
+        {
+          "name": "32 independent authenticated volunteer SDK feeds ready from server",
+          "status": "PASS",
+          "ms": 1044
+        },
+        {
+          "name": "32 simultaneous requests; nearest five; live delivery; no cross-zone invitation",
+          "status": "PASS",
+          "ms": 999
+        },
+        {
+          "name": "8 lost-ack retries return the same incident",
+          "status": "PASS",
+          "ms": 155
+        },
+        {
+          "name": "32 observations with optional phone omitted or supplied",
+          "status": "PASS",
+          "ms": 655
+        },
+        {
+          "name": "32 assignments; correct private profile; cross-zone access denied",
+          "status": "PASS",
+          "ms": 1737
+        },
+        {
+          "name": "16 confirmed destination changes preserve incident ownership",
+          "status": "PASS",
+          "ms": 468
+        },
+        {
+          "name": "32 arrivals and completions; all pointers released; private reads denied",
+          "status": "PASS",
+          "ms": 1347
+        }
+      ],
+      "latency": {
+        "alertDelivery": {
+          "samples": 32,
+          "p50Ms": 622,
+          "p95Ms": 949,
+          "maxMs": 993
+        },
+        "savePatientProfile": {
+          "samples": 32,
+          "p50Ms": 61,
+          "p95Ms": 64,
+          "maxMs": 364
+        },
+        "issuePatientCard": {
+          "samples": 32,
+          "p50Ms": 78,
+          "p95Ms": 83,
+          "maxMs": 93
+        },
+        "createIncident": {
+          "samples": 40,
+          "p50Ms": 539,
+          "p95Ms": 931,
+          "maxMs": 993
+        },
+        "submitBystanderReport": {
+          "samples": 32,
+          "p50Ms": 366,
+          "p95Ms": 623,
+          "maxMs": 653
+        },
+        "acceptIncident": {
+          "samples": 32,
+          "p50Ms": 412,
+          "p95Ms": 702,
+          "maxMs": 731
+        },
+        "getVolunteerIncidentDetails": {
+          "samples": 32,
+          "p50Ms": 222,
+          "p95Ms": 392,
+          "maxMs": 395
+        },
+        "updateIncidentLocation": {
+          "samples": 16,
+          "p50Ms": 145,
+          "p95Ms": 237,
+          "maxMs": 237
+        },
+        "markIncidentArrived": {
+          "samples": 32,
+          "p50Ms": 196,
+          "p95Ms": 346,
+          "maxMs": 363
+        },
+        "finishIncident": {
+          "samples": 32,
+          "p50Ms": 301,
+          "p95Ms": 533,
+          "maxMs": 566
+        }
+      },
+      "alertDeliverySamplesMs": [
+        278,
+        299,
+        278,
+        278,
+        356,
+        315,
+        395,
+        357,
+        398,
+        413,
+        521,
+        539,
+        539,
+        574,
+        593,
+        622,
+        642,
+        670,
+        691,
+        711,
+        729,
+        752,
+        771,
+        795,
+        812,
+        830,
+        867,
+        886,
+        909,
+        931,
+        949,
+        993
+      ],
+      "status": "PASS",
+      "latencyGateMs": 15000,
+      "latencyStatus": "PASS"
+    }
+  },
+  "attempts": [
+    {
+      "scope": "UI before fixes",
+      "passed": 9,
+      "failed": 3
+    },
+    {
+      "scope": "relocation before fix",
+      "status": "FAIL",
+      "reason": "old handover proposal retained"
+    },
+    {
+      "scope": "UI first fixes",
+      "passed": 12,
+      "failed": 0,
+      "durationSeconds": 40.3
+    },
+    {
+      "scope": "UI arrival regression added",
+      "passed": 11,
+      "failed": 1,
+      "reason": "Leaflet zoom callback after map removal"
+    },
+    {
+      "scope": "UI map lifecycle fixed",
+      "passed": 12,
+      "failed": 0,
+      "durationSeconds": 35.635273
+    },
+    {
+      "scope": "UI final confirmation wording",
+      "startTime": "2026-11-23T17:59:19.023Z",
+      "duration": 40290.617,
+      "expected": 12,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  ],
+  "audit": {
+    "backend": {
+      "counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "issues": []
+    },
+    "web": {
+      "counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "issues": []
+    },
+    "app": {
+      "counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 11,
+        "high": 0,
+        "critical": 0,
+        "total": 11
+      },
+      "issues": [
+        {
+          "name": "@expo/cli",
+          "severity": "moderate",
+          "advisories": []
+        },
+        {
+          "name": "@expo/fingerprint",
+          "severity": "moderate",
+          "advisories": []
+        },
+        {
+          "name": "@typescript-eslint/eslint-plugin",
+          "severity": "moderate",
+          "advisories": []
+        },
+        {
+          "name": "@typescript-eslint/parser",
+          "severity": "moderate",
+          "advisories": []
+        },
+        {
+          "name": "@typescript-eslint/type-utils",
+          "severity": "moderate",
+          "advisories": []
+        },
+        {
+          "name": "@typescript-eslint/typescript-estree",
+          "severity": "moderate",
+          "advisories": []
+        },
+        {
+          "name": "@typescript-eslint/utils",
+          "severity": "moderate",
+          "advisories": []
+        },
+        {
+          "name": "eslint-config-expo",
+          "severity": "moderate",
+          "advisories": []
+        },
+        {
+          "name": "expo",
+          "severity": "moderate",
+          "advisories": []
+        },
+        {
+          "name": "glob",
+          "severity": "moderate",
+          "advisories": [
+            {
+              "title": "Glob: AbortSignal cancellation bypass allows post-timeout filesystem traversal",
+              "url": "https://github.com/advisories/GHSA-3g3m-2fjr-6pw4"
+            }
+          ]
+        },
+        {
+          "name": "minimatch",
+          "severity": "moderate",
+          "advisories": [
+            {
+              "title": "minimatch has potential denial of service via globparts amplification",
+              "url": "https://github.com/advisories/GHSA-g3hv-75wg-m249"
+            }
+          ]
+        }
+      ]
+    },
+    "nodeForgeInstalled": "1.4.3"
+  },
+  "source": [
+    {
+      "path": "backend/src/automaticHandover.ts",
+      "sha256": "4e0bb167abbe1814ff7b72e7ae277f06268ea1b0bd8d89896877cfff7ecdf2eb"
+    },
+    {
+      "path": "backend/src/lifecycle.ts",
+      "sha256": "ff97a68c492fce0962b46c96ccd4683210d971d55dc959bc4e89dbd4f2b88510"
+    },
+    {
+      "path": "backend/src/reports.ts",
+      "sha256": "43bc45c2c99ecc30657bf53181cbe0a362fb513594c52ed35e7a6681d24f6871"
+    },
+    {
+      "path": "frontend/app/src/app/patient.tsx",
+      "sha256": "950c718c6258835c4e05576d5785f01b0c4c291ccf0238406fae2c7500005b2d"
+    },
+    {
+      "path": "frontend/app/src/app/volunteer.tsx",
+      "sha256": "fb51ee50ba7e953464010bbd6c26a7949e31df7b9d57be6cc11aac7517e47b30"
+    },
+    {
+      "path": "frontend/app/src/components/PersistentRouteMap.web.tsx",
+      "sha256": "fcdac71fe7d1d8c42701a8496708569c9691d66d5636425f2ab857c55e10203d"
+    },
+    {
+      "path": "frontend/web/src/components/UpdatePatientLocation.tsx",
+      "sha256": "3f393eaa7a23fe540ab22a4c496bf8b1829550fe2a9f93c9dda0cc5e50c9d82c"
+    },
+    {
+      "path": "frontend/web/src/components/PatientPointPicker.tsx",
+      "sha256": "8ecbef390965d031949327c1a3921a20a33c097afb36129d84eb25906d3b10ca"
+    },
+    {
+      "path": "frontend/web/tests/operational-review.spec.ts",
+      "sha256": "fe28ed67c4228fa57796926c5c31d54c327664533e585cdbecbff3d42b778c3f"
+    },
+    {
+      "path": "scripts/smoke-relocation-handover.cjs",
+      "sha256": "1239de508d38c2209dba652d0ad9c3b8e09aab93a528f37c6cedc928d83d8f45"
+    },
+    {
+      "path": "frontend/app/package.json",
+      "sha256": "8206f11f9ab55a392b83ada89f6730af74769deafac9064d1e93b51cbe3928bd"
+    },
+    {
+      "path": "frontend/app/package-lock.json",
+      "sha256": "cae02a4a95ab92071061a9f1410b6c02fd29e4e04aa1a1d00aa4505ba109adb6"
+    }
+  ],
+  "logs": [
+    {
+      "path": ".local/uat-20261124-ui-before.log",
+      "sha256": "3967688f09e5b6a2b50d2f2f15d29a26adb60e0d1132e11ceb6e0428f91ab4f1"
+    },
+    {
+      "path": ".local/uat-20261124-relocation-before.log",
+      "sha256": "4643784a78127c81d6f5f2f23788397171e5d98e0cb4001051b65d20befa64f3"
+    },
+    {
+      "path": ".local/uat-20261124-relocation-after.log",
+      "sha256": "24424e1744d4ab1df7472f3eb6ec14e00d695164e211284fbe28606be1415a9e"
+    },
+    {
+      "path": ".local/uat-20261124-integration-final.log",
+      "sha256": "4fe11a0ee3c438c25abdccdd40db139955a61a1f389677957af8fb40773d8dc9"
+    },
+    {
+      "path": ".local/uat-20261124-ui-after.log",
+      "sha256": "5a4307d47f112454d46608b74cf5a42d493539f2e2e62418be26cdfc28f51b9e"
+    },
+    {
+      "path": ".local/uat-20261124-ui-final.log",
+      "sha256": "d074ad1bc71ed7fa0cb88e2741b96625b67640957a87511d27cab74820ace40b"
+    },
+    {
+      "path": ".local/uat-20261124-ui-map-fix.log",
+      "sha256": "8209483f5ad2c386068de1380a5d80f5b45b4bd843fe10f01ec303fa44d5e853"
+    },
+    {
+      "path": ".local/uat-20261124-scale.log",
+      "sha256": "30144d2673d5a4e8b20a5a7ac3000110e1b45540262ea8ce330151a3136a61e8"
+    },
+    {
+      "path": ".local/uat-20261124-cloud-build.log",
+      "sha256": "dcf416421eb80dbc0f8540e25a222f29e60b4d609c48bc4e027a1a806e392073"
+    },
+    {
+      "path": ".local/uat-20261124-check-delivery.log",
+      "sha256": "908e481fcf4e93936974ca9e5ec213635ac096117601e99d21118cd3a4d1b1a5"
+    },
+    {
+      "path": ".local/uat-20261124-ui-delivery.log",
+      "sha256": "c45c41cb56da353a9122d5f506d83fc6119f602d50294601113aa1eaf0b29921"
+    },
+    {
+      "path": ".local/uat-20261124-integration-delivery.log",
+      "sha256": "3b86e1eac3354d6592642bc2a151ab950c635d4733da2ce0e9e68c1a5a2294b9"
+    },
+    {
+      "path": ".local/uat-20261124-android-export.log",
+      "sha256": "3c9f043801649d7258dc0bbca037d19efe27b946d58c35866c71196163ce2df2"
+    },
+    {
+      "path": ".local/uat-20261124-cloud-build-delivery.log",
+      "sha256": "4ac222763b0ddf7e88e1c8a5e7e58d2b99f42c12ee5328491c461743b88472c9"
+    }
+  ],
+  "screenshots": [
+    {
+      "path": ".local/uat-20261124/screens/consent-error-visible.png",
+      "sha256": "83ef429e0fbac0cdcf497109be6d96e7ccbf7b0ed5878daaa2ef0e30a388765b"
+    },
+    {
+      "path": ".local/uat-20261124/screens/emergency-contact-shortcut.png",
+      "sha256": "f997ff3323de0e8ed34bae0199649fa27263c806a044ddd11e88df48d60c2d5c"
+    },
+    {
+      "path": ".local/uat-20261124/screens/location-update-recovery.png",
+      "sha256": "ba8631d5d0996a8c37ad3645d1812a4945b6af822a83240737fbcf509717ef14"
+    }
+  ],
+  "limits": [
+    "No current cloud load measurement",
+    "No Android GPS, sound, vibration, background, battery or crash acceptance",
+    "Not 1000 concurrent users",
+    "No clinical or real-user pilot acceptance",
+    "Legacy clients omit optional location metadata and arrival revision",
+    "11 moderate app-toolchain audit items remain"
+  ]
+}

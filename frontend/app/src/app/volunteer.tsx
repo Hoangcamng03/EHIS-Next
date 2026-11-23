@@ -244,6 +244,7 @@ function IncidentAlert({
     try {
       await httpsCallable(firebaseClient().functions, 'markIncidentArrived', { timeout: 15000 })({
         incidentId: alert.incidentId,
+        expectedLocationRevision: details?.locationRevision ?? 0,
       });
     } catch (err) {
       setError(readableError(err));
@@ -332,6 +333,7 @@ function IncidentAlert({
           </InfoDisclosure>
           {alert.status === 'accepted' && (
             <ConfirmAction
+              key={`arrival-${alert.locationRevision || 0}`}
               tone="complete"
               title="Đã đến nơi"
               explanation="Xác nhận bạn đã có mặt tại vị trí bệnh nhân? Chỉ xác nhận khi thực sự đã đến."

@@ -47,7 +47,7 @@
   },
   "private": true,
   "overrides": {
-    "node-forge": "1.4.2",
+    "node-forge": "1.4.3",
     "@firebase/firestore": {
       "@grpc/grpc-js": "1.13.6"
     }

@@ -65,6 +65,10 @@ async function main() {
     'scripts/smoke-improvements.cjs',
     'scripts/smoke-progress.cjs',
   ];
+  suites.relocation = ['scripts/smoke-relocation-handover.cjs'];
+  suites.all.push(...suites.relocation);
+  suites.product.splice(3, 0, ...suites.relocation);
+  suites.handover.push(...suites.relocation);
   suites.verification = ['scripts/smoke-verification.cjs', 'scripts/smoke-push.cjs'];
   const suite = process.argv[2] || 'all';
   if (!suites[suite]) throw Error('Unknown test suite');

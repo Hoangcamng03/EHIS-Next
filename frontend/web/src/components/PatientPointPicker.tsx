@@ -64,6 +64,11 @@ export function PatientPointPicker({
   }, []);
   useEffect(() => {
     let cancelled = false;
+    if (!value) {
+      marker.current?.remove();
+      marker.current = null;
+      return;
+    }
     if (value)
       import('leaflet').then((L) => {
         if (cancelled || !map.current) return;

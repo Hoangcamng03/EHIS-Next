@@ -1,4 +1,6 @@
 import { specialtyOffers } from './specialtyDispatch';
+import { planAutomaticHandover } from './automaticHandover';
+import { handoverTargets } from './handoverPolicy';
 import { guardedCall as onCall } from './guards';
 import { createHash } from 'node:crypto';
 import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
@@ -540,6 +542,7 @@ export const updateIncidentLocation = onCall('updateIncidentLocation', async (re
       'locationSource',
       'patientAddress',
       'destinationConfirmed',
+      'locationFix',
     ]);
     const parsed = parseCreateIncident({
       cardId: 'location-only',
@@ -554,11 +557,28 @@ export const updateIncidentLocation = onCall('updateIncidentLocation', async (re
         : {}),
     });
     const point = parsed.location;
+    let locationFix: { accuracyMeters: number; capturedAtMs: number } | undefined;
+    if (value.locationFix !== undefined) {
+      const fix = objectValue(value.locationFix, ['accuracyMeters', 'capturedAtMs']);
+      if (
+        parsed.locationSource === 'patient_pin' ||
+        typeof fix.accuracyMeters !== 'number' ||
+        !Number.isFinite(fix.accuracyMeters) ||
+        fix.accuracyMeters < 0 ||
+        fix.accuracyMeters > 30 ||
+        typeof fix.capturedAtMs !== 'number' ||
+        !Number.isFinite(fix.capturedAtMs) ||
+        fix.capturedAtMs <= 0
+      )
+        throw new Error('Invalid GPS fix');
+      locationFix = { accuracyMeters: fix.accuracyMeters, capturedAtMs: fix.capturedAtMs };
+    }
     if (Math.abs(point.latitude) > 85) throw new Error('Location outside supported map range');
     return {
       incidentId: identifier(value.incidentId),
       updateId: identifier(value.updateId),
       location: point,
+      ...(locationFix ? { locationFix } : {}),
       ...(parsed.locationSource
         ? { locationSource: parsed.locationSource, patientAddress: parsed.patientAddress ?? '' }
         : {}),
@@ -588,26 +608,95 @@ export const updateIncidentLocation = onCall('updateIncidentLocation', async (re
         'failed-precondition',
         'Chỉ đổi điểm sau khi TNV nhận. Trước đó hãy hủy và gửi lại để tìm TNV phù hợp.',
       );
+    const now = Date.now();
+    if (
+      data.locationFix &&
+      (now - data.locationFix.capturedAtMs > 10000 || data.locationFix.capturedAtMs > now + 5000)
+    )
+      throw new HttpsError(
+        'failed-precondition',
+        'GPS đã cũ. Lấy lại vị trí và xác nhận điểm mới.',
+        { reason: 'location-stale' },
+      );
     const revision = Number(value.reportRevision || 0) + 1,
       locationRevision = Number(value.locationRevision || 0) + 1,
       at = FieldValue.serverTimestamp();
-    tx.set(ref.collection('private').doc('location'), data.location);
-    if (data.locationSource)
-      tx.set(ref.collection('private').doc('destination'), {
-        source: data.locationSource,
-        address: data.patientAddress,
-        confirmedAt: at,
+    // All handover reads happen before any write. A location update must not
+    // leave invitations or an arrival/ETA referring to the previous destination.
+    const replacement =
+      value.handover?.mode === 'automatic'
+        ? await planAutomaticHandover(
+            tx,
+            db,
+            { ...value, reportRevision: revision, locationRevision },
+            data.incidentId,
+            value.acceptedBy,
+            makeId(`relocate-handover:${uid}:${data.updateId}`),
+            now,
+            { destination: data.location, renew: true, requestedBy: uid },
+          )
+        : null;
+    const travelProgress = replacement
+      ? {
+          ...value.travelProgress,
+          ...replacement.summary,
+          etaAtMs: null,
+          firstEtaAtMs: null,
+          revision: Number(value.travelProgress?.revision || 0) + 1,
+        }
+      : null;
+    replacement?.write();
+    if (value.handover && !replacement) {
+      tx.update(ref.collection('handoverRequests').doc(value.handover.id), {
+        status: value.handover.expiresAt.toMillis() > now ? 'replaced' : 'expired',
+        reasonClosed: 'destination_changed',
       });
+      for (const recipient of handoverTargets(value.handover))
+        tx.set(
+          db.doc(`volunteers/${recipient}/alerts/${data.incidentId}`),
+          { status: 'closed' },
+          { merge: true },
+        );
+    }
+    tx.set(ref.collection('private').doc('location'), data.location);
+    tx.set(ref.collection('private').doc('destination'), {
+      source: data.locationSource || 'reporter_gps',
+      address: data.patientAddress || '',
+      ...(data.locationFix ?? {}),
+      confirmedAt: at,
+    });
     tx.set(ref.collection('private').doc('reporter'), { revision }, { merge: true });
-    tx.update(ref, { reportRevision: revision, locationRevision, locationUpdatedAt: at });
+    tx.update(ref, {
+      reportRevision: revision,
+      locationRevision,
+      locationUpdatedAt: at,
+      status: 'accepted',
+      arrivedAt: FieldValue.delete(),
+      travelProgress,
+      ...(!replacement && value.handover ? { handover: FieldValue.delete() } : {}),
+    });
     tx.create(event, { revision, locationRevision, fingerprint, createdAt: at });
     tx.update(db.doc(`reporters/${uid}/incidentStatuses/${data.incidentId}`), {
       reportRevision: revision,
       locationRevision,
+      status: 'accepted',
+      travelProgress,
+      handoverPending: !!replacement,
     });
     tx.set(
+      db.doc(`patients/${value.patientId}/incidentStatuses/${data.incidentId}`),
+      { status: 'accepted', travelProgress, handoverPending: !!replacement, locationRevision },
+      { merge: true },
+    );
+    tx.set(
       db.doc(`volunteers/${value.acceptedBy}/alerts/${data.incidentId}`),
-      { reportRevision: revision, locationRevision, reportUpdatedAt: at },
+      {
+        reportRevision: revision,
+        locationRevision,
+        reportUpdatedAt: at,
+        status: 'accepted',
+        travelProgress,
+      },
       { merge: true },
     );
     queuePush(
