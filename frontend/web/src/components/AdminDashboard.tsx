@@ -27,6 +27,8 @@ export function AdminDashboard() {
   const [busy, setBusy] = useState(false),
     [items, setItems] = useState<Application[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [accessAttempt, setAccessAttempt] = useState(0);
+  const [accessFailed, setAccessFailed] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -35,6 +37,7 @@ export function AdminDashboard() {
       setUser(value);
       setAdmin(false);
       setReady(!value);
+      setAccessFailed(false);
       setItems([]);
       setLoaded(false);
       setError('');
@@ -51,8 +54,9 @@ export function AdminDashboard() {
             }
           })
           .catch(() => {
-            if (!cancelled) {
+            if (!cancelled && client.auth.currentUser?.uid === value.uid) {
               setError('Chưa xác minh được quyền quản trị. Kiểm tra kết nối.');
+              setAccessFailed(true);
               setReady(true);
             }
           });
@@ -61,7 +65,7 @@ export function AdminDashboard() {
       cancelled = true;
       unsubscribe();
     };
-  }, []);
+  }, [accessAttempt]);
   useEffect(() => {
     if (!user || !admin) return;
     let cancelled = false;
@@ -163,7 +167,16 @@ export function AdminDashboard() {
           <button className="secondary" disabled={busy} onClick={() => act('logout')}>
             Đăng xuất quản trị
           </button>
-          {ready && !admin && (
+          {ready && accessFailed && (
+            <button
+              className="primary"
+              disabled={busy}
+              onClick={() => setAccessAttempt((value) => value + 1)}
+            >
+              Kiểm tra lại quyền quản trị
+            </button>
+          )}
+          {ready && !admin && !accessFailed && (
             <p role="alert" className="error">
               Tài khoản này không có quyền quản trị. Chọn vai trò hoặc đăng ký tài khoản không tự
               cấp quyền.

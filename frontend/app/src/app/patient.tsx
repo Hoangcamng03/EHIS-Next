@@ -3,7 +3,6 @@ import { ActionRow } from '../components/ActionRow';
 import { AppIcon } from '../components/AppIcon';
 import { RoleTabs } from '../components/RoleTabs';
 import { CaseHistory } from '../components/CaseHistory';
-import { CheckboxRow } from '../components/CheckboxRow';
 import { ExternalLink } from '../components/ExternalLink';
 import { TextInput } from '../components/AppTextInput';
 import { TravelStatusText } from '../components/TravelStatusText';
@@ -77,15 +76,13 @@ function PatientDashboard({ uid }: { uid: string }) {
     [savedFingerprint, setSavedFingerprint] = useState<string | null>(null);
   const [profileFailed, setProfileFailed] = useState(false),
     [profileAttempt, setProfileAttempt] = useState(0);
-  const [shareHistory, setShareHistory] = useState(false);
   const [expandedQr, setExpandedQr] = useState(false);
   const [pendingConsent, setPendingConsent] = useState<boolean | null>(null);
   const [consentError, setConsentError] = useState('');
   const [tab, setTab] = useState<'card' | 'profile' | 'history' | 'account'>('card');
   const [card, setCard] = useState<Card>(),
     [history, setHistory] = useState<History[]>([]);
-  const [share, setShare] = useState(false),
-    [confirmedRevoke, setConfirmedRevoke] = useState(false);
+  const [confirmedRevoke, setConfirmedRevoke] = useState(false);
   const [operation, setOperation] = useState<string | null>(null);
   const [feedbackTarget, setFeedbackTarget] = useState('profile');
   const [connected, setConnected] = useState(false),
@@ -221,8 +218,8 @@ function PatientDashboard({ uid }: { uid: string }) {
         setMessage('Đã lưu.');
       } else if (action === 'issue') {
         await httpsCallable(firebaseClient().functions, 'issuePatientCard', { timeout: 15000 })({
-          shareProfile: share,
-          shareHistory,
+          shareProfile: true,
+          shareHistory: true,
         });
         setMessage('Đã tạo QR.');
       } else {
@@ -362,6 +359,20 @@ function PatientDashboard({ uid }: { uid: string }) {
             </View>
           </Modal>
           {!validBase && <Text style={ui.error}>Chưa có địa chỉ trang báo hỗ trợ hợp lệ.</Text>}
+          {!card.shareProfile && (
+            <View style={{ gap: 8, padding: 10, backgroundColor: '#fff3d1', borderRadius: 10 }}>
+              <Text>TNV nhận ca chưa được xem hồ sơ sức khỏe của bạn.</Text>
+              <Button
+                title="Cho phép chia sẻ hồ sơ"
+                variant="secondary"
+                disabled={busy || !connected}
+                onPress={() => {
+                  setConsentError('');
+                  setPendingConsent(true);
+                }}
+              />
+            </View>
+          )}
         </>
       ) : (
         <>
@@ -376,22 +387,10 @@ function PatientDashboard({ uid }: { uid: string }) {
               ? 'QR cũ đã vô hiệu hóa. Bạn có thể tạo mã mới.'
               : 'QR chứa liên kết thẻ, không chứa bệnh án.'}
           </Text>
-          <ToggleRow
-            accessibilityLabel="Cho phép TNV được phân công xem hồ sơ"
-            label="Chia sẻ tên, bệnh nền, dị ứng và liên hệ với TNV nhận ca."
-            value={share}
-            onValueChange={setShare}
-            disabled={busy}
-          />
-          <CheckboxRow
-            label="Cho phép lưu tóm tắt ca trong 30 ngày để tôi và TNV từng phụ trách xem lại."
-            value={shareHistory}
-            onValueChange={setShareHistory}
-            disabled={busy}
-          />
-          <Text style={ui.caption}>
-            Chỉ lưu tên, bệnh nền, dị ứng và quan sát; không lưu số người báo hoặc tọa độ vào lịch
-            sử.
+          <Text style={ui.body}>
+            Hồ sơ đã lưu và tóm tắt ca (giữ 30 ngày, không lưu SĐT/tọa độ) sẽ tự động hiển thị cho
+            TNV được phân công khi có ca hỗ trợ. Người quét QR không xem được hồ sơ; bạn có thể tắt
+            chia sẻ trên thẻ sau khi tạo.
           </Text>
           <Button
             loading={operation === 'issue'}
@@ -418,6 +417,9 @@ function PatientDashboard({ uid }: { uid: string }) {
       <ScrollView
         style={{ flex: 1 }}
         ref={scroll}
+        nativeID="patient-content"
+        role="tabpanel"
+        aria-labelledby={`tab-patient-content-${tab === 'history' ? 'profile' : tab}`}
         contentContainerStyle={ui.page}
         keyboardShouldPersistTaps="always"
         keyboardDismissMode="on-drag"
@@ -661,7 +663,7 @@ function PatientDashboard({ uid }: { uid: string }) {
             <AccountBar />
             {card?.active && (
               <View style={ui.card}>
-                <Text style={ui.heading}>Quản lý thẻ</Text>{' '}
+                <Text style={ui.heading}>Quản lý thẻ</Text>
                 <InfoDisclosure title="Liên kết thẻ QR">
                   <Text selectable accessibilityLabel="Đường dẫn thẻ EHIS" style={ui.caption}>
                     {cardUrl}
@@ -703,6 +705,7 @@ function PatientDashboard({ uid }: { uid: string }) {
         )}
       </ScrollView>
       <RoleTabs
+        panelId="patient-content"
         value={tab === 'history' ? 'profile' : tab}
         items={[
           ['card', 'Thẻ của tôi'],

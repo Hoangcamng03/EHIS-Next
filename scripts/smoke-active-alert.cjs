@@ -11,7 +11,7 @@ async function main(){
  authSdk.connectAuthEmulator(auth,'http://127.0.0.1:9199',{disableWarnings:true});sdk.connectFirestoreEmulator(client,'127.0.0.1',8180);await authSdk.signInWithEmailAndPassword(auth,v.email,v.password);
  const page=await sdk.getDocs(sdk.query(sdk.collection(client,`volunteers/${v.localId}/alerts`),sdk.orderBy('createdAt','desc'),sdk.limit(30)));assert.equal(page.size,30);assert.ok(!page.docs.some(d=>d.id===c.incidentId),'Regression setup must actually exclude active case from first page');
  const merge=load('frontend/app/src/lib/alert-feed.ts',{}),watch=load('frontend/app/src/lib/subscribe-alerts.ts',{'firebase/firestore':sdk,'./alert-feed':merge});let state;const transitions=[];
- const stop=watch.subscribeVolunteerAlerts(client,v.localId,c.incidentId,value=>{state=value;transitions.push({connected:value.connected,error:value.error?.code,revision:value.alerts.find(a=>a.incidentId===c.incidentId)?.reportRevision,count:value.alerts.length});});
+ const stop=watch.subscribeVolunteerAlerts(client,v.localId,value=>{state=value;transitions.push({connected:value.connected,error:value.error?.code,revision:value.alerts.find(a=>a.incidentId===c.incidentId)?.reportRevision,count:value.alerts.length});});
  async function waitFor(predicate){const end=Date.now()+15000;while(Date.now()<end){if(predicate())return;await new Promise(r=>setTimeout(r,40));}throw Error('Realtime feed did not reach expected state: '+JSON.stringify(transitions.slice(-8)));}
  try{
   await waitFor(()=>state?.connected&&state.alerts.some(a=>a.incidentId===c.incidentId));assert.equal(state.alerts.length,31);

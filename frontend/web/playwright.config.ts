@@ -2,6 +2,8 @@ import { defineConfig } from '@playwright/test';
 import path from 'node:path';
 export default defineConfig({
   testDir: './tests',
+  testMatch:
+    process.env.EHIS_CAPTURE_FLOW === 'true' ? '**/presentation-flow.capture.ts' : '**/*.spec.ts',
   workers: 1,
   retries: 0,
   timeout: 60000,

@@ -53,6 +53,7 @@ async function main() {
   );
   suites.rules = ['scripts/rules-unit.cjs'];
   suites.ui = ['scripts/run-ui-tests.cjs'];
+  suites.flow = ['scripts/run-ui-tests.cjs'];
   suites.product = [
     'scripts/smoke-lifecycle.cjs',
     'scripts/smoke-verification.cjs',
@@ -73,7 +74,10 @@ async function main() {
   const suite = process.argv[2] || 'all';
   if (!suites[suite]) throw Error('Unknown test suite');
   for (const script of suites[suite])
-    execFileSync(process.execPath, [script], { stdio: 'inherit' });
+    execFileSync(process.execPath, [script], {
+      stdio: 'inherit',
+      env: { ...process.env, ...(suite === 'flow' ? { EHIS_CAPTURE_FLOW: 'true' } : {}) },
+    });
 }
 main().catch((error) => {
   console.error(error.message);

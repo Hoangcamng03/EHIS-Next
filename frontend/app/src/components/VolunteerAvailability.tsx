@@ -3,10 +3,11 @@ import { Button } from './ActionButton';
 import { ToggleRow } from './ToggleRow';
 import { InfoDisclosure } from './InfoDisclosure';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AppState, View } from 'react-native';
+import { AppState, Platform, View } from 'react-native';
 import * as Location from 'expo-location';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { firebaseClient, readableError, updateAvailability } from '../lib/firebase';
+import { enableNativePush } from '../lib/native-push';
 import { LocationMap } from './LocationMap';
 import { MapPoint } from '../lib/map';
 import { firstUsableLocation } from '../lib/location-request';
@@ -81,6 +82,7 @@ export function VolunteerAvailability({
   const availabilityWrite = useRef<Promise<unknown> | null>(null);
   const lastSent = useRef<{ point: MapPoint; at: number } | null>(null);
   const [phase, setPhase] = useState('');
+  const [pushWarning, setPushWarning] = useState('');
   const [latestFix, setLatestFix] = useState<LocationFix | null>(null);
   useEffect(
     () => () => {
@@ -184,6 +186,18 @@ export function VolunteerAvailability({
   async function enable() {
     // Called inside the user's tap, before awaiting GPS, to satisfy autoplay policy.
     void prepareAlerts?.().catch(() => undefined);
+    setPushWarning('');
+    if (Platform.OS === 'android') {
+      void enableNativePush()
+        .then((status) => {
+          if (/Chưa có quyền|bị tắt|im lặng|chưa bật/i.test(status)) setPushWarning(status);
+        })
+        .catch(() =>
+          setPushWarning(
+            'Chưa xác nhận được thông báo nền Android. Kiểm tra quyền thông báo và âm lượng chuông.',
+          ),
+        );
+    }
     epoch.current += 1;
     // Avoid starting a second foreground GPS request while enabling readiness.
     setSource('gps');
@@ -313,6 +327,11 @@ export function VolunteerAvailability({
           </>
         )}
       </InfoDisclosure>
+      {!!pushWarning && (
+        <Text accessibilityRole="alert" style={{ color: '#9f2424', fontSize: 13 }}>
+          {pushWarning}
+        </Text>
+      )}
       {!!error && (
         <Text accessibilityRole="alert" style={{ color: '#9f2424' }}>
           {error}

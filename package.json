@@ -33,6 +33,7 @@
     "test:rules": "npm run backend:build && node scripts/firebase-local.cjs test rules",
     "test:ui": "npm run backend:build && node scripts/firebase-local.cjs test ui",
     "format": "node frontend/web/node_modules/prettier/bin/prettier.cjs --write",
-    "test:product": "npm run backend:build && node scripts/firebase-local.cjs test product"
+    "test:product": "npm run backend:build && node scripts/firebase-local.cjs test product",
+    "capture:flow": "npm run backend:build && node scripts/firebase-local.cjs test flow"
   }
 }

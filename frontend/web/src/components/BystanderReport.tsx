@@ -42,6 +42,9 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
     bleeding: '',
   });
   const [phone, setPhone] = useState('');
+  const [reporterPresence, setReporterPresence] = useState<'with_patient' | 'left_scene'>(
+    'with_patient',
+  );
   const [meetingNote, setMeetingNote] = useState('');
   const [meetingNoteEdited, setMeetingNoteEdited] = useState(false);
   const [reportReady, setReportReady] = useState(false),
@@ -104,16 +107,28 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
     const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
   }, []);
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function sendReport(
+    nextPresence: 'with_patient' | 'left_scene' = reporterPresence,
+    fillUnknown = false,
+  ) {
     if (!canSend || !reportReady || outdated || busy) return;
+    const effectiveAnswers: Answers = fillUnknown
+      ? {
+          ...answers,
+          responsiveness: answers.responsiveness || 'unknown',
+          breathing: answers.breathing || 'unknown',
+          bleeding: answers.bleeding || 'unknown',
+        }
+      : answers;
+    if (questions.some((q) => !effectiveAnswers[q.key])) return;
     setBusy(true);
     setActionError('');
     setSuccess('');
     const payload = {
       incidentId,
       phone: phone.trim(),
-      answers,
+      answers: effectiveAnswers,
+      reporterPresence: nextPresence,
       expectedRevision: baseRevision,
       ...(meetingNoteEdited ? { meetingNote: meetingNote.trim() } : {}),
     };
@@ -129,7 +144,13 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
         ...payload,
         submissionId: attempt.current.submissionId,
       });
-      setSuccess(`Máy chủ đã lưu bản bổ sung số ${result.data.revision} vào cùng ca hỗ trợ.`);
+      if (fillUnknown) setAnswers(effectiveAnswers);
+      setReporterPresence(nextPresence);
+      setSuccess(
+        nextPresence === 'left_scene' && fillUnknown
+          ? `Đã báo TNV rằng bạn đã rời khỏi vị trí bệnh nhân (bản cập nhật số ${result.data.revision}).`
+          : `Máy chủ đã lưu bản bổ sung số ${result.data.revision} vào cùng ca hỗ trợ.`,
+      );
       setBaseRevision(result.data.revision);
       edited.current = false;
       setDirty(false);
@@ -138,6 +159,10 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
     } finally {
       setBusy(false);
     }
+  }
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    await sendReport(reporterPresence, false);
   }
   async function cancel() {
     if (!online || !serverConfirmed || busy || terminal) return;
@@ -177,7 +202,13 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
         setRestoreError('');
         return httpsCallable<
           unknown,
-          { phone: string; answers: Answers | null; meetingNote: string; revision: number }
+          {
+            phone: string;
+            answers: Answers | null;
+            meetingNote: string;
+            reporterPresence?: 'with_patient' | 'left_scene' | null;
+            revision: number;
+          }
         >(firebaseClient().functions, 'getBystanderReport', { timeout: 15000 })({ incidentId });
       })
       .then((result) => {
@@ -186,6 +217,9 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
           setPhone(result.data.phone || '');
           setAnswers(result.data.answers || { responsiveness: '', breathing: '', bleeding: '' });
           setMeetingNote(result.data.meetingNote);
+          setReporterPresence(
+            result.data.reporterPresence === 'left_scene' ? 'left_scene' : 'with_patient',
+          );
           setMeetingNoteEdited(false);
           setBaseRevision(result.data.revision);
         }
@@ -257,7 +291,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
           {actionError}
         </p>
       )}
-      {!!success && !status.reportSubmitted && (
+      {!!success && !terminal && (
         <p className="success" role="status">
           {success}
         </p>
@@ -356,6 +390,66 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
               </button>
             </div>
           )}
+          <fieldset
+            className="observation-question"
+            disabled={busy || !canSend || !reportReady || outdated}
+          >
+            <legend>
+              <strong>Bạn có đang ở ngay cạnh bệnh nhân không?</strong>
+            </legend>
+            <div className="choices">
+              <label className={reporterPresence === 'with_patient' ? 'choice selected' : 'choice'}>
+                <input
+                  type="radio"
+                  name="reporterPresence"
+                  value="with_patient"
+                  checked={reporterPresence === 'with_patient'}
+                  onChange={() => {
+                    edited.current = true;
+                    setDirty(true);
+                    setReporterPresence('with_patient');
+                    setSuccess('');
+                  }}
+                />
+                <span>
+                  <strong>Tôi đang ở ngay cạnh bệnh nhân</strong>
+                </span>
+              </label>
+              <label className={reporterPresence === 'left_scene' ? 'choice selected' : 'choice'}>
+                <input
+                  type="radio"
+                  name="reporterPresence"
+                  value="left_scene"
+                  checked={reporterPresence === 'left_scene'}
+                  onChange={() => {
+                    edited.current = true;
+                    setDirty(true);
+                    setReporterPresence('left_scene');
+                    setSuccess('');
+                  }}
+                />
+                <span>
+                  <strong>Tôi đã rời khỏi vị trí bệnh nhân</strong>
+                </span>
+              </label>
+            </div>
+            {reporterPresence === 'left_scene' && (
+              <div className="notice" role="status">
+                <p>
+                  Bấm xác nhận bên dưới để báo ngay cho TNV (có thể bổ sung mốc tìm bệnh nhân nếu
+                  cần).
+                </p>
+                <button
+                  type="button"
+                  className="secondary"
+                  disabled={busy || !canSend || !reportReady || outdated}
+                  onClick={() => void sendReport('left_scene', true)}
+                >
+                  {busy ? 'Đang gửi…' : 'Xác nhận đã rời đi ngay'}
+                </button>
+              </div>
+            )}
+          </fieldset>
           <p className="observation-progress" role="status">
             Đã chọn {questions.filter((q) => answers[q.key]).length}/3 câu · Có thể chọn Chưa rõ
           </p>

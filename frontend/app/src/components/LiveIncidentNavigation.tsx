@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { Text } from './AppText';
@@ -13,7 +13,7 @@ import type { MapPoint } from '../lib/map';
 import { RouteMap } from './RouteMap';
 import { DirectionsLink } from './DirectionsLink';
 
-export function LiveIncidentNavigation({
+export const LiveIncidentNavigation = memo(function LiveIncidentNavigation({
   destination,
   connected,
   autoPreview = false,
@@ -233,4 +233,4 @@ export function LiveIncidentNavigation({
       </InfoDisclosure>
     </View>
   );
-}
+});

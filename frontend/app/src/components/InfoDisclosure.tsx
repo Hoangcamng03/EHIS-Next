@@ -6,12 +6,14 @@ export function InfoDisclosure({
   title = 'Thông tin thêm',
   children,
   keepMounted = false,
+  initiallyOpen = false,
 }: {
   title?: string;
   children: ReactNode;
   keepMounted?: boolean;
+  initiallyOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(initiallyOpen);
   return (
     <View style={{ gap: open ? 8 : 0 }}>
       <Pressable

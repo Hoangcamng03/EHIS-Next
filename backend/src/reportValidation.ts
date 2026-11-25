@@ -70,12 +70,18 @@ export function parseBystanderReport(input: unknown) {
     'answers',
     'meetingNote',
     'expectedRevision',
+    'reporterPresence',
   ]);
   if (
     data.expectedRevision !== undefined &&
     (!Number.isInteger(data.expectedRevision) || Number(data.expectedRevision) < 0)
   )
     throw new Error('Invalid expected revision');
+  if (
+    data.reporterPresence !== undefined &&
+    !['with_patient', 'left_scene'].includes(String(data.reporterPresence))
+  )
+    throw new Error('Invalid reporter presence');
   const answers = objectValue(data.answers, [
     'responsiveness',
     'breathing',
@@ -121,6 +127,9 @@ export function parseBystanderReport(input: unknown) {
       ? { expectedRevision: Number(data.expectedRevision) }
       : {}),
     ...(data.meetingNote !== undefined ? { meetingNote: meetingNote(data.meetingNote) } : {}),
+    ...(data.reporterPresence !== undefined
+      ? { reporterPresence: data.reporterPresence as 'with_patient' | 'left_scene' }
+      : {}),
   };
 }
 export function meetingNote(value: unknown): string {

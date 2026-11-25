@@ -1,0 +1,203 @@
+{
+  "reviewDateLocal": "2026-11-24",
+  "generatedAt": "2026-11-24T16:56:25.888Z",
+  "baseline": "7b3acfa4284b0b165031828b17533b63fe0d8d44",
+  "scope": "Local software/UI and read-only cloud compatibility probe; fictional profiles and configured browser geolocation. No phone available.",
+  "checks": {
+    "source": {
+      "status": "PENDING",
+      "passedSteps": 0,
+      "backendUnit": null,
+      "clientUnit": null
+    },
+    "ui": {
+      "startTime": "2026-11-24T16:50:22.232Z",
+      "duration": 63581.251,
+      "expected": 16,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "flow": {
+      "status": "IN_PROGRESS",
+      "steps": 4,
+      "scenarios": [
+        "01. Đăng ký và xác minh"
+      ]
+    },
+    "cloudCompatibility": {
+      "status": "BLOCKED_AS_EXPECTED",
+      "reason": "Published backend is missing new API contract; publication must deploy backend first",
+      "mutations": false
+    }
+  },
+  "previousCI": {
+    "name": "Check EHIS",
+    "commit": "7b3acfa4284b0b165031828b17533b63fe0d8d44",
+    "conclusion": "success",
+    "url": "https://github.com/Hoangcamng03/EHIS-Next/actions/runs/45236296326",
+    "maintenanceRead": [
+      {
+        "id": 45339497123,
+        "conclusion": "skipped"
+      },
+      {
+        "id": 45280304443,
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  "attempts": [
+    {
+      "scope": "UI recovery regressions before fixes",
+      "passed": 12,
+      "failed": 3
+    },
+    {
+      "scope": "new accessibility coverage",
+      "passed": 15,
+      "failed": 1,
+      "reason": "Tabs missing tablist"
+    },
+    {
+      "scope": "tab parent fixed and keyboard coverage added",
+      "passed": 15,
+      "failed": 1,
+      "reason": "Selected state absent from web DOM"
+    },
+    {
+      "scope": "explicit aria-selected added",
+      "startTime": "2026-11-24T16:50:22.232Z",
+      "duration": 63581.251,
+      "expected": 16,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  ],
+  "rulesAudit": {
+    "score": 4,
+    "scope": "Static review of unchanged firestore.rules; not an independent security audit or new cloud rule deployment",
+    "summary": "Identity-bound reads, no client writes, default deny. Admin SDK authorization remains separate.",
+    "findings": [
+      {
+        "check": "Resource exhaustion/DoS",
+        "severity": "minor",
+        "issue": "Owner subcollection lists are not capped by Rules; clients can read more history than UI limits.",
+        "recommendation": "Plan explicit bounded query contracts and compatible client migration before adding Rules list limits; retain default-deny writes."
+      }
+    ],
+    "checks": [
+      "No create/update bypass: all client writes denied",
+      "Authority derives from auth UID and server-owned verification document",
+      "Private incidents and cards denied to clients",
+      "No reliance on client-supplied role or ownerId",
+      "Admin handlers require separate server checks"
+    ]
+  },
+  "release": {
+    "published": false,
+    "cloudDeployed": false,
+    "apkBuilt": false,
+    "otaPublished": false,
+    "deviceAccepted": false
+  },
+  "limitations": [
+    "No cloud load result in this pass",
+    "No real-device GPS/audio/background/crash acceptance",
+    "No clinical or independent UAT",
+    "Scheduler execution not proven; inspected maintenance runs skipped",
+    "Automated accessibility is a subset of manual accessibility"
+  ],
+  "hashes": {
+    "scope": "Working-tree bytes; Git line endings may differ. Raw logs/screens remain local.",
+    "source": [
+      {
+        "path": "backend/api-contract.json",
+        "sha256": "41d22db9f614c0d9ca32488413aacf448215334d7b2c17c4c8b6c4b4461b4fc1"
+      },
+      {
+        "path": "backend/src/index.ts",
+        "sha256": "7f21027246ecfcbb6ecdeb51325bbae2109831b4760f4601df540db1a8a36f3f"
+      },
+      {
+        "path": "frontend/web/src/components/RequestHelp.tsx",
+        "sha256": "daac9508ebfd2d8bc6eba7747ff365d2e7af43daa03a07c73b66b10bcbb13810"
+      },
+      {
+        "path": "frontend/web/src/components/AdminDashboard.tsx",
+        "sha256": "f2ae6f47547bf6664b86dd71c4682dd0ba90a6f768b8a5e83a8f40fee55cc038"
+      },
+      {
+        "path": "frontend/web/src/lib/pending-request.ts",
+        "sha256": "da408f3451bc7d4b44b05db77d8a56915dac341cb2a9777c7414deed34c40c8b"
+      },
+      {
+        "path": "frontend/app/src/components/RoleTabs.tsx",
+        "sha256": "bd4ab06800281af57a709f28b47c1728620abd9560c11461753bbebc1b8674a7"
+      },
+      {
+        "path": "frontend/app/src/components/FocusStyle.web.tsx",
+        "sha256": "1f376f559a50b13c2698892abac82b36dd64da7aa9d3fe97002b80ee93668608"
+      },
+      {
+        "path": "frontend/app/src/app/patient.tsx",
+        "sha256": "cced01ae777b004427b611a5c116eaec22510f1ae3f72cdb27d2df46262549b2"
+      },
+      {
+        "path": "frontend/app/src/app/volunteer.tsx",
+        "sha256": "b682df37ff9221f49e12b78ff5e8a8010bd404c72ef97a7ab89172ad8dd62568"
+      },
+      {
+        "path": "scripts/release-contract.cjs",
+        "sha256": "39271a13cfd1b9e19d7671e6eb288518bc9c73fc47cee411ed29e917eba301cc"
+      },
+      {
+        "path": "scripts/cloud.cjs",
+        "sha256": "fb92fe22212472030e6828803c6dcda3bb9e60e675aa571cfadde5b50193141e"
+      },
+      {
+        "path": "scripts/release-preview.cjs",
+        "sha256": "b7df28809f6962a59993aefc71f25ca62d818391ff5df611d3bcf0d410d5fc9a"
+      },
+      {
+        "path": "scripts/build-trial-android.cjs",
+        "sha256": "8a93b5c952bb208c4ae1bafa74e1514013c302ceeb332cd89e8f78ef45d27928"
+      },
+      {
+        "path": "frontend/web/tests/quality-review.spec.ts",
+        "sha256": "9bf4f70f2a619bbdaebce64be367da9cf0c2575db79031cc80db3f7ab5ea6e65"
+      },
+      {
+        "path": "frontend/web/tests/presentation-flow.capture.ts",
+        "sha256": "e24895724b8aee25716152629377b200e76163c058e028e882d3d895bbef36e7"
+      }
+    ],
+    "logs": [
+      {
+        "path": ".local/quality-20261124-ui-before.log",
+        "sha256": "e19a877bba1b7fc5da89cbef89574edd821799ebe4c5aa64c09e21361698f204"
+      },
+      {
+        "path": ".local/quality-20261124-ui-after.log",
+        "sha256": "10977ebc58faa1cc4399bac3e3a89eb925fd2b2818e0e7ab76d9761b1e1563ec"
+      },
+      {
+        "path": ".local/quality-20261124-ui-accessible.log",
+        "sha256": "2a1616785ec2ff4265f3391499dd8478c63ea757af00795c10a3002818d0007e"
+      },
+      {
+        "path": ".local/quality-20261124-ui-final.log",
+        "sha256": "094ad520a0befd66861f5a3e8af0cf9802efb35dd33a85881db810d35c84bbda"
+      },
+      {
+        "path": ".local/quality-20261124-flow.log",
+        "sha256": "53efd342d89b83ee70e4db9c8d081fafada00b4243033f8e1ace76dacadfea12"
+      },
+      {
+        "path": ".local/quality-20261124-cloud-contract.log",
+        "sha256": "30de752a995f0b115cbcfc4be5c5d3d173392b5bd698a2f26ca6972991057a38"
+      }
+    ]
+  }
+}

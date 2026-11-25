@@ -320,7 +320,7 @@ export const submitBystanderReport = onCall('submitBystanderReport', async (requ
     );
     const revision = Number(incident.data()!.reportRevision ?? 0) + 1;
     const updatedAt = FieldValue.serverTimestamp();
-    // Merge preserves the optional meeting note when an older APK submits the original payload.
+    // Merge preserves the optional meeting note and presence when an older APK submits the original payload.
     tx.set(
       ref.collection('private').doc('reporter'),
       {
@@ -329,6 +329,9 @@ export const submitBystanderReport = onCall('submitBystanderReport', async (requ
         revision,
         updatedAt,
         ...(data.meetingNote !== undefined ? { meetingNote: data.meetingNote } : {}),
+        ...(data.reporterPresence !== undefined
+          ? { reporterPresence: data.reporterPresence }
+          : {}),
       },
       {
         mergeFields: [
@@ -337,6 +340,7 @@ export const submitBystanderReport = onCall('submitBystanderReport', async (requ
           'revision',
           'updatedAt',
           ...(data.meetingNote !== undefined ? ['meetingNote'] : []),
+          ...(data.reporterPresence !== undefined ? ['reporterPresence'] : []),
         ],
       },
     );
@@ -370,7 +374,12 @@ export const submitBystanderReport = onCall('submitBystanderReport', async (requ
       });
     }
     if (historySnapshot.data()?.consented === true)
-      tx.update(ref.collection('private').doc('history'), { answers: data.answers });
+      tx.update(ref.collection('private').doc('history'), {
+        answers: data.answers,
+        ...(data.reporterPresence !== undefined
+          ? { reporterPresence: data.reporterPresence }
+          : {}),
+      });
     tx.create(event, { revision, fingerprint, createdAt: updatedAt });
     tx.update(db.doc(`reporters/${uid}/incidentStatuses/${data.incidentId}`), {
       reportRevision: revision,
@@ -877,6 +886,7 @@ export const getVolunteerIncidentDetails = onCall(
         phone: report.data()?.phone ?? null,
         answers: report.data()?.answers ?? null,
         meetingNote: report.data()?.meetingNote ?? '',
+        reporterPresence: report.data()?.reporterPresence ?? null,
         revision: report.data()?.revision ?? 0,
         reportedAtMs: report.data()?.updatedAt?.toMillis?.() ?? null,
         location: location.data() ?? null,
@@ -918,6 +928,7 @@ export const getBystanderReport = onCall('getBystanderReport', async (request) =
       phone: report?.phone ?? '',
       answers: report?.answers ?? null,
       meetingNote: report?.meetingNote ?? '',
+      reporterPresence: report?.reporterPresence ?? null,
       revision: Number(value.reportRevision || 0),
       reportedAtMs: report?.updatedAt?.toMillis?.() ?? null,
     };

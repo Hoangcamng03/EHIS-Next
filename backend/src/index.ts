@@ -71,11 +71,14 @@ export { getOperationsOverview, retryPendingNotifications, runMaintenanceNow } f
 
 // No identities, personal data, or secrets in a public health check.
 const backendVersion = (require('../package.json') as { version: string }).version;
+const apiContract = require('../api-contract.json') as { revision: number; capabilities: string[] };
 export const health = onRequest({ cors: true }, (_request, response) => {
   response.json({
     service: 'ehis-next',
     status: 'ok',
     version: backendVersion,
+    apiRevision: apiContract.revision,
+    capabilities: apiContract.capabilities,
     projectId: getApp().options.projectId || process.env.GCLOUD_PROJECT || null,
   });
 });

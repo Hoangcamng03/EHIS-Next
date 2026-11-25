@@ -245,8 +245,17 @@ Hướng dẫn người dùng: [Bàn giao và kiểm tra vận hành](../operati
 
 ## Bản sửa sau rà soát 24/11/2026 — chưa triển khai cloud/điện thoại
 
+- Health public thêm `apiRevision` và `capabilities` từ `backend/api-contract.json`, không có dữ liệu tài khoản/ca. Công cụ phát hành kiểm revision tối thiểu và tập khả năng bắt buộc bên cạnh project/version. Revision/capabilities thiếu thì dừng trước deploy web hoặc phát APK/OTA. Đây là metadata tương thích do server khai báo, không chứng minh Auth/Firestore/FCM end-to-end hoặc an toàn lâm sàng.
+- Web mở thẻ khôi phục payload đang chờ từ session của đúng UID/thẻ; kiểm hình dạng và loại dữ liệu hỏng. Sau mất phản hồi giữ nguyên requestId/điểm/nguồn/địa chỉ, khóa sửa và kiểm tra lại; lỗi của một retry không đủ chứng minh lần trước chưa commit. Không thay đổi endpoint/schema tạo ca trong vòng này. Hủy GPS chỉ khả dụng trước gửi backend.
+
 - `updateIncidentLocation` nhận thêm `locationFix?: {accuracyMeters, capturedAtMs}` cho nguồn `reporter_gps`. Kiểm kiểu/giới hạn trước transaction; với thao tác mới, sai số ≤30 m, tuổi ≤10 giây, không tương lai quá 5 giây. Pin thủ công không được gắn metadata GPS giả. Không bắt field mới cho client legacy; dữ liệu thiết bị gửi không phải bằng chứng chống giả vị trí.
 - Kiểm tra sự kiện idempotency trước khi xét tuổi fix: lần gửi đã được lưu có thể được đọc lại sau 10 giây/đóng ca; không ghi tọa độ cũ thành thao tác mới. Bản web khóa điểm/nguồn/địa chỉ khi chưa rõ kết quả và gửi lại chính payload/updateId đó. Server vẫn từ chối fix cũ nếu chưa có sự kiện.
 - Điểm thay đổi làm trạng thái quay về `accepted`, bỏ `arrivedAt` hiện hành và ETA cũ; giữ nguyên assignee/assignment epoch, audit và lịch sử. Patient, người báo và alert của người phụ trách nhận cùng trạng thái. Cần xác nhận tiến độ/đã đến lại; hộp xác nhận đã đến mở ở điểm cũ được đóng khi locationRevision thay đổi.
 - Bàn giao tự động: thay đề nghị cũ, đóng lời mời cũ, xét lại người đủ điều kiện theo điểm mới trong cùng transaction; thông báo mới có revision/khoảng cách mới. Không ai nhận thì người cũ vẫn phụ trách. Bàn giao chỉ định bởi admin: đóng đề nghị đã lỗi điểm, giữ người cũ và bỏ cờ chờ ở cả Patient/người báo; admin cần chọn lại người cho điểm mới.
 - `private/destination` giữ sai số/thời điểm nếu là GPS mới, không sao chép vào history/audit/push. Legacy chỉ gửi tọa độ được ghi nguồn GPS không có thông số độ chính xác; không giữ nhầm địa chỉ ghim cũ. Metadata được dọn cùng dữ liệu riêng 24 giờ theo maintenance hiện có.
+
+## Cập nhật 25/11/2026 — trạng thái người báo và hồ sơ nhận ca/số lần cấp cứu
+
+- `submitBystanderReport` nhận thêm trường tùy chọn `reporterPresence?: "with_patient" | "left_scene"` (tương thích ngược client cũ). Lưu tại `incidents/{id}/private/reporter` (và `private/history` khi ca có đồng ý lưu lịch sử). `getVolunteerIncidentDetails` và `getBystanderReport` trả kèm `reporterPresence`.
+- `getCaseHistory({role})` bổ sung `summary: { totalCases, completedCases }` ở cấp kết quả; mỗi ca trả thêm `acceptedAtMs`, `arrivedAtMs`, `patientEmergencyCount` (đếm số ca của bệnh nhân trong `patients/{uid}/incidentStatuses` có `status !== 'cancelled'`, giới hạn tối đa 200) và `clinicalSummary.reporterPresence` khi còn trong hạn lưu 30 ngày.
+- App Bệnh nhân mặc định gọi `issuePatientCard({ shareProfile: true, shareHistory: true })` khi tạo QR mới (giữ công tắc `updatePatientCardConsent` trên thẻ nếu bệnh nhân muốn tắt chia sẻ sau; người quét QR vẫn không được xem hồ sơ).

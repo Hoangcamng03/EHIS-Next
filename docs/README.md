@@ -33,7 +33,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [REPO_MAP](architecture/REPO_MAP.md) | Code phần nào ở đâu, file cấu hình và đường đi dữ liệu |
 | [ARCHITECTURE](architecture/ARCHITECTURE.md) | Thành phần hệ thống, phân quyền và ranh giới dữ liệu |
 | [API_CONTRACT](architecture/API_CONTRACT.md) | Giao tiếp app/frontend/web/backend và schema; kiểm tra trạng thái source trước khi áp dụng |
-| [VOLUNTEER_VERIFICATION](operations/VOLUNTEER_VERIFICATION.md) | Người quản lý xác minh TNV, checklist, phân loại và duyệt hai bước |
+| [VOLUNTEER_VERIFICATION](operations/VOLUNTEER_VERIFICATION.md) | Admin duyệt trực tiếp, checklist, kỹ năng và quản lý khu vực |
 | [ANDROID_BACKGROUND_ALERTS](operations/ANDROID_BACKGROUND_ALERTS.md) | Cấu hình thông báo Home/khóa màn hình, giới hạn GPS và bài thử máy thật |
 | [REPORT_UPDATES_AND_ARRIVAL](operations/REPORT_UPDATES_AND_ARRIVAL.md) | Giải đáp Phúc Nguyên: ETA, kiểm tra tiến độ, gửi/nhận bản trả lời và font tiếng Việt |
 | [HANDOVER_AND_MAINTENANCE](operations/HANDOVER_AND_MAINTENANCE.md) | Bàn giao có xác nhận, lịch sử, GPS mới và dọn dữ liệu nhiều trang |
@@ -50,6 +50,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [REPOSITORY_MIGRATION](development/REPOSITORY_MIGRATION.md) | Đường dẫn trước/sau, chuyển máy đang sửa code, EAS/Vercel và quay lui |
 | [REPOSITORY_CLEANUP](development/REPOSITORY_CLEANUP.md) | Phần đã dọn, cấu trúc chuẩn, quy tắc ảnh và QR; xem lịch sử ở snapshot Git |
 | [TEAM](development/TEAM.md) | Chia việc phát triển cho bốn thành viên và tiêu chí bàn giao |
+| [PRODUCT_ENGINEERING_REVIEW](development/PRODUCT_ENGINEERING_REVIEW.md) | Rà soát sản phẩm tới vận hành, phần đã sửa và lộ trình cho nhóm |
 | [CONTRIBUTING](../CONTRIBUTING.md) | Làm việc chung, nhánh Git, review và xử lý khi sửa cùng file |
 | [Mobile README](../frontend/app/README.md) | App Patient/Volunteer |
 | [Web README](../frontend/web/README.md) | Website người báo/quản trị |
@@ -64,6 +65,7 @@ Tài liệu được chia thành thư mục theo công việc. Bốn đầu mố
 | [VERIFICATION_V0_4_23](testing/verification/VERIFICATION_V0_4_23.md) | APK 0.4.23: giao diện sáu màn, QR tải và giới hạn nghiệm thu máy thật |
 | [SYSTEM_REVIEW_2026_11_24](testing/verification/SYSTEM_REVIEW_2026_11_24.md) | Lỗi đã sửa, kết quả trước/sau và giới hạn nghiệm thu phần mềm |
 | [SYSTEM_REVIEW_2026_11_24.json](testing/verification/SYSTEM_REVIEW_2026_11_24.json) | Số đo tải local và dấu kiểm tra bằng chứng |
+| [PRODUCT_QUALITY_2026_11_24.json](testing/verification/PRODUCT_QUALITY_2026_11_24.json) | Bằng chứng khôi phục yêu cầu, quản trị, accessibility, phát hành và flow ảnh |
 | [VERIFICATION_V0_4_23.json](testing/verification/VERIFICATION_V0_4_23.json) | Bằng chứng APK, phiên bản, SHA-256, backend và Hosting |
 | [VERIFICATION_V0_4_22](testing/verification/VERIFICATION_V0_4_22.md) | Lịch sử APK 0.4.22; không phải bản tải hiện hành |
 | [VERIFICATION_V0_4_22.json](testing/verification/VERIFICATION_V0_4_22.json) | Số liệu artifact lịch sử 0.4.22, giữ nguyên kết quả cũ |

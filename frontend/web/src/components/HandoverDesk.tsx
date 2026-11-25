@@ -49,8 +49,52 @@ function CaseRow({ item, changed }: { item: Case; changed: () => void }) {
     </>}{message && <p role="status">{message}</p>}<HandoverHistory incidentId={item.incidentId} /></section>;
 }
 export function HandoverDesk() {
-  const [items, setItems] = useState<Case[]>([]), [next, setNext] = useState<string | null>(null), [busy, setBusy] = useState(false), [message, setMessage] = useState('');
-  const [historyId, setHistoryId] = useState('');
-  async function load(more = false) { setBusy(true); setMessage(''); try { const r = await callable<unknown, { cases: Case[]; next: string | null }>(adminClient().functions, 'listHandoverCases')({ ...(more && next ? { after: next } : {}) }); setItems(old => more ? [...old, ...r.data.cases] : r.data.cases); setNext(r.data.next); if (!r.data.cases.length) setMessage('Không có ca đang được phụ trách trong trang này.'); } catch (e) { setMessage(readableError(e)); } finally { setBusy(false); } }
-  return <details className="report-panel"><summary>Bàn giao ca đang xử lý</summary><p>Khi TNV bấm Không thể tiếp tục, hệ thống tự mời người nhận thay. Quản trị dùng mục này để theo dõi hoặc can thiệp; chỉ chuyển quyền khi TNV mới xác nhận, không tự đóng ca vì quá giờ. Nhận bàn giao bằng app web mới hoặc APK 0.4.14 trở lên.</p><p className="hint">Trạng thái theo lần tải gần nhất. Bấm tải lại để nhận tiến độ mới; đồng hồ cảnh báo không thay thế cập nhật từ máy chủ.</p><button className="primary" disabled={busy} onClick={() => load()}>Tải ca đang xử lý</button>{items.map(item => <CaseRow key={item.incidentId + (item.handover?.id || 'none')} item={item} changed={() => { void load(); }} />)}{next && <button className="secondary" disabled={busy} onClick={() => load(true)}>Tải thêm 25 ca</button>}{message && <p role="status">{message}</p>}<label className="phone-label">Tra lịch sử, kể cả ca đã kết thúc<input value={historyId} maxLength={100} onChange={e => setHistoryId(e.target.value.trim())} placeholder="Mã ca đầy đủ" /></label>{/^[A-Za-z0-9_-]{8,100}$/.test(historyId) && <HandoverHistory key={historyId} incidentId={historyId} />}</details>;
+  const [items, setItems] = useState<Case[]>([]),
+    [next, setNext] = useState<string | null>(null),
+    [busy, setBusy] = useState(false),
+    [message, setMessage] = useState('');
+  async function load(more = false) {
+    setBusy(true);
+    setMessage('');
+    try {
+      const r = await callable<unknown, { cases: Case[]; next: string | null }>(
+        adminClient().functions,
+        'listHandoverCases',
+      )({ ...(more && next ? { after: next } : {}) });
+      setItems((old) => (more ? [...old, ...r.data.cases] : r.data.cases));
+      setNext(r.data.next);
+      if (!r.data.cases.length) setMessage('Hiện không có ca đang được phụ trách.');
+    } catch (e) {
+      setMessage(readableError(e));
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <details className="report-panel">
+      <summary>Bàn giao ca đang xử lý</summary>
+      <p className="hint">
+        Theo dõi các ca đang có TNV phụ trách và gửi đề nghị bàn giao khi cần. Quyền chỉ chuyển sau
+        khi TNV mới xác nhận.
+      </p>
+      <button className="primary" disabled={busy} onClick={() => void load()}>
+        Tải ca đang xử lý
+      </button>
+      {items.map((item) => (
+        <CaseRow
+          key={item.incidentId + (item.handover?.id || 'none')}
+          item={item}
+          changed={() => {
+            void load();
+          }}
+        />
+      ))}
+      {next && (
+        <button className="secondary" disabled={busy} onClick={() => void load(true)}>
+          Tải thêm 25 ca
+        </button>
+      )}
+      {message && <p role="status">{message}</p>}
+    </details>
+  );
 }

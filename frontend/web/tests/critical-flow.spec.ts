@@ -96,7 +96,6 @@ test('new patient signup routes directly to patient without choosing role again'
     .boundingBox();
   expect(Math.abs(afterScrollTab!.y - initialTab!.y)).toBeLessThan(2);
   await page.getByRole('tab', { name: 'Thẻ của tôi', exact: true }).click();
-  await page.getByRole('checkbox', { name: /Cho phép lưu tóm tắt ca trong 30 ngày/ }).check();
   await page.getByRole('button', { name: 'Tạo mã QR', exact: true }).click();
   await expect(page.getByText('Mã QR đang hoạt động', { exact: true })).toBeVisible();
   await page.screenshot({ path: path.join(shots, 'patient-card.png') });
@@ -104,9 +103,12 @@ test('new patient signup routes directly to patient without choosing role again'
   await expect(page.getByRole('button', { name: 'Đóng mã QR', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Đóng mã QR', exact: true }).click();
   const sharing = page.getByRole('switch', { name: 'Chia sẻ hồ sơ khi được hỗ trợ', exact: true });
-  await expect(sharing).toHaveAttribute('aria-checked', 'false');
+  await expect(sharing).toHaveAttribute('aria-checked', 'true');
   await sharing.click();
   await page.getByRole('button', { name: 'Quay lại', exact: true }).click();
+  await expect(sharing).toHaveAttribute('aria-checked', 'true');
+  await sharing.click();
+  await page.getByRole('button', { name: 'Xác nhận dừng chia sẻ', exact: true }).click();
   await expect(sharing).toHaveAttribute('aria-checked', 'false');
   await sharing.click();
   await page.getByRole('button', { name: 'Xác nhận chia sẻ', exact: true }).click();
@@ -151,11 +153,13 @@ test('reporter GPS request, volunteer acceptance, report update and completion',
     await r.getByRole('radio', { name: /Có vẻ thở đều/ }).check();
     await r.locator('input[name="bleeding"][value="none_seen"]').check();
     await r.getByRole('button', { name: /Gửi thông tin/ }).click();
+    await expect(r.getByText(/Máy chủ đã lưu bản bổ sung số 1/)).toBeVisible();
     await expect(v.getByText('Cập nhật lần 1', { exact: false }).first()).toBeVisible();
     await v.screenshot({ path: path.join(shots, 'volunteer-alert.png') });
     await v.getByRole('button', { name: 'Nhận ca', exact: true }).click();
     await expect(v.getByRole('button', { name: 'Đã đến nơi', exact: true })).toBeVisible();
     await expect(v.getByText('Đường đến bệnh nhân', { exact: true })).toBeVisible();
+    await expect(v.getByText('Họ tên: Nguyễn Minh An', { exact: true })).toBeVisible();
     // Wait for the actual route request to settle; do not replace tiles/route
     // with fabricated images or geometry when the external service fails.
     await expect(v.getByText('Đang tính tuyến…', { exact: true })).toHaveCount(0, {
@@ -169,8 +173,12 @@ test('reporter GPS request, volunteer acceptance, report update and completion',
     await r.screenshot({ path: path.join(shots, 'reporter-followup.png') });
     await r.screenshot({ path: path.join(shots, 'reporter-followup-full.png'), fullPage: true });
     await r.getByRole('radio', { name: /Có vẻ khó thở/ }).check();
+    await r.getByRole('radio', { name: /Tôi đã rời khỏi vị trí bệnh nhân/ }).check();
     await r.getByRole('button', { name: /Gửi thông tin/ }).click();
     await expect(v.getByText('Cập nhật lần 2', { exact: false }).first()).toBeVisible();
+    await expect(
+      v.getByText('Người báo tin đã rời khỏi vị trí bệnh nhân', { exact: true }),
+    ).toBeVisible();
     await v.getByRole('button', { name: 'Hoàn tất ca hỗ trợ', exact: true }).click();
     await v.getByRole('button', { name: 'Xác nhận: hoàn tất ca hỗ trợ', exact: true }).click();
     await expect(

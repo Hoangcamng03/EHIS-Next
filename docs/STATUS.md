@@ -1,69 +1,48 @@
-# Trạng thái EHIS — tra cứu phiên bản tại đây
+# EHIS — bản đang dùng và việc tiếp theo
 
-**Rà soát source 24/11/2026 — chưa phát hành:** sửa lỗi chia sẻ, lối tắt liên hệ, GPS/gửi lại an toàn, đổi điểm khi bàn giao/đã đến và lỗi bản đồ web. [Kết quả và phần còn thiếu](testing/verification/SYSTEM_REVIEW_2026_11_24.md). Chưa có điện thoại trong phiên; cloud/APK/OTA chưa đổi. APK 0.4.23 bên dưới vẫn là bản công bố trước sửa.
+Cập nhật 25/11/2026. Đây là trang tra **hiện hành**. [Bắt đầu cho nhóm](START_HERE_DEMO.md) · [Tất cả tài liệu](README.md) · [Lab note](LAB_NOTES.md).
 
-**Cập nhật 19/11/2026 — Android 0.4.23/code21:** APK FINISHED, đã xác minh file thật; link/QR cùng artifact. Backend Vercel 0.4.23 và web/app web đã triển khai. Trang tải/QR mới đã đối chiếu đạt 37 tệp HTML/JS/CSS và 4 lượt QR khớp byte; tra [bằng chứng hiện hành](testing/verification/VERIFICATION_V0_4_23.md). APK23 chưa cài/nghiệm thu trên máy thật; không OTA. GPS mới dùng sai số thiết bị báo ≤30 m/tuổi ≤10 giây, không phải cam kết sai số vật lý. Các số liệu 14/11 trở về trước bên dưới là lịch sử.
+## 1. Phân biệt các bản
 
-
-Cập nhật 14/11/2026. [Cây source đã dọn và kết quả kiểm tra](development/REPOSITORY_CLEANUP.md). QR mới đã triển khai cùng trang tải: 36 tệp web + 4 lượt QR khớp build. Chỉ diễn tập có hướng dẫn với dữ liệu giả; chưa tiếp nhận cấp cứu thật. [Quy trình bàn giao và vận hành](operations/HANDOVER_AND_MAINTENANCE.md) · [Bằng chứng15](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.md) · [Số liệu gốc](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_15.json).
-
-**Cải thiện source ngày 12/11:** [Đối chiếu góp ý, phần đã sửa và giới hạn miễn phí](testing/verification/PRODUCT_REVIEW_2026_11_12.md). UI gọi 115/định dạng cảnh báo/form/focus; IP ingress, giới hạn theo thẻ, quyền admin hiện hành và các bộ kiểm thử mới. Phát hành cloud/APK phải tra bằng chứng riêng; không coi source mới là máy đã cập nhật.
-
-**Web/backend 12/11 từ commit 05a0e16 đã triển khai:** Vercel READY/health đúng project; 36 API không auth trả 401, bảo trì 401; 35 tệp Hosting khớp build. Trang người báo cloud đã kiểm tra chỉ đọc. [Bằng chứng đợt mới](testing/verification/PRODUCT_REVIEW_2026_11_12.json). APK/OTA không đổi; chưa chạy lại toàn luồng cloud có đăng nhập hoặc điện thoại sau bản vá này. Các số liệu 11/11 bên dưới là lịch sử.
-
-## 1. Bản đang bàn giao
-
-**14/11:** Web người báo đã bỏ toàn bộ khung/nút 115; 6/6 bài UI local đạt, 36 tệp web + 4 lượt QR trên cloud khớp build. Tài khoản, trạng thái duyệt, quy trình và 22 tình huống manual chỉ tra tại [README riêng duy nhất](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). Không tạo APK mới cho thay đổi chỉ thuộc web/tài liệu.
-
-**Android mới nhất: 0.4.23 / code 21.** [APK](https://expo.dev/artifacts/eas/x5jIiZ7-dRt8eMQF5M4Kc_sVOH-E3YSLa_Xq02s6_90.apk) · [Bằng chứng](testing/verification/VERIFICATION_V0_4_23.md). Chứa giao diện sáu màn và các API/luồng mới; đã kiểm tra artifact, chưa nghiệm thu điện thoại. 0.4.22 và các bản bên dưới là lịch sử.
-
-**UAT cloud mới11/11:** [Kết quả và ảnh](testing/verification/CLOUD_UAT_2026_11_11.md).9tài khoản hư cấu mới, ca người báo qua điện thoại→TNV web→bàn giao→hoàn tất/readback403 đạt; vị trí TNV là fixtureAPI, chưa nghiệm thu GPS di chuyển/native. Web đã có liên kết QR/privacy trực tiếp và khôi phục bản đồ; backend vẫn21/f870ee3, APK21 hiện có chưa chứa các sửa web mới. Không chốt bản cuối cấp cứu thật khi các mục máy thật còn mở.
-
-
-**Chỉ diễn tập có hướng dẫn; chưa nghiệm thu toàn bộ.** [Báo cáo08–10/11](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.md) và [số liệu gốc](testing/verification/ACCEPTANCE_ANDROID_2026_11_08.json) giữ cả thất bại và phần chưa thử.
-
-| Phần | Đã xác minh | Còn thiếu |
+| Lớp | Trạng thái xác minh | Cần biết |
 | --- | --- | --- |
-| App web/người báo/admin/referrer | Ngày 13/11: app web 0.4.22, web người báo/admin 0.4.21; bỏ câu “Nguy kịch? Gọi 115 trước.”, 35 tệp cloud khớp build từ 9ea5028 | Chưa chạy lại toàn luồng cloud có đăng nhập hoặc điện thoại sau bản vá; việc cập nhật link APK được ghi riêng trong lab note |
-| Backend Vercel | 0.4.21 từ 05a0e16 đã deploy/probe đúng version/project; 36 callable không auth trả 401 | Chưa kiểm thử tải lớn cloud/worker liên tục/SLA; Spark/Hobby và quyền hiện có |
-| S22+/Android16 | Lần kiểm tra gần nhất APK19/code17; kết quả18: GPS tại chỗ, route, OFF/ON, Home/resume, report2 tự tải/ack PASS ở lượt thử | Tự thoát gián đoạn còn OPEN; bố cục/bấm nhầm/hoàn tất native18 chưa đạt; chưa đi bộ/đoGPS chuẩn/offline độc lập/toàn bộ chế độ âm thanh |
-| APK19/code17 | Đã cài S22+;3ca chờ, nhận E, chặn nhận D/A, bản2 tự tải/ack, GPS tại chỗ, hủy xác nhận arrival/hoàn tất và xác nhận hoàn tất native PASS. Kết thúc OFF/no active | Chưa nghiệm thu toàn bộ: tự thoát, offline độc lập, đi bộ GPS, nhiều máy/chế độ âm. Xem lab note10/11 |
-| Trang tải chung (19/11) | [APK 0.4.23 / code 21](https://expo.dev/artifacts/eas/x5jIiZ7-dRt8eMQF5M4Kc_sVOH-E3YSLa_Xq02s6_90.apk); manifest/bundle/chuông đã kiểm. QR trỏ chính file này; 37 tệp cloud và 4 QR khớp build | Chưa cài/nghiệm thu APK23 trên máy thật; không OTA |
-| Source/CI backend | a9134eb,CI42654274756 SUCCESS, có health assertions thật;72a186a đã qua16suite local/CI | CIba90 trước sửa FAIL vẫn được giữ; không đồng nghĩa nghiệm thu thiết bị/y tế |
-| Tải local mới | Portable:1000Auth/128session/32feed/32ca/320API, p95 cảnh báo 943 ms,PASS | Không phải1000người dùng cloud; Functions local vẫn RECHECK,p95=21866ms>15000ms; chưa chứng minh mọi API nhanh hơn bản cũ |
-| iOS native | Hoãn; iPhone dùng app web | Chưa IPA/TestFlight/tài khoản/ký/nghiệm thu iOS |
-| Tài khoản demo | Bổ sung8tài khoản10/11:4Patient/2TNV duyệt diễn tập/1TNV chờ/1người giới thiệu giả lập;8/8login/API đã kiểm tra; repo riêng tư | Giữ A1/bộ cũ; kiểm tra trạng thái trước buổi; không công khai mật khẩu/QR/vị trí; không xác minh y tế thật |
+| Source | `main`: đã có các sửa ngày 24–25/11 (giảm lag nhận ca, tự mở hồ sơ, lịch sử ca + số lần cấp cứu, trạng thái người báo rời đi, tinh gọn `/admin`); xem [rà soát kỹ thuật/sản phẩm](development/PRODUCT_ENGINEERING_REVIEW.md) | Push source không cập nhật điện thoại |
+| Backend cloud | Probe chỉ đọc 24/11: đúng project/version 0.4.23, nhưng chưa có hợp đồng API mới | Bộ chặn phát hành mới từ chối backend này; cần triển khai backend trước web/APK |
+| Web đang bàn giao | Bản đã đối chiếu artifact gần nhất: 19/11, cùng đợt 0.4.23 | Các sửa source ngày 24–25/11 chưa deploy cloud |
+| Android tải hiện hành | **0.4.23 / code21**, APK/QR đã xác minh | S22+ đã xác nhận chuông/rung FCM thử riêng (mở app/Home/vuốt đóng); chưa nghiệm thu bản 25/11 trên điện thoại thật |
+| iPhone | Dùng app web qua trình duyệt | Chưa IPA/TestFlight; iOS native hoãn |
+| Thiết bị | Có bằng chứng S22+ ở các bản cũ và thử chuông 0.4.23, giữ trong lab note | Không suy kết quả bản cũ sang bản source mới |
 
-[Mở app](https://ehis-next-20261021-hc03-app.web.app) · [Trang cài](https://ehis-next-20261021-hc03.web.app/install) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin) · [Tài khoản](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md) · [Người giới thiệu](https://ehis-next-20261021-hc03.web.app/referrer).
+**Tải:** [Trang APK và QR cố định](https://ehis-next-20261021-hc03.web.app/install) · [APK 0.4.23](https://expo.dev/artifacts/eas/x5jIiZ7-dRt8eMQF5M4Kc_sVOH-E3YSLa_Xq02s6_90.apk) · [Bằng chứng artifact](testing/verification/VERIFICATION_V0_4_23.md).
 
-GPS16/17 FAIL, chuông15 FAIL và CIba90 FAIL không bị đổi thành PASS bởi các lượt sau. Chuông/khóa đã được chủ máy xác nhận ở16; chưa suy sang mọi chế độ/phiên bản/hãng. GPS18 là số đọc cảm biến trên máy thật với đích giả lập, không phải độ chính xác so mốc chuẩn. [Thông báo Android](operations/ANDROID_BACKGROUND_ALERTS.md) · [Xác minh TNV](operations/VOLUNTEER_VERIFICATION.md).
+**Mở hệ thống:** [App Patient/TNV](https://ehis-next-20261021-hc03-app.web.app) · [Website/người báo](https://ehis-next-20261021-hc03.web.app) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin).
 
-## 2. Bằng chứng theo đúng lớp
+**Tài khoản, nhóm duyệt/chưa duyệt, quy trình và bài manual:** chỉ tại [README riêng của nhóm](https://github.com/Hoangcamng03/EHIS-Next-Team-Access/blob/main/README.md). Không tạo bảng tra tài khoản thứ hai.
 
-- Bản 0.4.7: [VERIFICATION_V0_4_7](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_7.md). Logic/Emulator/browser/cloud/artifact được ghi riêng; không thay thế thử điện thoại.
-- Bản đối chiếu 0.4.8 ngày 27/10: [VERIFICATION_V0_4_8](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_8.md). 40 unit/logic, chín integration, bài 1.000 Auth/32 ca và browser đủ vai trò; chưa thay phiếu máy thật. Kết quả sau vá dependency/CI/phát hành ở lab note và bảng trên.
-- Bản sửa 0.4.9: [VERIFICATION_V0_4_9](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_9.md), [JSON](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/FIX_2026_10_27_0_4_9.json). TNV ON muộn, nhiều ca tách history, GPS cache/watch và audio tải muộn; cloud/APK đạt lớp phát hành, máy thật vẫn chờ.
-- Bản UI 0.4.10: [VERIFICATION_V0_4_10](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_10.md). Chữ gọn, nút/công tắc cả hàng, disclosure, map 48px; đăng ký và hai ca trước ON đã kiểm tra local.
-- Bản 0.4.11: [VERIFICATION_V0_4_11](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_11.md). Người giới thiệu/checklist/duyệt hai bước, liên hệ Patient, câu hỏi người báo và thông báo Android; ghi rõ tải FAIL/PASS và giới hạn chuông nền.
-- Phiếu người thử: [ACCEPTANCE_FLOW](testing/ACCEPTANCE_FLOW.md), A01–A13. Chưa có kết quả nhóm gửi về thì vẫn Chưa thử.
-- [So sánh hiệu suất 26/10](testing/PERFORMANCE_COMPARISON.md): baseline cùng tính năng trước sắp xếp; 192 ca đo qua hai lượt, build/payload và luồng browser. Kết quả local không thay SLA cloud hoặc thử Android thật.
+## 2. Luồng hiện hành
 
-## 3. Phạm vi đang áp dụng
+- Patient/TNV chọn vai trò khi đăng ký; đăng nhập mở đúng khu vực đã lưu.
+- Patient lưu hồ sơ, liên hệ, chọn chia sẻ/lịch sử và tạo QR. Người báo không được đọc bệnh án từ QR.
+- TNV gửi năng lực → **admin duyệt trực tiếp**. Không cần người giới thiệu. Vùng phục vụ quản lý; GPS và kỹ năng đã xác minh phục vụ điều phối.
+- Người báo xác nhận ở cạnh bệnh nhân hoặc ghim/địa chỉ được xác nhận từ xa → gửi → backend xác nhận → bảng hỏi → cùng ca cập nhật.
+- Một TNV phụ trách một ca. Không thể tiếp tục → mời người thay → người thay xác nhận mới chuyển quyền; không tự bỏ ca vì quá giờ.
+- Hồ sơ lịch sử cần đồng ý riêng, chỉ người tham gia/chủ hồ sơ, 30 ngày sau đóng; dữ liệu vị trí/phone được dọn riêng theo chính sách.
 
-Android miễn phí + web, dữ liệu giả, trình thầy và diễn tập có kiểm soát. Chưa đủ điều kiện tiếp nhận cấp cứu thật. Không tự bật Blaze/nâng gói, OTA, cửa hàng hoặc iOS native. Quyền TNV/admin do backend quyết định; chọn đối tượng chỉ mở đúng giao diện.
+## 3. Đã kiểm ở đâu?
 
-Các việc còn mở: thiết bị/GPS/âm/rung và nhận nền, hiệu năng tải lớn trên cloud, advisory dependency, giám sát/quota và điều kiện chuyên môn/vận hành. [Kế hoạch sản phẩm](planning/PRODUCT_LAUNCH_PLAN.md) · [Kế hoạch trình thầy/cuối kỳ](planning/MIDTERM_DEMO.md).
+- [Rà soát phần mềm 24/11](testing/verification/SYSTEM_REVIEW_2026_11_24.md): lỗi vị trí/bàn giao, 21 chương trình backend, 12 UI và tải local 32 ca/8 vùng. Số đo local không phải tải cloud hay SLA.
+- [Rà soát sản phẩm và phần phát triển tiếp](development/PRODUCT_ENGINEERING_REVIEW.md): khôi phục gửi yêu cầu, GPS, quản trị, điều hướng tiếp cận, phát hành và flow chụp ảnh. Kết quả mới ở JSON liên kết trong trang đó.
+- [Bằng chứng cloud 11/11](testing/verification/CLOUD_UAT_2026_11_11.md): một lượt phối hợp điện thoại/web với hồ sơ hư cấu; không nghiệm thu lâm sàng/native mới.
+- CI baseline `7b3acfa`: [Check EHIS đạt](https://github.com/Hoangcamng03/EHIS-Next/actions/runs/45236296326). Đây là commit trước các sửa sản phẩm tiếp theo; không dùng thay kết quả source chưa phát hành.
 
-Nhóm chưa có đầu mối trực; không tự điền số cá nhân/115. FCM có hạn chế đối với life-critical/emergency; chỉ diễn tập dữ liệu giả và phải đánh giá lại thiết kế trước ca thật, xem [giới hạn nhà cung cấp](operations/ANDROID_BACKGROUND_ALERTS.md#2-giới-hạn-phải-hiểu).
+## 4. Việc còn mở trước pilot
 
-## 4. Khi cập nhật lần sau
+1. Người khác review bản sửa → triển khai backend trước web → thử lại cloud có đăng nhập → build APK/QR cùng artifact → thử Android thật.
+2. Xác minh tự thoát, chuông Home/khóa, GPS đi bộ, quyền và mạng độc lập trên ít nhất hai Android. Phiên hiện tại chưa có điện thoại.
+3. Có đầu mối trực/đội y tế xác minh năng lực, quy trình không ai nhận và bàn giao thất bại.
+4. Bảo trì: workflow gần nhất được đọc bị skipped; chưa chứng minh lịch chạy ổn định. Kiểm lần dọn thành công, tồn đọng, quota và App Check. Không tự bật billing/lịch mới trong đợt rà soát.
+5. Theo dõi advisory công cụ Expo/ESLint; bản rà soát trước ghi 11 moderate, 0 high/critical. Chưa có kết quả mới thay thế trong phiên sản phẩm.
 
-**Nguồn chuẩn là main:** frontend/app, frontend/web, backend và docs theo công việc. Cấu trúc được hợp nhất qua [PR #7](https://github.com/Hoangcamng03/EHIS-Next/pull/7) theo chỉ đạo ngày 26/10; UI 0.4.8 được tích hợp/kiểm tra ở đợt 27/10. [Hướng dẫn chuyển máy thành viên](development/REPOSITORY_MIGRATION.md). Checkout cũ/WIP vẫn được giữ nguyên, không dùng làm nguồn phát hành song song.
+**Phạm vi hiện tại:** nghiệm thu/diễn tập có kiểm soát. Chưa đủ bằng chứng tiếp nhận cấp cứu thật. Vị trí nền chỉ đủ mới tối đa 5 phút; chưa có worker điều phối/SLA liên tục; bản đồ/ETA tham khảo, không có traffic/voice.
 
-Ghi bằng chứng ở lab note trước, cập nhật bảng phần 1 theo kết quả thực; chưa thử thì không đổi thành Đạt. Hướng dẫn thao tác ở trang cài/demo/phát hành; không chép lịch sử dài vào trang trạng thái này.
-
-[Lịch sử trạng thái trước lần tổ chức](https://github.com/Hoangcamng03/EHIS-Next/blob/f921d33/docs/STATUS_HISTORY.md).
-
-## Đang phát triển · 18/11/2026
-
-Duyệt TNV một tầng bởi admin, kỹ năng đã xác minh, báo từ xa bằng ghim bệnh nhân, lịch sử theo ca có đồng ý 30 ngày và trang giới thiệu mới. Đây là source local; APK/cloud đang bàn giao phía trên chưa được thay trong phiên này. Kết quả kiểm tra cập nhật trong LAB_NOTES. Không coi giao diện mới hoặc build đạt là nghiệm thu thiết bị hay vận hành y tế.
+Lịch sử chi tiết giữ tại [lab note](LAB_NOTES.md) và [STATUS của snapshot trước](https://github.com/Hoangcamng03/EHIS-Next/blob/7b3acfa4284b0b165031828b17533b63fe0d8d44/docs/STATUS.md). Không dùng hướng dẫn người giới thiệu hoặc APK cũ làm quy trình hiện hành.

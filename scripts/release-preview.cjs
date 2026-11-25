@@ -114,6 +114,8 @@ try {
       );
   }
   npm('check');
+  npm('cloud:probe');
+  record.backendContract = 'verified';
   record.checks = 'passed';
   save();
   const fingerprint = eas([

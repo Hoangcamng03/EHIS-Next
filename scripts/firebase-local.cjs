@@ -46,6 +46,7 @@ async function main() {
         'ui',
         'product',
         'relocation',
+        'flow',
       ].includes(suite)
     )
       throw new Error('Unknown test suite');

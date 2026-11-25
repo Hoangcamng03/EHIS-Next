@@ -1,0 +1,8 @@
+{
+  "revision": 1,
+  "capabilities": [
+    "direct-admin-verification",
+    "remote-patient-destination",
+    "confirmed-relocation-handover"
+  ]
+}

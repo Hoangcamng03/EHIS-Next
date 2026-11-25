@@ -55,6 +55,7 @@ type Details = {
   phone: string | null;
   answers: Answers | null;
   meetingNote?: string;
+  reporterPresence?: 'with_patient' | 'left_scene' | null;
   revision: number;
   reportedAtMs?: number | null;
   locationRevision?: number;
@@ -309,6 +310,36 @@ function IncidentAlert({
       )}
       {assigned && (
         <View style={styles.answers}>
+          {!privateData && !error && (
+            <Text accessibilityRole="status">Đã nhận ca · Đang tải hồ sơ và điểm đến…</Text>
+          )}
+          {!!privateData?.patientProfile && (
+            <Text style={styles.cardTitle}>{privateData.patientProfile.fullName}</Text>
+          )}
+          {privateData?.reporterPresence === 'left_scene' && (
+            <View
+              style={{
+                padding: 10,
+                borderRadius: 10,
+                backgroundColor: '#fde8e8',
+                borderWidth: 1,
+                borderColor: '#c93b3b',
+                gap: 4,
+              }}
+            >
+              <Text accessibilityRole="alert" style={{ color: '#8f1d1d', fontWeight: '700' }}>
+                Người báo tin đã rời khỏi vị trí bệnh nhân
+              </Text>
+              <Text style={{ color: '#6b1d1d', fontSize: 14 }}>
+                Kiểm tra mốc tìm bệnh nhân hoặc gọi người báo nếu có số liên hệ.
+              </Text>
+            </View>
+          )}
+          {privateData?.reporterPresence === 'with_patient' && (
+            <Text style={{ color: '#166534', fontWeight: '600', fontSize: 14 }}>
+              Người báo tin đang ở ngay cạnh bệnh nhân.
+            </Text>
+          )}
           {(alert.locationRevision || 0) > 0 && (
             <Text style={styles.urgentTitle}>Điểm bệnh nhân vừa được cập nhật</Text>
           )}
@@ -323,6 +354,34 @@ function IncidentAlert({
           )}
           {connected && (details?.locationRevision || 0) !== (alert.locationRevision || 0) && (
             <Text>Đang cập nhật điểm đến…</Text>
+          )}
+          {privateData?.patientProfile ? (
+            <InfoDisclosure title="Hồ sơ bệnh nhân" initiallyOpen>
+              <View style={styles.answers}>
+                <Text>Họ tên: {privateData.patientProfile.fullName}</Text>
+                <Text>
+                  Bệnh nền / tiền sử:{' '}
+                  {(privateData.patientProfile.medicalConditions || []).join('; ') ||
+                    'Chưa khai báo'}
+                </Text>
+                <Text>
+                  Dị ứng: {privateData.patientProfile.allergies.join(', ') || 'Chưa khai báo'}
+                </Text>
+                <Text>
+                  Người liên hệ:{' '}
+                  {privateData.patientProfile.emergencyContactName || 'Chưa khai báo'}
+                  {privateData.patientProfile.emergencyContactRelationship
+                    ? ` · ${privateData.patientProfile.emergencyContactRelationship}`
+                    : ''}
+                </Text>
+                <Text>
+                  Số khẩn cấp: {privateData.patientProfile.emergencyContactPhone || 'Chưa khai báo'}
+                </Text>
+                <Text>Thông tin tự khai, chưa xác minh y tế.</Text>
+              </View>
+            </InfoDisclosure>
+          ) : (
+            privateData && <Text>Bệnh nhân không chia sẻ hồ sơ sức khỏe.</Text>
           )}
           <Text style={styles.note}>
             Cập nhật lần {alert.reportRevision}
@@ -411,34 +470,6 @@ function IncidentAlert({
               {new Date(privateData.reportedAtMs).toLocaleTimeString('vi-VN')}
             </Text>
           ) : null}
-          {privateData?.patientProfile ? (
-            <InfoDisclosure title="Hồ sơ bệnh nhân">
-              <View style={styles.answers}>
-                <Text>Họ tên: {privateData.patientProfile.fullName}</Text>
-                <Text>
-                  Bệnh nền / tiền sử:{' '}
-                  {(privateData.patientProfile.medicalConditions || []).join('; ') ||
-                    'Chưa khai báo'}
-                </Text>
-                <Text>
-                  Dị ứng: {privateData.patientProfile.allergies.join(', ') || 'Chưa khai báo'}
-                </Text>
-                <Text>
-                  Người liên hệ:{' '}
-                  {privateData.patientProfile.emergencyContactName || 'Chưa khai báo'}
-                  {privateData.patientProfile.emergencyContactRelationship
-                    ? ` · ${privateData.patientProfile.emergencyContactRelationship}`
-                    : ''}
-                </Text>
-                <Text>
-                  Số khẩn cấp: {privateData.patientProfile.emergencyContactPhone || 'Chưa khai báo'}
-                </Text>
-                <Text>Thông tin tự khai, chưa xác minh y tế.</Text>
-              </View>
-            </InfoDisclosure>
-          ) : (
-            privateData && <Text>Bệnh nhân không chia sẻ hồ sơ sức khỏe.</Text>
-          )}
 
           <ConfirmAction
             tone="complete"
@@ -466,14 +497,13 @@ export default function VolunteerScreen() {
 }
 function VolunteerDashboard({ user }: { user: User }) {
   const focused = usePathname() === '/volunteer';
-  const [activeId, setActiveId] = useState<string | null>(null);
   const [feed, setFeed] = useState<AlertFeedState & { key: string }>({
     alerts: [],
     connected: false,
     error: null,
     key: '',
   });
-  const feedKey = `${user.uid}:${activeId ?? ''}`;
+  const feedKey = user.uid;
   const [approved, setApproved] = useState(false),
     [checked, setChecked] = useState(false),
     [application, setApplication] = useState<{ status?: string; [key: string]: unknown }>();
@@ -494,6 +524,7 @@ function VolunteerDashboard({ user }: { user: User }) {
   const [wakeId, setWakeId] = useState<string | null>(null),
     [autoRouteId, setAutoRouteId] = useState<string | null>(null);
   const seen = useRef(new Map<string, number>());
+  const acceptedOptimisticId = useRef<string | null>(null);
   const signal = useEmergencySignal();
   const [now, setNow] = useState(() => Date.now()),
     [error, setError] = useState('');
@@ -511,11 +542,6 @@ function VolunteerDashboard({ user }: { user: User }) {
           setOwnPoint(
             !snapshot.metadata.fromCache && validPoint(snapshot.data()?.location)
               ? snapshot.data()!.location
-              : null,
-          );
-          setActiveId(
-            typeof snapshot.data()?.activeIncidentId === 'string'
-              ? snapshot.data()!.activeIncidentId
               : null,
           );
           setVerificationVersion(snapshot.data()?.verificationPolicyVersion || 0);
@@ -544,16 +570,24 @@ function VolunteerDashboard({ user }: { user: User }) {
     [user.uid],
   );
   useEffect(() => {
-    const timer = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-  useEffect(() => {
     if (!approved) return;
-    return subscribeVolunteerAlerts(firebaseClient().db, user.uid, activeId, (value) => {
-      setFeed({ ...value, key: feedKey });
+    return subscribeVolunteerAlerts(firebaseClient().db, user.uid, (value) => {
+      const pendingId = acceptedOptimisticId.current;
+      let nextAlerts = value.alerts;
+      if (pendingId) {
+        const match = value.alerts.find((alert) => alert.incidentId === pendingId);
+        if (!match || match.status !== 'offered') {
+          acceptedOptimisticId.current = null;
+        } else {
+          nextAlerts = value.alerts.map((alert) =>
+            alert.incidentId === pendingId ? { ...alert, status: 'accepted' } : alert,
+          );
+        }
+      }
+      setFeed({ ...value, alerts: nextAlerts, key: feedKey });
       setError(value.error ? readableError(value.error) : '');
     });
-  }, [user.uid, approved, activeId, feedKey]);
+  }, [user.uid, approved, feedKey]);
   useEffect(
     () => () => {
       updateAvailability({ available: false }, 4000).catch(() => undefined);
@@ -582,6 +616,11 @@ function VolunteerDashboard({ user }: { user: User }) {
     [alerts],
   );
   const wakeOffer = offers.find((alert) => alert.incidentId === wakeId);
+  const needsSecondTick = !!wakeOffer || offers.length > 0 || (available && !assigned.length);
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), needsSecondTick ? 1000 : 10000);
+    return () => clearInterval(timer);
+  }, [needsSecondTick]);
   const { play, stop, foreground } = signal;
   const openOffer = useCallback(
     (id: string) => {
@@ -622,6 +661,7 @@ function VolunteerDashboard({ user }: { user: User }) {
     setWakeId(null);
   }
   function accepted(id: string) {
+    acceptedOptimisticId.current = id;
     setTab('home');
     closeAlarm();
     setAutoRouteId(id);
@@ -644,6 +684,9 @@ function VolunteerDashboard({ user }: { user: User }) {
       />
       <ScrollView
         ref={pageScroll}
+        nativeID="volunteer-content"
+        role={approved && checked ? 'tabpanel' : undefined}
+        aria-labelledby={approved && checked ? `tab-volunteer-content-${tab}` : undefined}
         style={{ flex: 1 }}
         contentContainerStyle={styles.page}
         keyboardShouldPersistTaps="always"
@@ -682,6 +725,9 @@ function VolunteerDashboard({ user }: { user: User }) {
           )
         ) : (
           <>
+            <BackgroundNotifications
+              visible={tab === 'account' || (tab === 'home' && assigned.length === 0)}
+            />
             {tab === 'home' && (
               <>
                 {![2, 3].includes(verificationVersion || 0) && (
@@ -737,7 +783,6 @@ function VolunteerDashboard({ user }: { user: User }) {
             )}
             {tab === 'account' && (
               <>
-                <BackgroundNotifications />
                 <View style={styles.card}>
                   <Text style={styles.cardTitle}>Âm thanh cảnh báo</Text>
                   <Text accessibilityLiveRegion="polite" style={styles.note}>
@@ -856,6 +901,7 @@ function VolunteerDashboard({ user }: { user: User }) {
       </ScrollView>
       {approved && checked && (
         <RoleTabs
+          panelId="volunteer-content"
           value={tab}
           items={[
             ['home', 'Trang chính'],

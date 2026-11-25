@@ -14,7 +14,7 @@ Một repository cho toàn bộ dự án Capstone bốn người: app Bệnh nh�
 
 
 
-**Kiểm thử/sửa 0.4.12:** [báo cáo mới và 704 mẫu thực](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/VERIFICATION_V0_4_12.md): 59 test, 13 suites, 32 ca đồng thời; ghi riêng map/Functions lạnh/dependency và điện thoại chưa đạt/chưa thử. [Báo cáo trước sửa 04/11](https://github.com/Hoangcamng03/EHIS-Next/blob/c2bef1cfc2c3b823d19c2525303e447bc6793c22/docs/testing/verification/ACCEPTANCE_2026_11_04.md) được giữ để đối chiếu.
+**Rà soát và phát triển hiện hành:** [giao diện, nghiệp vụ, kỹ thuật và kế hoạch nhóm](docs/development/PRODUCT_ENGINEERING_REVIEW.md). Tra [STATUS](docs/STATUS.md) để phân biệt source mới với cloud/APK đã phát hành; kết quả lịch sử được liên kết riêng trong danh mục và lab note.
 
 ## 1. Cấu trúc chính
 

@@ -1,4 +1,5 @@
-import { Pressable, View } from 'react-native';
+import { Pressable, View, Platform } from 'react-native';
+import { useRef, type ComponentRef } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from './AppText';
 import { useRoleColor } from './RoleTheme';
@@ -7,13 +8,16 @@ export function RoleTabs<T extends string>({
   value,
   items,
   onChange,
+  panelId,
 }: {
   value: T;
   items: readonly (readonly [T, string])[];
   onChange: (value: T) => void;
+  panelId: string;
 }) {
   const color = useRoleColor();
   const insets = useSafeAreaInsets();
+  const buttons = useRef<(ComponentRef<typeof View> | null)[]>([]);
   return (
     <View
       style={{
@@ -27,6 +31,8 @@ export function RoleTabs<T extends string>({
       }}
     >
       <View
+        accessibilityRole="tablist"
+        accessibilityLabel="Điều hướng chính"
         style={{
           width: '100%',
           maxWidth: 760,
@@ -38,10 +44,38 @@ export function RoleTabs<T extends string>({
           backgroundColor: 'white',
         }}
       >
-        {items.map(([key, label]) => (
+        {items.map(([key, label], index) => (
           <Pressable
             key={key}
+            ref={(node) => {
+              buttons.current[index] = node;
+            }}
+            nativeID={`tab-${panelId}-${key}`}
+            aria-controls={panelId}
+            {...(Platform.OS === 'web'
+              ? {
+                  tabIndex: value === key ? (0 as const) : (-1 as const),
+                  onKeyDown: (event: import('react-native').KeyDownEvent) => {
+                    const key = event.nativeEvent.key;
+                    const next =
+                      key === 'ArrowRight'
+                        ? (index + 1) % items.length
+                        : key === 'ArrowLeft'
+                          ? (index - 1 + items.length) % items.length
+                          : key === 'Home'
+                            ? 0
+                            : key === 'End'
+                              ? items.length - 1
+                              : null;
+                    if (next !== null) {
+                      event.preventDefault();
+                      buttons.current[next]?.focus();
+                    }
+                  },
+                }
+              : {})}
             accessibilityRole="tab"
+            aria-selected={value === key}
             accessibilityState={{ selected: value === key }}
             onPress={() => onChange(key)}
             style={({ pressed }) => ({

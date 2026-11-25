@@ -27,3 +27,9 @@ test('optional meeting note is bounded and old payload shape is preserved',()=>{
  assert.equal(parseBystanderReport({...report(),meetingNote:''}).meetingNote,'');
  for(const meetingNote of [null,{},'x'.repeat(241),'bad\u0000note'])assert.throws(()=>parseBystanderReport({...report(),meetingNote}));
 });
+test('optional reporterPresence accepts with_patient/left_scene and preserves old payloads',()=>{
+ assert.equal(Object.hasOwn(parseBystanderReport(report()),'reporterPresence'),false);
+ assert.equal(parseBystanderReport({...report(),reporterPresence:'with_patient'}).reporterPresence,'with_patient');
+ assert.equal(parseBystanderReport({...report(),reporterPresence:'left_scene'}).reporterPresence,'left_scene');
+ for(const reporterPresence of [null,'','away',123])assert.throws(()=>parseBystanderReport({...report(),reporterPresence}));
+});
