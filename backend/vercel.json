@@ -4,7 +4,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "public",
   "regions": ["sin1"],
-  "functions": { "api/index.js": { "maxDuration": 60, "includeFiles": "lib/**" } },
+  "functions": { "api/index.js": { "maxDuration": 60, "includeFiles": "{lib/**,api-contract.json}" } },
   "rewrites": [{ "source": "/(.*)", "destination": "/api?route=/$1" }],
   "crons": [{ "path": "/internal/maintenance", "schedule": "0 0 * * *" }]
 }
