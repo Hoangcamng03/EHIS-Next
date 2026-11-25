@@ -6,14 +6,14 @@ Cập nhật 25/11/2026. Đây là trang tra **hiện hành**. [Bắt đầu cho
 
 | Lớp | Trạng thái xác minh | Cần biết |
 | --- | --- | --- |
-| Source | `main`: đã có các sửa ngày 24–25/11 (giảm lag nhận ca, tự mở hồ sơ, lịch sử ca + số lần cấp cứu, trạng thái người báo rời đi, tinh gọn `/admin`); xem [rà soát kỹ thuật/sản phẩm](development/PRODUCT_ENGINEERING_REVIEW.md) | Push source không cập nhật điện thoại |
-| Backend cloud | Probe chỉ đọc 24/11: đúng project/version 0.4.23, nhưng chưa có hợp đồng API mới | Bộ chặn phát hành mới từ chối backend này; cần triển khai backend trước web/APK |
-| Web đang bàn giao | Bản đã đối chiếu artifact gần nhất: 19/11, cùng đợt 0.4.23 | Các sửa source ngày 24–25/11 chưa deploy cloud |
-| Android tải hiện hành | **0.4.23 / code21**, APK/QR đã xác minh | S22+ đã xác nhận chuông/rung FCM thử riêng (mở app/Home/vuốt đóng); chưa nghiệm thu bản 25/11 trên điện thoại thật |
+| Source | `main`: bản **0.4.24 / code 22** (GPS nền Android, chuông/rung dài hơn + kênh `ehis_emergency_v2`, tự gọi nhắc ca chờ, tự mở hồ sơ/lịch sử + số lần cấp cứu, trạng thái người báo rời đi, tinh gọn `/admin`) | Push source không tự cập nhật máy đã cài |
+| Backend cloud | **0.4.24** (`dpl_CmCx8Kmp7bjhq3BnKPrcJdWn24uY`), `cloud:probe` PASS (khớp `apiRevision`/capabilities và từ chối 401) | Đã ghim `jose@5.9.6` cho Vercel Node 22 và đóng gói `api-contract.json` |
+| Web đang bàn giao | **0.4.24** (25/11), đã đối chiếu 37 tệp HTML/JS/CSS + 4 lượt QR khớp byte trên cả 2 tên miền Hosting | Kiểm chứng cloud web/app khớp build; chưa thay cho thử điện thoại thật |
+| Android tải hiện hành | **0.4.24 / code 22**, APK/QR đã xác minh (`103,031,805` byte, SHA-256 `1d4a3095...2590`) | Chưa cài và nghiệm thu 0.4.24 trên S22+ thật; cần cấp quyền vị trí "Cho phép mọi lúc" để dùng GPS nền |
 | iPhone | Dùng app web qua trình duyệt | Chưa IPA/TestFlight; iOS native hoãn |
-| Thiết bị | Có bằng chứng S22+ ở các bản cũ và thử chuông 0.4.23, giữ trong lab note | Không suy kết quả bản cũ sang bản source mới |
+| Thiết bị | Có bằng chứng S22+ ở các bản cũ và thử chuông 0.4.23, giữ trong lab note | Không suy kết quả bản cũ sang APK 0.4.24 |
 
-**Tải:** [Trang APK và QR cố định](https://ehis-next-20261021-hc03.web.app/install) · [APK 0.4.23](https://expo.dev/artifacts/eas/x5jIiZ7-dRt8eMQF5M4Kc_sVOH-E3YSLa_Xq02s6_90.apk) · [Bằng chứng artifact](testing/verification/VERIFICATION_V0_4_23.md).
+**Tải:** [Trang APK và QR cố định](https://ehis-next-20261021-hc03.web.app/install) · [APK 0.4.24](https://expo.dev/artifacts/eas/7Ppg4LRi374uKB83zKXIm4skyBl53qNFoWrsMzkD9qE.apk) · [Bằng chứng lịch sử 0.4.23](testing/verification/VERIFICATION_V0_4_23.md).
 
 **Mở hệ thống:** [App Patient/TNV](https://ehis-next-20261021-hc03-app.web.app) · [Website/người báo](https://ehis-next-20261021-hc03.web.app) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin).
 

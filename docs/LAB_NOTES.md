@@ -1,5 +1,16 @@
 # EHIS — Lab notes
 
+## 2026-11-25 (phát hành 0.4.24 / code 22) — deploy Backend, Web/Hosting và APK + QR mới
+
+- Theo xác nhận của chủ dự án, nâng phiên bản lên **0.4.24 / code 22** (commit `8733836`), đẩy lên `main` và triển khai đầy đủ theo thứ tự Backend → APK/QR → Web/Hosting.
+- **Vướng mắc & xử lý khi deploy Backend:** Lượt deploy đầu lên Vercel (`dpl_E9LK3dxrRYbzyuxUkdDGABLgUPgT`) bị `cloud:probe` chặn ở HTTP 500; log runtime Vercel Node 22 báo `ERR_REQUIRE_ESM` do `jwks-rsa` gọi `require('jose')` ở bản `jose@6` (ESM-only), đồng thời `backend/vercel.json` chưa liệt kê `api-contract.json` trong `includeFiles`. Đã ghim `jose@5.9.6` trong `backend/package.json` (0 lỗ hổng) và bổ sung `api-contract.json` vào `includeFiles` (commit `9098c50`). Lượt deploy lại (`dpl_CmCx8Kmp7bjhq3BnKPrcJdWn24uY`) READY và vượt qua `npm run cloud:probe` (khớp project, version 0.4.24, `apiRevision`/capabilities và từ chối 401 không auth).
+- **Android APK 0.4.24 / code 22:** EAS build `a9097adb-4b9d-48ce-b1d3-ca4a59a3a370` FINISHED; `node scripts/verify-trial-apk.cjs` tải và xác minh trực tiếp APK thật:
+  - URL: `https://expo.dev/artifacts/eas/7Ppg4LRi374uKB83zKXIm4skyBl53qNFoWrsMzkD9qE.apk`
+  - Kích thước: `103,031,805` byte · SHA-256: `1d4a3095e8fbfa43e4e209370d3da1cda7861aee7ca9363c268f21a2d8e62590`
+  - Xác nhận package `com.hoangcamng.ehisnext`, `versionCode 22`, không quyền micro, có quyền rung & thông báo, âm báo `emergency_tone.wav` (10 giây) khớp byte trong `resources.arsc`, có `FirebaseMessagingService`, trỏ đúng cloud project/API. Cập nhật đồng thời `releases.json` và QR PNG/SVG tại `frontend/web/public`.
+- **Firebase Hosting & đối chiếu artifact:** `npm run cloud:build` và `npm run cloud:deploy-web` triển khai thành công hai tên miền (`ehis-next-20261021-hc03.web.app` và `ehis-next-20261021-hc03-app.web.app`); `node scripts/verify-cloud-artifacts.cjs` đạt **37 kiểm tra HTML/JS/CSS và 4 kiểm tra QR** khớp byte với bản build local.
+- **Trạng thái nghiệm thu thiết bị:** APK 0.4.24 chưa được cài đặt hoặc nghiệm thu trên điện thoại thật trong phiên này. Cần cài đè lên S22+, cấp quyền vị trí *"Cho phép mọi lúc"* và kiểm tra thực tế: GPS nền (> 5 phút khóa màn hình), chuông 10s + rung kênh `ehis_emergency_v2` của **một ca điều phối thật** ở đủ 3 trạng thái (mở app / bấm Home-khóa màn hình / vuốt đóng app), độ mượt nhận ca, hồ sơ tự mở và tab Hoạt động.
+
 ## 2026-11-25 (đợt 3) — GPS nền Android, khoảng cách trực tiếp, chuông/rung dài hơn và tự gọi nhắc ca chưa có người nhận
 
 - Theo phê duyệt của chủ dự án sau rà soát:
