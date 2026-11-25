@@ -159,7 +159,7 @@ export function CaseHistory({ role }: { role: 'patient' | 'volunteer' }) {
                   <Text>
                     Người báo tin:{' '}
                     {item.clinicalSummary.reporterPresence === 'left_scene'
-                      ? 'Đã rời khỏi hiện trường'
+                      ? 'Không ở cạnh bệnh nhân'
                       : 'Ở ngay cạnh bệnh nhân'}
                   </Text>
                 )}

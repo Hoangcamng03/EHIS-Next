@@ -148,7 +148,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
       setReporterPresence(nextPresence);
       setSuccess(
         nextPresence === 'left_scene' && fillUnknown
-          ? `Đã báo TNV rằng bạn đã rời khỏi vị trí bệnh nhân (bản cập nhật số ${result.data.revision}).`
+          ? `Đã báo tình nguyện viên rằng bạn không ở cạnh bệnh nhân (bản cập nhật số ${result.data.revision}).`
           : `Máy chủ đã lưu bản bổ sung số ${result.data.revision} vào cùng ca hỗ trợ.`,
       );
       setBaseRevision(result.data.revision);
@@ -440,7 +440,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
                   }}
                 />
                 <span>
-                  <strong>Tôi đã rời khỏi vị trí bệnh nhân</strong>
+                  <strong>Tôi không ở cạnh bệnh nhân</strong>
                 </span>
               </label>
             </div>
@@ -456,7 +456,7 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
                   disabled={busy || !canSend || !reportReady || outdated}
                   onClick={() => void sendReport('left_scene', true)}
                 >
-                  {busy ? 'Đang gửi…' : 'Xác nhận đã rời đi ngay'}
+                  {busy ? 'Đang gửi…' : 'Báo không ở cạnh ngay'}
                 </button>
               </div>
             )}

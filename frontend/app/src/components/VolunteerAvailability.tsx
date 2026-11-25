@@ -11,7 +11,7 @@ import { enableNativePush } from '../lib/native-push';
 import { startBackgroundLocation, stopBackgroundLocation } from '../lib/background-location';
 import { LocationMap } from './LocationMap';
 import { MapPoint } from '../lib/map';
-import { firstUsableLocation } from '../lib/location-request';
+import { firstUsableLocation, withinLocationDeadline } from '../lib/location-request';
 import type { LocationFix } from '../lib/live-location';
 import { availabilityState } from '../lib/availability';
 import { shouldSyncAvailability } from '../lib/availability-sync';
@@ -24,11 +24,18 @@ type Volunteer = {
   lastSeenAt?: { toMillis(): number };
 };
 export async function currentLocationFix(askPermission: boolean, signal?: AbortSignal) {
-  const permission = askPermission
-    ? await Location.requestForegroundPermissionsAsync()
-    : await Location.getForegroundPermissionsAsync();
+  const deadline = Date.now() + 12000;
+  const remaining = () => Math.max(1, deadline - Date.now());
+  const permission = await withinLocationDeadline(
+    askPermission
+      ? Location.requestForegroundPermissionsAsync()
+      : Location.getForegroundPermissionsAsync(),
+    signal,
+    remaining(),
+  );
   if (permission.status !== 'granted') throw new Error('location-permission');
-  if (!(await Location.hasServicesEnabledAsync())) throw new Error('location-disabled');
+  if (!(await withinLocationDeadline(Location.hasServicesEnabledAsync(), signal, remaining())))
+    throw new Error('location-disabled');
   const fix = (value: Location.LocationObject): LocationFix => ({
     point: { latitude: value.coords.latitude, longitude: value.coords.longitude },
     accuracy: value.coords.accuracy ?? Infinity,
@@ -55,6 +62,7 @@ export async function currentLocationFix(askPermission: boolean, signal?: AbortS
         ),
     },
     signal,
+    remaining(),
   );
   return result;
 }

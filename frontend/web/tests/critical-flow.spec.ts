@@ -173,11 +173,11 @@ test('reporter GPS request, volunteer acceptance, report update and completion',
     await r.screenshot({ path: path.join(shots, 'reporter-followup.png') });
     await r.screenshot({ path: path.join(shots, 'reporter-followup-full.png'), fullPage: true });
     await r.getByRole('radio', { name: /Có vẻ khó thở/ }).check();
-    await r.getByRole('radio', { name: /Tôi đã rời khỏi vị trí bệnh nhân/ }).check();
+    await r.getByRole('radio', { name: /Tôi không ở cạnh bệnh nhân/ }).check();
     await r.getByRole('button', { name: /Gửi thông tin/ }).click();
     await expect(v.getByText('Cập nhật lần 2', { exact: false }).first()).toBeVisible();
     await expect(
-      v.getByText('Người báo tin đã rời khỏi vị trí bệnh nhân', { exact: true }),
+      v.getByText('Người báo tin không ở cạnh bệnh nhân', { exact: true }),
     ).toBeVisible();
     await v.getByRole('button', { name: 'Hoàn tất ca hỗ trợ', exact: true }).click();
     await v.getByRole('button', { name: 'Xác nhận: hoàn tất ca hỗ trợ', exact: true }).click();

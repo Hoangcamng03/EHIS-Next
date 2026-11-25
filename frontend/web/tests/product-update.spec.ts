@@ -51,6 +51,7 @@ test('remote reporter confirms patient pin without requesting reporter GPS', asy
   await submit.click();
   await expect(page).toHaveURL(/\/report\?id=/);
   await expect(page.getByRole('heading', { name: /Bổ sung tình trạng/ })).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Tôi không ở cạnh bệnh nhân' })).toBeChecked();
 });
 test('volunteer submits directly and admin verifies skills without referrer', async ({
   browser,

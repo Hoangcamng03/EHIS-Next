@@ -241,7 +241,7 @@ test('capture complete role journeys and operational branches through UI', async
   async function mobile(latitude = 10.8769, longitude = 106.7009) {
     const c = await browser.newContext({
       viewport: { width: 390, height: 844 },
-      geolocation: { latitude, longitude },
+      geolocation: { latitude, longitude, accuracy: 10 },
       permissions: ['geolocation'],
     });
     contexts.push(c);
@@ -272,6 +272,7 @@ test('capture complete role journeys and operational branches through UI', async
     await approve(admin, 'Trần Anh Khoa', true);
     await approve(admin, 'Lê Bảo Ngọc');
     await ac.close();
+    await v.bringToFront();
     await expect(
       v.getByRole('switch', { name: 'Sẵn sàng nhận yêu cầu hỗ trợ', exact: true }),
     ).toBeVisible();

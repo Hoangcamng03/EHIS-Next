@@ -19,7 +19,6 @@ import {
   callable as httpsCallable,
   firebaseClient,
   readableError,
-  updateAvailability,
 } from '../lib/firebase';
 import { VolunteerAvailability } from '../components/VolunteerAvailability';
 import { IncidentProgress } from '../components/IncidentProgress';
@@ -88,7 +87,7 @@ const OfferSummary = memo(function OfferSummary({
         <Text style={styles.note}>
           {alert.answers
             ? `${observationLabels(alert.answers).responsiveness} · ${observationLabels(alert.answers).breathing}`
-            : 'Chờ bổ sung tình trạng'}
+            : 'Chưa có thông tin bổ sung · Có thể nhận ca ngay'}
         </Text>
       </View>
       <View style={{ maxWidth: 112 }}>
@@ -102,7 +101,7 @@ const OfferSummary = memo(function OfferSummary({
   );
 });
 function Observation({ answers }: { answers: Answers | null }) {
-  if (!answers) return <Text style={styles.note}>Chờ người báo bổ sung tình trạng.</Text>;
+  if (!answers) return <Text style={styles.note}>Chưa có thông tin bổ sung từ người báo.</Text>;
   const values = observationLabels(answers);
   return (
     <View style={{ gap: 6 }}>
@@ -280,14 +279,18 @@ function IncidentAlert({
         </Text>
       )}
       {!terminal && !assigned && (
-        <>
-          <Observation answers={alert.answers} />
+        alert.answers ? (
+          <>
+            <Observation answers={alert.answers} />
+            <Text style={[styles.note, { textAlign: 'center' }]}>
+              {`Cập nhật lần ${alert.reportRevision}${alert.reportUpdatedAt ? ' · ' + formatClock(alert.reportUpdatedAt.toMillis()) : ''}`}
+            </Text>
+          </>
+        ) : (
           <Text style={[styles.note, { textAlign: 'center' }]}>
-            {alert.reportRevision
-              ? `Cập nhật lần ${alert.reportRevision}${alert.reportUpdatedAt ? ' · ' + formatClock(alert.reportUpdatedAt.toMillis()) : ''}`
-              : 'Chờ thông tin bổ sung'}
+            Chưa có thông tin bổ sung · Bạn có thể bấm Nhận ca ngay.
           </Text>
-        </>
+        )
       )}
       {alert.status === 'offered' && !offerExpired && (
         <>
@@ -329,7 +332,7 @@ function IncidentAlert({
               }}
             >
               <Text accessibilityRole="alert" style={{ color: '#8f1d1d', fontWeight: '700' }}>
-                Người báo tin đã rời khỏi vị trí bệnh nhân
+                Người báo tin không ở cạnh bệnh nhân
               </Text>
               <Text style={{ color: '#6b1d1d', fontSize: 14 }}>
                 Kiểm tra mốc tìm bệnh nhân hoặc gọi người báo nếu có số liên hệ.
@@ -589,15 +592,6 @@ function VolunteerDashboard({ user }: { user: User }) {
       setError(value.error ? readableError(value.error) : '');
     });
   }, [user.uid, approved, feedKey]);
-  useEffect(
-    () => () => {
-      updateAvailability({ available: false }, 4000).catch(() => undefined);
-    },
-    [user.uid],
-  );
-  useEffect(() => {
-    if (!focused) updateAvailability({ available: false }, 4000).catch(() => undefined);
-  }, [focused, user.uid]);
   const offers = useMemo(
     () =>
       alerts

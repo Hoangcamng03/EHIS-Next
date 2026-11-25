@@ -228,6 +228,8 @@ export const createIncident = onCall('createIncident', async (request) => {
             medicalConditions: patient.data()!.medicalConditions ?? [],
             allergies: patient.data()!.allergies ?? [],
             answers: null,
+            reporterPresence:
+              data.locationSource === 'patient_pin' ? 'left_scene' : 'with_patient',
             capturedAt: createdAt,
           });
         tx.create(receiptRef, { incidentId: id, fingerprint });
@@ -886,7 +888,9 @@ export const getVolunteerIncidentDetails = onCall(
         phone: report.data()?.phone ?? null,
         answers: report.data()?.answers ?? null,
         meetingNote: report.data()?.meetingNote ?? '',
-        reporterPresence: report.data()?.reporterPresence ?? null,
+        reporterPresence:
+          report.data()?.reporterPresence ??
+          (destination.data()?.source === 'patient_pin' ? 'left_scene' : 'with_patient'),
         revision: report.data()?.revision ?? 0,
         reportedAtMs: report.data()?.updatedAt?.toMillis?.() ?? null,
         location: location.data() ?? null,
@@ -1057,11 +1061,14 @@ export const getBystanderReport = onCall('getBystanderReport', async (request) =
     )
       throw new HttpsError('failed-precondition', 'Ca đã đóng hoặc hết hạn.');
     const report = (await tx.get(ref.collection('private').doc('reporter'))).data();
+    const destination = (await tx.get(ref.collection('private').doc('destination'))).data();
     return {
       phone: report?.phone ?? '',
       answers: report?.answers ?? null,
       meetingNote: report?.meetingNote ?? '',
-      reporterPresence: report?.reporterPresence ?? null,
+      reporterPresence:
+        report?.reporterPresence ??
+        (destination?.source === 'patient_pin' ? 'left_scene' : 'with_patient'),
       revision: Number(value.reportRevision || 0),
       reportedAtMs: report?.updatedAt?.toMillis?.() ?? null,
     };
