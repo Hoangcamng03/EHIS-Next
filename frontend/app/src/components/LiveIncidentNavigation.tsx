@@ -13,6 +13,16 @@ import type { MapPoint } from '../lib/map';
 import { RouteMap } from './RouteMap';
 import { DirectionsLink } from './DirectionsLink';
 
+function directDistanceMeters(a: MapPoint, b: MapPoint) {
+  const rad = Math.PI / 180;
+  const dLat = (b.latitude - a.latitude) * rad;
+  const dLon = (b.longitude - a.longitude) * rad;
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(a.latitude * rad) * Math.cos(b.latitude * rad) * Math.sin(dLon / 2) ** 2;
+  return 6371000 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(Math.max(0, 1 - h)));
+}
+
 export const LiveIncidentNavigation = memo(function LiveIncidentNavigation({
   destination,
   connected,
@@ -33,6 +43,7 @@ export const LiveIncidentNavigation = memo(function LiveIncidentNavigation({
     [now, setNow] = useState(Date.now);
   const live = useLiveLocation(tracking && connected);
   const origin = live.fix?.point ?? storedOrigin;
+  const directMeters = origin ? Math.round(directDistanceMeters(origin, destination)) : null;
   const fresh = !!live.fix && usableFix(live.fix, now);
   const target = `${destination.latitude},${destination.longitude}`;
   const visibleRoute = result?.target === target ? result.route : null;
@@ -150,6 +161,19 @@ export const LiveIncidentNavigation = memo(function LiveIncidentNavigation({
       )}
       {tracking && !fresh && !!origin && (
         <Text style={{ fontSize: 14 }}>Điểm A đang là vị trí cũ; chưa dùng để tính tuyến mới.</Text>
+      )}
+      {directMeters !== null && (
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: '700',
+            color: directMeters <= 50 ? '#166534' : '#0b5962',
+          }}
+        >
+          {directMeters <= 50
+            ? `Đã rất gần bệnh nhân · còn khoảng ${directMeters} m`
+            : `Khoảng cách trực tiếp: ${directMeters >= 1000 ? `${(directMeters / 1000).toFixed(2)} km` : `${directMeters} m`}`}
+        </Text>
       )}
       {visibleRoute && (
         <>

@@ -1,4 +1,5 @@
 import { Stack } from 'expo-router';
+import '../lib/background-location';
 import { SessionProvider, useSession } from '../components/Session';
 import { Connectivity } from '../components/Connectivity';
 import { RoleTheme } from '../components/RoleTheme';

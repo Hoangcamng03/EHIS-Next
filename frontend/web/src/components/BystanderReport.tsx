@@ -192,6 +192,17 @@ export function BystanderReport({ incidentId }: { incidentId: string }) {
     !terminal &&
     ['dispatching', 'accepted', 'arrived'].includes(status.status);
   const outdated = reportReady && Number(status?.reportRevision || 0) > baseRevision;
+  const waitingForVolunteer =
+    online && serverConfirmed && !terminal && status?.status === 'dispatching';
+  useEffect(() => {
+    if (!waitingForVolunteer) return;
+    const timer = setInterval(() => {
+      void httpsCallable(firebaseClient().functions, 'escalateIncident', { timeout: 15000 })({
+        incidentId,
+      }).catch(() => undefined);
+    }, 60000);
+    return () => clearInterval(timer);
+  }, [incidentId, waitingForVolunteer]);
   useEffect(() => {
     if (!canSend) return;
     let cancelled = false;

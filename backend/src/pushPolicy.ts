@@ -1,4 +1,4 @@
-export const PUSH_CHANNEL = 'ehis_emergency_v1';
+export const PUSH_CHANNEL = 'ehis_emergency_v2';
 // The lock screen never receives names, health answers, phone numbers or GPS.
 export function pushMessage(incidentId: string, kind: string, expiresAt: number, now: number) {
   if (!/^[A-Za-z0-9_-]{1,128}$/.test(incidentId) || !['request', 'update', 'location'].includes(kind) || expiresAt <= now) throw new Error('invalid-push');

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { AppState, Platform } from 'react-native';
+import { AppState, Platform, Vibration } from 'react-native';
 import { setAudioModeAsync, useAudioPlayer, type AudioPlayer } from 'expo-audio';
 import * as Haptics from 'expo-haptics';
 import { signalDuration, type AlertSoundKind } from './emergency-audio';
@@ -9,6 +9,7 @@ import { createNativeSignal } from './native-signal';
 function enablePlayerAudio(player: AudioPlayer) {
   player.muted = false;
   player.volume = 1;
+  player.loop = true;
 }
 
 // Foreground only. These modules require a new binary and device acceptance.
@@ -64,8 +65,14 @@ export function useEmergencySignal() {
         active: () => AppState.currentState === 'active',
         seek: () => player.seekTo(0),
         play: () => player.play(),
-        pause: () => player.pause(),
-        haptic: () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
+        pause: () => {
+          Vibration.cancel();
+          player.pause();
+        },
+        haptic: async () => {
+          if (Platform.OS === 'android') Vibration.vibrate([0, 600, 300, 600, 300, 600, 300, 600]);
+          await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+        },
         later: (callback, ms) => setTimeout(callback, ms),
         clear: (timer) => clearTimeout(timer as ReturnType<typeof setTimeout>),
         notify: (value) => setState((previous) => ({ ...previous, ...value })),

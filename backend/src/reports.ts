@@ -907,6 +907,139 @@ export const getVolunteerIncidentDetails = onCall(
   },
 );
 
+// Re-invite additional nearby volunteers and re-ring non-declined ones while waiting.
+export const escalateIncident = onCall('escalateIncident', async (request) => {
+  const uid = requiredUid(request.auth);
+  const id = validate(incidentInput, request.data);
+  const db = getFirestore();
+  return db.runTransaction(async (tx) => {
+    const ref = db.doc(`incidents/${id}`);
+    const incident = await tx.get(ref);
+    const value = incident.data();
+    if (!incident.exists || !value || value.reporterUid !== uid)
+      throw new HttpsError('permission-denied', 'Phiên này không sở hữu yêu cầu.');
+    const now = Date.now();
+    const existingInvited = (value.invitedVolunteerIds || []) as string[];
+    if (value.status !== 'dispatching' || value.offerExpiresAt.toMillis() <= now)
+      return {
+        escalated: false,
+        status: value.status,
+        invitedCount: existingInvited.length,
+        newlyInvitedCount: 0,
+        remindedCount: 0,
+      };
+    const lastEscalated = Number(value.lastEscalatedAtMs || value.createdAt?.toMillis?.() || 0);
+    if (now - lastEscalated < 55000)
+      return {
+        escalated: false,
+        status: 'dispatching',
+        invitedCount: existingInvited.length,
+        newlyInvitedCount: 0,
+        remindedCount: 0,
+      };
+    const [locSnap, repSnap] = await Promise.all([
+      tx.get(ref.collection('private').doc('location')),
+      tx.get(ref.collection('private').doc('reporter')),
+    ]);
+    const loc = locSnap.data() as { latitude: number; longitude: number } | undefined;
+    const declined = new Set((value.declinedVolunteerIds || []) as string[]);
+    const alreadyInvited = new Set(existingInvited);
+    let additions: { uid: string; distance: number }[] = [];
+    const remainingSlots = Math.max(0, 20 - existingInvited.length);
+    if (loc && remainingSlots > 0) {
+      const windows = dispatchBounds(loc);
+      const pages = await Promise.all(
+        windows.map((window) =>
+          tx.get(
+            db
+              .collection('volunteers')
+              .where('verificationStatus', '==', 'approved')
+              .where('isAvailable', '==', true)
+              .where('location.latitude', '>=', window.south)
+              .where('location.latitude', '<=', window.north)
+              .where('location.longitude', '>=', window.west)
+              .where('location.longitude', '<=', window.east)
+              .where('lastSeenAt', '>=', Timestamp.fromMillis(now - 300000))
+              .where('lastSeenAt', '<=', Timestamp.fromMillis(now + 60000))
+              .orderBy('location.latitude')
+              .orderBy('location.longitude')
+              .orderBy('lastSeenAt')
+              .limit(1001),
+          ),
+        ),
+      );
+      const candidates = [
+        ...new Map(pages.flatMap((page) => page.docs).map((item) => [item.id, item])).values(),
+      ];
+      additions = candidates
+        .flatMap((doc) => {
+          const volunteer = doc.data();
+          const vLoc = volunteer.location;
+          if (
+            doc.id === value.patientId ||
+            alreadyInvited.has(doc.id) ||
+            declined.has(doc.id) ||
+            volunteer.activeIncidentId ||
+            !vLoc ||
+            typeof vLoc.latitude !== 'number' ||
+            typeof vLoc.longitude !== 'number' ||
+            !Number.isFinite(vLoc.latitude) ||
+            !Number.isFinite(vLoc.longitude) ||
+            typeof volunteer.lastSeenAt?.toMillis !== 'function' ||
+            now - volunteer.lastSeenAt.toMillis() > 300000 ||
+            volunteer.lastSeenAt.toMillis() > now + 60000
+          )
+            return [];
+          const distance = distanceMeters(loc, vLoc);
+          return distance <= 5000 ? [{ uid: doc.id, distance }] : [];
+        })
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, Math.min(5, remainingSlots));
+    }
+    const wave = Number(value.escalationWave || 0) + 1;
+    const mergedInvited = [...existingInvited, ...additions.map((p) => p.uid)];
+    const pushRevision = 1000 + wave;
+    tx.update(ref, {
+      escalationWave: wave,
+      lastEscalatedAtMs: now,
+      invitedVolunteerIds: mergedInvited,
+    });
+    for (const person of additions) {
+      tx.create(db.doc(`volunteers/${person.uid}/alerts/${id}`), {
+        incidentId: id,
+        status: 'offered',
+        createdAt: value.createdAt,
+        offerExpiresAt: value.offerExpiresAt,
+        distanceMeters: Math.round(person.distance),
+        reportRevision: Number(value.reportRevision || 0),
+        answers: repSnap.data()?.answers ?? null,
+      });
+      queuePush(tx, db, person.uid, id, 'request', pushRevision, value.offerExpiresAt);
+    }
+    const toRemind = existingInvited.filter((vUid) => !declined.has(vUid));
+    for (const vUid of toRemind) {
+      queuePush(tx, db, vUid, id, 'request', pushRevision, value.offerExpiresAt);
+    }
+    if (additions.length) {
+      tx.set(
+        db.doc(`patients/${value.patientId}/incidentStatuses/${id}`),
+        { invitedCount: mergedInvited.length },
+        { merge: true },
+      );
+      tx.update(db.doc(`reporters/${uid}/incidentStatuses/${id}`), {
+        invitedCount: mergedInvited.length,
+      });
+    }
+    return {
+      escalated: true,
+      wave,
+      invitedCount: mergedInvited.length,
+      newlyInvitedCount: additions.length,
+      remindedCount: toRemind.length,
+    };
+  });
+});
+
 // Only the session which created the incident may restore its own report draft.
 export const getBystanderReport = onCall('getBystanderReport', async (request) => {
   const uid = requiredUid(request.auth),

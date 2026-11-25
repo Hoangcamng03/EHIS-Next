@@ -1,5 +1,6 @@
 export type AlertSoundKind = 'request' | 'update' | 'test';
-export const signalDuration = (kind: AlertSoundKind) => kind === 'request' ? 6 : kind === 'update' ? 2 : 1;
+export const signalDuration = (kind: AlertSoundKind) =>
+  kind === 'request' ? 15 : kind === 'update' ? 4 : 2;
 
 // Finite, moderate-volume tones generated locally; no audio/data sent to a server.
 export function startAlertTone(context: AudioContext, kind: AlertSoundKind): () => void {

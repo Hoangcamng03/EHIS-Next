@@ -5,7 +5,7 @@ test('lock-screen payload contains only generic text and opaque incident referen
   const message = pushMessage('synthetic-case', 'request', 1700000060000, 1700000000000);
   assert.deepEqual(Object.keys(message.data).sort(), ['incidentId', 'kind', 'screen']);
   assert.equal(message.android.ttl, '60s'); assert.equal(message.android.notification.visibility, 'PRIVATE');
-  assert.equal(message.android.notification.channel_id, 'ehis_emergency_v1');
+  assert.equal(message.android.notification.channel_id, 'ehis_emergency_v2');
   // Direct HTTP v1 uses the REST enum, not Admin SDK's lower-case convenience type.
   assert.equal(message.android.priority, 'HIGH');
   for (const invalid of ['patientProfile', 'phone', 'latitude', 'allergies', 'fullName']) assert(!JSON.stringify(message).includes(invalid));

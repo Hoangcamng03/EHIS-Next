@@ -35,6 +35,7 @@ import { activeOffer, collectSignalEvents, invitationState } from '../lib/alert-
 import { palette } from '../lib/palette';
 import { useEmergencySignal } from '../lib/use-emergency-signal';
 import { subscribeVolunteerAlerts, type AlertFeedState } from '../lib/subscribe-alerts';
+import { stopBackgroundLocation } from '../lib/background-location';
 import { formatClock, formatCountdown, formatDistance } from '../lib/alert-format';
 
 type Alert = {
@@ -662,6 +663,7 @@ function VolunteerDashboard({ user }: { user: User }) {
   }
   function accepted(id: string) {
     acceptedOptimisticId.current = id;
+    void stopBackgroundLocation();
     setTab('home');
     closeAlarm();
     setAutoRouteId(id);

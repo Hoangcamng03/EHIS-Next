@@ -56,7 +56,7 @@ test('request/update/test audio is finite and can be stopped immediately',async(
   for(const node of context.nodes){assert.ok(node.stopAt<=100+signalDuration(kind));assert.ok(node.stopAt>node.startAt);}
   stop();assert.ok(context.nodes.every(n=>n.disconnected&&n.stops===2));
  }
- assert.equal(signalDuration('request'),6);assert.equal(signalDuration('update'),2);
+ assert.equal(signalDuration('request'),15);assert.equal(signalDuration('update'),4);
 });
 test('suspended audio cannot pretend to play',async()=>{
  const {startAlertTone}=await audio,context=fakeContext('suspended');

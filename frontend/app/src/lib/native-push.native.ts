@@ -3,6 +3,7 @@ import * as Notifications from 'expo-notifications';
 import { AndroidImportance, AndroidNotificationVisibility } from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { callable, firebaseClient } from './firebase';
+import { stopBackgroundLocation } from './background-location';
 
 const storageKey = (uid: string) => `ehis-push-device:${uid}`;
 let registration: Promise<unknown> = Promise.resolve(),
@@ -41,18 +42,18 @@ Notifications.setNotificationHandler({
 export async function enableNativePush(): Promise<string> {
   signingOut = false;
   if (Platform.OS !== 'android') return 'Chưa phát hành thông báo nền iOS.';
-  await Notifications.setNotificationChannelAsync('ehis_emergency_v1', {
+  await Notifications.setNotificationChannelAsync('ehis_emergency_v2', {
     name: 'Yêu cầu hỗ trợ EHIS',
     importance: AndroidImportance.MAX,
     sound: 'emergency_tone.wav',
     enableVibrate: true,
-    vibrationPattern: [0, 250, 200, 250],
+    vibrationPattern: [0, 600, 300, 600, 300, 600, 300, 600],
     lockscreenVisibility: AndroidNotificationVisibility.PRIVATE,
   });
   const permission = await Notifications.requestPermissionsAsync();
   if (!permission.granted)
     return 'Chưa có quyền thông báo. Cho phép EHIS trong Cài đặt Android để nhận khi khóa màn hình.';
-  const channel = await Notifications.getNotificationChannelAsync('ehis_emergency_v1');
+  const channel = await Notifications.getNotificationChannelAsync('ehis_emergency_v2');
   if (!channel || channel.importance < AndroidImportance.DEFAULT || !channel.sound)
     return 'Kênh EHIS đang bị tắt hoặc đặt im lặng. Mở Cài đặt thông báo Android để bật âm cho kênh Yêu cầu hỗ trợ EHIS.';
   const token = await Notifications.getDevicePushTokenAsync();
@@ -113,6 +114,7 @@ export function watchNativePush(onStatus: (message: string) => void) {
 }
 export async function disconnectNativePush() {
   signingOut = true;
+  await stopBackgroundLocation();
   await registration.catch(() => undefined);
   const uid = firebaseClient().auth.currentUser?.uid;
   if (!uid) return;

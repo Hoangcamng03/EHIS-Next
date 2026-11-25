@@ -34,6 +34,7 @@ export {
   declineIncident,
   getVolunteerIncidentDetails,
   getBystanderReport,
+  escalateIncident,
   setVolunteerAvailability,
   finishIncident,
 } from './reports';

@@ -8,6 +8,7 @@ import * as Location from 'expo-location';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { firebaseClient, readableError, updateAvailability } from '../lib/firebase';
 import { enableNativePush } from '../lib/native-push';
+import { startBackgroundLocation, stopBackgroundLocation } from '../lib/background-location';
 import { LocationMap } from './LocationMap';
 import { MapPoint } from '../lib/map';
 import { firstUsableLocation } from '../lib/location-request';
@@ -205,6 +206,13 @@ export function VolunteerAvailability({
     setError('');
     try {
       await refresh(true);
+      if (Platform.OS === 'android') {
+        const bg = await startBackgroundLocation().catch(() => ({
+          enabled: false,
+          message: 'Chưa bật được GPS nền. Khi khóa màn hình quá 5 phút có thể cần mở lại app.',
+        }));
+        if (!bg.enabled && bg.message) setPushWarning((prev) => prev || bg.message);
+      }
       setError('');
     } catch (err) {
       setError(
@@ -225,6 +233,7 @@ export function VolunteerAvailability({
     setError('');
     // A heartbeat already sent to the server must finish before OFF, so it cannot turn readiness back on.
     try {
+      await stopBackgroundLocation();
       await availabilityWrite.current?.catch(() => undefined);
       await updateAvailability({ available: false });
     } catch (err) {

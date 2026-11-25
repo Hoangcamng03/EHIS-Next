@@ -65,6 +65,7 @@ export function guardedCall<T>(
         [
           'createIncident',
           'submitBystanderReport',
+          'escalateIncident',
           'updateIncidentLocation',
           'setVolunteerAvailability',
           'registerVolunteerDevice',
