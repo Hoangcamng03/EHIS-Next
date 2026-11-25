@@ -1,5 +1,19 @@
 # EHIS — Lab notes
 
+## 2026-11-26 (phát hành 0.4.25 / code 23) — nhận ca ngay không cần thông tin bổ sung & giữ Sẵn sàng khi mở thông báo
+
+- **Phản hồi từ thử nghiệm máy thật S22+:** khi nhận thông báo khẩn cấp chưa có thông tin bổ sung, nút **Nhận ca** không bấm được và giao diện hiện dòng *"Chờ thông tin bổ sung"*.
+- **Nguyên nhân gốc & sửa lỗi (commit `332b481`):**
+  1. [NotificationNavigation.native.tsx](../frontend/app/src/components/NotificationNavigation.native.tsx): gọi `router.replace('/volunteer')` ngay cả khi đang ở `/volunteer` làm unmount màn hình TNV; đã kiểm tra `pathname !== '/volunteer'` trước khi điều hướng.
+  2. [volunteer.tsx](../frontend/app/src/app/volunteer.tsx): bỏ effect tự động gọi `updateAvailability({ available: false })` khi unmount/mất focus (vốn vô tình tắt Sẵn sàng và làm mờ nút **Nhận ca** khi mở app từ thông báo); thay toàn bộ dòng *"Chờ bổ sung..."* bằng thông điệp rõ ràng *"Chưa có thông tin bổ sung · Bạn có thể bấm Nhận ca ngay."*
+  3. Gộp chung sửa deadline xin quyền GPS (`withinLocationDeadline` trong [location-request.ts](../frontend/app/src/lib/location-request.ts), [VolunteerAvailability.tsx](../frontend/app/src/components/VolunteerAvailability.tsx), [test-location-request.cjs](../scripts/test-location-request.cjs)) và tinh chỉnh câu chữ *"Không ở cạnh bệnh nhân"*.
+- **Kiểm chứng & phát hành 0.4.25 / code 23:**
+  - `npm run check` PASS (54 docs, 428 links, **35/35** backend unit, **71/71** client tests, App/Web lint & typecheck sạch).
+  - **Backend (Vercel):** `dpl_mSo6LV2EV59sWo7vgpEzXdks2bEt` READY, `npm run cloud:probe` PASS.
+  - **Android APK:** EAS build `6f042cd6-8920-4bab-981c-9ba8f48b149c` FINISHED (`https://expo.dev/artifacts/eas/rtSlIwDB5NcVY9t8GbQkAeAbpddTikuW2HUctvHdXfk.apk`), `verify-trial-apk.cjs` PASS (`103,032,433` byte, SHA-256 `af95e4efc7e3a2e7bd5cc18ac5e1e3a19974e43b24837ea788edd5720271fa7a`, `versionCode 23`, `cloudTargetVerified: true`, `backgroundNotificationResourcesVerified: true`).
+  - **Web & QR (Firebase Hosting):** `cloud:build` + `cloud:deploy-web` hoàn tất; `verify-cloud-artifacts.cjs` PASS (**37 kiểm tra HTML/JS/CSS và 4 kiểm tra QR** khớp byte).
+  - **Nghiệm thu thiết bị:** chưa cài và nghiệm thu `0.4.25` trên S22+ thật; cần cài đè và kiểm tra nhận ca ngay khi chưa có thông tin bổ sung, mở từ thông báo đẩy ở 3 trạng thái và GPS nền.
+
 ## 2026-11-25 (phát hành 0.4.24 / code 22) — deploy Backend, Web/Hosting và APK + QR mới
 
 - Theo xác nhận của chủ dự án, nâng phiên bản lên **0.4.24 / code 22** (commit `8733836`), đẩy lên `main` và triển khai đầy đủ theo thứ tự Backend → APK/QR → Web/Hosting.

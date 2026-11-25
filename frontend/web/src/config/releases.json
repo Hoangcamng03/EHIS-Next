@@ -1,10 +1,10 @@
 {
   "android": {
-    "version": "0.4.24",
-    "apkUrl": "https://expo.dev/artifacts/eas/7Ppg4LRi374uKB83zKXIm4skyBl53qNFoWrsMzkD9qE.apk",
-    "buildUrl": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/a9097adb-4b9d-48ce-b1d3-ca4a59a3a370",
-    "qrTarget": "https://expo.dev/artifacts/eas/7Ppg4LRi374uKB83zKXIm4skyBl53qNFoWrsMzkD9qE.apk",
-    "qrSha256": "6b2712e5ee693ace6a7d2906fec06009b0cb1385ef09fca5ad69d55f47121ec7"
+    "version": "0.4.25",
+    "apkUrl": "https://expo.dev/artifacts/eas/rtSlIwDB5NcVY9t8GbQkAeAbpddTikuW2HUctvHdXfk.apk",
+    "buildUrl": "https://expo.dev/accounts/ehiss-team/projects/ehis-next/builds/6f042cd6-8920-4bab-981c-9ba8f48b149c",
+    "qrTarget": "https://expo.dev/artifacts/eas/rtSlIwDB5NcVY9t8GbQkAeAbpddTikuW2HUctvHdXfk.apk",
+    "qrSha256": "47b4dadc57fa9e9a98cdf1fe04c1ecbc32f969743873cc0afc7cdee12de26887"
   },
   "ios": {
     "testFlightUrl": null

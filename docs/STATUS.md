@@ -1,19 +1,19 @@
 # EHIS — bản đang dùng và việc tiếp theo
 
-Cập nhật 25/11/2026. Đây là trang tra **hiện hành**. [Bắt đầu cho nhóm](START_HERE_DEMO.md) · [Tất cả tài liệu](README.md) · [Lab note](LAB_NOTES.md).
+Cập nhật 26/11/2026. Đây là trang tra **hiện hành**. [Bắt đầu cho nhóm](START_HERE_DEMO.md) · [Tất cả tài liệu](README.md) · [Lab note](LAB_NOTES.md).
 
 ## 1. Phân biệt các bản
 
 | Lớp | Trạng thái xác minh | Cần biết |
 | --- | --- | --- |
-| Source | `main`: bản **0.4.24 / code 22** (GPS nền Android, chuông/rung dài hơn + kênh `ehis_emergency_v2`, tự gọi nhắc ca chờ, tự mở hồ sơ/lịch sử + số lần cấp cứu, trạng thái người báo rời đi, tinh gọn `/admin`) | Push source không tự cập nhật máy đã cài |
-| Backend cloud | **0.4.24** (`dpl_CmCx8Kmp7bjhq3BnKPrcJdWn24uY`), `cloud:probe` PASS (khớp `apiRevision`/capabilities và từ chối 401) | Đã ghim `jose@5.9.6` cho Vercel Node 22 và đóng gói `api-contract.json` |
-| Web đang bàn giao | **0.4.24** (25/11), đã đối chiếu 37 tệp HTML/JS/CSS + 4 lượt QR khớp byte trên cả 2 tên miền Hosting | Kiểm chứng cloud web/app khớp build; chưa thay cho thử điện thoại thật |
-| Android tải hiện hành | **0.4.24 / code 22**, APK/QR đã xác minh (`103,031,805` byte, SHA-256 `1d4a3095...2590`) | Chưa cài và nghiệm thu 0.4.24 trên S22+ thật; cần cấp quyền vị trí "Cho phép mọi lúc" để dùng GPS nền |
+| Source | `main`: bản **0.4.25 / code 23** (nhận ca ngay không cần thông tin bổ sung, giữ trạng thái Sẵn sàng khi chạm thông báo đẩy, deadline thống nhất cho xin quyền GPS, kế thừa GPS nền + chuông `ehis_emergency_v2`) | Push source không tự cập nhật máy đã cài |
+| Backend cloud | **0.4.25** (`dpl_mSo6LV2EV59sWo7vgpEzXdks2bEt`), `cloud:probe` PASS (khớp `apiRevision`/capabilities và từ chối 401) | Vercel Node 22 (`jose@5.9.6`, `api-contract.json`) |
+| Web đang bàn giao | **0.4.25** (26/11), đã đối chiếu 37 tệp HTML/JS/CSS + 4 lượt QR khớp byte trên cả 2 tên miền Hosting | Kiểm chứng cloud web/app khớp build; chưa thay cho thử điện thoại thật |
+| Android tải hiện hành | **0.4.25 / code 23**, APK/QR đã xác minh (`103,032,433` byte, SHA-256 `af95e4ef...fa7a`) | Chưa cài và nghiệm thu 0.4.25 trên S22+ thật; cần cấp quyền vị trí "Cho phép mọi lúc" để dùng GPS nền |
 | iPhone | Dùng app web qua trình duyệt | Chưa IPA/TestFlight; iOS native hoãn |
-| Thiết bị | Có bằng chứng S22+ ở các bản cũ và thử chuông 0.4.23, giữ trong lab note | Không suy kết quả bản cũ sang APK 0.4.24 |
+| Thiết bị | Có bằng chứng S22+ ở các bản cũ và thử chuông 0.4.23, giữ trong lab note | Không suy kết quả bản cũ sang APK 0.4.25 |
 
-**Tải:** [Trang APK và QR cố định](https://ehis-next-20261021-hc03.web.app/install) · [APK 0.4.24](https://expo.dev/artifacts/eas/7Ppg4LRi374uKB83zKXIm4skyBl53qNFoWrsMzkD9qE.apk) · [Bằng chứng lịch sử 0.4.23](testing/verification/VERIFICATION_V0_4_23.md).
+**Tải:** [Trang APK và QR cố định](https://ehis-next-20261021-hc03.web.app/install) · [APK 0.4.25](https://expo.dev/artifacts/eas/rtSlIwDB5NcVY9t8GbQkAeAbpddTikuW2HUctvHdXfk.apk) · [Bằng chứng lịch sử 0.4.23](testing/verification/VERIFICATION_V0_4_23.md).
 
 **Mở hệ thống:** [App Patient/TNV](https://ehis-next-20261021-hc03-app.web.app) · [Website/người báo](https://ehis-next-20261021-hc03.web.app) · [Quản trị](https://ehis-next-20261021-hc03.web.app/admin).
 
